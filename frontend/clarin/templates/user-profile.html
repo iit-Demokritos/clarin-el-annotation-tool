@@ -1,0 +1,66 @@
+<div ui-layout="{dividerSize:'0'}" class="profile-wrapper">
+    <div ui-layout-container ng-include="'templates/navbar.html'" size="50px" min-size="50px" max-size="50px" ></div>
+    <div ui-layout-container>
+        <div ui-layout="{flow : 'column'}">
+            <div class="col-xs-6 col-xs-offset-3 stats-wrapper">
+                <h2>Statistics</h2>
+                <hr>
+                <div class="row">
+                    <div class="col-xs-4 text-center">
+                        <div class="profile-stats">
+                            <h1>{{userStats.collections}}</h1>
+                            <h4>Collections</h4>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 text-center">
+                        <div class="profile-stats">
+                            <h1>{{userStats.documents}}</h1>
+                            <h4>Documents</h4>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 text-center">
+                        <div class="profile-stats">
+                            <h1>{{userStats.annotations}}</h1>
+                            <h4>Annotations</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6 col-xs-offset-3">
+                <h2>Update your Password</h2>
+                <hr>
+                <div class="row profile-update-wrapper">
+                    <div id="flash" class="alert alert-warning" ng-show="flash">{{ flash }}</div>
+                    <form class="form-horizontal" name="updateForm" ng-submit="updatePassword(updateForm)" novalidate>
+                        <div class="form-group">
+                            <label class="col-xs-5 control-label">Current Password:</label>
+                            <div class="col-xs-7">
+                                <input type="password" class="form-control" name="oldPassword" placeholder=""
+                                       ng-model="updateInfo.oldPassword" ng-required="true" ng-minlength="6">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-5 control-label">New Password:</label>
+                            <div class="col-xs-7">
+                                <input type="password" class="form-control" name="newPassword" placeholder=""
+                                       ng-model="updateInfo.newPassword" ng-required="true" ng-minlength="6">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-5 control-label">Retype Password:</label>
+                            <div class="col-xs-7">
+                                <input type="password" class="form-control" name="retypePassword" placeholder=""
+                                       ng-model="updateInfo.retypePassword" ng-required="true" ng-minlength="6">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg btn-block">Update</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+
+
+    </div>
+    </div>

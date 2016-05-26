@@ -1,0 +1,34 @@
+<div id="uploadTable">
+  <table class="table table-bordered" flow-transfers ng-hide="userFiles.length===undefined || userFiles.length===0">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Filename</th>
+        <th>Encoding</th>
+        <th></th>                     
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="file in userFiles">
+        <td>{{$index+1}}</td>
+        <td>{{file.name}}</td>
+        <td>
+          <select
+            id="defaultEndoding" class="form-control" 
+            ng-options="fileEncodingOption for fileEncodingOption in fileEncodingOptions" 
+            ng-model="file.encoding"
+            ng-init="file.encoding = fileEncodingOptions[defaultEncodingIndex]" 
+          ></select>
+        </td>
+        <td class="col-lg-1"><a class="btn btn-danger btn-xs" ng-click="file.cancel()">Remove</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div id="drag" flow-drop flow-drag-enter="class='alert-success'" flow-drag-leave="class=''" ng-class="class">
+   <!-- <input type="file" flow-btn /> -->
+   <div class="btn-toolbar">
+    <button flow-btn type="button" class="btn btn-default">Upload File(s)</button>
+    <button flow-btn flow-directory type="button" class="btn btn-default">Upload Folder</button> <strong>OR</strong> Drag And Drop your file(s) here
+  </div>
+</div>

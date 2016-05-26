@@ -1,0 +1,6 @@
+.idea
+frontend/clarin/bower_components
+backend/clarin/app/storage/sessions/*
+backend/clarin/app/storage/views/*
+backend/clarin/app/storage/logs/*
+.DS_Store
