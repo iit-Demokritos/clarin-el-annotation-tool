@@ -9,6 +9,35 @@ html,body{
 	min-height: 600px;*/
 }
 
+/************************************************/
+.CodeMirror {
+	line-height: 1.6;
+}
+
+.annotated-text {
+	padding: 0.1em 0.35em;
+	margin: 0px 0.1em;
+	line-height: 1;
+	border-radius: 0.25em;
+	border: 1px solid;
+}
+
+.annotated-text:after {
+	box-sizing: border-box;
+	content: attr(data-type);
+	font-size: 0.8em;
+	line-height: 1;
+	padding: 0.1em;
+	border-radius: 0.35em;
+	text-transform: uppercase;
+	display: inline-block;
+	vertical-align: middle;
+	margin: 0 0 0.2rem 0.5rem;
+	background: rgb(100,100,100);
+}
+
+/************************************************/
+
 /*
 * === LANDING PAGE ===
 */

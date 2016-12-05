@@ -53,7 +53,7 @@ angular.module('clarin-el').controller('selectDocumentModalCtrl', function (Anno
 			} else
 				$scope.flash = "An error occured. Please refresh the page and try again";
 		});
-  	}
+  	};
   
   	$scope.initializeLanguages();
 
@@ -62,7 +62,7 @@ angular.module('clarin-el').controller('selectDocumentModalCtrl', function (Anno
       		$scope.subheader = subheaderValue;
       		$scope.initializeLanguages();
     	}
-  	}
+  	};
 
   	$scope.changeLanguage = function(lang) {			//trigger function when the language changes
     	$scope.annotationSchema.language = lang;
