@@ -128,6 +128,7 @@ angular.module('clarin-el').directive('textWidget', [ '$q', '$ocLazyLoad', 'Text
 
                     if (!angular.equals(selection,{})) {
                         TextWidgetAPI.setCurrentSelection(selection, false);
+                        TextWidgetAPI.clearSelectedAnnotation();
 
                         if (angular.equals(selection.segment, "")) {              //point selection
                             var annotationId = null;
@@ -162,9 +163,7 @@ angular.module('clarin-el').directive('textWidget', [ '$q', '$ocLazyLoad', 'Text
                                 }
                             }
                         }
-                            
-                        TextWidgetAPI.clearSelectedAnnotation();
-                    } 
+                    }
                 } else if (e.button === 1) {    //middle button click 
                     e.preventDefault();
                     var updatedSelection = {};
