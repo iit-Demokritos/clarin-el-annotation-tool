@@ -42,8 +42,9 @@ angular.module('clarin-el').directive('textWidget', [ '$q', '$ocLazyLoad', 'Text
               	extraKeys: {}
             });
 
-            // Class name to add to annotated text
+            // Class names to add to annotated text
             var markedTextClass = " annotated-text";
+            var markedTextKeyClass = " annotated-text-key";
 
             var getSelectionInfo = function() {
                 var start=0, end=0;
@@ -135,7 +136,7 @@ angular.module('clarin-el').directive('textWidget', [ '$q', '$ocLazyLoad', 'Text
 
                             if (TextWidgetAPI.getAnnotatorType() == "Coreference Annotator") {
                                 // Select span of coreference annotator, which uses custom DOM elements for markers
-                                if ($(e.target).hasClass("annotated-text")) {
+                                if ($(e.target).hasClass(markedTextClass.trim()) || $(e.target).hasClass(markedTextKeyClass.trim())) {
                                     annotationId = e.target.className.split(" ")[0];
                                 }
                             } else {
@@ -361,7 +362,7 @@ angular.module('clarin-el').directive('textWidget', [ '$q', '$ocLazyLoad', 'Text
                                 // Add span with key to the marker span
                                 var keySpan = $("<span>");
                                 $(keySpan).text(attribute.name);
-                                $(keySpan).addClass("annotated-text-key");
+                                $(keySpan).addClass(newAnnotations[k].annotation._id + markedTextKeyClass);
                                 $(keySpan).css("background", colorCombination["border-color"]);
 
                                 $(span).append(keySpan);
