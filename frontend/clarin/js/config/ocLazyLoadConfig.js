@@ -34,6 +34,7 @@ app.config(function($ocLazyLoadProvider) {
 				'js/directives/button/button-annotator-value-list.js',
 				'js/directives/coref/coref-annotator-value-list.js',
 				'js/services/text-widget-api.js',
+				'js/services/coreferenceColorDataService.js',
 				'js/services/coreferenceColorService.js',
 				'js/services/openDocumentService.js',
 				'js/services/annotationService.js',

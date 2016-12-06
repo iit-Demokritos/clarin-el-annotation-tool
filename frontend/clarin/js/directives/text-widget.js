@@ -334,8 +334,6 @@ angular.module('clarin-el').directive('textWidget', [ '$q', '$ocLazyLoad', 'Text
                             case "Coreference Annotator":         // If it is Coreference Annotator get the required color combination
                                 colorCombination = CoreferenceColor.getColorCombination(newAnnotations[k].annotation._id);
 
-                                var illuminatedColor = ColorLuminance(colorCombination.bg_color, 100);
-
                                 // Create marker span
                                 var span = $("<span>");
                                 $(span).text(annotationSpan.segment);
@@ -352,14 +350,14 @@ angular.module('clarin-el').directive('textWidget', [ '$q', '$ocLazyLoad', 'Text
 
                                 if (!angular.isUndefined(newAnnotations[k].selected) && newAnnotations[k].selected) {
                                     // Selected marker
-                                    $(span).css("color", colorCombination.fg_color);
-                                    $(span).css("background", colorCombination.bg_color);
-                                    $(span).css("border-color", illuminatedColor);
+                                    $(span).css("color", colorCombination["font-color"]);
+                                    $(span).css("background", colorCombination["selected-background-colour"]);
+                                    $(span).css("border-color", colorCombination["border-color"]);
                                 } else {
                                     // Normal marker
-                                    $(span).css("color", colorCombination.fg_color);
-                                    $(span).css("background", illuminatedColor);
-                                    $(span).css("border-color", colorCombination.bg_color);
+                                    $(span).css("color", colorCombination["font-color"]);
+                                    $(span).css("background", colorCombination["background-colour"]);
+                                    $(span).css("border-color", colorCombination["border-color"]);
                                 }
 
                                 editor.markText(selection.start, selection.end, {
