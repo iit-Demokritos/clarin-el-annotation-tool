@@ -11,7 +11,7 @@ html,body{
 
 /************************************************/
 .CodeMirror {
-	line-height: 2;
+	line-height: 2.0;
 	font-family: Helvetica,Arial,sans-serif;
 	font-size: 18px;
 	background-color: #FFF;

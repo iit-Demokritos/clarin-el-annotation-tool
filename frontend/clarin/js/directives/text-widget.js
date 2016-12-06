@@ -352,6 +352,8 @@ angular.module('clarin-el').directive('textWidget', [ '$q', '$ocLazyLoad', 'Text
                                     $(span).css("color", colorCombination["font-color"]);
                                     $(span).css("background", colorCombination["selected-background-colour"]);
                                     $(span).css("border-color", colorCombination["border-color"]);
+                                    $(span).css("border-top", "4px solid " + colorCombination["border-color"]);
+                                    $(span).css("border-bottom", "4px solid " + colorCombination["border-color"]);
                                 } else {
                                     // Normal marker
                                     $(span).css("color", colorCombination["font-color"]);
