@@ -203,7 +203,6 @@ angular.module('clarin-el').factory("CoreferenceColorData", function () {
                 {"background-colour":"#F1A1B1","border-color":"#dc143c","font-color":"#000","selected-background-colour":"#E65A76"},
                 {"background-colour":"#99FFFF","border-color":"#00ffff","font-color":"#000","selected-background-colour":"#4CFFFF"}
             ];
-
         }
     }
 });

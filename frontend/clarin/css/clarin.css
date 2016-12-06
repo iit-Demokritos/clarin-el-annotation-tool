@@ -22,9 +22,8 @@ html,body{
 	border: 1px solid;
 }
 
-.annotated-text:after {
+.annotated-text-key {
 	box-sizing: border-box;
-	content: attr(data-type);
 	font-size: 0.8em;
 	line-height: 1;
 	padding: 0.1em;
@@ -33,7 +32,6 @@ html,body{
 	display: inline-block;
 	vertical-align: middle;
 	margin: 0 0 0.2rem 0.5rem;
-	background: rgb(100,100,100);
 }
 
 /************************************************/

@@ -346,8 +346,6 @@ angular.module('clarin-el').directive('textWidget', [ '$q', '$ocLazyLoad', 'Text
                                     value: value
                                 });
 
-                                $(span).attr("data-type", attribute.name);
-
                                 if (!angular.isUndefined(newAnnotations[k].selected) && newAnnotations[k].selected) {
                                     // Selected marker
                                     $(span).css("color", colorCombination["font-color"]);
@@ -359,6 +357,14 @@ angular.module('clarin-el').directive('textWidget', [ '$q', '$ocLazyLoad', 'Text
                                     $(span).css("background", colorCombination["background-colour"]);
                                     $(span).css("border-color", colorCombination["border-color"]);
                                 }
+
+                                // Add span with key to the marker span
+                                var keySpan = $("<span>");
+                                $(keySpan).text(attribute.name);
+                                $(keySpan).addClass("annotated-text-key");
+                                $(keySpan).css("background", colorCombination["border-color"]);
+
+                                $(span).append(keySpan);
 
                                 editor.markText(selection.start, selection.end, {
                                     replacedWith: _.first(span)
