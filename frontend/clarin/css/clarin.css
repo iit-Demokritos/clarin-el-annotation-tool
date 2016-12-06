@@ -16,8 +16,9 @@ html,body{
 	font-size: 18px;
 	background-color: #FFF;
 }
-.CodeMirror-gutters {
-  background-color: #FFF;
+
+.CodeMirror-lines {
+	background-color: #FFF;
 }
 
 .annotated-text {
@@ -374,7 +375,7 @@ table td{ vertical-align:middle!important; }
 .main-content{
 	width: 100%;
 	/*margin-top: 46px;*/
-	background: #F8F9FA;
+	background: #FFF;
 	box-shadow: 0 -2px 0 rgba(217,224,226,0.2);
 }
 .sidebar-layout-wrapper{
