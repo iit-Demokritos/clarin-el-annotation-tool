@@ -16,6 +16,9 @@ html,body{
 	font-size: 18px;
 	background-color: #FFF;
 }
+.CodeMirror-gutters {
+  background-color: #FFF;
+}
 
 .annotated-text {
 	padding: 0.1em 0.35em;
