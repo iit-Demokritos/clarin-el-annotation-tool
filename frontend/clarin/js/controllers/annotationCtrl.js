@@ -5,13 +5,13 @@ angular.module('clarin-el').controller('AnnotationCtrl', ['$scope', '$timeout', 
     $scope.annotationSchema = {};
     $scope.sidebarSelector = "annotator";
 
-    $scope.$on('$locationChangeStart', function(event) {		//close document selection modal instance when user change page
+    $scope.$on('$stateChangeStart', function(event) {		//close document selection modal instance when user change page
         //$scope.documentSelection = true;
         //detectUnsavedChanges();
         //event.preventDefault();
 
-        if (!angular.isUndefined($scope.selectDocumentModalInstance) && $scope.selectDocumentModalInstance.opened){ 
-        	$scope.selectDocumentModalInstance.close();
+        if (!angular.isUndefined($scope.selectDocumentModalInstance) && $scope.selectDocumentModalInstance.opened){
+            $scope.selectDocumentModalInstance.close();
         	TextWidgetAPI.disableIsRunning();
         	//detectUnsavedChanges();
         }
