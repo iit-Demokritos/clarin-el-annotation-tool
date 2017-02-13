@@ -26,7 +26,7 @@
 						<div class="btn-toolbar right" ng-show="btnShow">
                     		<button type="button" class="btn btn-xs btn-success" ng-click="addDocuments()" ng-show="selectedCollection.is_owner"><i class="fa fa-plus"></i> Add</button>
                     		<button type="button" class="btn btn-xs btn-primary" ng-click="shareCollection()" ng-show="selectedCollection.is_owner"><i class="fa fa-user-plus"></i> Share</button>
-                    		<button type="button" class="btn btn-xs btn-primary" ng-click="shareCollection()" ng-show="selectedCollection.is_owner"><i class="fa fa-download"></i> Export</button>
+							<a ng-href="./api/collections/{{selectedCollection.id}}/export" target="_self" download="{{selectedCollection.name}}_export.json" class="btn btn-xs btn-primary" ng-show="selectedCollection.is_owner"><i class="fa fa-download"></i> Export</a>
                     		<button type="button" class="btn btn-xs btn-primary" ng-click="renameCollection()"><i class="fa fa-pencil-square-o"></i> Rename</button>
                     		<button type="button" class="btn btn-xs btn-danger" ng-click="deleteCollection(selectedCollection.id)" ng-show="selectedCollection.is_owner"><i class="fa fa-trash-o fa-lg"></i> Delete Collection</button>
                  		</div>
