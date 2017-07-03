@@ -6,7 +6,8 @@
 	"require": {
 		"laravel/framework": "4.2.*",
 		"jenssegers/mongodb": "2.0.*",
-		"cartalyst/sentry": "2.1.*"
+		"cartalyst/sentry": "2.1.*",
+		"alcaeus/mongo-php-adapter": "^1.1"
 	},
 	"autoload": {
 		"classmap": [

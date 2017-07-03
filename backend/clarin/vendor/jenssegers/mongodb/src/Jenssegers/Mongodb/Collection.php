@@ -56,7 +56,18 @@ class Collection {
 
         $start = microtime(true);
 
-        $result = call_user_func_array(array($this->collection, $method), $parameters);
+        # $result = call_user_func_array(array($this->collection, $method), $parameters);
+	# // based on https://github.com/alcaeus/mongo-php-adapter/issues/107#issuecomment-219393254
+if (PHP_VERSION_ID > 70000 && in_array($method, array('insert', 'batchInsert', 'save'))) {
+    $saveData = array_shift($parameters);
+    $saveParams = array_shift($parameters);
+    if (NULL==$saveParams) {
+        $saveParams = array();
+    }
+    $result = call_user_func_array(array($this->collection, $method), array(&$saveData, $saveParams));
+} else {
+    $result = call_user_func_array(array($this->collection, $method), $parameters);
+}
 
         // Once we have run the query we will calculate the time that it took to run and
         // then log the query, bindings, and execution time so we will report them on
