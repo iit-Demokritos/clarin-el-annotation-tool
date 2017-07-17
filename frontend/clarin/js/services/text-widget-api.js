@@ -18,13 +18,13 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
 
     var annotations = [];                   	//the document's annotations that match the annotation schema selected
     var annotationsCallbacks = [];          	//registered callbacks for the matching annotations of the current document
-    
+
     var selectedAnnotation = {};            	//the annotation that is currently selected by the user
     var selectedAnnotationCallbacks = [];   	//registered callbacks for the annotation that is currently selected by the user
-       
+
     var annotationsToBeAdded = [];          	//the annotations that are going to be added on the text-widget
     var annotationsToBeAddedCallbacks = []; 	//registered callbacks for the annotations that are going to be added on the text-widget
-    
+
     var annotationsToBeDeleted = [];            //the annotations that are going to be removed from the text-widget
     var annotationsToBeDeletedCallbacks = [];   //registered callbacks for the annotations that are going to be removed from the text-widget
 
@@ -37,10 +37,10 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
     var notifyObservers = function(observerStack){ angular.forEach(observerStack, function(callback){ callback(); }); };	//function to trigger the callbacks of observers
 
     return {
-    	initializeCallbacks : function () { 
+    	initializeCallbacks : function () {
     		annotationSchemaCallbacks = [];
     		currentCollectionCallbacks = [];
-    		currentDocumentCallbacks = []; 
+    		currentDocumentCallbacks = [];
     		currentSelectionCallbacks = [];
     		annotationsCallbacks = [];
     		selectedAnnotationCallbacks = [];
@@ -48,7 +48,7 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
     		annotationsToBeDeletedCallbacks = [];
     		overlappingAreasCallbacks = [];
     	},
-        
+
         isRunning : function () { return isRunning; },
         enableIsRunning : function () { isRunning = true; },
         disableIsRunning : function () { isRunning = false; },
@@ -62,7 +62,7 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
         getAnnotationsToBeDeleted: function() { return annotationsToBeDeleted; },
         clearAnnotationsToBeDeleted: function() { annotationsToBeDeleted = []; },
         registerDeletedAnnotationsCallback: function(callback) { annotationsToBeDeletedCallbacks.push(callback); },
-        
+
         /*** Individual Annotation Methods ***/
         getAnnotations: function (){ return annotations; },
         getAnnotationById: function (annotationId) {
@@ -74,17 +74,17 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
         		return -1;*/
         },
         addAnnotation: function (newAnnotation, selected) {
-            if (angular.isUndefined(newAnnotation._id)) return false
+            if (angular.isUndefined(newAnnotation._id)) return false;
 
             annotations.push(newAnnotation);
             annotationsToBeAdded.push({"annotation": newAnnotation, "selected": selected});
-            
+
             notifyObservers(annotationsCallbacks);
             notifyObservers(annotationsToBeAddedCallbacks);
 
             if (selected)
                 selectedAnnotation = angular.copy(newAnnotation);
-            else 
+            else
                 selectedAnnotation = {};
 
             notifyObservers(selectedAnnotationCallbacks);
@@ -108,10 +108,10 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
 
             if (selected)
                 selectedAnnotation = angular.copy(updatedAnnotation);
-            else 
+            else
                 selectedAnnotation = {};
 
-            currentSelection = {}; 
+            currentSelection = {};
             notifyObservers(selectedAnnotationCallbacks);
             this.clearOverlappingAreas();
         },
@@ -122,7 +122,7 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
             var deletedAnnotationIndex = _.indexOf(annotations, deletedAnnotation);
             annotations.splice(deletedAnnotationIndex, 1);
             annotationsToBeDeleted.push(deletedAnnotation);
-            
+
             selectedAnnotation = {};
 
             notifyObservers(selectedAnnotationCallbacks);
@@ -139,7 +139,7 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
               case "Button Annotator":
                	if(angular.equals(annotationSchema.annotation_type, newAnnotation.type) && _.where(newAnnotation.attributes, {name: annotationSchema.attribute}).length>0)
                 	return true;
-                
+
                	return false;
               case "Coreference Annotator":
                 if(angular.equals(annotationSchema.annotation_type, newAnnotation.type)) {
@@ -160,7 +160,7 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
                     		if (!_.contains(annotationSchemaOptions.values,  newAnnotations[i].attributes[j].value)) {	//check if the annotation belongs to the "found in collection"
                     			foundInCollection.push(newAnnotations[i]);
                     			break;
-                    		} 
+                    		}
                     	}
 					}
 
@@ -171,28 +171,7 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
 
             notifyObservers(annotationsCallbacks);
             notifyObservers(foundInCollectionCallbacks);
-            notifyObservers(annotationsToBeAddedCallbacks); 
-        },
-        belongsToSchema: function(newAnnotation) {
-        	switch (annotatorType) {
-              case "Button Annotator":
-                if(angular.equals(annotationSchema.annotation_type, newAnnotation.type) && _.where(newAnnotation.attributes, {name: annotationSchema.attribute}).length>0)
-                	return true;
- 
-                break;
-              case "Coreference Annotator": 
-                if(angular.equals(annotationSchema.annotation_type, newAnnotation.type)) {
-	                for (var j=0; j<newAnnotation.attributes.length; j++) {
-	                    if(_.contains(annotationSchemaOptions.attributes, newAnnotation.attributes[j].name)) {
-	                        return true;
-	                    }
-	                }
-	            }
-           
-                break;
-            }
-
-            return false;
+            notifyObservers(annotationsToBeAddedCallbacks);
         },
         resetCallbacks : function () {
             annotationsCallbacks = [];
@@ -203,8 +182,8 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
             currentSelection = {};
             selectedAnnotation = {};
             annotations = [];
-            annotationsToBeAdded = []; 
-            annotationsToBeDeleted = []; 
+            annotationsToBeAdded = [];
+            annotationsToBeDeleted = [];
             overlappingAreas = [];
             foundInCollection = [];
 
@@ -220,8 +199,8 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
         /*** Current Collection Methods ***/
         registerCurrentCollectionCallback: function(callback) { currentCollectionCallbacks.push(callback); },
         getCurrentCollection : function() { return currentCollection; },
-        setCurrentCollection : function(newCurrentCollection) { 
-            currentCollection = angular.copy(newCurrentCollection); 
+        setCurrentCollection : function(newCurrentCollection) {
+            currentCollection = angular.copy(newCurrentCollection);
             notifyObservers(currentCollectionCallbacks);
         },
 
@@ -236,14 +215,14 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
         /*** Current Selection Methods ***/
         registerCurrentSelectionCallback: function(callback) { currentSelectionCallbacks.push(callback) },
         getCurrentSelection: function() { return currentSelection; },
-        setCurrentSelection: function(newCurrentSelection, notify) { 
-        	currentSelection = angular.copy(newCurrentSelection); 
+        setCurrentSelection: function(newCurrentSelection, notify) {
+        	currentSelection = angular.copy(newCurrentSelection);
 
         	if (notify)
         		notifyObservers(currentSelectionCallbacks);
         },
-        clearSelection: function() { 
-            currentSelection = {}; 
+        clearSelection: function() {
+            currentSelection = {};
             notifyObservers(currentSelectionCallbacks);
         },
 
@@ -256,17 +235,17 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
         getAnnotationSchemaOptions: function() { return annotationSchemaOptions; },
         setAnnotationSchemaOptions: function(newAnnotationSchemaOptions) { annotationSchemaOptions = angular.copy(newAnnotationSchemaOptions); },
         clearAnnotationSchemaOptions: function() { annotationSchemaOptions = {}; },
-        
+
         /*** Annotation Schema Methods ***/
         registerAnnotationSchemaCallback: function(callback) { annotationSchemaCallbacks.push(callback); },
         getAnnotationSchema: function() { return annotationSchema; },
         setAnnotationSchema: function(newAnnotationSchema) {
-        	annotationSchema = angular.copy(newAnnotationSchema); 
+        	annotationSchema = angular.copy(newAnnotationSchema);
         	notifyObservers(annotationSchemaCallbacks);
         },
         clearAnnotationSchema: function() { annotationSchema = {}; },
-       
-        /*** Selected Annotation Methods ***/ 
+
+        /*** Selected Annotation Methods ***/
         registerSelectedAnnotationCallback: function(callback) { selectedAnnotationCallbacks.push(callback) },
         getSelectedAnnotation: function(){ return selectedAnnotation; },
         setSelectedAnnotation: function(newSelectedAnnotation){
@@ -274,11 +253,11 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
 
             //CHECK
             if(!angular.equals(selectedAnnotation,{}))
-                annotationsToBeAdded.push({"annotation": selectedAnnotation, "selected": false}); 
+                annotationsToBeAdded.push({"annotation": selectedAnnotation, "selected": false});
 
-            selectedAnnotation = angular.copy(newSelectedAnnotation);    
+            selectedAnnotation = angular.copy(newSelectedAnnotation);
             annotationsToBeAdded.push({"annotation": newSelectedAnnotation, "selected": true});
-            currentSelection = {}; 
+            currentSelection = {};
             this.clearOverlappingAreas();
 
             notifyObservers(annotationsToBeAddedCallbacks);
@@ -295,9 +274,9 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
             if(angular.isUndefined(newSelectedAnnotation))
             	return false;
 
-            selectedAnnotation = angular.copy(newSelectedAnnotation);    
+            selectedAnnotation = angular.copy(newSelectedAnnotation);
             annotationsToBeAdded.push({"annotation": newSelectedAnnotation, "selected": true});
-            currentSelection = {}; 
+            currentSelection = {};
             this.clearOverlappingAreas();
 
             notifyObservers(annotationsToBeAddedCallbacks);
@@ -317,13 +296,13 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
         /*** Overlapping Annotation Methods ***/
         registerOverlappingAreasCallback: function(callback) { overlappingAreasCallbacks.push(callback); },
         getOverlappingAreas: function () { return overlappingAreas; },
-        clearOverlappingAreas: function () { 
-            overlappingAreas = []; 
+        clearOverlappingAreas: function () {
+            overlappingAreas = [];
             notifyObservers(overlappingAreasCallbacks);
         },
         computeOverlappingAreas: function (offset) {
             var newOverlaps = [];
-            
+
             for (var i=0; i<annotations.length; i++) {
                 for (var j=0; j<annotations[i].spans.length; j++) {
                     if (parseInt(offset) >= parseInt(annotations[i].spans[j].start) && parseInt(offset) <= parseInt(annotations[i].spans[j].end)) {
@@ -334,8 +313,8 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
             }
 
             overlappingAreas = newOverlaps;
-            notifyObservers(overlappingAreasCallbacks);   
-        }, 
+            notifyObservers(overlappingAreasCallbacks);
+        },
 
         /*** Annotations Found In Collection Methods ***/
         registerFoundInCollectionCallback: function(callback) { foundInCollectionCallbacks.push(callback) },
