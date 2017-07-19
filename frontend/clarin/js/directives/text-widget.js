@@ -183,7 +183,9 @@ angular.module('clarin-el').directive('textWidget', [ '$q', '$ocLazyLoad', 'Text
                 	TextWidgetAPI.clearSelection();
             };
 
-            /*** When a document changes bring the text and the annotations ***/
+            /**
+             * Bring the text and the annotations when a document changes
+             */
             var updateCurrentDocument = function () {
                 var newDocument = TextWidgetAPI.getCurrentDocument();
                 // var curCol = TextWidgetAPI.getCurrentCollection();
@@ -267,9 +269,12 @@ angular.module('clarin-el').directive('textWidget', [ '$q', '$ocLazyLoad', 'Text
             };
 
 
-            /*************************************************************************************/
-            /**        Function to visualize the annotations to the text widget                 **/
-            /*************************************************************************************/
+            /**
+             * Visualize the annotations to the text widget
+             * @param newAnnotations
+             * @param annotatorType
+             * @returns {boolean}
+             */
             var visualizeAnnotations = function(newAnnotations, annotatorType) {
                 if (angular.isUndefined(newAnnotations) || newAnnotations.length === 0) return false;
 
@@ -352,35 +357,44 @@ angular.module('clarin-el').directive('textWidget', [ '$q', '$ocLazyLoad', 'Text
                         }
                     }
 
-                    if (annotatorType === "Coreference Annotator") {
-                        var marks = editor.getAllMarks();
-                        _.each(marks, function(mark) {
-                            var markerSpan = $("span." + mark.markerId);
-
-                            // Add span with key to the marker span
-                            _.each(markerSpan, function(span) {
-                                // Only add key span if this span has no children
-                                if ($(span).children().length === 0) {
-                                    var keySpan = $("<span>");
-                                    $(keySpan).text(mark.typeAttribute);
-                                    $(keySpan).addClass(mark.annotationId + markedTextKeyClass);
-                                    $(keySpan).css("background", $(span).css("border-color"));
-
-                                    $(span).append(keySpan);
-                                }
-                            });
-
-                        });
-                    }
+                    // (Re)generate the SPAN elements that show the marker types
+                    generateKeySpans();
                 }
 
                 TextWidgetAPI.clearAnnotationsToBeAdded();
             };
 
+            /**
+             * If the annotator type is "Coreference Annotator", create the SPAN elements which will show the types
+             * of the markers
+             */
+            var generateKeySpans = function() {
+                if (TextWidgetAPI.getAnnotatorType() === "Coreference Annotator") {
+                    var marks = editor.getAllMarks();
+                    _.each(marks, function(mark) {
+                        var markerSpan = $("span." + mark.markerId);
 
-            /*************************************************************************************/
-            /**                   Function to add annotation to the text widget                 **/
-            /*************************************************************************************/
+                        // Add span with key to the marker span
+                        _.each(markerSpan, function(span) {
+                            // Only add key span if this span has no children
+                            if ($(span).children().length === 0) {
+                                var keySpan = $("<span>");
+                                $(keySpan).text(mark.typeAttribute);
+                                $(keySpan).addClass(mark.annotationId + markedTextKeyClass);
+                                $(keySpan).css("background", $(span).css("border-color"));
+
+                                $(span).append(keySpan);
+                            }
+                        });
+
+                    });
+                }
+            };
+
+            /**
+             * Add annotation to the text widget
+             * @returns {boolean}
+             */
             var addNewAnnotations = function() {
                 if (!TextWidgetAPI.isRunning())
                   	TextWidgetAPI.enableIsRunning();
@@ -396,10 +410,10 @@ angular.module('clarin-el').directive('textWidget', [ '$q', '$ocLazyLoad', 'Text
                 TextWidgetAPI.disableIsRunning();
             };
 
-
-            /*************************************************************************************/
-            /**                Function to remove annotation from the text widget               **/
-            /*************************************************************************************/
+            /**
+             * Remove annotation from the text widget
+             * @returns {boolean}
+             */
             var deleteAnnotations = function() {
                 if(!TextWidgetAPI.isRunning()) //check if running
                   	TextWidgetAPI.enableIsRunning();
@@ -407,33 +421,24 @@ angular.module('clarin-el').directive('textWidget', [ '$q', '$ocLazyLoad', 'Text
                   	return false;
 
                 var annotationsToBeDeleted = TextWidgetAPI.getAnnotationsToBeDeleted();
-                if (angular.isUndefined(annotationsToBeDeleted) || annotationsToBeDeleted.length==0) {
+                if (angular.isUndefined(annotationsToBeDeleted) || annotationsToBeDeleted.length === 0) {
                     TextWidgetAPI.disableIsRunning();
                     return false;
                 }
 
-                for (var m=0; m<annotationsToBeDeleted.length; m++) {
+                for (var m = 0; m < annotationsToBeDeleted.length; m++) {
                     var editorMarks = editor.getAllMarks();
                     var annotationId = String(annotationsToBeDeleted[m]._id).trim();
 
-                    if (TextWidgetAPI.getAnnotatorType() === "Coreference Annotator") {
-                        // Find marks for Coreference Annotator (new type spans)
-                        var markersToDelete = _.filter(editorMarks, function(mark) {
-                            return $(mark.replacedWith).hasClass(annotationId);
-                        });
-
-                        // Delete the found markers
-                        _.each(markersToDelete, function(marker) {
-                            marker.clear();
-                        });
-                    } else {
-                        // Find marks for Button Annotator (old method)
-                        for(var i=0; i<editorMarks.length; i++) {
-                            if (angular.equals(annotationId, String(editorMarks[i].className).trim()))
-                                editorMarks[i].clear();
+                    _.each(editorMarks, function(mark) {
+                        if (String(mark.className).trim().indexOf(annotationId) !== -1) {
+                            mark.clear();
                         }
-                    }
+                    });
                 }
+
+                // (Re)generate the SPAN elements that show the marker types because some might have been removed
+                generateKeySpans();
 
                 TextWidgetAPI.clearAnnotationsToBeDeleted();
                 TextWidgetAPI.disableIsRunning();
