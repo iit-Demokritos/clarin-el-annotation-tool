@@ -1,4 +1,4 @@
-html,body{	
+html,body{
 	height: 100%;
 	width: 100%;
 	padding: 0;
@@ -99,7 +99,7 @@ html,body{
 
 
 
-.app-logo { 
+.app-logo {
 	height: 40px;
 	padding: 7px 7px 0 2px;
 
@@ -119,8 +119,8 @@ html,body{
 /*** modal templates ***/
 .modal-dialog { padding-top: 50px;}
 .modal-header, .modal-footer { padding: 14px;}
-.modal-body { 
-	font-size: 13px!important; 
+.modal-body {
+	font-size: 13px!important;
 	margin-top: 13px;
     padding: 14px;
 }
@@ -139,8 +139,8 @@ html,body{
     line-height: 28px;
     padding: 0 15px;
 }
-.primary-modal-header { 
-	background-color: #428bca; 
+.primary-modal-header {
+	background-color: #428bca;
 	-webkit-border-top-left-radius: 4px;
 	-webkit-border-top-right-radius: 4px;
 	-moz-border-radius-topleft: 4px;
@@ -148,8 +148,8 @@ html,body{
 	border-top-left-radius: 4px;
 	border-top-right-radius: 4px;
 }
-.success-modal-header { 
-	background-color: #5cb85c; 
+.success-modal-header {
+	background-color: #5cb85c;
 	-webkit-border-top-left-radius: 4px;
 	-webkit-border-top-right-radius: 4px;
 	-moz-border-radius-topleft: 4px;
@@ -157,8 +157,8 @@ html,body{
 	border-top-left-radius: 4px;
 	border-top-right-radius: 4px;
 }
-.warning-modal-header { 
-	background-color: #f0ad4e; 
+.warning-modal-header {
+	background-color: #f0ad4e;
 	-webkit-border-top-left-radius: 4px;
 	-webkit-border-top-right-radius: 4px;
 	-moz-border-radius-topleft: 4px;
@@ -166,8 +166,8 @@ html,body{
 	border-top-left-radius: 4px;
 	border-top-right-radius: 4px;
 }
-.error-modal-header { 
-	background-color: #d9534f; 
+.error-modal-header {
+	background-color: #d9534f;
 	-webkit-border-top-left-radius: 4px;
 	-webkit-border-top-right-radius: 4px;
 	-moz-border-radius-topleft: 4px;
@@ -224,8 +224,8 @@ table td{ vertical-align:middle!important; }
 	border:1px #d7d7d7 solid;
 	overflow: auto;
 }
-.document-selector{ 
-	overflow: auto; 
+.document-selector{
+	overflow: auto;
 	pointer-events: none;
 }
 .document-selector .modal-dialog {pointer-events: all;}
@@ -246,8 +246,8 @@ table td{ vertical-align:middle!important; }
 /*** end of document selector modal ***/
 
 /*** toolbar widget ***/
-#layout_layout_panel_main, 
-#layout_layout_panel_right, 
+#layout_layout_panel_main,
+#layout_layout_panel_right,
 #layout_layout_resizer_right {margin-top: -1px}
 .toolbar-widget {
 	width: 100%;
@@ -281,21 +281,21 @@ table td{ vertical-align:middle!important; }
 
 /*** button annotator widget ***/
 .button-widget-wrapper { margin: 0 8px; padding-bottom: 13px;}
-.button-widget-wrapper table{ 
+.button-widget-wrapper table{
 /*	table-layout: fixed; */
-	border-collapse: separate; 
+	border-collapse: separate;
 	margin-bottom: 0px;
 }
 
-.sidebar-main-content .btn-sm i {font-size: 18px;} 
+.sidebar-main-content .btn-sm i {font-size: 18px;}
 .sidebar-main-content .coref-span-start,
 .sidebar-main-content .coref-span-end,
 .sidebar-main-content .annotation-entry,
 .sidebar-main-content .coref-entry,
-.sidebar-main-content .coref-segment-entry, 
-.sidebar-main-content input[type=text],  
+.sidebar-main-content .coref-segment-entry,
+.sidebar-main-content input[type=text],
 .sidebar-main-content select {
-	height: 24px; 
+	height: 24px;
 	resize: none;
 	font-size: 12px!important;
 	padding: 2px!important;
@@ -316,8 +316,8 @@ table td{ vertical-align:middle!important; }
 	font-size: 12px!important;
 }
 .button-widget-wrapper table td{
-	white-space: nowrap; 
-	border-top:none!important; 
+	white-space: nowrap;
+	border-top:none!important;
 	padding:0px 2px!important;
 }
 .button-widget-header{
@@ -325,18 +325,18 @@ table td{ vertical-align:middle!important; }
 	font-weight: 600;
 	font-size: 13px;
 	color: #D34332;
- 	padding: 4px 0 3px;	
+ 	padding: 4px 0 3px;
 }
 .button-widget-subheader{
 /*	white-space:nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;*/
- 	padding: 6px 0;	
+ 	padding: 6px 0;
 
- 	white-space: pre-wrap;      /* CSS3 */   
-   	white-space: -moz-pre-wrap; /* Firefox */    
-    white-space: -pre-wrap;     /* Opera <7 */   
-    white-space: -o-pre-wrap;   /* Opera 7 */    
+ 	white-space: pre-wrap;      /* CSS3 */
+   	white-space: -moz-pre-wrap; /* Firefox */
+    white-space: -pre-wrap;     /* Opera <7 */
+    white-space: -o-pre-wrap;   /* Opera 7 */
     word-wrap: break-word;      /* IE */
 }
 /*** end of button annotator widget ***/
@@ -344,11 +344,11 @@ table td{ vertical-align:middle!important; }
 /*** main layout styling ***/
 #layout { min-width: 1070px!important;}
 .layout-wrapper{
-	position: absolute; 
+	position: absolute;
 	padding: 0px;
-	left: 0px; 
-	right: 0px; 
-	top: 50px; 
+	left: 0px;
+	right: 0px;
+	top: 50px;
 	bottom: 0px;
 }
 .main-content-header{
@@ -380,10 +380,10 @@ table td{ vertical-align:middle!important; }
 }
 .sidebar-layout-wrapper{
 	top: 0px;
-	position: absolute; 
+	position: absolute;
 	padding: 0px;
-	left: 0px; 
-	right: 0px; 
+	left: 0px;
+	right: 0px;
 	bottom: 0px;
 	width: 100%;
 }
@@ -411,10 +411,10 @@ table td{ vertical-align:middle!important; }
 	-webkit-box-shadow: inset 0 1px 5px rgba(0,0,0,.125)!important;
 	box-shadow: inset 0 1px 5px rgba(0,0,0,.125)!important;
 }
-.btn-default:hover, 
-.btn-default:focus, 
-.btn-default:active, 
-.btn-default.active, 
+.btn-default:hover,
+.btn-default:focus,
+.btn-default:active,
+.btn-default.active,
 .open .dropdown-toggle.btn-default {
 	border-color: #ccc!important;
 }
@@ -485,7 +485,7 @@ table td{ vertical-align:middle!important; }
 	white-space:nowrap!important;
 	overflow: hidden!important;
     text-overflow: ellipsis!important;
-} 
+}
 
 .right-divider{ border-right: 1px solid #d9e0e2; }
 
@@ -499,7 +499,7 @@ table td{ vertical-align:middle!important; }
 	padding-top: 30px;
 	font-style: italic;
 	font-size: 16px;
-	text-align: center; 	
+	text-align: center;
 }
 
 /*** Button Customization ***/
@@ -509,8 +509,8 @@ table td{ vertical-align:middle!important; }
 	-moz-border-radius: 3px;
 }
 
-.btn-success[disabled], 
-.btn-danger[disabled] , 
+.btn-success[disabled],
+.btn-danger[disabled] ,
 .btn-primary[disabled]{ background-color: #fff!important; }
 .btn-success {
 	background: #fff;
@@ -600,7 +600,7 @@ button[id^="datepicker"]{border:none; font-size: 12px;}
 	font-size: 12px;
 	color: #555;
 	vertical-align: middle;
-	 margin-left: 5px; 
+	 margin-left: 5px;
 
 	border-bottom: 1px solid #EFF2F2;
 }
@@ -612,7 +612,7 @@ button[id^="datepicker"]{border:none; font-size: 12px;}
 treeitem ul li:last-child{border:none;}
 .tree-label {
 	width: 95%;
-	display: inline-block!important; 
+	display: inline-block!important;
 }
 
 
@@ -711,7 +711,7 @@ input, textarea { -webkit-user-select: auto!important; }
 }
 /*** End of Coreference Annotator Customization ***/
 
-/*** Annotation Indicator Customization ***/ 
+/*** Annotation Indicator Customization ***/
 .annotation-indicator{
 	display: inline-block;
 	height: 25px;
@@ -721,12 +721,12 @@ input, textarea { -webkit-user-select: auto!important; }
 	line-height: 25px;
 	color: #fff;
 	background-color: #fff;
-	-webkit-border-radius: 3px; 
-  	-moz-border-radius: 3px; 
+	-webkit-border-radius: 3px;
+  	-moz-border-radius: 3px;
  	border-radius: 3px;
  	text-align: center;
 }
-/*** End of Annotation Indicator Customization ***/ 
+/*** End of Annotation Indicator Customization ***/
 
 .glyphicon-chevron-left,
 .glyphicon-chevron-right{

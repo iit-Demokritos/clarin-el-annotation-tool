@@ -291,15 +291,16 @@ angular.module('clarin-el').directive('textWidget', [ '$q', '$ocLazyLoad', 'Text
             /**        Function to visualize the annotations to the text widget                 **/
             /*************************************************************************************/
             var visualizeAnnotations = function(newAnnotations, annotatorType) {
-                if (angular.isUndefined(newAnnotations) || newAnnotations.length == 0) return false;
+                if (angular.isUndefined(newAnnotations) || newAnnotations.length === 0) return false;
 
                 clearDuplicateAnnotationsFromEditor(newAnnotations);                       // if there are any borders around a specific annotation, remove them.
 
                 for (var k=0; k<newAnnotations.length; k++){    // if there are new annotations to be visualised, add them to the editor
                     for (var l=0; l<newAnnotations[k].annotation.spans.length; l++){   // Iterate through annotations spans
                         var colorCombination = {};
-                        var annotationSpan = newAnnotations[k].annotation.spans[l];
-                        var annotationsAttributes = newAnnotations[k].annotation.attributes;
+                        var currAnnotation = newAnnotations[k];
+                        var annotationSpan = currAnnotation.annotation.spans[l];
+                        var annotationsAttributes = currAnnotation.annotation.attributes;
 
                         // create the selection in the editor and annotate it
                         var selection = computeSelectionFromOffsets(parseInt(annotationSpan.start), parseInt(annotationSpan.end));
@@ -312,12 +313,12 @@ angular.module('clarin-el').directive('textWidget', [ '$q', '$ocLazyLoad', 'Text
                                         break;
                                 }
 
-                                if (!angular.isUndefined(newAnnotations[k].selected) && newAnnotations[k].selected) {
+                                if (!angular.isUndefined(currAnnotation.selected) && currAnnotation.selected) {
                                     // Selected marker
                                     var borderColor = ColorLuminance(colorCombination.bg_color, 100);
 
                                     editor.markText(selection.start, selection.end, {
-                                        className: newAnnotations[k].annotation._id,
+                                        className: currAnnotation.annotation._id,
                                         css: "color:" + colorCombination.fg_color + "; " +
                                         "background:" + colorCombination.bg_color + "; " +
                                         "border: 2px ridge "+ borderColor + ";"
@@ -325,7 +326,7 @@ angular.module('clarin-el').directive('textWidget', [ '$q', '$ocLazyLoad', 'Text
                                 } else {
                                     // Normal marker
                                     editor.markText(selection.start, selection.end, {
-                                        className: newAnnotations[k].annotation._id,
+                                        className: currAnnotation.annotation._id,
                                         css: "color:" + colorCombination.fg_color + ";" +
                                             "background:" + colorCombination.bg_color + ";"
                                     });
@@ -333,48 +334,63 @@ angular.module('clarin-el').directive('textWidget', [ '$q', '$ocLazyLoad', 'Text
 
                                 break;
                             case "Coreference Annotator":         // If it is Coreference Annotator get the required color combination
-                                colorCombination = CoreferenceColor.getColorCombination(newAnnotations[k].annotation._id);
-
-                                // Create marker span
-                                var span = $("<span>");
-                                $(span).text(annotationSpan.segment);
-                                $(span).addClass(newAnnotations[k].annotation._id + markedTextClass);
-
-                                // Find type
-                                var value = annotationSpan.start + " " + annotationSpan.end;
-
-                                var attribute = _.findWhere(annotationsAttributes, {
-                                    value: value
-                                });
-
-                                if (!angular.isUndefined(newAnnotations[k].selected) && newAnnotations[k].selected) {
+                                colorCombination = CoreferenceColor.getColorCombination(currAnnotation.annotation._id);
+                                var mark;
+                                var markerId;
+                                if (!angular.isUndefined(currAnnotation.selected) && currAnnotation.selected) {
                                     // Selected marker
-                                    $(span).css("color", colorCombination["font-color"]);
-                                    $(span).css("background", colorCombination["selected-background-colour"]);
-                                    $(span).css("border-color", colorCombination["border-color"]);
-                                    $(span).css("border-top", "4px solid " + colorCombination["border-color"]);
-                                    $(span).css("border-bottom", "4px solid " + colorCombination["border-color"]);
+                                    mark = editor.markText(selection.start, selection.end, {
+                                        className: currAnnotation.annotation._id,
+                                        css: "color:" + colorCombination.fg_color + "; " +
+                                        "background:" + colorCombination.bg_color + "; " +
+                                        "border: 2px ridge "+ borderColor + ";"
+                                    });
+                                    //todo
                                 } else {
                                     // Normal marker
-                                    $(span).css("color", colorCombination["font-color"]);
-                                    $(span).css("background", colorCombination["background-colour"]);
-                                    $(span).css("border-color", colorCombination["border-color"]);
+                                    markerId = "mrkr_" + Math.floor(Math.random() * 1000000);
+                                    mark = editor.markText(selection.start, selection.end, {
+                                        className: currAnnotation.annotation._id + " " + markerId + markedTextClass,
+                                        css: "color:" + colorCombination["font-color"] + ";" +
+                                        "background:" + colorCombination["background-colour"] + ";" +
+                                        "border-color:" + colorCombination["border-color"] + ";"
+                                    });
+
+                                    mark.markerId = markerId;
+
+                                    // Find type
+                                    var value = annotationSpan.start + " " + annotationSpan.end;
+
+                                    mark.typeAttribute = _.findWhere(annotationsAttributes, {
+                                        value: value
+                                    }).name;
+
+                                    mark.annotationId = currAnnotation.annotation._id;
                                 }
-
-                                // Add span with key to the marker span
-                                var keySpan = $("<span>");
-                                $(keySpan).text(attribute.name);
-                                $(keySpan).addClass(newAnnotations[k].annotation._id + markedTextKeyClass);
-                                $(keySpan).css("background", colorCombination["border-color"]);
-
-                                $(span).append(keySpan);
-
-                                editor.markText(selection.start, selection.end, {
-                                    replacedWith: _.first(span)
-                                });
 
                                 break;
                         }
+                    }
+
+                    if (annotatorType === "Coreference Annotator") {
+                        var marks = editor.getAllMarks();
+                        _.each(marks, function(mark) {
+                            var markerSpan = $("span." + mark.markerId);
+
+                            // Add span with key to the marker span
+                            _.each(markerSpan, function(span) {
+                                // Only add key span if this span has no children
+                                if ($(span).children().length === 0) {
+                                    var keySpan = $("<span>");
+                                    $(keySpan).text(mark.typeAttribute);
+                                    $(keySpan).addClass(mark.annotationId + markedTextKeyClass);
+                                    $(keySpan).css("background", $(span).css("border-color"));
+
+                                    $(span).append(keySpan);
+                                }
+                            });
+
+                        });
                     }
                 }
 
