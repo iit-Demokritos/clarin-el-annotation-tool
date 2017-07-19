@@ -116,14 +116,6 @@ angular.module('clarin-el').directive('textWidget', [ '$q', '$ocLazyLoad', 'Text
             };
 
          	var mouseUpHandler = function(e) {
-                /*  if(TextWidgetAPI.isRunning
-                        return false; */
-
-               /* var ua = window.navigator.userAgent;
-                if (!(ua.indexOf("MSIE ") > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./) || ua.indexOf('Firefox')>-1)) {
-                	e.stopPropagation();
-                }*/
-
                 if (e.button === 0) {   //left button click
                     var selection = getSelectionInfo();
 
@@ -134,22 +126,15 @@ angular.module('clarin-el').directive('textWidget', [ '$q', '$ocLazyLoad', 'Text
                         if (angular.equals(selection.segment, "")) {              //point selection
                             var annotationId = null;
 
-                            if (TextWidgetAPI.getAnnotatorType() == "Coreference Annotator") {
-                                // Select span of coreference annotator, which uses custom DOM elements for markers
-                                if ($(e.target).hasClass(markedTextClass.trim()) || $(e.target).hasClass(markedTextKeyClass.trim())) {
-                                    annotationId = e.target.className.split(" ")[0];
-                                }
-                            } else {
-                                // Regular mark selection, use CodeMirror's api
-                                var editorSelection = computeSelectionFromOffsets(selection.startOffset, selection.startOffset);       //transform selection from absolute to cm format
-                                var availableAnnotationsOnCursor = editor.findMarksAt(editorSelection.start, editorSelection.end);     //find available marks at the position of the cursor
-                                var availableAnnotationsLength = availableAnnotationsOnCursor.length;
+                            // Regular mark selection, use CodeMirror's api
+                            var editorSelection = computeSelectionFromOffsets(selection.startOffset, selection.startOffset);       //transform selection from absolute to cm format
+                            var availableAnnotationsOnCursor = editor.findMarksAt(editorSelection.start, editorSelection.end);     //find available marks at the position of the cursor
+                            var availableAnnotationsLength = availableAnnotationsOnCursor.length;
 
-                                if (availableAnnotationsLength > 0) {
-                                    // Get first part of the annotation's class name, which should be the ID
-                                    annotationId = availableAnnotationsOnCursor[availableAnnotationsLength - 1].className;
-                                    annotationId = annotationId.split(" ")[0];
-                                }
+                            if (availableAnnotationsLength > 0) {
+                                // Get first part of the annotation's class name, which should be the ID
+                                annotationId = availableAnnotationsOnCursor[availableAnnotationsLength - 1].className;
+                                annotationId = annotationId.split(" ")[0];
                             }
 
                             if (!_.isNull(annotationId)) {
@@ -157,7 +142,7 @@ angular.module('clarin-el').directive('textWidget', [ '$q', '$ocLazyLoad', 'Text
                                 var selectedAnnotation = TextWidgetAPI.getAnnotationById(annotationId);
                                 var prevAnnotationId = TextWidgetAPI.getSelectedAnnotation()._id;
 
-                                if (!angular.isUndefined(selectedAnnotation) && prevAnnotationId != selectedAnnotation._id) {
+                                if (!angular.isUndefined(selectedAnnotation) && prevAnnotationId !== selectedAnnotation._id) {
                                     TextWidgetAPI.setSelectedAnnotation(selectedAnnotation);
                                     TextWidgetAPI.computeOverlappingAreas(selection.startOffset);
                                     return false;
@@ -200,11 +185,6 @@ angular.module('clarin-el').directive('textWidget', [ '$q', '$ocLazyLoad', 'Text
 
             /*** When a document changes bring the text and the annotations ***/
             var updateCurrentDocument = function () {
-                /*if(!TextWidgetAPI.isRunning())
-                  TextWidgetAPI.enableIsRunning();
-                else
-                  return false;*/
-
                 var newDocument = TextWidgetAPI.getCurrentDocument();
                 // var curCol = TextWidgetAPI.getCurrentCollection();
 
@@ -335,38 +315,38 @@ angular.module('clarin-el').directive('textWidget', [ '$q', '$ocLazyLoad', 'Text
                                 break;
                             case "Coreference Annotator":         // If it is Coreference Annotator get the required color combination
                                 colorCombination = CoreferenceColor.getColorCombination(currAnnotation.annotation._id);
-                                var mark;
-                                var markerId;
+                                var mark = null;
+                                var markerId = "mrkr_" + Math.floor(Math.random() * 1000000);
                                 if (!angular.isUndefined(currAnnotation.selected) && currAnnotation.selected) {
                                     // Selected marker
                                     mark = editor.markText(selection.start, selection.end, {
-                                        className: currAnnotation.annotation._id,
-                                        css: "color:" + colorCombination.fg_color + "; " +
-                                        "background:" + colorCombination.bg_color + "; " +
-                                        "border: 2px ridge "+ borderColor + ";"
+                                        className: currAnnotation.annotation._id + " " + markerId + markedTextClass,
+                                        css: "color:" + colorCombination["font-color"] + "; " +
+                                        "background:" + colorCombination["selected-background-colour"] + "; " +
+                                        "border-color:" + colorCombination["border-color"] + "; " +
+                                        "border-top:" + "4px solid " + colorCombination["border-color"] + "; " +
+                                        "border-bottom:" + "4px solid " + colorCombination["border-color"] + "; "
                                     });
-                                    //todo
                                 } else {
                                     // Normal marker
-                                    markerId = "mrkr_" + Math.floor(Math.random() * 1000000);
                                     mark = editor.markText(selection.start, selection.end, {
                                         className: currAnnotation.annotation._id + " " + markerId + markedTextClass,
                                         css: "color:" + colorCombination["font-color"] + ";" +
                                         "background:" + colorCombination["background-colour"] + ";" +
                                         "border-color:" + colorCombination["border-color"] + ";"
                                     });
-
-                                    mark.markerId = markerId;
-
-                                    // Find type
-                                    var value = annotationSpan.start + " " + annotationSpan.end;
-
-                                    mark.typeAttribute = _.findWhere(annotationsAttributes, {
-                                        value: value
-                                    }).name;
-
-                                    mark.annotationId = currAnnotation.annotation._id;
                                 }
+
+                                // Find type
+                                var value = annotationSpan.start + " " + annotationSpan.end;
+
+                                mark.typeAttribute = _.findWhere(annotationsAttributes, {
+                                    value: value
+                                }).name;
+                                //todo: on overlapping annotations, type is the opposite of the selected annotation
+
+                                mark.markerId = markerId;
+                                mark.annotationId = currAnnotation.annotation._id;
 
                                 break;
                         }

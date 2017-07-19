@@ -96,9 +96,6 @@ html,body{
 	margin: 0 auto;
 }
 
-
-
-
 .app-logo {
 	height: 40px;
 	padding: 7px 7px 0 2px;
@@ -192,7 +189,6 @@ table td{ vertical-align:middle!important; }
 }
 /*** end of manage collections widget ***/
 
-
 #selectedCollectionName{
 	margin-left: -15px !important;
 	border:1px solid #DDDDDD;
@@ -215,7 +211,6 @@ table td{ vertical-align:middle!important; }
 	padding-left: 0px !important;
 	padding-right: 0px !important;
 }
-
 
 /*** document selector modal ***/
 #document-selector-widget{
@@ -480,7 +475,6 @@ table td{ vertical-align:middle!important; }
 
 /*** end of overlapping areas widget ***/
 
-
 .overflow-ellipsis{
 	white-space:nowrap!important;
 	overflow: hidden!important;
@@ -573,7 +567,6 @@ table td{ vertical-align:middle!important; }
 	padding: 0;
 }
 
-
 /*** Annotation Date Entry Widget Customization ***/
 .annotation-date-entry .dropdown-menu {
 	min-width:0!important;
@@ -614,7 +607,6 @@ treeitem ul li:last-child{border:none;}
 	width: 95%;
 	display: inline-block!important;
 }
-
 
 
 /*** Document Selection Button Customization ***/
@@ -695,7 +687,6 @@ treeitem ul li:last-child{border:none;}
 input, textarea { -webkit-user-select: auto!important; }
 .froala-element p { line-height: 22px!important; }
 
-
 /*** Coreference Annotator Customization ***/
 .coref-checkbox { line-height: 19px; margin: 0 5px;}
 .coref-annotate-btn, .coref-clear-btn { margin: 5px 0 0!important; padding:4px 12px;}
@@ -732,7 +723,6 @@ input, textarea { -webkit-user-select: auto!important; }
 .glyphicon-chevron-right{
   color: #aaa;
 }
-
 
 .ui-splitbar{ background: #d9e0e2!important; }
 
