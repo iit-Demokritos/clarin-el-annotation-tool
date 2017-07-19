@@ -188,7 +188,6 @@ angular.module('clarin-el').directive('textWidget', [ '$q', '$ocLazyLoad', 'Text
              */
             var updateCurrentDocument = function () {
                 var newDocument = TextWidgetAPI.getCurrentDocument();
-                // var curCol = TextWidgetAPI.getCurrentCollection();
 
                 if (!angular.equals({}, newDocument)) {   //if new document is not empty
                 	var documentData = {
@@ -254,12 +253,7 @@ angular.module('clarin-el').directive('textWidget', [ '$q', '$ocLazyLoad', 'Text
                         var editorMark = editorMarks[j];
 
                         // Get ID of mark
-                        var editorMarkClass = null;
-                        if (_.has(editorMark, "replacedWith")) {
-                            editorMarkClass = editorMark.replacedWith.className.split(" ")[0];
-                        } else {
-                            editorMarkClass = editorMark.className.split(" ")[0];
-                        }
+                        var editorMarkClass = editorMark.className.split(" ")[0];
 
                         if (String(newAnnotations[i].annotation._id).indexOf(editorMarkClass) > -1) {
                             editorMark.clear();
@@ -348,7 +342,6 @@ angular.module('clarin-el').directive('textWidget', [ '$q', '$ocLazyLoad', 'Text
                                 mark.typeAttribute = _.findWhere(annotationsAttributes, {
                                     value: value
                                 }).name;
-                                //todo: on overlapping annotations, type is the opposite of the selected annotation
 
                                 mark.markerId = markerId;
                                 mark.annotationId = currAnnotation.annotation._id;
@@ -372,21 +365,27 @@ angular.module('clarin-el').directive('textWidget', [ '$q', '$ocLazyLoad', 'Text
                 if (TextWidgetAPI.getAnnotatorType() === "Coreference Annotator") {
                     var marks = editor.getAllMarks();
                     _.each(marks, function(mark) {
-                        var markerSpan = $("span." + mark.markerId);
+                        var markerSpans = $("span." + mark.markerId);
 
-                        // Add span with key to the marker span
-                        _.each(markerSpan, function(span) {
-                            // Only add key span if this span has no children
-                            if ($(span).children().length === 0) {
+                        // Add span with key to the marker spans
+                        _.each(markerSpans, function(span) {
+                            // Only add key span if this span has no children (or the child has wrong type)
+                            var spanChildren = $(span).children();
+
+                            if (spanChildren.length === 0) {
+                                // Add new type span to the marker
                                 var keySpan = $("<span>");
                                 $(keySpan).text(mark.typeAttribute);
                                 $(keySpan).addClass(mark.annotationId + markedTextKeyClass);
                                 $(keySpan).css("background", $(span).css("border-color"));
 
                                 $(span).append(keySpan);
+                            } else if (spanChildren.length === 1 && $(spanChildren).text() !== mark.typeAttribute) {
+                                // If the span has 1 child, and its content is different than the mark's type attribute,
+                                // we need to set it to the new type in order to be correct.
+                                $(spanChildren).text(mark.typeAttribute);
                             }
                         });
-
                     });
                 }
             };
