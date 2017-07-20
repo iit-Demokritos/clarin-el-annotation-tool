@@ -316,10 +316,15 @@ angular.module('clarin-el').directive('textWidget', [ '$q', '$ocLazyLoad', 'Text
                                 colorCombination = CoreferenceColor.getColorCombination(currAnnotation.annotation._id);
                                 var mark = null;
                                 var markerId = "mrkr_" + Math.floor(Math.random() * 1000000);
+
+                                // Create class for adding background color to the type pseudo-element
+                                var colorClass = " mark_color_" + colorCombination["border-color"].replace("#", "");
+                                var markClassName = currAnnotation.annotation._id + " " + markerId + markedTextClass + colorClass;
+
                                 if (!angular.isUndefined(currAnnotation.selected) && currAnnotation.selected) {
                                     // Selected marker
                                     mark = editor.markText(selection.start, selection.end, {
-                                        className: currAnnotation.annotation._id + " " + markerId + markedTextClass,
+                                        className: markClassName,
                                         css: "color:" + colorCombination["font-color"] + "; " +
                                         "background:" + colorCombination["selected-background-colour"] + "; " +
                                         "border-color:" + colorCombination["border-color"] + "; " +
@@ -329,7 +334,7 @@ angular.module('clarin-el').directive('textWidget', [ '$q', '$ocLazyLoad', 'Text
                                 } else {
                                     // Normal marker
                                     mark = editor.markText(selection.start, selection.end, {
-                                        className: currAnnotation.annotation._id + " " + markerId + markedTextClass,
+                                        className: markClassName,
                                         css: "color:" + colorCombination["font-color"] + ";" +
                                         "background:" + colorCombination["background-colour"] + ";" +
                                         "border-color:" + colorCombination["border-color"] + ";"
@@ -351,40 +356,25 @@ angular.module('clarin-el').directive('textWidget', [ '$q', '$ocLazyLoad', 'Text
                     }
 
                     // (Re)generate the SPAN elements that show the marker types
-                    generateKeySpans();
+                    addTypeAttributesToMarkers();
                 }
 
                 TextWidgetAPI.clearAnnotationsToBeAdded();
             };
 
             /**
-             * If the annotator type is "Coreference Annotator", create the SPAN elements which will show the types
-             * of the markers
+             * If the annotator type is "Coreference Annotator", add a data-type attribute to each marker with the
+             * type of annotation
              */
-            var generateKeySpans = function() {
+            var addTypeAttributesToMarkers = function() {
                 if (TextWidgetAPI.getAnnotatorType() === "Coreference Annotator") {
                     var marks = editor.getAllMarks();
                     _.each(marks, function(mark) {
                         var markerSpans = $("span." + mark.markerId);
 
-                        // Add span with key to the marker spans
                         _.each(markerSpans, function(span) {
-                            // Only add key span if this span has no children (or the child has wrong type)
-                            var spanChildren = $(span).children();
+                            $(span).attr("data-type", mark.typeAttribute);
 
-                            if (spanChildren.length === 0) {
-                                // Add new type span to the marker
-                                var keySpan = $("<span>");
-                                $(keySpan).text(mark.typeAttribute);
-                                $(keySpan).addClass(mark.annotationId + markedTextKeyClass);
-                                $(keySpan).css("background", $(span).css("border-color"));
-
-                                $(span).append(keySpan);
-                            } else if (spanChildren.length === 1 && $(spanChildren).text() !== mark.typeAttribute) {
-                                // If the span has 1 child, and its content is different than the mark's type attribute,
-                                // we need to set it to the new type in order to be correct.
-                                $(spanChildren).text(mark.typeAttribute);
-                            }
                         });
                     });
                 }
@@ -437,7 +427,7 @@ angular.module('clarin-el').directive('textWidget', [ '$q', '$ocLazyLoad', 'Text
                 }
 
                 // (Re)generate the SPAN elements that show the marker types because some might have been removed
-                generateKeySpans();
+                addTypeAttributesToMarkers();
 
                 TextWidgetAPI.clearAnnotationsToBeDeleted();
                 TextWidgetAPI.disableIsRunning();

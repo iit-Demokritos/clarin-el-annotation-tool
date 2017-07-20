@@ -5,8 +5,6 @@ html,body{
 	margin: 0;
 	line-height:1em;
 	min-width: 1060px!important;
-/*	min-width: 600px;
-	min-height: 600px;*/
 }
 
 /************************************************/
@@ -23,13 +21,14 @@ html,body{
 
 .annotated-text {
 	padding: 0.1em 0.35em;
-	margin: 0px 0.1em;
+	margin: 0 0.1em;
 	line-height: 1;
 	border-radius: 0.25em;
 	border: 1px solid;
 }
 
-.annotated-text-key {
+.annotated-text:after {
+	content: attr(data-type);
 	box-sizing: border-box;
 	font-size: 0.7em;
 	line-height: 1;
