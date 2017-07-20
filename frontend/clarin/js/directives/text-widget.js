@@ -388,7 +388,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
                                 if (classes.length > 1) {
                                     // Find the correct class to keep
                                     var correctClass = "mark_color_"
-                                        + CoreferenceColor.rgb2hex($(span).css("border-color"));
+                                        + CoreferenceColor.rgb2hex($(span).css("borderTopColor"));
 
                                     // Keep only the classes we need to remove
                                     classes = _.without(classes, correctClass);
