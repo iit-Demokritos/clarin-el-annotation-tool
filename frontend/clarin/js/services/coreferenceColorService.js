@@ -26,42 +26,23 @@ angular.module("clarin-el").factory("CoreferenceColor", ["$filter", "Coreference
         };
 
         /**
-         * Create CSS classes and add them to the page. Modified version of: https://stackoverflow.com/a/22697964
-         * @param rules Object containing selector (key)/rule (value) pairs
-         */
-        var addCSSRulesToPage = function (rules) {
-            var style = document.createElement("style");
-            style.type = "text/css";
-            document.getElementsByTagName("head")[0].appendChild(style);
-
-            if (!(style.sheet || {}).insertRule) {
-                _.each(rules, function (rule, selector) {
-                    console.log(rule, selector);
-                    (style.styleSheet || style.sheet).addRule(selector, rule);
-                });
-            } else {
-                _.each(rules, function (rule, selector) {
-                    style.sheet.insertRule(selector + "{" + rule + "}", 0);
-                });
-            }
-        };
-
-        /**
          * For each color combination, generate a CSS class that adds the corresponding background color to the
          * pseudo-element that contains the marker's key/type
          */
         var generateColorClasses = function () {
-            var rules = {};
+            var classesString = "";
 
-            // Generate the rules
+            // Generate a string with the classes
             _.each(colorCombinations, function (combo) {
-                var className = ".mark_color_" + (combo["border-color"].replace("#", "")) + ":after";
-
-                rules[className] = "background-color:" + combo["border-color"];
+                classesString += ".mark_color_" + (combo["border-color"].replace("#", "")) + ":after{" +
+                    "background-color:" + combo["border-color"] + "}";
             });
 
-            // Add rules to the page
-            addCSSRulesToPage(rules);
+            // Add the classes to the page
+            $("<style>")
+                .prop("type", "text/css")
+                .html(classesString)
+                .appendTo("head");
         };
 
         /**
