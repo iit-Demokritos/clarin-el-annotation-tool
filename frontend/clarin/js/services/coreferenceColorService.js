@@ -3,6 +3,7 @@ angular.module("clarin-el").factory("CoreferenceColor", ["$filter", "Coreference
         var colorCursor = -1;
         var annotationColors = [];
         var colorCombinations = CoreferenceColorData.getColors();
+        var hexDigits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"];
 
         var getColorCombination = function (annotationId) {
             var annotationColorCombo = $filter("filter")(annotationColors, {_id: annotationId})[0];
@@ -63,6 +64,20 @@ angular.module("clarin-el").factory("CoreferenceColor", ["$filter", "Coreference
             addCSSRulesToPage(rules);
         };
 
+        /**
+         * Convert RGB to HEX (source: https://stackoverflow.com/a/1740716)
+         * @param rgb
+         * @returns {string}
+         */
+        var rgb2hex = function (rgb) {
+            rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+            return hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+        };
+
+        var hex = function (x) {
+            return isNaN(x) ? "00" : hexDigits[(x - x % 16) / 16] + hexDigits[x % 16];
+        };
+
         // Generate the classes for each color on page load
         generateColorClasses();
 
@@ -70,6 +85,7 @@ angular.module("clarin-el").factory("CoreferenceColor", ["$filter", "Coreference
             /*** Coreference Annotator Color Combinations Service ***/
             getColorCombination: getColorCombination,
             clearColorCombinations: clearColorCombinations,
+            rgb2hex: rgb2hex
         }
     }
 ]);

@@ -373,8 +373,29 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
                             var markerSpans = $("span." + mark.markerId);
 
                             _.each(markerSpans, function (span) {
+                                // Add the data type attribute
                                 $(span).attr("data-type", mark.typeAttribute);
 
+                                // If the marker has > 1 classes that set its type pseudoelement's background-color, we
+                                // need to keep only the correct one
+                                var classes = span.className.trim().split(" ");
+
+                                classes = _.filter(classes, function (className) {
+                                    // Keep only classes which start with "mark_color_"
+                                    return className.indexOf("mark_color_") === 0;
+                                });
+
+                                if (classes.length > 1) {
+                                    // Find the correct class to keep
+                                    var correctClass = "mark_color_"
+                                        + CoreferenceColor.rgb2hex($(span).css("border-color"));
+
+                                    // Keep only the classes we need to remove
+                                    classes = _.without(classes, correctClass);
+
+                                    // Remove the excess classes from the element
+                                    $(span).removeClass(classes.join(" "));
+                                }
                             });
                         });
                     }
@@ -426,7 +447,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
                         });
                     }
 
-                    // (Re)generate the SPAN elements that show the marker types because some might have been removed
+                    // Add (again) the type attributes to the markers
                     addTypeAttributesToMarkers();
 
                     TextWidgetAPI.clearAnnotationsToBeDeleted();
