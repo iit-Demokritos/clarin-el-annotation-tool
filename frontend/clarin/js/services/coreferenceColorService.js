@@ -34,7 +34,7 @@ angular.module("clarin-el").factory("CoreferenceColor", ["$filter", "Coreference
 
             // Generate a string with the classes
             _.each(colorCombinations, function (combo) {
-                classesString += ".mark_color_" + (combo["border-color"].replace("#", "")) + ":after{" +
+                classesString += ".mark_color_" + (combo["border-color"].replace("#", "").toUpperCase()) + ":after{" +
                     "background-color:" + combo["border-color"] + "}";
             });
 

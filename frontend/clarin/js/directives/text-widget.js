@@ -318,7 +318,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
                                     var markerId = "mrkr_" + Math.floor(Math.random() * 1000000);
 
                                     // Create class for adding background color to the type pseudo-element
-                                    var colorClass = " mark_color_" + colorCombination["border-color"].replace("#", "");
+                                    var colorClass = " mark_color_" + colorCombination["border-color"].replace("#", "").toUpperCase();
                                     var markClassName = currAnnotation.annotation._id + " " + markerId + markedTextClass + colorClass;
 
                                     if (!angular.isUndefined(currAnnotation.selected) && currAnnotation.selected) {
@@ -388,7 +388,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
                                 if (classes.length > 1) {
                                     // Find the correct class to keep
                                     var correctClass = "mark_color_"
-                                        + CoreferenceColor.rgb2hex($(span).css("borderTopColor"));
+                                        + CoreferenceColor.rgb2hex($(span).css("borderTopColor")).toUpperCase();
 
                                     // Keep only the classes we need to remove
                                     classes = _.without(classes, correctClass);
