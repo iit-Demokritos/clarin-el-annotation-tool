@@ -55,9 +55,9 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'clarin',
-			'username'  => 'your-username',
-			'password'  => 'your-password',
+			'database'  => 'clarin_annotations',
+			'username'  => 'clarinel',
+			'password'  => 'FaRXgxC2mpVYhmqj',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
@@ -67,8 +67,8 @@ return array(
 		    'driver'   => 'mongodb',
 		    'host'     => 'localhost',
 		    'port'     => 27017,
-		    'username' => 'your-username',
-		    'password' => 'your-password',
+		    'username' => 'clarinel',
+		    'password' => '4I1tms3DXzd9jQVqTAtI8A==',
 		    'database' => 'clarin'
 		),
 

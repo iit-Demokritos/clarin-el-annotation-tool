@@ -2,9 +2,13 @@
 
 namespace MongoDB\Tests\Operation;
 
+use MongoDB\Model\IndexInfo;
+use MongoDB\Model\IndexInfoIterator;
 use MongoDB\Operation\DropCollection;
 use MongoDB\Operation\InsertOne;
 use MongoDB\Operation\ListIndexes;
+use MongoDB\Tests\CommandObserver;
+use function version_compare;
 
 class ListIndexesFunctionalTest extends FunctionalTestCase
 {
@@ -20,15 +24,12 @@ class ListIndexesFunctionalTest extends FunctionalTestCase
         $operation = new ListIndexes($this->getDatabaseName(), $this->getCollectionName());
         $indexes = $operation->execute($this->getPrimaryServer());
 
-        $this->assertInstanceOf('MongoDB\Model\IndexInfoIterator', $indexes);
-
-        // Convert the CursorInfoIterator to an array since we cannot rewind its cursor
-        $indexes = iterator_to_array($indexes);
+        $this->assertInstanceOf(IndexInfoIterator::class, $indexes);
 
         $this->assertCount(1, $indexes);
 
         foreach ($indexes as $index) {
-            $this->assertInstanceOf('MongoDB\Model\IndexInfo', $index);
+            $this->assertInstanceOf(IndexInfo::class, $index);
             $this->assertEquals(['_id' => 1], $index->getKey());
         }
     }
@@ -42,5 +43,27 @@ class ListIndexesFunctionalTest extends FunctionalTestCase
         $indexes = $operation->execute($this->getPrimaryServer());
 
         $this->assertCount(0, $indexes);
+    }
+
+    public function testSessionOption()
+    {
+        if (version_compare($this->getServerVersion(), '3.6.0', '<')) {
+            $this->markTestSkipped('Sessions are not supported');
+        }
+
+        (new CommandObserver())->observe(
+            function () {
+                $operation = new ListIndexes(
+                    $this->getDatabaseName(),
+                    $this->getCollectionName(),
+                    ['session' => $this->createSession()]
+                );
+
+                $operation->execute($this->getPrimaryServer());
+            },
+            function (array $event) {
+                $this->assertObjectHasAttribute('lsid', $event['started']->getCommand());
+            }
+        );
     }
 }

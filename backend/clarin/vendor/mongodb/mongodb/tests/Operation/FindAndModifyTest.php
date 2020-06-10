@@ -2,22 +2,27 @@
 
 namespace MongoDB\Tests\Operation;
 
+use MongoDB\Exception\InvalidArgumentException;
 use MongoDB\Operation\FindAndModify;
 
 class FindAndModifyTest extends TestCase
 {
     /**
-     * @expectedException MongoDB\Exception\InvalidArgumentException
      * @dataProvider provideInvalidConstructorOptions
      */
     public function testConstructorOptionTypeChecks(array $options)
     {
+        $this->expectException(InvalidArgumentException::class);
         new FindAndModify($this->getDatabaseName(), $this->getCollectionName(), $options);
     }
 
     public function provideInvalidConstructorOptions()
     {
         $options = [];
+
+        foreach ($this->getInvalidArrayValues() as $value) {
+            $options[][] = ['arrayFilters' => $value];
+        }
 
         foreach ($this->getInvalidBooleanValues() as $value) {
             $options[][] = ['bypassDocumentValidation' => $value];
@@ -35,7 +40,7 @@ class FindAndModifyTest extends TestCase
             $options[][] = ['maxTimeMS' => $value];
         }
 
-        foreach ($this->getInvalidBooleanValues() as $value) {
+        foreach ($this->getInvalidBooleanValues(true) as $value) {
             $options[][] = ['new' => $value];
         }
 
@@ -43,8 +48,12 @@ class FindAndModifyTest extends TestCase
             $options[][] = ['query' => $value];
         }
 
-        foreach ($this->getInvalidBooleanValues() as $value) {
+        foreach ($this->getInvalidBooleanValues(true) as $value) {
             $options[][] = ['remove' => $value];
+        }
+
+        foreach ($this->getInvalidSessionValues() as $value) {
+            $options[][] = ['session' => $value];
         }
 
         foreach ($this->getInvalidDocumentValues() as $value) {
@@ -59,7 +68,7 @@ class FindAndModifyTest extends TestCase
             $options[][] = ['update' => $value];
         }
 
-        foreach ($this->getInvalidBooleanValues() as $value) {
+        foreach ($this->getInvalidBooleanValues(true) as $value) {
             $options[][] = ['upsert' => $value];
         }
 
@@ -70,12 +79,10 @@ class FindAndModifyTest extends TestCase
         return $options;
     }
 
-    /**
-     * @expectedException MongoDB\Exception\InvalidArgumentException
-     * @expectedExceptionMessage The "remove" option must be true or an "update" document must be specified, but not both
-     */
     public function testConstructorUpdateAndRemoveOptionsAreMutuallyExclusive()
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The "remove" option must be true or an "update" document must be specified, but not both');
         new FindAndModify($this->getDatabaseName(), $this->getCollectionName(), ['remove' => true, 'update' => []]);
     }
 }

@@ -2,10 +2,15 @@
 
 namespace MongoDB\Tests;
 
+use MongoDB\Exception\InvalidArgumentException;
 use MongoDB\Model\BSONArray;
 use MongoDB\Model\BSONDocument;
-use MongoDB\Driver\ReadConcern;
-use MongoDB\Driver\WriteConcern;
+use function MongoDB\apply_type_map_to_document;
+use function MongoDB\create_field_path_type_map;
+use function MongoDB\generate_index_name;
+use function MongoDB\is_first_key_operator;
+use function MongoDB\is_mapreduce_output_inline;
+use function MongoDB\is_pipeline;
 
 /**
  * Unit tests for utility functions.
@@ -17,7 +22,7 @@ class FunctionsTest extends TestCase
      */
     public function testApplyTypeMapToDocument($document, array $typeMap, $expectedDocument)
     {
-        $this->assertEquals($expectedDocument, \MongoDB\apply_type_map_to_document($document, $typeMap));
+        $this->assertEquals($expectedDocument, apply_type_map_to_document($document, $typeMap));
     }
 
     public function provideDocumentAndTypeMap()
@@ -47,15 +52,39 @@ class FunctionsTest extends TestCase
                     'z' => [1, 2, 3],
                 ],
                 [
-                    'root' => 'MongoDB\Model\BSONDocument',
-                    'document' => 'MongoDB\Model\BSONDocument',
-                    'array' => 'MongoDB\Model\BSONArray',
+                    'root' => BSONDocument::class,
+                    'document' => BSONDocument::class,
+                    'array' => BSONArray::class,
                 ],
                 new BSONDocument([
                     'x' => 1,
                     'y' => new BSONDocument(['foo' => 'bar']),
                     'z' => new BSONArray([1, 2, 3]),
                 ]),
+            ],
+            [
+                [
+                    'x' => 1,
+                    'random' => ['foo' => 'bar'],
+                    'value' => [
+                        'bar' => 'baz',
+                        'embedded' => ['foo' => 'bar'],
+                    ],
+                ],
+                [
+                    'root' => 'array',
+                    'document' => 'stdClass',
+                    'array' => 'array',
+                    'fieldPaths' => ['value' => 'array'],
+                ],
+                [
+                    'x' => 1,
+                    'random' => (object) ['foo' => 'bar'],
+                    'value' => [
+                        'bar' => 'baz',
+                        'embedded' => (object) ['foo' => 'bar'],
+                    ],
+                ],
             ],
         ];
     }
@@ -65,7 +94,7 @@ class FunctionsTest extends TestCase
      */
     public function testGenerateIndexName($document, $expectedName)
     {
-        $this->assertSame($expectedName, \MongoDB\generate_index_name($document));
+        $this->assertSame($expectedName, generate_index_name($document));
     }
 
     public function provideIndexSpecificationDocumentsAndGeneratedNames()
@@ -80,12 +109,12 @@ class FunctionsTest extends TestCase
     }
 
     /**
-     * @expectedException MongoDB\Exception\InvalidArgumentException
      * @dataProvider provideInvalidDocumentValues
      */
     public function testGenerateIndexNameArgumentTypeCheck($document)
     {
-        \MongoDB\generate_index_name($document);
+        $this->expectException(InvalidArgumentException::class);
+        generate_index_name($document);
     }
 
     /**
@@ -93,7 +122,7 @@ class FunctionsTest extends TestCase
      */
     public function testIsFirstKeyOperator($document, $isFirstKeyOperator)
     {
-        $this->assertSame($isFirstKeyOperator, \MongoDB\is_first_key_operator($document));
+        $this->assertSame($isFirstKeyOperator, is_first_key_operator($document));
     }
 
     public function provideIsFirstKeyOperatorDocuments()
@@ -109,56 +138,120 @@ class FunctionsTest extends TestCase
     }
 
     /**
-     * @expectedException MongoDB\Exception\InvalidArgumentException
      * @dataProvider provideInvalidDocumentValues
      */
     public function testIsFirstKeyOperatorArgumentTypeCheck($document)
     {
-        \MongoDB\is_first_key_operator($document);
+        $this->expectException(InvalidArgumentException::class);
+        is_first_key_operator($document);
     }
 
     /**
-     * @dataProvider provideReadConcernsAndDocuments
+     * @dataProvider provideMapReduceOutValues
      */
-    public function testReadConcernAsDocument(ReadConcern $readConcern, $expectedDocument)
+    public function testIsMapReduceOutputInline($out, $isInline)
     {
-        $this->assertEquals($expectedDocument, \MongoDB\read_concern_as_document($readConcern));
+        $this->assertSame($isInline, is_mapreduce_output_inline($out));
     }
 
-    public function provideReadConcernsAndDocuments()
+    public function provideMapReduceOutValues()
     {
         return [
-            [ new ReadConcern, (object) [] ],
-            [ new ReadConcern(ReadConcern::LOCAL), (object) ['level' => ReadConcern::LOCAL] ],
-            [ new ReadConcern(ReadConcern::MAJORITY), (object) ['level' => ReadConcern::MAJORITY] ],
+            [ 'collectionName', false ],
+            [ ['inline' => 1], true ],
+            [ ['inline' => 0], true ], // only the key is significant
+            [ ['replace' => 'collectionName'], false ],
         ];
     }
 
     /**
-     * @dataProvider provideWriteConcernsAndDocuments
+     * @dataProvider provideTypeMapValues
      */
-    public function testWriteConcernAsDocument(WriteConcern $writeConcern, $expectedDocument)
+    public function testCreateFieldPathTypeMap(array $expected, array $typeMap, $fieldPath = 'field')
     {
-        $this->assertEquals($expectedDocument, \MongoDB\write_concern_as_document($writeConcern));
+        $this->assertEquals($expected, create_field_path_type_map($typeMap, $fieldPath));
     }
 
-    public function provideWriteConcernsAndDocuments()
+    public function provideTypeMapValues()
     {
         return [
-            [ new WriteConcern(-3), (object) ['w' => 'majority'] ], // MONGOC_WRITE_CONCERN_W_MAJORITY
-            [ new WriteConcern(-2), (object) [] ], // MONGOC_WRITE_CONCERN_W_DEFAULT
-            [ new WriteConcern(-1), (object) ['w' => -1] ],
-            [ new WriteConcern(0), (object) ['w' => 0] ],
-            [ new WriteConcern(1), (object) ['w' => 1] ],
-            [ new WriteConcern('majority'), (object) ['w' => 'majority'] ],
-            [ new WriteConcern('tag'), (object) ['w' => 'tag'] ],
-            [ new WriteConcern(1, 0), (object) ['w' => 1] ],
-            [ new WriteConcern(1, 0, false), (object) ['w' => 1, 'j' => false] ],
-            [ new WriteConcern(1, 1000), (object) ['w' => 1, 'wtimeout' => 1000] ],
-            [ new WriteConcern(1, 1000, true), (object) ['w' => 1, 'wtimeout' => 1000, 'j' => true] ],
-            [ new WriteConcern(-2, 0, true), (object) ['j' => true] ],
-            // Note: wtimeout is only applicable applies for w > 1
-            [ new WriteConcern(-2, 1000), (object) ['wtimeout' => 1000] ],
+            'No root type' => [
+                ['document' => 'array', 'root' => 'object'],
+                ['document' => 'array'],
+            ],
+            'No field path' => [
+                ['root' => 'object', 'fieldPaths' => ['field' => 'array']],
+                ['root' => 'array'],
+            ],
+            'Field path exists' => [
+                ['root' => 'object', 'fieldPaths' => ['field' => 'array', 'field.field' => 'object']],
+                ['root' => 'array', 'fieldPaths' => ['field' => 'object']],
+            ],
+            'Nested field path' => [
+                ['root' => 'object', 'fieldPaths' => ['field' => 'object', 'field.nested' => 'array']],
+                ['root' => 'object', 'fieldPaths' => ['nested' => 'array']],
+            ],
+            'Array field path converted to array' => [
+                [
+                    'root' => 'object',
+                    'array' => 'MongoDB\Model\BSONArray',
+                    'fieldPaths' => [
+                        'field' => 'array',
+                        'field.$' => 'object',
+                        'field.$.nested' => 'array',
+                    ],
+                ],
+                [
+                    'root' => 'object',
+                    'array' => 'MongoDB\Model\BSONArray',
+                    'fieldPaths' => ['nested' => 'array'],
+                ],
+                'field.$',
+            ],
+            'Array field path without root key' => [
+                [
+                    'root' => 'object',
+                    'array' => 'MongoDB\Model\BSONArray',
+                    'fieldPaths' => [
+                        'field' => 'array',
+                        'field.$.nested' => 'array',
+                    ],
+                ],
+                [
+                    'array' => 'MongoDB\Model\BSONArray',
+                    'fieldPaths' => ['nested' => 'array'],
+                ],
+                'field.$',
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider providePipelines
+     */
+    public function testIsPipeline($expected, $pipeline)
+    {
+        $this->assertSame($expected, is_pipeline($pipeline));
+    }
+
+    public function providePipelines()
+    {
+        return [
+            'Not an array' => [false, (object) []],
+            'Empty array' => [false, []],
+            'Non-sequential indexes in array' => [false, [1 => ['$group' => []]]],
+            'Update document instead of pipeline' => [false, ['$set' => ['foo' => 'bar']]],
+            'Invalid pipeline stage' => [false, [['group' => []]]],
+            'Update with DbRef' => [false, ['x' => ['$ref' => 'foo', '$id' => 'bar']]],
+            'Valid pipeline' => [
+                true,
+                [
+                    ['$match' => ['foo' => 'bar']],
+                    ['$group' => ['_id' => 1]],
+                ],
+            ],
+            'False positive with DbRef in numeric field' => [true, ['0' => ['$ref' => 'foo', '$id' => 'bar']]],
+            'DbRef in numeric field as object' => [false, (object) ['0' => ['$ref' => 'foo', '$id' => 'bar']]],
         ];
     }
 }

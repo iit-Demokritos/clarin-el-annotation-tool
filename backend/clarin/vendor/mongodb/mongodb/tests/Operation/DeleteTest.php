@@ -2,26 +2,28 @@
 
 namespace MongoDB\Tests\Operation;
 
+use MongoDB\Exception\InvalidArgumentException;
 use MongoDB\Operation\Delete;
+use function array_merge;
 
 class DeleteTest extends TestCase
 {
     /**
-     * @expectedException MongoDB\Exception\InvalidArgumentException
      * @dataProvider provideInvalidDocumentValues
      */
     public function testConstructorFilterArgumentTypeCheck($filter)
     {
+        $this->expectException(InvalidArgumentException::class);
         new Delete($this->getDatabaseName(), $this->getCollectionName(), $filter, 0);
     }
 
     /**
-     * @expectedException MongoDB\Exception\InvalidArgumentException
-     * @expectedExceptionMessage $limit must be 0 or 1
      * @dataProvider provideInvalidLimitValues
      */
     public function testConstructorLimitArgumentMustBeOneOrZero($limit)
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('$limit must be 0 or 1');
         new Delete($this->getDatabaseName(), $this->getCollectionName(), [], $limit);
     }
 
@@ -31,11 +33,11 @@ class DeleteTest extends TestCase
     }
 
     /**
-     * @expectedException MongoDB\Exception\InvalidArgumentException
      * @dataProvider provideInvalidConstructorOptions
      */
     public function testConstructorOptionTypeChecks(array $options)
     {
+        $this->expectException(InvalidArgumentException::class);
         new Delete($this->getDatabaseName(), $this->getCollectionName(), [], 1, $options);
     }
 
@@ -45,6 +47,10 @@ class DeleteTest extends TestCase
 
         foreach ($this->getInvalidDocumentValues() as $value) {
             $options[][] = ['collation' => $value];
+        }
+
+        foreach ($this->getInvalidSessionValues() as $value) {
+            $options[][] = ['session' => $value];
         }
 
         foreach ($this->getInvalidWriteConcernValues() as $value) {

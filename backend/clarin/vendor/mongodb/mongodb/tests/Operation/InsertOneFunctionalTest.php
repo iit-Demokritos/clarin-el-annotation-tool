@@ -1,14 +1,32 @@
 <?php
 
-namespace MongoDB\Tests\Collection;
+namespace MongoDB\Tests\Operation;
 
-use MongoDB\InsertOneResult;
+use MongoDB\BSON\ObjectId;
+use MongoDB\Collection;
 use MongoDB\Driver\WriteConcern;
+use MongoDB\Exception\BadMethodCallException;
+use MongoDB\InsertOneResult;
 use MongoDB\Model\BSONDocument;
 use MongoDB\Operation\InsertOne;
+use MongoDB\Tests\CommandObserver;
+use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
+use function version_compare;
 
 class InsertOneFunctionalTest extends FunctionalTestCase
 {
+    use SetUpTearDownTrait;
+
+    /** @var Collection */
+    private $collection;
+
+    private function doSetUp()
+    {
+        parent::setUp();
+
+        $this->collection = new Collection($this->manager, $this->getDatabaseName(), $this->getCollectionName());
+    }
+
     /**
      * @dataProvider provideDocumentWithExistingId
      */
@@ -17,7 +35,7 @@ class InsertOneFunctionalTest extends FunctionalTestCase
         $operation = new InsertOne($this->getDatabaseName(), $this->getCollectionName(), $document);
         $result = $operation->execute($this->getPrimaryServer());
 
-        $this->assertInstanceOf('MongoDB\InsertOneResult', $result);
+        $this->assertInstanceOf(InsertOneResult::class, $result);
         $this->assertSame(1, $result->getInsertedCount());
         $this->assertSame('foo', $result->getInsertedId());
 
@@ -44,15 +62,85 @@ class InsertOneFunctionalTest extends FunctionalTestCase
         $operation = new InsertOne($this->getDatabaseName(), $this->getCollectionName(), $document);
         $result = $operation->execute($this->getPrimaryServer());
 
-        $this->assertInstanceOf('MongoDB\InsertOneResult', $result);
+        $this->assertInstanceOf(InsertOneResult::class, $result);
         $this->assertSame(1, $result->getInsertedCount());
-        $this->assertInstanceOf('MongoDB\BSON\ObjectId', $result->getInsertedId());
+        $this->assertInstanceOf(ObjectId::class, $result->getInsertedId());
 
         $expected = [
             ['_id' => $result->getInsertedId(), 'x' => 11],
         ];
 
         $this->assertSameDocuments($expected, $this->collection->find());
+    }
+
+    public function testSessionOption()
+    {
+        if (version_compare($this->getServerVersion(), '3.6.0', '<')) {
+            $this->markTestSkipped('Sessions are not supported');
+        }
+
+        (new CommandObserver())->observe(
+            function () {
+                $operation = new InsertOne(
+                    $this->getDatabaseName(),
+                    $this->getCollectionName(),
+                    ['_id' => 1],
+                    ['session' => $this->createSession()]
+                );
+
+                $operation->execute($this->getPrimaryServer());
+            },
+            function (array $event) {
+                $this->assertObjectHasAttribute('lsid', $event['started']->getCommand());
+            }
+        );
+    }
+
+    public function testBypassDocumentValidationSetWhenTrue()
+    {
+        if (version_compare($this->getServerVersion(), '3.2.0', '<')) {
+            $this->markTestSkipped('bypassDocumentValidation is not supported');
+        }
+
+        (new CommandObserver())->observe(
+            function () {
+                $operation = new InsertOne(
+                    $this->getDatabaseName(),
+                    $this->getCollectionName(),
+                    ['_id' => 1],
+                    ['bypassDocumentValidation' => true]
+                );
+
+                $operation->execute($this->getPrimaryServer());
+            },
+            function (array $event) {
+                $this->assertObjectHasAttribute('bypassDocumentValidation', $event['started']->getCommand());
+                $this->assertEquals(true, $event['started']->getCommand()->bypassDocumentValidation);
+            }
+        );
+    }
+
+    public function testBypassDocumentValidationUnsetWhenFalse()
+    {
+        if (version_compare($this->getServerVersion(), '3.2.0', '<')) {
+            $this->markTestSkipped('bypassDocumentValidation is not supported');
+        }
+
+        (new CommandObserver())->observe(
+            function () {
+                $operation = new InsertOne(
+                    $this->getDatabaseName(),
+                    $this->getCollectionName(),
+                    ['_id' => 1],
+                    ['bypassDocumentValidation' => false]
+                );
+
+                $operation->execute($this->getPrimaryServer());
+            },
+            function (array $event) {
+                $this->assertObjectNotHasAttribute('bypassDocumentValidation', $event['started']->getCommand());
+            }
+        );
     }
 
     public function testUnacknowledgedWriteConcern()
@@ -70,11 +158,11 @@ class InsertOneFunctionalTest extends FunctionalTestCase
 
     /**
      * @depends testUnacknowledgedWriteConcern
-     * @expectedException MongoDB\Exception\BadMethodCallException
-     * @expectedExceptionMessageRegExp /[\w:\\]+ should not be called for an unacknowledged write result/
      */
     public function testUnacknowledgedWriteConcernAccessesInsertedCount(InsertOneResult $result)
     {
+        $this->expectException(BadMethodCallException::class);
+        $this->expectExceptionMessageRegExp('/[\w:\\\\]+ should not be called for an unacknowledged write result/');
         $result->getInsertedCount();
     }
 
@@ -83,6 +171,6 @@ class InsertOneFunctionalTest extends FunctionalTestCase
      */
     public function testUnacknowledgedWriteConcernAccessesInsertedId(InsertOneResult $result)
     {
-        $this->assertInstanceOf('MongoDB\BSON\ObjectId', $result->getInsertedId());
+        $this->assertInstanceOf(ObjectId::class, $result->getInsertedId());
     }
 }

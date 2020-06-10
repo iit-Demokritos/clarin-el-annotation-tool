@@ -126,7 +126,8 @@ class MongoDBTest extends TestCase
             'code' => 13,
         ];
 
-        $this->assertEquals($expected, $db->command(['listDatabases' => 1]));
+        // Using assertArraySubset because newer versions (3.4.7?) also return `codeName`
+        $this->assertArraySubset($expected, $db->command(['listDatabases' => 1]));
     }
 
     public function testCommandCursorTimeout()
@@ -179,7 +180,6 @@ class MongoDBTest extends TestCase
 
         $this->assertSame(ReadPreference::RP_SECONDARY, $readPreference->getMode());
         $this->assertSame([['a' => 'b']], $readPreference->getTagSets());
-
     }
 
     public function testReadPreferenceIsInherited()
@@ -240,6 +240,8 @@ class MongoDBTest extends TestCase
 
     public function testExecute()
     {
+        $this->skipTestIf(version_compare($this->getServerVersion(), '4.2.0', '>='), 'Eval no longer works on MongoDB 4.2.0 and newer');
+
         $db = $this->getDatabase();
         $document = ['foo' => 'bar'];
         $this->getCollection()->insert($document);
@@ -273,7 +275,24 @@ class MongoDBTest extends TestCase
 
         foreach ($this->getDatabase()->getCollectionInfo() as $collectionInfo) {
             if ($collectionInfo['name'] === 'test') {
-                $this->assertSame(['name' => 'test', 'options' => []], $collectionInfo);
+                $expected = [
+                    'name' => 'test',
+                    'options' => []
+                ];
+
+                if (version_compare($this->getServerVersion(), '3.4.0', '>=')) {
+                    $expected += [
+                        'type' => 'collection',
+                        'info' => ['readOnly' => false],
+                        'idIndex' => [
+                            'v' => $this->getDefaultIndexVersion(),
+                            'key' => ['_id' => 1],
+                            'name' => '_id_',
+                            'ns' => (string) $this->getCollection(),
+                        ],
+                    ];
+                }
+                $this->assertArraySubset($expected, $collectionInfo);
                 return;
             }
         }
@@ -367,11 +386,13 @@ class MongoDBTest extends TestCase
             'nIndexesWas' => 1,
             'ok' => 1.0
         ];
-        $this->assertSame($expected, $this->getDatabase()->dropCollection('test'));
+        $this->assertEquals($expected, $this->getDatabase()->dropCollection('test'));
     }
 
     public function testRepair()
     {
+        $this->skipTestIf(version_compare($this->getServerVersion(), '4.2.0', '>='), 'The "repairDatabase" has been removed in MongoDB 4.2.0');
+
         $this->assertSame(['ok' => 1.0], $this->getDatabase()->repair());
     }
 }

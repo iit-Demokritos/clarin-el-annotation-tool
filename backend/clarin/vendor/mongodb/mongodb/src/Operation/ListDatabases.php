@@ -18,12 +18,17 @@
 namespace MongoDB\Operation;
 
 use MongoDB\Driver\Command;
-use MongoDB\Driver\Server;
 use MongoDB\Driver\Exception\RuntimeException as DriverRuntimeException;
+use MongoDB\Driver\Server;
+use MongoDB\Driver\Session;
 use MongoDB\Exception\InvalidArgumentException;
 use MongoDB\Exception\UnexpectedValueException;
 use MongoDB\Model\DatabaseInfoIterator;
 use MongoDB\Model\DatabaseInfoLegacyIterator;
+use function current;
+use function is_array;
+use function is_integer;
+use function is_object;
 
 /**
  * Operation for the ListDatabases command.
@@ -34,6 +39,7 @@ use MongoDB\Model\DatabaseInfoLegacyIterator;
  */
 class ListDatabases implements Executable
 {
+    /** @var array */
     private $options;
 
     /**
@@ -41,16 +47,32 @@ class ListDatabases implements Executable
      *
      * Supported options:
      *
+     *  * filter (document): Query by which to filter databases.
+     *
+     *    For servers < 3.6, this option is ignored.
+     *
      *  * maxTimeMS (integer): The maximum amount of time to allow the query to
      *    run.
+     *
+     *  * session (MongoDB\Driver\Session): Client session.
+     *
+     *    Sessions are not supported for server versions < 3.6.
      *
      * @param array $options Command options
      * @throws InvalidArgumentException for parameter/option parsing errors
      */
     public function __construct(array $options = [])
     {
+        if (isset($options['filter']) && ! is_array($options['filter']) && ! is_object($options['filter'])) {
+            throw InvalidArgumentException::invalidType('"filter" option', $options['filter'], 'array or object');
+        }
+
         if (isset($options['maxTimeMS']) && ! is_integer($options['maxTimeMS'])) {
             throw InvalidArgumentException::invalidType('"maxTimeMS" option', $options['maxTimeMS'], 'integer');
+        }
+
+        if (isset($options['session']) && ! $options['session'] instanceof Session) {
+            throw InvalidArgumentException::invalidType('"session" option', $options['session'], Session::class);
         }
 
         $this->options = $options;
@@ -69,15 +91,19 @@ class ListDatabases implements Executable
     {
         $cmd = ['listDatabases' => 1];
 
+        if (! empty($this->options['filter'])) {
+            $cmd['filter'] = (object) $this->options['filter'];
+        }
+
         if (isset($this->options['maxTimeMS'])) {
             $cmd['maxTimeMS'] = $this->options['maxTimeMS'];
         }
 
-        $cursor = $server->executeCommand('admin', new Command($cmd));
+        $cursor = $server->executeReadCommand('admin', new Command($cmd), $this->createOptions());
         $cursor->setTypeMap(['root' => 'array', 'document' => 'array']);
         $result = current($cursor->toArray());
 
-        if ( ! isset($result['databases']) || ! is_array($result['databases'])) {
+        if (! isset($result['databases']) || ! is_array($result['databases'])) {
             throw new UnexpectedValueException('listDatabases command did not return a "databases" array');
         }
 
@@ -88,5 +114,25 @@ class ListDatabases implements Executable
          * need that value.
          */
         return new DatabaseInfoLegacyIterator($result['databases']);
+    }
+
+    /**
+     * Create options for executing the command.
+     *
+     * Note: read preference is intentionally omitted, as the spec requires that
+     * the command be executed on the primary.
+     *
+     * @see http://php.net/manual/en/mongodb-driver-server.executecommand.php
+     * @return array
+     */
+    private function createOptions()
+    {
+        $options = [];
+
+        if (isset($this->options['session'])) {
+            $options['session'] = $this->options['session'];
+        }
+
+        return $options;
     }
 }

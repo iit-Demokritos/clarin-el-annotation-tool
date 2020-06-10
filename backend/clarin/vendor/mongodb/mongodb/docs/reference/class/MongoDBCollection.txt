@@ -63,6 +63,7 @@ Methods
    /reference/method/MongoDBCollection-aggregate
    /reference/method/MongoDBCollection-bulkWrite
    /reference/method/MongoDBCollection-count
+   /reference/method/MongoDBCollection-countDocuments
    /reference/method/MongoDBCollection-createIndex
    /reference/method/MongoDBCollection-createIndexes
    /reference/method/MongoDBCollection-deleteMany
@@ -71,6 +72,8 @@ Methods
    /reference/method/MongoDBCollection-drop
    /reference/method/MongoDBCollection-dropIndex
    /reference/method/MongoDBCollection-dropIndexes
+   /reference/method/MongoDBCollection-estimatedDocumentCount
+   /reference/method/MongoDBCollection-explain
    /reference/method/MongoDBCollection-find
    /reference/method/MongoDBCollection-findOne
    /reference/method/MongoDBCollection-findOneAndDelete
@@ -80,10 +83,16 @@ Methods
    /reference/method/MongoDBCollection-getDatabaseName
    /reference/method/MongoDBCollection-getManager
    /reference/method/MongoDBCollection-getNamespace
+   /reference/method/MongoDBCollection-getReadConcern
+   /reference/method/MongoDBCollection-getReadPreference
+   /reference/method/MongoDBCollection-getTypeMap
+   /reference/method/MongoDBCollection-getWriteConcern
    /reference/method/MongoDBCollection-insertMany
    /reference/method/MongoDBCollection-insertOne
    /reference/method/MongoDBCollection-listIndexes
+   /reference/method/MongoDBCollection-mapReduce
    /reference/method/MongoDBCollection-replaceOne
    /reference/method/MongoDBCollection-updateMany
    /reference/method/MongoDBCollection-updateOne
+   /reference/method/MongoDBCollection-watch
    /reference/method/MongoDBCollection-withOptions

@@ -2,31 +2,46 @@
 
 namespace MongoDB\Tests\Operation;
 
-use MongoDB\Collection;
-use MongoDB\Driver\ReadPreference;
-use MongoDB\Operation\DropCollection;
+use MongoDB\Driver\ReadConcern;
+use MongoDB\Driver\WriteConcern;
 use MongoDB\Tests\FunctionalTestCase as BaseFunctionalTestCase;
+use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 
 /**
  * Base class for Operation functional tests.
  */
 abstract class FunctionalTestCase extends BaseFunctionalTestCase
 {
-    public function setUp()
+    use SetUpTearDownTrait;
+
+    private function doSetUp()
     {
         parent::setUp();
 
-        $operation = new DropCollection($this->getDatabaseName(), $this->getCollectionName());
-        $operation->execute($this->getPrimaryServer());
+        $this->dropCollection();
     }
 
-    public function tearDown()
+    private function doTearDown()
     {
         if ($this->hasFailed()) {
             return;
         }
 
-        $operation = new DropCollection($this->getDatabaseName(), $this->getCollectionName());
-        $operation->execute($this->getPrimaryServer());
+        $this->dropCollection();
+    }
+
+    protected function createDefaultReadConcern()
+    {
+        return new ReadConcern();
+    }
+
+    protected function createDefaultWriteConcern()
+    {
+        return new WriteConcern(-2);
+    }
+
+    protected function createSession()
+    {
+        return $this->manager->startSession();
     }
 }

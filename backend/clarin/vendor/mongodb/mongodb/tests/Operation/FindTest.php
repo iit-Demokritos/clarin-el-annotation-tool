@@ -2,25 +2,26 @@
 
 namespace MongoDB\Tests\Operation;
 
+use MongoDB\Exception\InvalidArgumentException;
 use MongoDB\Operation\Find;
 
 class FindTest extends TestCase
 {
     /**
-     * @expectedException MongoDB\Exception\InvalidArgumentException
      * @dataProvider provideInvalidDocumentValues
      */
     public function testConstructorFilterArgumentTypeCheck($filter)
     {
+        $this->expectException(InvalidArgumentException::class);
         new Find($this->getDatabaseName(), $this->getCollectionName(), $filter);
     }
 
     /**
-     * @expectedException MongoDB\Exception\InvalidArgumentException
      * @dataProvider provideInvalidConstructorOptions
      */
     public function testConstructorOptionTypeChecks(array $options)
     {
+        $this->expectException(InvalidArgumentException::class);
         new Find($this->getDatabaseName(), $this->getCollectionName(), [], $options);
     }
 
@@ -48,12 +49,32 @@ class FindTest extends TestCase
             $options[][] = ['cursorType' => $value];
         }
 
+        foreach ($this->getInvalidHintValues() as $value) {
+            $options[][] = ['hint' => $value];
+        }
+
         foreach ($this->getInvalidIntegerValues() as $value) {
             $options[][] = ['limit' => $value];
         }
 
+        foreach ($this->getInvalidDocumentValues() as $value) {
+            $options[][] = ['max' => $value];
+        }
+
+        foreach ($this->getInvalidIntegerValues() as $value) {
+            $options[][] = ['maxAwaitTimeMS' => $value];
+        }
+
+        foreach ($this->getInvalidIntegerValues() as $value) {
+            $options[][] = ['maxScan' => $value];
+        }
+
         foreach ($this->getInvalidIntegerValues() as $value) {
             $options[][] = ['maxTimeMS' => $value];
+        }
+
+        foreach ($this->getInvalidDocumentValues() as $value) {
+            $options[][] = ['min' => $value];
         }
 
         foreach ($this->getInvalidDocumentValues() as $value) {
@@ -76,8 +97,24 @@ class FindTest extends TestCase
             $options[][] = ['readPreference' => $value];
         }
 
+        foreach ($this->getInvalidBooleanValues() as $value) {
+            $options[][] = ['returnKey' => $value];
+        }
+
+        foreach ($this->getInvalidSessionValues() as $value) {
+            $options[][] = ['session' => $value];
+        }
+
+        foreach ($this->getInvalidBooleanValues() as $value) {
+            $options[][] = ['showRecordId' => $value];
+        }
+
         foreach ($this->getInvalidIntegerValues() as $value) {
             $options[][] = ['skip' => $value];
+        }
+
+        foreach ($this->getInvalidBooleanValues() as $value) {
+            $options[][] = ['snapshot' => $value];
         }
 
         foreach ($this->getInvalidDocumentValues() as $value) {
@@ -91,12 +128,35 @@ class FindTest extends TestCase
         return $options;
     }
 
+    public function testSnapshotOptionIsDeprecated()
+    {
+        $this->assertDeprecated(function () {
+            new Find($this->getDatabaseName(), $this->getCollectionName(), [], ['snapshot' => true]);
+        });
+
+        $this->assertDeprecated(function () {
+            new Find($this->getDatabaseName(), $this->getCollectionName(), [], ['snapshot' => false]);
+        });
+    }
+
+    public function testMaxScanOptionIsDeprecated()
+    {
+        $this->assertDeprecated(function () {
+            new Find($this->getDatabaseName(), $this->getCollectionName(), [], ['maxScan' => 1]);
+        });
+    }
+
+    private function getInvalidHintValues()
+    {
+        return [123, 3.14, true];
+    }
+
     /**
-     * @expectedException MongoDB\Exception\InvalidArgumentException
      * @dataProvider provideInvalidConstructorCursorTypeOptions
      */
     public function testConstructorCursorTypeOption($cursorType)
     {
+        $this->expectException(InvalidArgumentException::class);
         new Find($this->getDatabaseName(), $this->getCollectionName(), [], ['cursorType' => $cursorType]);
     }
 

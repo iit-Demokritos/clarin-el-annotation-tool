@@ -25,14 +25,12 @@ use MongoDB\Exception\BadMethodCallException;
  */
 class UpdateResult
 {
+    /** @var WriteResult */
     private $writeResult;
+
+    /** @var boolean */
     private $isAcknowledged;
 
-    /**
-     * Constructor.
-     *
-     * @param WriteResult $writeResult
-     */
     public function __construct(WriteResult $writeResult)
     {
         $this->writeResult = $writeResult;
@@ -101,7 +99,7 @@ class UpdateResult
      *
      * If the document had an ID prior to upserting (i.e. the server did not
      * need to generate an ID), this will contain its "_id". Any
-     * server-generated ID will be a MongoDB\BSON\ObjectID instance.
+     * server-generated ID will be a MongoDB\BSON\ObjectId instance.
      *
      * This value is undefined (i.e. null) if an upsert did not take place.
      *

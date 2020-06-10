@@ -3,7 +3,7 @@ name: _id
 type: mixed
 description: |
   Value to use as the file document identifier. Defaults to a new
-  :php:`MongoDB\\BSON\\ObjectID <class.mongodb-bson-objectid>` object.
+  :php:`MongoDB\\BSON\\ObjectId <class.mongodb-bson-objectid>` object.
 interface: phpmethod
 operation: ~
 optional: true
@@ -13,6 +13,17 @@ name: chunkSizeBytes
 type: integer
 description: |
   The chunk size in bytes. Defaults to the bucket's ``chunkSizeBytes`` option.
+interface: phpmethod
+operation: ~
+optional: true
+---
+arg_name: option
+name: disableMD5
+type: boolean
+description: |
+  Whether to disable automatic MD5 generation when storing files.
+
+  Defaults to ``false``.
 interface: phpmethod
 operation: ~
 optional: true

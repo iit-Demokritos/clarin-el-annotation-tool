@@ -55,8 +55,6 @@ class NativeSessionStorageTest extends TestCase
     }
 
     /**
-     * @param array $options
-     *
      * @return NativeSessionStorage
      */
     protected function getStorage(array $options = array())
@@ -185,6 +183,23 @@ class NativeSessionStorageTest extends TestCase
         $this->assertEquals($options, $gco);
     }
 
+    public function testSessionOptions()
+    {
+        if (defined('HHVM_VERSION')) {
+            $this->markTestSkipped('HHVM is not handled in this test case.');
+        }
+
+        $options = array(
+            'url_rewriter.tags' => 'a=href',
+            'cache_expire' => '200',
+        );
+
+        $this->getStorage($options);
+
+        $this->assertSame('a=href', ini_get('url_rewriter.tags'));
+        $this->assertSame('200', ini_get('session.cache_expire'));
+    }
+
     /**
      * @expectedException \InvalidArgumentException
      */
@@ -257,7 +272,7 @@ class NativeSessionStorageTest extends TestCase
         $this->assertFalse($storage->isStarted());
 
         $key = $storage->getMetadataBag()->getStorageKey();
-        $this->assertFalse(isset($_SESSION[$key]));
+        $this->assertArrayNotHasKey($key, $_SESSION);
         $storage->start();
     }
 
@@ -271,5 +286,46 @@ class NativeSessionStorageTest extends TestCase
         $storage->start();
         $this->assertSame($id, $storage->getId(), 'Same session ID after restarting');
         $this->assertSame(7, $storage->getBag('attributes')->get('lucky'), 'Data still available');
+    }
+
+    /**
+     * @requires PHP 5.4
+     */
+    public function testCanCreateNativeSessionStorageWhenSessionAlreadyStarted()
+    {
+        session_start();
+        $this->getStorage();
+
+        // Assert no exception has been thrown by `getStorage()`
+        $this->addToAssertionCount(1);
+    }
+
+    /**
+     * @requires PHP 5.4
+     */
+    public function testSetSessionOptionsOnceSessionStartedIsIgnored()
+    {
+        session_start();
+        $this->getStorage(array(
+            'name' => 'something-else',
+        ));
+
+        // Assert no exception has been thrown by `getStorage()`
+        $this->addToAssertionCount(1);
+    }
+
+    /**
+     * @requires PHP 5.4
+     */
+    public function testGetBagsOnceSessionStartedIsIgnored()
+    {
+        session_start();
+        $bag = new AttributeBag();
+        $bag->setName('flashes');
+
+        $storage = $this->getStorage();
+        $storage->registerBag($bag);
+
+        $this->assertEquals($storage->getBag('flashes'), $bag);
     }
 }

@@ -40,8 +40,8 @@ class RouteCompiler implements RouteCompilerInterface
      * {@inheritdoc}
      *
      * @throws \LogicException  If a variable is referenced more than once
-     * @throws \DomainException If a variable name starts with a digit or if it is too long to be successfully used as
-     *                          a PCRE subpattern.
+     * @throws \DomainException if a variable name starts with a digit or if it is too long to be successfully used as
+     *                          a PCRE subpattern
      */
     public static function compile(Route $route)
     {
@@ -177,7 +177,7 @@ class RouteCompiler implements RouteCompilerInterface
 
         return array(
             'staticPrefix' => 'text' === $tokens[0][0] ? $tokens[0][1] : '',
-            'regex' => self::REGEX_DELIMITER.'^'.$regexp.'$'.self::REGEX_DELIMITER.'s'.($isHost ? 'i' : ''),
+            'regex' => self::REGEX_DELIMITER.'^'.$regexp.'$'.self::REGEX_DELIMITER.'sD'.($isHost ? 'i' : ''),
             'tokens' => array_reverse($tokens),
             'variables' => $variables,
         );

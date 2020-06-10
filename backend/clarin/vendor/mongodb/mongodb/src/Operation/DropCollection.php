@@ -18,11 +18,15 @@
 namespace MongoDB\Operation;
 
 use MongoDB\Driver\Command;
-use MongoDB\Driver\Server;
-use MongoDB\Driver\WriteConcern;
 use MongoDB\Driver\Exception\RuntimeException as DriverRuntimeException;
+use MongoDB\Driver\Server;
+use MongoDB\Driver\Session;
+use MongoDB\Driver\WriteConcern;
 use MongoDB\Exception\InvalidArgumentException;
 use MongoDB\Exception\UnsupportedException;
+use function current;
+use function is_array;
+use function MongoDB\server_supports_feature;
 
 /**
  * Operation for the drop command.
@@ -34,17 +38,29 @@ use MongoDB\Exception\UnsupportedException;
  */
 class DropCollection implements Executable
 {
+    /** @var string */
     private static $errorMessageNamespaceNotFound = 'ns not found';
+
+    /** @var integer */
     private static $wireVersionForWriteConcern = 5;
 
+    /** @var string */
     private $databaseName;
+
+    /** @var string */
     private $collectionName;
+
+    /** @var array */
     private $options;
 
     /**
      * Constructs a drop command.
      *
      * Supported options:
+     *
+     *  * session (MongoDB\Driver\Session): Client session.
+     *
+     *    Sessions are not supported for server versions < 3.6.
      *
      *  * typeMap (array): Type map for BSON deserialization. This will be used
      *    for the returned command result document.
@@ -61,12 +77,20 @@ class DropCollection implements Executable
      */
     public function __construct($databaseName, $collectionName, array $options = [])
     {
+        if (isset($options['session']) && ! $options['session'] instanceof Session) {
+            throw InvalidArgumentException::invalidType('"session" option', $options['session'], Session::class);
+        }
+
         if (isset($options['typeMap']) && ! is_array($options['typeMap'])) {
             throw InvalidArgumentException::invalidType('"typeMap" option', $options['typeMap'], 'array');
         }
 
         if (isset($options['writeConcern']) && ! $options['writeConcern'] instanceof WriteConcern) {
-            throw InvalidArgumentException::invalidType('"writeConcern" option', $options['writeConcern'], 'MongoDB\Driver\WriteConcern');
+            throw InvalidArgumentException::invalidType('"writeConcern" option', $options['writeConcern'], WriteConcern::class);
+        }
+
+        if (isset($options['writeConcern']) && $options['writeConcern']->isDefault()) {
+            unset($options['writeConcern']);
         }
 
         $this->databaseName = (string) $databaseName;
@@ -85,12 +109,19 @@ class DropCollection implements Executable
      */
     public function execute(Server $server)
     {
-        if (isset($this->options['writeConcern']) && ! \MongoDB\server_supports_feature($server, self::$wireVersionForWriteConcern)) {
+        if (isset($this->options['writeConcern']) && ! server_supports_feature($server, self::$wireVersionForWriteConcern)) {
             throw UnsupportedException::writeConcernNotSupported();
         }
 
+        $inTransaction = isset($this->options['session']) && $this->options['session']->isInTransaction();
+        if ($inTransaction && isset($this->options['writeConcern'])) {
+            throw UnsupportedException::writeConcernNotSupportedInTransaction();
+        }
+
+        $command = new Command(['drop' => $this->collectionName]);
+
         try {
-            $cursor = $server->executeCommand($this->databaseName, $this->createCommand());
+            $cursor = $server->executeWriteCommand($this->databaseName, $command, $this->createOptions());
         } catch (DriverRuntimeException $e) {
             /* The server may return an error if the collection does not exist.
              * Check for an error message (unfortunately, there isn't a code)
@@ -111,18 +142,23 @@ class DropCollection implements Executable
     }
 
     /**
-     * Create the drop command.
+     * Create options for executing the command.
      *
-     * @return Command
+     * @see http://php.net/manual/en/mongodb-driver-server.executewritecommand.php
+     * @return array
      */
-    private function createCommand()
+    private function createOptions()
     {
-        $cmd = ['drop' => $this->collectionName];
+        $options = [];
 
-        if (isset($this->options['writeConcern'])) {
-            $cmd['writeConcern'] = \MongoDB\write_concern_as_document($this->options['writeConcern']);
+        if (isset($this->options['session'])) {
+            $options['session'] = $this->options['session'];
         }
 
-        return new Command($cmd);
+        if (isset($this->options['writeConcern'])) {
+            $options['writeConcern'] = $this->options['writeConcern'];
+        }
+
+        return $options;
     }
 }

@@ -17,10 +17,15 @@
 
 namespace MongoDB\Operation;
 
-use MongoDB\Driver\Server;
 use MongoDB\Driver\Exception\RuntimeException as DriverRuntimeException;
+use MongoDB\Driver\Server;
 use MongoDB\Exception\InvalidArgumentException;
 use MongoDB\Exception\UnsupportedException;
+use function is_array;
+use function is_integer;
+use function is_object;
+use function MongoDB\is_first_key_operator;
+use function MongoDB\is_pipeline;
 
 /**
  * Operation for updating a document with the findAndModify command.
@@ -29,11 +34,12 @@ use MongoDB\Exception\UnsupportedException;
  * @see \MongoDB\Collection::findOneAndUpdate()
  * @see http://docs.mongodb.org/manual/reference/command/findAndModify/
  */
-class FindOneAndUpdate implements Executable
+class FindOneAndUpdate implements Executable, Explainable
 {
     const RETURN_DOCUMENT_BEFORE = 1;
     const RETURN_DOCUMENT_AFTER = 2;
 
+    /** @var FindAndModify */
     private $findAndModify;
 
     /**
@@ -41,8 +47,14 @@ class FindOneAndUpdate implements Executable
      *
      * Supported options:
      *
-     *  * bypassDocumentValidation (boolean): If true, allows the write to opt
-     *    out of document level validation.
+     *  * arrayFilters (document array): A set of filters specifying to which
+     *    array elements an update should apply.
+     *
+     *  * bypassDocumentValidation (boolean): If true, allows the write to
+     *    circumvent document level validation.
+     *
+     *    For servers < 3.2, this option is ignored as document level validation
+     *    is not available.
      *
      *  * collation (document): Collation specification.
      *
@@ -60,6 +72,10 @@ class FindOneAndUpdate implements Executable
      *    FindOneAndUpdate::RETURN_DOCUMENT_BEFORE or
      *    FindOneAndUpdate::RETURN_DOCUMENT_AFTER. The default is
      *    FindOneAndUpdate::RETURN_DOCUMENT_BEFORE.
+     *
+     *  * session (MongoDB\Driver\Session): Client session.
+     *
+     *    Sessions are not supported for server versions < 3.6.
      *
      *  * sort (document): Determines which document the operation modifies if
      *    the query selects multiple documents.
@@ -83,16 +99,16 @@ class FindOneAndUpdate implements Executable
      */
     public function __construct($databaseName, $collectionName, $filter, $update, array $options = [])
     {
-        if ( ! is_array($filter) && ! is_object($filter)) {
+        if (! is_array($filter) && ! is_object($filter)) {
             throw InvalidArgumentException::invalidType('$filter', $filter, 'array or object');
         }
 
-        if ( ! is_array($update) && ! is_object($update)) {
+        if (! is_array($update) && ! is_object($update)) {
             throw InvalidArgumentException::invalidType('$update', $update, 'array or object');
         }
 
-        if ( ! \MongoDB\is_first_key_operator($update)) {
-            throw new InvalidArgumentException('First key in $update argument is not an update operator');
+        if (! is_first_key_operator($update) && ! is_pipeline($update)) {
+            throw new InvalidArgumentException('Expected an update document with operator as first key or a pipeline');
         }
 
         $options += [
@@ -104,7 +120,7 @@ class FindOneAndUpdate implements Executable
             throw InvalidArgumentException::invalidType('"projection" option', $options['projection'], 'array or object');
         }
 
-        if ( ! is_integer($options['returnDocument'])) {
+        if (! is_integer($options['returnDocument'])) {
             throw InvalidArgumentException::invalidType('"returnDocument" option', $options['returnDocument'], 'integer');
         }
 
@@ -140,5 +156,10 @@ class FindOneAndUpdate implements Executable
     public function execute(Server $server)
     {
         return $this->findAndModify->execute($server);
+    }
+
+    public function getCommandDocument(Server $server)
+    {
+        return $this->findAndModify->getCommandDocument($server);
     }
 }

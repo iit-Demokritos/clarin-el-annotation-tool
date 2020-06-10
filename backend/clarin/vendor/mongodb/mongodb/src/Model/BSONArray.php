@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016-2017 MongoDB, Inc.
+ * Copyright 2016-present MongoDB, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,10 +17,12 @@
 
 namespace MongoDB\Model;
 
-use MongoDB\BSON\Serializable;
-use MongoDB\BSON\Unserializable;
 use ArrayObject;
 use JsonSerializable;
+use MongoDB\BSON\Serializable;
+use MongoDB\BSON\Unserializable;
+use function array_values;
+use function MongoDB\recursive_copy;
 
 /**
  * Model class for a BSON array.
@@ -33,6 +35,16 @@ use JsonSerializable;
 class BSONArray extends ArrayObject implements JsonSerializable, Serializable, Unserializable
 {
     /**
+     * Clone this BSONArray.
+     */
+    public function __clone()
+    {
+        foreach ($this as $key => $value) {
+            $this[$key] = recursive_copy($value);
+        }
+    }
+
+    /**
      * Factory method for var_export().
      *
      * @see http://php.net/oop5.magic#object.set-state
@@ -42,7 +54,7 @@ class BSONArray extends ArrayObject implements JsonSerializable, Serializable, U
      */
     public static function __set_state(array $properties)
     {
-        $array = new static;
+        $array = new static();
         $array->exchangeArray($properties);
 
         return $array;

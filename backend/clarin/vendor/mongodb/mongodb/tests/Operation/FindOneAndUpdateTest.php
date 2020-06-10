@@ -2,43 +2,42 @@
 
 namespace MongoDB\Tests\Operation;
 
+use MongoDB\Exception\InvalidArgumentException;
 use MongoDB\Operation\FindOneAndUpdate;
 
 class FindOneAndUpdateTest extends TestCase
 {
     /**
-     * @expectedException MongoDB\Exception\InvalidArgumentException
      * @dataProvider provideInvalidDocumentValues
      */
     public function testConstructorFilterArgumentTypeCheck($filter)
     {
+        $this->expectException(InvalidArgumentException::class);
         new FindOneAndUpdate($this->getDatabaseName(), $this->getCollectionName(), $filter, []);
     }
 
     /**
-     * @expectedException MongoDB\Exception\InvalidArgumentException
      * @dataProvider provideInvalidDocumentValues
      */
     public function testConstructorUpdateArgumentTypeCheck($update)
     {
+        $this->expectException(InvalidArgumentException::class);
         new FindOneAndUpdate($this->getDatabaseName(), $this->getCollectionName(), [], $update);
     }
 
-    /**
-     * @expectedException MongoDB\Exception\InvalidArgumentException
-     * @expectedExceptionMessage First key in $update argument is not an update operator
-     */
-    public function testConstructorUpdateArgumentRequiresOperators()
+    public function testConstructorUpdateArgumentRequiresOperatorsOrPipeline()
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Expected an update document with operator as first key or a pipeline');
         new FindOneAndUpdate($this->getDatabaseName(), $this->getCollectionName(), [], []);
     }
 
     /**
-     * @expectedException MongoDB\Exception\InvalidArgumentException
      * @dataProvider provideInvalidConstructorOptions
      */
     public function testConstructorOptionTypeChecks(array $options)
     {
+        $this->expectException(InvalidArgumentException::class);
         new FindOneAndUpdate($this->getDatabaseName(), $this->getCollectionName(), [], ['$set' => ['x' => 1]], $options);
     }
 
@@ -50,7 +49,7 @@ class FindOneAndUpdateTest extends TestCase
             $options[][] = ['projection' => $value];
         }
 
-        foreach ($this->getInvalidIntegerValues() as $value) {
+        foreach ($this->getInvalidIntegerValues(true) as $value) {
             $options[][] = ['returnDocument' => $value];
         }
 
@@ -58,11 +57,11 @@ class FindOneAndUpdateTest extends TestCase
     }
 
     /**
-     * @expectedException MongoDB\Exception\InvalidArgumentException
      * @dataProvider provideInvalidConstructorReturnDocumentOptions
      */
     public function testConstructorReturnDocumentOption($returnDocument)
     {
+        $this->expectException(InvalidArgumentException::class);
         new FindOneAndUpdate($this->getDatabaseName(), $this->getCollectionName(), [], [], ['returnDocument' => $returnDocument]);
     }
 

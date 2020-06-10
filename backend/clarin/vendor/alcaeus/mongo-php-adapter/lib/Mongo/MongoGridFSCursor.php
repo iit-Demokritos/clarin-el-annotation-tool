@@ -17,7 +17,7 @@ if (class_exists('MongoGridFSCursor', false)) {
     return;
 }
 
-class MongoGridFSCursor extends MongoCursor
+class MongoGridFSCursor extends MongoCursor implements Countable
 {
     /**
      * @static
@@ -68,6 +68,6 @@ class MongoGridFSCursor extends MongoCursor
     public function key()
     {
         $file = $this->current();
-        return ($file !== null) ? (string)$file->file['_id'] : null;
+        return ($file !== null) ? (string) $file->file['_id'] : null;
     }
 }

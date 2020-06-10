@@ -26,6 +26,10 @@ description: |
 
   Allowing invalid hostnames may expose the driver to a `man-in-the-middle
   attack <https://en.wikipedia.org/wiki/Man-in-the-middle_attack>`_.
+
+  .. deprecated:: 1.6
+     This option has been deprecated. Use the ``tlsAllowInvalidHostnames`` URI
+     option instead.
 interface: phpmethod
 operation: ~
 optional: true
@@ -50,6 +54,9 @@ description: |
   used by default.
 
   Falls back to the deprecated ``cafile`` SSL context option if not specified.
+
+  .. deprecated:: 1.6
+     This option has been deprecated. Use the ``tlsCAFile`` URI option instead.
 interface: phpmethod
 operation: ~
 optional: true
@@ -71,6 +78,10 @@ description: |
 
   Falls back to the deprecated ``local_cert`` SSL context option if not
   specified.
+
+  .. deprecated:: 1.6
+     This option has been deprecated. Use the ``tlsCertificateKeyFile`` URI
+     option instead.
 interface: phpmethod
 operation: ~
 optional: true
@@ -83,6 +94,10 @@ description: |
 
   Falls back to the deprecated ``passphrase`` SSL context option if not
   specified.
+
+  .. deprecated:: 1.6
+     This option has been deprecated. Use the ``tlsCertificateKeyFilePassword``
+     URI option instead.
 interface: phpmethod
 operation: ~
 optional: true
@@ -95,6 +110,10 @@ description: |
 
   Falls back to the deprecated ``allow_self_signed`` SSL context option if not
   specified.
+
+  .. deprecated:: 1.6
+     This option has been deprecated. Use the ``tlsAllowInvalidCertificates``
+     URI option instead.
 interface: phpmethod
 operation: ~
 optional: true
@@ -109,6 +128,20 @@ description: |
 
   This option is supported for backwards compatibility, but should be considered
   deprecated.
+interface: phpmethod
+operation: ~
+optional: true
+---
+arg_name: option
+name: autoEncryption
+type: array
+description: |
+  Options to configure client-side field-level encryption in the driver. The
+  encryption options are documented in the :php:`extension documentation
+  <manual/en/mongodb-driver-manager.construct.php#mongodb-driver-manager.construct-driveroptions>`.
+  For the ``keyVaultClient`` option, you may pass a :phpclass:`MongoDB\\Client`
+  instance, which will be unwrapped to provide a :php:`MongoDB\\Driver\\Manager <class.mongodb-driver-manager>`
+  to the extension.
 interface: phpmethod
 operation: ~
 optional: true

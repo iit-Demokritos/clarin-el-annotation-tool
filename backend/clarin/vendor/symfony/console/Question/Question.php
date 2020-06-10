@@ -28,8 +28,6 @@ class Question
     private $normalizer;
 
     /**
-     * Constructor.
-     *
      * @param string $question The question to ask to the user
      * @param mixed  $default  The default answer to return if the user enters nothing
      */
@@ -116,7 +114,7 @@ class Question
     /**
      * Gets values for the autocompleter.
      *
-     * @return null|array|\Traversable
+     * @return null|iterable
      */
     public function getAutocompleterValues()
     {
@@ -126,7 +124,7 @@ class Question
     /**
      * Sets values for the autocompleter.
      *
-     * @param null|array|\Traversable $values
+     * @param null|iterable $values
      *
      * @return $this
      *
@@ -139,10 +137,8 @@ class Question
             $values = $this->isAssoc($values) ? array_merge(array_keys($values), array_values($values)) : array_values($values);
         }
 
-        if (null !== $values && !is_array($values)) {
-            if (!$values instanceof \Traversable || !$values instanceof \Countable) {
-                throw new \InvalidArgumentException('Autocompleter values can be either an array, `null` or an object implementing both `Countable` and `Traversable` interfaces.');
-            }
+        if (null !== $values && !is_array($values) && !$values instanceof \Traversable) {
+            throw new \InvalidArgumentException('Autocompleter values can be either an array, `null` or a `Traversable` object.');
         }
 
         if ($this->hidden) {
@@ -187,7 +183,7 @@ class Question
      *
      * @return $this
      *
-     * @throws \InvalidArgumentException In case the number of attempts is invalid.
+     * @throws \InvalidArgumentException in case the number of attempts is invalid
      */
     public function setMaxAttempts($attempts)
     {

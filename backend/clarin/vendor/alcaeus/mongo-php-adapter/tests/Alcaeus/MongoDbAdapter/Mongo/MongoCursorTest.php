@@ -4,6 +4,8 @@ namespace Alcaeus\MongoDbAdapter\Tests\Mongo;
 
 use Alcaeus\MongoDbAdapter\Tests\TestCase;
 use Alcaeus\MongoDbAdapter\TypeConverter;
+use Countable;
+use MongoCursorInterface;
 use MongoDB\Driver\ReadPreference;
 use MongoDB\Model\BSONDocument;
 use MongoDB\Operation\Find;
@@ -28,6 +30,22 @@ class MongoCursorTest extends TestCase
         $cursor = $collection->find(['foo' => 'bar']);
         $this->assertCount(2, $cursor);
 
+        $this->assertCursorIteration($cursor);
+    }
+
+    public function testCursorHandlesHasNextBeforeIteration()
+    {
+        $this->prepareData();
+
+        $collection = $this->getCollection();
+        $cursor = $collection->find(['foo' => 'bar']);
+        $this->assertTrue($cursor->hasNext());
+
+        $this->assertCursorIteration($cursor);
+    }
+
+    private function assertCursorIteration($cursor)
+    {
         $iterated = 0;
         foreach ($cursor as $key => $item) {
             $this->assertSame($iterated, $cursor->info()['at']);
@@ -184,7 +202,8 @@ class MongoCursorTest extends TestCase
 
     public static function getCursorOptions()
     {
-        function getMissingOptionCallback($optionName) {
+        function getMissingOptionCallback($optionName)
+        {
             return function ($value) use ($optionName) {
                 return
                     is_array($value) &&
@@ -192,7 +211,8 @@ class MongoCursorTest extends TestCase
             };
         }
 
-        function getBasicCheckCallback($expected, $optionName) {
+        function getBasicCheckCallback($expected, $optionName)
+        {
             return function ($value) use ($expected, $optionName) {
                 return
                     is_array($value) &&
@@ -201,7 +221,8 @@ class MongoCursorTest extends TestCase
             };
         }
 
-        function getModifierCheckCallback($expected, $modifierName) {
+        function getModifierCheckCallback($expected, $modifierName)
+        {
             return function ($value) use ($expected, $modifierName) {
                 return
                     is_array($value) &&
@@ -430,6 +451,84 @@ class MongoCursorTest extends TestCase
         ];
 
         $this->assertArraySubset($expected, $cursor->explain());
+    }
+
+    public function testExplainWithEmptyProjection()
+    {
+        $this->prepareData();
+
+        $collection = $this->getCollection();
+        $cursor = $collection->find(['foo' => 'bar']);
+
+        $expected = [
+            'queryPlanner' => [
+                'plannerVersion' => 1,
+                'namespace' => 'mongo-php-adapter.test',
+                'indexFilterSet' => false,
+                'parsedQuery' => [
+                    'foo' => ['$eq' => 'bar']
+                ],
+                'winningPlan' => [],
+                'rejectedPlans' => [],
+            ],
+            'executionStats' => [
+                'executionSuccess' => true,
+                'nReturned' => 2,
+                'totalKeysExamined' => 0,
+                'totalDocsExamined' => 3,
+                'executionStages' => [],
+                'allPlansExecution' => [],
+            ],
+            'serverInfo' => [
+                'port' => 27017,
+            ],
+        ];
+
+        $this->assertArraySubset($expected, $cursor->explain());
+    }
+
+    public function testExplainConvertsQuery()
+    {
+        $this->prepareData();
+
+        $collection = $this->getCollection();
+        $cursor = $collection->find(['foo' => new \MongoRegex('/^b/')]);
+
+        $expected = [
+            'queryPlanner' => [
+                'plannerVersion' => 1,
+                'namespace' => 'mongo-php-adapter.test',
+                'indexFilterSet' => false,
+                'winningPlan' => [],
+                'rejectedPlans' => [],
+            ],
+            'executionStats' => [
+                'executionSuccess' => true,
+                'nReturned' => 2,
+                'totalKeysExamined' => 0,
+                'totalDocsExamined' => 3,
+                'executionStages' => [],
+                'allPlansExecution' => [],
+            ],
+            'serverInfo' => [
+                'port' => 27017,
+            ],
+        ];
+
+        $this->assertArraySubset($expected, $cursor->explain());
+    }
+
+    public function testInterfaces()
+    {
+        $collection = $this->getCollection();
+        $cursor = $collection->find();
+
+        $this->assertInstanceOf(MongoCursorInterface::class, $cursor);
+
+        // The countable interface is necessary for compatibility with PHP 7.3+, but not implemented by MongoCursor
+        if (! extension_loaded('mongo')) {
+            $this->assertInstanceOf(Countable::class, $cursor);
+        }
     }
 
 

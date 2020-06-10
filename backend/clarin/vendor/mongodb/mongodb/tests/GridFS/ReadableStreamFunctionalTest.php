@@ -3,17 +3,25 @@
 namespace MongoDB\Tests\GridFS;
 
 use MongoDB\BSON\Binary;
+use MongoDB\Exception\InvalidArgumentException;
 use MongoDB\GridFS\CollectionWrapper;
+use MongoDB\GridFS\Exception\CorruptFileException;
 use MongoDB\GridFS\ReadableStream;
+use MongoDB\Tests\CommandObserver;
+use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
+use function array_filter;
 
 /**
  * Functional tests for the internal ReadableStream class.
  */
 class ReadableStreamFunctionalTest extends FunctionalTestCase
 {
+    use SetUpTearDownTrait;
+
+    /** @var CollectionWrapper */
     private $collectionWrapper;
 
-    public function setUp()
+    private function doSetUp()
     {
         parent::setUp();
 
@@ -38,17 +46,19 @@ class ReadableStreamFunctionalTest extends FunctionalTestCase
         ]);
     }
 
-    public function testValidConstructorFileDocument()
+    public function testGetFile()
     {
-        new ReadableStream($this->collectionWrapper, (object) ['_id' => null, 'chunkSize' => 1, 'length' => 0]);
+        $fileDocument = (object) ['_id' => null, 'chunkSize' => 1, 'length' => 0];
+        $stream = new ReadableStream($this->collectionWrapper, $fileDocument);
+        $this->assertSame($fileDocument, $stream->getFile());
     }
 
     /**
-     * @expectedException MongoDB\GridFS\Exception\CorruptFileException
      * @dataProvider provideInvalidConstructorFileDocuments
      */
     public function testConstructorFileDocumentChecks($file)
     {
+        $this->expectException(CorruptFileException::class);
         new ReadableStream($this->collectionWrapper, $file);
     }
 
@@ -108,24 +118,29 @@ class ReadableStreamFunctionalTest extends FunctionalTestCase
         ];
     }
 
+    public function provideFilteredFileIdAndExpectedBytes()
+    {
+        return array_filter(
+            $this->provideFileIdAndExpectedBytes(),
+            function (array $args) {
+                return $args[1] > 0;
+            }
+        );
+    }
+
     /**
-     * @dataProvider provideFileIdAndExpectedBytes
+     * @dataProvider provideFilteredFileIdAndExpectedBytes
      */
     public function testReadBytesCalledMultipleTimes($fileId, $length, $expectedBytes)
     {
         $fileDocument = $this->collectionWrapper->findFileById($fileId);
         $stream = new ReadableStream($this->collectionWrapper, $fileDocument);
-
         for ($i = 0; $i < $length; $i++) {
             $expectedByte = isset($expectedBytes[$i]) ? $expectedBytes[$i] : '';
             $this->assertSame($expectedByte, $stream->readBytes(1));
         }
     }
 
-    /**
-     * @expectedException MongoDB\GridFS\Exception\CorruptFileException
-     * @expectedExceptionMessage Chunk not found for index "2"
-     */
     public function testReadBytesWithMissingChunk()
     {
         $this->chunksCollection->deleteOne(['files_id' => 'length-10', 'n' => 2]);
@@ -133,13 +148,11 @@ class ReadableStreamFunctionalTest extends FunctionalTestCase
         $fileDocument = $this->collectionWrapper->findFileById('length-10');
         $stream = new ReadableStream($this->collectionWrapper, $fileDocument);
 
+        $this->expectException(CorruptFileException::class);
+        $this->expectExceptionMessage('Chunk not found for index "2"');
         $stream->readBytes(10);
     }
 
-    /**
-     * @expectedException MongoDB\GridFS\Exception\CorruptFileException
-     * @expectedExceptionMessage Expected chunk to have index "1" but found "2"
-     */
     public function testReadBytesWithUnexpectedChunkIndex()
     {
         $this->chunksCollection->deleteOne(['files_id' => 'length-10', 'n' => 1]);
@@ -147,13 +160,11 @@ class ReadableStreamFunctionalTest extends FunctionalTestCase
         $fileDocument = $this->collectionWrapper->findFileById('length-10');
         $stream = new ReadableStream($this->collectionWrapper, $fileDocument);
 
+        $this->expectException(CorruptFileException::class);
+        $this->expectExceptionMessage('Expected chunk to have index "1" but found "2"');
         $stream->readBytes(10);
     }
 
-    /**
-     * @expectedException MongoDB\GridFS\Exception\CorruptFileException
-     * @expectedExceptionMessage Expected chunk to have size "2" but found "1"
-     */
     public function testReadBytesWithUnexpectedChunkSize()
     {
         $this->chunksCollection->updateOne(
@@ -164,17 +175,141 @@ class ReadableStreamFunctionalTest extends FunctionalTestCase
         $fileDocument = $this->collectionWrapper->findFileById('length-10');
         $stream = new ReadableStream($this->collectionWrapper, $fileDocument);
 
+        $this->expectException(CorruptFileException::class);
+        $this->expectExceptionMessage('Expected chunk to have size "2" but found "1"');
         $stream->readBytes(10);
     }
 
-    /**
-     * @expectedException MongoDB\Exception\InvalidArgumentException
-     */
     public function testReadBytesWithNegativeLength()
     {
         $fileDocument = $this->collectionWrapper->findFileById('length-0');
         $stream = new ReadableStream($this->collectionWrapper, $fileDocument);
 
+        $this->expectException(InvalidArgumentException::class);
         $stream->readBytes(-1);
+    }
+
+    public function testSeekBeforeReading()
+    {
+        $fileDocument = $this->collectionWrapper->findFileById('length-10');
+        $stream = new ReadableStream($this->collectionWrapper, $fileDocument);
+
+        $stream->seek(8);
+        $this->assertSame('ij', $stream->readBytes(2));
+    }
+
+    public function testSeekOutOfRange()
+    {
+        $fileDocument = $this->collectionWrapper->findFileById('length-10');
+        $stream = new ReadableStream($this->collectionWrapper, $fileDocument);
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('$offset must be >= 0 and <= 10; given: 11');
+        $stream->seek(11);
+    }
+
+    /**
+     * @dataProvider providePreviousChunkSeekOffsetAndBytes
+     */
+    public function testSeekPreviousChunk($offset, $length, $expectedBytes)
+    {
+        $fileDocument = $this->collectionWrapper->findFileById('length-10');
+        $stream = new ReadableStream($this->collectionWrapper, $fileDocument);
+
+        // Read to initialize and advance the chunk iterator to the last chunk
+        $this->assertSame('abcdefghij', $stream->readBytes(10));
+
+        $commands = [];
+
+        (new CommandObserver())->observe(
+            function () use ($stream, $offset, $length, $expectedBytes) {
+                $stream->seek($offset);
+                $this->assertSame($expectedBytes, $stream->readBytes($length));
+            },
+            function (array $event) use (&$commands) {
+                $commands[] = $event['started']->getCommandName();
+            }
+        );
+
+        $this->assertSame(['find'], $commands);
+    }
+
+    public function providePreviousChunkSeekOffsetAndBytes()
+    {
+        return [
+            [0, 4, 'abcd'],
+            [2, 4, 'cdef'],
+            [4, 4, 'efgh'],
+            [6, 4, 'ghij'],
+        ];
+    }
+
+    /**
+     * @dataProvider provideSameChunkSeekOffsetAndBytes
+     */
+    public function testSeekSameChunk($offset, $length, $expectedBytes)
+    {
+        $fileDocument = $this->collectionWrapper->findFileById('length-10');
+        $stream = new ReadableStream($this->collectionWrapper, $fileDocument);
+
+        // Read to initialize and advance the chunk iterator to the middle chunk
+        $this->assertSame('abcdef', $stream->readBytes(6));
+
+        $commands = [];
+
+        (new CommandObserver())->observe(
+            function () use ($stream, $offset, $length, $expectedBytes) {
+                $stream->seek($offset);
+                $this->assertSame($expectedBytes, $stream->readBytes($length));
+            },
+            function (array $event) use (&$commands) {
+                $commands[] = $event['started']->getCommandName();
+            }
+        );
+
+        $this->assertSame([], $commands);
+    }
+
+    public function provideSameChunkSeekOffsetAndBytes()
+    {
+        return [
+            [4, 4, 'efgh'],
+            [6, 4, 'ghij'],
+        ];
+    }
+
+    /**
+     * @dataProvider provideSubsequentChunkSeekOffsetAndBytes
+     */
+    public function testSeekSubsequentChunk($offset, $length, $expectedBytes)
+    {
+        $fileDocument = $this->collectionWrapper->findFileById('length-10');
+        $stream = new ReadableStream($this->collectionWrapper, $fileDocument);
+
+        // Read to initialize the chunk iterator to the first chunk
+        $this->assertSame('a', $stream->readBytes(1));
+
+        $commands = [];
+
+        (new CommandObserver())->observe(
+            function () use ($stream, $offset, $length, $expectedBytes) {
+                $stream->seek($offset);
+                $this->assertSame($expectedBytes, $stream->readBytes($length));
+            },
+            function (array $event) use (&$commands) {
+                $commands[] = $event['started']->getCommandName();
+            }
+        );
+
+        $this->assertSame([], $commands);
+    }
+
+    public function provideSubsequentChunkSeekOffsetAndBytes()
+    {
+        return [
+            [4, 4, 'efgh'],
+            [6, 4, 'ghij'],
+            [8, 2, 'ij'],
+        ];
     }
 }

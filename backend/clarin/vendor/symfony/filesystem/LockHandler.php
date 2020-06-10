@@ -56,7 +56,7 @@ class LockHandler
     /**
      * Lock the resource.
      *
-     * @param bool $blocking wait until the lock is released
+     * @param bool $blocking Wait until the lock is released
      *
      * @return bool Returns true if the lock was acquired, false otherwise
      *
@@ -75,12 +75,12 @@ class LockHandler
             $error = $msg;
         });
 
-        if (!$this->handle = fopen($this->file, 'r')) {
+        if (!$this->handle = fopen($this->file, 'r+') ?: fopen($this->file, 'r')) {
             if ($this->handle = fopen($this->file, 'x')) {
-                chmod($this->file, 0444);
-            } elseif (!$this->handle = fopen($this->file, 'r')) {
+                chmod($this->file, 0666);
+            } elseif (!$this->handle = fopen($this->file, 'r+') ?: fopen($this->file, 'r')) {
                 usleep(100); // Give some time for chmod() to complete
-                $this->handle = fopen($this->file, 'r');
+                $this->handle = fopen($this->file, 'r+') ?: fopen($this->file, 'r');
             }
         }
         restore_error_handler();

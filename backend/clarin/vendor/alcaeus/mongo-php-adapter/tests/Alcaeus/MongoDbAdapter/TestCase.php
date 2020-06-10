@@ -7,6 +7,9 @@ use PHPUnit\Framework\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {
+    const INDEX_VERSION_1 = 1;
+    const INDEX_VERSION_2 = 2;
+
     protected function tearDown()
     {
         $this->getCheckDatabase()->drop();
@@ -121,7 +124,7 @@ abstract class TestCase extends BaseTestCase
         $result = $adminDb->command($doc);
         $arr = current($result->toArray());
         if (empty($arr->ok)) {
-            throw new RuntimeException("Failpoint failed");
+            throw new \RuntimeException("Failpoint failed");
         }
 
         return true;
@@ -136,7 +139,7 @@ abstract class TestCase extends BaseTestCase
             /* command not found */
             if ($e->getCode() == 59) {
                 $this->markTestSkipped(
-                  'This test require the mongo daemon to be started with the test flag: --setParameter enableTestCommands=1'
+                    'This test require the mongo daemon to be started with the test flag: --setParameter enableTestCommands=1'
                 );
             }
         }
@@ -150,18 +153,19 @@ abstract class TestCase extends BaseTestCase
     /**
      * @param bool $condition
      */
-    protected function skipTestUnless($condition)
+    protected function skipTestUnless($condition, $message = null)
     {
-        $this->skipTestIf(! $condition);
+        $this->skipTestIf(! $condition, $message);
     }
 
     /**
      * @param bool $condition
+     * @param string|null $message
      */
-    protected function skipTestIf($condition)
+    protected function skipTestIf($condition, $message = null)
     {
         if ($condition) {
-            $this->markTestSkipped('Test only applies when running against mongo-php-adapter');
+            $this->markTestSkipped($message !== null ? $message : 'Test only applies when running against mongo-php-adapter');
         }
     }
 
@@ -175,12 +179,31 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
+     * @return string
+     */
+    protected function getFeatureCompatibilityVersion()
+    {
+        $featureCompatibilityVersion = $this->getClient()->selectDB('admin')->command(['getParameter' => true, 'featureCompatibilityVersion' => true]);
+        if (! isset($featureCompatibilityVersion['featureCompatibilityVersion'])) {
+            return '3.2';
+        }
+
+        return isset($featureCompatibilityVersion['featureCompatibilityVersion']['version']) ? $featureCompatibilityVersion['featureCompatibilityVersion']['version'] : $featureCompatibilityVersion['featureCompatibilityVersion'];
+    }
+
+    /**
      * Indexes created in MongoDB 3.4 default to v: 2.
      * @return int
      * @see https://docs.mongodb.com/manual/release-notes/3.4-compatibility/#backwards-incompatible-features
      */
     protected function getDefaultIndexVersion()
     {
-        return version_compare($this->getServerVersion(), '3.4.0', '>=') ? 2 : 1;
+        if (version_compare($this->getServerVersion(), '3.4.0', '<')) {
+            self::INDEX_VERSION_1;
+        }
+
+        // Check featureCompatibilityFlag
+        $compatibilityVersion = $this->getFeatureCompatibilityVersion();
+        return version_compare($compatibilityVersion, '3.4', '>=') ? self::INDEX_VERSION_2 : self::INDEX_VERSION_1;
     }
 }

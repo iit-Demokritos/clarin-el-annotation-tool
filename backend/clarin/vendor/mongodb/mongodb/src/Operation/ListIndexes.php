@@ -17,14 +17,16 @@
 
 namespace MongoDB\Operation;
 
+use EmptyIterator;
 use MongoDB\Driver\Command;
-use MongoDB\Driver\Query;
-use MongoDB\Driver\Server;
 use MongoDB\Driver\Exception\RuntimeException as DriverRuntimeException;
+use MongoDB\Driver\Server;
+use MongoDB\Driver\Session;
 use MongoDB\Exception\InvalidArgumentException;
+use MongoDB\Model\CachingIterator;
 use MongoDB\Model\IndexInfoIterator;
 use MongoDB\Model\IndexInfoIteratorIterator;
-use EmptyIterator;
+use function is_integer;
 
 /**
  * Operation for the listIndexes command.
@@ -35,12 +37,19 @@ use EmptyIterator;
  */
 class ListIndexes implements Executable
 {
+    /** @var integer */
     private static $errorCodeDatabaseNotFound = 60;
-    private static $errorCodeNamespaceNotFound = 26;
-    private static $wireVersionForCommand = 3;
 
+    /** @var integer */
+    private static $errorCodeNamespaceNotFound = 26;
+
+    /** @var string */
     private $databaseName;
+
+    /** @var string */
     private $collectionName;
+
+    /** @var array */
     private $options;
 
     /**
@@ -51,6 +60,10 @@ class ListIndexes implements Executable
      *  * maxTimeMS (integer): The maximum amount of time to allow the query to
      *    run.
      *
+     *  * session (MongoDB\Driver\Session): Client session.
+     *
+     *    Sessions are not supported for server versions < 3.6.
+     *
      * @param string $databaseName   Database name
      * @param string $collectionName Collection name
      * @param array  $options        Command options
@@ -60,6 +73,10 @@ class ListIndexes implements Executable
     {
         if (isset($options['maxTimeMS']) && ! is_integer($options['maxTimeMS'])) {
             throw InvalidArgumentException::invalidType('"maxTimeMS" option', $options['maxTimeMS'], 'integer');
+        }
+
+        if (isset($options['session']) && ! $options['session'] instanceof Session) {
+            throw InvalidArgumentException::invalidType('"session" option', $options['session'], Session::class);
         }
 
         $this->databaseName = (string) $databaseName;
@@ -77,9 +94,27 @@ class ListIndexes implements Executable
      */
     public function execute(Server $server)
     {
-        return \MongoDB\server_supports_feature($server, self::$wireVersionForCommand)
-            ? $this->executeCommand($server)
-            : $this->executeLegacy($server);
+        return $this->executeCommand($server);
+    }
+
+    /**
+     * Create options for executing the command.
+     *
+     * Note: read preference is intentionally omitted, as the spec requires that
+     * the command be executed on the primary.
+     *
+     * @see http://php.net/manual/en/mongodb-driver-server.executecommand.php
+     * @return array
+     */
+    private function createOptions()
+    {
+        $options = [];
+
+        if (isset($this->options['session'])) {
+            $options['session'] = $this->options['session'];
+        }
+
+        return $options;
     }
 
     /**
@@ -99,14 +134,14 @@ class ListIndexes implements Executable
         }
 
         try {
-            $cursor = $server->executeCommand($this->databaseName, new Command($cmd));
+            $cursor = $server->executeReadCommand($this->databaseName, new Command($cmd), $this->createOptions());
         } catch (DriverRuntimeException $e) {
             /* The server may return an error if the collection does not exist.
              * Check for possible error codes (see: SERVER-20463) and return an
              * empty iterator instead of throwing.
              */
             if ($e->getCode() === self::$errorCodeNamespaceNotFound || $e->getCode() === self::$errorCodeDatabaseNotFound) {
-                return new IndexInfoIteratorIterator(new EmptyIterator);
+                return new IndexInfoIteratorIterator(new EmptyIterator());
             }
 
             throw $e;
@@ -114,28 +149,6 @@ class ListIndexes implements Executable
 
         $cursor->setTypeMap(['root' => 'array', 'document' => 'array']);
 
-        return new IndexInfoIteratorIterator($cursor);
-    }
-
-    /**
-     * Returns information for all indexes for this collection by querying the
-     * "system.indexes" collection (MongoDB <3.0).
-     *
-     * @param Server $server
-     * @return IndexInfoIteratorIterator
-     * @throws DriverRuntimeException for other driver errors (e.g. connection errors)
-     */
-    private function executeLegacy(Server $server)
-    {
-        $filter = ['ns' => $this->databaseName . '.' . $this->collectionName];
-
-        $options = isset($this->options['maxTimeMS'])
-            ? ['modifiers' => ['$maxTimeMS' => $this->options['maxTimeMS']]]
-            : [];
-
-        $cursor = $server->executeQuery($this->databaseName . '.system.indexes', new Query($filter, $options));
-        $cursor->setTypeMap(['root' => 'array', 'document' => 'array']);
-
-        return new IndexInfoIteratorIterator($cursor);
+        return new IndexInfoIteratorIterator(new CachingIterator($cursor));
     }
 }

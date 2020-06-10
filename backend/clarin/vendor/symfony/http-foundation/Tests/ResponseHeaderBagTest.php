@@ -110,6 +110,17 @@ class ResponseHeaderBagTest extends TestCase
         $bag = new ResponseHeaderBag();
         $bag->set('Last-Modified', 'abcde');
         $this->assertEquals('private, must-revalidate', $bag->get('Cache-Control'));
+
+        $bag = new ResponseHeaderBag();
+        $bag->set('Cache-Control', array('public', 'must-revalidate'));
+        $this->assertCount(1, $bag->get('Cache-Control', null, false));
+        $this->assertEquals('must-revalidate, public', $bag->get('Cache-Control'));
+
+        $bag = new ResponseHeaderBag();
+        $bag->set('Cache-Control', 'public');
+        $bag->set('Cache-Control', 'must-revalidate', false);
+        $this->assertCount(1, $bag->get('Cache-Control', null, false));
+        $this->assertEquals('must-revalidate, public', $bag->get('Cache-Control'));
     }
 
     public function testToStringIncludesCookieHeaders()
@@ -172,10 +183,10 @@ class ResponseHeaderBagTest extends TestCase
         $this->assertSetCookieHeader('foo=bar; path=/; httponly', $bag);
 
         $cookies = $bag->getCookies(ResponseHeaderBag::COOKIES_ARRAY);
-        $this->assertTrue(isset($cookies['foo.bar']['/path/foo']['foo']));
-        $this->assertTrue(isset($cookies['foo.bar']['/path/bar']['foo']));
-        $this->assertTrue(isset($cookies['bar.foo']['/path/bar']['foo']));
-        $this->assertTrue(isset($cookies['']['/']['foo']));
+        $this->assertArrayHasKey('foo', $cookies['foo.bar']['/path/foo']);
+        $this->assertArrayHasKey('foo', $cookies['foo.bar']['/path/bar']);
+        $this->assertArrayHasKey('foo', $cookies['bar.foo']['/path/bar']);
+        $this->assertArrayHasKey('foo', $cookies['']['/']);
     }
 
     public function testRemoveCookie()
@@ -185,17 +196,17 @@ class ResponseHeaderBagTest extends TestCase
         $bag->setCookie(new Cookie('bar', 'foo', 0, '/path/bar', 'foo.bar'));
 
         $cookies = $bag->getCookies(ResponseHeaderBag::COOKIES_ARRAY);
-        $this->assertTrue(isset($cookies['foo.bar']['/path/foo']));
+        $this->assertArrayHasKey('/path/foo', $cookies['foo.bar']);
 
         $bag->removeCookie('foo', '/path/foo', 'foo.bar');
 
         $cookies = $bag->getCookies(ResponseHeaderBag::COOKIES_ARRAY);
-        $this->assertFalse(isset($cookies['foo.bar']['/path/foo']));
+        $this->assertArrayNotHasKey('/path/foo', $cookies['foo.bar']);
 
         $bag->removeCookie('bar', '/path/bar', 'foo.bar');
 
         $cookies = $bag->getCookies(ResponseHeaderBag::COOKIES_ARRAY);
-        $this->assertFalse(isset($cookies['foo.bar']));
+        $this->assertArrayNotHasKey('foo.bar', $cookies);
     }
 
     public function testRemoveCookieWithNullRemove()
@@ -205,11 +216,11 @@ class ResponseHeaderBagTest extends TestCase
         $bag->setCookie(new Cookie('bar', 'foo', 0));
 
         $cookies = $bag->getCookies(ResponseHeaderBag::COOKIES_ARRAY);
-        $this->assertTrue(isset($cookies['']['/']));
+        $this->assertArrayHasKey('/', $cookies['']);
 
         $bag->removeCookie('foo', null);
         $cookies = $bag->getCookies(ResponseHeaderBag::COOKIES_ARRAY);
-        $this->assertFalse(isset($cookies['']['/']['foo']));
+        $this->assertArrayNotHasKey('foo', $cookies['']['/']);
 
         $bag->removeCookie('bar', null);
         $cookies = $bag->getCookies(ResponseHeaderBag::COOKIES_ARRAY);

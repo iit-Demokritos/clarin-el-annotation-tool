@@ -1,21 +1,103 @@
 <?php
 
-namespace MongoDB\Tests\Collection;
+namespace MongoDB\Tests\Operation;
 
-use MongoDB\UpdateResult;
+use MongoDB\BSON\ObjectId;
+use MongoDB\Collection;
 use MongoDB\Driver\BulkWrite;
 use MongoDB\Driver\WriteConcern;
+use MongoDB\Exception\BadMethodCallException;
 use MongoDB\Operation\Update;
+use MongoDB\Tests\CommandObserver;
+use MongoDB\UpdateResult;
+use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
+use function version_compare;
 
 class UpdateFunctionalTest extends FunctionalTestCase
 {
-    private $omitModifiedCount;
+    use SetUpTearDownTrait;
 
-    public function setUp()
+    /** @var Collection */
+    private $collection;
+
+    private function doSetUp()
     {
         parent::setUp();
 
-        $this->omitModifiedCount = version_compare($this->getServerVersion(), '2.6.0', '<');
+        $this->collection = new Collection($this->manager, $this->getDatabaseName(), $this->getCollectionName());
+    }
+
+    public function testSessionOption()
+    {
+        if (version_compare($this->getServerVersion(), '3.6.0', '<')) {
+            $this->markTestSkipped('Sessions are not supported');
+        }
+
+        (new CommandObserver())->observe(
+            function () {
+                $operation = new Update(
+                    $this->getDatabaseName(),
+                    $this->getCollectionName(),
+                    ['_id' => 1],
+                    ['$inc' => ['x' => 1]],
+                    ['session' => $this->createSession()]
+                );
+
+                $operation->execute($this->getPrimaryServer());
+            },
+            function (array $event) {
+                $this->assertObjectHasAttribute('lsid', $event['started']->getCommand());
+            }
+        );
+    }
+
+    public function testBypassDocumentValidationSetWhenTrue()
+    {
+        if (version_compare($this->getServerVersion(), '3.2.0', '<')) {
+            $this->markTestSkipped('bypassDocumentValidation is not supported');
+        }
+
+        (new CommandObserver())->observe(
+            function () {
+                $operation = new Update(
+                    $this->getDatabaseName(),
+                    $this->getCollectionName(),
+                    ['_id' => 1],
+                    ['$inc' => ['x' => 1]],
+                    ['bypassDocumentValidation' => true]
+                );
+
+                $operation->execute($this->getPrimaryServer());
+            },
+            function (array $event) {
+                $this->assertObjectHasAttribute('bypassDocumentValidation', $event['started']->getCommand());
+                $this->assertEquals(true, $event['started']->getCommand()->bypassDocumentValidation);
+            }
+        );
+    }
+
+    public function testBypassDocumentValidationUnsetWhenFalse()
+    {
+        if (version_compare($this->getServerVersion(), '3.2.0', '<')) {
+            $this->markTestSkipped('bypassDocumentValidation is not supported');
+        }
+
+        (new CommandObserver())->observe(
+            function () {
+                $operation = new Update(
+                    $this->getDatabaseName(),
+                    $this->getCollectionName(),
+                    ['_id' => 1],
+                    ['$inc' => ['x' => 1]],
+                    ['bypassDocumentValidation' => false]
+                );
+
+                $operation->execute($this->getPrimaryServer());
+            },
+            function (array $event) {
+                $this->assertObjectNotHasAttribute('bypassDocumentValidation', $event['started']->getCommand());
+            }
+        );
     }
 
     public function testUpdateOne()
@@ -28,9 +110,9 @@ class UpdateFunctionalTest extends FunctionalTestCase
         $operation = new Update($this->getDatabaseName(), $this->getCollectionName(), $filter, $update);
         $result = $operation->execute($this->getPrimaryServer());
 
-        $this->assertInstanceOf('MongoDB\UpdateResult', $result);
+        $this->assertInstanceOf(UpdateResult::class, $result);
         $this->assertSame(1, $result->getMatchedCount());
-        $this->omitModifiedCount or $this->assertSame(1, $result->getModifiedCount());
+        $this->assertSame(1, $result->getModifiedCount());
         $this->assertSame(0, $result->getUpsertedCount());
         $this->assertNull($result->getUpsertedId());
 
@@ -54,9 +136,9 @@ class UpdateFunctionalTest extends FunctionalTestCase
         $operation = new Update($this->getDatabaseName(), $this->getCollectionName(), $filter, $update, $options);
         $result = $operation->execute($this->getPrimaryServer());
 
-        $this->assertInstanceOf('MongoDB\UpdateResult', $result);
+        $this->assertInstanceOf(UpdateResult::class, $result);
         $this->assertSame(2, $result->getMatchedCount());
-        $this->omitModifiedCount or $this->assertSame(2, $result->getModifiedCount());
+        $this->assertSame(2, $result->getModifiedCount());
         $this->assertSame(0, $result->getUpsertedCount());
         $this->assertNull($result->getUpsertedId());
 
@@ -80,9 +162,9 @@ class UpdateFunctionalTest extends FunctionalTestCase
         $operation = new Update($this->getDatabaseName(), $this->getCollectionName(), $filter, $update, $options);
         $result = $operation->execute($this->getPrimaryServer());
 
-        $this->assertInstanceOf('MongoDB\UpdateResult', $result);
+        $this->assertInstanceOf(UpdateResult::class, $result);
         $this->assertSame(0, $result->getMatchedCount());
-        $this->omitModifiedCount or $this->assertSame(0, $result->getModifiedCount());
+        $this->assertSame(0, $result->getModifiedCount());
         $this->assertSame(1, $result->getUpsertedCount());
         $this->assertSame(5, $result->getUpsertedId());
 
@@ -107,11 +189,11 @@ class UpdateFunctionalTest extends FunctionalTestCase
         $operation = new Update($this->getDatabaseName(), $this->getCollectionName(), $filter, $update, $options);
         $result = $operation->execute($this->getPrimaryServer());
 
-        $this->assertInstanceOf('MongoDB\UpdateResult', $result);
+        $this->assertInstanceOf(UpdateResult::class, $result);
         $this->assertSame(0, $result->getMatchedCount());
-        $this->omitModifiedCount or $this->assertSame(0, $result->getModifiedCount());
+        $this->assertSame(0, $result->getModifiedCount());
         $this->assertSame(1, $result->getUpsertedCount());
-        $this->assertInstanceOf('MongoDB\BSON\ObjectId', $result->getUpsertedId());
+        $this->assertInstanceOf(ObjectId::class, $result->getUpsertedId());
 
         $expected = [
             ['_id' => 1, 'x' => 11],
@@ -138,41 +220,41 @@ class UpdateFunctionalTest extends FunctionalTestCase
 
     /**
      * @depends testUnacknowledgedWriteConcern
-     * @expectedException MongoDB\Exception\BadMethodCallException
-     * @expectedExceptionMessageRegExp /[\w:\\]+ should not be called for an unacknowledged write result/
      */
     public function testUnacknowledgedWriteConcernAccessesMatchedCount(UpdateResult $result)
     {
+        $this->expectException(BadMethodCallException::class);
+        $this->expectExceptionMessageRegExp('/[\w:\\\\]+ should not be called for an unacknowledged write result/');
         $result->getMatchedCount();
     }
 
     /**
      * @depends testUnacknowledgedWriteConcern
-     * @expectedException MongoDB\Exception\BadMethodCallException
-     * @expectedExceptionMessageRegExp /[\w:\\]+ should not be called for an unacknowledged write result/
      */
     public function testUnacknowledgedWriteConcernAccessesModifiedCount(UpdateResult $result)
     {
+        $this->expectException(BadMethodCallException::class);
+        $this->expectExceptionMessageRegExp('/[\w:\\\\]+ should not be called for an unacknowledged write result/');
         $result->getModifiedCount();
     }
 
     /**
      * @depends testUnacknowledgedWriteConcern
-     * @expectedException MongoDB\Exception\BadMethodCallException
-     * @expectedExceptionMessageRegExp /[\w:\\]+ should not be called for an unacknowledged write result/
      */
     public function testUnacknowledgedWriteConcernAccessesUpsertedCount(UpdateResult $result)
     {
+        $this->expectException(BadMethodCallException::class);
+        $this->expectExceptionMessageRegExp('/[\w:\\\\]+ should not be called for an unacknowledged write result/');
         $result->getUpsertedCount();
     }
 
     /**
      * @depends testUnacknowledgedWriteConcern
-     * @expectedException MongoDB\Exception\BadMethodCallException
-     * @expectedExceptionMessageRegExp /[\w:\\]+ should not be called for an unacknowledged write result/
      */
     public function testUnacknowledgedWriteConcernAccessesUpsertedId(UpdateResult $result)
     {
+        $this->expectException(BadMethodCallException::class);
+        $this->expectExceptionMessageRegExp('/[\w:\\\\]+ should not be called for an unacknowledged write result/');
         $result->getUpsertedId();
     }
 

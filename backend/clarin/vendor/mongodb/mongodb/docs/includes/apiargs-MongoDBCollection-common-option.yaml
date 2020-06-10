@@ -1,34 +1,37 @@
 arg_name: option
-name: bypassDocumentValidation
-type: boolean
+name: arrayFilters
+type: array
 description: |
-   If ``true``, allows the write operation to circumvent document level
-   validation. Defaults to ``false``.
+   An array of filter documents that determines which array elements to modify
+   for an update operation on an array field.
+
+   This is not supported for server versions prior to 3.6 and will result in an
+   exception at execution time if used.
 interface: phpmethod
 operation: ~
 optional: true
 ---
 arg_name: option
-name: collation
-type: array|object
+name: bypassDocumentValidation
+type: boolean
 description: |
-   :manual:`Collation </reference/collation>` allows users to specify
-   language-specific rules for string comparison, such as rules for lettercase
-   and accent marks. When specifying collation, the ``locale`` field is
-   mandatory; all other collation fields are optional. For descriptions of the
-   fields, see :manual:`Collation Document
-   </reference/collation/#collation-document>`.
+   If ``true``, allows the write operation to circumvent document level
+   validation. Defaults to ``false``.
 
+   This option is available in MongoDB 3.2+ and is ignored for older server
+   versions, which do not support document level validation.
+interface: phpmethod
+operation: ~
+optional: true
+---
+source:
+  file: apiargs-common-option.yaml
+  ref: collation
+post: |
    If the collation is unspecified but the collection has a default collation,
    the operation uses the collation specified for the collection. If no
    collation is specified for the collection or for the operation, MongoDB uses
    the simple binary comparison used in prior versions for string comparisons.
-
-   This option is available in MongoDB 3.4+ and will result in an exception at
-   execution time if specified for an older server version.
-interface: phpmethod
-operation: ~
-optional: true
 ---
 arg_name: option
 name: readConcern
@@ -39,6 +42,11 @@ description: |
 
    This is not supported for server versions prior to 3.2 and will result in an
    exception at execution time if used.
+
+   It is not possible to specify a :manual:`read concern
+   </reference/read-concern>` for individual operations as part of a
+   transaction. Instead, set the ``readConcern`` option when starting the
+   transaction with :php:`startTransaction <mongodb-driver-session.starttransaction>`.
 interface: phpmethod
 operation: ~
 optional: true
@@ -65,6 +73,11 @@ type: :php:`MongoDB\\Driver\\WriteConcern <class.mongodb-driver-writeconcern>`
 description: |
    :manual:`Write concern </reference/write-concern>` to use for the operation.
    Defaults to the collection's write concern.
+
+   It is not possible to specify a :manual:`write concern
+   </reference/write-concern>` for individual operations as part of a
+   transaction. Instead, set the ``writeConcern`` option when starting the
+   transaction with :php:`startTransaction <mongodb-driver-session.starttransaction>`.
 interface: phpmethod
 operation: ~
 optional: true

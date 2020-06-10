@@ -17,11 +17,15 @@
 
 namespace MongoDB\Operation;
 
-use MongoDB\UpdateResult;
-use MongoDB\Driver\Server;
 use MongoDB\Driver\Exception\RuntimeException as DriverRuntimeException;
+use MongoDB\Driver\Server;
 use MongoDB\Exception\InvalidArgumentException;
 use MongoDB\Exception\UnsupportedException;
+use MongoDB\UpdateResult;
+use function is_array;
+use function is_object;
+use function MongoDB\is_first_key_operator;
+use function MongoDB\is_pipeline;
 
 /**
  * Operation for updating a single document with the update command.
@@ -30,8 +34,9 @@ use MongoDB\Exception\UnsupportedException;
  * @see \MongoDB\Collection::updateOne()
  * @see http://docs.mongodb.org/manual/reference/command/update/
  */
-class UpdateOne implements Executable
+class UpdateOne implements Executable, Explainable
 {
+    /** @var Update */
     private $update;
 
     /**
@@ -39,13 +44,33 @@ class UpdateOne implements Executable
      *
      * Supported options:
      *
-     *  * bypassDocumentValidation (boolean): If true, allows the write to opt
-     *    out of document level validation.
+     *  * arrayFilters (document array): A set of filters specifying to which
+     *    array elements an update should apply.
+     *
+     *    This is not supported for server versions < 3.6 and will result in an$
+     *    exception at execution time if used.
+     *
+     *  * bypassDocumentValidation (boolean): If true, allows the write to
+     *    circumvent document level validation.
+     *
+     *    For servers < 3.2, this option is ignored as document level validation
+     *    is not available.
      *
      *  * collation (document): Collation specification.
      *
      *    This is not supported for server versions < 3.4 and will result in an
      *    exception at execution time if used.
+     *
+     *  * hint (string|document): The index to use. Specify either the index
+     *    name as a string or the index key pattern as a document. If specified,
+     *    then the query system will only consider plans using the hinted index.
+     *
+     *    This is not supported for server versions < 4.2 and will result in an
+     *    exception at execution time if used.
+     *
+     *  * session (MongoDB\Driver\Session): Client session.
+     *
+     *    Sessions are not supported for server versions < 3.6.
      *
      *  * upsert (boolean): When true, a new document is created if no document
      *    matches the query. The default is false.
@@ -61,12 +86,12 @@ class UpdateOne implements Executable
      */
     public function __construct($databaseName, $collectionName, $filter, $update, array $options = [])
     {
-        if ( ! is_array($update) && ! is_object($update)) {
+        if (! is_array($update) && ! is_object($update)) {
             throw InvalidArgumentException::invalidType('$update', $update, 'array or object');
         }
 
-        if ( ! \MongoDB\is_first_key_operator($update)) {
-            throw new InvalidArgumentException('First key in $update argument is not an update operator');
+        if (! is_first_key_operator($update) && ! is_pipeline($update)) {
+            throw new InvalidArgumentException('Expected an update document with operator as first key or a pipeline');
         }
 
         $this->update = new Update(
@@ -90,5 +115,10 @@ class UpdateOne implements Executable
     public function execute(Server $server)
     {
         return $this->update->execute($server);
+    }
+
+    public function getCommandDocument(Server $server)
+    {
+        return $this->update->getCommandDocument($server);
     }
 }

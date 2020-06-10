@@ -25,13 +25,16 @@ use MongoDB\Exception\BadMethodCallException;
  */
 class InsertManyResult
 {
+    /** @var WriteResult */
     private $writeResult;
+
+    /** @var mixed[] */
     private $insertedIds;
+
+    /** @var boolean */
     private $isAcknowledged;
 
     /**
-     * Constructor.
-     *
      * @param WriteResult $writeResult
      * @param mixed[]     $insertedIds
      */
@@ -66,7 +69,7 @@ class InsertManyResult
      * The index of each ID in the map corresponds to each document's position
      * in the bulk operation. If a document had an ID prior to inserting (i.e.
      * the driver did not generate an ID), the index will contain its "_id"
-     * field value. Any driver-generated ID will be a MongoDB\BSON\ObjectID
+     * field value. Any driver-generated ID will be a MongoDB\BSON\ObjectId
      * instance.
      *
      * @return mixed[]

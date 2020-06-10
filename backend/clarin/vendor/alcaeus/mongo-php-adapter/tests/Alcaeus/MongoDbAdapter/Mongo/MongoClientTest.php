@@ -9,6 +9,25 @@ use Alcaeus\MongoDbAdapter\Tests\TestCase;
  */
 class MongoClientTest extends TestCase
 {
+    /**
+     * @dataProvider provideConnectionUri
+     */
+    public function testConnectionUri($uri, $expected)
+    {
+        $this->skipTestIf(extension_loaded('mongo'));
+        $this->assertSame($expected, (string) (new \MongoClient($uri, ['connect' => false])));
+    }
+
+    public function provideConnectionUri()
+    {
+        yield ['default', sprintf('mongodb://%s:%d', \MongoClient::DEFAULT_HOST, \MongoClient::DEFAULT_PORT)];
+        yield ['localhost', 'mongodb://localhost'];
+        yield ['mongodb://localhost', 'mongodb://localhost'];
+        if (version_compare(phpversion('mongodb'), '1.4.0', '>=')) {
+            yield ['mongodb+srv://foo.example.com', 'mongodb+srv://foo.example.com'];
+        }
+    }
+
     public function testSerialize()
     {
         $this->assertInternalType('string', serialize($this->getClient()));
@@ -69,6 +88,15 @@ class MongoClientTest extends TestCase
             ],
             $hosts
         );
+    }
+
+    public function testGetHostsExceptionHandling()
+    {
+        $this->expectException(\MongoConnectionException::class);
+        $this->expectExceptionMessageRegExp('/fake_host/');
+
+        $client = $this->getClient(null, 'mongodb://fake_host');
+        $client->getHosts();
     }
 
     public function testReadPreference()
@@ -249,6 +277,13 @@ class MongoClientTest extends TestCase
         $document = ['foo' => 'bar'];
 
         $collection->insert($document);
+    }
+
+    public function testConnectionUriOptionIntegerTypeCasting()
+    {
+        $client = new \MongoClient('mongodb://localhost/db?w=0&wtimeout=0', ['connect' => false]);
+
+        $this->assertSame(['w' => 0, 'wtimeout' => 0], $client->getWriteConcern());
     }
 
     /**

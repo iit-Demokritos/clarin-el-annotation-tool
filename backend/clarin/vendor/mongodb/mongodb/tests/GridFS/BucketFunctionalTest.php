@@ -3,20 +3,41 @@
 namespace MongoDB\Tests\GridFS;
 
 use MongoDB\BSON\Binary;
+use MongoDB\Collection;
 use MongoDB\Driver\ReadConcern;
 use MongoDB\Driver\ReadPreference;
 use MongoDB\Driver\WriteConcern;
+use MongoDB\Exception\InvalidArgumentException;
 use MongoDB\GridFS\Bucket;
 use MongoDB\GridFS\Exception\FileNotFoundException;
+use MongoDB\Model\BSONDocument;
 use MongoDB\Model\IndexInfo;
 use MongoDB\Operation\ListCollections;
 use MongoDB\Operation\ListIndexes;
+use PHPUnit\Framework\Error\Warning;
+use function array_merge;
+use function call_user_func;
+use function current;
+use function fclose;
+use function fread;
+use function fwrite;
+use function hash_init;
+use function is_callable;
+use function min;
+use function sprintf;
+use function str_repeat;
+use function stream_get_contents;
+use function strlen;
+use function substr;
 
 /**
  * Functional tests for the Bucket class.
  */
 class BucketFunctionalTest extends FunctionalTestCase
 {
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testValidConstructorOptions()
     {
         new Bucket($this->manager, $this->getDatabaseName(), [
@@ -29,11 +50,11 @@ class BucketFunctionalTest extends FunctionalTestCase
     }
 
     /**
-     * @expectedException MongoDB\Exception\InvalidArgumentException
      * @dataProvider provideInvalidConstructorOptions
      */
     public function testConstructorOptionTypeChecks(array $options)
     {
+        $this->expectException(InvalidArgumentException::class);
         new Bucket($this->manager, $this->getDatabaseName(), $options);
     }
 
@@ -41,12 +62,16 @@ class BucketFunctionalTest extends FunctionalTestCase
     {
         $options = [];
 
-        foreach ($this->getInvalidStringValues() as $value) {
+        foreach ($this->getInvalidStringValues(true) as $value) {
             $options[][] = ['bucketName' => $value];
         }
 
-        foreach ($this->getInvalidIntegerValues() as $value) {
+        foreach ($this->getInvalidIntegerValues(true) as $value) {
             $options[][] = ['chunkSizeBytes' => $value];
+        }
+
+        foreach ($this->getInvalidBooleanValues(true) as $value) {
+            $options[][] = ['disableMD5' => $value];
         }
 
         foreach ($this->getInvalidReadConcernValues() as $value) {
@@ -68,12 +93,10 @@ class BucketFunctionalTest extends FunctionalTestCase
         return $options;
     }
 
-    /**
-     * @expectedException MongoDB\Exception\InvalidArgumentException
-     * @expectedExceptionMessage Expected "chunkSizeBytes" option to be >= 1, 0 given
-     */
     public function testConstructorShouldRequireChunkSizeBytesOptionToBePositive()
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Expected "chunkSizeBytes" option to be >= 1, 0 given');
         new Bucket($this->manager, $this->getDatabaseName(), ['chunkSizeBytes' => 0]);
     }
 
@@ -109,11 +132,9 @@ class BucketFunctionalTest extends FunctionalTestCase
         ];
     }
 
-    /**
-     * @expectedException MongoDB\GridFS\Exception\FileNotFoundException
-     */
     public function testDeleteShouldRequireFileToExist()
     {
+        $this->expectException(FileNotFoundException::class);
         $this->bucket->delete('nonexistent-id');
     }
 
@@ -132,26 +153,22 @@ class BucketFunctionalTest extends FunctionalTestCase
         try {
             $this->bucket->delete($id);
             $this->fail('FileNotFoundException was not thrown');
-        } catch (FileNotFoundException $e) {}
+        } catch (FileNotFoundException $e) {
+        }
 
         $this->assertCollectionCount($this->chunksCollection, 0);
     }
 
-    /**
-     * @expectedException PHPUnit_Framework_Error_Warning
-     */
     public function testDownloadingFileWithMissingChunk()
     {
         $id = $this->bucket->uploadFromStream("filename", $this->createStream("foobar"));
 
         $this->chunksCollection->deleteOne(['files_id' => $id, 'n' => 0]);
 
+        $this->expectException(Warning::class);
         stream_get_contents($this->bucket->openDownloadStream($id));
     }
 
-    /**
-     * @expectedException PHPUnit_Framework_Error_Warning
-     */
     public function testDownloadingFileWithUnexpectedChunkIndex()
     {
         $id = $this->bucket->uploadFromStream("filename", $this->createStream("foobar"));
@@ -161,12 +178,10 @@ class BucketFunctionalTest extends FunctionalTestCase
             ['$set' => ['n' => 1]]
         );
 
+        $this->expectException(Warning::class);
         stream_get_contents($this->bucket->openDownloadStream($id));
     }
 
-    /**
-     * @expectedException PHPUnit_Framework_Error_Warning
-     */
     public function testDownloadingFileWithUnexpectedChunkSize()
     {
         $id = $this->bucket->uploadFromStream("filename", $this->createStream("foobar"));
@@ -176,6 +191,7 @@ class BucketFunctionalTest extends FunctionalTestCase
             ['$set' => ['data' => new Binary('fooba', Binary::TYPE_GENERIC)]]
         );
 
+        $this->expectException(Warning::class);
         stream_get_contents($this->bucket->openDownloadStream($id));
     }
 
@@ -187,17 +203,16 @@ class BucketFunctionalTest extends FunctionalTestCase
         $id = $this->bucket->uploadFromStream('filename', $this->createStream($input));
         $destination = $this->createStream();
         $this->bucket->downloadToStream($id, $destination);
-        rewind($destination);
 
         $this->assertStreamContents($input, $destination);
     }
 
     /**
-     * @expectedException MongoDB\Exception\InvalidArgumentException
      * @dataProvider provideInvalidStreamValues
      */
     public function testDownloadToStreamShouldRequireDestinationStream($destination)
     {
+        $this->expectException(InvalidArgumentException::class);
         $this->bucket->downloadToStream('id', $destination);
     }
 
@@ -206,11 +221,9 @@ class BucketFunctionalTest extends FunctionalTestCase
         return $this->wrapValuesForDataProvider($this->getInvalidStreamValues());
     }
 
-    /**
-     * @expectedException MongoDB\GridFS\Exception\FileNotFoundException
-     */
     public function testDownloadToStreamShouldRequireFileToExist()
     {
+        $this->expectException(FileNotFoundException::class);
         $this->bucket->downloadToStream('nonexistent-id', $this->createStream());
     }
 
@@ -222,51 +235,43 @@ class BucketFunctionalTest extends FunctionalTestCase
 
         $destination = $this->createStream();
         $this->bucket->downloadToStreamByName('filename', $destination);
-        rewind($destination);
         $this->assertStreamContents('baz', $destination);
 
         $destination = $this->createStream();
         $this->bucket->downloadToStreamByName('filename', $destination, ['revision' => -3]);
-        rewind($destination);
         $this->assertStreamContents('foo', $destination);
 
         $destination = $this->createStream();
         $this->bucket->downloadToStreamByName('filename', $destination, ['revision' => -2]);
-        rewind($destination);
         $this->assertStreamContents('bar', $destination);
 
         $destination = $this->createStream();
         $this->bucket->downloadToStreamByName('filename', $destination, ['revision' => -1]);
-        rewind($destination);
         $this->assertStreamContents('baz', $destination);
 
         $destination = $this->createStream();
         $this->bucket->downloadToStreamByName('filename', $destination, ['revision' => 0]);
-        rewind($destination);
         $this->assertStreamContents('foo', $destination);
 
         $destination = $this->createStream();
         $this->bucket->downloadToStreamByName('filename', $destination, ['revision' => 1]);
-        rewind($destination);
         $this->assertStreamContents('bar', $destination);
 
         $destination = $this->createStream();
         $this->bucket->downloadToStreamByName('filename', $destination, ['revision' => 2]);
-        rewind($destination);
         $this->assertStreamContents('baz', $destination);
     }
 
     /**
-     * @expectedException MongoDB\Exception\InvalidArgumentException
      * @dataProvider provideInvalidStreamValues
      */
     public function testDownloadToStreamByNameShouldRequireDestinationStream($destination)
     {
+        $this->expectException(InvalidArgumentException::class);
         $this->bucket->downloadToStreamByName('filename', $destination);
     }
 
     /**
-     * @expectedException MongoDB\GridFS\Exception\FileNotFoundException
      * @dataProvider provideNonexistentFilenameAndRevision
      */
     public function testDownloadToStreamByNameShouldRequireFilenameAndRevisionToExist($filename, $revision)
@@ -275,6 +280,7 @@ class BucketFunctionalTest extends FunctionalTestCase
         $this->bucket->uploadFromStream('filename', $this->createStream('bar'));
 
         $destination = $this->createStream();
+        $this->expectException(FileNotFoundException::class);
         $this->bucket->downloadToStreamByName($filename, $destination, ['revision' => $revision]);
     }
 
@@ -334,7 +340,7 @@ class BucketFunctionalTest extends FunctionalTestCase
         $cursor = $this->bucket->find();
         $fileDocument = current($cursor->toArray());
 
-        $this->assertInstanceOf('MongoDB\Model\BSONDocument', $fileDocument);
+        $this->assertInstanceOf(BSONDocument::class, $fileDocument);
     }
 
     public function testFindOne()
@@ -355,7 +361,7 @@ class BucketFunctionalTest extends FunctionalTestCase
             ]
         );
 
-        $this->assertInstanceOf('MongoDB\Model\BSONDocument', $fileDocument);
+        $this->assertInstanceOf(BSONDocument::class, $fileDocument);
         $this->assertSameDocument(['filename' => 'b', 'length' => 6], $fileDocument);
     }
 
@@ -371,6 +377,26 @@ class BucketFunctionalTest extends FunctionalTestCase
         $this->assertEquals('fs', $this->bucket->getBucketName());
     }
 
+    public function testGetChunksCollection()
+    {
+        $chunksCollection = $this->bucket->getChunksCollection();
+
+        $this->assertInstanceOf(Collection::class, $chunksCollection);
+        $this->assertEquals('fs.chunks', $chunksCollection->getCollectionName());
+    }
+
+    public function testGetChunkSizeBytesWithCustomValue()
+    {
+        $bucket = new Bucket($this->manager, $this->getDatabaseName(), ['chunkSizeBytes' => 8192]);
+
+        $this->assertEquals(8192, $bucket->getChunkSizeBytes());
+    }
+
+    public function testGetChunkSizeBytesWithDefaultValue()
+    {
+        $this->assertEquals(261120, $this->bucket->getChunkSizeBytes());
+    }
+
     public function testGetDatabaseName()
     {
         $this->assertEquals($this->getDatabaseName(), $this->bucket->getDatabaseName());
@@ -383,8 +409,8 @@ class BucketFunctionalTest extends FunctionalTestCase
 
         $fileDocument = $this->bucket->getFileDocumentForStream($stream);
 
-        $this->assertInstanceOf('MongoDB\Model\BSONDocument', $fileDocument);
-        $this->assertInstanceOf('MongoDB\Model\BSONDocument', $fileDocument['metadata']);
+        $this->assertInstanceOf(BSONDocument::class, $fileDocument);
+        $this->assertInstanceOf(BSONDocument::class, $fileDocument['metadata']);
         $this->assertSame(['foo' => 'bar'], $fileDocument['metadata']->getArrayCopy());
     }
 
@@ -396,7 +422,7 @@ class BucketFunctionalTest extends FunctionalTestCase
 
         $fileDocument = $this->bucket->getFileDocumentForStream($stream);
 
-        $this->assertSameObjectID($id, $fileDocument->_id);
+        $this->assertSameObjectId($id, $fileDocument->_id);
         $this->assertSame('filename', $fileDocument->filename);
         $this->assertSame(6, $fileDocument->length);
         $this->assertSameDocument($metadata, $fileDocument->metadata);
@@ -415,11 +441,11 @@ class BucketFunctionalTest extends FunctionalTestCase
     }
 
     /**
-     * @expectedException MongoDB\Exception\InvalidArgumentException
      * @dataProvider provideInvalidGridFSStreamValues
      */
     public function testGetFileDocumentForStreamShouldRequireGridFSStreamResource($stream)
     {
+        $this->expectException(InvalidArgumentException::class);
         $this->bucket->getFileDocumentForStream($stream);
     }
 
@@ -434,7 +460,7 @@ class BucketFunctionalTest extends FunctionalTestCase
 
         $id = $this->bucket->getFileIdForStream($stream);
 
-        $this->assertInstanceOf('MongoDB\Model\BSONDocument', $id);
+        $this->assertInstanceOf(BSONDocument::class, $id);
         $this->assertSame(['x' => 1], $id->getArrayCopy());
     }
 
@@ -443,7 +469,7 @@ class BucketFunctionalTest extends FunctionalTestCase
         $id = $this->bucket->uploadFromStream('filename', $this->createStream('foobar'));
         $stream = $this->bucket->openDownloadStream($id);
 
-        $this->assertSameObjectID($id, $this->bucket->getFileIdForStream($stream));
+        $this->assertSameObjectId($id, $this->bucket->getFileIdForStream($stream));
     }
 
     public function testGetFileIdForStreamWithWritableStream()
@@ -454,12 +480,20 @@ class BucketFunctionalTest extends FunctionalTestCase
     }
 
     /**
-     * @expectedException MongoDB\Exception\InvalidArgumentException
      * @dataProvider provideInvalidGridFSStreamValues
      */
     public function testGetFileIdForStreamShouldRequireGridFSStreamResource($stream)
     {
+        $this->expectException(InvalidArgumentException::class);
         $this->bucket->getFileIdForStream($stream);
+    }
+
+    public function testGetFilesCollection()
+    {
+        $filesCollection = $this->bucket->getFilesCollection();
+
+        $this->assertInstanceOf(Collection::class, $filesCollection);
+        $this->assertEquals('fs.files', $filesCollection->getCollectionName());
     }
 
     /**
@@ -485,7 +519,7 @@ class BucketFunctionalTest extends FunctionalTestCase
             $expectedReadLength = min(4096, strlen($input) - strlen($buffer));
             $buffer .= $read = fread($stream, 4096);
 
-            $this->assertInternalType('string', $read);
+            $this->assertIsString($read);
             $this->assertEquals($expectedReadLength, strlen($read));
         }
 
@@ -493,19 +527,15 @@ class BucketFunctionalTest extends FunctionalTestCase
         $this->assertEquals($input, $buffer);
     }
 
-    /**
-     * @expectedException MongoDB\GridFS\Exception\FileNotFoundException
-     */
     public function testOpenDownloadStreamShouldRequireFileToExist()
     {
+        $this->expectException(FileNotFoundException::class);
         $this->bucket->openDownloadStream('nonexistent-id');
     }
 
-    /**
-     * @expectedException MongoDB\GridFS\Exception\FileNotFoundException
-     */
     public function testOpenDownloadStreamByNameShouldRequireFilenameToExist()
     {
+        $this->expectException(FileNotFoundException::class);
         $this->bucket->openDownloadStream('nonexistent-filename');
     }
 
@@ -525,7 +555,6 @@ class BucketFunctionalTest extends FunctionalTestCase
     }
 
     /**
-     * @expectedException MongoDB\GridFS\Exception\FileNotFoundException
      * @dataProvider provideNonexistentFilenameAndRevision
      */
     public function testOpenDownloadStreamByNameShouldRequireFilenameAndRevisionToExist($filename, $revision)
@@ -533,6 +562,7 @@ class BucketFunctionalTest extends FunctionalTestCase
         $this->bucket->uploadFromStream('filename', $this->createStream('foo'));
         $this->bucket->uploadFromStream('filename', $this->createStream('bar'));
 
+        $this->expectException(FileNotFoundException::class);
         $this->bucket->openDownloadStream($filename, ['revision' => $revision]);
     }
 
@@ -594,11 +624,9 @@ class BucketFunctionalTest extends FunctionalTestCase
         $this->assertStreamContents('foo', $this->bucket->openDownloadStreamByName('a'));
     }
 
-    /**
-     * @expectedException MongoDB\GridFS\Exception\FileNotFoundException
-     */
     public function testRenameShouldRequireFileToExist()
     {
+        $this->expectException(FileNotFoundException::class);
         $this->bucket->rename('nonexistent-id', 'b');
     }
 
@@ -622,11 +650,11 @@ class BucketFunctionalTest extends FunctionalTestCase
     }
 
     /**
-     * @expectedException MongoDB\Exception\InvalidArgumentException
      * @dataProvider provideInvalidStreamValues
      */
     public function testUploadFromStreamShouldRequireSourceStream($source)
     {
+        $this->expectException(InvalidArgumentException::class);
         $this->bucket->uploadFromStream('filename', $source);
     }
 
@@ -664,7 +692,7 @@ class BucketFunctionalTest extends FunctionalTestCase
         $this->bucket->uploadFromStream('filename', $this->createStream('foo'));
 
         $this->assertIndexExists($this->filesCollection->getCollectionName(), 'filename_1_uploadDate_1');
-        $this->assertIndexExists($this->chunksCollection->getCollectionName(), 'files_id_1_n_1', function(IndexInfo $info) {
+        $this->assertIndexExists($this->chunksCollection->getCollectionName(), 'files_id_1_n_1', function (IndexInfo $info) {
             $this->assertTrue($info->isUnique());
         });
     }

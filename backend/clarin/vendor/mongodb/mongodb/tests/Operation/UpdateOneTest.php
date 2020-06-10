@@ -2,31 +2,33 @@
 
 namespace MongoDB\Tests\Operation;
 
+use MongoDB\Exception\InvalidArgumentException;
 use MongoDB\Model\BSONDocument;
 use MongoDB\Operation\UpdateOne;
 
 class UpdateOneTest extends TestCase
 {
     /**
-     * @expectedException MongoDB\Exception\InvalidArgumentException
      * @dataProvider provideInvalidDocumentValues
      */
     public function testConstructorFilterArgumentTypeCheck($filter)
     {
+        $this->expectException(InvalidArgumentException::class);
         new UpdateOne($this->getDatabaseName(), $this->getCollectionName(), $filter, ['$set' => ['x' => 1]]);
     }
 
     /**
-     * @expectedException MongoDB\Exception\InvalidArgumentException
      * @dataProvider provideInvalidDocumentValues
      */
     public function testConstructorUpdateArgumentTypeCheck($update)
     {
+        $this->expectException(InvalidArgumentException::class);
         new UpdateOne($this->getDatabaseName(), $this->getCollectionName(), ['x' => 1], $update);
     }
 
     /**
      * @dataProvider provideUpdateDocuments
+     * @doesNotPerformAssertions
      */
     public function testConstructorUpdateArgument($update)
     {
@@ -34,12 +36,12 @@ class UpdateOneTest extends TestCase
     }
 
     /**
-     * @expectedException MongoDB\Exception\InvalidArgumentException
-     * @expectedExceptionMessage First key in $update argument is not an update operator
      * @dataProvider provideReplacementDocuments
      */
     public function testConstructorUpdateArgumentRequiresOperators($replacement)
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Expected an update document with operator as first key or a pipeline');
         new UpdateOne($this->getDatabaseName(), $this->getCollectionName(), ['x' => 1], $replacement);
     }
 
