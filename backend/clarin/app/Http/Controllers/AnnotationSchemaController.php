@@ -42,7 +42,7 @@ class AnnotationSchemaController extends \BaseController {
 	public function store()
 	{
 		try {
-			$input = Input::get('data');
+			$input = Request::input('data');
 			$user = Sentinel::getUser();
 				
 			$annotationSchema = AnnotationSchema::create(array(

@@ -31,7 +31,7 @@ class AnnotationController extends \BaseController {
         try {
             $user = Sentinel::getUser();
             $new_annotations = []; 
-            $annotation_data = Input::get('data');
+            $annotation_data = Request::input('data');
 
             if ((bool)count(array_filter(array_keys($annotation_data), 'is_string'))) { //if the user send a single annotation
                 $anno = new Annotation(array(

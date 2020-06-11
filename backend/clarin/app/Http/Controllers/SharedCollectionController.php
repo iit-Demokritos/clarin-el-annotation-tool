@@ -19,7 +19,7 @@ class SharedCollectionController extends \BaseController {
   //save a new shared collection invitation
   public function store() {
     try {
-      $input = Input::get('data');
+      $input = Request::input('data');
       $user = Sentinel::getUser();
 
       if(strcmp(trim($user['email']), trim($input['to']))==0)

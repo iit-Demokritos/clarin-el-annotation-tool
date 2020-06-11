@@ -99,7 +99,7 @@ class CollectionController extends \BaseController {
 	public function store() {
 		$newCollection;
 		try {
-			$input = Input::get('data');
+			$input = Request::input('data');
 
 			DB::unprepared('LOCK TABLES collections WRITE');
 			$user = Sentinel::getUser();
@@ -151,7 +151,7 @@ class CollectionController extends \BaseController {
 	//rename a collection
 	public function update($collection_id) {
 		try {
-			$input = Input::get('data');
+			$input = Request::input('data');
 
 			DB::unprepared('LOCK TABLES collections WRITE');
 			$user = Sentinel::getUser();

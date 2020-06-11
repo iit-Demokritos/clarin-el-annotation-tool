@@ -91,7 +91,7 @@ class DocumentController extends \BaseController {
 				$duplicateCounter = -1;
 				$unique_identifier = 1;
 
-				$input = Input::get('data');
+				$input = Request::input('data');
 				$document_name = $input['name'];
 
 				DB::unprepared('LOCK TABLE documents WRITE');

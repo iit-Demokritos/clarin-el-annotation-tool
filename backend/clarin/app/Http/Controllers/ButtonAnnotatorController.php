@@ -16,7 +16,7 @@ class ButtonAnnotatorController extends \BaseController {
 	//store an annotation schema
 	public function store() {		
 		try {
-			$input = Input::get('data');
+			$input = Request::input('data');
 			$user = Sentinel::getUser();
 			$annotationSchemaExists = ButtonAnnotator::where('user_id', '=',  $user['id'])
 													 ->get();

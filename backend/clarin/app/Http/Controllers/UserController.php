@@ -3,8 +3,8 @@
 class UserController extends \BaseController {
 
     /**
-	 * [GET] function that returns statistics about the logged user
-	 **/
+   * [GET] function that returns statistics about the logged user
+   **/
     public function index() {
         try {
             $user = Sentinel::getUser();
@@ -26,15 +26,15 @@ class UserController extends \BaseController {
 
 
     /**
-	 * [POST] function that updates user's password
-	 * @param {String} old_password
+   * [POST] function that updates user's password
+   * @param {String} old_password
      * @param {String} new_password
-	 **/
+   **/
     public function updatePassword() {
         try {
             $credentials =  array(
-                'old_password' => Input::json('old_password'),
-                'new_password' => Input::json('new_password')
+                'old_password' => Request::json('old_password'),
+                'new_password' => Request::json('new_password')
             );
 
             $user = Sentinel::getUser();
@@ -65,20 +65,20 @@ class UserController extends \BaseController {
     public function register() {
         try {
             $credentials = array(
-                'name' => Input::json('name'),
-                'email' => Input::json('email'),
-                'password' => Input::json('password')
+                'name' => Request::json('name'),
+                'email' => Request::json('email'),
+                'password' => Request::json('password')
             );
 
             //register user using Sentry and generate activation code
             $user = Sentinel::register($credentials, false);
             //$activation_code = $user->getActivationCode();
-	    $activation = Activation::create($user);
+      $activation = Activation::create($user);
             $activation_code = $activation['code'];
 
             //prepare the required variables passed to the email view
-	    $email_data = array(
-		'id' => $activation['user_id'],
+      $email_data = array(
+    'id' => $activation['user_id'],
                 'name' => $credentials['name'],
                 'to' => $credentials['email'],
                 'subject' => 'Welcome at Clarin-EL!',
@@ -105,15 +105,15 @@ class UserController extends \BaseController {
      **/
     public function activate_account() {
         try {
-            $user_id = Input::get('userid');
-            //$user_email = Input::get('email');
-            $activation_code = Input::get('activation_code');
+            $user_id = Request::input('userid');
+            //$user_email = Request::input('email');
+            $activation_code = Request::input('activation_code');
 
-	    // Find the user using the supplied email
+      // Find the user using the supplied email
             $user = Sentinel::findUserById($user_id);
 
-	    // Attempt to activate the user
-	    if (Activation::complete($user, $activation_code)) {
+      // Attempt to activate the user
+      if (Activation::complete($user, $activation_code)) {
             //if ($user->attemptActivation($activation_code)) {
                 return View::make('basic', array('message' => 'Your account has been successfully activated.'));
             } else {
@@ -132,33 +132,33 @@ class UserController extends \BaseController {
      * @param {String} email
      * @param {String} password
      **/
-  	public function login() {
+    public function login() {
         try {
-		    $credentials = array(
-		        'email' => Input::json('email'),
-		        'password' => Input::json('password')
-		    );
+        $credentials = array(
+            'email' => Request::json('email'),
+            'password' => Request::json('password')
+        );
 
-		    // Authenticate the user
-		    $user = Sentinel::authenticate($credentials, true);
-		    return Response::json(array('success' => true, 	'data' => $user), 200);
-		}
-		catch (Cartalyst\Sentinel\Users\LoginRequiredException $e) {
-		    return Response::json(array('success' => false, 'message'	=> 'Login field is required.'), 400);
-		}
-		catch (Cartalyst\Sentinel\Users\PasswordRequiredException $e) {
-		    return Response::json(array('success' => false, 'message'	=> 'Password field is required.'), 400);
-		}
-		catch (Cartalyst\Sentinel\Users\WrongPasswordException $e) {
-		    return Response::json(array('success' => false, 'message'	=> 'Wrong password, try again.'), 400);
-		}
-		catch (Cartalyst\Sentinel\Users\UserNotFoundException $e) {
-		    return Response::json(array('success' => false, 'message'	=> 'User was not found.'), 400);
-		}
-		catch (Cartalyst\Sentinel\Users\UserNotActivatedException $e)	{
-		    return Response::json(array('success' => false, 'message'	=> 'Authentication failed'), 400);
-		}
-  	}
+        // Authenticate the user
+        $user = Sentinel::authenticate($credentials, true);
+        return Response::json(array('success' => true,   'data' => $user), 200);
+    }
+    catch (Cartalyst\Sentinel\Users\LoginRequiredException $e) {
+        return Response::json(array('success' => false, 'message'  => 'Login field is required.'), 400);
+    }
+    catch (Cartalyst\Sentinel\Users\PasswordRequiredException $e) {
+        return Response::json(array('success' => false, 'message'  => 'Password field is required.'), 400);
+    }
+    catch (Cartalyst\Sentinel\Users\WrongPasswordException $e) {
+        return Response::json(array('success' => false, 'message'  => 'Wrong password, try again.'), 400);
+    }
+    catch (Cartalyst\Sentinel\Users\UserNotFoundException $e) {
+        return Response::json(array('success' => false, 'message'  => 'User was not found.'), 400);
+    }
+    catch (Cartalyst\Sentinel\Users\UserNotActivatedException $e)  {
+        return Response::json(array('success' => false, 'message'  => 'Authentication failed'), 400);
+    }
+    }
 
 
     /**
@@ -167,10 +167,10 @@ class UserController extends \BaseController {
      **/
     public function reset() {
         try {
-            $user_email = Input::json('email');
+            $user_email = Request::json('email');
 
-	    //find the user from the supplied email and get a password reset code
-	    // todo: sentinel does not have such method?
+      //find the user from the supplied email and get a password reset code
+      // todo: sentinel does not have such method?
             $user = Sentinel::findUserByLogin($user_email);
             $reset_code = $user->getResetPasswordCode();
 
@@ -212,12 +212,12 @@ class UserController extends \BaseController {
     /**
      * [GET] function that logs out a user
      **/
-  	public function logout() {
-  		try {
-	    	Sentinel::logout();
-	    	return Response::json(array('success' => true, 'message' => 'You successfully signed out.'), 200);
-	    } catch (Exception $e) {
-	        return Response::json(array('success' => false, 'message' => $e->getMessage()), 500);
-	    }
-  	}
+    public function logout() {
+      try {
+        Sentinel::logout();
+        return Response::json(array('success' => true, 'message' => 'You successfully signed out.'), 200);
+      } catch (Exception $e) {
+          return Response::json(array('success' => false, 'message' => $e->getMessage()), 500);
+      }
+    }
 }

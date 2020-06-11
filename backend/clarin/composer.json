@@ -11,7 +11,7 @@
         "php": ">=5.5.9",
         "laravel/framework": "^6.0",
         "jenssegers/mongodb": "3.6.*",
-        "cartalyst/sentinel": "2.*"
+        "cartalyst/sentinel": "3.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

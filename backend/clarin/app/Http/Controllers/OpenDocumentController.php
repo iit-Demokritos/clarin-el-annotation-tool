@@ -35,7 +35,7 @@ class OpenDocumentController extends \BaseController {
 	//open a document
 	public function store() {
 		try {
-			$input = Input::get('data');
+			$input = Request::input('data');
 			$user = Sentinel::getUser();
 
 			$db_interactions = 0;
