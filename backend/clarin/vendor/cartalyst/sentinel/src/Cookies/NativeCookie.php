@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Part of the Sentinel package.
  *
  * NOTICE OF LICENSE
@@ -11,11 +11,11 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Sentinel
- * @version    2.0.18
+ * @version    3.0.4
  * @author     Cartalyst LLC
  * @license    BSD License (3-clause)
- * @copyright  (c) 2011-2019, Cartalyst LLC
- * @link       http://cartalyst.com
+ * @copyright  (c) 2011-2020, Cartalyst LLC
+ * @link       https://cartalyst.com
  */
 
 namespace Cartalyst\Sentinel\Cookies;
@@ -36,9 +36,10 @@ class NativeCookie implements CookieInterface
     ];
 
     /**
-     * Create a new cookie driver.
+     * Constructor.
      *
-     * @param  string|array  $options
+     * @param array|string $options
+     *
      * @return void
      */
     public function __construct($options = [])
@@ -51,15 +52,15 @@ class NativeCookie implements CookieInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function put($value)
+    public function put($value): void
     {
         $this->setCookie($value, $this->minutesToLifetime(2628000));
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function get()
     {
@@ -67,21 +68,22 @@ class NativeCookie implements CookieInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function forget()
+    public function forget(): void
     {
-        $this->put(null, -2628000);
+        $this->setCookie(null, $this->minutesToLifetime(-2628000));
     }
 
     /**
      * Takes a minutes parameter (relative to now)
      * and converts it to a lifetime (unix timestamp).
      *
-     * @param  int  $minutes
+     * @param int $minutes
+     *
      * @return int
      */
-    protected function minutesToLifetime($minutes)
+    protected function minutesToLifetime(int $minutes): int
     {
         return time() + ($minutes * 60);
     }
@@ -105,15 +107,16 @@ class NativeCookie implements CookieInterface
     /**
      * Sets a PHP cookie.
      *
-     * @param  mixed  $value
-     * @param  int  $lifetime
-     * @param  string  $path
-     * @param  string  $domain
-     * @param  bool  $secure
-     * @param  bool  $httpOnly
+     * @param mixed  $value
+     * @param int    $lifetime
+     * @param string $path
+     * @param string $domain
+     * @param bool   $secure
+     * @param bool   $httpOnly
+     *
      * @return void
      */
-    protected function setCookie($value, $lifetime, $path = null, $domain = null, $secure = null, $httpOnly = null)
+    protected function setCookie($value, int $lifetime, string $path = null, string $domain = null, bool $secure = null, bool $httpOnly = null)
     {
         setcookie(
             $this->options['name'],

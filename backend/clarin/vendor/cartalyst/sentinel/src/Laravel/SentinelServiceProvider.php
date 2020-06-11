@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Part of the Sentinel package.
  *
  * NOTICE OF LICENSE
@@ -11,36 +11,36 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Sentinel
- * @version    2.0.18
+ * @version    3.0.4
  * @author     Cartalyst LLC
  * @license    BSD License (3-clause)
- * @copyright  (c) 2011-2019, Cartalyst LLC
- * @link       http://cartalyst.com
+ * @copyright  (c) 2011-2020, Cartalyst LLC
+ * @link       https://cartalyst.com
  */
 
 namespace Cartalyst\Sentinel\Laravel;
 
-use Cartalyst\Sentinel\Activations\IlluminateActivationRepository;
-use Cartalyst\Sentinel\Checkpoints\ActivationCheckpoint;
-use Cartalyst\Sentinel\Checkpoints\ThrottleCheckpoint;
-use Cartalyst\Sentinel\Cookies\IlluminateCookie;
-use Cartalyst\Sentinel\Hashing\NativeHasher;
-use Cartalyst\Sentinel\Persistences\IlluminatePersistenceRepository;
-use Cartalyst\Sentinel\Reminders\IlluminateReminderRepository;
-use Cartalyst\Sentinel\Roles\IlluminateRoleRepository;
-use Cartalyst\Sentinel\Sentinel;
-use Cartalyst\Sentinel\Sessions\IlluminateSession;
-use Cartalyst\Sentinel\Throttling\IlluminateThrottleRepository;
-use Cartalyst\Sentinel\Users\IlluminateUserRepository;
 use Exception;
-use Illuminate\Support\ServiceProvider;
 use InvalidArgumentException;
+use Cartalyst\Sentinel\Sentinel;
+use Illuminate\Support\ServiceProvider;
+use Cartalyst\Sentinel\Hashing\NativeHasher;
 use Symfony\Component\HttpFoundation\Response;
+use Cartalyst\Sentinel\Cookies\IlluminateCookie;
+use Cartalyst\Sentinel\Sessions\IlluminateSession;
+use Cartalyst\Sentinel\Checkpoints\ThrottleCheckpoint;
+use Cartalyst\Sentinel\Roles\IlluminateRoleRepository;
+use Cartalyst\Sentinel\Users\IlluminateUserRepository;
+use Cartalyst\Sentinel\Checkpoints\ActivationCheckpoint;
+use Cartalyst\Sentinel\Reminders\IlluminateReminderRepository;
+use Cartalyst\Sentinel\Throttling\IlluminateThrottleRepository;
+use Cartalyst\Sentinel\Activations\IlluminateActivationRepository;
+use Cartalyst\Sentinel\Persistences\IlluminatePersistenceRepository;
 
 class SentinelServiceProvider extends ServiceProvider
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function boot()
     {
@@ -49,7 +49,7 @@ class SentinelServiceProvider extends ServiceProvider
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function register()
     {
@@ -101,7 +101,10 @@ class SentinelServiceProvider extends ServiceProvider
             $config = $app['config']->get('cartalyst.sentinel.persistences');
 
             return new IlluminatePersistenceRepository(
-                $app['sentinel.session'], $app['sentinel.cookie'], $config['model'], $config['single']
+                $app['sentinel.session'],
+                $app['sentinel.cookie'],
+                $config['model'],
+                $config['single']
             );
         });
     }
@@ -115,7 +118,8 @@ class SentinelServiceProvider extends ServiceProvider
     {
         $this->app->singleton('sentinel.session', function ($app) {
             return new IlluminateSession(
-                $app['session.store'], $app['config']->get('cartalyst.sentinel.session')
+                $app['session.store'],
+                $app['config']->get('cartalyst.sentinel.session')
             );
         });
     }
@@ -129,7 +133,9 @@ class SentinelServiceProvider extends ServiceProvider
     {
         $this->app->singleton('sentinel.cookie', function ($app) {
             return new IlluminateCookie(
-                $app['request'], $app['cookie'], $app['config']->get('cartalyst.sentinel.cookie')
+                $app['request'],
+                $app['cookie'],
+                $app['config']->get('cartalyst.sentinel.cookie')
             );
         });
     }
@@ -147,7 +153,9 @@ class SentinelServiceProvider extends ServiceProvider
             $config = $app['config']->get('cartalyst.sentinel.users');
 
             return new IlluminateUserRepository(
-                $app['sentinel.hasher'], $app['events'], $config['model']
+                $app['sentinel.hasher'],
+                $app['events'],
+                $config['model']
             );
         });
     }
@@ -160,7 +168,7 @@ class SentinelServiceProvider extends ServiceProvider
     protected function registerHasher()
     {
         $this->app->singleton('sentinel.hasher', function () {
-            return new NativeHasher;
+            return new NativeHasher();
         });
     }
 
@@ -181,8 +189,9 @@ class SentinelServiceProvider extends ServiceProvider
     /**
      * Registers the checkpoints.
      *
-     * @return void
      * @throws \InvalidArgumentException
+     *
+     * @return void
      */
     protected function registerCheckpoints()
     {
@@ -197,7 +206,7 @@ class SentinelServiceProvider extends ServiceProvider
 
             foreach ($activeCheckpoints as $checkpoint) {
                 if (! $app->offsetExists("sentinel.checkpoint.{$checkpoint}")) {
-                    throw new InvalidArgumentException("Invalid checkpoint [$checkpoint] given.");
+                    throw new InvalidArgumentException("Invalid checkpoint [${checkpoint}] given.");
                 }
 
                 $checkpoints[$checkpoint] = $app["sentinel.checkpoint.{$checkpoint}"];
@@ -246,7 +255,8 @@ class SentinelServiceProvider extends ServiceProvider
 
         $this->app->singleton('sentinel.checkpoint.throttle', function ($app) {
             return new ThrottleCheckpoint(
-                $app['sentinel.throttling'], $app['request']->getClientIp()
+                $app['sentinel.throttling'],
+                $app['request']->getClientIp()
             );
         });
     }
@@ -263,7 +273,7 @@ class SentinelServiceProvider extends ServiceProvider
 
             $throttling = $app['config']->get('cartalyst.sentinel.throttling');
 
-            foreach ([ 'global', 'ip', 'user' ] as $type) {
+            foreach (['global', 'ip', 'user'] as $type) {
                 ${"{$type}Interval"} = $throttling[$type]['interval'];
                 ${"{$type}Thresholds"} = $throttling[$type]['thresholds'];
             }
@@ -291,7 +301,9 @@ class SentinelServiceProvider extends ServiceProvider
             $config = $app['config']->get('cartalyst.sentinel.reminders');
 
             return new IlluminateReminderRepository(
-                $app['sentinel.users'], $config['model'], $config['expires']
+                $app['sentinel.users'],
+                $config['model'],
+                $config['expires']
             );
         });
     }
@@ -320,6 +332,7 @@ class SentinelServiceProvider extends ServiceProvider
 
             $sentinel->setActivationRepository($app['sentinel.activations']);
             $sentinel->setReminderRepository($app['sentinel.reminders']);
+            $sentinel->setThrottleRepository($app['sentinel.throttling']);
 
             $sentinel->setRequestCredentials(function () use ($app) {
                 $request = $app['request'];
@@ -347,7 +360,7 @@ class SentinelServiceProvider extends ServiceProvider
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function provides()
     {
@@ -378,19 +391,22 @@ class SentinelServiceProvider extends ServiceProvider
         $config = $this->app['config']->get('cartalyst.sentinel');
 
         $this->sweep(
-            $this->app['sentinel.activations'], $config['activations']['lottery']
+            $this->app['sentinel.activations'],
+            $config['activations']['lottery']
         );
 
         $this->sweep(
-            $this->app['sentinel.reminders'], $config['reminders']['lottery']
+            $this->app['sentinel.reminders'],
+            $config['reminders']['lottery']
         );
     }
 
     /**
      * Sweep expired codes.
      *
-     * @param  mixed  $repository
-     * @param  array  $lottery
+     * @param mixed $repository
+     * @param array $lottery
+     *
      * @return void
      */
     protected function sweep($repository, array $lottery)
@@ -406,7 +422,8 @@ class SentinelServiceProvider extends ServiceProvider
     /**
      * Determine if the configuration odds hit the lottery.
      *
-     * @param  array  $lottery
+     * @param array $lottery
+     *
      * @return bool
      */
     protected function configHitsLottery(array $lottery)
@@ -445,24 +462,24 @@ class SentinelServiceProvider extends ServiceProvider
 
         if (class_exists($users)) {
             if (method_exists($users, 'setRolesModel')) {
-                forward_static_call_array([ $users, 'setRolesModel' ], [ $roles ]);
+                forward_static_call_array([$users, 'setRolesModel'], [$roles]);
             }
 
             if (method_exists($users, 'setPersistencesModel')) {
-                forward_static_call_array([ $users, 'setPersistencesModel' ], [ $persistences ]);
+                forward_static_call_array([$users, 'setPersistencesModel'], [$persistences]);
             }
 
             if (method_exists($users, 'setPermissionsClass')) {
-                forward_static_call_array([ $users, 'setPermissionsClass' ], [ $config['permissions']['class'] ]);
+                forward_static_call_array([$users, 'setPermissionsClass'], [$config['permissions']['class']]);
             }
         }
 
         if (class_exists($roles) && method_exists($roles, 'setUsersModel')) {
-            forward_static_call_array([ $roles, 'setUsersModel' ], [ $users ]);
+            forward_static_call_array([$roles, 'setUsersModel'], [$users]);
         }
 
         if (class_exists($persistences) && method_exists($persistences, 'setUsersModel')) {
-            forward_static_call_array([ $persistences, 'setUsersModel' ], [ $users ]);
+            forward_static_call_array([$persistences, 'setUsersModel'], [$users]);
         }
     }
 }

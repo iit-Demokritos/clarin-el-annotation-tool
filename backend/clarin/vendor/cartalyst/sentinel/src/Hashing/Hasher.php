@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Part of the Sentinel package.
  *
  * NOTICE OF LICENSE
@@ -11,11 +11,11 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Sentinel
- * @version    2.0.18
+ * @version    3.0.4
  * @author     Cartalyst LLC
  * @license    BSD License (3-clause)
- * @copyright  (c) 2011-2019, Cartalyst LLC
- * @link       http://cartalyst.com
+ * @copyright  (c) 2011-2020, Cartalyst LLC
+ * @link       https://cartalyst.com
  */
 
 namespace Cartalyst\Sentinel\Hashing;
@@ -34,25 +34,30 @@ trait Hasher
      *
      * @return string
      */
-    protected function createSalt()
+    protected function createSalt(): string
     {
         $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ./';
+
         $max = strlen($pool) - 1;
+
         $salt = '';
-        for ($i = 0; $i < $this->saltLength; ++$i) {
+
+        for ($i = 0; $i < $this->saltLength; $i++) {
             $salt .= $pool[random_int(0, $max)];
         }
+
         return $salt;
     }
 
     /**
      * Compares two strings $a and $b in length-constant time.
      *
-     * @param  string  $a
-     * @param  string  $b
-     * @return boolean
+     * @param string $a
+     * @param string $b
+     *
+     * @return bool
      */
-    protected function slowEquals($a, $b)
+    protected function slowEquals(string $a, string $b): bool
     {
         $diff = strlen($a) ^ strlen($b);
 

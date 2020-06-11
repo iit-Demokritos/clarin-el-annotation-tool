@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Part of the Sentinel package.
  *
  * NOTICE OF LICENSE
@@ -11,11 +11,11 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Sentinel
- * @version    2.0.18
+ * @version    3.0.4
  * @author     Cartalyst LLC
  * @license    BSD License (3-clause)
- * @copyright  (c) 2011-2019, Cartalyst LLC
- * @link       http://cartalyst.com
+ * @copyright  (c) 2011-2020, Cartalyst LLC
+ * @link       https://cartalyst.com
  */
 
 namespace Cartalyst\Sentinel\Activations;
@@ -23,9 +23,9 @@ namespace Cartalyst\Sentinel\Activations;
 interface ActivationInterface
 {
     /**
-     * Return the random string used as activation code.
+     * Returns the random string used for the activation code.
      *
      * @return string
      */
-    public function getCode();
+    public function getCode(): string;
 }

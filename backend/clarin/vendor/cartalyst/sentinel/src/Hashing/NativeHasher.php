@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Part of the Sentinel package.
  *
  * NOTICE OF LICENSE
@@ -11,35 +11,29 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Sentinel
- * @version    2.0.18
+ * @version    3.0.4
  * @author     Cartalyst LLC
  * @license    BSD License (3-clause)
- * @copyright  (c) 2011-2019, Cartalyst LLC
- * @link       http://cartalyst.com
+ * @copyright  (c) 2011-2020, Cartalyst LLC
+ * @link       https://cartalyst.com
  */
 
 namespace Cartalyst\Sentinel\Hashing;
 
-use RuntimeException;
-
 class NativeHasher implements HasherInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function hash($value)
+    public function hash(string $value): string
     {
-        if (! $hash = password_hash($value, PASSWORD_DEFAULT)) {
-            throw new RuntimeException('Error hashing value. Check system compatibility with password_hash().');
-        }
-
-        return $hash;
+        return password_hash($value, PASSWORD_DEFAULT);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function check($value, $hashedValue)
+    public function check(string $value, string $hashedValue): bool
     {
         return password_verify($value, $hashedValue);
     }

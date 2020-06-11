@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Part of the Sentinel package.
  *
  * NOTICE OF LICENSE
@@ -11,11 +11,11 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Sentinel
- * @version    2.0.18
+ * @version    3.0.4
  * @author     Cartalyst LLC
  * @license    BSD License (3-clause)
- * @copyright  (c) 2011-2019, Cartalyst LLC
- * @link       http://cartalyst.com
+ * @copyright  (c) 2011-2020, Cartalyst LLC
+ * @link       https://cartalyst.com
  */
 
 namespace Cartalyst\Sentinel\Permissions;
@@ -25,20 +25,20 @@ class StrictPermissions implements PermissionsInterface
     use PermissionsTrait;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    protected function createPreparedPermissions()
+    protected function createPreparedPermissions(): array
     {
         $prepared = [];
 
-        if (! empty($this->secondaryPermissions)) {
-            foreach ($this->secondaryPermissions as $permissions) {
+        if (! empty($this->getSecondaryPermissions())) {
+            foreach ($this->getSecondaryPermissions() as $permissions) {
                 $this->preparePermissions($prepared, $permissions);
             }
         }
 
-        if (! empty($this->permissions)) {
-            $this->preparePermissions($prepared, $this->permissions);
+        if (! empty($this->getPermissions())) {
+            $this->preparePermissions($prepared, $this->getPermissions());
         }
 
         return $prepared;

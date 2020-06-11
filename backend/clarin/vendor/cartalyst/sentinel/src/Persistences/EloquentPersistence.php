@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Part of the Sentinel package.
  *
  * NOTICE OF LICENSE
@@ -11,56 +11,61 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Sentinel
- * @version    2.0.18
+ * @version    3.0.4
  * @author     Cartalyst LLC
  * @license    BSD License (3-clause)
- * @copyright  (c) 2011-2019, Cartalyst LLC
- * @link       http://cartalyst.com
+ * @copyright  (c) 2011-2020, Cartalyst LLC
+ * @link       https://cartalyst.com
  */
 
 namespace Cartalyst\Sentinel\Persistences;
 
 use Illuminate\Database\Eloquent\Model;
+use Cartalyst\Sentinel\Users\EloquentUser;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class EloquentPersistence extends Model implements PersistenceInterface
 {
     /**
-     * {@inheritDoc}
+     * The table associated with the model.
+     *
+     * @var string
      */
     protected $table = 'persistences';
 
     /**
-     * The users model name.
+     * The Users model FQCN.
      *
      * @var string
      */
-    protected static $usersModel = 'Cartalyst\Sentinel\Users\EloquentUser';
+    protected static $usersModel = EloquentUser::class;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(static::$usersModel);
     }
 
     /**
-     * Get the users model.
+     * Get the Users model FQCN.
      *
      * @return string
      */
-    public static function getUsersModel()
+    public static function getUsersModel(): string
     {
         return static::$usersModel;
     }
 
     /**
-     * Set the users model.
+     * Set the Users model FQCN.
      *
-     * @param  string  $usersModel
+     * @param string $usersModel
+     *
      * @return void
      */
-    public static function setUsersModel($usersModel)
+    public static function setUsersModel(string $usersModel): void
     {
         static::$usersModel = $usersModel;
     }

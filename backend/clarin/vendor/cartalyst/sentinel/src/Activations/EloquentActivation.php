@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Part of the Sentinel package.
  *
  * NOTICE OF LICENSE
@@ -11,11 +11,11 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Sentinel
- * @version    2.0.18
+ * @version    3.0.4
  * @author     Cartalyst LLC
  * @license    BSD License (3-clause)
- * @copyright  (c) 2011-2019, Cartalyst LLC
- * @link       http://cartalyst.com
+ * @copyright  (c) 2011-2020, Cartalyst LLC
+ * @link       https://cartalyst.com
  */
 
 namespace Cartalyst\Sentinel\Activations;
@@ -25,12 +25,16 @@ use Illuminate\Database\Eloquent\Model;
 class EloquentActivation extends Model implements ActivationInterface
 {
     /**
-     * {@inheritDoc}
+     * The table associated with the model.
+     *
+     * @var string
      */
     protected $table = 'activations';
 
     /**
-     * {@inheritDoc}
+     * The attributes that are mass assignable.
+     *
+     * @var array
      */
     protected $fillable = [
         'code',
@@ -39,31 +43,18 @@ class EloquentActivation extends Model implements ActivationInterface
     ];
 
     /**
-     * Get mutator for the "completed" attribute.
+     * The attributes that should be cast to native types.
      *
-     * @param  mixed  $completed
-     * @return bool
+     * @var array
      */
-    public function getCompletedAttribute($completed)
-    {
-        return (bool) $completed;
-    }
+    protected $casts = [
+        'completed' => 'bool',
+    ];
 
     /**
-     * Set mutator for the "completed" attribute.
-     *
-     * @param  mixed  $completed
-     * @return void
+     * {@inheritdoc}
      */
-    public function setCompletedAttribute($completed)
-    {
-        $this->attributes['completed'] = (bool) $completed;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getCode()
+    public function getCode(): string
     {
         return $this->attributes['code'];
     }

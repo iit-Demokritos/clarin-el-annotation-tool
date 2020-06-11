@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Part of the Sentinel package.
  *
  * NOTICE OF LICENSE
@@ -11,11 +11,11 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Sentinel
- * @version    2.0.18
+ * @version    3.0.4
  * @author     Cartalyst LLC
  * @license    BSD License (3-clause)
- * @copyright  (c) 2011-2019, Cartalyst LLC
- * @link       http://cartalyst.com
+ * @copyright  (c) 2011-2020, Cartalyst LLC
+ * @link       https://cartalyst.com
  */
 
 namespace Cartalyst\Sentinel\Permissions;
@@ -30,31 +30,34 @@ trait PermissibleTrait
     protected $permissionsInstance;
 
     /**
-     * The permissions instance class name.
+     * The Permissions instance FQCN.
      *
      * @var string
      */
-    protected static $permissionsClass = 'Cartalyst\Sentinel\Permissions\StrictPermissions';
+    protected static $permissionsClass = StrictPermissions::class;
 
     /**
      * Returns the permissions.
      *
      * @return array
      */
-    public function getPermissions()
+    public function getPermissions(): array
     {
-        return $this->permissions;
+        return $this->permissions ?? [];
     }
 
     /**
      * Sets permissions.
      *
-     * @param  array  $permissions
-     * @return void
+     * @param array $permissions
+     *
+     * @return $this
      */
-    public function setPermissions(array $permissions)
+    public function setPermissions(array $permissions): self
     {
         $this->permissions = $permissions;
+
+        return $this;
     }
 
     /**
@@ -62,7 +65,7 @@ trait PermissibleTrait
      *
      * @return string
      */
-    public static function getPermissionsClass()
+    public static function getPermissionsClass(): string
     {
         return static::$permissionsClass;
     }
@@ -70,10 +73,11 @@ trait PermissibleTrait
     /**
      * Sets the permissions class name.
      *
-     * @param  string  $permissionsClass
+     * @param string $permissionsClass
+     *
      * @return void
      */
-    public static function setPermissionsClass($permissionsClass)
+    public static function setPermissionsClass(string $permissionsClass): void
     {
         static::$permissionsClass = $permissionsClass;
     }
@@ -81,14 +85,14 @@ trait PermissibleTrait
     /**
      * Creates the permissions object.
      *
-     * @return \Cartalyst\Sentinel\Permissions\PermissionsInterface
+     * @return $this
      */
-    abstract protected function createPermissions();
+    abstract protected function createPermissions(): PermissionsInterface;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function getPermissionsInstance()
+    public function getPermissionsInstance(): PermissionsInterface
     {
         if ($this->permissionsInstance === null) {
             $this->permissionsInstance = $this->createPermissions();
@@ -98,24 +102,24 @@ trait PermissibleTrait
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function addPermission($permission, $value = true)
+    public function addPermission(string $permission, bool $value = true): PermissibleInterface
     {
-        if (! array_key_exists($permission, $this->permissions)) {
-            $this->permissions = array_merge($this->permissions, [$permission => $value]);
+        if (! array_key_exists($permission, $this->getPermissions())) {
+            $this->permissions = array_merge($this->getPermissions(), [$permission => $value]);
         }
 
         return $this;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function updatePermission($permission, $value = true, $create = false)
+    public function updatePermission(string $permission, bool $value = true, bool $create = false): PermissibleInterface
     {
-        if (array_key_exists($permission, $this->permissions)) {
-            $permissions = $this->permissions;
+        if (array_key_exists($permission, $this->getPermissions())) {
+            $permissions = $this->getPermissions();
 
             $permissions[$permission] = $value;
 
@@ -128,12 +132,12 @@ trait PermissibleTrait
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function removePermission($permission)
+    public function removePermission(string $permission): PermissibleInterface
     {
-        if (array_key_exists($permission, $this->permissions)) {
-            $permissions = $this->permissions;
+        if (array_key_exists($permission, $this->getPermissions())) {
+            $permissions = $this->getPermissions();
 
             unset($permissions[$permission]);
 

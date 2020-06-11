@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Part of the Support package.
  *
  * NOTICE OF LICENSE
@@ -11,7 +11,7 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Support
- * @version    2.0.3
+ * @version    3.0.1
  * @author     Cartalyst LLC
  * @license    BSD License (3-clause)
  * @copyright  (c) 2011-2019, Cartalyst LLC
@@ -29,13 +29,14 @@ trait NamespacedEntityTrait
      */
     public static function getEntityNamespace()
     {
-        return isset(static::$entityNamespace) ? static::$entityNamespace : get_called_class();
+        return static::$entityNamespace ?? get_called_class();
     }
 
     /**
      * Sets the entity namespace.
      *
-     * @param  string  $namespace
+     * @param string $namespace
+     *
      * @return void
      */
     public static function setEntityNamespace($namespace)

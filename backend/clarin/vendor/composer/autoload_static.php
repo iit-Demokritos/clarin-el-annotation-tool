@@ -78,6 +78,7 @@ class ComposerStaticInit6843b9594ec443373d4c7a849b2549b6
         'L' => 
         array (
             'League\\Flysystem\\' => 17,
+            'League\\CommonMark\\' => 18,
         ),
         'I' => 
         array (
@@ -96,7 +97,6 @@ class ComposerStaticInit6843b9594ec443373d4c7a849b2549b6
             'Dotenv\\' => 7,
             'Doctrine\\Inflector\\' => 19,
             'Doctrine\\Common\\Lexer\\' => 22,
-            'Doctrine\\Common\\Inflector\\' => 26,
         ),
         'C' => 
         array (
@@ -244,6 +244,10 @@ class ComposerStaticInit6843b9594ec443373d4c7a849b2549b6
         array (
             0 => __DIR__ . '/..' . '/league/flysystem/src',
         ),
+        'League\\CommonMark\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/league/commonmark/src',
+        ),
         'Illuminate\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravel/framework/src/Illuminate',
@@ -268,10 +272,6 @@ class ComposerStaticInit6843b9594ec443373d4c7a849b2549b6
         array (
             0 => __DIR__ . '/..' . '/doctrine/lexer/lib/Doctrine/Common/Lexer',
         ),
-        'Doctrine\\Common\\Inflector\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Common/Inflector',
-        ),
         'Cron\\' => 
         array (
             0 => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron',
@@ -295,13 +295,6 @@ class ComposerStaticInit6843b9594ec443373d4c7a849b2549b6
     );
 
     public static $prefixesPsr0 = array (
-        'P' => 
-        array (
-            'Parsedown' => 
-            array (
-                0 => __DIR__ . '/..' . '/erusev/parsedown',
-            ),
-        ),
         'M' => 
         array (
             'Mockery' => 

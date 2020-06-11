@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Part of the Sentinel package.
  *
  * NOTICE OF LICENSE
@@ -11,11 +11,11 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Sentinel
- * @version    2.0.18
+ * @version    3.0.4
  * @author     Cartalyst LLC
  * @license    BSD License (3-clause)
- * @copyright  (c) 2011-2019, Cartalyst LLC
- * @link       http://cartalyst.com
+ * @copyright  (c) 2011-2020, Cartalyst LLC
+ * @link       https://cartalyst.com
  */
 
 namespace Cartalyst\Sentinel\Permissions;
@@ -23,36 +23,39 @@ namespace Cartalyst\Sentinel\Permissions;
 interface PermissibleInterface
 {
     /**
-     * Returns the permissions instance.
+     * Returns the Permissions instance.
      *
      * @return \Cartalyst\Sentinel\Permissions\PermissionsInterface
      */
-    public function getPermissionsInstance();
+    public function getPermissionsInstance(): PermissionsInterface;
 
     /**
      * Adds a permission.
      *
-     * @param  string  $permission
-     * @param  bool  $value
+     * @param string $permission
+     * @param bool   $value
+     *
      * @return \Cartalyst\Sentinel\Permissions\PermissibleInterface
      */
-    public function addPermission($permission, $value = true);
+    public function addPermission(string $permission, bool $value = true): PermissibleInterface;
 
     /**
      * Updates a permission.
      *
-     * @param  string  $permission
-     * @param  bool  $value
-     * @param  bool  $create
+     * @param string $permission
+     * @param bool   $value
+     * @param bool   $create
+     *
      * @return \Cartalyst\Sentinel\Permissions\PermissibleInterface
      */
-    public function updatePermission($permission, $value = true, $create = false);
+    public function updatePermission(string $permission, bool $value = true, bool $create = false): PermissibleInterface;
 
     /**
      * Removes a permission.
      *
-     * @param  string  $permission
+     * @param string $permission
+     *
      * @return \Cartalyst\Sentinel\Permissions\PermissibleInterface
      */
-    public function removePermission($permission);
+    public function removePermission(string $permission): PermissibleInterface;
 }

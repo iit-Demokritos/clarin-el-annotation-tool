@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Part of the Support package.
  *
  * NOTICE OF LICENSE
@@ -11,7 +11,7 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Support
- * @version    2.0.3
+ * @version    3.0.1
  * @author     Cartalyst LLC
  * @license    BSD License (3-clause)
  * @copyright  (c) 2011-2019, Cartalyst LLC
@@ -27,7 +27,8 @@ interface EventHandlerInterface
     /**
      * Registers the event listeners using the given dispatcher instance.
      *
-     * @param  \Illuminate\Contracts\Events\Dispatcher  $dispatcher
+     * @param \Illuminate\Contracts\Events\Dispatcher $dispatcher
+     *
      * @return void
      */
     public function subscribe(Dispatcher $dispatcher);

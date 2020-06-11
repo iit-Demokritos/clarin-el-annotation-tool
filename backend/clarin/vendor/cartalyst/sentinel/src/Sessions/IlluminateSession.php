@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Part of the Sentinel package.
  *
  * NOTICE OF LICENSE
@@ -11,11 +11,11 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Sentinel
- * @version    2.0.18
+ * @version    3.0.4
  * @author     Cartalyst LLC
  * @license    BSD License (3-clause)
- * @copyright  (c) 2011-2019, Cartalyst LLC
- * @link       http://cartalyst.com
+ * @copyright  (c) 2011-2020, Cartalyst LLC
+ * @link       https://cartalyst.com
  */
 
 namespace Cartalyst\Sentinel\Sessions;
@@ -39,31 +39,30 @@ class IlluminateSession implements SessionInterface
     protected $key = 'cartalyst_sentinel';
 
     /**
-     * Create a new Illuminate Session driver.
+     * Constructor.
      *
-     * @param  \Illuminate\Session\Store  $session
-     * @param  string  $key
+     * @param \Illuminate\Session\Store $session
+     * @param string                    $key
+     *
      * @return void
      */
-    public function __construct(SessionStore $session, $key = null)
+    public function __construct(SessionStore $session, string $key = null)
     {
         $this->session = $session;
 
-        if (isset($key)) {
-            $this->key = $key;
-        }
+        $this->key = $key;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function put($value)
+    public function put($value): void
     {
         $this->session->put($this->key, $value);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function get()
     {
@@ -71,9 +70,9 @@ class IlluminateSession implements SessionInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function forget()
+    public function forget(): void
     {
         $this->session->forget($this->key);
     }

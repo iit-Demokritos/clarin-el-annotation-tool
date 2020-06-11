@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Part of the Sentinel package.
  *
  * NOTICE OF LICENSE
@@ -11,11 +11,11 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Sentinel
- * @version    2.0.18
+ * @version    3.0.4
  * @author     Cartalyst LLC
  * @license    BSD License (3-clause)
- * @copyright  (c) 2011-2019, Cartalyst LLC
- * @link       http://cartalyst.com
+ * @copyright  (c) 2011-2020, Cartalyst LLC
+ * @link       https://cartalyst.com
  */
 
 namespace Cartalyst\Sentinel\Users;
@@ -27,26 +27,26 @@ interface UserInterface
      *
      * @return int
      */
-    public function getUserId();
+    public function getUserId(): int;
 
     /**
      * Returns the user login.
      *
      * @return string
      */
-    public function getUserLogin();
+    public function getUserLogin(): string;
 
     /**
      * Returns the user login attribute name.
      *
      * @return string
      */
-    public function getUserLoginName();
+    public function getUserLoginName(): string;
 
     /**
      * Returns the user password.
      *
      * @return string
      */
-    public function getUserPassword();
+    public function getUserPassword(): string;
 }

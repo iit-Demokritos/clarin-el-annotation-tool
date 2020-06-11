@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Part of the Support package.
  *
  * NOTICE OF LICENSE
@@ -11,7 +11,7 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Support
- * @version    2.0.3
+ * @version    3.0.1
  * @author     Cartalyst LLC
  * @license    Cartalyst PSL
  * @copyright  (c) 2011-2019, Cartalyst LLC
@@ -27,13 +27,14 @@ interface NamespacedEntityInterface
      *
      * @return string
      */
-    public static function getEntityNamespace();
+    public static function getEntityNamespace(): string;
 
     /**
      * Sets the entity namespace.
      *
-     * @param  string  $namespace
+     * @param string $namespace
+     *
      * @return void
      */
-    public static function setEntityNamespace($namespace);
+    public static function setEntityNamespace(string $namespace): void;
 }

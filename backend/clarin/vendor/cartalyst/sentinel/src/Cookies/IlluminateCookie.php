@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Part of the Sentinel package.
  *
  * NOTICE OF LICENSE
@@ -11,17 +11,17 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Sentinel
- * @version    2.0.18
+ * @version    3.0.4
  * @author     Cartalyst LLC
  * @license    BSD License (3-clause)
- * @copyright  (c) 2011-2019, Cartalyst LLC
- * @link       http://cartalyst.com
+ * @copyright  (c) 2011-2020, Cartalyst LLC
+ * @link       https://cartalyst.com
  */
 
 namespace Cartalyst\Sentinel\Cookies;
 
-use Illuminate\Cookie\CookieJar;
 use Illuminate\Http\Request;
+use Illuminate\Cookie\CookieJar;
 
 class IlluminateCookie implements CookieInterface
 {
@@ -47,11 +47,12 @@ class IlluminateCookie implements CookieInterface
     protected $key = 'cartalyst_sentinel';
 
     /**
-     * Create a new Illuminate cookie driver.
+     * Constructor.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Cookie\CookieJar  $jar
-     * @param  string  $key
+     * @param \Illuminate\Http\Request     $request
+     * @param \Illuminate\Cookie\CookieJar $jar
+     * @param string                       $key
+     *
      * @return void
      */
     public function __construct(Request $request, CookieJar $jar, $key = null)
@@ -66,9 +67,9 @@ class IlluminateCookie implements CookieInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function put($value)
+    public function put($value): void
     {
         $cookie = $this->jar->forever($this->key, $value);
 
@@ -76,7 +77,7 @@ class IlluminateCookie implements CookieInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function get()
     {
@@ -94,9 +95,9 @@ class IlluminateCookie implements CookieInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function forget()
+    public function forget(): void
     {
         $cookie = $this->jar->forget($this->key);
 

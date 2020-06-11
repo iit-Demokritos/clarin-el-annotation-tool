@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Part of the Sentinel package.
  *
  * NOTICE OF LICENSE
@@ -11,19 +11,21 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Sentinel
- * @version    2.0.18
+ * @version    3.0.4
  * @author     Cartalyst LLC
  * @license    BSD License (3-clause)
- * @copyright  (c) 2011-2019, Cartalyst LLC
- * @link       http://cartalyst.com
+ * @copyright  (c) 2011-2020, Cartalyst LLC
+ * @link       https://cartalyst.com
  */
 
 namespace Cartalyst\Sentinel\Permissions;
 
+use Illuminate\Support\Str;
+
 trait PermissionsTrait
 {
     /**
-     * The permissions.
+     * The main permissions.
      *
      * @var array
      */
@@ -44,27 +46,24 @@ trait PermissionsTrait
     protected $preparedPermissions;
 
     /**
-     * Create a new permissions instance.
+     * Constructor.
      *
-     * @param  array  $permissions
-     * @param  array  $secondaryPermissions
+     * @param array|null $permissions
+     * @param array|null $secondaryPermissions
+     *
      * @return void
      */
     public function __construct(array $permissions = null, array $secondaryPermissions = null)
     {
-        if (isset($permissions)) {
-            $this->permissions = $permissions;
-        }
+        $this->permissions = $permissions;
 
-        if (isset($secondaryPermissions)) {
-            $this->secondaryPermissions = $secondaryPermissions;
-        }
+        $this->secondaryPermissions = $secondaryPermissions;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function hasAccess($permissions)
+    public function hasAccess($permissions): bool
     {
         if (is_string($permissions)) {
             $permissions = func_get_args();
@@ -82,9 +81,9 @@ trait PermissionsTrait
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function hasAnyAccess($permissions)
+    public function hasAnyAccess($permissions): bool
     {
         if (is_string($permissions)) {
             $permissions = func_get_args();
@@ -102,26 +101,39 @@ trait PermissionsTrait
     }
 
     /**
+     * Returns the main permissions.
+     *
+     * @return array
+     */
+    public function getPermissions(): array
+    {
+        return $this->permissions ?? [];
+    }
+
+    /**
      * Returns the secondary permissions.
      *
      * @return array
      */
-    public function getSecondaryPermissions()
+    public function getSecondaryPermissions(): array
     {
-        return $this->secondaryPermissions;
+        return $this->secondaryPermissions ?? [];
     }
 
     /**
      * Sets secondary permissions.
      *
-     * @param  array  $secondaryPermissions
-     * @return void
+     * @param array $secondaryPermissions
+     *
+     * @return $this
      */
-    public function setSecondaryPermissions(array $secondaryPermissions)
+    public function setSecondaryPermissions(array $secondaryPermissions): self
     {
         $this->secondaryPermissions = $secondaryPermissions;
 
         $this->preparedPermissions = null;
+
+        return $this;
     }
 
     /**
@@ -129,7 +141,7 @@ trait PermissionsTrait
      *
      * @return array
      */
-    protected function getPreparedPermissions()
+    protected function getPreparedPermissions(): array
     {
         if ($this->preparedPermissions === null) {
             $this->preparedPermissions = $this->createPreparedPermissions();
@@ -141,11 +153,12 @@ trait PermissionsTrait
     /**
      * Does the heavy lifting of preparing permissions.
      *
-     * @param  array  $prepared
-     * @param  array  $permissions
+     * @param array $prepared
+     * @param array $permissions
+     *
      * @return void
      */
-    protected function preparePermissions(array &$prepared, array $permissions)
+    protected function preparePermissions(array &$prepared, array $permissions): void
     {
         foreach ($permissions as $keys => $value) {
             foreach ($this->extractClassPermissions($keys) as $key) {
@@ -168,12 +181,13 @@ trait PermissionsTrait
      * Takes the given permission key and inspects it for a class & method. If
      * it exists, methods may be comma-separated, e.g. Class@method1,method2.
      *
-     * @param  string  $key
+     * @param string $key
+     *
      * @return array
      */
-    protected function extractClassPermissions($key)
+    protected function extractClassPermissions(string $key): array
     {
-        if (! str_contains($key, '@')) {
+        if (! Str::contains($key, '@')) {
             return (array) $key;
         }
 
@@ -191,22 +205,21 @@ trait PermissionsTrait
     /**
      * Checks a permission in the prepared array, including wildcard checks and permissions.
      *
-     * @param  array  $prepared
-     * @param  string  $permission
+     * @param array  $prepared
+     * @param string $permission
+     *
      * @return bool
      */
-    protected function checkPermission(array $prepared, $permission)
+    protected function checkPermission(array $prepared, string $permission): bool
     {
-        if (array_key_exists($permission, $prepared) && $prepared[$permission] === true) {
-            return true;
+        if (array_key_exists($permission, $prepared)) {
+            return $prepared[$permission] === true;
         }
-
-        $permission = (string) $permission;
 
         foreach ($prepared as $key => $value) {
             $key = (string) $key;
 
-            if ((str_is($permission, $key) || str_is($key, $permission)) && $value === true) {
+            if ((Str::is($permission, $key) || Str::is($key, $permission)) && $value === true) {
                 return true;
             }
         }
@@ -217,7 +230,7 @@ trait PermissionsTrait
     /**
      * Returns the prepared permissions.
      *
-     * @return void
+     * @return array
      */
-    abstract protected function createPreparedPermissions();
+    abstract protected function createPreparedPermissions(): array;
 }

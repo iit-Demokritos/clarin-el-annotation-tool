@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Part of the Sentinel package.
  *
  * NOTICE OF LICENSE
@@ -11,33 +11,47 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Sentinel
- * @version    2.0.18
+ * @version    3.0.4
  * @author     Cartalyst LLC
  * @license    BSD License (3-clause)
- * @copyright  (c) 2011-2019, Cartalyst LLC
- * @link       http://cartalyst.com
+ * @copyright  (c) 2011-2020, Cartalyst LLC
+ * @link       https://cartalyst.com
  */
 
 namespace Cartalyst\Sentinel\Users;
 
-use Cartalyst\Sentinel\Permissions\PermissibleInterface;
-use Cartalyst\Sentinel\Permissions\PermissibleTrait;
-use Cartalyst\Sentinel\Persistences\PersistableInterface;
-use Cartalyst\Sentinel\Roles\RoleableInterface;
-use Cartalyst\Sentinel\Roles\RoleInterface;
+use IteratorAggregate;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Cartalyst\Sentinel\Roles\EloquentRole;
+use Cartalyst\Sentinel\Roles\RoleInterface;
+use Cartalyst\Sentinel\Roles\RoleableInterface;
+use Cartalyst\Sentinel\Reminders\EloquentReminder;
+use Cartalyst\Sentinel\Throttling\EloquentThrottle;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Cartalyst\Sentinel\Permissions\PermissibleTrait;
+use Cartalyst\Sentinel\Activations\EloquentActivation;
+use Cartalyst\Sentinel\Permissions\PermissibleInterface;
+use Cartalyst\Sentinel\Permissions\PermissionsInterface;
+use Cartalyst\Sentinel\Persistences\EloquentPersistence;
+use Cartalyst\Sentinel\Persistences\PersistableInterface;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class EloquentUser extends Model implements RoleableInterface, PermissibleInterface, PersistableInterface, UserInterface
+class EloquentUser extends Model implements PermissibleInterface, PersistableInterface, RoleableInterface, UserInterface
 {
     use PermissibleTrait;
 
     /**
-     * {@inheritDoc}
+     * The table associated with the model.
+     *
+     * @var string
      */
     protected $table = 'users';
 
     /**
-     * {@inheritDoc}
+     * The attributes that are mass assignable.
+     *
+     * @var array
      */
     protected $fillable = [
         'email',
@@ -48,19 +62,28 @@ class EloquentUser extends Model implements RoleableInterface, PermissibleInterf
     ];
 
     /**
-     * {@inheritDoc}
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'permissions' => 'json',
+    ];
+
+    /**
+     * {@inheritdoc}
      */
     protected $hidden = [
         'password',
     ];
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected $persistableKey = 'user_id';
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected $persistableRelationship = 'persistences';
 
@@ -72,58 +95,48 @@ class EloquentUser extends Model implements RoleableInterface, PermissibleInterf
     protected $loginNames = ['email'];
 
     /**
-     * The Eloquent roles model name.
+     * The Roles model FQCN.
      *
      * @var string
      */
-    protected static $rolesModel = 'Cartalyst\Sentinel\Roles\EloquentRole';
+    protected static $rolesModel = EloquentRole::class;
 
     /**
-     * The Eloquent persistences model name.
+     * The Persistences model FQCN.
      *
      * @var string
      */
-    protected static $persistencesModel = 'Cartalyst\Sentinel\Persistences\EloquentPersistence';
+    protected static $persistencesModel = EloquentPersistence::class;
 
     /**
-     * The Eloquent activations model name.
+     * The Activations model FQCN.
      *
      * @var string
      */
-    protected static $activationsModel = 'Cartalyst\Sentinel\Activations\EloquentActivation';
+    protected static $activationsModel = EloquentActivation::class;
 
     /**
-     * The Eloquent reminders model name.
+     * The Reminders model FQCN.
      *
      * @var string
      */
-    protected static $remindersModel = 'Cartalyst\Sentinel\Reminders\EloquentReminder';
+    protected static $remindersModel = EloquentReminder::class;
 
     /**
-     * The Eloquent throttling model name.
+     * The Throttling model FQCN.
      *
      * @var string
      */
-    protected static $throttlingModel = 'Cartalyst\Sentinel\Throttling\EloquentThrottle';
+    protected static $throttlingModel = EloquentThrottle::class;
 
     /**
-     * Returns an array of login column names.
+     * Returns the activations relationship.
      *
-     * @return array
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function getLoginNames()
+    public function activations(): HasMany
     {
-        return $this->loginNames;
-    }
-
-    /**
-     * Returns the roles relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function roles()
-    {
-        return $this->belongsToMany(static::$rolesModel, 'role_users', 'user_id', 'role_id')->withTimestamps();
+        return $this->hasMany(static::$activationsModel, 'user_id');
     }
 
     /**
@@ -131,19 +144,9 @@ class EloquentUser extends Model implements RoleableInterface, PermissibleInterf
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function persistences()
+    public function persistences(): HasMany
     {
         return $this->hasMany(static::$persistencesModel, 'user_id');
-    }
-
-    /**
-     * Returns the activations relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function activations()
-    {
-        return $this->hasMany(static::$activationsModel, 'user_id');
     }
 
     /**
@@ -151,9 +154,19 @@ class EloquentUser extends Model implements RoleableInterface, PermissibleInterf
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function reminders()
+    public function reminders(): HasMany
     {
         return $this->hasMany(static::$remindersModel, 'user_id');
+    }
+
+    /**
+     * Returns the roles relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(static::$rolesModel, 'role_users', 'user_id', 'role_id')->withTimestamps();
     }
 
     /**
@@ -161,45 +174,33 @@ class EloquentUser extends Model implements RoleableInterface, PermissibleInterf
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function throttle()
+    public function throttle(): HasMany
     {
         return $this->hasMany(static::$throttlingModel, 'user_id');
     }
 
     /**
-     * Get mutator for the "permissions" attribute.
+     * Returns an array of login column names.
      *
-     * @param  mixed  $permissions
      * @return array
      */
-    public function getPermissionsAttribute($permissions)
+    public function getLoginNames(): array
     {
-        return $permissions ? json_decode($permissions, true) : [];
+        return $this->loginNames;
     }
 
     /**
-     * Set mutator for the "permissions" attribute.
-     *
-     * @param  mixed  $permissions
-     * @return void
+     * {@inheritdoc}
      */
-    public function setPermissionsAttribute(array $permissions)
-    {
-        $this->attributes['permissions'] = $permissions ? json_encode($permissions) : '';
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getRoles()
+    public function getRoles(): IteratorAggregate
     {
         return $this->roles;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function inRole($role)
+    public function inRole($role): bool
     {
         if ($role instanceof RoleInterface) {
             $roleId = $role->getRoleId();
@@ -221,81 +222,95 @@ class EloquentUser extends Model implements RoleableInterface, PermissibleInterf
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function generatePersistenceCode()
+    public function inAnyRole(array $roles): bool
     {
-        return str_random(32);
+        foreach ($roles as $role) {
+            if ($this->inRole($role)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function getUserId()
+    public function generatePersistenceCode(): string
+    {
+        return Str::random(32);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getUserId(): int
     {
         return $this->getKey();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function getPersistableId()
+    public function getPersistableId(): string
     {
         return $this->getKey();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function getPersistableKey()
+    public function getPersistableKey(): string
     {
         return $this->persistableKey;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function setPersistableKey($key)
+    public function setPersistableKey(string $key): void
     {
         $this->persistableKey = $key;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function setPersistableRelationship($persistableRelationship)
-    {
-        $this->persistableRelationship = $persistableRelationship;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getPersistableRelationship()
+    public function getPersistableRelationship(): string
     {
         return $this->persistableRelationship;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function getUserLogin()
+    public function setPersistableRelationship(string $persistableRelationship): void
+    {
+        $this->persistableRelationship = $persistableRelationship;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getUserLogin(): string
     {
         return $this->getAttribute($this->getUserLoginName());
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function getUserLoginName()
+    public function getUserLoginName(): string
     {
         return reset($this->loginNames);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function getUserPassword()
+    public function getUserPassword(): string
     {
         return $this->password;
     }
@@ -305,7 +320,7 @@ class EloquentUser extends Model implements RoleableInterface, PermissibleInterf
      *
      * @return string
      */
-    public static function getRolesModel()
+    public static function getRolesModel(): string
     {
         return static::$rolesModel;
     }
@@ -313,10 +328,11 @@ class EloquentUser extends Model implements RoleableInterface, PermissibleInterf
     /**
      * Sets the roles model.
      *
-     * @param  string  $rolesModel
+     * @param string $rolesModel
+     *
      * @return void
      */
-    public static function setRolesModel($rolesModel)
+    public static function setRolesModel(string $rolesModel): void
     {
         static::$rolesModel = $rolesModel;
     }
@@ -334,10 +350,11 @@ class EloquentUser extends Model implements RoleableInterface, PermissibleInterf
     /**
      * Sets the persistences model.
      *
-     * @param  string  $persistencesModel
+     * @param string $persistencesModel
+     *
      * @return void
      */
-    public static function setPersistencesModel($persistencesModel)
+    public static function setPersistencesModel(string $persistencesModel): void
     {
         static::$persistencesModel = $persistencesModel;
     }
@@ -347,7 +364,7 @@ class EloquentUser extends Model implements RoleableInterface, PermissibleInterf
      *
      * @return string
      */
-    public static function getActivationsModel()
+    public static function getActivationsModel(): string
     {
         return static::$activationsModel;
     }
@@ -355,10 +372,11 @@ class EloquentUser extends Model implements RoleableInterface, PermissibleInterf
     /**
      * Sets the activations model.
      *
-     * @param  string  $activationsModel
+     * @param string $activationsModel
+     *
      * @return void
      */
-    public static function setActivationsModel($activationsModel)
+    public static function setActivationsModel(string $activationsModel): void
     {
         static::$activationsModel = $activationsModel;
     }
@@ -368,7 +386,7 @@ class EloquentUser extends Model implements RoleableInterface, PermissibleInterf
      *
      * @return string
      */
-    public static function getRemindersModel()
+    public static function getRemindersModel(): string
     {
         return static::$remindersModel;
     }
@@ -376,10 +394,11 @@ class EloquentUser extends Model implements RoleableInterface, PermissibleInterf
     /**
      * Sets the reminders model.
      *
-     * @param  string  $remindersModel
+     * @param string $remindersModel
+     *
      * @return void
      */
-    public static function setRemindersModel($remindersModel)
+    public static function setRemindersModel(string $remindersModel): void
     {
         static::$remindersModel = $remindersModel;
     }
@@ -389,7 +408,7 @@ class EloquentUser extends Model implements RoleableInterface, PermissibleInterf
      *
      * @return string
      */
-    public static function getThrottlingModel()
+    public static function getThrottlingModel(): string
     {
         return static::$throttlingModel;
     }
@@ -397,16 +416,17 @@ class EloquentUser extends Model implements RoleableInterface, PermissibleInterf
     /**
      * Sets the throttling model.
      *
-     * @param  string  $throttlingModel
+     * @param string $throttlingModel
+     *
      * @return void
      */
-    public static function setThrottlingModel($throttlingModel)
+    public static function setThrottlingModel(string $throttlingModel): void
     {
         static::$throttlingModel = $throttlingModel;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function delete()
     {
@@ -428,8 +448,9 @@ class EloquentUser extends Model implements RoleableInterface, PermissibleInterf
     /**
      * Dynamically pass missing methods to the user.
      *
-     * @param  string  $method
-     * @param  array  $parameters
+     * @param string $method
+     * @param array  $parameters
+     *
      * @return mixed
      */
     public function __call($method, $parameters)
@@ -450,14 +471,14 @@ class EloquentUser extends Model implements RoleableInterface, PermissibleInterf
      *
      * @return \Cartalyst\Sentinel\Permissions\PermissionsInterface
      */
-    protected function createPermissions()
+    protected function createPermissions(): PermissionsInterface
     {
-        $userPermissions = $this->permissions;
+        $userPermissions = $this->getPermissions();
 
         $rolePermissions = [];
 
         foreach ($this->roles as $role) {
-            $rolePermissions[] = $role->permissions;
+            $rolePermissions[] = $role->getPermissions();
         }
 
         return new static::$permissionsClass($userPermissions, $rolePermissions);

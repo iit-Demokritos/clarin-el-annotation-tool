@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Part of the Sentinel package.
  *
  * NOTICE OF LICENSE
@@ -11,11 +11,11 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Sentinel
- * @version    2.0.18
+ * @version    3.0.4
  * @author     Cartalyst LLC
  * @license    BSD License (3-clause)
- * @copyright  (c) 2011-2019, Cartalyst LLC
- * @link       http://cartalyst.com
+ * @copyright  (c) 2011-2020, Cartalyst LLC
+ * @link       https://cartalyst.com
  */
 
 namespace Cartalyst\Sentinel\Permissions;
@@ -25,16 +25,18 @@ interface PermissionsInterface
     /**
      * Returns if access is available for all given permissions.
      *
-     * @param  array|string  $permissions
+     * @param array|string $permissions
+     *
      * @return bool
      */
-    public function hasAccess($permissions);
+    public function hasAccess($permissions): bool;
 
     /**
      * Returns if access is available for any given permissions.
      *
-     * @param  array|string  $permissions
+     * @param array|string $permissions
+     *
      * @return bool
      */
-    public function hasAnyAccess($permissions);
+    public function hasAnyAccess($permissions): bool;
 }

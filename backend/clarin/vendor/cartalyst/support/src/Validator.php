@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Part of the Support package.
  *
  * NOTICE OF LICENSE
@@ -11,7 +11,7 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Support
- * @version    2.0.3
+ * @version    3.0.1
  * @author     Cartalyst LLC
  * @license    BSD License (3-clause)
  * @copyright  (c) 2011-2019, Cartalyst LLC
@@ -20,8 +20,8 @@
 
 namespace Cartalyst\Support;
 
+use Illuminate\Support\Arr;
 use Illuminate\Validation\Factory;
-use Cartalyst\Support\Traits\ValidatorTrait;
 use Cartalyst\Support\Contracts\ValidatorInterface;
 
 abstract class Validator implements ValidatorInterface
@@ -34,7 +34,7 @@ abstract class Validator implements ValidatorInterface
     protected $scenario = [];
 
     /**
-     * The registered bindings
+     * The registered bindings.
      *
      * @var array
      */
@@ -71,7 +71,9 @@ abstract class Validator implements ValidatorInterface
     /**
      * Constructor.
      *
-     * @param  \Illuminate\Validation\Factory  $factory
+     * @param \Illuminate\Validation\Factory $factory
+     *
+     * @return void
      */
     public function __construct(Factory $factory)
     {
@@ -79,17 +81,17 @@ abstract class Validator implements ValidatorInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function getRules()
+    public function getRules(): array
     {
         return $this->rules;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function setRules(array $rules)
+    public function setRules(array $rules): ValidatorInterface
     {
         $this->rules = $rules;
 
@@ -97,17 +99,17 @@ abstract class Validator implements ValidatorInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function getMessages()
+    public function getMessages(): array
     {
         return $this->messages;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function setMessages(array $messages)
+    public function setMessages(array $messages): ValidatorInterface
     {
         $this->messages = $messages;
 
@@ -115,17 +117,17 @@ abstract class Validator implements ValidatorInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function getCustomAttributes()
+    public function getCustomAttributes(): array
     {
         return $this->customAttributes;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function setCustomAttributes(array $customAttributes)
+    public function setCustomAttributes(array $customAttributes): ValidatorInterface
     {
         $this->customAttributes = $customAttributes;
 
@@ -133,17 +135,25 @@ abstract class Validator implements ValidatorInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function on($scenario, array $arguments = [])
+    public function getBindings(): array
+    {
+        return $this->bindings;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function on(string $scenario, array $arguments = [])
     {
         return $this->onScenario($scenario, $arguments);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function onScenario($scenario, array $arguments = [])
+    public function onScenario(string $scenario, array $arguments = []): ValidatorInterface
     {
         $method = 'on'.ucfirst($scenario);
 
@@ -156,7 +166,7 @@ abstract class Validator implements ValidatorInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function bind(array $bindings)
     {
@@ -164,9 +174,9 @@ abstract class Validator implements ValidatorInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function registerBindings(array $bindings)
+    public function registerBindings(array $bindings): ValidatorInterface
     {
         $this->bindings = array_merge($this->bindings, $bindings);
 
@@ -174,7 +184,7 @@ abstract class Validator implements ValidatorInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function validate(array $data)
     {
@@ -182,9 +192,9 @@ abstract class Validator implements ValidatorInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function bypass($status = true)
+    public function bypass(bool $status = true): ValidatorInterface
     {
         $this->bypass = (bool) $status;
 
@@ -194,12 +204,13 @@ abstract class Validator implements ValidatorInterface
     /**
      * Executes the data validation against the service rules.
      *
-     * @param  array  $data
+     * @param array $data
+     *
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function executeValidation(array $data)
     {
-        if ($method = array_get($this->scenario, 'on')) {
+        if ($method = Arr::get($this->scenario, 'on')) {
             call_user_func_array([$this, $method], $this->scenario['arguments']);
         }
 
@@ -219,7 +230,7 @@ abstract class Validator implements ValidatorInterface
      *
      * @return array
      */
-    protected function getBoundRules()
+    protected function getBoundRules(): array
     {
         if ($this->bypass === true) {
             return [];
@@ -228,7 +239,7 @@ abstract class Validator implements ValidatorInterface
         $rules = $this->getRules();
 
         foreach ($rules as $key => $value) {
-            if ($binding = array_get($this->bindings, $key)) {
+            if ($binding = Arr::get($this->bindings, $key)) {
                 $rules[$key] = str_replace('{'.$key.'}', $binding, $value);
             }
         }
