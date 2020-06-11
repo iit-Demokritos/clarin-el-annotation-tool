@@ -1,98 +1,127 @@
-<?php namespace Illuminate\Database;
+<?php
 
+namespace Illuminate\Database;
+
+use Illuminate\Support\Arr;
+use InvalidArgumentException;
 use Illuminate\Console\Command;
 use Illuminate\Container\Container;
 
-class Seeder {
+abstract class Seeder
+{
+    /**
+     * The container instance.
+     *
+     * @var \Illuminate\Container\Container
+     */
+    protected $container;
 
-	/**
-	 * The container instance.
-	 *
-	 * @var \Illuminate\Container\Container
-	 */
-	protected $container;
+    /**
+     * The console command instance.
+     *
+     * @var \Illuminate\Console\Command
+     */
+    protected $command;
 
-	/**
-	 * The console command instance.
-	 *
-	 * @var \Illuminate\Console\Command
-	 */
-	protected $command;
+    /**
+     * Seed the given connection from the given path.
+     *
+     * @param  array|string  $class
+     * @param  bool  $silent
+     * @return $this
+     */
+    public function call($class, $silent = false)
+    {
+        $classes = Arr::wrap($class);
 
-	/**
-	 * Run the database seeds.
-	 *
-	 * @return void
-	 */
-	public function run() {}
+        foreach ($classes as $class) {
+            $seeder = $this->resolve($class);
 
-	/**
-	 * Seed the given connection from the given path.
-	 *
-	 * @param  string  $class
-	 * @return void
-	 */
-	public function call($class)
-	{
-		$this->resolve($class)->run();
+            if ($silent === false && isset($this->command)) {
+                $this->command->getOutput()->writeln('<info>Seeding:</info> '.get_class($seeder));
+            }
 
-		if (isset($this->command))
-		{
-			$this->command->getOutput()->writeln("<info>Seeded:</info> $class");
-		}
-	}
+            $seeder->__invoke();
+        }
 
-	/**
-	 * Resolve an instance of the given seeder class.
-	 *
-	 * @param  string  $class
-	 * @return \Illuminate\Database\Seeder
-	 */
-	protected function resolve($class)
-	{
-		if (isset($this->container))
-		{
-			$instance = $this->container->make($class);
+        return $this;
+    }
 
-			$instance->setContainer($this->container);
-		}
-		else
-		{
-			$instance = new $class;
-		}
+    /**
+     * Silently seed the given connection from the given path.
+     *
+     * @param  array|string  $class
+     * @return void
+     */
+    public function callSilent($class)
+    {
+        $this->call($class, true);
+    }
 
-		if (isset($this->command))
-		{
-			$instance->setCommand($this->command);
-		}
+    /**
+     * Resolve an instance of the given seeder class.
+     *
+     * @param  string  $class
+     * @return \Illuminate\Database\Seeder
+     */
+    protected function resolve($class)
+    {
+        if (isset($this->container)) {
+            $instance = $this->container->make($class);
 
-		return $instance;
-	}
+            $instance->setContainer($this->container);
+        } else {
+            $instance = new $class;
+        }
 
-	/**
-	 * Set the IoC container instance.
-	 *
-	 * @param  \Illuminate\Container\Container  $container
-	 * @return $this
-	 */
-	public function setContainer(Container $container)
-	{
-		$this->container = $container;
+        if (isset($this->command)) {
+            $instance->setCommand($this->command);
+        }
 
-		return $this;
-	}
+        return $instance;
+    }
 
-	/**
-	 * Set the console command instance.
-	 *
-	 * @param  \Illuminate\Console\Command  $command
-	 * @return $this
-	 */
-	public function setCommand(Command $command)
-	{
-		$this->command = $command;
+    /**
+     * Set the IoC container instance.
+     *
+     * @param  \Illuminate\Container\Container  $container
+     * @return $this
+     */
+    public function setContainer(Container $container)
+    {
+        $this->container = $container;
 
-		return $this;
-	}
+        return $this;
+    }
 
+    /**
+     * Set the console command instance.
+     *
+     * @param  \Illuminate\Console\Command  $command
+     * @return $this
+     */
+    public function setCommand(Command $command)
+    {
+        $this->command = $command;
+
+        return $this;
+    }
+
+    /**
+     * Run the database seeds.
+     *
+     * @return mixed
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function __invoke()
+    {
+        if (! method_exists($this, 'run')) {
+            throw new InvalidArgumentException('Method [run] missing from '.get_class($this));
+        }
+
+        return isset($this->container)
+                    ? $this->container->call([$this, 'run'])
+                    : $this->run();
+    }
 }

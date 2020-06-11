@@ -11,38 +11,32 @@
 
 namespace Symfony\Component\Translation\Loader;
 
-use Symfony\Component\Translation\Exception\InvalidResourceException;
-use Symfony\Component\Translation\Exception\NotFoundResourceException;
-use Symfony\Component\Config\Resource\FileResource;
-
 /**
  * PhpFileLoader loads translations from PHP files returning an array of translations.
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class PhpFileLoader extends ArrayLoader
+class PhpFileLoader extends FileLoader
 {
+    private static $cache = [];
+
     /**
      * {@inheritdoc}
      */
-    public function load($resource, $locale, $domain = 'messages')
+    protected function loadResource($resource)
     {
-        if (!stream_is_local($resource)) {
-            throw new InvalidResourceException(sprintf('This is not a local file "%s".', $resource));
+        if ([] === self::$cache && \function_exists('opcache_invalidate') && filter_var(ini_get('opcache.enable'), FILTER_VALIDATE_BOOLEAN) && (!\in_array(\PHP_SAPI, ['cli', 'phpdbg'], true) || filter_var(ini_get('opcache.enable_cli'), FILTER_VALIDATE_BOOLEAN))) {
+            self::$cache = null;
         }
 
-        if (!file_exists($resource)) {
-            throw new NotFoundResourceException(sprintf('File "%s" not found.', $resource));
+        if (null === self::$cache) {
+            return require $resource;
         }
 
-        $messages = require $resource;
-
-        $catalogue = parent::load($messages, $locale, $domain);
-
-        if (class_exists('Symfony\Component\Config\Resource\FileResource')) {
-            $catalogue->addResource(new FileResource($resource));
+        if (isset(self::$cache[$resource])) {
+            return self::$cache[$resource];
         }
 
-        return $catalogue;
+        return self::$cache[$resource] = require $resource;
     }
 }

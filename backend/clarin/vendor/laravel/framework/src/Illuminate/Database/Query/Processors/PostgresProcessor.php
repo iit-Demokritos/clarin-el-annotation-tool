@@ -1,40 +1,41 @@
-<?php namespace Illuminate\Database\Query\Processors;
+<?php
+
+namespace Illuminate\Database\Query\Processors;
 
 use Illuminate\Database\Query\Builder;
 
-class PostgresProcessor extends Processor {
+class PostgresProcessor extends Processor
+{
+    /**
+     * Process an "insert get ID" query.
+     *
+     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  string  $sql
+     * @param  array   $values
+     * @param  string|null  $sequence
+     * @return int
+     */
+    public function processInsertGetId(Builder $query, $sql, $values, $sequence = null)
+    {
+        $result = $query->getConnection()->selectFromWriteConnection($sql, $values)[0];
 
-	/**
-	 * Process an "insert get ID" query.
-	 *
-	 * @param  \Illuminate\Database\Query\Builder  $query
-	 * @param  string  $sql
-	 * @param  array   $values
-	 * @param  string  $sequence
-	 * @return int
-	 */
-	public function processInsertGetId(Builder $query, $sql, $values, $sequence = null)
-	{
-		$results = $query->getConnection()->selectFromWriteConnection($sql, $values);
+        $sequence = $sequence ?: 'id';
 
-		$sequence = $sequence ?: 'id';
+        $id = is_object($result) ? $result->{$sequence} : $result[$sequence];
 
-		$result = (array) $results[0];
+        return is_numeric($id) ? (int) $id : $id;
+    }
 
-		$id = $result[$sequence];
-
-		return is_numeric($id) ? (int) $id : $id;
-	}
-
-	/**
-	 * Process the results of a column listing query.
-	 *
-	 * @param  array  $results
-	 * @return array
-	 */
-	public function processColumnListing($results)
-	{
-		return array_values(array_map(function($r) { $r = (object) $r; return $r->column_name; }, $results));
-	}
-
+    /**
+     * Process the results of a column listing query.
+     *
+     * @param  array  $results
+     * @return array
+     */
+    public function processColumnListing($results)
+    {
+        return array_map(function ($result) {
+            return ((object) $result)->column_name;
+        }, $results);
+    }
 }

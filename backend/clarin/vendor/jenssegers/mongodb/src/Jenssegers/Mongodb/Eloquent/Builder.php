@@ -1,53 +1,60 @@
-<?php namespace Jenssegers\Mongodb\Eloquent;
+<?php
 
-use MongoCursor;
-use Illuminate\Database\Eloquent\Relations\Relation;
+namespace Jenssegers\Mongodb\Eloquent;
+
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Jenssegers\Mongodb\Helpers\QueriesRelationships;
+use MongoDB\Driver\Cursor;
+use MongoDB\Model\BSONDocument;
 
-class Builder extends EloquentBuilder {
+class Builder extends EloquentBuilder
+{
+    use QueriesRelationships;
 
     /**
      * The methods that should be returned from query builder.
      *
      * @var array
      */
-    protected $passthru = array(
-        'toSql', 'lists', 'insert', 'insertGetId', 'pluck',
-        'count', 'min', 'max', 'avg', 'sum', 'exists', 'push', 'pull'
-    );
+    protected $passthru = [
+        'toSql',
+        'insert',
+        'insertGetId',
+        'pluck',
+        'count',
+        'min',
+        'max',
+        'avg',
+        'sum',
+        'exists',
+        'push',
+        'pull',
+    ];
 
     /**
-     * Update a record in the database.
-     *
-     * @param  array  $values
-     * @return int
+     * @inheritdoc
      */
-    public function update(array $values)
+    public function update(array $values, array $options = [])
     {
         // Intercept operations on embedded models and delegate logic
         // to the parent relation instance.
-        if ($relation = $this->model->getParentRelation())
-        {
+        if ($relation = $this->model->getParentRelation()) {
             $relation->performUpdate($this->model, $values);
 
             return 1;
         }
 
-        return parent::update($values);
+        return $this->toBase()->update($this->addUpdatedAtColumn($values), $options);
     }
 
     /**
-     * Insert a new record into the database.
-     *
-     * @param  array  $values
-     * @return bool
+     * @inheritdoc
      */
     public function insert(array $values)
     {
         // Intercept operations on embedded models and delegate logic
         // to the parent relation instance.
-        if ($relation = $this->model->getParentRelation())
-        {
+        if ($relation = $this->model->getParentRelation()) {
             $relation->performInsert($this->model, $values);
 
             return true;
@@ -57,18 +64,13 @@ class Builder extends EloquentBuilder {
     }
 
     /**
-     * Insert a new record and get the value of the primary key.
-     *
-     * @param  array   $values
-     * @param  string  $sequence
-     * @return int
+     * @inheritdoc
      */
     public function insertGetId(array $values, $sequence = null)
     {
         // Intercept operations on embedded models and delegate logic
         // to the parent relation instance.
-        if ($relation = $this->model->getParentRelation())
-        {
+        if ($relation = $this->model->getParentRelation()) {
             $relation->performInsert($this->model, $values);
 
             return $this->model->getKey();
@@ -78,16 +80,13 @@ class Builder extends EloquentBuilder {
     }
 
     /**
-     * Delete a record from the database.
-     *
-     * @return mixed
+     * @inheritdoc
      */
     public function delete()
     {
         // Intercept operations on embedded models and delegate logic
         // to the parent relation instance.
-        if ($relation = $this->model->getParentRelation())
-        {
+        if ($relation = $this->model->getParentRelation()) {
             $relation->performDelete($this->model);
 
             return $this->model->getKey();
@@ -97,19 +96,13 @@ class Builder extends EloquentBuilder {
     }
 
     /**
-     * Increment a column's value by a given amount.
-     *
-     * @param  string  $column
-     * @param  int     $amount
-     * @param  array   $extra
-     * @return int
+     * @inheritdoc
      */
-    public function increment($column, $amount = 1, array $extra = array())
+    public function increment($column, $amount = 1, array $extra = [])
     {
         // Intercept operations on embedded models and delegate logic
         // to the parent relation instance.
-        if ($relation = $this->model->getParentRelation())
-        {
+        if ($relation = $this->model->getParentRelation()) {
             $value = $this->model->{$column};
 
             // When doing increment and decrements, Eloquent will automatically
@@ -119,7 +112,7 @@ class Builder extends EloquentBuilder {
 
             $this->model->syncOriginalAttribute($column);
 
-            $result = $this->model->update(array($column => $value));
+            $result = $this->model->update([$column => $value]);
 
             return $result;
         }
@@ -128,19 +121,13 @@ class Builder extends EloquentBuilder {
     }
 
     /**
-     * Decrement a column's value by a given amount.
-     *
-     * @param  string  $column
-     * @param  int     $amount
-     * @param  array   $extra
-     * @return int
+     * @inheritdoc
      */
-    public function decrement($column, $amount = 1, array $extra = array())
+    public function decrement($column, $amount = 1, array $extra = [])
     {
         // Intercept operations on embedded models and delegate logic
         // to the parent relation instance.
-        if ($relation = $this->model->getParentRelation())
-        {
+        if ($relation = $this->model->getParentRelation()) {
             $value = $this->model->{$column};
 
             // When doing increment and decrements, Eloquent will automatically
@@ -150,92 +137,76 @@ class Builder extends EloquentBuilder {
 
             $this->model->syncOriginalAttribute($column);
 
-            return $this->model->update(array($column => $value));
+            return $this->model->update([$column => $value]);
         }
 
         return parent::decrement($column, $amount, $extra);
     }
 
     /**
-     * Add the "has" condition where clause to the query.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $hasQuery
-     * @param  \Illuminate\Database\Eloquent\Relations\Relation  $relation
-     * @param  string  $operator
-     * @param  int  $count
-     * @param  string  $boolean
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @inheritdoc
      */
-    protected function addHasWhere(EloquentBuilder $hasQuery, Relation $relation, $operator, $count, $boolean)
+    public function chunkById($count, callable $callback, $column = '_id', $alias = null)
     {
-        $query = $hasQuery->getQuery();
-
-        // Get the number of related objects for each possible parent.
-        $relationCount = array_count_values($query->lists($relation->getHasCompareKey()));
-
-        // Remove unwanted related objects based on the operator and count.
-        $relationCount = array_filter($relationCount, function($counted) use ($count, $operator)
-        {
-            // If we are comparing to 0, we always need all results.
-            if ($count == 0) return true;
-
-            switch ($operator)
-            {
-                case '>=':
-                case '<':
-                    return $counted >= $count;
-                case '>':
-                case '<=':
-                    return $counted > $count;
-                case '=':
-                case '!=':
-                    return $counted == $count;
-            }
-        });
-
-        // If the operator is <, <= or !=, we will use whereNotIn.
-        $not = in_array($operator, array('<', '<=', '!='));
-
-        // If we are comparing to 0, we need an additional $not flip.
-        if ($count == 0) $not = !$not;
-
-        // All related ids.
-        $relatedIds = array_keys($relationCount);
-
-        // Add whereIn to the query.
-        return $this->whereIn($this->model->getKeyName(), $relatedIds, $boolean, $not);
+        return parent::chunkById($count, $callback, $column, $alias);
     }
 
     /**
-     * Create a raw database expression.
-     *
-     * @param  closure  $expression
-     * @return mixed
+     * @inheritdoc
      */
     public function raw($expression = null)
-	{
-		// Get raw results from the query builder.
-		$results = $this->query->raw($expression);
+    {
+        // Get raw results from the query builder.
+        $results = $this->query->raw($expression);
 
-		// Convert MongoCursor results to a collection of models.
-		if ($results instanceof MongoCursor)
-		{
-			$results = iterator_to_array($results, false);
+        // Convert MongoCursor results to a collection of models.
+        if ($results instanceof Cursor) {
+            $results = iterator_to_array($results, false);
 
-			return $this->model->hydrate($results);
-		}
+            return $this->model->hydrate($results);
+        } // Convert Mongo BSONDocument to a single object.
+        elseif ($results instanceof BSONDocument) {
+            $results = $results->getArrayCopy();
 
-		// The result is a single object.
-		else if (is_array($results) and array_key_exists('_id', $results))
-		{
-			$model = $this->model->newFromBuilder($results);
+            return $this->model->newFromBuilder((array) $results);
+        } // The result is a single object.
+        elseif (is_array($results) && array_key_exists('_id', $results)) {
+            return $this->model->newFromBuilder((array) $results);
+        }
 
-			$model->setConnection($this->model->getConnection());
+        return $results;
+    }
 
-			return $model;
-		}
+    /**
+     * Add the "updated at" column to an array of values.
+     * TODO Remove if https://github.com/laravel/framework/commit/6484744326531829341e1ff886cc9b628b20d73e
+     * wiil be reverted
+     * Issue in laravel frawework https://github.com/laravel/framework/issues/27791
+     *
+     * @param  array  $values
+     * @return array
+     */
+    protected function addUpdatedAtColumn(array $values)
+    {
+        if (! $this->model->usesTimestamps() ||
+            is_null($this->model->getUpdatedAtColumn())) {
+            return $values;
+        }
 
-		return $results;
-	}
+        $column = $this->model->getUpdatedAtColumn();
+        $values = array_merge(
+            [$column => $this->model->freshTimestampString()],
+            $values
+        );
 
+        return $values;
+    }
+
+    /**
+     * @return \Illuminate\Database\ConnectionInterface
+     */
+    public function getConnection()
+    {
+        return $this->query->getConnection();
+    }
 }

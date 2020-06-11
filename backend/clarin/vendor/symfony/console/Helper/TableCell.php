@@ -11,32 +11,26 @@
 
 namespace Symfony\Component\Console\Helper;
 
+use Symfony\Component\Console\Exception\InvalidArgumentException;
+
 /**
  * @author Abdellatif Ait boudad <a.aitboudad@gmail.com>
  */
 class TableCell
 {
     private $value;
-    private $options = array(
+    private $options = [
         'rowspan' => 1,
         'colspan' => 1,
-    );
+    ];
 
-    /**
-     * @param string $value
-     * @param array  $options
-     */
-    public function __construct($value = '', array $options = array())
+    public function __construct(string $value = '', array $options = [])
     {
-        if (is_numeric($value) && !is_string($value)) {
-            $value = (string) $value;
-        }
-
         $this->value = $value;
 
         // check option names
         if ($diff = array_diff(array_keys($options), array_keys($this->options))) {
-            throw new \InvalidArgumentException(sprintf('The TableCell does not support the following options: \'%s\'.', implode('\', \'', $diff)));
+            throw new InvalidArgumentException(sprintf('The TableCell does not support the following options: \'%s\'.', implode('\', \'', $diff)));
         }
 
         $this->options = array_merge($this->options, $options);

@@ -1,43 +1,50 @@
-<?php namespace Illuminate\Pagination;
+<?php
+
+namespace Illuminate\Pagination;
 
 use Illuminate\Support\ServiceProvider;
 
-class PaginationServiceProvider extends ServiceProvider {
+class PaginationServiceProvider extends ServiceProvider
+{
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $this->loadViewsFrom(__DIR__.'/resources/views', 'pagination');
 
-	/**
-	 * Indicates if loading of the provider is deferred.
-	 *
-	 * @var bool
-	 */
-	protected $defer = true;
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__.'/resources/views' => $this->app->resourcePath('views/vendor/pagination'),
+            ], 'laravel-pagination');
+        }
+    }
 
-	/**
-	 * Register the service provider.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
-		$this->app->bindShared('paginator', function($app)
-		{
-			$paginator = new Factory($app['request'], $app['view'], $app['translator']);
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        Paginator::viewFactoryResolver(function () {
+            return $this->app['view'];
+        });
 
-			$paginator->setViewName($app['config']['view.pagination']);
+        Paginator::currentPathResolver(function () {
+            return $this->app['request']->url();
+        });
 
-			$app->refresh('request', $paginator, 'setRequest');
+        Paginator::currentPageResolver(function ($pageName = 'page') {
+            $page = $this->app['request']->input($pageName);
 
-			return $paginator;
-		});
-	}
+            if (filter_var($page, FILTER_VALIDATE_INT) !== false && (int) $page >= 1) {
+                return (int) $page;
+            }
 
-	/**
-	 * Get the services provided by the provider.
-	 *
-	 * @return array
-	 */
-	public function provides()
-	{
-		return array('paginator');
-	}
-
+            return 1;
+        });
+    }
 }

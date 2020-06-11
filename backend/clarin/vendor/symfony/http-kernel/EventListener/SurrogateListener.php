@@ -11,15 +11,18 @@
 
 namespace Symfony\Component\HttpKernel\EventListener;
 
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\HttpCache\HttpCache;
 use Symfony\Component\HttpKernel\HttpCache\SurrogateInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * SurrogateListener adds a Surrogate-Control HTTP header when the Response needs to be parsed for Surrogates.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ *
+ * @final since Symfony 4.3
  */
 class SurrogateListener implements EventSubscriberInterface
 {
@@ -35,17 +38,30 @@ class SurrogateListener implements EventSubscriberInterface
      */
     public function onKernelResponse(FilterResponseEvent $event)
     {
-        if (!$event->isMasterRequest() || null === $this->surrogate) {
+        if (!$event->isMasterRequest()) {
             return;
         }
 
-        $this->surrogate->addSurrogateControl($event->getResponse());
+        $kernel = $event->getKernel();
+        $surrogate = $this->surrogate;
+        if ($kernel instanceof HttpCache) {
+            $surrogate = $kernel->getSurrogate();
+            if (null !== $this->surrogate && $this->surrogate->getName() !== $surrogate->getName()) {
+                $surrogate = $this->surrogate;
+            }
+        }
+
+        if (null === $surrogate) {
+            return;
+        }
+
+        $surrogate->addSurrogateControl($event->getResponse());
     }
 
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             KernelEvents::RESPONSE => 'onKernelResponse',
-        );
+        ];
     }
 }

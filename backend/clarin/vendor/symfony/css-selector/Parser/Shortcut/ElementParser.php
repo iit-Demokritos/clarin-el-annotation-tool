@@ -22,13 +22,15 @@ use Symfony\Component\CssSelector\Parser\ParserInterface;
  * which is copyright Ian Bicking, @see https://github.com/SimonSapin/cssselect.
  *
  * @author Jean-François Simon <jeanfrancois.simon@sensiolabs.com>
+ *
+ * @internal
  */
 class ElementParser implements ParserInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function parse($source)
+    public function parse(string $source): array
     {
         // Matches an optional namespace, required element or `*`
         // $source = 'testns|testel';
@@ -37,9 +39,9 @@ class ElementParser implements ParserInterface
         //     1 => string 'testns' (length=6)
         //     2 => string 'testel' (length=6)
         if (preg_match('/^(?:([a-z]++)\|)?([\w-]++|\*)$/i', trim($source), $matches)) {
-            return array(new SelectorNode(new ElementNode($matches[1] ?: null, $matches[2])));
+            return [new SelectorNode(new ElementNode($matches[1] ?: null, $matches[2]))];
         }
 
-        return array();
+        return [];
     }
 }

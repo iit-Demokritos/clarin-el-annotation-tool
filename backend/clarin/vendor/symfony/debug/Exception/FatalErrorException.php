@@ -9,35 +9,22 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\HttpKernel\Exception;
+namespace Symfony\Component\Debug\Exception;
+
+@trigger_error(sprintf('The "%s" class is deprecated since Symfony 4.4, use "%s" instead.', FatalErrorException::class, \Symfony\Component\ErrorHandler\Error\FatalError::class), E_USER_DEPRECATED);
 
 /**
  * Fatal Error Exception.
  *
- * @author Fabien Potencier <fabien@symfony.com>
  * @author Konstanton Myakshin <koc-dp@yandex.ru>
- * @author Nicolas Grekas <p@tchwork.com>
  *
- * @deprecated Deprecated in 2.3, to be removed in 3.0. Use the same class from the Debug component instead.
+ * @deprecated since Symfony 4.4, use Symfony\Component\ErrorHandler\Error\FatalError instead.
  */
 class FatalErrorException extends \ErrorException
 {
-}
-
-namespace Symfony\Component\Debug\Exception;
-
-use Symfony\Component\HttpKernel\Exception\FatalErrorException as LegacyFatalErrorException;
-
-/**
- * Fatal Error Exception.
- *
- * @author Konstanton Myakshin <koc-dp@yandex.ru>
- */
-class FatalErrorException extends LegacyFatalErrorException
-{
-    public function __construct($message, $code, $severity, $filename, $lineno, $traceOffset = null, $traceArgs = true, array $trace = null)
+    public function __construct(string $message, int $code, int $severity, string $filename, int $lineno, int $traceOffset = null, bool $traceArgs = true, array $trace = null, \Throwable $previous = null)
     {
-        parent::__construct($message, $code, $severity, $filename, $lineno);
+        parent::__construct($message, $code, $severity, $filename, $lineno, $previous);
 
         if (null !== $trace) {
             if (!$traceArgs) {
@@ -48,7 +35,7 @@ class FatalErrorException extends LegacyFatalErrorException
 
             $this->setTrace($trace);
         } elseif (null !== $traceOffset) {
-            if (function_exists('xdebug_get_function_stack')) {
+            if (\function_exists('xdebug_get_function_stack')) {
                 $trace = xdebug_get_function_stack();
                 if (0 < $traceOffset) {
                     array_splice($trace, -$traceOffset);
@@ -77,13 +64,8 @@ class FatalErrorException extends LegacyFatalErrorException
 
                 unset($frame);
                 $trace = array_reverse($trace);
-            } elseif (function_exists('symfony_debug_backtrace')) {
-                $trace = symfony_debug_backtrace();
-                if (0 < $traceOffset) {
-                    array_splice($trace, 0, $traceOffset);
-                }
             } else {
-                $trace = array();
+                $trace = [];
             }
 
             $this->setTrace($trace);

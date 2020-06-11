@@ -1,50 +1,61 @@
-<?php namespace Illuminate\Support\Facades;
+<?php
+
+namespace Illuminate\Support\Facades;
+
+use Illuminate\Contracts\Auth\PasswordBroker;
 
 /**
- * @see \Illuminate\Auth\Reminders\PasswordBroker
+ * @method static string sendResetLink(array $credentials)
+ * @method static mixed reset(array $credentials, \Closure $callback)
+ * @method static void validator(\Closure $callback)
+ * @method static bool validateNewPassword(array $credentials)
+ *
+ * @see \Illuminate\Auth\Passwords\PasswordBroker
  */
-class Password extends Facade {
+class Password extends Facade
+{
+    /**
+     * Constant representing a successfully sent reminder.
+     *
+     * @var string
+     */
+    const RESET_LINK_SENT = PasswordBroker::RESET_LINK_SENT;
 
-	/**
-	 * Constant representing a successfully sent reminder.
-	 *
-	 * @var int
-	 */
-	const REMINDER_SENT = 'reminders.sent';
+    /**
+     * Constant representing a successfully reset password.
+     *
+     * @var string
+     */
+    const PASSWORD_RESET = PasswordBroker::PASSWORD_RESET;
 
-	/**
-	 * Constant representing a successfully reset password.
-	 *
-	 * @var int
-	 */
-	const PASSWORD_RESET = 'reminders.reset';
+    /**
+     * Constant representing the user not found response.
+     *
+     * @var string
+     */
+    const INVALID_USER = PasswordBroker::INVALID_USER;
 
-	/**
-	 * Constant representing the user not found response.
-	 *
-	 * @var int
-	 */
-	const INVALID_USER = 'reminders.user';
+    /**
+     * Constant representing an invalid password.
+     *
+     * @var string
+     */
+    const INVALID_PASSWORD = PasswordBroker::INVALID_PASSWORD;
 
-	/**
-	 * Constant representing an invalid password.
-	 *
-	 * @var int
-	 */
-	const INVALID_PASSWORD = 'reminders.password';
+    /**
+     * Constant representing an invalid token.
+     *
+     * @var string
+     */
+    const INVALID_TOKEN = PasswordBroker::INVALID_TOKEN;
 
-	/**
-	 * Constant representing an invalid token.
-	 *
-	 * @var int
-	 */
-	const INVALID_TOKEN = 'reminders.token';
-
-	/**
-	 * Get the registered name of the component.
-	 *
-	 * @return string
-	 */
-	protected static function getFacadeAccessor() { return 'auth.reminder'; }
-
+    /**
+     * Get the registered name of the component.
+     *
+     * @return string
+     */
+    protected static function getFacadeAccessor()
+    {
+        return 'auth.password';
+    }
 }

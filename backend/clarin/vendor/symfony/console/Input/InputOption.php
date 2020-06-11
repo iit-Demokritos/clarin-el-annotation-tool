@@ -11,6 +11,9 @@
 
 namespace Symfony\Component\Console\Input;
 
+use Symfony\Component\Console\Exception\InvalidArgumentException;
+use Symfony\Component\Console\Exception\LogicException;
+
 /**
  * Represents a command line option.
  *
@@ -30,22 +33,22 @@ class InputOption
     private $description;
 
     /**
-     * @param string       $name        The option name
-     * @param string|array $shortcut    The shortcuts, can be null, a string of shortcuts delimited by | or an array of shortcuts
-     * @param int          $mode        The option mode: One of the VALUE_* constants
-     * @param string       $description A description text
-     * @param mixed        $default     The default value (must be null for self::VALUE_NONE)
+     * @param string                        $name        The option name
+     * @param string|array|null             $shortcut    The shortcuts, can be null, a string of shortcuts delimited by | or an array of shortcuts
+     * @param int|null                      $mode        The option mode: One of the VALUE_* constants
+     * @param string                        $description A description text
+     * @param string|string[]|int|bool|null $default     The default value (must be null for self::VALUE_NONE)
      *
-     * @throws \InvalidArgumentException If option mode is invalid or incompatible
+     * @throws InvalidArgumentException If option mode is invalid or incompatible
      */
-    public function __construct($name, $shortcut = null, $mode = null, $description = '', $default = null)
+    public function __construct(string $name, $shortcut = null, int $mode = null, string $description = '', $default = null)
     {
         if (0 === strpos($name, '--')) {
             $name = substr($name, 2);
         }
 
         if (empty($name)) {
-            throw new \InvalidArgumentException('An option name cannot be empty.');
+            throw new InvalidArgumentException('An option name cannot be empty.');
         }
 
         if (empty($shortcut)) {
@@ -53,7 +56,7 @@ class InputOption
         }
 
         if (null !== $shortcut) {
-            if (is_array($shortcut)) {
+            if (\is_array($shortcut)) {
                 $shortcut = implode('|', $shortcut);
             }
             $shortcuts = preg_split('{(\|)-?}', ltrim($shortcut, '-'));
@@ -61,14 +64,14 @@ class InputOption
             $shortcut = implode('|', $shortcuts);
 
             if (empty($shortcut)) {
-                throw new \InvalidArgumentException('An option shortcut cannot be empty.');
+                throw new InvalidArgumentException('An option shortcut cannot be empty.');
             }
         }
 
         if (null === $mode) {
             $mode = self::VALUE_NONE;
-        } elseif (!is_int($mode) || $mode > 15 || $mode < 1) {
-            throw new \InvalidArgumentException(sprintf('Option mode "%s" is not valid.', $mode));
+        } elseif ($mode > 15 || $mode < 1) {
+            throw new InvalidArgumentException(sprintf('Option mode "%s" is not valid.', $mode));
         }
 
         $this->name = $name;
@@ -77,7 +80,7 @@ class InputOption
         $this->description = $description;
 
         if ($this->isArray() && !$this->acceptValue()) {
-            throw new \InvalidArgumentException('Impossible to have an option mode VALUE_IS_ARRAY if the option does not accept a value.');
+            throw new InvalidArgumentException('Impossible to have an option mode VALUE_IS_ARRAY if the option does not accept a value.');
         }
 
         $this->setDefault($default);
@@ -86,7 +89,7 @@ class InputOption
     /**
      * Returns the option shortcut.
      *
-     * @return string The shortcut
+     * @return string|null The shortcut
      */
     public function getShortcut()
     {
@@ -146,21 +149,21 @@ class InputOption
     /**
      * Sets the default value.
      *
-     * @param mixed $default The default value
+     * @param string|string[]|int|bool|null $default The default value
      *
-     * @throws \LogicException When incorrect default value is given
+     * @throws LogicException When incorrect default value is given
      */
     public function setDefault($default = null)
     {
         if (self::VALUE_NONE === (self::VALUE_NONE & $this->mode) && null !== $default) {
-            throw new \LogicException('Cannot set a default value when using InputOption::VALUE_NONE mode.');
+            throw new LogicException('Cannot set a default value when using InputOption::VALUE_NONE mode.');
         }
 
         if ($this->isArray()) {
             if (null === $default) {
-                $default = array();
-            } elseif (!is_array($default)) {
-                throw new \LogicException('A default value for an array option must be an array.');
+                $default = [];
+            } elseif (!\is_array($default)) {
+                throw new LogicException('A default value for an array option must be an array.');
             }
         }
 
@@ -170,7 +173,7 @@ class InputOption
     /**
      * Returns the default value.
      *
-     * @return mixed The default value
+     * @return string|string[]|int|bool|null The default value
      */
     public function getDefault()
     {

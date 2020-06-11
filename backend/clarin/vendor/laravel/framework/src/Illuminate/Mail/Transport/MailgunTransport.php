@@ -1,168 +1,211 @@
-<?php namespace Illuminate\Mail\Transport;
+<?php
 
-use Swift_Transport;
-use GuzzleHttp\Client;
-use Swift_Mime_Message;
-use GuzzleHttp\Post\PostFile;
-use Swift_Events_EventListener;
+namespace Illuminate\Mail\Transport;
 
-class MailgunTransport implements Swift_Transport {
+use Swift_Mime_SimpleMessage;
+use GuzzleHttp\ClientInterface;
 
-	/**
-	 * The Mailgun API key.
-	 *
-	 * @var string
-	 */
-	protected $key;
+class MailgunTransport extends Transport
+{
+    /**
+     * Guzzle client instance.
+     *
+     * @var \GuzzleHttp\ClientInterface
+     */
+    protected $client;
 
-	/**
-	 * The Mailgun domain.
-	 *
-	 * @var string
-	 */
-	protected $domain;
+    /**
+     * The Mailgun API key.
+     *
+     * @var string
+     */
+    protected $key;
 
-	/**
-	 * THe Mailgun API end-point.
-	 *
-	 * @var string
-	 */
-	protected $url;
+    /**
+     * The Mailgun email domain.
+     *
+     * @var string
+     */
+    protected $domain;
 
-	/**
-	 * Create a new Mailgun transport instance.
-	 *
-	 * @param  string  $key
-	 * @param  string  $domain
-	 * @return void
-	 */
-	public function __construct($key, $domain)
-	{
-		$this->key = $key;
-		$this->setDomain($domain);
-	}
+    /**
+     * The Mailgun API endpoint.
+     *
+     * @var string
+     */
+    protected $endpoint;
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function isStarted()
-	{
-		return true;
-	}
+    /**
+     * Create a new Mailgun transport instance.
+     *
+     * @param  \GuzzleHttp\ClientInterface  $client
+     * @param  string  $key
+     * @param  string  $domain
+     * @param  string|null  $endpoint
+     * @return void
+     */
+    public function __construct(ClientInterface $client, $key, $domain, $endpoint = null)
+    {
+        $this->key = $key;
+        $this->client = $client;
+        $this->endpoint = $endpoint ?? 'api.mailgun.net';
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function start()
-	{
-		return true;
-	}
+        $this->setDomain($domain);
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function stop()
-	{
-		return true;
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function send(Swift_Mime_SimpleMessage $message, &$failedRecipients = null)
+    {
+        $this->beforeSendPerformed($message);
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function send(Swift_Mime_Message $message, &$failedRecipients = null)
-	{
-		$client = $this->getHttpClient();
+        $to = $this->getTo($message);
 
-		$client->post($this->url, ['auth' => ['api', $this->key],
-			'body' => [
-				'to' => $this->getTo($message),
-				'message' => new PostFile('message', (string) $message),
-			],
-		]);
-	}
+        $message->setBcc([]);
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function registerPlugin(Swift_Events_EventListener $plugin)
-	{
-		//
-	}
+        $response = $this->client->request(
+            'POST',
+            "https://{$this->endpoint}/v3/{$this->domain}/messages.mime",
+            $this->payload($message, $to)
+        );
 
-	/**
-	 * Get the "to" payload field for the API request.
-	 *
-	 * @param  \Swift_Mime_Message  $message
-	 * @return array
-	 */
-	protected function getTo(Swift_Mime_Message $message)
-	{
-		$formatted = [];
+        $message->getHeaders()->addTextHeader(
+            'X-Mailgun-Message-ID', $this->getMessageId($response)
+        );
 
-		$contacts = array_merge(
-			(array) $message->getTo(), (array) $message->getCc(), (array) $message->getBcc()
-		);
+        $this->sendPerformed($message);
 
-		foreach ($contacts as $address => $display)
-		{
-			$formatted[] = $display ? $display." <$address>" : $address;
-		}
+        return $this->numberOfRecipients($message);
+    }
 
-		return implode(',', $formatted);
-	}
+    /**
+     * Get the HTTP payload for sending the Mailgun message.
+     *
+     * @param  \Swift_Mime_SimpleMessage  $message
+     * @param  string  $to
+     * @return array
+     */
+    protected function payload(Swift_Mime_SimpleMessage $message, $to)
+    {
+        return [
+            'auth' => [
+                'api',
+                $this->key,
+            ],
+            'multipart' => [
+                [
+                    'name' => 'to',
+                    'contents' => $to,
+                ],
+                [
+                    'name' => 'message',
+                    'contents' => $message->toString(),
+                    'filename' => 'message.mime',
+                ],
+            ],
+        ];
+    }
 
-	/**
-	 * Get a new HTTP client instance.
-	 *
-	 * @return \GuzzleHttp\Client
-	 */
-	protected function getHttpClient()
-	{
-		return new Client;
-	}
+    /**
+     * Get the "to" payload field for the API request.
+     *
+     * @param  \Swift_Mime_SimpleMessage  $message
+     * @return string
+     */
+    protected function getTo(Swift_Mime_SimpleMessage $message)
+    {
+        return collect($this->allContacts($message))->map(function ($display, $address) {
+            return $display ? $display." <{$address}>" : $address;
+        })->values()->implode(',');
+    }
 
-	/**
-	 * Get the API key being used by the transport.
-	 *
-	 * @return string
-	 */
-	public function getKey()
-	{
-		return $this->key;
-	}
+    /**
+     * Get all of the contacts for the message.
+     *
+     * @param  \Swift_Mime_SimpleMessage  $message
+     * @return array
+     */
+    protected function allContacts(Swift_Mime_SimpleMessage $message)
+    {
+        return array_merge(
+            (array) $message->getTo(), (array) $message->getCc(), (array) $message->getBcc()
+        );
+    }
 
-	/**
-	 * Set the API key being used by the transport.
-	 *
-	 * @param  string  $key
-	 * @return void
-	 */
-	public function setKey($key)
-	{
-		return $this->key = $key;
-	}
+    /**
+     * Get the message ID from the response.
+     *
+     * @param  \Psr\Http\Message\ResponseInterface  $response
+     * @return string
+     */
+    protected function getMessageId($response)
+    {
+        return object_get(
+            json_decode($response->getBody()->getContents()), 'id'
+        );
+    }
 
-	/**
-	 * Get the domain being used by the transport.
-	 *
-	 * @return string
-	 */
-	public function getDomain()
-	{
-		return $this->domain;
-	}
+    /**
+     * Get the API key being used by the transport.
+     *
+     * @return string
+     */
+    public function getKey()
+    {
+        return $this->key;
+    }
 
-	/**
-	 * Set the domain being used by the transport.
-	 *
-	 * @param  string  $domain
-	 * @return void
-	 */
-	public function setDomain($domain)
-	{
-		$this->url = 'https://api.mailgun.net/v2/'.$domain.'/messages.mime';
+    /**
+     * Set the API key being used by the transport.
+     *
+     * @param  string  $key
+     * @return string
+     */
+    public function setKey($key)
+    {
+        return $this->key = $key;
+    }
 
-		return $this->domain = $domain;
-	}
+    /**
+     * Get the domain being used by the transport.
+     *
+     * @return string
+     */
+    public function getDomain()
+    {
+        return $this->domain;
+    }
 
+    /**
+     * Set the domain being used by the transport.
+     *
+     * @param  string  $domain
+     * @return string
+     */
+    public function setDomain($domain)
+    {
+        return $this->domain = $domain;
+    }
+
+    /**
+     * Get the API endpoint being used by the transport.
+     *
+     * @return string
+     */
+    public function getEndpoint()
+    {
+        return $this->endpoint;
+    }
+
+    /**
+     * Set the API endpoint being used by the transport.
+     *
+     * @param  string  $endpoint
+     * @return string
+     */
+    public function setEndpoint($endpoint)
+    {
+        return $this->endpoint = $endpoint;
+    }
 }

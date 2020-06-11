@@ -1,65 +1,81 @@
-<?php namespace Illuminate\Database\Migrations;
+<?php
 
-interface MigrationRepositoryInterface {
+namespace Illuminate\Database\Migrations;
 
-	/**
-	 * Get the ran migrations for a given package.
-	 *
-	 * @return array
-	 */
-	public function getRan();
+interface MigrationRepositoryInterface
+{
+    /**
+     * Get the completed migrations.
+     *
+     * @return array
+     */
+    public function getRan();
 
-	/**
-	 * Get the last migration batch.
-	 *
-	 * @return array
-	 */
-	public function getLast();
+    /**
+     * Get list of migrations.
+     *
+     * @param  int  $steps
+     * @return array
+     */
+    public function getMigrations($steps);
 
-	/**
-	 * Log that a migration was run.
-	 *
-	 * @param  string  $file
-	 * @param  int     $batch
-	 * @return void
-	 */
-	public function log($file, $batch);
+    /**
+     * Get the last migration batch.
+     *
+     * @return array
+     */
+    public function getLast();
 
-	/**
-	 * Remove a migration from the log.
-	 *
-	 * @param  object  $migration
-	 * @return void
-	 */
-	public function delete($migration);
+    /**
+     * Get the completed migrations with their batch numbers.
+     *
+     * @return array
+     */
+    public function getMigrationBatches();
 
-	/**
-	 * Get the next migration batch number.
-	 *
-	 * @return int
-	 */
-	public function getNextBatchNumber();
+    /**
+     * Log that a migration was run.
+     *
+     * @param  string  $file
+     * @param  int  $batch
+     * @return void
+     */
+    public function log($file, $batch);
 
-	/**
-	 * Create the migration repository data store.
-	 *
-	 * @return void
-	 */
-	public function createRepository();
+    /**
+     * Remove a migration from the log.
+     *
+     * @param  object  $migration
+     * @return void
+     */
+    public function delete($migration);
 
-	/**
-	 * Determine if the migration repository exists.
-	 *
-	 * @return bool
-	 */
-	public function repositoryExists();
+    /**
+     * Get the next migration batch number.
+     *
+     * @return int
+     */
+    public function getNextBatchNumber();
 
-	/**
-	 * Set the information source to gather data.
-	 *
-	 * @param  string  $name
-	 * @return void
-	 */
-	public function setSource($name);
+    /**
+     * Create the migration repository data store.
+     *
+     * @return void
+     */
+    public function createRepository();
 
+    /**
+     * Determine if the migration repository exists.
+     *
+     * @return bool
+     */
+    public function repositoryExists();
+
+    /**
+     * Set the information source to gather data.
+     *
+     * @param  string  $name
+     * @return void
+     */
+    public function setSource($name);
 }

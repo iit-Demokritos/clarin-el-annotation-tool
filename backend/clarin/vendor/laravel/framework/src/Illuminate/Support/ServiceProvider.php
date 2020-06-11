@@ -1,192 +1,313 @@
-<?php namespace Illuminate\Support;
+<?php
 
-use ReflectionClass;
+namespace Illuminate\Support;
 
-abstract class ServiceProvider {
+use Illuminate\Console\Application as Artisan;
+use Illuminate\Contracts\Support\DeferrableProvider;
 
-	/**
-	 * The application instance.
-	 *
-	 * @var \Illuminate\Foundation\Application
-	 */
-	protected $app;
+abstract class ServiceProvider
+{
+    /**
+     * The application instance.
+     *
+     * @var \Illuminate\Contracts\Foundation\Application
+     */
+    protected $app;
 
-	/**
-	 * Indicates if loading of the provider is deferred.
-	 *
-	 * @var bool
-	 */
-	protected $defer = false;
+    /**
+     * Indicates if loading of the provider is deferred.
+     *
+     * @deprecated Implement the \Illuminate\Contracts\Support\DeferrableProvider interface instead. Will be removed in Laravel 6.0.
+     *
+     * @var bool
+     */
+    protected $defer = false;
 
-	/**
-	 * Create a new service provider instance.
-	 *
-	 * @param  \Illuminate\Foundation\Application  $app
-	 * @return void
-	 */
-	public function __construct($app)
-	{
-		$this->app = $app;
-	}
+    /**
+     * The paths that should be published.
+     *
+     * @var array
+     */
+    public static $publishes = [];
 
-	/**
-	 * Bootstrap the application events.
-	 *
-	 * @return void
-	 */
-	public function boot() {}
+    /**
+     * The paths that should be published by group.
+     *
+     * @var array
+     */
+    public static $publishGroups = [];
 
-	/**
-	 * Register the service provider.
-	 *
-	 * @return void
-	 */
-	abstract public function register();
+    /**
+     * Create a new service provider instance.
+     *
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @return void
+     */
+    public function __construct($app)
+    {
+        $this->app = $app;
+    }
 
-	/**
-	 * Register the package's component namespaces.
-	 *
-	 * @param  string  $package
-	 * @param  string  $namespace
-	 * @param  string  $path
-	 * @return void
-	 */
-	public function package($package, $namespace = null, $path = null)
-	{
-		$namespace = $this->getPackageNamespace($package, $namespace);
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        //
+    }
 
-		// In this method we will register the configuration package for the package
-		// so that the configuration options cleanly cascade into the application
-		// folder to make the developers lives much easier in maintaining them.
-		$path = $path ?: $this->guessPackagePath();
+    /**
+     * Merge the given configuration with the existing configuration.
+     *
+     * @param  string  $path
+     * @param  string  $key
+     * @return void
+     */
+    protected function mergeConfigFrom($path, $key)
+    {
+        $config = $this->app['config']->get($key, []);
 
-		$config = $path.'/config';
+        $this->app['config']->set($key, array_merge(require $path, $config));
+    }
 
-		if ($this->app['files']->isDirectory($config))
-		{
-			$this->app['config']->package($package, $config, $namespace);
-		}
+    /**
+     * Load the given routes file if routes are not already cached.
+     *
+     * @param  string  $path
+     * @return void
+     */
+    protected function loadRoutesFrom($path)
+    {
+        if (! $this->app->routesAreCached()) {
+            require $path;
+        }
+    }
 
-		// Next we will check for any "language" components. If language files exist
-		// we will register them with this given package's namespace so that they
-		// may be accessed using the translation facilities of the application.
-		$lang = $path.'/lang';
+    /**
+     * Register a view file namespace.
+     *
+     * @param  string|array  $path
+     * @param  string  $namespace
+     * @return void
+     */
+    protected function loadViewsFrom($path, $namespace)
+    {
+        if (isset($this->app->config['view']['paths']) && is_array($this->app->config['view']['paths'])) {
+            foreach ($this->app->config['view']['paths'] as $viewPath) {
+                if (is_dir($appPath = $viewPath.'/vendor/'.$namespace)) {
+                    $this->app['view']->addNamespace($namespace, $appPath);
+                }
+            }
+        }
 
-		if ($this->app['files']->isDirectory($lang))
-		{
-			$this->app['translator']->addNamespace($namespace, $lang);
-		}
+        $this->app['view']->addNamespace($namespace, $path);
+    }
 
-		// Next, we will see if the application view folder contains a folder for the
-		// package and namespace. If it does, we'll give that folder precedence on
-		// the loader list for the views so the package views can be overridden.
-		$appView = $this->getAppViewPath($package);
+    /**
+     * Register a translation file namespace.
+     *
+     * @param  string  $path
+     * @param  string  $namespace
+     * @return void
+     */
+    protected function loadTranslationsFrom($path, $namespace)
+    {
+        $this->app['translator']->addNamespace($namespace, $path);
+    }
 
-		if ($this->app['files']->isDirectory($appView))
-		{
-			$this->app['view']->addNamespace($namespace, $appView);
-		}
+    /**
+     * Register a JSON translation file path.
+     *
+     * @param  string  $path
+     * @return void
+     */
+    protected function loadJsonTranslationsFrom($path)
+    {
+        $this->app['translator']->addJsonPath($path);
+    }
 
-		// Finally we will register the view namespace so that we can access each of
-		// the views available in this package. We use a standard convention when
-		// registering the paths to every package's views and other components.
-		$view = $path.'/views';
+    /**
+     * Register a database migration path.
+     *
+     * @param  array|string  $paths
+     * @return void
+     */
+    protected function loadMigrationsFrom($paths)
+    {
+        $this->app->afterResolving('migrator', function ($migrator) use ($paths) {
+            foreach ((array) $paths as $path) {
+                $migrator->path($path);
+            }
+        });
+    }
 
-		if ($this->app['files']->isDirectory($view))
-		{
-			$this->app['view']->addNamespace($namespace, $view);
-		}
-	}
+    /**
+     * Register paths to be published by the publish command.
+     *
+     * @param  array  $paths
+     * @param  mixed  $groups
+     * @return void
+     */
+    protected function publishes(array $paths, $groups = null)
+    {
+        $this->ensurePublishArrayInitialized($class = static::class);
 
-	/**
-	 * Guess the package path for the provider.
-	 *
-	 * @return string
-	 */
-	public function guessPackagePath()
-	{
-		$path = (new ReflectionClass($this))->getFileName();
+        static::$publishes[$class] = array_merge(static::$publishes[$class], $paths);
 
-		return realpath(dirname($path).'/../../');
-	}
+        foreach ((array) $groups as $group) {
+            $this->addPublishGroup($group, $paths);
+        }
+    }
 
-	/**
-	 * Determine the namespace for a package.
-	 *
-	 * @param  string  $package
-	 * @param  string  $namespace
-	 * @return string
-	 */
-	protected function getPackageNamespace($package, $namespace)
-	{
-		if (is_null($namespace))
-		{
-			list($vendor, $namespace) = explode('/', $package);
-		}
+    /**
+     * Ensure the publish array for the service provider is initialized.
+     *
+     * @param  string  $class
+     * @return void
+     */
+    protected function ensurePublishArrayInitialized($class)
+    {
+        if (! array_key_exists($class, static::$publishes)) {
+            static::$publishes[$class] = [];
+        }
+    }
 
-		return $namespace;
-	}
+    /**
+     * Add a publish group / tag to the service provider.
+     *
+     * @param  string  $group
+     * @param  array  $paths
+     * @return void
+     */
+    protected function addPublishGroup($group, $paths)
+    {
+        if (! array_key_exists($group, static::$publishGroups)) {
+            static::$publishGroups[$group] = [];
+        }
 
-	/**
-	 * Register the package's custom Artisan commands.
-	 *
-	 * @param  array  $commands
-	 * @return void
-	 */
-	public function commands($commands)
-	{
-		$commands = is_array($commands) ? $commands : func_get_args();
+        static::$publishGroups[$group] = array_merge(
+            static::$publishGroups[$group], $paths
+        );
+    }
 
-		// To register the commands with Artisan, we will grab each of the arguments
-		// passed into the method and listen for Artisan "start" event which will
-		// give us the Artisan console instance which we will give commands to.
-		$events = $this->app['events'];
+    /**
+     * Get the paths to publish.
+     *
+     * @param  string  $provider
+     * @param  string  $group
+     * @return array
+     */
+    public static function pathsToPublish($provider = null, $group = null)
+    {
+        if (! is_null($paths = static::pathsForProviderOrGroup($provider, $group))) {
+            return $paths;
+        }
 
-		$events->listen('artisan.start', function($artisan) use ($commands)
-		{
-			$artisan->resolveCommands($commands);
-		});
-	}
+        return collect(static::$publishes)->reduce(function ($paths, $p) {
+            return array_merge($paths, $p);
+        }, []);
+    }
 
-	/**
-	 * Get the application package view path.
-	 *
-	 * @param  string  $package
-	 * @return string
-	 */
-	protected function getAppViewPath($package)
-	{
-		return $this->app['path']."/views/packages/{$package}";
-	}
+    /**
+     * Get the paths for the provider or group (or both).
+     *
+     * @param  string|null  $provider
+     * @param  string|null  $group
+     * @return array
+     */
+    protected static function pathsForProviderOrGroup($provider, $group)
+    {
+        if ($provider && $group) {
+            return static::pathsForProviderAndGroup($provider, $group);
+        } elseif ($group && array_key_exists($group, static::$publishGroups)) {
+            return static::$publishGroups[$group];
+        } elseif ($provider && array_key_exists($provider, static::$publishes)) {
+            return static::$publishes[$provider];
+        } elseif ($group || $provider) {
+            return [];
+        }
+    }
 
-	/**
-	 * Get the services provided by the provider.
-	 *
-	 * @return array
-	 */
-	public function provides()
-	{
-		return array();
-	}
+    /**
+     * Get the paths for the provider and group.
+     *
+     * @param  string  $provider
+     * @param  string  $group
+     * @return array
+     */
+    protected static function pathsForProviderAndGroup($provider, $group)
+    {
+        if (! empty(static::$publishes[$provider]) && ! empty(static::$publishGroups[$group])) {
+            return array_intersect_key(static::$publishes[$provider], static::$publishGroups[$group]);
+        }
 
-	/**
-	 * Get the events that trigger this service provider to register.
-	 *
-	 * @return array
-	 */
-	public function when()
-	{
-		return array();
-	}
+        return [];
+    }
 
-	/**
-	 * Determine if the provider is deferred.
-	 *
-	 * @return bool
-	 */
-	public function isDeferred()
-	{
-		return $this->defer;
-	}
+    /**
+     * Get the service providers available for publishing.
+     *
+     * @return array
+     */
+    public static function publishableProviders()
+    {
+        return array_keys(static::$publishes);
+    }
 
+    /**
+     * Get the groups available for publishing.
+     *
+     * @return array
+     */
+    public static function publishableGroups()
+    {
+        return array_keys(static::$publishGroups);
+    }
+
+    /**
+     * Register the package's custom Artisan commands.
+     *
+     * @param  array|mixed  $commands
+     * @return void
+     */
+    public function commands($commands)
+    {
+        $commands = is_array($commands) ? $commands : func_get_args();
+
+        Artisan::starting(function ($artisan) use ($commands) {
+            $artisan->resolveCommands($commands);
+        });
+    }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return [];
+    }
+
+    /**
+     * Get the events that trigger this service provider to register.
+     *
+     * @return array
+     */
+    public function when()
+    {
+        return [];
+    }
+
+    /**
+     * Determine if the provider is deferred.
+     *
+     * @return bool
+     */
+    public function isDeferred()
+    {
+        return $this->defer || $this instanceof DeferrableProvider;
+    }
 }

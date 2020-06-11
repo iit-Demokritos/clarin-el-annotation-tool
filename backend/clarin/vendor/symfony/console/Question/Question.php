@@ -11,6 +11,9 @@
 
 namespace Symfony\Component\Console\Question;
 
+use Symfony\Component\Console\Exception\InvalidArgumentException;
+use Symfony\Component\Console\Exception\LogicException;
+
 /**
  * Represents a Question.
  *
@@ -22,16 +25,17 @@ class Question
     private $attempts;
     private $hidden = false;
     private $hiddenFallback = true;
-    private $autocompleterValues;
+    private $autocompleterCallback;
     private $validator;
     private $default;
     private $normalizer;
+    private $trimmable = true;
 
     /**
      * @param string $question The question to ask to the user
      * @param mixed  $default  The default answer to return if the user enters nothing
      */
-    public function __construct($question, $default = null)
+    public function __construct(string $question, $default = null)
     {
         $this->question = $question;
         $this->default = $default;
@@ -74,12 +78,12 @@ class Question
      *
      * @return $this
      *
-     * @throws \LogicException In case the autocompleter is also used
+     * @throws LogicException In case the autocompleter is also used
      */
     public function setHidden($hidden)
     {
-        if ($this->autocompleterValues) {
-            throw new \LogicException('A hidden question cannot use the autocompleter.');
+        if ($this->autocompleterCallback) {
+            throw new LogicException('A hidden question cannot use the autocompleter.');
         }
 
         $this->hidden = (bool) $hidden;
@@ -114,38 +118,69 @@ class Question
     /**
      * Gets values for the autocompleter.
      *
-     * @return null|iterable
+     * @return iterable|null
      */
     public function getAutocompleterValues()
     {
-        return $this->autocompleterValues;
+        $callback = $this->getAutocompleterCallback();
+
+        return $callback ? $callback('') : null;
     }
 
     /**
      * Sets values for the autocompleter.
      *
-     * @param null|iterable $values
+     * @param iterable|null $values
      *
      * @return $this
      *
-     * @throws \InvalidArgumentException
-     * @throws \LogicException
+     * @throws InvalidArgumentException
+     * @throws LogicException
      */
     public function setAutocompleterValues($values)
     {
-        if (is_array($values)) {
+        if (\is_array($values)) {
             $values = $this->isAssoc($values) ? array_merge(array_keys($values), array_values($values)) : array_values($values);
+
+            $callback = static function () use ($values) {
+                return $values;
+            };
+        } elseif ($values instanceof \Traversable) {
+            $valueCache = null;
+            $callback = static function () use ($values, &$valueCache) {
+                return $valueCache ?? $valueCache = iterator_to_array($values, false);
+            };
+        } elseif (null === $values) {
+            $callback = null;
+        } else {
+            throw new InvalidArgumentException('Autocompleter values can be either an array, "null" or a "Traversable" object.');
         }
 
-        if (null !== $values && !is_array($values) && !$values instanceof \Traversable) {
-            throw new \InvalidArgumentException('Autocompleter values can be either an array, `null` or a `Traversable` object.');
+        return $this->setAutocompleterCallback($callback);
+    }
+
+    /**
+     * Gets the callback function used for the autocompleter.
+     */
+    public function getAutocompleterCallback(): ?callable
+    {
+        return $this->autocompleterCallback;
+    }
+
+    /**
+     * Sets the callback function used for the autocompleter.
+     *
+     * The callback is passed the user input as argument and should return an iterable of corresponding suggestions.
+     *
+     * @return $this
+     */
+    public function setAutocompleterCallback(callable $callback = null): self
+    {
+        if ($this->hidden && null !== $callback) {
+            throw new LogicException('A hidden question cannot use the autocompleter.');
         }
 
-        if ($this->hidden) {
-            throw new \LogicException('A hidden question cannot use the autocompleter.');
-        }
-
-        $this->autocompleterValues = $values;
+        $this->autocompleterCallback = $callback;
 
         return $this;
     }
@@ -153,11 +188,9 @@ class Question
     /**
      * Sets a validator for the question.
      *
-     * @param null|callable $validator
-     *
      * @return $this
      */
-    public function setValidator($validator)
+    public function setValidator(callable $validator = null)
     {
         $this->validator = $validator;
 
@@ -167,7 +200,7 @@ class Question
     /**
      * Gets the validator for the question.
      *
-     * @return null|callable
+     * @return callable|null
      */
     public function getValidator()
     {
@@ -179,16 +212,16 @@ class Question
      *
      * Null means an unlimited number of attempts.
      *
-     * @param null|int $attempts
+     * @param int|null $attempts
      *
      * @return $this
      *
-     * @throws \InvalidArgumentException in case the number of attempts is invalid
+     * @throws InvalidArgumentException in case the number of attempts is invalid
      */
     public function setMaxAttempts($attempts)
     {
         if (null !== $attempts && $attempts < 1) {
-            throw new \InvalidArgumentException('Maximum number of attempts must be a positive value.');
+            throw new InvalidArgumentException('Maximum number of attempts must be a positive value.');
         }
 
         $this->attempts = $attempts;
@@ -201,7 +234,7 @@ class Question
      *
      * Null means an unlimited number of attempts.
      *
-     * @return null|int
+     * @return int|null
      */
     public function getMaxAttempts()
     {
@@ -213,11 +246,9 @@ class Question
      *
      * The normalizer can be a callable (a string), a closure or a class implementing __invoke.
      *
-     * @param callable $normalizer
-     *
      * @return $this
      */
-    public function setNormalizer($normalizer)
+    public function setNormalizer(callable $normalizer)
     {
         $this->normalizer = $normalizer;
 
@@ -229,7 +260,7 @@ class Question
      *
      * The normalizer can ba a callable (a string), a closure or a class implementing __invoke.
      *
-     * @return callable
+     * @return callable|null
      */
     public function getNormalizer()
     {
@@ -238,6 +269,21 @@ class Question
 
     protected function isAssoc($array)
     {
-        return (bool) count(array_filter(array_keys($array), 'is_string'));
+        return (bool) \count(array_filter(array_keys($array), 'is_string'));
+    }
+
+    public function isTrimmable(): bool
+    {
+        return $this->trimmable;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setTrimmable(bool $trimmable): self
+    {
+        $this->trimmable = $trimmable;
+
+        return $this;
     }
 }

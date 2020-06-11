@@ -1,62 +1,114 @@
-<?php namespace Illuminate\Queue\Console;
+<?php
 
+namespace Illuminate\Queue\Console;
+
+use Illuminate\Support\Arr;
 use Illuminate\Console\Command;
 
-class ListFailedCommand extends Command {
+class ListFailedCommand extends Command
+{
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
+    protected $name = 'queue:failed';
 
-	/**
-	 * The console command name.
-	 *
-	 * @var string
-	 */
-	protected $name = 'queue:failed';
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'List all of the failed queue jobs';
 
-	/**
-	 * The console command description.
-	 *
-	 * @var string
-	 */
-	protected $description = 'List all of the failed queue jobs';
+    /**
+     * The table headers for the command.
+     *
+     * @var array
+     */
+    protected $headers = ['ID', 'Connection', 'Queue', 'Class', 'Failed At'];
 
-	/**
-	 * Execute the console command.
-	 *
-	 * @return void
-	 */
-	public function fire()
-	{
-		$rows = array();
+    /**
+     * Execute the console command.
+     *
+     * @return void
+     */
+    public function handle()
+    {
+        if (count($jobs = $this->getFailedJobs()) === 0) {
+            return $this->info('No failed jobs!');
+        }
 
-		foreach ($this->laravel['queue.failer']->all() as $failed)
-		{
-			$rows[] = $this->parseFailedJob((array) $failed);
-		}
+        $this->displayFailedJobs($jobs);
+    }
 
-		if (count($rows) == 0)
-		{
-			return $this->info('No failed jobs!');
-		}
+    /**
+     * Compile the failed jobs into a displayable format.
+     *
+     * @return array
+     */
+    protected function getFailedJobs()
+    {
+        $failed = $this->laravel['queue.failer']->all();
 
-		$table = $this->getHelperSet()->get('table');
+        return collect($failed)->map(function ($failed) {
+            return $this->parseFailedJob((array) $failed);
+        })->filter()->all();
+    }
 
-		$table->setHeaders(array('ID', 'Connection', 'Queue', 'Class', 'Failed At'))
-              ->setRows($rows)
-              ->render($this->output);
-	}
+    /**
+     * Parse the failed job row.
+     *
+     * @param  array  $failed
+     * @return array
+     */
+    protected function parseFailedJob(array $failed)
+    {
+        $row = array_values(Arr::except($failed, ['payload', 'exception']));
 
-	/**
-	 * Parse the failed job row.
-	 *
-	 * @param  array  $failed
-	 * @return array
-	 */
-	protected function parseFailedJob(array $failed)
-	{
-		$row = array_values(array_except($failed, array('payload')));
+        array_splice($row, 3, 0, $this->extractJobName($failed['payload']));
 
-		array_splice($row, 3, 0, array_get(json_decode($failed['payload'], true), 'job'));
+        return $row;
+    }
 
-		return $row;
-	}
+    /**
+     * Extract the failed job name from payload.
+     *
+     * @param  string  $payload
+     * @return string|null
+     */
+    private function extractJobName($payload)
+    {
+        $payload = json_decode($payload, true);
 
+        if ($payload && (! isset($payload['data']['command']))) {
+            return $payload['job'] ?? null;
+        } elseif ($payload && isset($payload['data']['command'])) {
+            return $this->matchJobName($payload);
+        }
+    }
+
+    /**
+     * Match the job name from the payload.
+     *
+     * @param  array  $payload
+     * @return string
+     */
+    protected function matchJobName($payload)
+    {
+        preg_match('/"([^"]+)"/', $payload['data']['command'], $matches);
+
+        return $matches[1] ?? $payload['job'] ?? null;
+    }
+
+    /**
+     * Display the failed jobs in the console.
+     *
+     * @param  array  $jobs
+     * @return void
+     */
+    protected function displayFailedJobs(array $jobs)
+    {
+        $this->table($this->headers, $jobs);
+    }
 }

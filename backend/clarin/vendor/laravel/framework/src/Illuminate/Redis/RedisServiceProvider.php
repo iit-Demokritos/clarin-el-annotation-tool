@@ -1,37 +1,38 @@
-<?php namespace Illuminate\Redis;
+<?php
 
+namespace Illuminate\Redis;
+
+use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Contracts\Support\DeferrableProvider;
 
-class RedisServiceProvider extends ServiceProvider {
+class RedisServiceProvider extends ServiceProvider implements DeferrableProvider
+{
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->app->singleton('redis', function ($app) {
+            $config = $app->make('config')->get('database.redis', []);
 
-	/**
-	 * Indicates if loading of the provider is deferred.
-	 *
-	 * @var bool
-	 */
-	protected $defer = true;
+            return new RedisManager($app, Arr::pull($config, 'client', 'predis'), $config);
+        });
 
-	/**
-	 * Register the service provider.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
-		$this->app->bindShared('redis', function($app)
-		{
-			return new Database($app['config']['database.redis']);
-		});
-	}
+        $this->app->bind('redis.connection', function ($app) {
+            return $app['redis']->connection();
+        });
+    }
 
-	/**
-	 * Get the services provided by the provider.
-	 *
-	 * @return array
-	 */
-	public function provides()
-	{
-		return array('redis');
-	}
-
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['redis', 'redis.connection'];
+    }
 }

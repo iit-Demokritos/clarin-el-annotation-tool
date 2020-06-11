@@ -20,26 +20,18 @@ use Symfony\Component\CssSelector\Node\SelectorNode;
  * which is copyright Ian Bicking, @see https://github.com/SimonSapin/cssselect.
  *
  * @author Jean-François Simon <jeanfrancois.simon@sensiolabs.com>
+ *
+ * @internal
  */
 interface TranslatorInterface
 {
     /**
      * Translates a CSS selector to an XPath expression.
-     *
-     * @param string $cssExpr
-     * @param string $prefix
-     *
-     * @return string
      */
-    public function cssToXPath($cssExpr, $prefix = 'descendant-or-self::');
+    public function cssToXPath(string $cssExpr, string $prefix = 'descendant-or-self::'): string;
 
     /**
      * Translates a parsed selector node to an XPath expression.
-     *
-     * @param SelectorNode $selector
-     * @param string       $prefix
-     *
-     * @return string
      */
-    public function selectorToXPath(SelectorNode $selector, $prefix = 'descendant-or-self::');
+    public function selectorToXPath(SelectorNode $selector, string $prefix = 'descendant-or-self::'): string;
 }

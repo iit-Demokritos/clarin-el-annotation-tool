@@ -1,44 +1,50 @@
 {
     "name": "illuminate/queue",
+    "description": "The Illuminate Queue package.",
     "license": "MIT",
+    "homepage": "https://laravel.com",
+    "support": {
+        "issues": "https://github.com/laravel/framework/issues",
+        "source": "https://github.com/laravel/framework"
+    },
     "authors": [
         {
             "name": "Taylor Otwell",
-            "email": "taylorotwell@gmail.com"
+            "email": "taylor@laravel.com"
         }
     ],
     "require": {
-        "php": ">=5.4.0",
-        "illuminate/console": "4.2.*",
-        "illuminate/container": "4.2.*",
-        "illuminate/http": "4.2.*",
-        "illuminate/support": "4.2.*",
-        "symfony/process": "2.5.*",
-        "nesbot/carbon": "~1.0"
-    },
-    "require-dev": {
-        "illuminate/cache": "4.2.*",
-        "illuminate/events": "4.2.*",
-        "aws/aws-sdk-php": "~2.6",
-        "iron-io/iron_mq": "~1.5",
-        "pda/pheanstalk": "~2.1"
+        "php": "^7.1.3",
+        "ext-json": "*",
+        "illuminate/console": "5.8.*",
+        "illuminate/container": "5.8.*",
+        "illuminate/contracts": "5.8.*",
+        "illuminate/database": "5.8.*",
+        "illuminate/filesystem": "5.8.*",
+        "illuminate/support": "5.8.*",
+        "opis/closure": "^3.1",
+        "symfony/debug": "^4.2",
+        "symfony/process": "^4.2"
     },
     "autoload": {
-        "psr-0": {
-            "Illuminate\\Queue": ""
-        },
-        "classmap": [
-            "IlluminateQueueClosure.php"
-        ]
+        "psr-4": {
+            "Illuminate\\Queue\\": ""
+        }
     },
-    "target-dir": "Illuminate/Queue",
     "extra": {
         "branch-alias": {
-            "dev-master": "4.2-dev"
+            "dev-master": "5.8-dev"
         }
     },
     "suggest": {
-        "illuminate/redis": "Allows use of the Redis queue driver."
+        "ext-pcntl": "Required to use all features of the queue worker.",
+        "ext-posix": "Required to use all features of the queue worker.",
+        "aws/aws-sdk-php": "Required to use the SQS queue driver (^3.0).",
+        "illuminate/redis": "Required to use the Redis queue driver (5.8.*).",
+        "pda/pheanstalk": "Required to use the Beanstalk queue driver (^4.0)."
+    },
+    "config": {
+        "sort-packages": true
     },
     "minimum-stability": "dev"
 }

@@ -1,46 +1,32 @@
-<?php namespace Illuminate\Foundation\Providers;
+<?php
 
-use Illuminate\Foundation\Composer;
+namespace Illuminate\Foundation\Providers;
+
+use Illuminate\Support\Composer;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Foundation\Console\AutoloadCommand;
+use Illuminate\Contracts\Support\DeferrableProvider;
 
-class ComposerServiceProvider extends ServiceProvider {
+class ComposerServiceProvider extends ServiceProvider implements DeferrableProvider
+{
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->app->singleton('composer', function ($app) {
+            return new Composer($app['files'], $app->basePath());
+        });
+    }
 
-	/**
-	 * Indicates if loading of the provider is deferred.
-	 *
-	 * @var bool
-	 */
-	protected $defer = true;
-
-	/**
-	 * Register the service provider.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
-		$this->app->bindShared('composer', function($app)
-		{
-			return new Composer($app['files'], $app['path.base']);
-		});
-
-		$this->app->bindShared('command.dump-autoload', function($app)
-		{
-			return new AutoloadCommand($app['composer']);
-		});
-
-		$this->commands('command.dump-autoload');
-	}
-
-	/**
-	 * Get the services provided by the provider.
-	 *
-	 * @return array
-	 */
-	public function provides()
-	{
-		return array('composer', 'command.dump-autoload');
-	}
-
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['composer'];
+    }
 }

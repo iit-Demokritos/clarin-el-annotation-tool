@@ -1,142 +1,172 @@
-<?php namespace Illuminate\Queue;
+<?php
 
-use Pheanstalk_Job;
-use Pheanstalk_Pheanstalk as Pheanstalk;
+namespace Illuminate\Queue;
+
+use Pheanstalk\Pheanstalk;
+use Pheanstalk\Job as PheanstalkJob;
 use Illuminate\Queue\Jobs\BeanstalkdJob;
+use Illuminate\Contracts\Queue\Queue as QueueContract;
 
-class BeanstalkdQueue extends Queue implements QueueInterface {
+class BeanstalkdQueue extends Queue implements QueueContract
+{
+    /**
+     * The Pheanstalk instance.
+     *
+     * @var \Pheanstalk\Pheanstalk
+     */
+    protected $pheanstalk;
 
-	/**
-	 * The Pheanstalk instance.
-	 *
-	 * @var \Pheanstalk_Pheanstalk
-	 */
-	protected $pheanstalk;
+    /**
+     * The name of the default tube.
+     *
+     * @var string
+     */
+    protected $default;
 
-	/**
-	 * The name of the default tube.
-	 *
-	 * @var string
-	 */
-	protected $default;
+    /**
+     * The "time to run" for all pushed jobs.
+     *
+     * @var int
+     */
+    protected $timeToRun;
 
-	/**
-	 * The "time to run" for all pushed jobs.
-	 *
-	 * @var int
-	 */
-	protected $timeToRun;
+    /**
+     * The maximum number of seconds to block for a job.
+     *
+     * @var int
+     */
+    protected $blockFor;
 
-	/**
-	 * Create a new Beanstalkd queue instance.
-	 *
-	 * @param  \Pheanstalk_Pheanstalk  $pheanstalk
-	 * @param  string  $default
-	 * @param  int  $timeToRun
-	 * @return void
-	 */
-	public function __construct(Pheanstalk $pheanstalk, $default, $timeToRun)
-	{
-		$this->default = $default;
-		$this->timeToRun = $timeToRun;
-		$this->pheanstalk = $pheanstalk;
-	}
+    /**
+     * Create a new Beanstalkd queue instance.
+     *
+     * @param  \Pheanstalk\Pheanstalk  $pheanstalk
+     * @param  string  $default
+     * @param  int  $timeToRun
+     * @param  int  $blockFor
+     * @return void
+     */
+    public function __construct(Pheanstalk $pheanstalk, $default, $timeToRun, $blockFor = 0)
+    {
+        $this->default = $default;
+        $this->blockFor = $blockFor;
+        $this->timeToRun = $timeToRun;
+        $this->pheanstalk = $pheanstalk;
+    }
 
-	/**
-	 * Push a new job onto the queue.
-	 *
-	 * @param  string  $job
-	 * @param  mixed   $data
-	 * @param  string  $queue
-	 * @return mixed
-	 */
-	public function push($job, $data = '', $queue = null)
-	{
-		return $this->pushRaw($this->createPayload($job, $data), $queue);
-	}
+    /**
+     * Get the size of the queue.
+     *
+     * @param  string|null  $queue
+     * @return int
+     */
+    public function size($queue = null)
+    {
+        $queue = $this->getQueue($queue);
 
-	/**
-	 * Push a raw payload onto the queue.
-	 *
-	 * @param  string  $payload
-	 * @param  string  $queue
-	 * @param  array   $options
-	 * @return mixed
-	 */
-	public function pushRaw($payload, $queue = null, array $options = array())
-	{
-		return $this->pheanstalk->useTube($this->getQueue($queue))->put(
-			$payload, Pheanstalk::DEFAULT_PRIORITY, Pheanstalk::DEFAULT_DELAY, $this->timeToRun
-		);
-	}
+        return (int) $this->pheanstalk->statsTube($queue)->current_jobs_ready;
+    }
 
-	/**
-	 * Push a new job onto the queue after a delay.
-	 *
-	 * @param  \DateTime|int  $delay
-	 * @param  string  $job
-	 * @param  mixed   $data
-	 * @param  string  $queue
-	 * @return mixed
-	 */
-	public function later($delay, $job, $data = '', $queue = null)
-	{
-		$payload = $this->createPayload($job, $data);
+    /**
+     * Push a new job onto the queue.
+     *
+     * @param  string  $job
+     * @param  mixed   $data
+     * @param  string|null  $queue
+     * @return mixed
+     */
+    public function push($job, $data = '', $queue = null)
+    {
+        return $this->pushRaw($this->createPayload($job, $this->getQueue($queue), $data), $queue);
+    }
 
-		$pheanstalk = $this->pheanstalk->useTube($this->getQueue($queue));
+    /**
+     * Push a raw payload onto the queue.
+     *
+     * @param  string  $payload
+     * @param  string|null  $queue
+     * @param  array   $options
+     * @return mixed
+     */
+    public function pushRaw($payload, $queue = null, array $options = [])
+    {
+        return $this->pheanstalk->useTube($this->getQueue($queue))->put(
+            $payload, Pheanstalk::DEFAULT_PRIORITY, Pheanstalk::DEFAULT_DELAY, $this->timeToRun
+        );
+    }
 
-		return $pheanstalk->put($payload, Pheanstalk::DEFAULT_PRIORITY, $this->getSeconds($delay), $this->timeToRun);
-	}
+    /**
+     * Push a new job onto the queue after a delay.
+     *
+     * @param  \DateTimeInterface|\DateInterval|int  $delay
+     * @param  string  $job
+     * @param  mixed   $data
+     * @param  string|null  $queue
+     * @return mixed
+     */
+    public function later($delay, $job, $data = '', $queue = null)
+    {
+        $pheanstalk = $this->pheanstalk->useTube($this->getQueue($queue));
 
-	/**
-	 * Pop the next job off of the queue.
-	 *
-	 * @param  string  $queue
-	 * @return \Illuminate\Queue\Jobs\Job|null
-	 */
-	public function pop($queue = null)
-	{
-		$queue = $this->getQueue($queue);
+        return $pheanstalk->put(
+            $this->createPayload($job, $this->getQueue($queue), $data),
+            Pheanstalk::DEFAULT_PRIORITY,
+            $this->secondsUntil($delay),
+            $this->timeToRun
+        );
+    }
 
-		$job = $this->pheanstalk->watchOnly($queue)->reserve(0);
+    /**
+     * Pop the next job off of the queue.
+     *
+     * @param  string|null  $queue
+     * @return \Illuminate\Contracts\Queue\Job|null
+     */
+    public function pop($queue = null)
+    {
+        $queue = $this->getQueue($queue);
 
-		if ($job instanceof Pheanstalk_Job)
-		{
-			return new BeanstalkdJob($this->container, $this->pheanstalk, $job, $queue);
-		}
-	}
+        $job = $this->pheanstalk->watchOnly($queue)->reserveWithTimeout($this->blockFor);
 
-	/**
-	 * Delete a message from the Beanstalk queue.
-	 *
-	 * @param  string  $queue
-	 * @param  string  $id
-	 * @return void
-	 */
-	public function deleteMessage($queue, $id)
-	{
-		$this->pheanstalk->useTube($this->getQueue($queue))->delete($id);
-	}
+        if ($job instanceof PheanstalkJob) {
+            return new BeanstalkdJob(
+                $this->container, $this->pheanstalk, $job, $this->connectionName, $queue
+            );
+        }
+    }
 
-	/**
-	 * Get the queue or return the default.
-	 *
-	 * @param  string|null  $queue
-	 * @return string
-	 */
-	public function getQueue($queue)
-	{
-		return $queue ?: $this->default;
-	}
+    /**
+     * Delete a message from the Beanstalk queue.
+     *
+     * @param  string  $queue
+     * @param  string  $id
+     * @return void
+     */
+    public function deleteMessage($queue, $id)
+    {
+        $queue = $this->getQueue($queue);
 
-	/**
-	 * Get the underlying Pheanstalk instance.
-	 *
-	 * @return \Pheanstalk_Pheanstalk
-	 */
-	public function getPheanstalk()
-	{
-		return $this->pheanstalk;
-	}
+        $this->pheanstalk->useTube($queue)->delete(new PheanstalkJob($id, ''));
+    }
 
+    /**
+     * Get the queue or return the default.
+     *
+     * @param  string|null  $queue
+     * @return string
+     */
+    public function getQueue($queue)
+    {
+        return $queue ?: $this->default;
+    }
+
+    /**
+     * Get the underlying Pheanstalk instance.
+     *
+     * @return \Pheanstalk\Pheanstalk
+     */
+    public function getPheanstalk()
+    {
+        return $this->pheanstalk;
+    }
 }

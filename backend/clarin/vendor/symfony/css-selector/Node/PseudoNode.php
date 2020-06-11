@@ -18,34 +18,26 @@ namespace Symfony\Component\CssSelector\Node;
  * which is copyright Ian Bicking, @see https://github.com/SimonSapin/cssselect.
  *
  * @author Jean-François Simon <jeanfrancois.simon@sensiolabs.com>
+ *
+ * @internal
  */
 class PseudoNode extends AbstractNode
 {
     private $selector;
     private $identifier;
 
-    /**
-     * @param NodeInterface $selector
-     * @param string        $identifier
-     */
-    public function __construct(NodeInterface $selector, $identifier)
+    public function __construct(NodeInterface $selector, string $identifier)
     {
         $this->selector = $selector;
         $this->identifier = strtolower($identifier);
     }
 
-    /**
-     * @return NodeInterface
-     */
-    public function getSelector()
+    public function getSelector(): NodeInterface
     {
         return $this->selector;
     }
 
-    /**
-     * @return string
-     */
-    public function getIdentifier()
+    public function getIdentifier(): string
     {
         return $this->identifier;
     }
@@ -53,7 +45,7 @@ class PseudoNode extends AbstractNode
     /**
      * {@inheritdoc}
      */
-    public function getSpecificity()
+    public function getSpecificity(): Specificity
     {
         return $this->selector->getSpecificity()->plus(new Specificity(0, 1, 0));
     }
@@ -61,7 +53,7 @@ class PseudoNode extends AbstractNode
     /**
      * {@inheritdoc}
      */
-    public function __toString()
+    public function __toString(): string
     {
         return sprintf('%s[%s:%s]', $this->getNodeName(), $this->selector, $this->identifier);
     }

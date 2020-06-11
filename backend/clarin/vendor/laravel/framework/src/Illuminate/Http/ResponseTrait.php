@@ -1,35 +1,151 @@
-<?php namespace Illuminate\Http;
+<?php
 
-use Symfony\Component\HttpFoundation\Cookie;
+namespace Illuminate\Http;
 
-trait ResponseTrait {
+use Exception;
+use Symfony\Component\HttpFoundation\HeaderBag;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
-	/**
-	 * Set a header on the Response.
-	 *
-	 * @param  string  $key
-	 * @param  string  $value
-	 * @param  bool    $replace
-	 * @return $this
-	 */
-	public function header($key, $value, $replace = true)
-	{
-		$this->headers->set($key, $value, $replace);
+trait ResponseTrait
+{
+    /**
+     * The original content of the response.
+     *
+     * @var mixed
+     */
+    public $original;
 
-		return $this;
-	}
+    /**
+     * The exception that triggered the error response (if applicable).
+     *
+     * @var \Exception|null
+     */
+    public $exception;
 
-	/**
-	 * Add a cookie to the response.
-	 *
-	 * @param  \Symfony\Component\HttpFoundation\Cookie  $cookie
-	 * @return $this
-	 */
-	public function withCookie(Cookie $cookie)
-	{
-		$this->headers->setCookie($cookie);
+    /**
+     * Get the status code for the response.
+     *
+     * @return int
+     */
+    public function status()
+    {
+        return $this->getStatusCode();
+    }
 
-		return $this;
-	}
+    /**
+     * Get the content of the response.
+     *
+     * @return string
+     */
+    public function content()
+    {
+        return $this->getContent();
+    }
 
+    /**
+     * Get the original response content.
+     *
+     * @return mixed
+     */
+    public function getOriginalContent()
+    {
+        $original = $this->original;
+
+        return $original instanceof self ? $original->{__FUNCTION__}() : $original;
+    }
+
+    /**
+     * Set a header on the Response.
+     *
+     * @param  string  $key
+     * @param  array|string  $values
+     * @param  bool    $replace
+     * @return $this
+     */
+    public function header($key, $values, $replace = true)
+    {
+        $this->headers->set($key, $values, $replace);
+
+        return $this;
+    }
+
+    /**
+     * Add an array of headers to the response.
+     *
+     * @param  \Symfony\Component\HttpFoundation\HeaderBag|array  $headers
+     * @return $this
+     */
+    public function withHeaders($headers)
+    {
+        if ($headers instanceof HeaderBag) {
+            $headers = $headers->all();
+        }
+
+        foreach ($headers as $key => $value) {
+            $this->headers->set($key, $value);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add a cookie to the response.
+     *
+     * @param  \Symfony\Component\HttpFoundation\Cookie|mixed  $cookie
+     * @return $this
+     */
+    public function cookie($cookie)
+    {
+        return call_user_func_array([$this, 'withCookie'], func_get_args());
+    }
+
+    /**
+     * Add a cookie to the response.
+     *
+     * @param  \Symfony\Component\HttpFoundation\Cookie|mixed  $cookie
+     * @return $this
+     */
+    public function withCookie($cookie)
+    {
+        if (is_string($cookie) && function_exists('cookie')) {
+            $cookie = call_user_func_array('cookie', func_get_args());
+        }
+
+        $this->headers->setCookie($cookie);
+
+        return $this;
+    }
+
+    /**
+     * Get the callback of the response.
+     *
+     * @return string|null
+     */
+    public function getCallback()
+    {
+        return $this->callback ?? null;
+    }
+
+    /**
+     * Set the exception to attach to the response.
+     *
+     * @param  \Exception  $e
+     * @return $this
+     */
+    public function withException(Exception $e)
+    {
+        $this->exception = $e;
+
+        return $this;
+    }
+
+    /**
+     * Throws the response in a HttpResponseException instance.
+     *
+     * @throws \Illuminate\Http\Exceptions\HttpResponseException
+     */
+    public function throwResponse()
+    {
+        throw new HttpResponseException($this);
+    }
 }

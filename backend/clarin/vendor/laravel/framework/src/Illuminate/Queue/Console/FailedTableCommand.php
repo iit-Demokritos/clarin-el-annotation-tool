@@ -1,70 +1,102 @@
-<?php namespace Illuminate\Queue\Console;
+<?php
 
+namespace Illuminate\Queue\Console;
+
+use Illuminate\Support\Str;
 use Illuminate\Console\Command;
+use Illuminate\Support\Composer;
 use Illuminate\Filesystem\Filesystem;
 
-class FailedTableCommand extends Command {
+class FailedTableCommand extends Command
+{
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
+    protected $name = 'queue:failed-table';
 
-	/**
-	 * The console command name.
-	 *
-	 * @var string
-	 */
-	protected $name = 'queue:failed-table';
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Create a migration for the failed queue jobs database table';
 
-	/**
-	 * The console command description.
-	 *
-	 * @var string
-	 */
-	protected $description = 'Create a migration for the failed queue jobs database table';
+    /**
+     * The filesystem instance.
+     *
+     * @var \Illuminate\Filesystem\Filesystem
+     */
+    protected $files;
 
-	/**
-	 * The filesystem instance.
-	 *
-	 * @var \Illuminate\Filesystem\Filesystem
-	 */
-	protected $files;
+    /**
+     * @var \Illuminate\Support\Composer
+     */
+    protected $composer;
 
-	/**
-	 * Create a new session table command instance.
-	 *
-	 * @param  \Illuminate\Filesystem\Filesystem  $files
-	 * @return void
-	 */
-	public function __construct(Filesystem $files)
-	{
-		parent::__construct();
+    /**
+     * Create a new failed queue jobs table command instance.
+     *
+     * @param  \Illuminate\Filesystem\Filesystem  $files
+     * @param  \Illuminate\Support\Composer    $composer
+     * @return void
+     */
+    public function __construct(Filesystem $files, Composer $composer)
+    {
+        parent::__construct();
 
-		$this->files = $files;
-	}
+        $this->files = $files;
+        $this->composer = $composer;
+    }
 
-	/**
-	 * Execute the console command.
-	 *
-	 * @return void
-	 */
-	public function fire()
-	{
-		$fullPath = $this->createBaseMigration();
+    /**
+     * Execute the console command.
+     *
+     * @return void
+     */
+    public function handle()
+    {
+        $table = $this->laravel['config']['queue.failed.table'];
 
-		$this->files->put($fullPath, $this->files->get(__DIR__.'/stubs/failed_jobs.stub'));
+        $this->replaceMigration(
+            $this->createBaseMigration($table), $table, Str::studly($table)
+        );
 
-		$this->info('Migration created successfully!');
-	}
+        $this->info('Migration created successfully!');
 
-	/**
-	 * Create a base migration file for the table.
-	 *
-	 * @return string
-	 */
-	protected function createBaseMigration()
-	{
-		$name = 'create_failed_jobs_table';
+        $this->composer->dumpAutoloads();
+    }
 
-		$path = $this->laravel['path'].'/database/migrations';
+    /**
+     * Create a base migration file for the table.
+     *
+     * @param  string  $table
+     * @return string
+     */
+    protected function createBaseMigration($table = 'failed_jobs')
+    {
+        return $this->laravel['migration.creator']->create(
+            'create_'.$table.'_table', $this->laravel->databasePath().'/migrations'
+        );
+    }
 
-		return $this->laravel['migration.creator']->create($name, $path);
-	}
+    /**
+     * Replace the generated migration with the failed job table stub.
+     *
+     * @param  string  $path
+     * @param  string  $table
+     * @param  string  $tableClassName
+     * @return void
+     */
+    protected function replaceMigration($path, $table, $tableClassName)
+    {
+        $stub = str_replace(
+            ['{{table}}', '{{tableClassName}}'],
+            [$table, $tableClassName],
+            $this->files->get(__DIR__.'/stubs/failed_jobs.stub')
+        );
 
+        $this->files->put($path, $stub);
+    }
 }
