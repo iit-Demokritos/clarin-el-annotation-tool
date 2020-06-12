@@ -118,6 +118,7 @@ return array(
     'TempAnnotation' => $baseDir . '/app/Models/TempAnnotation.php',
     'TempAnnotationController' => $baseDir . '/app/Http/Controllers/TempAnnotationController.php',
     'TestCase' => $baseDir . '/tests/TestCase.php',
+    'TestStreamController' => $baseDir . '/app/Http/Controllers/TestStreamController.php',
     'UserController' => $baseDir . '/app/Http/Controllers/UserController.php',
     'ValueError' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
 );

@@ -47,11 +47,6 @@ class RouteServiceProvider extends ServiceProvider
         });
         
         
-        Route::filter('serviceCSRF',function(){
-            if (Session::token() != Request::header('csrf_token')) {
-            	return Response::json(array('success' => false, 'message' => 'I’m a teapot :D'), 418);
-            }
-        });
         */
 	    
         parent::boot();

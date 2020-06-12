@@ -2,7 +2,7 @@
 
 class AnnotationController extends \BaseController { 
     public function __construct() {    //apply filter for the shared/non-shared collections
-        $this->beforeFilter('collection_permissions'); 
+        //$this->beforeFilter('collection_permissions'); 
     }
 
     public function index($collection_id, $document_id) { //get all the annotations

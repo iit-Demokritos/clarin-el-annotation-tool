@@ -424,6 +424,7 @@ class ComposerStaticInit6843b9594ec443373d4c7a849b2549b6
         'TempAnnotation' => __DIR__ . '/../..' . '/app/Models/TempAnnotation.php',
         'TempAnnotationController' => __DIR__ . '/../..' . '/app/Http/Controllers/TempAnnotationController.php',
         'TestCase' => __DIR__ . '/../..' . '/tests/TestCase.php',
+        'TestStreamController' => __DIR__ . '/../..' . '/app/Http/Controllers/TestStreamController.php',
         'UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserController.php',
         'ValueError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
     );

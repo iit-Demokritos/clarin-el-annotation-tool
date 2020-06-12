@@ -52,6 +52,8 @@ Route::group(array('prefix' => 'api', 'before' => 'auth'), function() {
 	Route::resource('annotation_schemas', 'AnnotationSchemaController', array('only' => array('index', 'show', 'store', 'destroy')));	//ellogon will use api for the database ? if not, remove destroy and (maybe) index
 });
 
+Route::get('/teststream', 'TestStreamController@test');
+
 //App::missing(function($exception) {
 //	return View::make('index');
 //});
