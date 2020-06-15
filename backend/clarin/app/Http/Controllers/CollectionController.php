@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Log;
+
 class CollectionController extends \BaseController {
   //protected $fillable = array('name', 'owner_id', 'handler');
 
@@ -15,13 +17,13 @@ class CollectionController extends \BaseController {
           ->where('collections.owner_id', '=', $user['id'])
           ->orWhere(function($query) use ($user) {
             $query->where('shared_collections.to', '=', $user['email'])
-      ->where('shared_collections.confirmed', '=', 1);
+                  ->where('shared_collections.confirmed', '=', 1);
           })
           ->select(DB::raw('collections.id, collections.name, collections.encoding, collections.owner_id, shared_collections.confirmed, count(documents.id) as document_count, IF('.$user['id']. '=collections.owner_id, true, false) as is_owner'))
           ->orderBy('collections.id', 'asc')
           ->groupBy('collections.id')
           ->get()));
-    }catch(\Exception $e){
+    } catch(\Exception $e) {
       return Response::json(array('success' => false, 'message' => $e->getMessage()));
     }
   }
@@ -44,12 +46,10 @@ class CollectionController extends \BaseController {
           ->select('documents.id', 'documents.name', 'documents.collection_id', 'collections.name as collection_name', 'collections.owner_id','shared_collections.confirmed', DB::raw('IF('.$user['id']. '=collections.owner_id, true, false) as is_owner'))
           ->orderBy('collection_name', 'asc')->orderBy('name', 'asc')
           ->get()));
-    }catch(\Exception $e){
+    } catch(\Exception $e) {
       return Response::json(array('success' => false, 'message' => $e->getMessage()));
     }
   }
-
-
 
   //get all collections data
   public function exportData($collection_id) {
@@ -76,7 +76,7 @@ class CollectionController extends \BaseController {
       return Response::json(array('success' => true,
         'message' => "ok",
         'data'    => $collection));
-    }catch(\Exception $e){
+    } catch(\Exception $e) {
       return Response::json(array('success' => false, 'message' => $e->getMessage(), 'data' => []));
     }
   }
@@ -90,25 +90,27 @@ class CollectionController extends \BaseController {
         'data'    => Collection::where('owner_id', $user['id'])
           ->where('id', $collection_id)
           ->get()));
-    }catch(\Exception $e){
+    } catch(\Exception $e) {
       return Response::json(array('success' => false, 'message' => $e->getMessage()));
     }
   }
 
   //store a new collection
   public function store() {
+    Log::info('A user has request to store a collection.');
     $newCollection;
     try {
       $input = Request::input('data');
+      Log::info($input);
 
-      DB::unprepared('LOCK TABLES collections WRITE');
       $user = Sentinel::getUser();
+      DB::unprepared('LOCK TABLES collections WRITE');
       $duplicateCollection = DB::table('collections')
         ->where('owner_id', '=',  $user['id'])
         ->where('name', '=',  $input['name'])
         ->get();
 
-      if (empty($duplicateCollection)){       //collection does not exist  -- save new collection
+      if (empty($duplicateCollection)) {       //collection does not exist  -- save new collection
         $newCollection = Collection::create(array(
           'name' => $input['name'],
           'encoding' => $input['encoding'],
@@ -121,7 +123,7 @@ class CollectionController extends \BaseController {
         return Response::json(array('success' => true,
           'collection_id' => $newCollection->id,
           'exists'  => false));
-      } elseif (!empty($duplicateCollection) && $input['overwrite']=='true'){   //collection exists -- overwrite
+      } elseif (!empty($duplicateCollection) && $input['overwrite']=='true') {   //collection exists -- overwrite
         Collection::destroy($input['id']);  //destroy the old collection
         $newCollection = Collection::create(array(  //add new collection
           'name' => $input['name'],
@@ -141,7 +143,7 @@ class CollectionController extends \BaseController {
           'exists'  => true,
           'collection_id' => $duplicateCollection[0]->id));
       }
-    }catch(\Exception $e){
+    } catch(\Exception $e) {
       return Response::json(array('success' => false,
         'exists'  => false,
         'message' => $e->getMessage()));
@@ -150,11 +152,12 @@ class CollectionController extends \BaseController {
 
   //rename a collection
   public function update($collection_id) {
+      Log::info('A user has request to update a collection.');
     try {
       $input = Request::input('data');
 
-      DB::unprepared('LOCK TABLES collections WRITE');
       $user = Sentinel::getUser();
+      DB::unprepared('LOCK TABLES collections WRITE');
       $duplicateCollection = DB::table('collections')
         /*->where('owner_id', '=',  $user['id'])*/
         ->where('name', '=',  $input['name'])
@@ -176,7 +179,7 @@ class CollectionController extends \BaseController {
           'exists'  => true,
           'flash'    => 'The name you selected already exists. Please select a new name'));
       }
-    }catch(\Exception $e){
+    } catch(\Exception $e) {
       return Response::json(array('success' => false,
         'exists'  => false,
         'message' => $e->getMessage()));
@@ -187,11 +190,11 @@ class CollectionController extends \BaseController {
   public function destroy($collection_id) {
     try {
       $user = Sentinel::getUser();
-      $collection = Collection::where('owner_id', $user['id'])    //check if the user is the owner of the collection
+      $collection = Collection::where('owner_id', $user['id']) //check if the user is the owner of the collection
         ->where('id', $collection_id)
         ->get();
 
-      if (count($collection)>0){                    //if the user is the owner of the collection, delete it
+      if (count($collection) > 0) { //if the user is the owner of the collection, delete it
         Collection::where('owner_id', $user['id'])
           ->where('id', $collection_id)
           ->delete();
@@ -205,7 +208,7 @@ class CollectionController extends \BaseController {
       Annotation::where('owner_id', $user['id'])
         ->where('collection_id', $collection_id)
         ->delete();
-    }catch(\Exception $e){
+    } catch(\Exception $e) {
       return Response::json(array('success' => false, 'message' => $e->getMessage()));
     }
 

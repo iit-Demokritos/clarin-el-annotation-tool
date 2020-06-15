@@ -39,8 +39,9 @@ class UserController extends \BaseController {
 
             $user = Sentinel::getUser();
 
-            if($user->checkPassword($credentials['old_password'])) {
-                $user->password = $credentials['new_password'];
+            if (Sentinel::validateCredentials($user, ['password' => $credentials['old_password']])) {
+		// $user->password = $credentials['new_password'];
+		$user = Sentinel::update($user, ['password' => $credentials['new_password']]);
 
                 if ($user->save()) {
                     return Response::json(array('success' => true, 'message' => 'You password was successfully updated.'), 200);

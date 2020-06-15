@@ -54,6 +54,6 @@ Route::group(array('prefix' => 'api', 'before' => 'auth'), function() {
 
 Route::get('/teststream', 'TestStreamController@test');
 
-//App::missing(function($exception) {
-//	return View::make('index');
-//});
+Route::any('{catchall}', function() {
+  return View::make('index');
+})->where('catchall', '.*');
