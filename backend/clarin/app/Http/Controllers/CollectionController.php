@@ -109,15 +109,19 @@ class CollectionController extends \BaseController {
         ->where('owner_id', '=',  $user['id'])
         ->where('name', '=',  $input['name'])
         ->get();
+      Log::info($duplicateCollection);
 
       if (empty($duplicateCollection)) {       //collection does not exist  -- save new collection
+        Log::info("Creating new collection!");
         $newCollection = Collection::create(array(
           'name' => $input['name'],
           'encoding' => $input['encoding'],
           'owner_id' => $user['id'],
           'handler' => $input['handler']
-        ));
+	));
+	Log::info("Collection CREATED!");
 
+	Log::info($newCollection);
         DB::unprepared('COMMIT');
         DB::unprepared('UNLOCK TABLES');
         return Response::json(array('success' => true,
