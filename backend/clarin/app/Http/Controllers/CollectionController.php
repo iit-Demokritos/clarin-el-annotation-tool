@@ -97,11 +97,11 @@ class CollectionController extends \BaseController {
 
   //store a new collection
   public function store() {
-    Log::info('A user has request to store a collection.');
+    // Log::info('A user has request to store a collection.');
     $newCollection;
     try {
       $input = Request::input('data');
-      Log::info($input);
+      // Log::info($input);
 
       $user = Sentinel::getUser();
       DB::unprepared('LOCK TABLES collections WRITE');
@@ -109,25 +109,25 @@ class CollectionController extends \BaseController {
         ->where('owner_id', '=',  $user['id'])
         ->where('name', '=',  $input['name'])
         ->get();
-      Log::info($duplicateCollection);
 
-      if (empty($duplicateCollection)) {       //collection does not exist  -- save new collection
-        Log::info("Creating new collection!");
+      if (empty($duplicateCollection) || $duplicateCollection->isEmpty()) {       //collection does not exist  -- save new collection
+        //Log::info("Creating new collection!");
         $newCollection = Collection::create(array(
           'name' => $input['name'],
           'encoding' => $input['encoding'],
           'owner_id' => $user['id'],
           'handler' => $input['handler']
 	));
-	Log::info("Collection CREATED!");
+	//Log::info("Collection CREATED!");
 
-	Log::info($newCollection);
+	//Log::info($newCollection);
         DB::unprepared('COMMIT');
         DB::unprepared('UNLOCK TABLES');
         return Response::json(array('success' => true,
           'collection_id' => $newCollection->id,
           'exists'  => false));
-      } elseif (!empty($duplicateCollection) && $input['overwrite']=='true') {   //collection exists -- overwrite
+      } elseif ($input['overwrite']=='true') {   //collection exists -- overwrite
+	//Log::info("Collection exists! Deleting & Recreating!");
         Collection::destroy($input['id']);  //destroy the old collection
         $newCollection = Collection::create(array(  //add new collection
           'name' => $input['name'],
@@ -142,12 +142,14 @@ class CollectionController extends \BaseController {
           'collection_id' => $newCollection->id,
           'exists'  => false));
       } else {    //collection exists -- query for overwrite
+        //Log::info("Collection exists! Query for Overwrite!");
         DB::unprepared('UNLOCK TABLES');
         return Response::json(array('success' => true,
           'exists'  => true,
           'collection_id' => $duplicateCollection[0]->id));
       }
     } catch(\Exception $e) {
+      //Log::info("Catch Exception: ".$e->getMessage());
       return Response::json(array('success' => false,
         'exists'  => false,
         'message' => $e->getMessage()));
