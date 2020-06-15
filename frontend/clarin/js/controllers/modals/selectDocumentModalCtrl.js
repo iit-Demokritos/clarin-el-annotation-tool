@@ -163,12 +163,17 @@ angular.module('clarin-el').controller('selectDocumentModalCtrl', function (Anno
   	};
 
   	$scope.selectDocument = function () {		//function to validate which document has been selected, if any
-    	if(!angular.equals({}, $scope.selectedDocument)){
+    	    if(!angular.equals({}, $scope.selectedDocument)){
       		$scope.flash = "";
-	  		$scope.selectedCollection = $filter('filter')($scope.dataForTheTree, {id: $scope.selectedDocument.collection_id});
+	  	$scope.selectedCollection = $filter('filter')($scope.dataForTheTree, {id: $scope.selectedDocument.collection_id}, true);
 	      	$scope.documentSelectorHeight = 0;
 	      	$scope.showSelectDocument = false;
-      	return true;
+		//    console.log("Selection:");
+		//    console.log($scope.selectedCollection);
+		//    console.log($scope.selectedDocument);
+		//    console.log($scope.dataForTheTree);
+		//    console.log($filter);
+      		return true;
 	    } else {
 	      	$scope.flash = "Please select a document from the list..";
 	      	return false;
