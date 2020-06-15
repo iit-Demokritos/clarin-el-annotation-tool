@@ -1,8 +1,8 @@
 <?php
 
-//ini_set('display_errors', 1);
-//ini_set('display_startup_errors', 1);
-//error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 /**
  * Laravel - A PHP Framework For Web Artisans
@@ -23,7 +23,13 @@
 |
 */
 
-require realpath(__DIR__).'/../bootstrap/autoload.php';
+foreach ([realpath(__DIR__).'/../bootstrap/autoload.php',
+          realpath(__DIR__).'/../../backend/clarin/bootstrap/autoload.php'] as $filename) {
+    if (file_exists($filename)) {
+        require $filename;
+	break;
+    }
+}
 
 /*
 |--------------------------------------------------------------------------
@@ -36,8 +42,13 @@ require realpath(__DIR__).'/../bootstrap/autoload.php';
 | the responses back to the browser and delight our users.
 |
 */
-
-$app = require_once realpath(__DIR__).'/../bootstrap/app.php';
+foreach ([realpath(__DIR__).'/../bootstrap/app.php',
+          realpath(__DIR__).'/../../backend/clarin/bootstrap/app.php'] as $filename) {
+    if (file_exists($filename)) {
+	    $app = require_once $filename;
+	    break;
+    }
+}
 
 /*
 |--------------------------------------------------------------------------
