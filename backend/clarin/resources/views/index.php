@@ -6,9 +6,9 @@
 	<base href="/clarin/">
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 
-	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-	<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
-	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+	<link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 
     <link rel="stylesheet" type="text/css" href="css/yamm.css">
     <link rel="stylesheet" type="text/css" href="css/tree-control-attribute.css">
@@ -50,7 +50,7 @@
     <script src="bower_components/angular-tree-control/angular-tree-control.js"></script>
     <script src="bower_components/ng-flow/dist/ng-flow-standalone.min.js"></script>
     <script src="bower_components/modernizr/modernizr.js"></script>
-    <script src="bower_components/event-source-polyfill/eventsource.min.js"></script>
+    <script src="bower_components/event-source-polyfill/src/eventsource.min.js"></script>
     <script src="js/lib/Objectid.js"></script>
 </body>
 </html>
