@@ -27,6 +27,7 @@ Route::group(array('prefix' => 'auth'), function() {
 
 	Route::post('login', array('before' => 'csrf_json', 'uses' => 'UserController@login'));
 	Route::get('logout', 'UserController@logout');
+	Route::get('gettoken', 'UserController@gettoken');
 });
 
 Route::get('api/collections/{collection_id}/export', 'CollectionController@exportData');

@@ -50,7 +50,7 @@
     <script src="bower_components/angular-tree-control/angular-tree-control.js"></script>
     <script src="bower_components/ng-flow/dist/ng-flow-standalone.min.js"></script>
     <script src="bower_components/modernizr/modernizr.js"></script>
-    <script src="bower_components/event-source-polyfill/src/eventsource.min.js"></script>
+    <!--<script src="bower_components/event-source-polyfill/src/eventsource.min.js"></script>-->
     <script src="js/lib/Objectid.js"></script>
 </body>
 </html>

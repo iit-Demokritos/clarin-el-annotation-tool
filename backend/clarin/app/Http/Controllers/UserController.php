@@ -2,6 +2,14 @@
 
 class UserController extends \BaseController {
 
+   /**
+   * [GET] function that returns nothing. Just to get the CSRF token
+   **/
+   public function gettoken() {
+     return Response::json(array('success' => true, 'data' => []), 200);
+   }
+
+
     /**
    * [GET] function that returns statistics about the logged user
    **/
