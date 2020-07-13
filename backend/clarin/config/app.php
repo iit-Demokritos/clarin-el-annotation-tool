@@ -154,7 +154,10 @@ return [
 	Cartalyst\Sentinel\Laravel\SentinelServiceProvider::class,
 
 	// MongoDB
-	Jenssegers\Mongodb\MongodbServiceProvider::class
+	Jenssegers\Mongodb\MongodbServiceProvider::class,
+
+	// JWT Auth
+	Tymon\JWTAuth\Providers\LaravelServiceProvider::class
     ],
 
     /*

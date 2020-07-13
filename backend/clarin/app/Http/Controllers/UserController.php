@@ -1,6 +1,20 @@
 <?php
+//use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends \BaseController {
+
+
+    /**
+     * Create a new AuthController instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        //$this->middleware('auth:api', ['except' => ['login', 'gettoken']]);
+    }
 
    /**
    * [GET] function that returns nothing. Just to get the CSRF token
@@ -142,31 +156,80 @@ class UserController extends \BaseController {
      * @param {String} password
      **/
     public function login() {
-        try {
+      try {
         $credentials = array(
             'email' => Request::json('email'),
             'password' => Request::json('password')
-        );
+	);
+	//Log::info("Authenticate the user");
+	//Log::info($credentials);
 
         // Authenticate the user
         $user = Sentinel::authenticate($credentials, true);
+	// https://jwt-auth.readthedocs.io/en/develop/quick-start/
+	if (! $token = JWTAuth::attempt($credentials)) {
+          return response()->json(['success' => false, 'message' => 'Unauthorized'], HttpResponse::HTTP_UNAUTHORIZED);
+        }
+	$user['jwtToken'] = $token;
+	
+	//Log::info($user);
+	//Log::info(json_encode(auth()));
+	//Log::info(json_encode(auth()->user()));
         return Response::json(array('success' => true,   'data' => $user), 200);
-    }
-    catch (Cartalyst\Sentinel\Users\LoginRequiredException $e) {
+      }
+      catch (Cartalyst\Sentinel\Users\LoginRequiredException $e) {
         return Response::json(array('success' => false, 'message'  => 'Login field is required.'), 400);
-    }
-    catch (Cartalyst\Sentinel\Users\PasswordRequiredException $e) {
+      }
+      catch (Cartalyst\Sentinel\Users\PasswordRequiredException $e) {
         return Response::json(array('success' => false, 'message'  => 'Password field is required.'), 400);
-    }
-    catch (Cartalyst\Sentinel\Users\WrongPasswordException $e) {
+      }
+      catch (Cartalyst\Sentinel\Users\WrongPasswordException $e) {
         return Response::json(array('success' => false, 'message'  => 'Wrong password, try again.'), 400);
-    }
-    catch (Cartalyst\Sentinel\Users\UserNotFoundException $e) {
+      }
+      catch (Cartalyst\Sentinel\Users\UserNotFoundException $e) {
         return Response::json(array('success' => false, 'message'  => 'User was not found.'), 400);
-    }
-    catch (Cartalyst\Sentinel\Users\UserNotActivatedException $e)  {
+      }
+      catch (Cartalyst\Sentinel\Users\UserNotActivatedException $e)  {
         return Response::json(array('success' => false, 'message'  => 'Authentication failed'), 400);
+      }
     }
+
+    /**
+     * Get the authenticated User.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function me()
+    {
+      return response()->json(['success' => true, 'data' => auth()->user()]);
+    }
+
+    /**
+     * Refresh a token.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function refreshToken()
+    {
+      $user = auth()->user();
+      $user['jwtToken'] = auth()->refresh();
+      return Response::json(array('success' => true,   'data' => $user), 200);
+    }
+
+    /**
+     * Get the token array structure.
+     *
+     * @param  string $token
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function respondWithToken($token)
+    {
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth()->factory()->getTTL() * 60
+        ]);
     }
 
 
@@ -224,9 +287,11 @@ class UserController extends \BaseController {
     public function logout() {
       try {
         Sentinel::logout();
+        auth()->logout();
         return Response::json(array('success' => true, 'message' => 'You successfully signed out.'), 200);
       } catch (Exception $e) {
           return Response::json(array('success' => false, 'message' => $e->getMessage()), 500);
       }
     }
+
 }

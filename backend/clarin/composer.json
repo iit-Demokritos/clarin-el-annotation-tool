@@ -11,7 +11,8 @@
         "php": ">=5.5.9",
         "laravel/framework": "^6.0",
         "jenssegers/mongodb": "3.6.*",
-        "cartalyst/sentinel": "3.*"
+        "cartalyst/sentinel": "3.*",
+        "tymon/jwt-auth": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

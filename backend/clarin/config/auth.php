@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
+        'guard' => 'api', //web',
         'passwords' => 'users',
     ],
 
@@ -36,13 +36,16 @@ return [
     */
 
     'guards' => [
+	    /*
         'web' => [
-            'driver' => 'session',
+            //'driver' => 'session',
+            'driver' => 'jwt',
             'provider' => 'users',
-        ],
+	],*/
 
         'api' => [
-            'driver' => 'token',
+            // 'driver' => 'jwt', <= uncomment this to enable JWT
+            'driver' =>   'session',
             'provider' => 'users',
         ],
     ],

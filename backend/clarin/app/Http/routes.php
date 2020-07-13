@@ -12,29 +12,31 @@
 */
 
 Route::get('/', function () {
-    //return view('welcome');
-    return View::make('index');
+  //return view('welcome');
+  return View::make('index');
 });
 
 Route::get('/welcome', function() {
-	return View::make('index');
+  return View::make('index');
 });
 
 Route::group(array('prefix' => 'auth'), function() {
-	Route::post('register', array('uses' => 'UserController@register'));
-	Route::get('activate', array('uses' => 'UserController@activate_account'));
-	Route::post('reset', array('uses' => 'UserController@reset'));
-
-	Route::post('login', array('before' => 'csrf_json', 'uses' => 'UserController@login'));
-	Route::get('logout', 'UserController@logout');
-	Route::get('gettoken', 'UserController@gettoken');
+  Route::post('register',  array('uses' => 'UserController@register'));
+  Route::get ('activate',  array('uses' => 'UserController@activate_account'));
+  Route::post('reset',     array('uses' => 'UserController@reset'));
+  
+  Route::post('login',     array('before' => ['csrf_json'], 'uses' => 'UserController@login'));
+  Route::get ('gettoken',  'UserController@gettoken');
 });
 
 Route::get('api/collections/{collection_id}/export', 'CollectionController@exportData');
 
-Route::group(array('prefix' => 'api', 'before' => 'auth'), function() {
-	Route::resource('user', 'UserController', array('only' => array('index')));
-	Route::post('user/update', 'UserController@updatePassword');
+Route::group(array(/*'middleware' => 'jwt.verify' <= uncomment to enable JWT ,*/ 'prefix' => 'api', 'before' => 'auth'), function() {
+	Route::resource('user',               'UserController', array('only' => array('index')));
+	Route::post(    'user/update',        'UserController@updatePassword');
+	Route::post(    'user/refresh-token', array('before' => ['csrf_json'], 'uses' => 'UserController@refreshToken'));
+	Route::get(     'user/me',            'UserController@me');
+	Route::get(     'user/logout',        'UserController@logout');
 
 	Route::resource('collections', 'CollectionController', array('only' => array('index', 'show', 'store', 'update', 'destroy')));
 	Route::get('collections_data/', 'CollectionController@showData');

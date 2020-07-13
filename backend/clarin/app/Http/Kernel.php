@@ -28,6 +28,10 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+	'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+	//'jwt.verify' => \App\Http\Middleware\JwtMiddleware::class, <= uncomment this to enable JWT
+
+	//'jwt.auth' => 'Tymon\JWTAuth\Middleware\GetUserFromToken',
+	//'jwt.refresh' => 'Tymon\JWTAuth\Middleware\RefreshToken',
     ];
 }
