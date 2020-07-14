@@ -464,7 +464,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
 		        editor.setSelection({line: 0, ch: 0}, {line: 0, ch: 0}, {scroll: false});
 		    } else {
                         var sel = computeSelectionFromOffsets(parseInt(currentSel.startOffset), parseInt(currentSel.endOffset));
-                        editor.setSelection(sel.start, sel.end);
+                        editor.setSelection(sel.start, sel.end, {scroll: false});
                     }
                 };
 
