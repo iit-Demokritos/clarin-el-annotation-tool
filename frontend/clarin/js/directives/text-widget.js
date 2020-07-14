@@ -37,6 +37,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
                     readOnly: true,
                     theme: "night",
                     lineWrapping: true,
+		    autofocus: false,
                     cursorBlinkRate: -1,
                     viewportMargin: Infinity,
                     extraKeys: {}
@@ -115,7 +116,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
                 };
 
                 var mouseUpHandler = function (e) {
-                    if (e.button === 0) {   //left button click
+		    if (e.button === 0) {   //left button click
                         var selection = getSelectionInfo();
 
                         if (!angular.equals(selection, {})) {
@@ -186,7 +187,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
                  * Bring the text and the annotations when a document changes
                  */
                 var updateCurrentDocument = function () {
-                    var newDocument = TextWidgetAPI.getCurrentDocument();
+		    var newDocument = TextWidgetAPI.getCurrentDocument();
 
                     if (!angular.equals({}, newDocument)) {   //if new document is not empty
                         var documentData = {
@@ -425,7 +426,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
                  * @returns {boolean}
                  */
                 var deleteAnnotations = function () {
-                    if (!TextWidgetAPI.isRunning()) //check if running
+		    if (!TextWidgetAPI.isRunning()) //check if running
                         TextWidgetAPI.enableIsRunning();
                     else
                         return false;
@@ -457,11 +458,11 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
                 var updateCurrentSelection = function () {
                     var currentSel = TextWidgetAPI.getCurrentSelection();
 
-                    if (angular.isUndefined(currentSel))
+                    if (angular.isUndefined(currentSel)) {
                         return;
-                    else if (angular.equals(currentSel, {}))
-                        editor.setCursor({line: 0, ch: 0});
-                    else {
+		    } else if (angular.equals(currentSel, {})) {
+		        editor.setSelection({line: 0, ch: 0}, {line: 0, ch: 0}, {scroll: false});
+		    } else {
                         var sel = computeSelectionFromOffsets(parseInt(currentSel.startOffset), parseInt(currentSel.endOffset));
                         editor.setSelection(sel.start, sel.end);
                     }
