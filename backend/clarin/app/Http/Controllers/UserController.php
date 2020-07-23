@@ -2,6 +2,7 @@
 //use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class UserController extends \BaseController {
 
@@ -250,7 +251,7 @@ class UserController extends \BaseController {
             if ($user->checkResetPasswordCode($reset_code)) {
 
                 // Attempt to reset the user password
-                $new_password = str_random(10);
+                $new_password = Str::random(10);
                 if ($user->attemptResetPassword($reset_code, $new_password)) {
 
                     //prepare the required variables passed to the email view

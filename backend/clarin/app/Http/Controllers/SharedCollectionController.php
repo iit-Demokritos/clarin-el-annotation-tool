@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Str;
+
 class SharedCollectionController extends \BaseController {
 
   //get invitation's data
@@ -28,7 +30,7 @@ class SharedCollectionController extends \BaseController {
       //$recepient = Sentry::findUserByLogin($input['to']);  //attempt to find the recepient in the database
       $recepient = Sentinel::findByCredentials(['login' => $input['to']]);
 
-      $confirmation_code = str_random(30);      //create a random string to complete the collection sharing request
+      $confirmation_code = Str::random(30);      //create a random string to complete the collection sharing request
       $data = array(
         'sender_name' => $user['name'],
         'recepient_name' => $recepient['name'],
@@ -44,7 +46,8 @@ class SharedCollectionController extends \BaseController {
                   ->where('from', '=',  trim($data['from']))
                   ->where('to', '=',  trim($data['to']))
                   ->where('collection_id', '=',  $data['collection_id'])
-                  ->pluck('confirmed');
+		  ->pluck('confirmed')
+	  	  ->first();
 
       if (is_null($invitationExists)){                   //invitation does not exist -- add new invitation
         $checkIfOwner = Collection::where('owner_id', $user['id'])    //check if the user is the owner of the collection
@@ -109,7 +112,7 @@ class SharedCollectionController extends \BaseController {
   //confirm a shared collection's invitation
   public function confirm($collection_id, $confirmation_code) {
     try {
-          $invitationConfirmed = SharedCollection::where('confirmation_code', '=', $confirmation_code)->pluck('confirmed');
+          $invitationConfirmed = SharedCollection::where('confirmation_code', '=', $confirmation_code)->pluck('confirmed')->first();
 
       if (is_null($invitationConfirmed))                           //invitation does not exist -- add new invitation
         return View::make('basic', array('message' => 'The requested invitation does not exist!'));
