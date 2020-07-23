@@ -5,8 +5,8 @@ app.run(function($http,CSRF_TOKEN){ $http.defaults.headers.common['csrf_token'] 
 
 // Defining global variables for the Clarin-EL app
 app.constant("CLARIN_CONSTANTS", {
-  "BASE_URL": "http://" + window.location.hostname,
-  "ELLOGON_SERVICES": "http://" + window.location.hostname + '/clarin-ellogon-services'
+  "BASE_URL": "//" + window.location.hostname,
+  "ELLOGON_SERVICES": "//" + window.location.hostname + '/clarin-ellogon-services'
   /*"ELLOGON_SERVICES": "http://localhost:9292/192.168.56.101"*/
 });
 
