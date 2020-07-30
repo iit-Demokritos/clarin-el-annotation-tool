@@ -218,6 +218,9 @@ table td{ vertical-align:middle!important; }
 	border:1px #d7d7d7 solid;
 	overflow: auto;
 }
+
+[treecontrol] ul { white-space: nowrap; text-overflow: ellipsis !important; overflow:hidden !important; }
+
 .document-selector{
 	overflow: auto;
 	pointer-events: none;

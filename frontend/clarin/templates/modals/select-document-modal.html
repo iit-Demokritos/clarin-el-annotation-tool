@@ -15,13 +15,18 @@
 			 options="treeOptions" 
 			 on-selection="showSelected(node)"
 			 selected-node="node1">
-			 {{node.name}}
-			 <span class="right" ng-if="node.hasOwnProperty('children')"> 
-			 <span ng-show="node.confirmed==1 && node.is_owner" class="label label-info">Shared by me</span>
-             <span ng-show="node.confirmed==1 && !node.is_owner" class="label label-info" title="The actions that can be performed on this collection are limited because it does not belong to you">Shared with me</span> ({{node.document_count}} Documents)</span>
+			<!--Node name-->
+			<span ng-if="!node.hasOwnProperty('children')" title="{{node.name}}">{{ node.name }}</span>
+			<span ng-if="node.hasOwnProperty('children')">{{ node.name }}</span>
+
+			<!--Node tags (for parent nodes)-->
+			<span class="right" ng-if="node.hasOwnProperty('children')"> 
+			 	<span ng-show="node.confirmed==1 && node.is_owner" class="label label-info">Shared by me</span>
+             			<span ng-show="node.confirmed==1 && !node.is_owner" class="label label-info" title="The actions that can be performed on this collection are limited because it does not belong to you">Shared with me</span>
+				({{node.document_count}} Documents)
+			 </span>
 		</div>
-		<div ng-hide="showSelectDocument">	 <!-- ng-hide="showSelectDocument" --> 
-		   
+		<div ng-hide="showSelectDocument">
 			<div class="text-center subheader">
 			    <div class="btn-group btn-group-justified">
 			        <label class="btn btn-primary"
