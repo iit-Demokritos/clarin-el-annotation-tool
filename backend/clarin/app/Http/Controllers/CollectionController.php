@@ -41,10 +41,12 @@ class CollectionController extends \BaseController {
           ->where('collections.owner_id', '=', $user['id'])
           ->orWhere(function($query) use ($user) {
             $query->where('shared_collections.to', '=', $user['email'])
-      ->where('shared_collections.confirmed', '=', 1);
+      		->where('shared_collections.confirmed', '=', 1);
           })
-          ->select('documents.id', 'documents.name', 'documents.collection_id', 'collections.name as collection_name', 'collections.owner_id','shared_collections.confirmed', DB::raw('IF('.$user['id']. '=collections.owner_id, true, false) as is_owner'))
-          ->orderBy('collection_name', 'asc')->orderBy('name', 'asc')
+	  ->select('documents.id', 'documents.name', 'documents.collection_id', 'collections.name as collection_name', 'collections.owner_id','shared_collections.confirmed', DB::raw('IF(' . $user['id'] . '=collections.owner_id, true, false) as is_owner'))
+  	  ->distinct()
+	  ->orderBy('collection_name', 'asc')
+	  ->orderBy('name', 'asc')
           ->get()));
     } catch(\Exception $e) {
       return Response::json(array('success' => false, 'message' => $e->getMessage()));
