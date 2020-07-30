@@ -10,7 +10,7 @@ class CollectionController extends \BaseController {
     try {
       $user = Sentinel::getUser();
       return Response::json(array(
-        'success' => true,
+	'success' => true,
         'data'    => DB::table('collections')
           ->leftJoin('documents', 'collections.id', '=', 'documents.collection_id')
           ->leftJoin('shared_collections', 'collections.id', '=', 'shared_collections.collection_id')
@@ -19,7 +19,7 @@ class CollectionController extends \BaseController {
             $query->where('shared_collections.to', '=', $user['email'])
                   ->where('shared_collections.confirmed', '=', 1);
           })
-          ->select(DB::raw('collections.id, collections.name, collections.encoding, collections.owner_id, shared_collections.confirmed, count(documents.id) as document_count, IF('.$user['id']. '=collections.owner_id, true, false) as is_owner'))
+          ->select(DB::raw('collections.id, collections.name, collections.encoding, collections.owner_id, shared_collections.confirmed, count(distinct documents.id) as document_count, IF('.$user['id']. '=collections.owner_id, true, false) as is_owner'))
           ->orderBy('collections.id', 'asc')
           ->groupBy('collections.id')
           ->get()));
