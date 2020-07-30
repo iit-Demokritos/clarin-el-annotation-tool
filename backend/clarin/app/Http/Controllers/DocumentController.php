@@ -27,16 +27,17 @@ class DocumentController extends \BaseController {
                          })*/
           ->where(function($query) use ($user) {
             $query->where('documents.owner_id', '=', $user['id'])
-      ->orWhere(function($query) use ($user) {
-        $query->where('shared_collections.from', '=', $user['email'])
-      ->where('shared_collections.confirmed', '=', 1);
-      })
-      ->orWhere(function($query) use ($user) {
-        $query->where('shared_collections.to', '=', $user['email'])
-      ->where('shared_collections.confirmed', '=', 1);
-      });
+      		->orWhere(function($query) use ($user) {
+       			 $query->where('shared_collections.from', '=', $user['email'])
+      				->where('shared_collections.confirmed', '=', 1);
+      		})
+      		->orWhere(function($query) use ($user) {
+        		$query->where('shared_collections.to', '=', $user['email'])
+      				->where('shared_collections.confirmed', '=', 1);
+      		});
           })
-          ->get(array('documents.*', 'users.email as owner_email'))));
+	  ->distinct()
+	  ->get(array('documents.*', 'users.email as owner_email'))));
     }catch(\Exception $e){
       return Response::json(array('success' => false, 'message' => $e->getMessage()));
     }
