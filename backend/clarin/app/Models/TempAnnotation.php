@@ -1,7 +1,8 @@
 <?php
 
 //use Jenssegers\Mongodb\Eloquent\SoftDeletingTrait;
-use Illuminate\Database\Eloquent\SoftDeletes;
+//use Illuminate\Database\Eloquent\SoftDeletes;
+use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 
 use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 
