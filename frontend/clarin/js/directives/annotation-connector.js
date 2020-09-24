@@ -1,5 +1,5 @@
-angular.module('clarin-el').directive('annotationConnector', ['CLARIN_CONSTANTS', 'TextWidgetAPI', 'RestoreAnnotation', 'OpenDocument', 'Dialog',
-  function(CLARIN_CONSTANTS, TextWidgetAPI, RestoreAnnotation, OpenDocument, Dialog, $timeout) {
+angular.module('clarin-el').directive('annotationConnector', ['TextWidgetAPI', 'RestoreAnnotation', 'OpenDocument', 'Dialog',
+  function(TextWidgetAPI, RestoreAnnotation, OpenDocument, Dialog, $timeout) {
 
     return {
       restrict: 'E',
@@ -13,14 +13,6 @@ angular.module('clarin-el').directive('annotationConnector', ['CLARIN_CONSTANTS'
         $scope.connected_annotations = [];
         $scope.links = []
         $scope.connectors = [];
-        //$scope.start_annotation="Select Annotation";
-        //	$scope.end_annotation="Select Annotation";
-
-        $scope.$on('$destroy', function() { //listen when scope is destroying
-          if (!angular.isUndefined($scope.es)) {
-            $scope.es.close();
-          } //delete previous open connections when leaving
-        });
 
         var updateAnnotationList = function() { //function to be called when the document annotations being updated
           $timeout(function() {
