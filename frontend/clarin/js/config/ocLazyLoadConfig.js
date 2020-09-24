@@ -52,12 +52,18 @@ app.config(function($ocLazyLoadProvider) {
 				'js/directives/text-widget.js',
 				'js/directives/overlapping-areas.js',
 				'js/directives/annotation-visualizer.js',
+				'js/directives/annotation-connector.js',
 				'js/directives/annotator-widget.js'
 			]
 		}, {
 			name: 'annotationWidgets',
 			files: [
 				'js/directives/button/annotation-button.js',
+				'js/directives/button/annotation-relation-combobox.js',
+				'js/directives/button/annotation-relation-import-btn.js',
+				'js/directives/button/annotation-relation-clear-btn.js',
+				//'js/directives/button/annotation-relation-del-btn.js',
+				'js/directives/button/annotation-relation-annotate-btn.js',
 				'js/directives/button/annotation-combobox.js',
 				'js/directives/button/annotation-dateentry.js',
 				'js/directives/button/annotation-entry.js',
