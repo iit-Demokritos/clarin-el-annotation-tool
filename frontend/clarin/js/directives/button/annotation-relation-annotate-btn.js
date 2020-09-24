@@ -14,10 +14,17 @@ angular.module('clarin-el').directive('relationAnnotateBtn', function() {
 		    var ids = scope.annotationWidgetIds.split(' ');
 		    
 		    _.each(ids, function(id) {
-		       // Get element from its id
-		       var elem = $('#' + id)[0];
+		       // Get div of combobox component from its id (the first child node is the div)
+		       var elem = $('#' + id + '').children().first()[0];
 		       
-		       console.log(elem);
+		       // Get angular scope from the element
+		       var elemScope = angular.element(elem).scope();
+		       
+		       var annotationAttribute = elemScope.annotationAttribute;
+		       var annotationType = elemScope.annotationType;
+		       console.log('elemScope', annotationAttribute, annotationType);
+		       
+		       // todo: get selected annotation ID
 		    });
 		  };
 		  
