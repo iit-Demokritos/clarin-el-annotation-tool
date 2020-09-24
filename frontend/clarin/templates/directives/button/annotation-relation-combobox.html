@@ -1,5 +1,6 @@
 <div>
-<select>
-<option>annotation relation combobox</option>
+<select ng-model="selectedAnnotation" 
+        ng-options="annotation._id for annotation in annotations">
+<option value="">-- Select annotation --</option>
 </select>
 </div
