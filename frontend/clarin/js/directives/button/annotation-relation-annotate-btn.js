@@ -10,11 +10,15 @@ angular.module('clarin-el').directive('relationAnnotateBtn', function() {
 		  scope.showAnnotateBtn = true;
 		  
 		  scope.addAnnotation = function() {
-		    console.log('Add annotation');
-		    
 		    // Get IDs of annotation comboboxes
 		    var ids = scope.annotationWidgetIds.split(' ');
-		    console.log(ids);
+		    
+		    _.each(ids, function(id) {
+		       // Get element from its id
+		       var elem = $('#' + id)[0];
+		       
+		       console.log(elem);
+		    });
 		  };
 		  
 		  scope.updateAnnotation = function() {
