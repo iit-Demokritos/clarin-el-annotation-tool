@@ -15,7 +15,6 @@ angular.module('clarin-el').directive('relationAnnotateBtn', function() {
 		    
 		    _.each(ids, function(id) {
 		       // Get div of combobox component from its id (the first child node is the div)
-		       console.log($('#' + id)[0]);
 		       var elem = $('#' + id).children().first()[0];
 		       
 		       // Get angular scope from the element
@@ -25,9 +24,7 @@ angular.module('clarin-el').directive('relationAnnotateBtn', function() {
 		       var annotationType = elemScope.annotationType;
 		       var selectedAnnotation = elemScope.selectedAnnotation;
 		       
-		       console.log('selected annotaiton', selectedAnnotation);
-		       
-		       // todo: get selected annotation ID
+		       console.log('selected annotation', selectedAnnotation);
 		    });
 		  };
 		  
