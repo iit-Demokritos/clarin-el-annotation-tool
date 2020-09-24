@@ -3,7 +3,7 @@
 	<div ui-layout-container ng-include="'templates/navbar.html'" size="50px" min-size="50px" max-size="50px" ></div>
 	<div ui-layout-container size="46px" min-size="46px" max-size="46px">
 		<toolbar-widget></toolbar-widget>
-    </div>
+        </div>
   	<div ui-layout-container > 		<!-- ng-hide="documentSelection" -->
         <div ui-layout="{flow : 'column'}" >
           	<div ui-layout-container >
@@ -12,16 +12,19 @@
                 </div>
                 <overlapping-areas></overlapping-areas>
           	</div>
-          	<div ui-layout-container size="400px" min-size="280px" max-size="520px" >
+          	<div ui-layout-container size="600px" min-size="480px" max-size="560px" >
               	<div class="sidebar-header flow-effect-top" id="annotation-sidebar-header" >
                     <div class="btn-group btn-group-justified">
                         <label class="btn btn-default" ng-model="sidebarSelector" btn-radio="'annotator'">{{annotatorType}}</label>
                         <label class="btn btn-default" ng-model="sidebarSelector" btn-radio="'annotationVisualiser'">Annotation Visualiser</label> 
+                        <label class="btn btn-default" ng-model="sidebarSelector" btn-radio="'annotationConnector'">Annotation Connector</label> 
+                        
                     </div>
                 </div>
                 <div class="sidebar-main-content" trigger-resize>
  					<annotation-visualizer ng-show="sidebarSelector=='annotationVisualiser'"></annotation-visualizer>
- 					<annotator-widget ng-show="sidebarSelector=='annotator'"></annotator-widget>      
+ 					<annotator-widget ng-show="sidebarSelector=='annotator'"></annotator-widget>   
+ 					<annotation-connector ng-show="sidebarSelector=='annotationConnector'"></annotation-connector>   
  				</div>
           	</div>
         </div>

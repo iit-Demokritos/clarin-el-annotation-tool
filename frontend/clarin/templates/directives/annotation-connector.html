@@ -1,0 +1,71 @@
+<div autoheight scroll-subtraction-height="145">
+  <div ui-layout>
+    <div ui-layout-container size="300px">
+      <div ng-show="annotations.length<=1" class="caution-msg">This document has not many annotations</div>
+      <div ng-show="annotations.length>1">
+        <div>
+
+          <label for="Start"> Start: </label><br>
+          <select ng-model="start_annotation" ng-options="annotation._id for annotation in annotations" ng-change="setSelectedAnnotation('start')">
+            <option value="">-- Select annotation --</option>
+          </select>
+        </div>
+        <br />
+        <br />
+        <div>
+
+          <label for="End"> End: </label><br>
+          <select ng-model="end_annotation" ng-options="annotation._id for annotation in annotations" ng-change="setSelectedAnnotation('end')">
+            <option value="">-- Select annotation --</option>
+          </select>
+        </div>
+        <br />
+        <br />
+        <div>
+          <label for="Property_Name"> Property Name:</label><br>
+          <input <input ng-model="property_name">
+        </div>
+        <div><button type="button" class="btn btn-success btn coref-annotate-btn" ng-click="connectSelectedAnnotations()">Connect Annotations</button></div>
+      </div>
+    </div>
+    <div ui-layout-container size="300px">
+      <div class="annotation-visualiser-header">
+        <div class="col-md-4 right-divider">START_ID</div>
+        <div class="col-md-4 right-divider">END_ID</div>
+        <div class="col-md-4 right-divider">PROPERTY</div>
+
+      </div>
+      <div ng-show="links.length==0" class="caution-msg">Connected annotations are not available</div>
+      <div ng-show="links.length>0" class="annotation-visualiser-content" ng-repeat="link in links" ng-click="setSelectedConnection(link, $index)" ng-class="{ active: $index == selectedIndex }">
+
+        <div class="col-md-4 right-divider overflow-ellipsis">{{link.start_id}}</div>
+        <div class="col-md-4 right-divider overflow-ellipsis">{{link.end_id}}</div>
+        <div class="col-md-4 right-divider overflow-ellipsis">{{link.property}}</div>
+
+      </div>
+    </div>
+
+    <div class="modal" id="empty_warning">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <div class="warning-modal-header modal-header ng-scope">
+            <h4 class="modal-title" style="color:#fff">Warning</h4>
+
+          </div>
+
+          <div class="modal-body">
+            {{warning_message}}
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" onclick='$("#empty_warning").hide()'>Close</button>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
