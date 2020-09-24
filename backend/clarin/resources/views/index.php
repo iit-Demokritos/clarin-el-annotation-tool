@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html lang="en">
 <head>
   	<meta charset="UTF-8">
@@ -22,11 +22,14 @@
 	<script src="bower_components/angular-animate/angular-animate.min.js"></script>
 	<script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
 	<script src="bower_components/oclazyload/dist/ocLazyLoad.min.js"></script>
-
+	<script  src="bower_components/leader-line/leader-line/leader-line.min.js"></script>
+	<script  src="bower_components/anim-event/anim-event/anim-event.min.js"></script>
 	<script src="js/app.js"></script>
 	<script src="js/config/ocLazyLoadConfig.js"></script>
 
+  	
   	<script>angular.module("clarin-el").constant("CSRF_TOKEN", '<?php echo csrf_token(); ?>');</script>
+  	
 </head>
 <body>
     <div class="container-fluid" ng-app="clarin-el">
@@ -50,7 +53,10 @@
     <script src="bower_components/angular-tree-control/angular-tree-control.js"></script>
     <script src="bower_components/ng-flow/dist/ng-flow-standalone.min.js"></script>
     <script src="bower_components/modernizr/modernizr.js"></script>
+    <script src="bower_components/leader-line/leader-line/leader-line.min.js"></script>
+    <script  src="bower_components/anim-event/anim-event/anim-event.min.js"></script>
     <!--<script src="bower_components/event-source-polyfill/src/eventsource.min.js"></script>-->
     <script src="js/lib/Objectid.js"></script>
+   
 </body>
 </html>
