@@ -13,7 +13,7 @@ angular.module('clarin-el').directive('relationCombobox', ['$timeout', 'TextWidg
         scope.selectedAnnotation = null;
         
 			  /**
-			   * Get new annotations to show
+			   * Get new annotations to show.
 			   */
 			  var updateAnnotationList = function() {
           $timeout(function() {
