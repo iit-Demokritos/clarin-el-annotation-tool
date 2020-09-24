@@ -270,11 +270,19 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
                  * @param annotatorType
                  * @returns {boolean}
                  */
+                 
+                 //annotation-connection
+         /*       var line_name=[];
+                
+                var an_lines=[]
+                var startpoints=[];
+                var endpoints=[];
+                var startpoint=null,endpoint=null,line,startname=null,endname=null;*/
                 var visualizeAnnotations = function (newAnnotations, annotatorType) {
                     if (angular.isUndefined(newAnnotations) || newAnnotations.length === 0) return false;
 
                     clearDuplicateAnnotationsFromEditor(newAnnotations);                       // if there are any borders around a specific annotation, remove them.
-
+		   
                     for (var k = 0; k < newAnnotations.length; k++) {    // if there are new annotations to be visualised, add them to the editor
                         for (var l = 0; l < newAnnotations[k].annotation.spans.length; l++) {   // Iterate through annotations spans
                             var colorCombination = {};
@@ -284,7 +292,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
 
                             // create the selection in the editor and annotate it
                             var selection = computeSelectionFromOffsets(parseInt(annotationSpan.start), parseInt(annotationSpan.end));
-
+			    var count=0;
                             switch (annotatorType) {
                                 case "Button Annotator":              // If it is Button Annotator get the required color combination
                                     for (var m = 0; m < annotationsAttributes.length; m++) {
@@ -317,11 +325,21 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
                                     colorCombination = CoreferenceColor.getColorCombination(currAnnotation.annotation._id);
                                     var mark = null;
                                     var markerId = "mrkr_" + Math.floor(Math.random() * 1000000);
-
+				  
                                     // Create class for adding background color to the type pseudo-element
                                     var colorClass = " mark_color_" + colorCombination["border-color"].replace("#", "").toUpperCase();
                                     var markClassName = currAnnotation.annotation._id + " " + markerId + markedTextClass + colorClass;
-
+                                    //annotation-connection
+                               /*     if (k==0){
+                                    		startpoint= document.getElementsByClassName(markClassName);
+                                    		startname=currAnnotation.annotation._id ;
+                                    		
+                                    		
+                                    			}
+                                    if (k==1){
+                                    		endpoint=document.getElementsByClassName(markClassName);
+                                    		endname=currAnnotation.annotation._id ;
+                                   		        }*/
                                     if (!angular.isUndefined(currAnnotation.selected) && currAnnotation.selected) {
                                         // Selected marker
                                         mark = editor.markText(selection.start, selection.end, {
@@ -351,15 +369,73 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
 
                                     mark.markerId = markerId;
                                     mark.annotationId = currAnnotation.annotation._id;
-
+					
                                     break;
                             }
                         }
-
+			
                         // (Re)generate the SPAN elements that show the marker types
                         addTypeAttributesToMarkers();
                     }
+			
+			
+                    	//annotation-connection
+                    /*	var z;
+                    	
+                    	var n=false;
+                    	console.log("p:"+startname+"_"+endname);
+                    	for (z=0;z<line_name.length;z++){
+                    		//console.log("t:"+line_name[z]);
+                    		if(line_name[z].includes(startname) && line_name[z].includes(endname)){
+                    			if (an_lines[z]!=null){
+                    				n=true;
+                    				break;}
+                    			
+                    		}
+                    		
+                    	}
+                    
+             		
+             		
+                   	var scrollableBox=document.getElementsByClassName("main-content")[0];
+                   	
 
+                   	
+                   	
+			if(startpoint!==null && endpoint!==null && n==false && startname!=endname){
+				
+					startpoints.push(startpoint[0]);
+					endpoints.push(endpoint[0])
+					
+				
+					line=new LeaderLine(startpoints[0],endpoints[0]);
+					an_lines.push(line);
+					
+					
+					line_name.push(startname+"_"+endname)
+					//line_name.push(endname+"_"+startname)
+					
+				
+			scrollableBox.addEventListener('scroll', AnimEvent.add(function() {
+												//var start_position = startpoints[0].getBoundingClientRect();
+												//var end_position = endpoints[0].getBoundingClientRect();
+														line.remove()
+														an_lines[0]=null;
+														var class_terms=line_name[0].split("_");
+														startpoints[0]=$("[class*='"+class_terms[0]+"']")[0];
+														endpoints[0]=$("[class*='"+class_terms[1]+"']")[0];
+														line=new LeaderLine(startpoints[0],endpoints[0]);
+														an_lines[0]=line
+												
+														
+														
+													
+  														
+												  }), false);
+
+				
+				}*/
+			
                     TextWidgetAPI.clearAnnotationsToBeAdded();
                 };
 

@@ -38,6 +38,7 @@ angular.module('clarin-el').directive('annotationVisualizer', ['CLARIN_CONSTANTS
 
 	      	$scope.setSelectedAnnotation = function (selectedAnnotation, $index) { 		      //function to visualize the annotation that the user selected from the annotation list
 	        	$scope.selectedIndex = $index;     
+	        	//console.log(selectedAnnotation);
 	        	TextWidgetAPI.setSelectedAnnotation(selectedAnnotation);
 	        	TextWidgetAPI.clearOverlappingAreas();
 	      	};
