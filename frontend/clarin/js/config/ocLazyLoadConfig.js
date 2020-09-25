@@ -62,6 +62,7 @@ app.config(function($ocLazyLoadProvider) {
 				'js/directives/button/annotation-relation-combobox.js',
 				'js/directives/button/annotation-relation-import-btn.js',
 				'js/directives/button/annotation-relation-clear-btn.js',
+				'js/directives/button/annotation-relation.js',
 				//'js/directives/button/annotation-relation-del-btn.js',
 				'js/directives/button/annotation-relation-annotate-btn.js',
 				'js/directives/button/annotation-combobox.js',
