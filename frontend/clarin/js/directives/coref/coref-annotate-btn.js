@@ -210,7 +210,7 @@ angular.module('clarin-el').directive('corefAnnotateBtn', ['Dialog', 'TextWidget
 
 				if (result.annotation.spans.length==0)
 					result.valid = false;
-
+        console.log('result', result);
 				return result;
 			};
 
