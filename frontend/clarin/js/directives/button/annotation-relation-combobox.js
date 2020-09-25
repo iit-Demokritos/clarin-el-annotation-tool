@@ -17,9 +17,18 @@ angular.module('clarin-el').directive('relationCombobox', ['$timeout', 'TextWidg
 			   */
 			  var updateAnnotationList = function() {
           $timeout(function() {
-            scope.annotations = TextWidgetAPI.getAnnotations();
+            // Get annotations
+            var annotations = TextWidgetAPI.getAnnotations();
             
-            // todo: filter annotations by their type based on scope.annotationArgumentValues
+            // Filter annotations
+            var allowedValues = scope.annotationArgumentValues.split(' ');
+            
+            scope.annotations =  _.filter(annotations, function(annotation) {
+              // Check if the type is in the allowedValues
+              var type = _.findWhere(annotation.attributes, {name: 'type'}).value;
+              
+              return allowedValues.indexOf(type) !== -1;
+            });
           }, 0);
         };
 
