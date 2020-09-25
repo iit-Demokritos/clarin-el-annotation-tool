@@ -1,5 +1,5 @@
-angular.module('clarin-el').directive('relationAnnotateBtn', ['TextWidgetAPI', 
-  function(TextWidgetAPI) {
+angular.module('clarin-el').directive('relationAnnotateBtn', ['TextWidgetAPI', 'TempAnnotation',
+  function(TextWidgetAPI, TempAnnotation) {
 	  return {
 		  restrict: 'E',
       templateUrl: 'templates/directives/button/annotation-relation-annotate-btn.html',
@@ -51,8 +51,6 @@ angular.module('clarin-el').directive('relationAnnotateBtn', ['TextWidgetAPI',
             var annotationType = elemScope.annotationType;
             var selectedAnnotation = elemScope.selectedAnnotation;
 
-            //console.log('selected annotation', selectedAnnotation);
-
             // Set annotation type of the annotation
             annotation.type = annotationType;
 
@@ -65,14 +63,11 @@ angular.module('clarin-el').directive('relationAnnotateBtn', ['TextWidgetAPI',
             annotation.attributes.push(attribute);
 		      });
 		      
-		      console.log('result', annotation);
-		      
-		      /*
-          TempAnnotation.save(currentDocument.collection_id, currentDocument.id, validationResult.annotation)
+          TempAnnotation.save(currentDocument.collection_id, currentDocument.id, annotation)
             .then(function(response){
-              if (response.success)
-                TextWidgetAPI.addAnnotation(validationResult.annotation, false);
-              else {
+              if (response.success) {
+                TextWidgetAPI.addAnnotation(annotation, false);
+              } else {
                 var modalOptions = { body: 'Error during saving your annotation. Please refresh the page and try again.' };
                 Dialog.error(modalOptions);
               }
@@ -80,7 +75,6 @@ angular.module('clarin-el').directive('relationAnnotateBtn', ['TextWidgetAPI',
               var modalOptions = { body: 'Database error. Please refresh the page and try again.' };
               Dialog.error(modalOptions);
             });
-          */
 		    };
 		    
 		    scope.updateAnnotation = function() {
