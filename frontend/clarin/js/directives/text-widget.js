@@ -59,6 +59,8 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
             //  SelectLine(line, true, z)
             //}
           });
+          
+          $('.leader-line').css('z-index', 123);
         }), false);
 
         var getSelectionInfo = function() {
@@ -430,6 +432,9 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
             // (Re)generate the SPAN elements that show the marker types
             addTypeAttributesToMarkers();
           }
+          
+          // Make annotation connection lines appear on top of text
+          $('.leader-line').css('z-index', 123);
 
           TextWidgetAPI.clearAnnotationsToBeAdded();
         };
