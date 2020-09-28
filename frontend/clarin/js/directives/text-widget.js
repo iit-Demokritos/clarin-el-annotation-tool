@@ -292,6 +292,10 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
          * Connect two elements with the specified IDs with an arrow using the LeaderLine library
          */
         var makeLeaderLine = function(startId, endId, label) {
+          if (startId === endId) {
+            return;
+          }
+        
           // Find elements to add arrow between
           var startElem = $('.' + startId)[0];
           var endElem = $('.' + endId)[0];
@@ -333,12 +337,14 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
               var line = makeLeaderLine(startId, endId, label);
               
               // Add relation annotation to the list
-              connectedAnnotations.push({
-                instance: line,
-                startId: startId,
-                endId: endId,
-                label: label
-              });
+              if (!_.isUndefined(line)) {
+                connectedAnnotations.push({
+                  instance: line,
+                  startId: startId,
+                  endId: endId,
+                  label: label
+                });
+              }
             } else {
               // Normal annotation
               for (var l = 0; l < newAnnotations[k].annotation.spans.length; l++) { // Iterate through annotations spans
@@ -421,8 +427,6 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
               }
             }
             
-            
-
             // (Re)generate the SPAN elements that show the marker types
             addTypeAttributesToMarkers();
           }
