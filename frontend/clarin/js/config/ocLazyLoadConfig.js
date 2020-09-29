@@ -52,7 +52,6 @@ app.config(function($ocLazyLoadProvider) {
 				'js/directives/text-widget.js',
 				'js/directives/overlapping-areas.js',
 				'js/directives/annotation-visualizer.js',
-				'js/directives/annotation-connector.js',
 				'js/directives/annotator-widget.js'
 			]
 		}, {
