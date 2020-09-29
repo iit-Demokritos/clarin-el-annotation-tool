@@ -32,10 +32,6 @@ angular.module('clarin-el').directive('relationCombobox', ['$timeout', 'TextWidg
           }, 0);
         };
         
-        scope.change = function () {
-         console.log(scope.selectedAnnotation);
-        }
-        
         var annotationSelected = function() {
           var annotation = TextWidgetAPI.getSelectedAnnotation();
           
