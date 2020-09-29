@@ -31,15 +31,37 @@ angular.module('clarin-el').directive('relationCombobox', ['$timeout', 'TextWidg
             });
           }, 0);
         };
+        
+        scope.change = function () {
+         console.log(scope.selectedAnnotation);
+        }
+        
+        var annotationSelected = function() {
+          var annotation = TextWidgetAPI.getSelectedAnnotation();
+          
+          // Check that the selected annotation type is the same as this combobox
+          if (annotation.type !== scope.annotationType) {
+            return;
+          }
+          
+          // TODO: we need to filter by the attack/support information here...
+          
+          // Get the selected annotation ID from the attributes of the arrow annotation
+          var id = _.findWhere(annotation.attributes, {name: scope.annotationAttribute}).value;
+          
+          // Find the annotation with this ID in the list of annotations and select it
+          scope.selectedAnnotation = _.findWhere(scope.annotations, {_id: id});
+        }
 
         // Register callback for annotation updates
-        TextWidgetAPI.registerAnnotationSchemaCallback(function() {
+        var schemaCallback = function() {
           TextWidgetAPI.registerAnnotationsCallback(updateAnnotationList);
-        });
+          TextWidgetAPI.registerSelectedAnnotationCallback(annotationSelected); 
+        }
+        TextWidgetAPI.registerAnnotationSchemaCallback(schemaCallback);
         
-        // Register annotations callback manually as well (because when this loads, the annotation
-        // schema has already loaded...)
-        TextWidgetAPI.registerAnnotationsCallback(updateAnnotationList);
+        // Make sure we register the callbacks when the component loads
+        schemaCallback();
 		  }
 	  }
   }

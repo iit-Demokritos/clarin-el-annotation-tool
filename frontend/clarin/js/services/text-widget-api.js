@@ -100,7 +100,6 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
         		return -1;*/
     },
     addAnnotation: function(newAnnotation, selected) {
-      console.log('adding the annotation (text-widget-api)');
       if (angular.isUndefined(newAnnotation._id)) return false;
 
       annotations.push(newAnnotation);
