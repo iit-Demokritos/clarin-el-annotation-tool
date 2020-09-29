@@ -737,3 +737,9 @@ input, textarea { -webkit-user-select: auto!important; }
 	right: 0px;
 	background: white;
 }
+
+
+/* Make Leader Lines clickable */
+svg.leader-line {
+  pointer-events:auto!important;
+}

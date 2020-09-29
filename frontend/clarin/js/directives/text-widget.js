@@ -53,7 +53,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
         mainContent.addEventListener('scroll', AnimEvent.add(function() {
           _.each(connectedAnnotations, function(annotation) {
             annotation.instance.remove();
-            annotation.instance = makeLeaderLine(annotation.startId, annotation.endId, annotation.label);
+            annotation.instance = makeLeaderLine(annotation.startId, annotation.endId, annotation.label, annotation.id);
             
             //if (z == $scope.selectedIndex) {
             //  SelectLine(line, true, z)
@@ -293,7 +293,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
         /**
          * Connect two elements with the specified IDs with an arrow using the LeaderLine library
          */
-        var makeLeaderLine = function(startId, endId, label) {
+        var makeLeaderLine = function(startId, endId, label, id) {
           if (startId === endId) {
             return;
           }
@@ -305,15 +305,16 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
           // Create line and return its instance
           var line = new LeaderLine(startElem, endElem, {
             middleLabel: label
-            //path: "straight",
-            //endPlug: "square",
-            //startSocket: 'bottom',
-            //endSocket: 'left'
+          });
+          
+          // Add event listener to select the annotation
+          $('.leader-line').last().click(function() {
+            console.log(id);
           });
           
           return line;
         };
-
+      
         /**
          * Visualize the annotations to the text widget
          * @param newAnnotations
@@ -335,8 +336,10 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
               
               var label = _.findWhere(currAnnotation.annotation.attributes, {name: 'type'}).value;
               
+              var annotationId = currAnnotation.annotation._id;
+              
               // Create the line
-              var line = makeLeaderLine(startId, endId, label);
+              var line = makeLeaderLine(startId, endId, label, annotationId);
               
               // Add relation annotation to the list
               if (!_.isUndefined(line)) {
@@ -344,7 +347,8 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
                   instance: line,
                   startId: startId,
                   endId: endId,
-                  label: label
+                  label: label,
+                  id: annotationId
                 });
               }
             } else {
