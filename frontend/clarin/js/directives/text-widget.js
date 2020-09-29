@@ -53,7 +53,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
         mainContent.addEventListener('scroll', AnimEvent.add(function() {
           _.each(connectedAnnotations, function(annotation) {
             annotation.instance.remove();
-            annotation.instance = makeLeaderLine(annotation.startId, annotation.endId, annotation.label, annotation.id);
+            annotation.instance = makeLeaderLine(annotation.startId, annotation.endId, annotation.label, annotation.data);
             
             //if (z == $scope.selectedIndex) {
             //  SelectLine(line, true, z)
@@ -293,7 +293,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
         /**
          * Connect two elements with the specified IDs with an arrow using the LeaderLine library
          */
-        var makeLeaderLine = function(startId, endId, label, id) {
+        var makeLeaderLine = function(startId, endId, label, annotation) {
           if (startId === endId) {
             return;
           }
@@ -309,7 +309,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
           
           // Add event listener to select the annotation
           $('.leader-line').last().click(function() {
-            console.log(id);
+            console.log(annotation);
           });
           
           return line;
@@ -336,10 +336,8 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
               
               var label = _.findWhere(currAnnotation.annotation.attributes, {name: 'type'}).value;
               
-              var annotationId = currAnnotation.annotation._id;
-              
               // Create the line
-              var line = makeLeaderLine(startId, endId, label, annotationId);
+              var line = makeLeaderLine(startId, endId, label, currAnnotation.annotation);
               
               // Add relation annotation to the list
               if (!_.isUndefined(line)) {
@@ -348,7 +346,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
                   startId: startId,
                   endId: endId,
                   label: label,
-                  id: annotationId
+                  data: currAnnotation.annotation
                 });
               }
             } else {
