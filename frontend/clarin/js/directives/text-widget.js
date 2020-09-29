@@ -309,7 +309,9 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
           
           // Add event listener to select the annotation
           $('.leader-line').last().click(function() {
-            console.log(annotation);
+            // Set this annotation as the selected one
+            TextWidgetAPI.setSelectedAnnotation(annotation);
+	        	TextWidgetAPI.clearOverlappingAreas(); // not sure if required...
           });
           
           return line;
