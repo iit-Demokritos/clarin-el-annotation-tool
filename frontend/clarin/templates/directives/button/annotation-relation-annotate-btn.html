@@ -1,5 +1,5 @@
 <div>
-<button type="button" class="btn btn-primary btn-block coref-annotate-btn" ng-show="showAnnotateBtn" ng-click="addAnnotation()">Annotate</button>
-<button type="button" class="btn btn-primary btn-block coref-annotate-btn" ng-hide="showAnnotateBtn" ng-click="updateAnnotation()">Update</button>
+<button type="button" class="btn btn-primary btn-block coref-annotate-btn" ng-if="showAnnotateBtn" ng-click="addAnnotation()">Annotate</button>
+<button type="button" class="btn btn-primary btn-block coref-annotate-btn" ng-if="!showAnnotateBtn" ng-click="updateAnnotation()">Update</button>
 </div
 
