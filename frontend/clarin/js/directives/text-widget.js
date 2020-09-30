@@ -272,19 +272,23 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
 
         var clearDuplicateAnnotationsFromEditor = function(newAnnotations) {
           var editorMarks = editor.getAllMarks();
+          
+          _.each(newAnnotations, function(annotation) {
+            if (annotation.annotation.type === 'argument_relation') {
+              // Remove conected annotation
+              removeConnectedAnnotation(annotation.annotation._id);
+            } else {
+              // Remove marks of regular annotation
+              _.each(editorMarks, function(editorMark) {
+                // Get ID of mark
+                var editorMarkClass = editorMark.className.split(" ")[0];
 
-          for (var i = 0; i < newAnnotations.length; i++) {
-            for (var j = 0; j < editorMarks.length; j++) {
-              var editorMark = editorMarks[j];
-
-              // Get ID of mark
-              var editorMarkClass = editorMark.className.split(" ")[0];
-
-              if (String(newAnnotations[i].annotation._id).indexOf(editorMarkClass) > -1) {
-                editorMark.clear();
-              }
+                if (String(annotation.annotation._id).indexOf(editorMarkClass) > -1) {
+                  editorMark.clear();
+                }
+              });
             }
-          }
+          });
         };
 
         /**
@@ -503,7 +507,28 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
 
           TextWidgetAPI.disableIsRunning();
         };
-
+        
+        /**
+         * Remove a connection annotation's leader line instance as well as remove it from the connectedAnnotations list
+         */
+        var removeConnectedAnnotation = function(annotationId) {
+          // Find the relation annotation in connectedAnnotations
+          var connectedAnnotation = _.find(connectedAnnotations, function (ann) {
+            return ann.data._id === annotationId;
+          });
+          
+          if (_.isUndefined(connectedAnnotation)) {
+            return;
+          }
+          
+          // Remove the LeaderLine instance
+          connectedAnnotation.instance.remove();
+          
+          // Remove the object from the connectedAnnotations array
+          var arrayIndex = connectedAnnotations.indexOf(connectedAnnotation);
+          connectedAnnotations.splice(arrayIndex, 1);
+        };
+        
         /**
          * Remove annotation from the text widget
          * @returns {boolean}
@@ -524,17 +549,8 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
             var annotationId = String(annotation._id).trim();
             
             if (annotation.type === 'argument_relation') {
-              // Relation annotation... find it in connectedAnnotations
-              var connectedAnnotation = _.find(connectedAnnotations, function (ann) {
-                return ann.data._id === annotationId;
-              });
-              
-              // Remove the LeaderLine instance
-              connectedAnnotation.instance.remove();
-              
-              // Remove the object from the connectedAnnotations array
-              var arrayIndex = connectedAnnotations.indexOf(connectedAnnotation);
-              connectedAnnotations.splice(arrayIndex, 1);
+              // Remove relation annotation
+              removeConnectedAnnotation(annotationId);
             } else {
               // Regular annotations, delete their marks
               var editorMarks = editor.getAllMarks();
