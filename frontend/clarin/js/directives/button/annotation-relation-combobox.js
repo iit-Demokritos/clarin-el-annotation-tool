@@ -6,11 +6,18 @@ angular.module('clarin-el').directive('relationCombobox', ['$timeout', 'TextWidg
 		  scope: {
         annotationType: '@',
         annotationAttribute: '@',
-        annotationArgumentValues: '@'
+        annotationArgumentValues: '@',
+        annotationRelationAttribute: '@',
+        annotationRelationValue: '@'
 		  },
 		  link: function(scope, elem, attrs) {
         scope.annotations = [];
         scope.selectedAnnotation = null;
+        
+        // Create object used to filter selected annotations
+        var selAnnotationFilter = {
+          name: scope.annotationRelationAttribute
+        };
         
 			  /**
 			   * Get new annotations to show.
@@ -33,14 +40,23 @@ angular.module('clarin-el').directive('relationCombobox', ['$timeout', 'TextWidg
         };
         
         var annotationSelected = function() {
+          // Get the selected annotation
           var annotation = TextWidgetAPI.getSelectedAnnotation();
           
-          // Check that the selected annotation type is the same as this combobox
+          // Check if the selected annotation has the same type as this combobox
           if (annotation.type !== scope.annotationType) {
+            scope.selectedAnnotation = null;
             return;
           }
           
-          // TODO: we need to filter by the attack/support information here...
+          // Check if this annotation concerns this combobox (same relation attribute value)
+          var relationAttributeValue = _.findWhere(annotation.attributes, selAnnotationFilter).value;
+          
+          if (relationAttributeValue !== scope.annotationRelationValue) {
+          
+            scope.selectedAnnotation = null;
+            return;
+          }
           
           // Get the selected annotation ID from the attributes of the arrow annotation
           var id = _.findWhere(annotation.attributes, {name: scope.annotationAttribute}).value;
