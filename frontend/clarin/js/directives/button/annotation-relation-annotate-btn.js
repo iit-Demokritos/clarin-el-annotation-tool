@@ -9,6 +9,9 @@ angular.module('clarin-el').directive('relationAnnotateBtn', ['TextWidgetAPI', '
         textvariable: '@'
       },
       link: function(scope, element, attrs) {
+        // Create list of combobox element IDs
+        var comboboxIds = scope.annotationWidgetIds.split(' ');
+      
         // Get the <annotation-relation> element and its scope
         var relElem = $('#' + scope.annotationRelationWidgetId).children().first()[0];
         var relationScope = angular.element(relElem).scope();
@@ -22,6 +25,9 @@ angular.module('clarin-el').directive('relationAnnotateBtn', ['TextWidgetAPI', '
         // Initialize the annotate btn variable
         scope.showAnnotateBtn = true;
 
+        /**
+         * Save a new annotation
+         */
         scope.addAnnotation = function() {
           var currentDocument = TextWidgetAPI.getCurrentDocument();
 
@@ -37,10 +43,8 @@ angular.module('clarin-el').directive('relationAnnotateBtn', ['TextWidgetAPI', '
             ]
           };
 
-          // Get IDs of annotation comboboxes
-          var ids = scope.annotationWidgetIds.split(' ');
-
-          _.each(ids, function(id) {
+          // Create attributes for each combobox
+          _.each(comboboxIds, function(id) {
             // Get div of combobox component from its id (the first child node is the div)
             var elem = $('#' + id).children().first()[0];
 
@@ -63,6 +67,7 @@ angular.module('clarin-el').directive('relationAnnotateBtn', ['TextWidgetAPI', '
             annotation.attributes.push(attribute);
           });
 
+          // Save the annotation
           TempAnnotation.save(currentDocument.collection_id, currentDocument.id, annotation)
             .then(function(response) {
               if (response.success) {
@@ -81,10 +86,45 @@ angular.module('clarin-el').directive('relationAnnotateBtn', ['TextWidgetAPI', '
             });
         };
 
+        /**
+         * Update the annotation with new values.
+         */
         scope.updateAnnotation = function() {
-          console.log('Update annotation');
+          // Create copy of the selected annotation (to update its values)
+          var annotation = angular.copy(TextWidgetAPI.getSelectedAnnotation());
+          
+          // Update attributes of the comboboxes
+          _.each(comboboxIds, function(id) {
+            // Get div of combobox component from its id (the first child node is the div)
+            var elem = $('#' + id).children().first()[0];
+
+            // Get angular scope from the element
+            var elemScope = angular.element(elem).scope();
+
+            // Get the attribute name and its new value
+            var annotationAttribute = elemScope.annotationAttribute;
+            var newValue = elemScope.selectedAnnotation._id;
+            
+            // Find the attribute with annotationAttribute as its name and update the value
+            var attribute = _.findWhere(annotation.attributes, {name: annotationAttribute});
+            
+            attribute.value = newValue;
+          });
+          
+          TempAnnotation.update(annotation)
+            .then(function(data) {
+              TextWidgetAPI.updateAnnotation(annotation, false);
+            }, function(error) {
+              var modalOptions = {
+                body: 'Error in update Annotation. Please refresh the page and try again'
+              };
+              Dialog.error(modalOptions);
+            });
         };
 
+        /**
+         * Show the appropriate button text based on the selected annotation.
+         */
         var annotationSelectionUpdate = function() {
           var selectedAnnotation = TextWidgetAPI.getSelectedAnnotation();
 
