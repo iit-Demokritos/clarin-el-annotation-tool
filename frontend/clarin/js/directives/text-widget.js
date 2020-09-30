@@ -275,7 +275,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
           
           _.each(newAnnotations, function(annotation) {
             if (annotation.annotation.type === 'argument_relation') {
-              // Remove conected annotation
+              // Remove connected annotation
               removeConnectedAnnotation(annotation.annotation._id);
             } else {
               // Remove marks of regular annotation
