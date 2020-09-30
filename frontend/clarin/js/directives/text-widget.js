@@ -45,19 +45,16 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
 
         // Class names to add to annotated text
         var markedTextClass = " annotated-text";
-        
+
         // List of connected annotation arrows
         var connectedAnnotations = [];
-        
+
         // Listen to scroll event to scroll annotation relations
         mainContent.addEventListener('scroll', AnimEvent.add(function() {
           _.each(connectedAnnotations, function(annotation) {
+            // Remove instance of line and redraw it
             annotation.instance.remove();
             annotation.instance = makeLeaderLine(annotation.startId, annotation.endId, annotation.label, annotation.data);
-            
-            //if (z == $scope.selectedIndex) {
-            //  SelectLine(line, true, z)
-            //}
           });
           
           $('.leader-line').css('z-index', 123);
@@ -289,7 +286,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
             }
           }
         };
-        
+
         /**
          * Connect two elements with the specified IDs with an arrow using the LeaderLine library
          */
@@ -297,26 +294,26 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
           if (startId === endId) {
             return;
           }
-        
+
           // Find elements to add arrow between
           var startElem = $('.' + startId)[0];
           var endElem = $('.' + endId)[0];
-          
+
           // Create line and return its instance
           var line = new LeaderLine(startElem, endElem, {
             middleLabel: label
           });
-          
+
           // Add event listener to select the annotation
           $('.leader-line').last().click(function() {
             // Set this annotation as the selected one
             TextWidgetAPI.setSelectedAnnotation(annotation);
-	        	TextWidgetAPI.clearOverlappingAreas(); // not sure if required...
+            TextWidgetAPI.clearOverlappingAreas(); // not sure if required...
           });
-          
+
           return line;
         };
-      
+
         /**
          * Visualize the annotations to the text widget
          * @param newAnnotations
@@ -330,17 +327,23 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
 
           for (var k = 0; k < newAnnotations.length; k++) { // if there are new annotations to be visualised, add them to the editor
             var currAnnotation = newAnnotations[k];
-            
+
             if (currAnnotation.annotation.type === 'argument_relation') {
               // Argument relation, add arrow. Find IDs of start/end annotations
-              var startId = _.findWhere(currAnnotation.annotation.attributes, {name: 'arg1'}).value;
-              var endId = _.findWhere(currAnnotation.annotation.attributes, {name: 'arg2'}).value;
-              
-              var label = _.findWhere(currAnnotation.annotation.attributes, {name: 'type'}).value;
-              
+              var startId = _.findWhere(currAnnotation.annotation.attributes, {
+                name: 'arg1'
+              }).value;
+              var endId = _.findWhere(currAnnotation.annotation.attributes, {
+                name: 'arg2'
+              }).value;
+
+              var label = _.findWhere(currAnnotation.annotation.attributes, {
+                name: 'type'
+              }).value;
+
               // Create the line
               var line = makeLeaderLine(startId, endId, label, currAnnotation.annotation);
-              
+
               // Add relation annotation to the list
               if (!_.isUndefined(line)) {
                 connectedAnnotations.push({
@@ -432,11 +435,11 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
                 }
               }
             }
-            
+
             // (Re)generate the SPAN elements that show the marker types
             addTypeAttributesToMarkers();
           }
-          
+
           // Make annotation connection lines appear on top of text
           $('.leader-line').css('z-index', 123);
 
@@ -517,16 +520,31 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
             return false;
           }
 
-          for (var m = 0; m < annotationsToBeDeleted.length; m++) {
-            var editorMarks = editor.getAllMarks();
-            var annotationId = String(annotationsToBeDeleted[m]._id).trim();
-
-            _.each(editorMarks, function(mark) {
-              if (String(mark.className).trim().indexOf(annotationId) !== -1) {
-                mark.clear();
-              }
-            });
-          }
+          _.each(annotationsToBeDeleted, function(annotation) {
+            var annotationId = String(annotation._id).trim();
+            
+            if (annotation.type === 'argument_relation') {
+              // Relation annotation... find it in connectedAnnotations
+              var connectedAnnotation = _.find(connectedAnnotations, function (ann) {
+                return ann.data._id === annotationId;
+              });
+              
+              // Remove the LeaderLine instance
+              connectedAnnotation.instance.remove();
+              
+              // Remove the object from the connectedAnnotations array
+              var arrayIndex = connectedAnnotations.indexOf(connectedAnnotation);
+              connectedAnnotations.splice(arrayIndex, 1);
+            } else {
+              // Regular annotations, delete their marks
+              var editorMarks = editor.getAllMarks();
+              _.each(editorMarks, function(mark) {
+                if (String(mark.className).trim().indexOf(annotationId) !== -1) {
+                  mark.clear();
+                }
+              });
+            }
+          });
 
           // Add (again) the type attributes to the markers
           addTypeAttributesToMarkers();
