@@ -601,6 +601,12 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
         scope.$on("$destroy", function() {
           editor.toTextArea();
           CodeMirror.off(mainContent, "mouseup", mouseUpHandler);
+          
+          // Destroy leader lines
+          _.each(connectedAnnotations, function(annotation) {
+            // Remove instance of line
+            annotation.instance.remove();
+          });
         });
       }
     }
