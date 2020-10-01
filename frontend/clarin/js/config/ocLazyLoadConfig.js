@@ -83,7 +83,13 @@ app.config(function($ocLazyLoadProvider) {
 				'js/directives/coref/coref-span-end.js',
 				'js/directives/coref/coref-span-start.js',
 	
-				'js/directives/found-in-collection.js'
+				'js/directives/found-in-collection.js',
+				
+				// select picker
+				'bower_components/ng-bootstrap-select/build/ng-bootstrap-select.min.js',
+				'bower_components/bootstrap/dist/js/bootstrap.min.js',
+				'bower_components/bootstrap-select/dist/css/bootstrap-select.min.css',
+				'bower_components/bootstrap-select/dist/js/bootstrap-select.min.js'
 			]
 		}]
 	});

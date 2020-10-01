@@ -12,7 +12,7 @@ angular.module('clarin-el').directive('relationCombobox', ['$timeout', 'TextWidg
 		  },
 		  link: function(scope, elem, attrs) {
         scope.annotations = [];
-        scope.selectedAnnotation = null;
+        scope.selectedAnnotationId = '';
         
         // Create object used to filter selected annotations
         var selAnnotationFilter = {
@@ -45,7 +45,7 @@ angular.module('clarin-el').directive('relationCombobox', ['$timeout', 'TextWidg
           
           // Check if the selected annotation has the same type as this combobox
           if (annotation.type !== scope.annotationType) {
-            scope.selectedAnnotation = null;
+            scope.selectedAnnotationId = '';
             return;
           }
           
@@ -54,7 +54,7 @@ angular.module('clarin-el').directive('relationCombobox', ['$timeout', 'TextWidg
           
           if (relationAttributeValue !== scope.annotationRelationValue) {
           
-            scope.selectedAnnotation = null;
+            scope.selectedAnnotationId = '';
             return;
           }
           
@@ -62,7 +62,7 @@ angular.module('clarin-el').directive('relationCombobox', ['$timeout', 'TextWidg
           var id = _.findWhere(annotation.attributes, {name: scope.annotationAttribute}).value;
           
           // Find the annotation with this ID in the list of annotations and select it
-          scope.selectedAnnotation = _.findWhere(scope.annotations, {_id: id});
+          scope.selectedAnnotationId = id;
         }
 
         // Register callback for annotation updates

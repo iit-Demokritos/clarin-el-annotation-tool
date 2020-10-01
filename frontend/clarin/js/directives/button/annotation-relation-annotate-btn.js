@@ -1,5 +1,5 @@
-angular.module('clarin-el').directive('relationAnnotateBtn', ['TextWidgetAPI', 'TempAnnotation',
-  function(TextWidgetAPI, TempAnnotation) {
+angular.module('clarin-el').directive('relationAnnotateBtn', ['TextWidgetAPI', 'TempAnnotation', 'Dialog',
+  function(TextWidgetAPI, TempAnnotation, Dialog) {
     return {
       restrict: 'E',
       templateUrl: 'templates/directives/button/annotation-relation-annotate-btn.html',
@@ -53,19 +53,30 @@ angular.module('clarin-el').directive('relationAnnotateBtn', ['TextWidgetAPI', '
 
             var annotationAttribute = elemScope.annotationAttribute;
             var annotationType = elemScope.annotationType;
-            var selectedAnnotation = elemScope.selectedAnnotation;
+            var selectedAnnotationId = elemScope.selectedAnnotationId;
 
             // Set annotation type of the annotation
             annotation.type = annotationType;
+            
+            if (selectedAnnotationId.length > 0) {
+              var attribute = {
+                name: annotationAttribute,
+                value: selectedAnnotationId
+              };
 
-            var attribute = {
-              name: annotationAttribute,
-              value: selectedAnnotation._id
-            };
-
-            // Add attribute from this combobox to the annotation
-            annotation.attributes.push(attribute);
+              // Add attribute from this combobox to the annotation
+              annotation.attributes.push(attribute);
+            }
           });
+          
+          // We must have 3 attributes.
+          if (annotation.attributes.length < 1 + comboboxIds.length) {
+            // Show error
+            Dialog.error({
+              body: 'Please select two annotations to connect and try again.'
+            });
+            return;
+          }
 
           // Save the annotation
           TempAnnotation.save(currentDocument.collection_id, currentDocument.id, annotation)
@@ -103,7 +114,7 @@ angular.module('clarin-el').directive('relationAnnotateBtn', ['TextWidgetAPI', '
 
             // Get the attribute name and its new value
             var annotationAttribute = elemScope.annotationAttribute;
-            var newValue = elemScope.selectedAnnotation._id;
+            var newValue = elemScope.selectedAnnotationId;
             
             // Find the attribute with annotationAttribute as its name and update the value
             var attribute = _.findWhere(annotation.attributes, {name: annotationAttribute});

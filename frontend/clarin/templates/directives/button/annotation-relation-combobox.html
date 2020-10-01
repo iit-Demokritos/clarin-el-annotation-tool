@@ -1,6 +1,13 @@
 <div>
-<select ng-model="selectedAnnotation"
-        ng-options="annotation._id for annotation in annotations">
-<option value="">-- Select annotation --</option>
+<select ng-model="selectedAnnotationId"
+        class="selectpicker"
+        selectpicker=""
+        select-collection="annotations">
+  <option value="">--- Select annotation ---</option>
+  <option ng-repeat="annotation in annotations track by $index"
+          data-content="<span class='annotation-relation-list-item'>{{annotation.spans[0].segment}}</span>"
+          value="{{annotation._id}}">
+          {{annotation._id}}
+  </option>
 </select>
 </div

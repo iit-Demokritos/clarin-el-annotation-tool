@@ -738,8 +738,38 @@ input, textarea { -webkit-user-select: auto!important; }
 	background: white;
 }
 
-
 /* Make Leader Lines clickable */
 svg.leader-line {
   pointer-events:auto!important;
 }
+
+/* Annotation relation selection list menu styling */
+.annotation-relation-list-item {
+  display: block;
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bootstrap-select .dropdown-menu > li > a {
+    padding: 5px 20px;
+    line-height: initial;
+}
+
+.bootstrap-select .dropdown-menu > li:first-child > a {
+    text-align: center;
+}
+
+.bootstrap-select .dropdown-menu > li {
+  padding: 0;
+  margin-left: 0;
+}
+
+.bootstrap-select .dropdown-toggle .filter-option-inner-inner {
+  padding-left: 10px;
+}
+
+.bootstrap-select .dropdown-menu > li > a > span {
+    line-height: initial;
+}
+

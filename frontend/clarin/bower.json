@@ -10,6 +10,8 @@
     "angular-ui-bootstrap-bower": "0.11.2",
     "angular-tree-control": "0.2.25",
     "angular-smart-table": "2.0.3",
+    "ng-bootstrap-select": "*",
+    "bootstrap": "3.4.1",
     "codemirror": "*",
     "oclazyload": "*",
     "underscore": "*",
