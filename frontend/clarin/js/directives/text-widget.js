@@ -42,6 +42,12 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
           viewportMargin: Infinity,
           extraKeys: {}
         });
+        
+        // When the editor is resized (by dragging the ui-layout-container line) refresh the editor
+        // so that text selection works normally.
+        scope.$on('ui.layout.resize', function (e, beforeContainer, afterContainer) {
+          editor.refresh();
+        });
 
         // Class names to add to annotated text
         var markedTextClass = " annotated-text";
@@ -305,7 +311,8 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
 
           // Create line and return its instance
           var line = new LeaderLine(startElem, endElem, {
-            middleLabel: label
+            middleLabel: label,
+            path: 'fluid'
           });
 
           // Add event listener to select the annotation
