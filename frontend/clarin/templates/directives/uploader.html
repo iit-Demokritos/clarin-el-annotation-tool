@@ -4,7 +4,7 @@
       <tr>
         <th>#</th>
         <th>Filename</th>
-        <th>Encoding</th>
+        <th ng-if="filterFiles !== false">Encoding</th>
         <th></th>                     
       </tr>
     </thead>
@@ -12,7 +12,7 @@
       <tr ng-repeat="file in userFiles">
         <td>{{$index+1}}</td>
         <td>{{file.name}}</td>
-        <td>
+        <td ng-if="filterFiles !== false">
           <select
             id="defaultEndoding" class="form-control" 
             ng-options="fileEncodingOption for fileEncodingOption in fileEncodingOptions" 

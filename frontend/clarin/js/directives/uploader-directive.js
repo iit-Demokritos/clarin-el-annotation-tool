@@ -22,7 +22,7 @@ angular.module('clarin-el').directive('uploader', function() {
 				$scope.unsupportedFiles = [];
 			});
 			$scope.$on('flow::fileAdded', function (event, $flow, flowFile) {
-				if(flowFile.file.type !== "text/plain"){
+				if(flowFile.file.type !== "text/plain" && $scope.filterFiles !== false){
 					event.preventDefault();
 					$scope.unsupportedFiles.push(flowFile);
 				}

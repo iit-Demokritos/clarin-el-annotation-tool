@@ -8,6 +8,12 @@ app.config(function($ocLazyLoadProvider) {
 				'js/directives/uploader-directive.js'
 			]
 		}, {
+			name: 'importModalCtrl',
+			files: [ 
+				'js/controllers/modals/importModalCtrl.js',
+				'js/directives/uploader-directive.js'
+			]
+		}, {
 			name: 'renameCollectionModalCtrl',
 			files: [
 				'js/controllers/modals/renameCollectionModalCtrl.js'

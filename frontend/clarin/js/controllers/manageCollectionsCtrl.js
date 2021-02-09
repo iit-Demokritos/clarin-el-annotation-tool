@@ -86,6 +86,26 @@ angular.module('clarin-el').controller('ManageCollectionsCtrl', ['$scope', '$ocL
             });
         };
 
+	/**
+	 * Import documents to the collection
+	 */
+	$scope.importDocuments = function() { 
+            var data = {
+                collectionId: $scope.selectedCollection.id, 
+                collectionName: $scope.selectedCollection.name,
+                collectionEncoding: $scope.selectedCollection.encoding
+            };
+
+            $ocLazyLoad.load('importModalCtrl').then(function() {
+                var modalInstance = Dialog.custom('import-modal.html', 'importModalCtrl', data);
+                modalInstance.result.then(function(){
+                    initializeCollections();
+                    initializeCollectionData();
+                });
+            });
+        };
+
+
         $scope.renameCollection = function() {            //function to be called when a user wants to rename a collection
             var data = {
                 collectionId: $scope.selectedCollection.id, 
