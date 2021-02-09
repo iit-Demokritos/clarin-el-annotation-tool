@@ -20,14 +20,11 @@ angular.module('clarin-el').controller('importModalCtrl', function ($scope, $mod
       		if (!angular.isUndefined($scope.$parent.flash) || !($scope.$parent.flash==="")) 
         		$scope.$parent.flash = "";
 
-		// todo: upload files
-		console.log('importing', $scope.collectionData.collectionId, $scope.userFiles);
-
-      	/*	Document.save($scope.collectionData.collectionId, $scope.userFiles)
+      		Document.importDocuments($scope.collectionData.collectionId, $scope.userFiles)
       		.then(function(data) {  
         		$modalInstance.close();
         		$scope.$destroy();
-      		});*/
+      		});
     	}
   	};
 
