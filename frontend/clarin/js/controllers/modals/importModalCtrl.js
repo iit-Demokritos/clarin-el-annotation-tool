@@ -1,5 +1,5 @@
-angular.module('clarin-el').controller('importModalCtrl', function ($scope, $modalInstance, externalData, Document, Collection){
-  	$scope.collectionData = externalData;
+angular.module('clarin-el').controller('importModalCtrl', function ($scope, $modalInstance, externalData, Collection){
+  	//$scope.collectionData = externalData;
 	$scope.filterFiles = false;
   	$scope.$parent.flash = "";
 
@@ -20,7 +20,8 @@ angular.module('clarin-el').controller('importModalCtrl', function ($scope, $mod
       		if (!angular.isUndefined($scope.$parent.flash) || !($scope.$parent.flash==="")) 
         		$scope.$parent.flash = "";
 
-      		Document.importDocuments($scope.collectionData.collectionId, $scope.userFiles)
+		Collection.importFiles($scope.userFiles)
+      		//Document.importDocuments($scope.collectionData.collectionId, $scope.userFiles)
       		.then(function(data) {  
         		$modalInstance.close();
         		$scope.$destroy();

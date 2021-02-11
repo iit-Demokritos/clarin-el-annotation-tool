@@ -91,9 +91,9 @@ angular.module('clarin-el').controller('ManageCollectionsCtrl', ['$scope', '$ocL
 	 */
 	$scope.importDocuments = function() { 
             var data = {
-                collectionId: $scope.selectedCollection.id, 
-                collectionName: $scope.selectedCollection.name,
-                collectionEncoding: $scope.selectedCollection.encoding
+                //collectionId: $scope.selectedCollection.id, 
+                //collectionName: $scope.selectedCollection.name,
+                //collectionEncoding: $scope.selectedCollection.encoding
             };
 
             $ocLazyLoad.load('importModalCtrl').then(function() {

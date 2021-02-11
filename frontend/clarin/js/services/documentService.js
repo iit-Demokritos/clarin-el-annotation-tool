@@ -16,24 +16,7 @@ angular.module('clarin-el').factory('Document', function($http, $q) {
 
 	    reader.readAsText(documentFile.file);
 	    return deferred.promise; 
-	};
-
-	var readFile = function(documentFile) {
-	    	var deferred = $q.defer();
-		var reader = new FileReader();
-		// source: https://stackoverflow.com/a/26322343
-		reader.onloadend = function() {
-			// Encode as base64 
-			dataToBeSent = reader.result.split("base64,")[1];
-
-			deferred.resolve(dataToBeSent);
-		};
-
-		reader.readAsDataURL(documentFile.file);
-
-		return deferred.promise;
-	}
-
+	};	
 	 
 	var getAll = function(collectionId) {
 		var deferred = $q.defer(); 
@@ -57,34 +40,6 @@ angular.module('clarin-el').factory('Document', function($http, $q) {
 		});
 
 		return deferred.promise;
-	};
-
-	/**
-	 * Import documents
-	 */
-	var importDocuments = function (collectionId, documents) {
-		var promises = [];
-		angular.forEach(documents, function(doc, key){  
-			var deferred = $q.defer(); 
-
-			readFile(doc)
-			.then(function(readData) {         
-				$http({
-					method: 'POST',
-					url: './api/collections/' + collectionId + '/import',
-					headers: { 'Content-Type' : 'application/json' },
-					data: {data : readData}
-				}).success(function(data) {  
-					deferred.resolve(data);
-				}).error(function(data) {
-					deferred.reject(data);
-				}); 
-			});
-
-			promises.push(deferred.promise);
-		});
-
-		return $q.all(promises);
 	};
 	 
 	var save = function (collectionId, documents) {   //read and save multiple documents
@@ -128,7 +83,6 @@ angular.module('clarin-el').factory('Document', function($http, $q) {
 		getAll: getAll,
 		get : get,
 		save: save,
-		importDocuments: importDocuments,
 		destroy: destroy
 	}
 });

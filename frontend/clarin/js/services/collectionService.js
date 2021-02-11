@@ -120,6 +120,57 @@ angular.module('clarin-el').factory('Collection', function ($http, $q) {
     return deferred.promise;
   };
 
+	var readFile = function(documentFile) {
+	    	var deferred = $q.defer();
+		var reader = new FileReader();
+		// source: https://stackoverflow.com/a/26322343
+		reader.onloadend = function() {
+			// Encode as base64 
+			dataToBeSent = reader.result.split("base64,")[1];
+
+			deferred.resolve(dataToBeSent);
+		};
+
+		reader.readAsDataURL(documentFile.file);
+
+		return deferred.promise;
+	}
+
+
+  var importFiles = function(documents) {
+	  var deferred = $q.defer();
+
+	  // Create promises to read files
+	  var promises = [];
+
+	  angular.forEach(documents, function(doc, key) {
+		  promises.push(readFile(doc));
+	  });
+
+	  // Read the files and add them to array
+	  $q.all(promises)
+	  .then(function(files) {
+		  // Send files to the import route
+		$http({
+					method: 'POST',
+					url: './api/collections/import',
+					headers: { 'Content-Type' : 'application/json' },
+					data: { 
+						name: 'asdf',
+						files: files
+					}
+				}).success(function(data) {  
+					deferred.resolve(data);
+				}).error(function(data) {
+					deferred.reject(data);
+				}); 
+
+		  
+	  });
+
+	  return deferred.promise;
+  }
+
   var destroy = function (collectionId) {
     var deferred = $q.defer();
     $http.delete('./api/collections/' + collectionId)
@@ -136,6 +187,7 @@ angular.module('clarin-el').factory('Collection', function ($http, $q) {
     getAll: getAll,
     getData: getData,
     get: get,
+    importFiles: importFiles,
     update: update,
     save: save,
     destroy: destroy
