@@ -144,7 +144,7 @@ angular.module('clarin-el').factory('Collection', function($http, $q) {
     return deferred.promise;
   }
 
-  var importFiles = function(documents) {
+  var importFiles = function(collectionName, documents) {
     var deferred = $q.defer();
 
     // Create promises to read files
@@ -154,7 +154,7 @@ angular.module('clarin-el').factory('Collection', function($http, $q) {
       promises.push(readFile(doc));
     });
 
-    // Read the files and add them to array
+    // Read the files
     $q.all(promises)
       .then(function(files) {
         // Send files to the import route
@@ -165,7 +165,7 @@ angular.module('clarin-el').factory('Collection', function($http, $q) {
             'Content-Type': 'application/json'
           },
           data: {
-            name: 'asdf',
+            name: collectionName,
             files: files
           }
         }).success(function(data) {
