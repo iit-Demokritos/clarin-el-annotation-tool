@@ -94,7 +94,6 @@ angular.module('clarin-el').controller('ManageCollectionsCtrl', ['$scope', '$ocL
                 var modalInstance = Dialog.custom('import-modal.html', 'importModalCtrl', {});
                 modalInstance.result.then(function(){
                     initializeCollections();
-                    initializeCollectionData();
                 });
             });
         };
