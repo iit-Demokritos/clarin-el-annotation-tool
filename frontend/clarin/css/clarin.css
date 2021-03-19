@@ -576,7 +576,7 @@ table td{ vertical-align:middle!important; }
 	margin-left: -80px!important;
 }
 .annotation-date-entry .dropdown-menu .glyphicon { font-size: 13px; }
- .annotation-date-entry ul li { padding: 5px!important; font-size: 9px; }
+.annotation-date-entry ul li { padding: 5px!important; font-size: 9px; }
 .annotation-date-entry button.btn.btn-default.btn-sm.btn-info, .annotation-date-entry button.btn.btn-default.btn-sm.btn-info.active{ background:transparent!important; border: 2px solid #428bca!important; color:#428bca!important;}
 .annotation-date-entry table, .annotation-date-entry button{ outline:0px !important; -webkit-appearance:none; }
 .annotation-date-entry table tr td { font-size: 9px; padding: 2px!important; }
