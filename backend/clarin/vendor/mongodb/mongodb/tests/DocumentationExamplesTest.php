@@ -42,6 +42,8 @@ class DocumentationExamplesTest extends FunctionalTestCase
         }
 
         $this->dropCollection();
+
+        parent::tearDown();
     }
 
     public function testExample_1_2()
@@ -1564,7 +1566,7 @@ class DocumentationExamplesTest extends FunctionalTestCase
 
         $client = new \MongoDB\Client($uriString);
 
-        // Prerequisite: Create collections. CRUD operations in transactions must be on existing collections.
+        // Prerequisite: Create collections.
         $client->selectCollection(
             'mydb1',
             'foo',

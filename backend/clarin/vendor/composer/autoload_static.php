@@ -7,18 +7,19 @@ namespace Composer\Autoload;
 class ComposerStaticInit6843b9594ec443373d4c7a849b2549b6
 {
     public static $files = array (
+        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
+        'e69f7f6ee287b969198c3c9d6777bd38' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/bootstrap.php',
         'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
-        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
+        '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
         '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '1d1b89d124cc9cb8219922c9d5569199' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest.php',
-        'def43f6c87e4f8dfd0c9e1b1bab14fe8' => __DIR__ . '/..' . '/symfony/polyfill-iconv/bootstrap.php',
-        '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
-        '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
-        'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
         '3a37ebac017bc098e9a86b35401e7a68' => __DIR__ . '/..' . '/mongodb/mongodb/src/functions.php',
+        '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
+        'def43f6c87e4f8dfd0c9e1b1bab14fe8' => __DIR__ . '/..' . '/symfony/polyfill-iconv/bootstrap.php',
+        '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         '538ca81a9a966a6716601ecf48f4eaef' => __DIR__ . '/..' . '/opis/closure/functions.php',
         'e39a8b23c42d4e1452234d762b03835a' => __DIR__ . '/..' . '/ramsey/uuid/src/functions.php',
         'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
@@ -34,17 +35,17 @@ class ComposerStaticInit6843b9594ec443373d4c7a849b2549b6
         ),
         'S' => 
         array (
-            'Symfony\\Polyfill\\Util\\' => 22,
             'Symfony\\Polyfill\\Php80\\' => 23,
             'Symfony\\Polyfill\\Php73\\' => 23,
             'Symfony\\Polyfill\\Php72\\' => 23,
-            'Symfony\\Polyfill\\Php56\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'Symfony\\Polyfill\\Intl\\Normalizer\\' => 33,
             'Symfony\\Polyfill\\Intl\\Idn\\' => 26,
             'Symfony\\Polyfill\\Iconv\\' => 23,
             'Symfony\\Polyfill\\Ctype\\' => 23,
             'Symfony\\Contracts\\Translation\\' => 30,
             'Symfony\\Contracts\\Service\\' => 26,
+            'Symfony\\Contracts\\HttpClient\\' => 29,
             'Symfony\\Contracts\\EventDispatcher\\' => 34,
             'Symfony\\Component\\VarDumper\\' => 28,
             'Symfony\\Component\\Translation\\' => 30,
@@ -70,6 +71,7 @@ class ComposerStaticInit6843b9594ec443373d4c7a849b2549b6
             'Psr\\Log\\' => 8,
             'Psr\\Container\\' => 14,
             'PhpOption\\' => 10,
+            'PackageVersions\\' => 16,
         ),
         'O' => 
         array (
@@ -86,9 +88,14 @@ class ComposerStaticInit6843b9594ec443373d4c7a849b2549b6
         ),
         'L' => 
         array (
+            'League\\MimeTypeDetection\\' => 25,
             'League\\Flysystem\\' => 17,
             'League\\CommonMark\\' => 18,
             'Lcobucci\\JWT\\' => 13,
+        ),
+        'J' => 
+        array (
+            'Jean85\\' => 7,
         ),
         'I' => 
         array (
@@ -106,7 +113,10 @@ class ComposerStaticInit6843b9594ec443373d4c7a849b2549b6
         array (
             'Dotenv\\' => 7,
             'Doctrine\\Inflector\\' => 19,
+            'Doctrine\\DBAL\\' => 14,
             'Doctrine\\Common\\Lexer\\' => 22,
+            'Doctrine\\Common\\Cache\\' => 22,
+            'Doctrine\\Common\\' => 16,
         ),
         'C' => 
         array (
@@ -130,10 +140,6 @@ class ComposerStaticInit6843b9594ec443373d4c7a849b2549b6
         array (
             0 => __DIR__ . '/..' . '/tijsverkoyen/css-to-inline-styles/src',
         ),
-        'Symfony\\Polyfill\\Util\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-util',
-        ),
         'Symfony\\Polyfill\\Php80\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php80',
@@ -146,13 +152,13 @@ class ComposerStaticInit6843b9594ec443373d4c7a849b2549b6
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php72',
         ),
-        'Symfony\\Polyfill\\Php56\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-php56',
-        ),
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
+        'Symfony\\Polyfill\\Intl\\Normalizer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer',
         ),
         'Symfony\\Polyfill\\Intl\\Idn\\' => 
         array (
@@ -173,6 +179,10 @@ class ComposerStaticInit6843b9594ec443373d4c7a849b2549b6
         'Symfony\\Contracts\\Service\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/service-contracts',
+        ),
+        'Symfony\\Contracts\\HttpClient\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/http-client-contracts',
         ),
         'Symfony\\Contracts\\EventDispatcher\\' => 
         array (
@@ -250,6 +260,10 @@ class ComposerStaticInit6843b9594ec443373d4c7a849b2549b6
         array (
             0 => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption',
         ),
+        'PackageVersions\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/package-versions-deprecated/src/PackageVersions',
+        ),
         'Opis\\Closure\\' => 
         array (
             0 => __DIR__ . '/..' . '/opis/closure/src',
@@ -266,6 +280,10 @@ class ComposerStaticInit6843b9594ec443373d4c7a849b2549b6
         array (
             0 => __DIR__ . '/..' . '/mongodb/mongodb/src',
         ),
+        'League\\MimeTypeDetection\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/league/mime-type-detection/src',
+        ),
         'League\\Flysystem\\' => 
         array (
             0 => __DIR__ . '/..' . '/league/flysystem/src',
@@ -278,6 +296,10 @@ class ComposerStaticInit6843b9594ec443373d4c7a849b2549b6
         array (
             0 => __DIR__ . '/..' . '/lcobucci/jwt/src',
         ),
+        'Jean85\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/jean85/pretty-package-versions/src',
+        ),
         'Illuminate\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravel/framework/src/Illuminate',
@@ -288,7 +310,7 @@ class ComposerStaticInit6843b9594ec443373d4c7a849b2549b6
         ),
         'Egulias\\EmailValidator\\' => 
         array (
-            0 => __DIR__ . '/..' . '/egulias/email-validator/EmailValidator',
+            0 => __DIR__ . '/..' . '/egulias/email-validator/src',
         ),
         'Dotenv\\' => 
         array (
@@ -298,9 +320,21 @@ class ComposerStaticInit6843b9594ec443373d4c7a849b2549b6
         array (
             0 => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector',
         ),
+        'Doctrine\\DBAL\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/dbal/lib/Doctrine/DBAL',
+        ),
         'Doctrine\\Common\\Lexer\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/lexer/lib/Doctrine/Common/Lexer',
+        ),
+        'Doctrine\\Common\\Cache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/cache/lib/Doctrine/Common/Cache',
+        ),
+        'Doctrine\\Common\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/event-manager/lib/Doctrine/Common',
         ),
         'Cron\\' => 
         array (
@@ -348,11 +382,14 @@ class ComposerStaticInit6843b9594ec443373d4c7a849b2549b6
         'AnnotationSchemaController' => __DIR__ . '/../..' . '/app/Http/Controllers/AnnotationSchemaController.php',
         'App\\Http\\Controllers\\Auth\\AuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/AuthController.php',
         'App\\Http\\Controllers\\Auth\\PasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/PasswordController.php',
+        'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'BaseController' => __DIR__ . '/../..' . '/app/Http/Controllers/BaseController.php',
         'ButtonAnnotator' => __DIR__ . '/../..' . '/app/Models/ButtonAnnotator.php',
         'ButtonAnnotatorController' => __DIR__ . '/../..' . '/app/Http/Controllers/ButtonAnnotatorController.php',
+        'ChangeDocumentTextType' => __DIR__ . '/../..' . '/database/migrations/2021_03_19_190610_change_document_text_type.php',
         'Collection' => __DIR__ . '/../..' . '/app/Models/Collection.php',
         'CollectionController' => __DIR__ . '/../..' . '/app/Http/Controllers/CollectionController.php',
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'CoreferenceAnnotator' => __DIR__ . '/../..' . '/app/Models/CoreferenceAnnotator.php',
         'CoreferenceAnnotatorController' => __DIR__ . '/../..' . '/app/Http/Controllers/CoreferenceAnnotatorController.php',
@@ -443,6 +480,7 @@ class ComposerStaticInit6843b9594ec443373d4c7a849b2549b6
         'MigrationCartalystSentryInstallThrottle' => __DIR__ . '/../..' . '/database/migrations/2012_12_06_225988_migration_cartalyst_sentry_install_throttle.php',
         'MigrationCartalystSentryInstallUsers' => __DIR__ . '/../..' . '/database/migrations/2012_12_06_225921_migration_cartalyst_sentry_install_users.php',
         'MigrationCartalystSentryInstallUsersGroupsPivot' => __DIR__ . '/../..' . '/database/migrations/2012_12_06_225945_migration_cartalyst_sentry_install_users_groups_pivot.php',
+        'Normalizer' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/Resources/stubs/Normalizer.php',
         'OpenDocument' => __DIR__ . '/../..' . '/app/Models/OpenDocument.php',
         'OpenDocumentController' => __DIR__ . '/../..' . '/app/Http/Controllers/OpenDocumentController.php',
         'SentryGroupSeeder' => __DIR__ . '/../..' . '/database/seeds/SentryGroupSeeder.php',
@@ -455,6 +493,7 @@ class ComposerStaticInit6843b9594ec443373d4c7a849b2549b6
         'TempAnnotationController' => __DIR__ . '/../..' . '/app/Http/Controllers/TempAnnotationController.php',
         'TestCase' => __DIR__ . '/../..' . '/tests/TestCase.php',
         'TestStreamController' => __DIR__ . '/../..' . '/app/Http/Controllers/TestStreamController.php',
+        'UnhandledMatchError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
         'UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserController.php',
         'ValueError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
     );

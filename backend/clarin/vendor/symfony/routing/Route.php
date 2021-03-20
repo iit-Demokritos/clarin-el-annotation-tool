@@ -137,7 +137,7 @@ class Route implements \Serializable
     public function setPath($pattern)
     {
         if (false !== strpbrk($pattern, '?<')) {
-            $pattern = preg_replace_callback('#\{(\w++)(<.*?>)?(\?[^\}]*+)?\}#', function ($m) {
+            $pattern = preg_replace_callback('#\{(!?\w++)(<.*?>)?(\?[^\}]*+)?\}#', function ($m) {
                 if (isset($m[3][0])) {
                     $this->setDefault($m[1], '?' !== $m[3] ? substr($m[3], 1) : null);
                 }
@@ -324,7 +324,7 @@ class Route implements \Serializable
      */
     public function getOption($name)
     {
-        return isset($this->options[$name]) ? $this->options[$name] : null;
+        return $this->options[$name] ?? null;
     }
 
     /**
@@ -397,7 +397,7 @@ class Route implements \Serializable
      */
     public function getDefault($name)
     {
-        return isset($this->defaults[$name]) ? $this->defaults[$name] : null;
+        return $this->defaults[$name] ?? null;
     }
 
     /**
@@ -490,7 +490,7 @@ class Route implements \Serializable
      */
     public function getRequirement($key)
     {
-        return isset($this->requirements[$key]) ? $this->requirements[$key] : null;
+        return $this->requirements[$key] ?? null;
     }
 
     /**

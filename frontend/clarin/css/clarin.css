@@ -9,9 +9,9 @@ html,body{
 
 /************************************************/
 .CodeMirror {
-	line-height: 1.9;
-	font-family: Helvetica,Arial,sans-serif;
-	font-size: 18px;
+	font-family: monospace,Helvetica,Arial,sans-serif;
+	font-size: 1.1em;
+	line-height: 1.9em;
 	background-color: #FFF;
 }
 

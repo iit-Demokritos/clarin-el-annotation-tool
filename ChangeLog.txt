@@ -1,0 +1,21 @@
+20 March 2020  Petasis George <petasis@iit.demokritos.gr>
+ * frontend/clarin/css/clarin.css:
+ * frontend/clarin/css/codemirror.css:
+ * frontend/clarin/js/directives/annotation-visualizer.js:
+ * frontend/clarin/js/directives/button/annotation-button.js:
+ * frontend/clarin/js/directives/text-widget.js:
+ * frontend/clarin/js/services/text-widget-api.js:
+ * frontend/clarin/templates/annotation.html:
+ 1) Updated various components through "composer update"
+ 2) Reverted into using CodeMirror facilities for converting between
+ offsets/codemirror pos.
+ 3) Fixed the bug of not been able to annotated at long document ends (a side
+ effect of the code to convert between offsets & codemirror pos).
+ 4) Fixed how marks are added (so as all information to persist after an
+ editor refresh()).
+ 5) Changed text field type for the documents table, from text to mdediumtext.
+ 6) Annotation visualises is now able to scroll the editor, to show the
+ selected annotation.
+ 7) Reverted to a native scrollbar for the editor (has better scrolling).
+ 8) Allowed the vertical separator bar to move within a wider range.
+ 9) Reworked ButtonAnnotator visuals, to match the CoreferenceAnnotator.

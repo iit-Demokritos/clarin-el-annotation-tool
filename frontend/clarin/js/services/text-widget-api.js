@@ -34,6 +34,9 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
   var foundInCollection = [];
   var foundInCollectionCallbacks = [];
 
+  var scrollIntoView = [];
+  var scrollIntoViewCallbacks = [];
+
   var notifyObservers = function(observerStack) {
     angular.forEach(observerStack, function(callback) {
       callback();
@@ -51,6 +54,7 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
       annotationsToBeAddedCallbacks = [];
       annotationsToBeDeletedCallbacks = [];
       overlappingAreasCallbacks = [];
+      scrollIntoViewCallbacks = [];
     },
 
     isRunning: function() {
@@ -236,6 +240,7 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
       annotationsToBeDeleted = [];
       overlappingAreas = [];
       foundInCollection = [];
+      scrollIntoView = [];
 
       notifyObservers(currentSelectionCallbacks);
       notifyObservers(selectedAnnotationCallbacks);
@@ -424,7 +429,7 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
 
     /*** Annotations Found In Collection Methods ***/
     registerFoundInCollectionCallback: function(callback) {
-      foundInCollectionCallbacks.push(callback)
+      foundInCollectionCallbacks.push(callback);
     },
     getFoundInCollection: function() {
       return foundInCollection;
@@ -434,6 +439,19 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
     },
     clearFoundInCollection: function() {
       foundInCollection = [];
+    },
+
+    /*** Scroll Callbacks ***/
+    registerScrollIntoViewCallback: function(callback) {
+      scrollIntoViewCallbacks.push(callback);
+    },
+    scrollToAnnotation: function(annotation) {
+      scrollIntoView = angular.copy(annotation);
+      notifyObservers(scrollIntoViewCallbacks);
+      scrollIntoView = [];
+    },
+    getScrollToAnnotation: function() {
+      return scrollIntoView;
     }
   }
 });

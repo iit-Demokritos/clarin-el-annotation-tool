@@ -8,10 +8,21 @@
     <!-- ng-hide="documentSelection" -->
     <div ui-layout="{flow : 'column'}">
       <div ui-layout-container>
+	<div ui-layout="{dividerSize:'0'}">
+          <div ui-layout-container>
+            <div class="main-content">
+              <text-widget></text-widget>
+            </div>
+	  </div>
+          <div ui-layout-container size="48px" min-size="48px" max-size="48px">
+            <overlapping-areas></overlapping-areas>
+	  </div>
+	</div>
+	<!--
         <div class="main-content" autoslimscroll scroll-subtraction-height="144">
           <text-widget></text-widget>
         </div>
-        <overlapping-areas></overlapping-areas>
+	<overlapping-areas></overlapping-areas> -->
       </div>
       <!-- Petasis, 19/03/2021: allow bar to move to a wider range<div ui-layout-container size="400px" min-size="280px" max-size="520px"> -->
       <div ui-layout-container size="25%" min-size="15%" max-size="75%">

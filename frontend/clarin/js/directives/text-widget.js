@@ -40,6 +40,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
           autofocus: false,
           cursorBlinkRate: -1,
           viewportMargin: Infinity,
+          scrollbarStyle: "native",
           extraKeys: {}
         });
         
@@ -67,20 +68,24 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
         }), false);
 
         var getSelectionInfo = function() {
-          var start = 0,
-            end = 0;
+          // var start = 0, end = 0;
           var selection = {
             startOffset: -1,
             endOffset: -1,
             segment: ""
           };
 
-          var totalDocLines = editor.lineCount();
+          // var totalDocLines        = editor.lineCount();
           var editorSelectionStart = editor.getCursor("from");
-          var editorSelectionEnd = editor.getCursor("to");
-          var editorSegment = editor.getSelection();
+          var editorSelectionEnd   = editor.getCursor("to");
+          // var editorSegment        = editor.getSelection();
 
           if (!angular.isUndefined(editorSelectionStart) && !angular.isUndefined(editorSelectionEnd)) {
+            /* Petasis, 20/03/2021: Used codemirror functions for getting offsets... */
+            selection.startOffset = editor.indexFromPos(editorSelectionStart);
+            selection.endOffset   = editor.indexFromPos(editorSelectionEnd);
+            selection.segment     = editor.getSelection();
+            /*
             for (var i = 0; i < totalDocLines; i++) {
               var lineLength = editor.getLine(i).length;
               end = start + lineLength;
@@ -95,15 +100,21 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
               }
 
               start = end;
-            }
+            }*/
           }
 
+          //console.warn("getSelectionInfo:");
+          //console.warn(selection);
           return selection;
         };
 
         var computeSelectionFromOffsets = function(startOffset, endOffset) {
-          var start = 0,
-            end = 0;
+          return  {
+              start: editor.posFromIndex(startOffset),
+              end:   editor.posFromIndex(endOffset)
+          }
+          /* Petasis, 20/03/2021: Use codemirror's conversion from offsets to position
+          var start = 0, end = 0;
           var selection = {
             start: {
               line: -1,
@@ -134,7 +145,14 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
             start = end;
           }
 
-          return selection;
+          return selection; */
+        };
+
+        var mouseDownUpHandler = function(e) {
+          if (e.button === 1) { //middle button click
+            e.preventDefault();
+            return false;
+          }
         };
 
         var mouseUpHandler = function(e) {
@@ -234,8 +252,9 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
                   Dialog.error(modalOptions);
                 } else {
                   TextWidgetAPI.resetData();
-                  editor.refresh();
+                  // editor.refresh();
                   editor.setValue(response.data.text);
+                  editor.refresh();
 
                   if (response.data.is_opened) {
                     RestoreAnnotation.restoreFromTemp(newDocument.collection_id, newDocument.id)
@@ -382,23 +401,38 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
                       if (!angular.isUndefined(colorCombination))
                         break;
                     }
+                    var markClassName = currAnnotation.annotation._id + " " + markedTextClass;
 
                     if (!angular.isUndefined(currAnnotation.selected) && currAnnotation.selected) {
                       // Selected marker
-                      var borderColor = ColorLuminance(colorCombination.bg_color, 100);
+                      // var borderColor = ColorLuminance(colorCombination.bg_color, 100);
 
+                      // editor.markText(selection.start, selection.end, {
+                      //   className: markClassName,
+                      //   css: "color:" + colorCombination.fg_color + "; " +
+                      //     "background:" + colorCombination.bg_color + "; " +
+                      //     "border: 2px ridge " + borderColor + ";"
+                      // });
                       editor.markText(selection.start, selection.end, {
-                        className: currAnnotation.annotation._id,
-                        css: "color:" + colorCombination.fg_color + "; " +
-                          "background:" + colorCombination.bg_color + "; " +
-                          "border: 2px ridge " + borderColor + ";"
+                        className: markClassName,
+                        css: "color:" + colorCombination.colour_font + "; " +
+                          "background:" + colorCombination.colour_selected_background + "; " +
+                          "border-color:" + colorCombination.colour_border + ";" +
+                          "border-top:" + "4px solid " + colorCombination.colour_border + "; " +
+                          "border-bottom:" + "4px solid " + colorCombination.colour_border + "; "
                       });
                     } else {
                       // Normal marker
+                      // editor.markText(selection.start, selection.end, {
+                      //   className: currAnnotation.annotation._id,
+                      //   css: "color:" + colorCombination.fg_color + ";" +
+                      //     "background:" + colorCombination.bg_color + ";"
+                      // });
                       editor.markText(selection.start, selection.end, {
-                        className: currAnnotation.annotation._id,
-                        css: "color:" + colorCombination.fg_color + ";" +
-                          "background:" + colorCombination.bg_color + ";"
+                        className: markClassName,
+                        css: "color:" + colorCombination.colour_font + ";" +
+                          "background:" + colorCombination.colour_background + ";" +
+                          "border-color:" + colorCombination.colour_border + ";"
                       });
                     }
 
@@ -407,6 +441,15 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
                     colorCombination = CoreferenceColor.getColorCombination(currAnnotation.annotation._id);
                     var mark = null;
                     var markerId = "mrkr_" + Math.floor(Math.random() * 1000000);
+                    // Find type
+                    var value = annotationSpan.start + " " + annotationSpan.end;
+                    var typeAttribute = _.findWhere(annotationsAttributes, {
+                      value: value
+                    }).name;
+                    var markAttributes = {
+                      markerId: markerId
+                    }
+                    markAttributes["data-type"] = typeAttribute
 
                     // Create class for adding background color to the type pseudo-element
                     var colorClass = " mark_color_" + colorCombination["border-color"].replace("#", "").toUpperCase();
@@ -416,6 +459,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
                       // Selected marker
                       mark = editor.markText(selection.start, selection.end, {
                         className: markClassName,
+                        attributes: markAttributes,
                         css: "color:" + colorCombination["font-color"] + "; " +
                           "background:" + colorCombination["selected-background-colour"] + "; " +
                           "border-color:" + colorCombination["border-color"] + "; " +
@@ -426,21 +470,18 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
                       // Normal marker
                       mark = editor.markText(selection.start, selection.end, {
                         className: markClassName,
+                        attributes: markAttributes,
                         css: "color:" + colorCombination["font-color"] + ";" +
                           "background:" + colorCombination["background-colour"] + ";" +
                           "border-color:" + colorCombination["border-color"] + ";"
                       });
                     }
 
-                    // Find type
-                    var value = annotationSpan.start + " " + annotationSpan.end;
 
-                    mark.typeAttribute = _.findWhere(annotationsAttributes, {
-                      value: value
-                    }).name;
-
-                    mark.markerId = markerId;
-                    mark.annotationId = currAnnotation.annotation._id;
+                    // Used only in addTypeAttributesToMarkers
+                    // mark.markerId = markerId;
+                    // Never used!
+                    // mark.annotationId = currAnnotation.annotation._id;
 
                     break;
                 }
@@ -448,13 +489,14 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
             }
 
             // (Re)generate the SPAN elements that show the marker types
-            addTypeAttributesToMarkers();
+            // Petasis, 20/03/2021: non needed anymore! addTypeAttributesToMarkers();
           }
 
           // Make annotation connection lines appear on top of text
           $('.leader-line').css('z-index', 123);
 
           TextWidgetAPI.clearAnnotationsToBeAdded();
+          //editor.refresh();
         };
 
         /**
@@ -462,6 +504,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
          * type of annotation
          */
         var addTypeAttributesToMarkers = function() {
+          // editor.refresh();
           if (TextWidgetAPI.getAnnotatorType() === "Coreference Annotator") {
             var marks = editor.getAllMarks();
             _.each(marks, function(mark) {
@@ -494,6 +537,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
               });
             });
           }
+          // editor.refresh();
         };
 
         /**
@@ -570,7 +614,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
           });
 
           // Add (again) the type attributes to the markers
-          addTypeAttributesToMarkers();
+          // addTypeAttributesToMarkers();
 
           TextWidgetAPI.clearAnnotationsToBeDeleted();
           TextWidgetAPI.disableIsRunning();
@@ -599,15 +643,32 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
           }
         };
 
-        CodeMirror.on(mainContent, "mouseup", mouseUpHandler);
+        var scrollToAnnotation = function() {
+          var annotation = TextWidgetAPI.getScrollToAnnotation();
+          if (angular.isUndefined(annotation) || angular.equals(annotation, {})) {
+            return false;
+          }
+          var pos = {
+            from: editor.posFromIndex(annotation.spans[0].start),
+            to:   editor.posFromIndex(annotation.spans[annotation.spans.length - 1].end)
+          }
+          editor.scrollIntoView(pos);
+          //editor.setCursor(annotation.spans[0].start);
+          //editor.scrollIntoView(null);
+        };
+
+        CodeMirror.on(mainContent, "mouseup",   mouseUpHandler);
+        CodeMirror.on(mainContent, "mousedown", mouseDownUpHandler);
         TextWidgetAPI.registerCurrentDocumentCallback(updateCurrentDocument);
         TextWidgetAPI.registerCurrentSelectionCallback(updateCurrentSelection);
         TextWidgetAPI.registerNewAnnotationsCallback(addNewAnnotations);
         TextWidgetAPI.registerDeletedAnnotationsCallback(deleteAnnotations);
+        TextWidgetAPI.registerScrollIntoViewCallback(scrollToAnnotation);
 
         scope.$on("$destroy", function() {
           editor.toTextArea();
-          CodeMirror.off(mainContent, "mouseup", mouseUpHandler);
+          CodeMirror.off(mainContent, "mouseup",   mouseUpHandler);
+          CodeMirror.off(mainContent, "mousedown", mouseDownHandler);
           
           // Destroy leader lines
           _.each(connectedAnnotations, function(annotation) {

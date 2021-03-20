@@ -13,7 +13,8 @@
         "jenssegers/mongodb": "3.6.*",
         "cartalyst/sentinel": "3.*",
         "tymon/jwt-auth": "^1.0",
-        "laravel/helpers": "^1.2"
+        "laravel/helpers": "^1.2",
+        "doctrine/dbal": "^2.12.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

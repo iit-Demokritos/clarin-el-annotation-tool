@@ -9,12 +9,18 @@ angular.module('clarin-el').directive('annotationButton', function(TextWidgetAPI
 			label: '@',
 			buttonTooltip: '@',
 			bgColor: '@',
-			fgColor: '@'
+			fgColor: '@',
+		        colourBackground: '@',
+		        colourFont: '@',
+		        colourBorder: '@',
+		        colourSelectedBackground: '@'
 	    },
 	    template: '<button type="button" title="{{buttonTooltip}}" class="btn btn-default btn-sm btn-block annotation-btn" ng-click="addAnnotation(annotationType, annotationAttribute, annotationValue)" >'
 	             +'<span style="float:left"><i class="fa fa-minus fa-rotate-90" style="float:left; color:{{bgColor}}"></i> {{label}}</span></button>',
 	    link: function(scope, element, attrs) {
-	      	ButtonColor.addColorCombination({value:attrs.annotationValue, bg_color:attrs.bgColor, fg_color:attrs.fgColor});
+	      	ButtonColor.addColorCombination({value:attrs.annotationValue, bg_color:attrs.bgColor, fg_color:attrs.fgColor,
+			                         colour_background:attrs.colourBackground, colour_font:attrs.colourFont,
+			                         colour_border:attrs.colourBorder, colour_selected_background:attrs.colourSelectedBackground});
 
 	      	//if IE add button color
 	      	var ua = window.navigator.userAgent;
@@ -24,7 +30,7 @@ angular.module('clarin-el').directive('annotationButton', function(TextWidgetAPI
 	      	var updateSelectedAnnotationButton = function () {
 		        var selectedAnnotation = TextWidgetAPI.getSelectedAnnotation();   
 
-		        if (!angular.equals({}, selectedAnnotation)) { //is selected annotation is not empty 
+		        if (!angular.equals({}, selectedAnnotation)) { //if selected annotation is not empty 
 		          	var selectedAnnotationAttribute = _.where(selectedAnnotation.attributes, { name: attrs.annotationAttribute, 
 		                                                                                       value: attrs.annotationValue })[0];
 		      
