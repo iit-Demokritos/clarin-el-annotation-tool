@@ -1,5 +1,10 @@
 22 March 2020 Petasis George <petasis@iit.demokritos.gr>
  * backend/clarin/app/Http/Controllers/AnnotationController.php:
+ * backend/clarin/app/Http/Controllers/CollectionController.php:
+ * backend/clarin/app/Models/Annotation.php: Added more fields for annotations
+ during Collection export (like modified, created, updated, etc.).
+
+ * backend/clarin/app/Http/Controllers/AnnotationController.php:
  * backend/clarin/app/Http/Controllers/OpenDocumentController.php:
  * backend/clarin/app/Http/Controllers/TempAnnotationController.php:
  * backend/clarin/app/Http/routes.php:

@@ -55,7 +55,8 @@ class AnnotationController extends \BaseController {
                     'annotator_id' => $annotation_data['annotator_id'],
                     'type' => $annotation_data['type'],
                     'spans' => $annotation_data['spans'],
-                    'attributes' => $annotation_data['attributes']
+                    'attributes' => $annotation_data['attributes'],
+                    'updated_by' => $user['email']
                 ));
 
                 $document = Document::find($document_id);
@@ -75,7 +76,8 @@ class AnnotationController extends \BaseController {
                         'annotator_id' => $annotation['annotator_id'],
                         'type' => $annotation['type'],
                         'spans' => $annotation['spans'],
-                        'attributes' => $annotation['attributes']
+                        'attributes' => $annotation['attributes'],
+                        'updated_by' => $user['email']
                     ));
 
                     array_push($new_annotations, $anno);

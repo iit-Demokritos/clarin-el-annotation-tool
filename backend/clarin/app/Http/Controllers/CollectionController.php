@@ -68,7 +68,7 @@ class CollectionController extends \BaseController {
       foreach ($documents as $value) {
         $annotations = Annotation::where('collection_id', (int) $collection_id)
           ->where('document_id', (int) $value->id)
-          ->get(array('collection_id', 'document_id', 'type', 'spans', 'attributes'));
+          ->get(array('_id', 'collection_id', 'document_id', 'annotator_id', 'type', 'spans', 'attributes', 'updated_by', 'updated_at', 'created_at'));
 
         $value->annotations=$annotations;
       }
