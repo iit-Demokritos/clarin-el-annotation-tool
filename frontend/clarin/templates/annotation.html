@@ -11,7 +11,9 @@
 	<div ui-layout="{dividerSize:'0'}">
           <div ui-layout-container>
             <div class="main-content">
+              <div class='spinner-border' role='status'><span class='sr-only'>Loading...</span></div>
               <text-widget></text-widget>
+	      <div ng-show='spinnerVisible'><span class='fa fa-spinner'>Loading...</div>
             </div>
 	  </div>
           <div ui-layout-container size="48px" min-size="48px" max-size="48px">

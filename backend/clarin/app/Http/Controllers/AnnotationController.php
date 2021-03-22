@@ -11,7 +11,7 @@ class AnnotationController extends \BaseController {
                 'success' => true,
                 'data'      => Annotation::where('collection_id', (int) $collection_id)
                     ->where('document_id', (int) $document_id)
-                    ->get(array('collection_id', 'document_id', 'type', 'spans', 'attributes'))));
+                    ->get(array('collection_id', 'document_id', 'annotator_id', 'type', 'spans', 'attributes'))));
         }catch(\Exception $e){
             return Response::json(array('success' => false, 'message' => $e->getMessage()));
         }
@@ -19,6 +19,14 @@ class AnnotationController extends \BaseController {
 
     public function show($collection_id, $document_id, $annotation_id) { //get all the specific annotation of a document
         try {
+            if (strpos($annotation_id, '_') !== false) {
+              return Response::json(array(
+                        'success' => true,
+                        'data'    => TempAnnotation::where('collection_id', (int) $collection_id)
+                                         ->where('document_id', (int) $document_id)
+                                         ->where('annotator_id', $annotation_id)
+                                         ->get(array('collection_id', 'document_id', 'annotator_id', 'type', 'spans', 'attributes'))));
+            }
             return Response::json(array(
                 'success' => true,
                 'data'      => Annotation::find($annotation_id)));
@@ -34,11 +42,17 @@ class AnnotationController extends \BaseController {
             $annotation_data = Request::input('data');
 
             if ((bool)count(array_filter(array_keys($annotation_data), 'is_string'))) { //if the user send a single annotation
+	        // Just make sure during migration, that annotatio does not exists
+	        try {
+	          Annotation::destroy($annotation_data['_id']);
+                } catch (Throwable $e) {
+                }
                 $anno = new Annotation(array(
                     '_id' => $annotation_data['_id'],
                     'document_id' => $annotation_data['document_id'],
                     'collection_id' => $annotation_data['collection_id'],
                     'owner_id' => $user['id'],
+                    'annotator_id' => $annotation_data['annotator_id'],
                     'type' => $annotation_data['type'],
                     'spans' => $annotation_data['spans'],
                     'attributes' => $annotation_data['attributes']
@@ -46,13 +60,19 @@ class AnnotationController extends \BaseController {
 
                 $document = Document::find($document_id);
                 $document->annotations()->save($anno);
-            } else {                                                                        //if the user send an array with annotations
+            } else {      //if the user send an array with annotations
                 foreach ($annotation_data as $annotation) {
+                    // Just make sure during migration, that annotatio does not exists
+		    try {
+		      Annotation::destroy($annotation['_id']);
+                    } catch (Throwable $e) {
+                    }
                     $anno = new Annotation(array(    
                         '_id' => $annotation['_id'],                    
                         'document_id' => $annotation['document_id'],
                         'collection_id' => $annotation['collection_id'],
                         'owner_id' => $user['id'],
+                        'annotator_id' => $annotation['annotator_id'],
                         'type' => $annotation['type'],
                         'spans' => $annotation['spans'],
                         'attributes' => $annotation['attributes']
@@ -64,9 +84,10 @@ class AnnotationController extends \BaseController {
                 $document = Document::find($document_id);                
                 $document->annotations()->saveMany($new_annotations);
                 OpenDocument::/*where('user_id', $user['id'])
-       ->*/where('collection_id', (int)$collection_id)
-       ->where('document_id', (int)$document_id)
-       ->update(['db_interactions' => 0]);
+                        ->*/where('collection_id', (int)$collection_id)
+                       ->where('document_id', (int)$document_id)
+                       ->where('annotator_type', $annotation['annotator_id'])
+                       ->update(['db_interactions' => 0]);
             }
         }catch(\Exception $e){
             return Response::json(array('success' => false, 'message' => $e->getMessage()));
@@ -81,10 +102,16 @@ class AnnotationController extends \BaseController {
 
             if(is_null($annotation_id) || $annotation_id === 'null'){
                 Annotation::/*where('owner_id', $user['id'])
-       ->*/where('collection_id', (int) $collection_id)
-       ->where('document_id', (int) $document_id)
-       ->delete();
-            }else {
+                   ->*/where('collection_id', (int) $collection_id)
+                   ->where('document_id', (int) $document_id)
+                   ->delete();
+            } elseif (strpos($annotation_id, '_') !== false) {
+              // We have an annotator id...
+              Annotation::where('collection_id', (int) $collection_id)
+                  ->where('document_id', (int) $document_id)
+                  ->where('annotator_id', $annotation_id)
+                  ->delete();
+            } else {
                 Annotation::destroy($annotation_id);
             }
         }catch(\Exception $e){

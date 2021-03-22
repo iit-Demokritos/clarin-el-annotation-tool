@@ -13,21 +13,23 @@ class OpenDocumentController extends \BaseController {
                    ->select(DB::raw('open_documents.collection_id, open_documents.document_id, open_documents.annotator_type, open_documents.db_interactions, shared_collections.confirmed, IF('.$user['id']. '=open_documents.user_id, true, false) as opened'))
                    ->get()));
         } catch(\Exception $e){
-            return Response::json(array('success' => false, 'message' => "index(): ".$e->getMessage()));
+            return Response::json(array('success' => false, 'message' => "index(): ".$e->getMessage()."|\"".$user."\""));
         }
     }
 
-
-    public function show($document_id) {
+    public function show($document_id, $annotator_id=null) {
         try {
             $user = Sentinel::getUser();
             return Response::json(array('success' => true,
                                         'data'    => DB::table('open_documents')
                    ->leftJoin('shared_collections', 'open_documents.collection_id', '=', 'shared_collections.collection_id')
                    ->where('open_documents.document_id', $document_id)
-                   ->select(DB::raw('open_documents.collection_id, open_documents.document_id, open_documents.db_interactions, shared_collections.confirmed, IF('.$user['id']. '=open_documents.user_id, true, false) as opened'))
+                   ->when($annotator_id, function ($query, $annotator_id) {
+                          return $query->where('open_documents.annotator_type', $annotator_id);
+                   })
+                   ->select(DB::raw('open_documents.collection_id, open_documents.document_id, open_documents.annotator_type, open_documents.db_interactions, shared_collections.confirmed, IF('.$user['id']. '=open_documents.user_id, true, false) as opened'))
                    ->get()));
-        } catch(\Exception $e){
+        } catch(\Exception $e) {
             return Response::json(array('success' => false, 'message' => "show(): ".$e->getMessage()));
         }
     }
@@ -66,11 +68,14 @@ class OpenDocumentController extends \BaseController {
     }
 
     //close a document
-    public function destroy($document_id) {
+    public function destroy($document_id, $annotator_id) {
         try {
             $user = Sentinel::getUser();
             OpenDocument::where('user_id', $user['id'])
                         ->where('document_id', (int) $document_id)
+                        ->when(is_null($annotator_id) === false, function ($query, $annotator_id) {
+                            return $query->where('annotator_type', $annotator_id);
+                        })
                         ->delete();
         } catch(\Exception $e){
             return Response::json(array('success' => false, 'message' => "destroy(): ".$e->getMessage()));

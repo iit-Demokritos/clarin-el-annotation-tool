@@ -99,9 +99,9 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
       });
       /*return annotationsFound;*/
       /*if (annotationsFound.length>0)
-            	return annotationsFound[0];
-        	else
-        		return -1;*/
+              return annotationsFound[0];
+          else
+            return -1;*/
     },
     addAnnotation: function(newAnnotation, selected) {
       if (angular.isUndefined(newAnnotation._id)) return false;
@@ -194,11 +194,30 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
           return false;
       }
     },
-    matchAnnotationsToSchema: function(newAnnotations) { //match the document's annotations to the annotation schema
+    selectAnnotationsMatchingSchema: function(Annotations, annotator_id) {
+      var belong = [];
+      for (var i = 0; i < Annotations.length; i++) {
+        var annotation = Annotations[i];
+        if (!this.belongsToSchema(annotation)) {continue}
+	if ("annotator_id" in annotation) {
+          if (annotation["annotator_id"] != annotator_id) {continue}
+	} else {
+          annotation["annotator_id"] = annotator_id;
+	}
+	belong.push(annotation);
+      }
+      return belong;
+    },
+    matchAnnotationsToSchema: function(newAnnotations, annotator_id) { //match the document's annotations to the annotation schema
       for (var i = 0; i < newAnnotations.length; i++) {
         var annotation = newAnnotations[i];
         
         if (this.belongsToSchema(annotation)) {
+          // If annotation does not have the annotator_id property, add it...
+          if ("annotator_id" in annotation) {
+	  } else {
+            annotation["annotator_id"] = annotator_id;
+	  }
           if (angular.equals(annotatorType, "Button Annotator")) {
             for (var j = 0; j < annotation.attributes.length; j++) {
               if (!_.contains(annotationSchemaOptions.values, annotation.attributes[j].value)) { //check if the annotation belongs to the "found in collection"
@@ -302,6 +321,22 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
     },
     clearAnnotatorType: function() {
       annotatorType = {};
+    },
+    getAnnotatorTypeId: function() {
+      var ann_id = annotatorType;
+      if ("language" in annotationSchema) {
+        ann_id = ann_id + "_" + annotationSchema.language;
+      }
+      if ("annotation_type" in annotationSchema) {
+        ann_id = ann_id + "_" + annotationSchema.annotation_type;
+      }
+      if ("attribute" in annotationSchema) {
+        ann_id = ann_id + "_" + annotationSchema.attribute;
+      }
+      if ("alternative" in annotationSchema) {
+        ann_id = ann_id + "_" + annotationSchema.alternative;
+      }
+      return ann_id.split(' ').join('_');
     },
 
     /*** Annotator Schema Options Methods ***/

@@ -2,7 +2,8 @@ angular.module('clarin-el').controller('detectOpenDocModalCtrl', function ($scop
 	var currentDocument = angular.copy(externalData);
 
 	$scope.saveChanges = function () {
-		RestoreAnnotation.autoSave(currentDocument.collection_id, currentDocument.id)
+		var AnnotatorTypeId = TextWidgetAPI.getAnnotatorTypeId();
+		RestoreAnnotation.autoSave(currentDocument.collection_id, currentDocument.id, AnnotatorTypeId)
         .then(function(response) {
             if(response.success)
                 $modalInstance.close(response);
@@ -19,7 +20,8 @@ angular.module('clarin-el').controller('detectOpenDocModalCtrl', function ($scop
 			return false;
 		}
 
-		RestoreAnnotation.discard(currentDocument.collection_id, currentDocument.id)     //delete the old annotations of the document
+		var AnnotatorTypeId = TextWidgetAPI.getAnnotatorTypeId();
+		RestoreAnnotation.discard(currentDocument.collection_id, currentDocument.id, AnnotatorTypeId)     //delete the old annotations of the document
         .then(function(response) {
             if(response.success)
                	$modalInstance.close(response);

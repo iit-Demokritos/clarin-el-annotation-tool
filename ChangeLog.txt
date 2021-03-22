@@ -1,4 +1,37 @@
-20 March 2020  Petasis George <petasis@iit.demokritos.gr>
+22 March 2020 Petasis George <petasis@iit.demokritos.gr>
+ * backend/clarin/app/Http/Controllers/AnnotationController.php:
+ * backend/clarin/app/Http/Controllers/OpenDocumentController.php:
+ * backend/clarin/app/Http/Controllers/TempAnnotationController.php:
+ * backend/clarin/app/Http/routes.php:
+ * backend/clarin/app/Models/Annotation.php:
+ * backend/clarin/app/Models/TempAnnotation.php: Changed backend to receive
+ also an "Annotator ID", which marks under what Annotator configuration each
+ annotator has been created.
+ 
+ * frontend/clarin/js/controllers/annotationCtrl.js:
+ * frontend/clarin/js/controllers/modals/detectChangesModalCtrl.js:
+ * frontend/clarin/js/controllers/modals/detectOpenDocModalCtrl.js:
+ * frontend/clarin/js/directives/annotation-visualizer.js:
+ * frontend/clarin/js/directives/annotator-widget.js:
+ * frontend/clarin/js/directives/button/annotation-button.js:
+ * frontend/clarin/js/directives/button/annotation-relation-annotate-btn.js:
+ * frontend/clarin/js/directives/coref/coref-annotate-btn.js:
+ * frontend/clarin/js/directives/text-widget.js:
+ * frontend/clarin/js/directives/toolbar-widget.js:
+ * frontend/clarin/js/services/annotationService.js:
+ * frontend/clarin/js/services/documentService.js:
+ * frontend/clarin/js/services/openDocumentService.js:
+ * frontend/clarin/js/services/restoreAnnotationService.js:
+ * frontend/clarin/js/services/tempAnnotationService.js:
+ * frontend/clarin/js/services/text-widget-api.js:
+ * frontend/clarin/templates/annotation.html:
+ * frontend/clarin/templates/modals/detect-open-doc-modal.html: Reworked how
+ Annotations are stored. Now, each Annotation has an "annotator_id" field,
+ which denotes under which annotator configuration has been created. This will
+ hopefully fix the deletion of annotations that happen if you accidentally
+ open a different annotator on annotated docuemnts.
+:
+20 March 2020 Petasis George <petasis@iit.demokritos.gr>
  * frontend/clarin/css/clarin.css:
  * frontend/clarin/css/codemirror.css:
  * frontend/clarin/js/directives/annotation-visualizer.js:

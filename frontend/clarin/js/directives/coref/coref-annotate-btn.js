@@ -89,6 +89,7 @@ angular.module('clarin-el').directive('corefAnnotateBtn', ['Dialog', 'TextWidget
             _id: new ObjectId().toString(),
             document_id: currentDocument.id,
             collection_id: currentDocument.collection_id,
+            annotator_id: currentDocument.annotator_id,
             type: annotationType,
             spans: [],
             attributes: []

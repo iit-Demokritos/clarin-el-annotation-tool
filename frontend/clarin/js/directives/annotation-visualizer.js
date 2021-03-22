@@ -59,8 +59,9 @@ angular.module('clarin-el').directive('annotationVisualizer', ['CLARIN_CONSTANTS
 
 					if( typeof serviceResponse === 'string' ) {		//if share is not enabled revoke access
 						e.target.close();							//close live connection
+						var AnnotatorTypeId = TextWidgetAPI.getAnnotatorTypeId();
 						TextWidgetAPI.resetData();
-						RestoreAnnotation.save(currentDocument.collection_id, currentDocument.id);
+						RestoreAnnotation.save(currentDocument.collection_id, currentDocument.id, AnnotatorTypeId);
 						OpenDocument.destroy(currentDocument.id);
 
 						var modalOptions = { body: serviceResponse };

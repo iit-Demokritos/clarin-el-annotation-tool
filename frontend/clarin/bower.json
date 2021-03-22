@@ -11,7 +11,7 @@
     "angular-tree-control": "0.2.25",
     "angular-smart-table": "2.0.3",
     "ng-bootstrap-select": "*",
-    "bootstrap": "3.4.1",
+    "bootstrap": "4.4.1",
     "codemirror": "*",
     "oclazyload": "*",
     "underscore": "*",

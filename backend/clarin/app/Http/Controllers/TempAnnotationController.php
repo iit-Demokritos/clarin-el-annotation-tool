@@ -14,7 +14,7 @@ class TempAnnotationController extends \BaseController {
                   'success' => true,
                   'data'    => TempAnnotation::where('collection_id', (int) $collection_id)
                                  ->where('document_id', (int) $document_id)
-                                    ->get(array('collection_id', 'document_id', 'type', 'spans', 'attributes'))));
+                                    ->get(array('collection_id', 'document_id', 'annotator_id', 'type', 'spans', 'attributes'))));
     }catch(\Exception $e){
         return Response::json(array('success' => false, 'message' => $e->getMessage()));
     }
@@ -23,6 +23,14 @@ class TempAnnotationController extends \BaseController {
   //get the spacific temp annotations of a document
   public function show($collection_id, $document_id, $annotation_id) {
     try {
+      if (strpos($annotation_id, '_') !== false) {
+        return Response::json(array(
+                  'success' => true,
+                  'data'    => TempAnnotation::where('collection_id', (int) $collection_id)
+                                   ->where('document_id', (int) $document_id)
+                                   ->where('annotator_id', $annotation_id)
+                                   ->get(array('collection_id', 'document_id', 'annotator_id', 'type', 'spans', 'attributes'))));
+      }
       return Response::json(array(
                   'success' => true,
                   'data'    => TempAnnotation::find($annotation_id)));
@@ -45,6 +53,7 @@ class TempAnnotationController extends \BaseController {
           'document_id' => $annotation_data['document_id'],
           'collection_id' => $annotation_data['collection_id'],
           'owner_id' => $user['id'],
+          'annotator_id' => (array_key_exists('annotator_id', $annotation_data) ? $annotation_data['annotator_id'] : null),
           'type' => $annotation_data['type'],
           'spans' => $annotation_data['spans'],
           'attributes' => $annotation_data['attributes'],
@@ -56,14 +65,16 @@ class TempAnnotationController extends \BaseController {
       
         OpenDocument::where('collection_id', (int) $collection_id)
               ->where('document_id', (int) $document_id)
+              ->where('annotator_type', (array_key_exists('annotator_id', $annotation_data) ? $annotation_data['annotator_id'] : null))
               ->increment('db_interactions');
       } else {                                  //if the user send an array with annotations        
-        foreach ($annotation_data as $annotation) {
+	foreach ($annotation_data as $annotation) {
             $anno = new TempAnnotation(array(  
             '_id' => $annotation['_id'],          
             'document_id' => $annotation['document_id'],
             'collection_id' => $annotation['collection_id'],
             'owner_id' => $user['id'],
+            'annotator_id' => (array_key_exists('annotator_id', $annotation) ? $annotation['annotator_id'] : null),
             'type' => $annotation['type'],
             'spans' => $annotation['spans'],
             'attributes' => $annotation['attributes'],
@@ -98,6 +109,7 @@ class TempAnnotationController extends \BaseController {
 
       OpenDocument::where('collection_id', (int) $collection_id)
             ->where('document_id', (int) $document_id)
+            ->where('annotator_type', $anno->annotator_id)
             ->increment('db_interactions');
       }catch(\Exception $e){
         return Response::json(array('success' => false, 'message' => $e->getMessage()));
@@ -117,11 +129,25 @@ class TempAnnotationController extends \BaseController {
                   ->where('collection_id', (int) $collection_id)
                   ->where('document_id', (int) $document_id)
                 ->forceDelete();
+      } elseif (strpos($annotation_id, '_') !== false) {
+        // We have an annotator id...
+        TempAnnotation::where('collection_id', (int) $collection_id)
+            ->where('document_id', (int) $document_id)
+            ->where('annotator_id', $annotation_id)
+            ->delete();
+        OpenDocument::where('collection_id', (int) $collection_id)
+              ->where('document_id', (int) $document_id)
+              ->where('annotator_type', $annotation_id)
+              ->increment('db_interactions');
       } else {
-        TempAnnotation::destroy($annotation_id);
+        $anno = TempAnnotation::find($annotation_id);
+        $annotator_id = $anno->annotator_id;
+        $anno->delete();
+        //TempAnnotation::destroy($annotation_id);
 
         OpenDocument::where('collection_id', (int) $collection_id)
               ->where('document_id', (int) $document_id)
+              ->where('annotator_type', $annotator_id)
               ->increment('db_interactions');      
       }
     }catch(\Exception $e){
@@ -165,8 +191,8 @@ class TempAnnotationController extends \BaseController {
                 if ($elapsed_time > 100)    // Cap connections at 100 sec. The browser will reopen the connection on close
                     die();
 
-		echo("event: message\n");
-		flush();
+                echo("event: message\n");
+                flush();
                 $is_shared = 0;
                 $is_owner  = DB::table('collections')
                         ->where('id', (int) $collection_id) 
@@ -203,9 +229,9 @@ class TempAnnotationController extends \BaseController {
                     flush();
                 } else {
                     $elapsed_time += 4;
-		    echo('data: ' . json_encode($new_annotations) . "\n\n");    //send data to client
+                    echo('data: ' . json_encode($new_annotations) . "\n\n");    //send data to client
                     flush();
-		    sleep(3);
+                    sleep(3);
                 }
 
                 $count += 1;

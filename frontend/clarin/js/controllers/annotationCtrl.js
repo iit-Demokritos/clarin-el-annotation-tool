@@ -53,6 +53,7 @@ angular.module('clarin-el').controller('AnnotationCtrl', ['$scope', '$timeout', 
                                 TextWidgetAPI.setAnnotationSchema(result.newAnnotationSchema);
 
                                 TextWidgetAPI.setCurrentCollection(result.newCollection);
+				result.newDocument.annotator_id = TextWidgetAPI.getAnnotatorTypeId();
                                 TextWidgetAPI.setCurrentDocument(result.newDocument);
 
                                 $timeout(function() { $scope.documentSelection = false; }, 800);
@@ -69,14 +70,15 @@ angular.module('clarin-el').controller('AnnotationCtrl', ['$scope', '$timeout', 
         var detectUnsavedChanges = function () {                                //function to detect unsaved changes before leaving the current document
             var currentDocument = TextWidgetAPI.getCurrentDocument();
 
-            OpenDocument.get(currentDocument.id)
+            OpenDocument.get(currentDocument.id, currentDocument.annotator_id)
                 .then(function(response) {
                     if (response.success && response.data.length>0) {
                         var documentFound = _.findWhere(response.data, {opened: 1});                                //search if the user has an open document         
 
                         if(!angular.isUndefined(documentFound) && documentFound.db_interactions>0) {                //if changes have been done on the document
                             if ($scope.autoSaveIndicator) {                            //auto save functionality enabled
-                                RestoreAnnotation.autoSave(currentDocument.collection_id, currentDocument.id)
+				var AnnotatorTypeId = TextWidgetAPI.getAnnotatorTypeId();
+                                RestoreAnnotation.autoSave(currentDocument.collection_id, currentDocument.id, AnnotatorTypeId)
                                     .then(function(response) {
                                         if(response.success) {
                                             createDocumentSelectionModal();            

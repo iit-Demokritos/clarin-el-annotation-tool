@@ -19,6 +19,7 @@ angular.module('clarin-el').controller('detectChangesModalCtrl', function ($scop
 						TextWidgetAPI.setAnnotationSchema(response.savedAnnotationSchema);
 
 						TextWidgetAPI.setCurrentCollection(openCollection);
+                                                openDocument.annotator_id = TextWidgetAPI.getAnnotatorTypeId();
 						TextWidgetAPI.setCurrentDocument(openDocument);
 
 						var modalResponse = { success : true, resume : true };
@@ -35,7 +36,8 @@ angular.module('clarin-el').controller('detectChangesModalCtrl', function ($scop
 	};
 
 	$scope.saveChanges = function () {
-		RestoreAnnotation.autoSave(documentFound.collection_id, documentFound.document_id)
+		var AnnotatorTypeId = TextWidgetAPI.getAnnotatorTypeId();
+		RestoreAnnotation.autoSave(documentFound.collection_id, documentFound.document_id, AnnotatorTypeId)
       	.then(function(response) {
 			$modalInstance.close(response);
       	}, function(error){ 
@@ -44,7 +46,8 @@ angular.module('clarin-el').controller('detectChangesModalCtrl', function ($scop
 	};
 
 	$scope.discardChanges = function () {
-		RestoreAnnotation.discard(documentFound.collection_id, documentFound.document_id)     //delete the old annotations of the document
+		var AnnotatorTypeId = TextWidgetAPI.getAnnotatorTypeId();
+		RestoreAnnotation.discard(documentFound.collection_id, documentFound.document_id, AnnotatorTypeId)     //delete the old annotations of the document
 		.then(function(response) {
 			$modalInstance.close(response);
 		}, function(error){ 

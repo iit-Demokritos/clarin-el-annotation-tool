@@ -36,6 +36,7 @@ angular.module('clarin-el').directive('relationAnnotateBtn', ['TextWidgetAPI', '
             _id: new ObjectId().toString(),
             document_id: currentDocument.id,
             collection_id: currentDocument.collection_id,
+            annotator_id: currentDocument.annotator_id,
             type: null,
             spans: [],
             attributes: [

@@ -1,5 +1,5 @@
 angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextWidgetAPI", "RestoreAnnotation", "Document", "OpenDocument", "ButtonColor", "CoreferenceColor", "Dialog",
-  function($q, $ocLazyLoad, TextWidgetAPI, RestoreAnnotation, Document, OpenDocument, ButtonColor, CoreferenceColor, Dialog) {
+  function ($q, $ocLazyLoad, TextWidgetAPI, RestoreAnnotation, Document, OpenDocument, ButtonColor, CoreferenceColor, Dialog) {
     function ColorLuminance(col, amt) {
       var usePound = true;
 
@@ -29,7 +29,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
       replace: true,
       scope: {},
       template: "<textarea id='text-widget'></textarea>",
-      link: function(scope) {
+      link: function (scope) {
         var mainContent = document.getElementsByClassName("main-content")[0];
         var editor = CodeMirror.fromTextArea(document.getElementById("text-widget"), {
           lineNumbers: false,
@@ -43,12 +43,18 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
           scrollbarStyle: "native",
           extraKeys: {}
         });
-        
+
         // When the editor is resized (by dragging the ui-layout-container line) refresh the editor
         // so that text selection works normally.
         scope.$on('ui.layout.resize', function (e, beforeContainer, afterContainer) {
           editor.refresh();
         });
+
+        // Variable controlling whether the spinner is visible...
+        var spinnerVisible = false;
+
+        // Annotator Type Id (class + values)
+        var AnnotatorTypeId = "";
 
         // Class names to add to annotated text
         var markedTextClass = " annotated-text";
@@ -57,17 +63,17 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
         var connectedAnnotations = [];
 
         // Listen to scroll event to scroll annotation relations
-        mainContent.addEventListener('scroll', AnimEvent.add(function() {
-          _.each(connectedAnnotations, function(annotation) {
+        mainContent.addEventListener('scroll', AnimEvent.add(function () {
+          _.each(connectedAnnotations, function (annotation) {
             // Remove instance of line and redraw it
             annotation.instance.remove();
             annotation.instance = makeLeaderLine(annotation.startId, annotation.endId, annotation.label, annotation.data);
           });
-          
+
           $('.leader-line').css('z-index', 123);
         }), false);
 
-        var getSelectionInfo = function() {
+        var getSelectionInfo = function () {
           // var start = 0, end = 0;
           var selection = {
             startOffset: -1,
@@ -103,15 +109,13 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
             }*/
           }
 
-          //console.warn("getSelectionInfo:");
-          //console.warn(selection);
           return selection;
         };
 
-        var computeSelectionFromOffsets = function(startOffset, endOffset) {
-          return  {
-              start: editor.posFromIndex(startOffset),
-              end:   editor.posFromIndex(endOffset)
+        var computeSelectionFromOffsets = function (startOffset, endOffset) {
+          return {
+            start: editor.posFromIndex(startOffset),
+            end: editor.posFromIndex(endOffset)
           }
           /* Petasis, 20/03/2021: Use codemirror's conversion from offsets to position
           var start = 0, end = 0;
@@ -148,14 +152,14 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
           return selection; */
         };
 
-        var mouseDownUpHandler = function(e) {
+        var mouseDownUpHandler = function (e) {
           if (e.button === 1) { //middle button click
             e.preventDefault();
             return false;
           }
         };
 
-        var mouseUpHandler = function(e) {
+        var mouseUpHandler = function (e) {
           if (e.button === 0) { //left button click
             var selection = getSelectionInfo();
 
@@ -226,24 +230,25 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
         /**
          * Bring the text and the annotations when a document changes
          */
-        var updateCurrentDocument = function() {
+        var updateCurrentDocument = function () {
           var newDocument = TextWidgetAPI.getCurrentDocument();
+          AnnotatorTypeId = newDocument.annotator_id; //TextWidgetAPI.getAnnotatorTypeId();
 
           if (!angular.equals({}, newDocument)) { //if new document is not empty
             var documentData = {
-              document_id: newDocument.id,
-              collection_id: newDocument.collection_id,
-              annotator_type: TextWidgetAPI.getAnnotatorType()
+              document_id:    newDocument.id,
+              collection_id:  newDocument.collection_id,
+              annotator_type: AnnotatorTypeId
             };
 
             OpenDocument.save(documentData)
-              .then(function(response) {
+              .then(function (response) {
                 if (response.success)
                   return Document.get(newDocument.collection_id, newDocument.id); //get document's data
                 else
                   return $q.reject();
               })
-              .then(function(response) {
+              .then(function (response) {
                 if (!response.success) {
                   TextWidgetAPI.disableIsRunning();
                   var modalOptions = {
@@ -251,14 +256,17 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
                   };
                   Dialog.error(modalOptions);
                 } else {
+                  spinnerVisible = true;
                   TextWidgetAPI.resetData();
                   // editor.refresh();
+                  editor.setValue("");
+                  editor.clearHistory();
                   editor.setValue(response.data.text);
                   editor.refresh();
 
                   if (response.data.is_opened) {
-                    RestoreAnnotation.restoreFromTemp(newDocument.collection_id, newDocument.id)
-                      .then(function(response) {
+                    RestoreAnnotation.restoreFromTemp(newDocument.collection_id, newDocument.id, AnnotatorTypeId)
+                      .then(function (response) {
                         TextWidgetAPI.disableIsRunning();
 
                         if (!response.success) {
@@ -267,11 +275,11 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
                           };
                           Dialog.error(modalOptions);
                         } else
-                          TextWidgetAPI.matchAnnotationsToSchema(response.data);
+                          TextWidgetAPI.matchAnnotationsToSchema(response.data, AnnotatorTypeId);
                       });
                   } else {
-                    RestoreAnnotation.restoreFromDB(newDocument.collection_id, newDocument.id)
-                      .then(function(response) {
+                    RestoreAnnotation.restoreFromDB(newDocument.collection_id, newDocument.id, AnnotatorTypeId)
+                      .then(function (response) {
                         TextWidgetAPI.disableIsRunning();
 
                         if (!response.success) {
@@ -280,11 +288,11 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
                           };
                           Dialog.error(modalOptions);
                         } else
-                          TextWidgetAPI.matchAnnotationsToSchema(response.data);
+                          TextWidgetAPI.matchAnnotationsToSchema(response.data, AnnotatorTypeId);
                       });
                   }
                 }
-              }, function(error) {
+              }, function (error) {
                 TextWidgetAPI.disableIsRunning();
                 var modalOptions = {
                   body: "Database error. Please refresh the page and try again."
@@ -295,16 +303,16 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
             TextWidgetAPI.disableIsRunning();
         };
 
-        var clearDuplicateAnnotationsFromEditor = function(newAnnotations) {
+        var clearDuplicateAnnotationsFromEditor = function (newAnnotations) {
           var editorMarks = editor.getAllMarks();
-          
-          _.each(newAnnotations, function(annotation) {
+
+          _.each(newAnnotations, function (annotation) {
             if (annotation.annotation.type === 'argument_relation') {
               // Remove connected annotation
               removeConnectedAnnotation(annotation.annotation._id);
             } else {
               // Remove marks of regular annotation
-              _.each(editorMarks, function(editorMark) {
+              _.each(editorMarks, function (editorMark) {
                 // Get ID of mark
                 var editorMarkClass = editorMark.className.split(" ")[0];
 
@@ -319,7 +327,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
         /**
          * Connect two elements with the specified IDs with an arrow using the LeaderLine library
          */
-        var makeLeaderLine = function(startId, endId, label, annotation) {
+        var makeLeaderLine = function (startId, endId, label, annotation) {
           if (startId === endId) {
             return;
           }
@@ -335,7 +343,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
           });
 
           // Add event listener to select the annotation
-          $('.leader-line').last().click(function() {
+          $('.leader-line').last().click(function () {
             // Set this annotation as the selected one
             TextWidgetAPI.setSelectedAnnotation(annotation);
             TextWidgetAPI.clearOverlappingAreas(); // not sure if required...
@@ -350,7 +358,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
          * @param annotatorType
          * @returns {boolean}
          */
-        var visualizeAnnotations = function(newAnnotations, annotatorType) {
+        var visualizeAnnotations = function (newAnnotations, annotatorType) {
           if (angular.isUndefined(newAnnotations) || newAnnotations.length === 0) return false;
 
           clearDuplicateAnnotationsFromEditor(newAnnotations); // if there are any borders around a specific annotation, remove them.
@@ -503,14 +511,14 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
          * If the annotator type is "Coreference Annotator", add a data-type attribute to each marker with the
          * type of annotation
          */
-        var addTypeAttributesToMarkers = function() {
+        var addTypeAttributesToMarkers = function () {
           // editor.refresh();
           if (TextWidgetAPI.getAnnotatorType() === "Coreference Annotator") {
             var marks = editor.getAllMarks();
-            _.each(marks, function(mark) {
+            _.each(marks, function (mark) {
               var markerSpans = $("span." + mark.markerId);
 
-              _.each(markerSpans, function(span) {
+              _.each(markerSpans, function (span) {
                 // Add the data type attribute
                 $(span).attr("data-type", mark.typeAttribute);
 
@@ -518,7 +526,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
                 // need to keep only the correct one
                 var classes = span.className.trim().split(" ");
 
-                classes = _.filter(classes, function(className) {
+                classes = _.filter(classes, function (className) {
                   // Keep only classes which start with "mark_color_"
                   return className.indexOf("mark_color_") === 0;
                 });
@@ -544,7 +552,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
          * Add annotation to the text widget
          * @returns {boolean}
          */
-        var addNewAnnotations = function() {
+        var addNewAnnotations = function () {
           if (!TextWidgetAPI.isRunning())
             TextWidgetAPI.enableIsRunning();
           else
@@ -558,33 +566,33 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
 
           TextWidgetAPI.disableIsRunning();
         };
-        
+
         /**
          * Remove a connection annotation's leader line instance as well as remove it from the connectedAnnotations list
          */
-        var removeConnectedAnnotation = function(annotationId) {
+        var removeConnectedAnnotation = function (annotationId) {
           // Find the relation annotation in connectedAnnotations
           var connectedAnnotation = _.find(connectedAnnotations, function (ann) {
             return ann.data._id === annotationId;
           });
-          
+
           if (_.isUndefined(connectedAnnotation)) {
             return;
           }
-          
+
           // Remove the LeaderLine instance
           connectedAnnotation.instance.remove();
-          
+
           // Remove the object from the connectedAnnotations array
           var arrayIndex = connectedAnnotations.indexOf(connectedAnnotation);
           connectedAnnotations.splice(arrayIndex, 1);
         };
-        
+
         /**
          * Remove annotation from the text widget
          * @returns {boolean}
          */
-        var deleteAnnotations = function() {
+        var deleteAnnotations = function () {
           if (!TextWidgetAPI.isRunning()) //check if running
             TextWidgetAPI.enableIsRunning();
           else
@@ -596,16 +604,16 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
             return false;
           }
 
-          _.each(annotationsToBeDeleted, function(annotation) {
+          _.each(annotationsToBeDeleted, function (annotation) {
             var annotationId = String(annotation._id).trim();
-            
+
             if (annotation.type === 'argument_relation') {
               // Remove relation annotation
               removeConnectedAnnotation(annotationId);
             } else {
               // Regular annotations, delete their marks
               var editorMarks = editor.getAllMarks();
-              _.each(editorMarks, function(mark) {
+              _.each(editorMarks, function (mark) {
                 if (String(mark.className).trim().indexOf(annotationId) !== -1) {
                   mark.clear();
                 }
@@ -620,7 +628,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
           TextWidgetAPI.disableIsRunning();
         };
 
-        var updateCurrentSelection = function() {
+        var updateCurrentSelection = function () {
           var currentSel = TextWidgetAPI.getCurrentSelection();
 
           if (angular.isUndefined(currentSel)) {
@@ -643,21 +651,21 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
           }
         };
 
-        var scrollToAnnotation = function() {
+        var scrollToAnnotation = function () {
           var annotation = TextWidgetAPI.getScrollToAnnotation();
           if (angular.isUndefined(annotation) || angular.equals(annotation, {})) {
             return false;
           }
           var pos = {
             from: editor.posFromIndex(annotation.spans[0].start),
-            to:   editor.posFromIndex(annotation.spans[annotation.spans.length - 1].end)
+            to: editor.posFromIndex(annotation.spans[annotation.spans.length - 1].end)
           }
           editor.scrollIntoView(pos);
           //editor.setCursor(annotation.spans[0].start);
           //editor.scrollIntoView(null);
         };
 
-        CodeMirror.on(mainContent, "mouseup",   mouseUpHandler);
+        CodeMirror.on(mainContent, "mouseup", mouseUpHandler);
         CodeMirror.on(mainContent, "mousedown", mouseDownUpHandler);
         TextWidgetAPI.registerCurrentDocumentCallback(updateCurrentDocument);
         TextWidgetAPI.registerCurrentSelectionCallback(updateCurrentSelection);
@@ -665,13 +673,13 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
         TextWidgetAPI.registerDeletedAnnotationsCallback(deleteAnnotations);
         TextWidgetAPI.registerScrollIntoViewCallback(scrollToAnnotation);
 
-        scope.$on("$destroy", function() {
+        scope.$on("$destroy", function () {
           editor.toTextArea();
-          CodeMirror.off(mainContent, "mouseup",   mouseUpHandler);
+          CodeMirror.off(mainContent, "mouseup", mouseUpHandler);
           CodeMirror.off(mainContent, "mousedown", mouseDownHandler);
-          
+
           // Destroy leader lines
-          _.each(connectedAnnotations, function(annotation) {
+          _.each(connectedAnnotations, function (annotation) {
             // Remove instance of line
             annotation.instance.remove();
           });
