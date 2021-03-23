@@ -1,119 +1,113 @@
 <form name="userForm" class="form-horizontal" role="form" ng-submit="closeWithNewSchema()">
-	<div class="success-modal-header modal-header">
-	    <h4 style="color:#fff" class="modal-title" ng-show="showSelectDocument">Select Document..</h4>
-	    <h4 style="color:#fff" class="modal-title" ng-hide="showSelectDocument">Select Annotation Characteristics..</h4>
-	</div>
-	<div class="modal-body">
-		<div class="alert alert-danger" modal-error ng-hide="flash===undefined || flash===''">{{flash}}</div>
-		{{modalOptions.body}}
-		<div slimscroll scroll-height="documentSelectorHeight" 
-			 ng-show="showSelectDocument" 
-			 id="document-selector-widget" 
-			 treecontrol 
-			 class="tree-classic tree-tagging" 
-			 tree-model="dataForTheTree"
-			 options="treeOptions" 
-			 on-selection="showSelected(node)"
-			 selected-node="node1">
-			<!--Node name-->
-			<span ng-if="!node.hasOwnProperty('children')" title="{{node.name}}">{{ node.name }}</span>
-			<span ng-if="node.hasOwnProperty('children')">{{ node.name }}</span>
+  <div class="success-modal-header modal-header">
+    <h4 style="color:#fff" class="modal-title" ng-show="showSelectDocument">Select Document..</h4>
+    <h4 style="color:#fff" class="modal-title" ng-hide="showSelectDocument">Select Annotation Characteristics..</h4>
+  </div>
+  <div class="modal-body">
+    <div class="alert alert-danger" modal-error ng-hide="flash===undefined || flash===''">{{flash}}</div>
+    {{modalOptions.body}}
+    <div slimscroll scroll-height="documentSelectorHeight" ng-show="showSelectDocument" id="document-selector-widget"
+      treecontrol class="tree-classic tree-tagging" tree-model="dataForTheTree" options="treeOptions"
+      on-selection="showSelected(node)" selected-node="node1">
+      <!--Node name-->
+      <span ng-if="!node.hasOwnProperty('children')" title="{{node.name}}">{{ node.name }}</span>
+      <span ng-if="node.hasOwnProperty('children')">{{ node.name }}</span>
 
-			<!--Node tags (for parent nodes)-->
-			<span class="right" ng-if="node.hasOwnProperty('children')"> 
-			 	<span ng-show="node.confirmed==1 && node.is_owner" class="label label-info">Shared by me</span>
-             			<span ng-show="node.confirmed==1 && !node.is_owner" class="label label-info" title="The actions that can be performed on this collection are limited because it does not belong to you">Shared with me</span>
-				({{node.document_count}} Documents)
-			 </span>
-		</div>
-		<div ng-hide="showSelectDocument">
-			<div class="text-center subheader">
-			    <div class="btn-group btn-group-justified">
-			        <label class="btn btn-primary"
-			        		ng-model="subheader"
-			        		btn-radio="'Button Annotator'"
-			        		ng-click="updateSubheader('Button Annotator'); annotationSchema.language=''; annotationSchema.annotation_type=''; annotationSchema.attribute=''; annotationSchema.alternative=''; annotationSchemaOptions.annotation_types=[]; annotationSchemaOptions.attributes=[]; annotationSchemaOptions.alternatives=[];">Button Annotator</label>
+      <!--Node tags (for parent nodes)-->
+      <span class="right" ng-if="node.hasOwnProperty('children')">
+        <span ng-show="node.confirmed==1 && node.is_owner" class="label label-info">Shared by me</span>
+        <span ng-show="node.confirmed==1 && !node.is_owner" class="label label-info"
+          title="The actions that can be performed on this collection are limited because it does not belong to you">Shared
+          with me</span>
+        ({{node.document_count}} Documents)
+      </span>
+    </div>
+    <div ng-hide="showSelectDocument">
+      <div class="text-center subheader">
+        <div class="btn-group btn-group-justified">
+          <label class="btn btn-primary" ng-model="subheader" btn-radio="'Button Annotator'"
+            ng-click="updateSubheader('Button Annotator'); annotationSchema.language=''; annotationSchema.annotation_type=''; annotationSchema.attribute=''; annotationSchema.alternative=''; annotationSchemaOptions.annotation_types=[]; annotationSchemaOptions.attributes=[]; annotationSchemaOptions.alternatives=[];">Button
+            Annotator</label>
 
-			        <label class="btn btn-primary" 
-			        		ng-model="subheader" 
-			        		btn-radio="'Coreference Annotator'" 
-			        		ng-click="updateSubheader('Coreference Annotator'); annotationSchema.language=''; annotationSchema.annotation_type=''; annotationSchema.attribute=''; annotationSchema.alternative=''; annotationSchemaOptions.annotation_types=[]; annotationSchemaOptions.attributes=[]; annotationSchemaOptions.alternatives=[];">Coreference Annotator</label>
-			    </div>
-			</div><br/>
+          <label class="btn btn-primary" ng-model="subheader" btn-radio="'Coreference Annotator'"
+            ng-click="updateSubheader('Coreference Annotator'); annotationSchema.language=''; annotationSchema.annotation_type=''; annotationSchema.attribute=''; annotationSchema.alternative=''; annotationSchemaOptions.annotation_types=[]; annotationSchemaOptions.attributes=[]; annotationSchemaOptions.alternatives=[];">Coreference
+            Annotator</label>
+        </div>
+      </div><br />
 
-			<div>
-				<div class="form-group">
-				    <label for="selectedLanguage" class="col-sm-4 control-label">Language</label>
-				    <div class="col-sm-8">
-					    <select id="selectedLanguage"
-					    		class="form-control"
-					    		ng-required="true" 
-					    		ng-model="annotationSchema.language"
-					    		ng-options="language for language in annotationSchemaOptions.languages" 
-					    		ng-change="changeLanguage(annotationSchema.language); annotationSchema.annotation_type=''; annotationSchema.attribute=''; annotationSchema.alternative=''; annotationSchemaOptions.attributes=[]; annotationSchemaOptions.alternatives=[];">
-					    	<option value="">Please select language..</option>
-					    </select>
-				    </div>
-			  	</div>
-				<div class="form-group">
-				    <label for="selectedAnnotationType" class="col-sm-4 control-label">Annotation Type</label>
-				    <div class="col-sm-8">
-				      	<select id="selectedAnnotationType" 
-				      			class="form-control"
-				      			ng-model="annotationSchema.annotation_type" 
-				      			ng-options="annotationType for annotationType in annotationSchemaOptions.annotation_types" 
-				      			ng-change="changeAnnotationType(annotationSchema.annotation_type); annotationSchema.attribute=''; annotationSchema.alternative=''; annotationSchemaOptions.alternatives=[];">
-				      		<option value="">Please select annotation type..</option>
-					    </select>
-				    </div>
-				</div>
-				<div class="form-group" ng-hide="subheader=='Coreference Annotator'">
-				    <label for="selectedAnnotationAttribute" class="col-sm-4 control-label">Annotation Attribute</label>
-				    <div class="col-sm-8">
-				    	<select id="selectedAnnotationAttribute"
-				    			class="form-control"
-				    			ng-model="annotationSchema.attribute" 
-				    			ng-options="annotationAttribute for annotationAttribute in annotationSchemaOptions.attributes" 
-				    			ng-change="changeAnnotationAttribute(annotationSchema.attribute); annotationSchema.alternative='';">
-					    	<option value="">Please select annotation attribute..</option>
-					    </select>
-				    </div>
-				</div>
-				<div class="form-group">
-				    <label for="selectedAttributeAlternative" class="col-sm-4 control-label">Attribute	Alternative</label>
-				    <div class="col-sm-8">
-					    <select id="selectedAttributeAlternative"
-					    		class="form-control" 
-					    		ng-model="annotationSchema.alternative" 
-					    		ng-options="attributeAlternative for attributeAlternative in annotationSchemaOptions.alternatives"
-					    		ng-change="changeAttributeAlternative(annotationSchema.alternative)">
-					    	<option value="">Please select attribute alternative..</option>
-					    </select>
-				    </div>
-				</div>
-				<div class="form-group">
-				    <label for="inputLanguage" class="col-sm-4 control-label" ng-show="subheader=='Button Annotator'">Values</label>
-				    <label for="inputLanguage" class="col-sm-4 control-label" ng-show="subheader=='Coreference Annotator'">Attributes</label>
-				    <div class="col-sm-8" 
-				    	 ng-show="(subheader=='Button Annotator' && (groups==undefined || groups.length==0)) || (subheader=='Coreference Annotator' && (attrs==undefined || attrs.length==0))">
-				    	<ul class="list-group"><li class="list-group-item">No available values</li></ul>
-				    </div>
-				    <div class="col-sm-8" ng-hide="subheader=='Coreference Annotator' || groups==undefined || groups.length==0">
-				    	<ul class="list-group" ng-model="groups" button-annotator-value-list slimscroll scroll-height="120"></ul>
-				    </div>
-				    <div class="col-sm-8" ng-hide="subheader=='Button Annotator' || attrs==undefined || attrs.length==0">
-				    	<ul class="list-group" ng-model="attrs" coreference-annotator-value-list slimscroll scroll-height="120"></ul>
-				    </div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="modal-footer">
-		<button type="button" class="btn btn-default" ng-show="!annotationSchemaExists && showSelectDocument" ng-click="selectDocument()">Select</button>
-	    <button type="button" class="btn btn-default" ng-show="!annotationSchemaExists && !showSelectDocument" ng-click="back()">Back</button>
-	    <button type="submit" class="btn btn-default" ng-show="!annotationSchemaExists && !showSelectDocument">Ok</button>
+      <div>
+        <div class="form-group">
+          <label for="selectedLanguage" class="col-sm-4 control-label">Language</label>
+          <div class="col-sm-8">
+            <select id="selectedLanguage" class="form-control" ng-required="true" ng-model="annotationSchema.language"
+              ng-options="language for language in annotationSchemaOptions.languages"
+              ng-change="changeLanguage(annotationSchema.language); annotationSchema.annotation_type=''; annotationSchema.attribute=''; annotationSchema.alternative=''; annotationSchemaOptions.attributes=[]; annotationSchemaOptions.alternatives=[];">
+              <option value="">Please select language..</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="selectedAnnotationType" class="col-sm-4 control-label">Annotation Type</label>
+          <div class="col-sm-8">
+            <select id="selectedAnnotationType" class="form-control" ng-required="true" ng-model="annotationSchema.annotation_type"
+              ng-options="annotationType for annotationType in annotationSchemaOptions.annotation_types"
+              ng-change="changeAnnotationType(annotationSchema.annotation_type); annotationSchema.attribute=''; annotationSchema.alternative=''; annotationSchemaOptions.alternatives=[];">
+              <option value="">Please select annotation type..</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group" ng-hide="subheader=='Coreference Annotator'">
+          <label for="selectedAnnotationAttribute" class="col-sm-4 control-label">Annotation Attribute</label>
+          <div class="col-sm-8">
+            <select id="selectedAnnotationAttribute" class="form-control" ng-model="annotationSchema.attribute"
+              ng-options="annotationAttribute for annotationAttribute in annotationSchemaOptions.attributes"
+              ng-change="changeAnnotationAttribute(annotationSchema.attribute); annotationSchema.alternative='';">
+              <option value="">Please select annotation attribute..</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="selectedAttributeAlternative" class="col-sm-4 control-label">Attribute Alternative</label>
+          <div class="col-sm-8">
+            <select id="selectedAttributeAlternative" class="form-control" ng-required="true" ng-model="annotationSchema.alternative"
+              ng-options="attributeAlternative for attributeAlternative in annotationSchemaOptions.alternatives"
+              ng-change="changeAttributeAlternative(annotationSchema.alternative)">
+              <option value="">Please select attribute alternative..</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputLanguage" class="col-sm-4 control-label"
+            ng-show="subheader=='Button Annotator'">Values</label>
+          <label for="inputLanguage" class="col-sm-4 control-label"
+            ng-show="subheader=='Coreference Annotator'">Attributes</label>
+          <div class="col-sm-8"
+            ng-show="(subheader=='Button Annotator' && (groups==undefined || groups.length==0)) || (subheader=='Coreference Annotator' && (attrs==undefined || attrs.length==0))">
+            <ul class="list-group">
+              <li class="list-group-item">No available values</li>
+            </ul>
+          </div>
+          <div class="col-sm-8" ng-hide="subheader=='Coreference Annotator' || groups==undefined || groups.length==0">
+            <ul class="list-group" ng-model="groups" button-annotator-value-list slimscroll scroll-height="120"></ul>
+          </div>
+          <div class="col-sm-8" ng-hide="subheader=='Button Annotator' || attrs==undefined || attrs.length==0">
+            <ul class="list-group" ng-model="attrs" coreference-annotator-value-list slimscroll scroll-height="120">
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-show="!annotationSchemaExists && showSelectDocument"
+      ng-click="selectDocument()">Select</button>
+    <button type="button" class="btn btn-default" ng-show="!annotationSchemaExists && !showSelectDocument"
+      ng-click="back()">Back</button>
+    <button type="submit" class="btn btn-default" ng-show="!annotationSchemaExists && !showSelectDocument">Ok</button>
 
-		<button type="button" class="btn btn-default" ng-show="annotationSchemaExists" ng-click="resetSchema()">Reset Annotation Schema</button>
-		<button type="button" class="btn btn-default" ng-show="annotationSchemaExists" ng-click="closeWithSameSchema()">Select</button>
-	</div>
+    <button type="button" class="btn btn-default" ng-show="annotationSchemaExists" ng-click="resetSchema()">Reset
+      Annotation Schema</button>
+    <button type="button" class="btn btn-default" ng-show="annotationSchemaExists"
+      ng-click="closeWithSameSchema()">Select</button>
+  </div>
 </form>

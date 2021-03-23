@@ -224,6 +224,6 @@ angular.module('clarin-el').controller('selectDocumentModalCtrl', function (Anno
 
   	$scope.back = function() {
     	$scope.showSelectDocument = true;
-    	$scope.documentSelectorHeight = 300;
+    	$scope.documentSelectorHeight = 600;
   	};
 });

@@ -1,4 +1,8 @@
 23 March 2020 Petasis George <petasis@iit.demokritos.gr>
+ * frontend/clarin/js/controllers/modals/selectDocumentModalCtrl.js:
+ * frontend/clarin/templates/modals/select-document-modal.html: Fixed a bug,
+ where the user can select a schema with empty attributes.
+
  * backend/clarin/app/Http/Controllers/AnnotationController.php:
  * backend/clarin/app/Http/Controllers/OpenDocumentController.php:
  * backend/clarin/app/Http/routes.php:
