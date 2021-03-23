@@ -40,6 +40,7 @@ class AnnotationController extends \BaseController {
             $user = Sentinel::getUser();
             $new_annotations = []; 
             $annotation_data = Request::input('data');
+	    $annotator_id = "";
 
             if ((bool)count(array_filter(array_keys($annotation_data), 'is_string'))) { //if the user send a single annotation
 	        // Just make sure during migration, that annotatio does not exists
@@ -80,16 +81,19 @@ class AnnotationController extends \BaseController {
                         'updated_by' => $user['email']
                     ));
 
-                    array_push($new_annotations, $anno);
+		    array_push($new_annotations, $anno);
+		    $annotator_id = $annotation['annotator_id'];
                 }
 
                 $document = Document::find($document_id);                
-                $document->annotations()->saveMany($new_annotations);
-                OpenDocument::/*where('user_id', $user['id'])
-                        ->*/where('collection_id', (int)$collection_id)
-                       ->where('document_id', (int)$document_id)
-                       ->where('annotator_type', $annotation['annotator_id'])
-                       ->update(['db_interactions' => 0]);
+		if (sizeof($new_annotations)) {
+                  $document->annotations()->saveMany($new_annotations);
+                  OpenDocument::/*where('user_id', $user['id'])
+                          ->*/where('collection_id', (int)$collection_id)
+                         ->where('document_id', (int)$document_id)
+                         ->where('annotator_type', $annotator_id)
+		         ->update(['db_interactions' => 0]);
+		}
             }
         }catch(\Exception $e){
             return Response::json(array('success' => false, 'message' => $e->getMessage()));

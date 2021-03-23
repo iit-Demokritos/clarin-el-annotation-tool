@@ -46,6 +46,7 @@ Route::group(array(/*'middleware' => 'jwt.verify' <= uncomment to enable JWT ,*/
 	Route::resource('collections/{collection_id}/documents', 'DocumentController', array('only' => array('index', 'show', 'store', 'destroy')));
 	Route::get('collections/{collection_id}/documents/{document_id}/live', 'TempAnnotationController@liveUpdate');
 	Route::get('open_documents/{document_id}/{annotator_id}', 'OpenDocumentController@show');
+	Route::delete('open_documents/{document_id}/{annotator_id}', 'OpenDocumentController@destroy');
 	Route::resource('open_documents', 'OpenDocumentController', array('only' => array('index', 'show', 'store', 'destroy')));
 
 	Route::resource('collections/{collection_id}/documents/{document_id}/annotations', 'AnnotationController', array('only' => array('index','show','store', 'destroy')));

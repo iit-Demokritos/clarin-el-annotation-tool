@@ -1,3 +1,11 @@
+23 March 2020 Petasis George <petasis@iit.demokritos.gr>
+ * backend/clarin/app/Http/Controllers/AnnotationController.php:
+ * backend/clarin/app/Http/Controllers/OpenDocumentController.php:
+ * backend/clarin/app/Http/routes.php:
+ * frontend/clarin/js/controllers/annotationCtrl.js:
+ * frontend/clarin/js/controllers/modals/detectChangesModalCtrl.js: Fixed a
+ bug in backend, in OpenDocument::destroy().
+
 22 March 2020 Petasis George <petasis@iit.demokritos.gr>
  * backend/clarin/app/Http/Controllers/AnnotationController.php:
  * backend/clarin/app/Http/Controllers/CollectionController.php:

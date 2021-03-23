@@ -73,14 +73,13 @@ class OpenDocumentController extends \BaseController {
             $user = Sentinel::getUser();
             OpenDocument::where('user_id', $user['id'])
                         ->where('document_id', (int) $document_id)
-                        ->when(is_null($annotator_id) === false, function ($query, $annotator_id) {
+                        ->when($annotator_id, function ($query, $annotator_id) {
                             return $query->where('annotator_type', $annotator_id);
                         })
                         ->delete();
         } catch(\Exception $e){
             return Response::json(array('success' => false, 'message' => "destroy(): ".$e->getMessage()));
         }
-
         return Response::json(array('success' => true));
     }
 }
