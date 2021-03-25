@@ -1,3 +1,11 @@
+25 March 2020 Petasis George <petasis@iit.demokritos.gr>
+ * frontend/clarin/css/clarin.css:
+ * frontend/clarin/js/controllers/annotationCtrl.js:
+ * frontend/clarin/js/directives/dom-helpers.js:
+ * frontend/clarin/js/directives/text-widget.js:
+ * frontend/clarin/templates/annotation.html: Added two tabs above the
+ document editor.
+
 23 March 2020 Petasis George <petasis@iit.demokritos.gr>
  * frontend/clarin/js/controllers/modals/selectDocumentModalCtrl.js:
  * frontend/clarin/templates/modals/select-document-modal.html: Fixed a bug,

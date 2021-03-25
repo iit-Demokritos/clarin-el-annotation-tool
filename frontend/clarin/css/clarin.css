@@ -9,7 +9,7 @@ html,body{
 
 /************************************************/
 .CodeMirror {
-	font-family: monospace,Helvetica,Arial,sans-serif;
+	font-family: Helvetica,Arial,sans-serif;
 	font-size: 1.1em;
 	line-height: 1.9em;
 	background-color: #FFF;
@@ -375,6 +375,16 @@ table td{ vertical-align:middle!important; }
 	background: #FFF;
 	box-shadow: 0 -2px 0 rgba(217,224,226,0.2);
 }
+.main-content-header{
+	width: 100%;
+	height: 45px;
+	padding: 9px 10px;
+	background: #fff;
+	border-bottom: 1px solid #d9e0e2;
+}
+.main-content-header .btn, .document-selector .subheader .btn { padding: 4px 10px; }
+.main-content-header label, .document-selector .subheader label{ font-size: 13px!important; }
+
 .sidebar-layout-wrapper{
 	top: 0px;
 	position: absolute;

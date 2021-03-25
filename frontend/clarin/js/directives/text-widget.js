@@ -43,7 +43,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
           scrollbarStyle: "native",
           extraKeys: {}
         });
-
+	
         // When the editor is resized (by dragging the ui-layout-container line) refresh the editor
         // so that text selection works normally.
         scope.$on('ui.layout.resize', function (e, beforeContainer, afterContainer) {

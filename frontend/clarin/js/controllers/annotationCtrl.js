@@ -4,6 +4,10 @@ angular.module('clarin-el').controller('AnnotationCtrl', ['$scope', '$timeout', 
     $scope.annotatorType = "";
     $scope.annotationSchema = {};
     $scope.sidebarSelector = "annotator";
+    $scope.maincontentSelector = "document";
+    $scope.layout = {
+      showEditorTabs: false,
+    };
 
     $scope.$on('$stateChangeStart', function (event) {        //close document selection modal instance when user change page
       console.log('closing modal');
