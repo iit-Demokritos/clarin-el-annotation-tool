@@ -9,7 +9,7 @@ angular.module('clarin-el').directive('documentAttributes', function () {
     restrict: 'C',
     link: function (scope, element, attrs) {
       // This element should be moved to id=main-content-annotate-document-attributes
-      var moveTo = angular.element('#main-content-annotate-document-attributes td[class~="main-content-attributes-cell"]:last');
+      var moveTo = angular.element('#main-content-annotate-document-attributes > tbody > tr:last > td[class~="main-content-attributes-cell"]:last');
       var toMove = element[0].closest('tr');
       //toMove.appendTo(moveTo);
       element.appendTo(moveTo);
@@ -17,7 +17,7 @@ angular.module('clarin-el').directive('documentAttributes', function () {
         element.remove();
       });
       var tr = angular.element('<tr class="main-content-attributes-row"><td class="main-content-attributes-cell"></td></tr>');
-      angular.element('#main-content-annotate-document-attributes tbody').append(tr);
+      angular.element('#main-content-annotate-document-attributes > tbody').append(tr);
     }
   };
 });
