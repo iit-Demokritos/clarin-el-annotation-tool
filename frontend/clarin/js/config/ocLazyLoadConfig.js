@@ -90,6 +90,10 @@ app.config(function($ocLazyLoadProvider) {
 				'js/directives/coref/coref-span-start.js',
 	
 				'js/directives/found-in-collection.js',
+
+				//'js/directives/document/annotation-text.js',
+				//'js/directives/document/annotation-text-label.js',
+				'js/directives/document/annotation-text-text.js',
 				
 				// select picker
 				'bower_components/ng-bootstrap-select/build/ng-bootstrap-select.min.js',

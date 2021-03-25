@@ -23,6 +23,12 @@ angular.module('clarin-el').directive('annotatorWidget', ['$compile', '$ocLazyLo
 
               elem.html('<div autoslimscroll scroll-subtraction-height="145">' + annotatorsTemplate + '</div>');
               $compile(elem.contents())(scope);
+              // Does the template include Document Attributes?
+              if (annotatorsTemplate.indexOf("group-type=\"document_attributes\"") != -1) {
+                scope.layout.showEditorTabs = true;
+              } else {
+                scope.layout.showEditorTabs = false;
+              }
 
               AnnotationSchema.update(scope.annotationSchema, scope.annotatorType)
                 .then(function (response) {

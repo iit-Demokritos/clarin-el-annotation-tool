@@ -1,5 +1,16 @@
 25 March 2020 Petasis George <petasis@iit.demokritos.gr>
  * frontend/clarin/css/clarin.css:
+ * frontend/clarin/js/config/ocLazyLoadConfig.js:
+ * frontend/clarin/js/directives/annotator-widget.js:
+ * frontend/clarin/js/directives/dom-helpers.js:
+ * frontend/clarin/js/services/annotatorsTemplateService.js:
+ * frontend/clarin/js/services/buttonAnnotatorService.js:
+ * frontend/clarin/templates/annotation.html: Added a directive which moves
+ elements whose class contains "document- attributes" to document attribute
+ annotation. Functionality to act like document attribute annotation still
+ missing.
+
+ * frontend/clarin/css/clarin.css:
  * frontend/clarin/js/controllers/annotationCtrl.js:
  * frontend/clarin/js/directives/dom-helpers.js:
  * frontend/clarin/js/directives/text-widget.js:

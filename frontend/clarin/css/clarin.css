@@ -336,6 +336,15 @@ table td{ vertical-align:middle!important; }
     white-space: -o-pre-wrap;   /* Opera 7 */
     word-wrap: break-word;      /* IE */
 }
+.button-widget-paragraph-label {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: #D34332;
+  padding: 4px 0 3px;
+}
+
+
 /*** end of button annotator widget ***/
 
 /*** main layout styling ***/
@@ -384,6 +393,18 @@ table td{ vertical-align:middle!important; }
 }
 .main-content-header .btn, .document-selector .subheader .btn { padding: 4px 10px; }
 .main-content-header label, .document-selector .subheader label{ font-size: 13px!important; }
+
+.main-content-attributes {
+  width: 100%;
+}
+
+.main-content-attributes-header {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: #D34332;
+  padding: 4px 0 3px;
+}
 
 .sidebar-layout-wrapper{
 	top: 0px;

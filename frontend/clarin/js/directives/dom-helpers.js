@@ -1,3 +1,27 @@
+angular.module('clarin-el').directive('documentAttributes', function () {
+/*
+    'A' - only matches attribute name
+    'E' - only matches element name
+    'C' - only matches class name
+    'M' - only matches comment
+*/
+  return {
+    restrict: 'C',
+    link: function (scope, element, attrs) {
+      // This element should be moved to id=main-content-annotate-document-attributes
+      var moveTo = angular.element('#main-content-annotate-document-attributes td[class~="main-content-attributes-cell"]:last');
+      var toMove = element[0].closest('tr');
+      //toMove.appendTo(moveTo);
+      element.appendTo(moveTo);
+      scope.$on("$destroy", function() {
+        element.remove();
+      });
+      var tr = angular.element('<tr class="main-content-attributes-row"><td class="main-content-attributes-cell"></td></tr>');
+      angular.element('#main-content-annotate-document-attributes tbody').append(tr);
+    }
+  };
+});
+
 angular.module('clarin-el').directive('triggerResize', function ($timeout) {//trigger resize when annotation visualizer is pressed in the annotation page, solves ui.layout rendering problem 
   return {
     restrict: 'A',
