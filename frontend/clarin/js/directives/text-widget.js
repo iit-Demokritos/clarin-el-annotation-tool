@@ -656,6 +656,10 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
           if (angular.isUndefined(annotation) || angular.equals(annotation, {})) {
             return false;
           }
+          if (annotation.spans.length < 1) {
+            // Empty spans, like in Document Attribute annotations...
+            return false;
+	  }
           var pos = {
             from: editor.posFromIndex(annotation.spans[0].start),
             to: editor.posFromIndex(annotation.spans[annotation.spans.length - 1].end)

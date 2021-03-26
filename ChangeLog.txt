@@ -1,3 +1,17 @@
+27 March 2020 Petasis George <petasis@iit.demokritos.gr>
+ * backend/clarin/app/Http/Controllers/AnnotationController.php:
+ * backend/clarin/app/Http/Controllers/TempAnnotationController.php:
+ * frontend/clarin/js/directives/annotation-visualizer.js:
+ * frontend/clarin/js/directives/document/annotation-text-text.js:
+ * frontend/clarin/js/directives/text-widget.js:
+ * frontend/clarin/js/services/restoreAnnotationService.js:
+ * frontend/clarin/js/services/text-widget-api.js:
+ * frontend/clarin/templates/directives/annotation-visualizer.html: Added
+ support for a new type of Annotation, Document Attributes. Currently
+ available only for Button Annotator schemas. A sample schema can be:
+ <group type="document_attributes" name="Document Metadata" button_number="1"
+ sort="false"><value type="paragraph" name="author">Author</value></group>.
+
 25 March 2020 Petasis George <petasis@iit.demokritos.gr>
  * frontend/clarin/css/clarin.css:
  * frontend/clarin/js/config/ocLazyLoadConfig.js:

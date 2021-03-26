@@ -23,20 +23,20 @@ angular.module('clarin-el').factory('RestoreAnnotation', function ($q, TextWidge
       .then(function (response) {
         if (response.success) {
           return Annotation.getAll(collectionId, documentId/*, annotatorId*/); //get the document's annotations
-	} else {
+        } else {
           return $q.reject(response);
-	}
+        }
       })
       .then(function (response) {
         annotationsResponse = response;
         if (response.success && response.data.length > 0) {//if annotations number is greater than 0 save them to Temp
           annotationsResponse.data = TextWidgetAPI.selectAnnotationsMatchingSchema(response.data, annotatorId);
           return TempAnnotation.save(collectionId, documentId, annotationsResponse.data);
-	} else if (response.success && response.data.length == 0) {//if annotations number is equals 0 save dont save nothing
+        } else if (response.success && response.data.length == 0) {//if annotations number is equals 0 save dont save nothing
           return response;
-	} else if (!response.success) {
+        } else if (!response.success) {
           return $q.reject(response);
-	}
+        }
       })
       .then(function (response) {
         if (!response.success)

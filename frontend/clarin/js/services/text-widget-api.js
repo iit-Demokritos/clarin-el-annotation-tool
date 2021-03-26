@@ -103,6 +103,11 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
           else
             return -1;*/
     },
+    getAnnotationForDocumentAttribute: function(attribute) {
+      return _.findWhere(annotations, {
+        document_attribute: attribute
+      });
+    },
     addAnnotation: function(newAnnotation, selected) {
       if (angular.isUndefined(newAnnotation._id)) return false;
 
@@ -175,20 +180,18 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
 
     /*** Batch Annotation Methods ***/
     belongsToSchema: function(newAnnotation) { //annotation belongs to the annotation schema if has the same type and has at least one of the schema's attributes
+      if (!angular.equals(annotationSchema.annotation_type, newAnnotation.type)) {
+	return false;
+      }
       switch (annotatorType) {
         case "Button Annotator":
-          if (angular.equals(annotationSchema.annotation_type, newAnnotation.type) && _.where(newAnnotation.attributes, {
-              name: annotationSchema.attribute
-            }).length > 0)
-            return true;
+          if (_.where(newAnnotation.attributes, {name: annotationSchema.attribute}).length > 0) return true;
 
           return false;
         case "Coreference Annotator":
-          if (angular.equals(annotationSchema.annotation_type, newAnnotation.type)) {
-            for (var j = 0; j < newAnnotation.attributes.length; j++) {
-              if (_.contains(annotationSchemaOptions.attributes, newAnnotation.attributes[j].name))
-                return true;
-            }
+          for (var j = 0; j < newAnnotation.attributes.length; j++) {
+            if (_.contains(annotationSchemaOptions.attributes, newAnnotation.attributes[j].name))
+              return true;
           }
 
           return false;
@@ -218,7 +221,7 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
 	  } else {
             annotation["annotator_id"] = annotator_id;
 	  }
-          if (angular.equals(annotatorType, "Button Annotator")) {
+          if (angular.equals(annotatorType, "Button Annotator") && (!("document_attribute" in annotation))) {
             for (var j = 0; j < annotation.attributes.length; j++) {
               if (!_.contains(annotationSchemaOptions.values, annotation.attributes[j].value)) { //check if the annotation belongs to the "found in collection"
                 foundInCollection.push(annotation);
