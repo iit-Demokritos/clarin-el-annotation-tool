@@ -1,5 +1,5 @@
-angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextWidgetAPI", "RestoreAnnotation", "Document", "OpenDocument", "ButtonColor", "CoreferenceColor", "Dialog",
-  function ($q, $ocLazyLoad, TextWidgetAPI, RestoreAnnotation, Document, OpenDocument, ButtonColor, CoreferenceColor, Dialog) {
+angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$rootScope", "TextWidgetAPI", "RestoreAnnotation", "Document", "OpenDocument", "ButtonColor", "CoreferenceColor", "Dialog",
+  function ($q, $ocLazyLoad, $rootScope, TextWidgetAPI, RestoreAnnotation, Document, OpenDocument, ButtonColor, CoreferenceColor, Dialog) {
     function ColorLuminance(col, amt) {
       var usePound = true;
 
@@ -43,7 +43,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
           scrollbarStyle: "native",
           extraKeys: {}
         });
-	
+
         // When the editor is resized (by dragging the ui-layout-container line) refresh the editor
         // so that text selection works normally.
         scope.$on('ui.layout.resize', function (e, beforeContainer, afterContainer) {
@@ -392,6 +392,9 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
                   data: currAnnotation.annotation
                 });
               }
+            } else if ("document_attribute" in currAnnotation.annotation) {
+              // This is a document Annotation...
+              $rootScope.$broadcast('sendDocumentAttribute:'+currAnnotation.annotation.document_attribute, currAnnotation.annotation);
             } else {
               // Normal annotation
               for (var l = 0; l < newAnnotations[k].annotation.spans.length; l++) { // Iterate through annotations spans
@@ -659,7 +662,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "TextW
           if (annotation.spans.length < 1) {
             // Empty spans, like in Document Attribute annotations...
             return false;
-	  }
+          }
           var pos = {
             from: editor.posFromIndex(annotation.spans[0].start),
             to: editor.posFromIndex(annotation.spans[annotation.spans.length - 1].end)

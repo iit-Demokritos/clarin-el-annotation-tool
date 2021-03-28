@@ -1,3 +1,9 @@
+28 March 2020 Petasis George <petasis@iit.demokritos.gr>
+ * frontend/clarin/js/directives/document/annotation-text-text.js:
+ * frontend/clarin/js/directives/dom-helpers.js:
+ * frontend/clarin/js/directives/text-widget.js: Added initialisation of
+ Document Attributes, if relevant annotations exist.
+:
 27 March 2020 Petasis George <petasis@iit.demokritos.gr>
  * backend/clarin/app/Http/Controllers/AnnotationController.php:
  * backend/clarin/app/Http/Controllers/TempAnnotationController.php:

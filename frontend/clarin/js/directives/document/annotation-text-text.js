@@ -20,6 +20,9 @@ angular.module('clarin-el').directive('annotationTextText',
         scope.onBlur = function() { // Called when focus is lost
           setAnnotationValue(getElementValue());
         };
+        scope.$on('sendDocumentAttribute:'+scope.annotationDocumentAttribute, function(event, ann) {
+          setElementValue(getAnnotationValue());
+        });
         var getElementValue = function() {
           if ("attributeValue" in scope) {
             return scope.attributeValue;
@@ -47,15 +50,15 @@ angular.module('clarin-el').directive('annotationTextText',
               Dialog.error(modalOptions);
             });
         }; // setAnnotationValue
-	var getAnnotationAttributeIndex = function() {
-	  var annotation = getAnnotation();
+        var getAnnotationAttributeIndex = function() {
+          var annotation = getAnnotation();
           var attribute  = _.where(annotation.attributes, {name: scope.annotationDocumentAttribute})[0];
-	  return annotation.attributes.indexOf(attribute);
-	}; // getAnnotationAttributeIndex
-	var getAnnotationAttribute = function() {
-	  var annotation = getAnnotation();
+          return annotation.attributes.indexOf(attribute);
+        }; // getAnnotationAttributeIndex
+        var getAnnotationAttribute = function() {
+          var annotation = getAnnotation();
           return _.where(annotation.attributes, {name: scope.annotationDocumentAttribute})[0];
-	}; // getAnnotationAttribute
+        }; // getAnnotationAttribute
         var getAnnotation = function() {
           var annotation = TextWidgetAPI.getAnnotationForDocumentAttribute(scope.annotationDocumentAttribute);
           if (angular.isDefined(annotation)) {
@@ -83,7 +86,7 @@ angular.module('clarin-el').directive('annotationTextText',
           TempAnnotation.save(currentDocument.collection_id, currentDocument.id, annotation)
             .then(function(response) { 
               if (response.success) { 
-	      	return annotation;
+                      return annotation;
               } else {
                 var modalOptions = {body: 'Error during saving your annotation. Please refresh the page and try again.'};
                 Dialog.error(modalOptions);

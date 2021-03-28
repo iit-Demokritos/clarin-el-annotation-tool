@@ -16,6 +16,7 @@ angular.module('clarin-el').directive('documentAttributes', function () {
       scope.$on("$destroy", function() {
         element.remove();
       });
+
       var tr = angular.element('<tr class="main-content-attributes-row"><td class="main-content-attributes-cell"></td></tr>');
       angular.element('#main-content-annotate-document-attributes > tbody').append(tr);
     }
