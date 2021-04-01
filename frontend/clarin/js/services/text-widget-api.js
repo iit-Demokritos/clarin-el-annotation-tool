@@ -181,7 +181,7 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
     /*** Batch Annotation Methods ***/
     belongsToSchema: function(newAnnotation) { //annotation belongs to the annotation schema if has the same type and has at least one of the schema's attributes
       if (!angular.equals(annotationSchema.annotation_type, newAnnotation.type)) {
-	return false;
+        return false;
       }
       switch (annotatorType) {
         case "Button Annotator":
@@ -202,12 +202,12 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
       for (var i = 0; i < Annotations.length; i++) {
         var annotation = Annotations[i];
         if (!this.belongsToSchema(annotation)) {continue}
-	if ("annotator_id" in annotation) {
+        if ("annotator_id" in annotation) {
           if (annotation["annotator_id"] != annotator_id) {continue}
-	} else {
+        } else {
           annotation["annotator_id"] = annotator_id;
-	}
-	belong.push(annotation);
+        }
+        belong.push(annotation);
       }
       return belong;
     },
@@ -218,9 +218,9 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
         if (this.belongsToSchema(annotation)) {
           // If annotation does not have the annotator_id property, add it...
           if ("annotator_id" in annotation) {
-	  } else {
+          } else {
             annotation["annotator_id"] = annotator_id;
-	  }
+          }
           if (angular.equals(annotatorType, "Button Annotator") && (!("document_attribute" in annotation))) {
             for (var j = 0; j < annotation.attributes.length; j++) {
               if (!_.contains(annotationSchemaOptions.values, annotation.attributes[j].value)) { //check if the annotation belongs to the "found in collection"
@@ -479,7 +479,6 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
     },
     clearFoundInCollection: function() {
       foundInCollection = [];
-     
     },
 
     /*** Scroll Callbacks ***/

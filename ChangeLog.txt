@@ -1,4 +1,6 @@
 02 April 2020 Petasis George <petasis@iit.demokritos.gr>
+ * frontend/clarin/js/controllers/modals/addCustomValueModalCtrl.js:
+ * frontend/clarin/templates/modals/add-custom-value-modal.html:
  * frontend/clarin/css/clarin.css:
  * frontend/clarin/js/app.js:
  * frontend/clarin/js/config/ocLazyLoadConfig.js:
