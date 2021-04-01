@@ -1,3 +1,20 @@
+02 April 2020 Petasis George <petasis@iit.demokritos.gr>
+ * frontend/clarin/css/clarin.css:
+ * frontend/clarin/js/app.js:
+ * frontend/clarin/js/config/ocLazyLoadConfig.js:
+ * frontend/clarin/js/controllers/annotationCtrl.js:
+ * frontend/clarin/js/controllers/modals/renameCollectionModalCtrl.js:
+ * frontend/clarin/js/directives/annotator-widget.js:
+ * frontend/clarin/js/directives/dom-helpers.js:
+ * frontend/clarin/js/directives/found-in-collection.js:
+ * frontend/clarin/js/directives/text-widget.js:
+ * frontend/clarin/js/directives/toolbar-widget.js:
+ * frontend/clarin/js/services/text-widget-api.js:
+ * frontend/clarin/templates/annotation.html:
+ * frontend/clarin/templates/directives/toolbar.html:
+ * frontend/clarin/templates/modals/rename-collection-modal.html: Added
+ support for custom values in Button Annotator.
+
 28 March 2020 Petasis George <petasis@iit.demokritos.gr>
  * frontend/clarin/js/directives/document/annotation-text-text.js:
  * frontend/clarin/js/directives/dom-helpers.js:

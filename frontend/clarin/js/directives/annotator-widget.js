@@ -3,7 +3,7 @@ angular.module('clarin-el').directive('annotatorWidget', ['$compile', '$ocLazyLo
     return {
       restrict: 'E',
       replace: true,
-      link: function (scope, elem, attrs) {
+      link: function (scope, element, attrs) {
         var updateAnnotatorTemplate = function () {
           scope.annotatorType = TextWidgetAPI.getAnnotatorType();
           scope.annotationSchema = TextWidgetAPI.getAnnotationSchema();
@@ -15,20 +15,15 @@ angular.module('clarin-el').directive('annotatorWidget', ['$compile', '$ocLazyLo
 
               if (angular.equals(scope.annotatorType, "Button Annotator")) {
                 var foundInCollectionPosition = annotatorsTemplate.indexOf("<table") + 6;
-
+                var 
                 annotatorsTemplate = annotatorsTemplate.slice(0, foundInCollectionPosition)
                   + " found-in-collection"
                   + annotatorsTemplate.slice(foundInCollectionPosition);
               }
-
-              elem.html('<div autoslimscroll scroll-subtraction-height="145">' + annotatorsTemplate + '</div>');
-              $compile(elem.contents())(scope);
-              // Does the template include Document Attributes?
-              if (annotatorsTemplate.indexOf("group-type=\"document_attributes\"") != -1) {
-                scope.layout.showEditorTabs = true;
-              } else {
-                scope.layout.showEditorTabs = false;
-              }
+              //console.warn(annotatorsTemplate);
+             
+              element.html('<div autoslimscroll scroll-subtraction-height="145">' + annotatorsTemplate + '</div>');
+              $compile(element.contents())(scope);
 
               AnnotationSchema.update(scope.annotationSchema, scope.annotatorType)
                 .then(function (response) {

@@ -1,4 +1,4 @@
-app.directive('toolbarWidget', function ($q, $ocLazyLoad, $timeout, TextWidgetAPI, RestoreAnnotation, TempAnnotation, Dialog, OpenDocument) {
+app.directive('toolbarWidget', function ($q, $ocLazyLoad, $timeout, $rootScope, TextWidgetAPI, RestoreAnnotation, TempAnnotation, Dialog, OpenDocument) {
   return {
     restrict: 'E',
     replace: true,
@@ -22,9 +22,9 @@ app.directive('toolbarWidget', function ($q, $ocLazyLoad, $timeout, TextWidgetAP
                   RestoreAnnotation.autoSave(currentDocument.collection_id, currentDocument.id, AnnotatorTypeId)
                     .then(function (response) {
                       if (response.success) {
-			newDocument.annotator_id = AnnotatorTypeId;
+                        newDocument.annotator_id = AnnotatorTypeId;
                         TextWidgetAPI.setCurrentDocument(newDocument);
-		      } else {
+                      } else {
                         var modalOptions = { body: 'Error during the save annotations. Please refresh the page and try again.' };
                         Dialog.error(modalOptions);
                       }
@@ -39,9 +39,9 @@ app.directive('toolbarWidget', function ($q, $ocLazyLoad, $timeout, TextWidgetAP
                     var detectOpenDocModalInstance = Dialog.custom('detect-open-doc-modal.html', 'detectOpenDocModalCtrl', currentDocument, true, "");
                     detectOpenDocModalInstance.result.then(function (response) {
                       if (response.success) {
-			newDocument.annotator_id = TextWidgetAPI.getAnnotatorTypeId();
+                        newDocument.annotator_id = TextWidgetAPI.getAnnotatorTypeId();
                         TextWidgetAPI.setCurrentDocument(newDocument);
-		      } else {
+                      } else {
                         var modalOptions = { body: 'Error during the save annotations. Please refresh the page and try again.' };
                         Dialog.error(modalOptions);
                         return false;
@@ -50,9 +50,9 @@ app.directive('toolbarWidget', function ($q, $ocLazyLoad, $timeout, TextWidgetAP
                   });
                 }
               } else {
-	        newDocument.annotator_id = TextWidgetAPI.getAnnotatorTypeId();
+                newDocument.annotator_id = TextWidgetAPI.getAnnotatorTypeId();
                 TextWidgetAPI.setCurrentDocument(newDocument);
-	      }
+              }
             }
           }, function (error) {
             var modalOptions = { body: 'Database error. Please refresh the page and try again.' };
@@ -82,6 +82,11 @@ app.directive('toolbarWidget', function ($q, $ocLazyLoad, $timeout, TextWidgetAP
         detectUnsavedChanges(newDocument);
       };
 
+      $scope.toggleEditorTabs = function() {
+        $scope.layout.editorTabs = !$scope.layout.editorTabs;
+        var elem = angular.element("#annotation-main-content-header-layout-container");
+        console.warn($rootScope.layout.editorTabs, elem);
+      };
 
       $scope.deleteAnnotation = function () {
         if (TextWidgetAPI.isRunning())
@@ -131,7 +136,7 @@ app.directive('toolbarWidget', function ($q, $ocLazyLoad, $timeout, TextWidgetAP
 
       $scope.deleteTempAnnotations = function () {
         var currentDocument = TextWidgetAPI.getCurrentDocument();
-	var AnnotatorTypeId = TextWidgetAPI.getAnnotatorTypeId();
+        var AnnotatorTypeId = TextWidgetAPI.getAnnotatorTypeId();
 
         RestoreAnnotation.discard(currentDocument.collection_id, currentDocument.id, AnnotatorTypeId)     //delete the old annotations of the document*/
           .then(function (response) {

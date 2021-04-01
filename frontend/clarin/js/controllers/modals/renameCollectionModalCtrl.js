@@ -2,7 +2,10 @@ angular.module('clarin-el').controller('renameCollectionModalCtrl', function ($s
   	$scope.collectionData = externalData;
   	$scope.flash = "";
   	var oldCollectionName = $scope.collectionData.collectionName;
-
+   
+    
+    
+    
   	$scope.rename = function () {
     	if (oldCollectionName === $scope.collectionData.collectionName){  
       		$modalInstance.close(oldCollectionName);

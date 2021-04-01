@@ -467,6 +467,7 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
 
     /*** Annotations Found In Collection Methods ***/
     registerFoundInCollectionCallback: function(callback) {
+     
       foundInCollectionCallbacks.push(callback);
     },
     getFoundInCollection: function() {
@@ -474,9 +475,11 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
     },
     setFoundInCollection: function(newFoundInCollection) {
       foundInCollection = angular.copy(newFoundInCollection);
+      notifyObservers(foundInCollectionCallbacks);
     },
     clearFoundInCollection: function() {
       foundInCollection = [];
+     
     },
 
     /*** Scroll Callbacks ***/

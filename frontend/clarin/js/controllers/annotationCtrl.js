@@ -1,13 +1,25 @@
-angular.module('clarin-el').controller('AnnotationCtrl', ['$scope', '$timeout', '$ocLazyLoad', 'RestoreAnnotation', 'TextWidgetAPI', 'TempAnnotation', 'OpenDocument', 'Collection', 'Dialog',
-  function ($scope, $timeout, $ocLazyLoad, RestoreAnnotation, TextWidgetAPI, TempAnnotation, OpenDocument, Collection, Dialog) {
+angular.module('clarin-el').controller('AnnotationCtrl', ['$scope', '$rootScope', '$timeout', '$ocLazyLoad', 'RestoreAnnotation', 'TextWidgetAPI', 'TempAnnotation', 'OpenDocument', 'Collection', 'Dialog',
+  function ($scope, $rootScope, $timeout, $ocLazyLoad, RestoreAnnotation, TextWidgetAPI, TempAnnotation, OpenDocument, Collection, Dialog) {
     $scope.documentSelection = true;
     $scope.annotatorType = "";
     $scope.annotationSchema = {};
     $scope.sidebarSelector = "annotator";
     $scope.maincontentSelector = "document";
     $scope.layout = {
-      showEditorTabs: false,
+      editorTabs: false
     };
+    $scope.$on('ui.layout.loaded', function(evt, id){
+      console.warn("ui.layout.loaded:");
+      $timeout(function(){
+        $scope.layout.editorTabs = false;
+      });
+    });
+    $scope.$on('ui.layout.toggle', function(evt, container){ 
+      console.warn(container); 
+      //if (container.id === '1') { 
+      //  vm.one = container.size > 0;  
+      //}
+    });
 
     $scope.$on('$stateChangeStart', function (event) {        //close document selection modal instance when user change page
       console.log('closing modal');

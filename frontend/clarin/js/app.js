@@ -51,7 +51,16 @@ app.config(function($stateProvider, $locationProvider, $urlRouterProvider) {
         }]
       }
     })
-    .state('collections.manage', {
+    .state('button.add', {
+      url: '/button_add',
+      template: "<div></div>",
+      controller: 'OpenCreateButtonModalCtrl',
+      resolve: {
+        load: ['$ocLazyLoad', function($ocLazyLoad) {
+          return $ocLazyLoad.load('js/controllers/modals/OpenCreateButtonModalCtrl.js');
+        }]
+      }
+    }).state('collections.manage', {
       url: '/manage',
       templateUrl: 'templates/collection-manage.html',
       controller: 'ManageCollectionsCtrl',
@@ -61,6 +70,10 @@ app.config(function($stateProvider, $locationProvider, $urlRouterProvider) {
         }]
       }
     })
+    
+    
+    
+    
     .state('annotation', {
       url: '/annotation', 
       templateUrl: 'templates/annotation.html',

@@ -8,12 +8,13 @@
     <!-- ng-hide="documentSelection" -->
     <div ui-layout="{flow : 'column'}">
       <div ui-layout-container>
-        <div ui-layout="{dividerSize:'0', disableToggle:true}">
-          <div ui-layout-container size="46px" min-size="0px" max-size="46px" collapsed="!layout.showEditorTabs">
+        <div ui-layout="{dividerSize:'0', disableToggle:true}" ui-layout-loaded="left-column">
+          <div ui-layout-container size="46px" min-size="0px" max-size="46px" collapsed="layout.editorTabs" id="annotation-main-content-header-layout-container">
             <div class="main-content-header flow-effect-top" id="annotation-main-content-header">
               <div class="btn-group">
                 <label class="btn btn-default active" ng-model="maincontentSelector" btn-radio="'document'">Document</label>
-                <label class="btn btn-default" ng-model="maincontentSelector" btn-radio="'attributes'">Document Attributes</label>
+		<label class="btn btn-default" ng-model="maincontentSelector" btn-radio="'attributes'">Document Attributes</label>
+		<label class="btn btn-default">{{layout.editorTabs}}</label>
               </div>
             </div>
           </div>

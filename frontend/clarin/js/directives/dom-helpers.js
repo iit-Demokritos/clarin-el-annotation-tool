@@ -1,4 +1,4 @@
-angular.module('clarin-el').directive('documentAttributes', function () {
+angular.module('clarin-el').directive('documentAttributes', function ($rootScope) {
 /*
     'A' - only matches attribute name
     'E' - only matches element name
@@ -19,6 +19,7 @@ angular.module('clarin-el').directive('documentAttributes', function () {
 
       var tr = angular.element('<tr class="main-content-attributes-row"><td class="main-content-attributes-cell"></td></tr>');
       angular.element('#main-content-annotate-document-attributes > tbody').append(tr);
+      $rootScope.$broadcast('documentAttribute', {scope: scope, element: element});
     }
   };
 });

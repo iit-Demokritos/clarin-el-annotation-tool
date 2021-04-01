@@ -34,7 +34,22 @@ app.config(function($ocLazyLoadProvider) {
 			files: [
 				'js/controllers/modals/detectChangesModalCtrl.js'
 			]
-		}, {
+		},
+		{
+			name: 'addCustomValueModalCtrl',
+			files: [
+				'js/controllers/modals/addCustomValueModalCtrl.js'
+			]
+		},
+		{
+			name: 'OpenCreateButtonModalCtrl',
+			files: [
+				'js/controllers/modals/OpenCreateButtonModalCtrl.js'
+			]
+		},
+		
+		
+		 {
 			name: 'annotationServices',
 			files: [
 				'js/directives/button/button-annotator-value-list.js',
@@ -53,6 +68,7 @@ app.config(function($ocLazyLoadProvider) {
 				'js/services/annotationSchemaService.js',
 				'js/services/sharedCollectionService.js',
 				'js/controllers/annotationCtrl.js',
+				// 'js/controllers/editorCtrl.js',
 				'js/controllers/modals/selectDocumentModalCtrl.js',
 				'js/directives/toolbar-widget.js',
 				'js/directives/text-widget.js',

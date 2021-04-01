@@ -47,7 +47,12 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
         // When the editor is resized (by dragging the ui-layout-container line) refresh the editor
         // so that text selection works normally.
         scope.$on('ui.layout.resize', function (e, beforeContainer, afterContainer) {
+          console.warn("text-widget: ui.layout.resize");
           editor.refresh();
+        });
+
+        scope.$on('ui.layout.loaded', function(evt, id) {
+          console.warn("text-widget: ui.layout.loaded", id);
         });
 
         // Variable controlling whether the spinner is visible...
