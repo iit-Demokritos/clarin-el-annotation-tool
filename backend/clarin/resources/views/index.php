@@ -51,6 +51,7 @@
   <script src="bower_components/underscore/underscore-min.js"></script>
   <script src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
   <script src="bower_components/codemirror/lib/codemirror.js"></script>
+  <script src="bower_components/codemirror/addon/search/searchcursor.js"></script>
   <script src="bower_components/angular-smart-table/dist/smart-table.min.js"></script>
   <script src="bower_components/angular-tree-control/angular-tree-control.js"></script>
   <script src="bower_components/ng-flow/dist/ng-flow-standalone.min.js"></script>

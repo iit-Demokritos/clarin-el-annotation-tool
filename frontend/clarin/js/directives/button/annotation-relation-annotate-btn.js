@@ -15,6 +15,7 @@ angular.module('clarin-el').directive('relationAnnotateBtn', ['TextWidgetAPI', '
         // Get the <annotation-relation> element and its scope
         var relElem = $('#' + scope.annotationRelationWidgetId).children().first()[0];
         var relationScope = angular.element(relElem).scope();
+        // console.warn("relationAnnotateBtn:", relElem, relationScope);
 
         // Create the annotation attribute & value
         var annotationAttribute = {

@@ -5,7 +5,7 @@ angular.module('clarin-el').directive('annotatorWidget', ['$compile', '$ocLazyLo
       replace: true,
       link: function (scope, element, attrs) {
         var updateAnnotatorTemplate = function () {
-          scope.annotatorType = TextWidgetAPI.getAnnotatorType();
+          scope.annotatorType    = TextWidgetAPI.getAnnotatorType();
           scope.annotationSchema = TextWidgetAPI.getAnnotationSchema();
 
           AnnotatorsTemplate.getTemplate(scope.annotatorType, scope.annotationSchema)
@@ -20,7 +20,13 @@ angular.module('clarin-el').directive('annotatorWidget', ['$compile', '$ocLazyLo
                   + " found-in-collection"
                   + annotatorsTemplate.slice(foundInCollectionPosition);
               }
-              //console.warn(annotatorsTemplate);
+              // console.warn(annotatorsTemplate);
+              // Try to see how many annotation types this schema involves...
+              var types = annotatorsTemplate.match(/annotation-type=\"[^\"]+"/ig);
+              types = types.map(function (value) {return value.substr(16).replace(/['"]+/g, '');});
+              var types_unique = types.filter(function (value, index, self) {return self.indexOf(value) === index;});
+              TextWidgetAPI.setAnnotationSchemaAnnotationTypes(types_unique);
+              // console.warn(types_unique);
              
               element.html('<div autoslimscroll scroll-subtraction-height="145">' + annotatorsTemplate + '</div>');
               $compile(element.contents())(scope);

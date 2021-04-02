@@ -1,4 +1,15 @@
 02 April 2020 Petasis George <petasis@iit.demokritos.gr>
+ * backend/clarin/resources/views/index.php:
+ * frontend/clarin/js/directives/annotator-widget.js:
+ * frontend/clarin/js/directives/button/annotation-relation-annotate-btn.js:
+ * frontend/clarin/js/directives/button/annotation-relation-combobox.js:
+ * frontend/clarin/js/directives/text-widget.js:
+ * frontend/clarin/js/services/restoreAnnotationService.js:
+ * frontend/clarin/js/services/text-widget-api.js: Added a migration procedure
+ from old annotations (before the change in calculation of offsets). This
+ migration ensures that the spans match the texts, and if not, it ries to
+ adjust the spans.
+
  * frontend/clarin/js/controllers/modals/addCustomValueModalCtrl.js:
  * frontend/clarin/templates/modals/add-custom-value-modal.html:
  * frontend/clarin/css/clarin.css:

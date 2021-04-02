@@ -50,6 +50,10 @@ angular.module('clarin-el').factory('RestoreAnnotation', function ($q, TextWidge
     return deferred.promise;
   };
 
+  var updateToTemp = function(annotation) {
+    TempAnnotation.update(annotation);
+  };
+
   var save = function (collectionId, documentId, annotatorId) {
     var deferred = $q.defer();
 
@@ -160,6 +164,7 @@ angular.module('clarin-el').factory('RestoreAnnotation', function ($q, TextWidge
   return {
     restoreFromTemp: restoreFromTemp,
     restoreFromDB: restoreFromDB,
+    updateToTemp: updateToTemp,
     save: save,
     autoSave: autoSave,
     discard: discard

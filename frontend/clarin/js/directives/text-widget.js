@@ -120,7 +120,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
         var computeSelectionFromOffsets = function (startOffset, endOffset) {
           return {
             start: editor.posFromIndex(startOffset),
-            end: editor.posFromIndex(endOffset)
+            end:   editor.posFromIndex(endOffset)
           }
           /* Petasis, 20/03/2021: Use codemirror's conversion from offsets to position
           var start = 0, end = 0;
@@ -280,6 +280,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
                           };
                           Dialog.error(modalOptions);
                         } else
+                          response.data = migrateOldSpans(response.data);
                           TextWidgetAPI.matchAnnotationsToSchema(response.data, AnnotatorTypeId);
                       });
                   } else {
@@ -293,6 +294,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
                           };
                           Dialog.error(modalOptions);
                         } else
+                          response.data = migrateOldSpans(response.data);
                           TextWidgetAPI.matchAnnotationsToSchema(response.data, AnnotatorTypeId);
                       });
                   }
@@ -306,6 +308,37 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
               });
           } else
             TextWidgetAPI.disableIsRunning();
+        };
+
+        var migrateOldSpans = function(anns) {
+          var annotations = [];
+          for (var i = 0; i < anns.length; i++) {
+            var ann = anns[i];
+            var modified = false;
+            for (var j = 0; j < ann.spans.length; j++) {
+              var span = ann.spans[j];
+              var selection = computeSelectionFromOffsets(span.start, span.end);
+              var fragment = editor.getRange(selection.start, selection.end);
+              if (span.segment !== fragment) {
+                var cursor = editor.getSearchCursor(span.segment, selection.start);
+                var found = cursor.findNext();
+                if (!found) {
+                  found = cursor.findPrevious();
+                }
+                if (found) {
+                  span.start = editor.indexFromPos(cursor.from());
+                  span.end   = editor.indexFromPos(cursor.to());
+                  ann.spans[j] = span;
+                  modified = true;
+                }
+              }
+            }
+            if (modified) {
+              RestoreAnnotation.updateToTemp(ann);
+            }
+            annotations.push(ann);
+          }
+          return annotations;
         };
 
         var clearDuplicateAnnotationsFromEditor = function (newAnnotations) {
@@ -670,7 +703,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
           }
           var pos = {
             from: editor.posFromIndex(annotation.spans[0].start),
-            to: editor.posFromIndex(annotation.spans[annotation.spans.length - 1].end)
+            to:   editor.posFromIndex(annotation.spans[annotation.spans.length - 1].end)
           }
           editor.scrollIntoView(pos);
           //editor.setCursor(annotation.spans[0].start);

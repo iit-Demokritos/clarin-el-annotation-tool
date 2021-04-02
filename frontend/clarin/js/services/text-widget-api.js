@@ -5,6 +5,7 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
   var annotationSchemaOptions = {}; //the available options of the annotation schema
 
   var annotationSchema = {}; //the annotation schema that user selected for the current document
+  var annotationSchemaAnnotationTypes = {}; // A list of annotation types for the schema
   var annotationSchemaCallbacks = []; //registered callbacks for the current annotation schema
 
   var currentCollection = {}; //the collection that the document belongs
@@ -108,6 +109,30 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
         document_attribute: attribute
       });
     },
+    selectAnnotations: function(type, attribute, attributeValues) {
+      // console.warn("selectAnnotations:", type, attribute, attributeValues);
+      var anns = annotations.filter(function(ann) {
+        return ann.type === type;
+      });
+      if (!angular.isUndefined(attribute)) {
+        if (!angular.isUndefined(attributeValues)) {
+          anns = anns.filter(function(ann) {
+            return ann.attributes.some(function(attr) {
+              return (attr.name === attribute &&
+                      attributeValues.includes(attr.value));
+            });
+          });
+        } else {
+          anns = anns.filter(function(ann) {
+            return ann.attributes.some(function(attr) {
+              return attr.name === attribute;
+            });
+          });
+        }
+      }
+      // console.warn("result:", anns);
+      return anns;
+    },
     addAnnotation: function(newAnnotation, selected) {
       if (angular.isUndefined(newAnnotation._id)) return false;
 
@@ -179,6 +204,11 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
     },
 
     /*** Batch Annotation Methods ***/
+    belongsToSchemaAsSupportiveAnnotationType: function(newAnnotation) {
+      // Annotation belongs to schema, but its annotation type can be different
+      // than the main annotation type (i.e. the case of relations in Button Annotator)
+      return annotationSchemaAnnotationTypes.includes(newAnnotation.type);
+    },
     belongsToSchema: function(newAnnotation) { //annotation belongs to the annotation schema if has the same type and has at least one of the schema's attributes
       if (!angular.equals(annotationSchema.annotation_type, newAnnotation.type)) {
         return false;
@@ -201,7 +231,8 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
       var belong = [];
       for (var i = 0; i < Annotations.length; i++) {
         var annotation = Annotations[i];
-        if (!this.belongsToSchema(annotation)) {continue}
+        if (!(this.belongsToSchema(annotation) ||
+              this.belongsToSchemaAsSupportiveAnnotationType(annotation))) {continue}
         if ("annotator_id" in annotation) {
           if (annotation["annotator_id"] != annotator_id) {continue}
         } else {
@@ -235,7 +266,7 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
             "annotation": annotation,
             "selected": false
           });
-        } else if (annotation.type === 'argument_relation') {
+        } else if (this.belongsToSchemaAsSupportiveAnnotationType(annotation)) {
           // Always add argument relation annotations
           annotations.push(annotation);
           annotationsToBeAdded.push({
@@ -362,10 +393,25 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
     },
     setAnnotationSchema: function(newAnnotationSchema) {
       annotationSchema = angular.copy(newAnnotationSchema);
+      annotationSchemaAnnotationTypes = {};
       notifyObservers(annotationSchemaCallbacks);
     },
     clearAnnotationSchema: function() {
       annotationSchema = {};
+      annotationSchemaAnnotationTypes = {};
+    },
+    getAnnotationSchemaAnnotationTypes: function () {
+      return annotationSchemaAnnotationTypes;
+    },
+    setAnnotationSchemaAnnotationTypes: function(newAnnotationSchemaAnnotationTypes) {
+      // Ensure that the annotationSchema.annotation_type is not included...
+      annotationSchemaAnnotationTypes = angular.copy(newAnnotationSchemaAnnotationTypes)
+      .filter(function(ann) {
+        return ann.type != annotationSchema.annotation_type;
+      });
+    },
+    clearAnnotationSchemaAnnotationTypes: function() {
+      annotationSchemaAnnotationTypes = {};
     },
 
     /*** Selected Annotation Methods ***/
