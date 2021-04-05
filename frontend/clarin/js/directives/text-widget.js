@@ -34,7 +34,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
         var textWidget  = document.getElementById("annotation-editor-text-widget");
         var textWidgetOverlay = document.getElementById('annotation-editor-text-widget-overlay');
         var editor = CodeMirror.fromTextArea(textWidget, {
-          lineNumbers: false,
+          lineNumbers: true,
           dragDrop: false,
           readOnly: true,
           theme: "night",
@@ -46,7 +46,8 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
           extraKeys: {}
         });
         // Get the local coordinates of the first character in the editor...
-        var originCoords = editor.charCoords({line:1, ch:0}, "local");
+        var originCoords = editor.charCoords({line:1, ch:0}, "page");
+        var textWidgetLines = document.getElementsByClassName("CodeMirror-lines")[0];
 
         var graph = new joint.dia.Graph;
 
@@ -90,6 +91,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
         scope.$on('ui.layout.resize', function (e, beforeContainer, afterContainer) {
           console.warn("text-widget: ui.layout.resize");
           editor.refresh();
+          overlayRefresh();
         });
 
         scope.$on('ui.layout.loaded', function(evt, id) {
@@ -392,6 +394,22 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
           return annotations;
         }; /* migrateOldSpans */
 
+        var overlayRefresh = function() {
+          for (const annId in annotationIdToGraphItem) {
+            var annotation = TextWidgetAPI.getAnnotationById(annId);
+            for (var l = 0; l < annotation.spans.length; l++) {
+              var annotationSpan = annotation.spans[l];
+              var selection = computeSelectionFromOffsets(
+                     parseInt(annotationSpan.start), parseInt(annotationSpan.end));
+              overlayMarkAdd(l, selection.start, selection.end, {
+                 "annotation": annotation,
+                 "selected": false,
+                 "action": "resize"
+              });
+            }
+          }
+        }; /* overlayRefresh */
+
         var overlayAnnotationGetBoundingClientRect = function(annotation) {
           var elems = document.querySelectorAll(".id-"+String(annotation._id).trim());
           if (!elems || !elems.length) return null;
@@ -418,43 +436,47 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
         }; /* overlayAnnotationGetBoundingClientRect */
 
         var overlayHighlight = function(annotation) {
-          if (!annotation.annotation._id in annotationIdToGraphItem) {
-            return; // Nothing to do...
-          };
-          var deep = false, selector = 'body';
-          var item = annotationIdToGraphItem[annotation.annotation._id];
-          if (angular.isUndefined(item)) {
-            // This is not an element. Search links...
+          var deep = false, selector = 'body', items;
+          if (annotation.annotation._id in annotationIdToGraphItem) {
+            items = annotationIdToGraphItem[annotation.annotation._id];
+          } else {
+            // A link...
             var connectedAnnotation = _.find(connectedAnnotations, function (ann) {
               return ann.data._id === annotation.annotation._id;
             });
             if (angular.isUndefined(connectedAnnotation)) {
               return; // Nothing to do...
             }
-            item = connectedAnnotation.instance;
+            items = {0: connectedAnnotation.instance,
+                     1: annotationIdToGraphItem[connectedAnnotation.startId][0],
+                     2: annotationIdToGraphItem[connectedAnnotation.endId][0]};
             deep = true; selector = 'root';
           }
-          const elementView = item.findView(paper);
-          if (annotation.action == "select") {
-            joint.highlighters.mask.remove(elementView);
-            joint.highlighters.mask.add(elementView,{ selector: selector },
-              'my-element-highlight', {
-                 deep: deep,
-                 padding: 4,
-                 attrs: {
-                     'stroke': '#4666E5',
-                     'stroke-width': 3,
-                     'stroke-linejoin': 'round'
-                 }
-              });
-            // console.warn("<<overlayHighlight>>:", annotation.annotation._id);
-          } else if (annotation.action == "deselect") {
-            joint.highlighters.mask.remove(elementView);
-            // console.warn("  overlayHighlight  :", annotation.annotation._id);
+          for (const spanIndex in items) {
+            var item = items[spanIndex];
+            const elementView = item.findView(paper);
+            if (annotation.action == "select") {
+              joint.highlighters.mask.remove(elementView);
+              joint.highlighters.mask.add(elementView,{ selector: selector },
+                'my-element-highlight', {
+                   deep: deep,
+                   padding: 4,
+                   attrs: {
+                       'stroke': '#4666E5',
+                       'stroke-width': 3,
+                       'stroke-linejoin': 'round'
+                   }
+                });
+              // console.warn("<<overlayHighlight>>:", annotation.annotation._id);
+            } else if (annotation.action == "deselect") {
+              joint.highlighters.mask.remove(elementView);
+              // console.warn("  overlayHighlight  :", annotation.annotation._id);
+            }
           }
         }; /* overlayHighlight */
 
-        var overlayMarkAdd = function (startPos, endPos, annotation) {
+        var overlayMarkAdd = function (spanIndex, startPos, endPos, annotation) {
+          var item;
           // if (annotation.action != "matches") {
           //   console.warn("++ overlayMarkAdd:", annotation.annotation._id, annotation);
           // }
@@ -466,49 +488,57 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
               overlayHighlight(annotation);
               return null;
             }
+            // Check if item already exists...
+            item = annotationIdToGraphItem[annotation.annotation._id][spanIndex];
+          } else {
+            annotationIdToGraphItem[annotation.annotation._id] = {};
           }
           // This method creates a polygon from codemirror coordinates (line, pos)
           var startCoords  = editor.charCoords(startPos, "local"),
               endCoords    = editor.charCoords(endPos, "local");
           // console.warn(mark, startCoords, endCoords);
           // Calculate points...
-          var item;
           if (startCoords.top == endCoords.top) {
             // Start & end on the same height, the region is a rectange...
             // https://resources.jointjs.com/tutorial/elements
-            item = new joint.shapes.standard.Rectangle();
+            if (angular.isUndefined(item)) {
+              item = new joint.shapes.standard.Rectangle();
+            }
             // sets the position of the origin of the element (the top-left corner)
-            item.position(startCoords.left-originCoords.left, startCoords.top);
+            item.position(startCoords.left+originCoords.left-8, startCoords.top+4);
             // sets the dimensions of the element (width, height)
-            item.resize(endCoords.right-startCoords.left,
-                        endCoords.bottom-startCoords.top);
+            item.resize(endCoords.right-startCoords.left-4,
+                        endCoords.bottom-startCoords.top-8);
           } else {
             var points = [];
             // Get mark coordinates....
             var mark = overlayAnnotationGetBoundingClientRect(annotation.annotation);
             if (!mark) return null;
 
-            item = new joint.shapes.standard.Polygon();
+            if (angular.isUndefined(item)) {
+              item = new joint.shapes.standard.Polygon();
+            }
             // sets the position of the origin of the element (the top-left corner)
-            item.position(originCoords.left, startCoords.top);
+            item.position(originCoords.left+2, startCoords.top);
             // sets the dimensions of the element (right, height)
-            item.resize(mark.right, endCoords.bottom-startCoords.top);
-            points.push(String(0)+','+String(startCoords.bottom));
-            points.push(String(startCoords.left-originCoords.left)+','+String(startCoords.bottom));
-            points.push(String(startCoords.left-originCoords.left)+','+String(startCoords.top));
+            item.resize(mark.right-originCoords.left, endCoords.bottom-startCoords.top);
+            points.push(String(2)+','+String(startCoords.bottom));
+            points.push(String(startCoords.left)+','+String(startCoords.bottom));
+            points.push(String(startCoords.left)+','+String(startCoords.top));
             points.push(String(mark.right)+','+String(startCoords.top));
             points.push(String(mark.right)+','+String(endCoords.top));
-            points.push(String(endCoords.right-originCoords.left)+','+String(endCoords.top));
-            points.push(String(endCoords.right-originCoords.left)+','+String(endCoords.bottom));
-            points.push(String(0)+','+String(endCoords.bottom));
+            points.push(String(endCoords.right+6)+','+String(endCoords.top));
+            points.push(String(endCoords.right+6)+','+String(endCoords.bottom));
+            points.push(String(2)+','+String(endCoords.bottom));
             item.attr('body/refPoints', points.join(' '));
           }
           // item.attr('label/text', annotation.annotation._id);
           item.attr('body/fill', "transparent");
           item.attr('body/stroke', 'none' /*'#7c68fc'*/);
+          //item.attr('body/stroke', 'green');
           item.attr('root/pointer-events', 'none');
           item.addTo(graph);
-          annotationIdToGraphItem[annotation.annotation._id] = item;
+          annotationIdToGraphItem[annotation.annotation._id][spanIndex] = item;
           return item;
         }; /* overlayMarkAdd */
 
@@ -524,9 +554,11 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
               overlayHighlight(annotation);
               return false;
             }
-            var item = annotationIdToGraphItem[annotation.annotation._id];
-            graph.disconnectLinks(item);
-            item.remove();
+            for (const spanIndex in annotationIdToGraphItem[annotation.annotation._id]) {
+              var item = annotationIdToGraphItem[annotation.annotation._id][spanIndex];
+              graph.disconnectLinks(item);
+              item.remove();
+            }
             delete annotationIdToGraphItem[annotation.annotation._id];
             return true;
           }
@@ -558,12 +590,11 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
           }
           // Create a new line...
           var link = new joint.shapes.standard.Link({
-            router: { name: 'manhattan' },
             connector: { name: 'rounded' },
             attrs: {
               line: {
-                stroke: '#333333',
-                strokeWidth: 4
+                stroke: '#808080',
+                strokeWidth: 2
               }
             },
             labels: [{
@@ -579,7 +610,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
               attrs: {
                   labelText: {
                       text: label,
-                      fill: '#000000',
+                      fill: 'gray',
                       fontSize: 14,
                       fontFamily: 'sans-serif',
                       textAnchor: 'middle',
@@ -588,7 +619,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
                   labelBody: {
                       ref: 'text',
                       fill: '#ffffff',
-                      stroke: 'black',
+                      stroke: 'gray',
                       strokeWidth: 2,
                       rx: 3,
                       ry: 3,
@@ -602,12 +633,15 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
               },
             }]
           });
-          link.source(annotationIdToGraphItem[startId]);
-          link.target(annotationIdToGraphItem[endId]);
+          link.source(annotationIdToGraphItem[startId][0]);
+          link.target(annotationIdToGraphItem[endId][0]);
           link.attr('root/pointer-events', 'visiblePainted');
-          //link.attr('root/event',    'link:pointerup');
-          //link.attr('line/event',    'link:pointerup');
-          //link.attr('wrapper/event', 'link:pointerup');
+          link.router('manhattan', {
+            step: 1,
+            excludeTypes: ['joint.shapes.standard.Polygon'],
+            startDirections: ['top'],
+            endDirections: ['bottom']
+          });
           link.addTo(graph);
           // Add the annotation id to the link...
           link["annotation_id"] = annotation.annotation._id;
@@ -778,7 +812,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
                           "border-top: 4px solid "+colorCombination.colour_border+"; "+
                           "border-bottom: 4px solid "+colorCombination.colour_border+"; "
                       });
-                      overlayMarkAdd(selection.start, selection.end,
+                      overlayMarkAdd(l, selection.start, selection.end,
                                      currAnnotation);
                     } else {
                       // Normal marker
@@ -793,7 +827,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
                           "background:" + colorCombination.colour_background + ";" +
                           "border-color:" + colorCombination.colour_border + ";"
                       });
-                      overlayMarkAdd(selection.start, selection.end,
+                      overlayMarkAdd(l, selection.start, selection.end,
                                      currAnnotation);
                     }
 
