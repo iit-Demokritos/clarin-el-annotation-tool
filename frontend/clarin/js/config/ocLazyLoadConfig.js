@@ -113,7 +113,7 @@ app.config(function($ocLazyLoadProvider) {
 				
 				// select picker
 				'bower_components/ng-bootstrap-select/build/ng-bootstrap-select.min.js',
-				'bower_components/bootstrap/dist/js/bootstrap.min.js',
+				'bower_components/bootstrap/dist/js/bootstrap.bundle.min.js',
 				'bower_components/bootstrap-select/dist/css/bootstrap-select.min.css',
 				'bower_components/bootstrap-select/dist/js/bootstrap-select.min.js'
 			]

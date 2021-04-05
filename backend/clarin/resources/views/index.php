@@ -23,9 +23,39 @@
   <script src="bower_components/angular-animate/angular-animate.min.js"></script>
   <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
   <script src="bower_components/oclazyload/dist/ocLazyLoad.min.js"></script>
+
+  <!-- The foolowing used to be in the body -->
+  <script src="bower_components/angular-ui-layout/src/ui-layout.js"></script>
+  <script src="bower_components/angular-ui-bootstrap-bower/ui-bootstrap-tpls.min.js"></script>
+  <script src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+  <script src="bower_components/codemirror/lib/codemirror.js"></script>
+  <script src="bower_components/codemirror/addon/search/searchcursor.js"></script>
+  <script src="bower_components/angular-smart-table/dist/smart-table.min.js"></script>
+  <script src="bower_components/angular-tree-control/angular-tree-control.js"></script>
+  <script src="bower_components/ng-flow/dist/ng-flow-standalone.min.js"></script>
+  <script src="bower_components/modernizr/modernizr.js"></script>
+  <script src="bower_components/leader-line/leader-line.min.js"></script>
+  <script src="bower_components/anim-event/anim-event.min.js"></script>
+  <!-- Requirements of Joint.js: diagrams -->
+  <script src="bower_components/lodash/dist/lodash.min.js"></script>
+  <script src="bower_components/backbone/backbone-min.js"></script>
+  <script src="bower_components/jointjs/dist/joint.min.js"></script>
+  <!--<script src="bower_components/event-source-polyfill/src/eventsource.min.js"></script>-->
+  <script src="bower_components/underscore/underscore-min.js"></script>
+  <script src="js/lib/Objectid.js"></script>
+
   <script src="js/app.js"></script>
   <script src="js/config/ocLazyLoadConfig.js"></script>
 
+  <!-- The foolowing used to be in the body -->
+  <script src="js/services/flashService.js"></script>
+  <script src="js/services/dialogService.js"></script>
+  <script src="js/services/userService.js"></script>
+  <script src="js/services/collectionService.js"></script>
+  <script src="js/services/documentService.js"></script>
+  <script src="js/controllers/navbarCtrl.js"></script>
+  <script src="js/controllers/modals/baseModalCtrls.js"></script>
+  <script src="js/directives/dom-helpers.js"></script>
 
   <script>
     angular.module("clarin-el").constant("CSRF_TOKEN", '<?php echo csrf_token(); ?>');
@@ -37,29 +67,6 @@
   <div class="container-fluid" ng-app="clarin-el">
     <div id="view" ui-view></div>
   </div>
-  <script src="js/services/flashService.js"></script>
-  <script src="js/services/dialogService.js"></script>
-  <script src="js/services/userService.js"></script>
-  <script src="js/services/collectionService.js"></script>
-  <script src="js/services/documentService.js"></script>
-  <script src="js/controllers/navbarCtrl.js"></script>
-  <script src="js/controllers/modals/baseModalCtrls.js"></script>
-  <script src="js/directives/dom-helpers.js"></script>
-
-  <script src="bower_components/angular-ui-layout/src/ui-layout.js"></script>
-  <script src="bower_components/angular-ui-bootstrap-bower/ui-bootstrap-tpls.min.js"></script>
-  <script src="bower_components/underscore/underscore-min.js"></script>
-  <script src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-  <script src="bower_components/codemirror/lib/codemirror.js"></script>
-  <script src="bower_components/codemirror/addon/search/searchcursor.js"></script>
-  <script src="bower_components/angular-smart-table/dist/smart-table.min.js"></script>
-  <script src="bower_components/angular-tree-control/angular-tree-control.js"></script>
-  <script src="bower_components/ng-flow/dist/ng-flow-standalone.min.js"></script>
-  <script src="bower_components/modernizr/modernizr.js"></script>
-  <script src="bower_components/leader-line/leader-line.min.js"></script>
-  <script src="bower_components/anim-event/anim-event.min.js"></script>
-  <!--<script src="bower_components/event-source-polyfill/src/eventsource.min.js"></script>-->
-  <script src="js/lib/Objectid.js"></script>
 </body>
 
 </html>

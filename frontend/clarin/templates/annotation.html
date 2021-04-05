@@ -13,15 +13,15 @@
             <div class="main-content-header flow-effect-top" id="annotation-main-content-header">
               <div class="btn-group">
                 <label class="btn btn-default active" ng-model="maincontentSelector" btn-radio="'document'">Document</label>
-		<label class="btn btn-default" ng-model="maincontentSelector" btn-radio="'attributes'">Document Attributes</label>
-		<label class="btn btn-default">{{layout.editorTabs}}</label>
+                <label class="btn btn-default" ng-model="maincontentSelector" btn-radio="'attributes'">Document Attributes</label>
+                <label class="btn btn-default">{{layout.editorTabs}}</label>
               </div>
             </div>
           </div>
-          <div ui-layout-container="central">
-            <div class="main-content">
+          <div ui-layout-container="central" class="main-content">
+            <!--<div class="main-content2"> -->
               <div class='spinner-border' role='status'><span class='sr-only'>Loading...</span></div>
-              <div class="main-content-document"   ng-show="maincontentSelector=='document'"><text-widget></text-widget></div>
+              <div class="main-content-document" ng-show="maincontentSelector=='document'"><text-widget></text-widget></div>
               <table id="main-content-annotate-document-attributes" class="main-content-attributes" ng-show="maincontentSelector=='attributes'">
                 <tbody>
                   <tr class="main-content-attributes-header">
@@ -31,7 +31,7 @@
                 </tbody>
               </table>
               <div ng-show='spinnerVisible'><span class='fa fa-spinner'>Loading...</div>
-            </div>
+            <!--</div>-->
           </div>
           <div ui-layout-container size="48px" min-size="48px" max-size="48px">
             <overlapping-areas></overlapping-areas>

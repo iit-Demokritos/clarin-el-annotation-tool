@@ -22,7 +22,10 @@
     "pickadate": "3.4.0",
     "ng-flow": "2.3.2",
     "modernizr": "2.8.1",
-    "event-source-polyfill": "*"
+    "event-source-polyfill": "*",
+    "jointjs": "^3.3.1",
+    "lodash": "^4.17.21",
+    "backbone": "^1.4.0"
   },
   "analytics": false,
   "resolutions": {

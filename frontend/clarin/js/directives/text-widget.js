@@ -28,10 +28,12 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
       restrict: "E",
       replace: true,
       scope: {},
-      template: "<textarea id='text-widget'></textarea>",
+      template: "<div class='annotation-editor-text-widget-container'><textarea id='annotation-editor-text-widget'></textarea><div id='annotation-editor-text-widget-overlay'></div></div>",
       link: function (scope) {
         var mainContent = document.getElementsByClassName("main-content")[0];
-        var editor = CodeMirror.fromTextArea(document.getElementById("text-widget"), {
+        var textWidget  = document.getElementById("annotation-editor-text-widget");
+        var textWidgetOverlay = document.getElementById('annotation-editor-text-widget-overlay');
+        var editor = CodeMirror.fromTextArea(textWidget, {
           lineNumbers: false,
           dragDrop: false,
           readOnly: true,
@@ -43,9 +45,48 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
           scrollbarStyle: "native",
           extraKeys: {}
         });
+        // Get the local coordinates of the first character in the editor...
+        var originCoords = editor.charCoords({line:1, ch:0}, "local");
 
-        // When the editor is resized (by dragging the ui-layout-container line) refresh the editor
-        // so that text selection works normally.
+        var graph = new joint.dia.Graph;
+
+        var paper = new joint.dia.Paper({
+            el: textWidgetOverlay,
+            model:  graph,
+            width:  "100%",
+            height: "100%",
+            gridSize: 1,
+            restrictTranslate: true,
+            snapLabels: true,
+              interactive: {
+              linkMove: false,
+              labelMove: true,
+              arrowheadMove: false,
+              vertexMove: false,
+              vertexAdd: false,
+              vertexRemove: false,
+              useLinkTools: false
+            }
+        });
+
+        // Set an event on lines pointer clicks...
+        paper.on('link:pointerup', function(elementView, evt, x, y) {
+          evt.stopPropagation();
+          // evt.stopImmediatePropagation();
+          var currentElement = elementView.model;
+          if (!("annotation_id" in currentElement)) return;
+          var annotation = TextWidgetAPI.getAnnotationById(currentElement.annotation_id);
+          if (angular.isUndefined(annotation)) return;
+          // Set this annotation as the selected one
+          TextWidgetAPI.setSelectedAnnotation(annotation);
+          TextWidgetAPI.clearOverlappingAreas(); // not sure if required...
+        });
+        
+        
+        var annotationIdToGraphItem = {};
+
+        // When the editor is resized (by dragging the ui-layout-container line)
+        // refresh the editor so that text selection works normally.
         scope.$on('ui.layout.resize', function (e, beforeContainer, afterContainer) {
           console.warn("text-widget: ui.layout.resize");
           editor.refresh();
@@ -68,15 +109,21 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
         var connectedAnnotations = [];
 
         // Listen to scroll event to scroll annotation relations
+        /* Dropped Leader library, so not this is deprecated
         mainContent.addEventListener('scroll', AnimEvent.add(function () {
           _.each(connectedAnnotations, function (annotation) {
-            // Remove instance of line and redraw it
-            annotation.instance.remove();
-            annotation.instance = makeLeaderLine(annotation.startId, annotation.endId, annotation.label, annotation.data);
+            try {
+              annotation.instance.position();
+            }
+            catch (err) {
+              // Remove instance of line and redraw it
+              annotation.instance.remove();
+              annotation.instance = makeLeaderLine(annotation.startId, annotation.endId, annotation.label, annotation.data);
+            }
           });
 
-          $('.leader-line').css('z-index', 123);
-        }), false);
+          $('.leader-line').css('z-index', 1);
+        }), false); */
 
         var getSelectionInfo = function () {
           // var start = 0, end = 0;
@@ -91,7 +138,8 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
           var editorSelectionEnd   = editor.getCursor("to");
           // var editorSegment        = editor.getSelection();
 
-          if (!angular.isUndefined(editorSelectionStart) && !angular.isUndefined(editorSelectionEnd)) {
+          if (!angular.isUndefined(editorSelectionStart) &&
+              !angular.isUndefined(editorSelectionEnd)) {
             /* Petasis, 20/03/2021: Used codemirror functions for getting offsets... */
             selection.startOffset = editor.indexFromPos(editorSelectionStart);
             selection.endOffset   = editor.indexFromPos(editorSelectionEnd);
@@ -167,6 +215,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
         var mouseUpHandler = function (e) {
           if (e.button === 0) { //left button click
             var selection = getSelectionInfo();
+            // console.warn("MOUSE 1:", selection, e);
 
             if (!angular.equals(selection, {})) {
               TextWidgetAPI.setCurrentSelection(selection, false);
@@ -183,7 +232,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
                 if (availableAnnotationsLength > 0) {
                   // Get first part of the annotation's class name, which should be the ID
                   annotationId = availableAnnotationsOnCursor[availableAnnotationsLength - 1].className;
-                  annotationId = annotationId.split(" ")[0];
+                  annotationId = annotationId.split(" ")[0].substr(3); // remove "id-" prefix...
                 }
 
                 if (!_.isNull(annotationId)) {
@@ -268,6 +317,8 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
                   editor.clearHistory();
                   editor.setValue(response.data.text);
                   editor.refresh();
+                  graph.clear();
+                  annotationIdToGraphItem = {};
 
                   if (response.data.is_opened) {
                     RestoreAnnotation.restoreFromTemp(newDocument.collection_id, newDocument.id, AnnotatorTypeId)
@@ -339,37 +390,230 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
             annotations.push(ann);
           }
           return annotations;
-        };
+        }; /* migrateOldSpans */
 
-        var clearDuplicateAnnotationsFromEditor = function (newAnnotations) {
-          var editorMarks = editor.getAllMarks();
+        var overlayAnnotationGetBoundingClientRect = function(annotation) {
+          var elems = document.querySelectorAll(".id-"+String(annotation._id).trim());
+          if (!elems || !elems.length) return null;
+          var w = 0;
+          var elem;
+          for (var i = 0; i < elems.length; i++) {
+             if (elems[i].getBoundingClientRect().right > w) {
+               elem = elems[i];
+               w = elem.getBoundingClientRect().right;
+             }
+          }
+          var mark = elem.getBoundingClientRect();
+          var over = textWidgetOverlay.getBoundingClientRect();
+          return {
+            x:      mark.x      - over.x,
+            y:      mark.y      - over.y,
+            top:    mark.top    - over.top,
+            bottom: mark.bottom - over.top,
+            left:   mark.left   /*- over.left*/,
+            right:  mark.right  /*- over.left*/,
+            height: mark.height,
+            width:  mark.width
+          };
+        }; /* overlayAnnotationGetBoundingClientRect */
 
-          _.each(newAnnotations, function (annotation) {
-            if (annotation.annotation.type === 'argument_relation') {
-              // Remove connected annotation
-              removeConnectedAnnotation(annotation.annotation._id);
-            } else {
-              // Remove marks of regular annotation
-              _.each(editorMarks, function (editorMark) {
-                // Get ID of mark
-                var editorMarkClass = editorMark.className.split(" ")[0];
-
-                if (String(annotation.annotation._id).indexOf(editorMarkClass) > -1) {
-                  editorMark.clear();
-                }
-              });
+        var overlayHighlight = function(annotation) {
+          if (!annotation.annotation._id in annotationIdToGraphItem) {
+            return; // Nothing to do...
+          };
+          var deep = false, selector = 'body';
+          var item = annotationIdToGraphItem[annotation.annotation._id];
+          if (angular.isUndefined(item)) {
+            // This is not an element. Search links...
+            var connectedAnnotation = _.find(connectedAnnotations, function (ann) {
+              return ann.data._id === annotation.annotation._id;
+            });
+            if (angular.isUndefined(connectedAnnotation)) {
+              return; // Nothing to do...
             }
-          });
-        };
+            item = connectedAnnotation.instance;
+            deep = true; selector = 'root';
+          }
+          const elementView = item.findView(paper);
+          if (annotation.action == "select") {
+            joint.highlighters.mask.remove(elementView);
+            joint.highlighters.mask.add(elementView,{ selector: selector },
+              'my-element-highlight', {
+                 deep: deep,
+                 padding: 4,
+                 attrs: {
+                     'stroke': '#4666E5',
+                     'stroke-width': 3,
+                     'stroke-linejoin': 'round'
+                 }
+              });
+            // console.warn("<<overlayHighlight>>:", annotation.annotation._id);
+          } else if (annotation.action == "deselect") {
+            joint.highlighters.mask.remove(elementView);
+            // console.warn("  overlayHighlight  :", annotation.annotation._id);
+          }
+        }; /* overlayHighlight */
+
+        var overlayMarkAdd = function (startPos, endPos, annotation) {
+          // if (annotation.action != "matches") {
+          //   console.warn("++ overlayMarkAdd:", annotation.annotation._id, annotation);
+          // }
+          if (annotation.annotation._id in annotationIdToGraphItem) {
+            if (annotation.action == "select" ||
+                annotation.action == "deselect") {
+              // This is a request to delete the item, because it will be
+              // re-added as selected/deselected. Do not remove it...
+              overlayHighlight(annotation);
+              return null;
+            }
+          }
+          // This method creates a polygon from codemirror coordinates (line, pos)
+          var startCoords  = editor.charCoords(startPos, "local"),
+              endCoords    = editor.charCoords(endPos, "local");
+          // console.warn(mark, startCoords, endCoords);
+          // Calculate points...
+          var item;
+          if (startCoords.top == endCoords.top) {
+            // Start & end on the same height, the region is a rectange...
+            // https://resources.jointjs.com/tutorial/elements
+            item = new joint.shapes.standard.Rectangle();
+            // sets the position of the origin of the element (the top-left corner)
+            item.position(startCoords.left-originCoords.left, startCoords.top);
+            // sets the dimensions of the element (width, height)
+            item.resize(endCoords.right-startCoords.left,
+                        endCoords.bottom-startCoords.top);
+          } else {
+            var points = [];
+            // Get mark coordinates....
+            var mark = overlayAnnotationGetBoundingClientRect(annotation.annotation);
+            if (!mark) return null;
+
+            item = new joint.shapes.standard.Polygon();
+            // sets the position of the origin of the element (the top-left corner)
+            item.position(originCoords.left, startCoords.top);
+            // sets the dimensions of the element (right, height)
+            item.resize(mark.right, endCoords.bottom-startCoords.top);
+            points.push(String(0)+','+String(startCoords.bottom));
+            points.push(String(startCoords.left-originCoords.left)+','+String(startCoords.bottom));
+            points.push(String(startCoords.left-originCoords.left)+','+String(startCoords.top));
+            points.push(String(mark.right)+','+String(startCoords.top));
+            points.push(String(mark.right)+','+String(endCoords.top));
+            points.push(String(endCoords.right-originCoords.left)+','+String(endCoords.top));
+            points.push(String(endCoords.right-originCoords.left)+','+String(endCoords.bottom));
+            points.push(String(0)+','+String(endCoords.bottom));
+            item.attr('body/refPoints', points.join(' '));
+          }
+          // item.attr('label/text', annotation.annotation._id);
+          item.attr('body/fill', "transparent");
+          item.attr('body/stroke', 'none' /*'#7c68fc'*/);
+          item.attr('root/pointer-events', 'none');
+          item.addTo(graph);
+          annotationIdToGraphItem[annotation.annotation._id] = item;
+          return item;
+        }; /* overlayMarkAdd */
+
+        var overlayMarkRemove = function (annotation) {
+          // if (annotation.action != "matches") {
+          //   console.warn("-- overlayMarkRemove:", annotation.annotation._id, annotation);
+          // }
+          if (annotation.annotation._id in annotationIdToGraphItem) {
+            if (annotation.action == "select" ||
+                annotation.action == "deselect") {
+              // This is a request to delete the item, because it will be
+              // re-added as selected/deselected. Do not remove it...
+              overlayHighlight(annotation);
+              return false;
+            }
+            var item = annotationIdToGraphItem[annotation.annotation._id];
+            graph.disconnectLinks(item);
+            item.remove();
+            delete annotationIdToGraphItem[annotation.annotation._id];
+            return true;
+          }
+          return false;
+        }; /* overlayMarkRemove */
 
         /**
-         * Connect two elements with the specified IDs with an arrow using the LeaderLine library
+         * Connect two elements with the specified IDs with an arrow using the
+         * Joint.js (replacing LeaderLine) library
          */
         var makeLeaderLine = function (startId, endId, label, annotation) {
           if (startId === endId) {
             return;
           }
-
+          if (!startId in annotationIdToGraphItem) return;
+          if (!endId   in annotationIdToGraphItem) return;
+          // Do we have already a line?
+          var connectedAnnotation = _.find(connectedAnnotations, function (ann) {
+            return ann.data._id === annotation.annotation._id;
+          });
+          if (!angular.isUndefined(connectedAnnotation)) {
+            if (annotation.action == "select" ||
+                annotation.action == "deselect") {
+              // This is a request to add the item, because it will be
+              // re-added as selected/deselected. Do not remove it...
+              overlayHighlight(annotation);
+              return;
+            }
+          }
+          // Create a new line...
+          var link = new joint.shapes.standard.Link({
+            router: { name: 'manhattan' },
+            connector: { name: 'rounded' },
+            attrs: {
+              line: {
+                stroke: '#333333',
+                strokeWidth: 4
+              }
+            },
+            labels: [{
+              markup: [
+                  {
+                      tagName: 'rect',
+                      selector: 'labelBody'
+                  }, {
+                      tagName: 'text',
+                      selector: 'labelText'
+                  }
+              ],
+              attrs: {
+                  labelText: {
+                      text: label,
+                      fill: '#000000',
+                      fontSize: 14,
+                      fontFamily: 'sans-serif',
+                      textAnchor: 'middle',
+                      textVerticalAnchor: 'middle',
+                  },
+                  labelBody: {
+                      ref: 'text',
+                      fill: '#ffffff',
+                      stroke: 'black',
+                      strokeWidth: 2,
+                      rx: 3,
+                      ry: 3,
+                      refWidth: '100%',
+                      refHeight: '100%',
+                      refWidth2: 8,
+                      refHeight2: 8,
+                      refX: -4,
+                      refY: -4,
+                  }
+              },
+            }]
+          });
+          link.source(annotationIdToGraphItem[startId]);
+          link.target(annotationIdToGraphItem[endId]);
+          link.attr('root/pointer-events', 'visiblePainted');
+          //link.attr('root/event',    'link:pointerup');
+          //link.attr('line/event',    'link:pointerup');
+          //link.attr('wrapper/event', 'link:pointerup');
+          link.addTo(graph);
+          // Add the annotation id to the link...
+          link["annotation_id"] = annotation.annotation._id;
+          return link;
+          /*
+           * The following were from LeaderLine library (deprecated)
           // Find elements to add arrow between
           var startElem = $('.' + startId)[0];
           var endElem = $('.' + endId)[0];
@@ -383,12 +627,66 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
           // Add event listener to select the annotation
           $('.leader-line').last().click(function () {
             // Set this annotation as the selected one
-            TextWidgetAPI.setSelectedAnnotation(annotation);
+            TextWidgetAPI.setSelectedAnnotation(annotation.annotation);
             TextWidgetAPI.clearOverlappingAreas(); // not sure if required...
           });
 
           return line;
+          */
+        }; /* makeLeaderLine */
+
+        /**
+         * Remove a connection annotation's leader line instance as well as
+         * remove it from the connectedAnnotations list
+         */
+        var removeConnectedAnnotation = function (annotation) {
+          // Find the relation annotation in connectedAnnotations
+          var connectedAnnotation = _.find(connectedAnnotations, function (ann) {
+            return ann.data._id === annotation.annotation._id;
+          });
+
+          if (_.isUndefined(connectedAnnotation)) {
+            return;
+          }
+          if (annotation.action == "select" ||
+              annotation.action == "deselect") {
+            // This is a request to delete the item, because it will be
+            // re-added as selected/deselected. Do not remove it...
+            overlayHighlight(annotation);
+            return;
+          }
+
+          const elementView = connectedAnnotation.instance.findView(paper);
+          joint.highlighters.mask.remove(elementView);
+          // Remove the LeaderLine instance
+          connectedAnnotation.instance.remove();
+
+          // Remove the object from the connectedAnnotations array
+          var arrayIndex = connectedAnnotations.indexOf(connectedAnnotation);
+          connectedAnnotations.splice(arrayIndex, 1);
         };
+
+        var clearDuplicateAnnotationsFromEditor = function (newAnnotations) {
+          var editorMarks = editor.getAllMarks();
+
+          _.each(newAnnotations, function (annotation) {
+            if (annotation.annotation.type === 'argument_relation') {
+              // Remove connected annotation
+              removeConnectedAnnotation(annotation);
+            } else {
+              overlayMarkRemove(annotation);
+              // Remove marks of regular annotation
+              _.each(editorMarks, function (editorMark) {
+                // Get ID of mark
+                var editorMarkClass = editorMark.className.split(" ")[0];
+
+                if (("id-"+String(annotation.annotation._id).trim()).indexOf(editorMarkClass) > -1) {
+                  editorMark.clear();
+                }
+              });
+            }
+          });
+        }; /* clearDuplicateAnnotationsFromEditor */
 
         /**
          * Visualize the annotations to the text widget
@@ -397,11 +695,14 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
          * @returns {boolean}
          */
         var visualizeAnnotations = function (newAnnotations, annotatorType) {
-          if (angular.isUndefined(newAnnotations) || newAnnotations.length === 0) return false;
+          if (angular.isUndefined(newAnnotations) ||
+              newAnnotations.length === 0) return false;
 
-          clearDuplicateAnnotationsFromEditor(newAnnotations); // if there are any borders around a specific annotation, remove them.
+          // if there are any borders around a specific annotation, remove them.
+          clearDuplicateAnnotationsFromEditor(newAnnotations);
 
-          for (var k = 0; k < newAnnotations.length; k++) { // if there are new annotations to be visualised, add them to the editor
+          // if there are new annotations to be visualised, add them to the editor
+          for (var k = 0; k < newAnnotations.length; k++) {
             var currAnnotation = newAnnotations[k];
 
             if (currAnnotation.annotation.type === 'argument_relation') {
@@ -418,7 +719,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
               }).value;
 
               // Create the line
-              var line = makeLeaderLine(startId, endId, label, currAnnotation.annotation);
+              var line = makeLeaderLine(startId, endId, label, currAnnotation);
 
               // Add relation annotation to the list
               if (!_.isUndefined(line)) {
@@ -432,27 +733,34 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
               }
             } else if ("document_attribute" in currAnnotation.annotation) {
               // This is a document Annotation...
-              $rootScope.$broadcast('sendDocumentAttribute:'+currAnnotation.annotation.document_attribute, currAnnotation.annotation);
+              $rootScope.$broadcast('sendDocumentAttribute:'+
+                currAnnotation.annotation.document_attribute, currAnnotation.annotation);
             } else {
               // Normal annotation
-              for (var l = 0; l < newAnnotations[k].annotation.spans.length; l++) { // Iterate through annotations spans
+              // Iterate through annotations spans
+              for (var l = 0; l < newAnnotations[k].annotation.spans.length; l++) {
                 var colorCombination = {};
                 var annotationSpan = currAnnotation.annotation.spans[l];
                 var annotationsAttributes = currAnnotation.annotation.attributes;
 
                 // create the selection in the editor and annotate it
-                var selection = computeSelectionFromOffsets(parseInt(annotationSpan.start), parseInt(annotationSpan.end));
+                var selection = computeSelectionFromOffsets(
+                    parseInt(annotationSpan.start), parseInt(annotationSpan.end));
                 var count = 0;
                 switch (annotatorType) {
-                  case "Button Annotator": // If it is Button Annotator get the required color combination
+                  case "Button Annotator":
+                    // If it is Button Annotator get the required color combination
                     for (var m = 0; m < annotationsAttributes.length; m++) {
-                      colorCombination = ButtonColor.getColorCombination(annotationsAttributes[m].value);
+                      colorCombination =
+                        ButtonColor.getColorCombination(annotationsAttributes[m].value);
                       if (!angular.isUndefined(colorCombination))
                         break;
                     }
-                    var markClassName = currAnnotation.annotation._id + " " + markedTextClass;
+                    var markClassName = "id-" +
+                      String(currAnnotation.annotation._id).trim() + markedTextClass;
 
-                    if (!angular.isUndefined(currAnnotation.selected) && currAnnotation.selected) {
+                    if (!angular.isUndefined(currAnnotation.selected) &&
+                        currAnnotation.selected) {
                       // Selected marker
                       // var borderColor = ColorLuminance(colorCombination.bg_color, 100);
 
@@ -465,11 +773,13 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
                       editor.markText(selection.start, selection.end, {
                         className: markClassName,
                         css: "color:" + colorCombination.colour_font + "; " +
-                          "background:" + colorCombination.colour_selected_background + "; " +
+                          "background: "+colorCombination.colour_selected_background+"; "+
                           "border-color:" + colorCombination.colour_border + ";" +
-                          "border-top:" + "4px solid " + colorCombination.colour_border + "; " +
-                          "border-bottom:" + "4px solid " + colorCombination.colour_border + "; "
+                          "border-top: 4px solid "+colorCombination.colour_border+"; "+
+                          "border-bottom: 4px solid "+colorCombination.colour_border+"; "
                       });
+                      overlayMarkAdd(selection.start, selection.end,
+                                     currAnnotation);
                     } else {
                       // Normal marker
                       // editor.markText(selection.start, selection.end, {
@@ -483,11 +793,15 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
                           "background:" + colorCombination.colour_background + ";" +
                           "border-color:" + colorCombination.colour_border + ";"
                       });
+                      overlayMarkAdd(selection.start, selection.end,
+                                     currAnnotation);
                     }
 
                     break;
-                  case "Coreference Annotator": // If it is Coreference Annotator get the required color combination
-                    colorCombination = CoreferenceColor.getColorCombination(currAnnotation.annotation._id);
+                  case "Coreference Annotator":
+                    // If it is Coreference Annotator get the required color combination
+                    colourCom =
+                      CoreferenceColor.getColorCombination(currAnnotation.annotation._id);
                     var mark = null;
                     var markerId = "mrkr_" + Math.floor(Math.random() * 1000000);
                     // Find type
@@ -501,37 +815,37 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
                     markAttributes["data-type"] = typeAttribute
 
                     // Create class for adding background color to the type pseudo-element
-                    var colorClass = " mark_color_" + colorCombination["border-color"].replace("#", "").toUpperCase();
-                    var markClassName = currAnnotation.annotation._id + " " + markerId + markedTextClass + colorClass;
+                    var colorClass = " mark_color_" +
+                      colourCom["border-color"].replace("#", "").toUpperCase();
+                    var markClassName = "id-" + currAnnotation.annotation._id + " " +
+                      markerId + markedTextClass + colorClass;
 
-                    if (!angular.isUndefined(currAnnotation.selected) && currAnnotation.selected) {
+                    if (!angular.isUndefined(currAnnotation.selected) &&
+                        currAnnotation.selected) {
                       // Selected marker
                       mark = editor.markText(selection.start, selection.end, {
                         className: markClassName,
                         attributes: markAttributes,
-                        css: "color:" + colorCombination["font-color"] + "; " +
-                          "background:" + colorCombination["selected-background-colour"] + "; " +
-                          "border-color:" + colorCombination["border-color"] + "; " +
-                          "border-top:" + "4px solid " + colorCombination["border-color"] + "; " +
-                          "border-bottom:" + "4px solid " + colorCombination["border-color"] + "; "
+                        css: "color:" + colourCom["font-color"] + "; " +
+                          "background:" + colourCom["selected-background-colour"] + "; " +
+                          "border-color:" + colourCom["border-color"] + "; " +
+                          "border-top:" + "4px solid " + colourCom["border-color"]+ "; " +
+                          "border-bottom:" + "4px solid " + colourCom["border-color"]+"; "
                       });
                     } else {
                       // Normal marker
                       mark = editor.markText(selection.start, selection.end, {
                         className: markClassName,
                         attributes: markAttributes,
-                        css: "color:" + colorCombination["font-color"] + ";" +
-                          "background:" + colorCombination["background-colour"] + ";" +
-                          "border-color:" + colorCombination["border-color"] + ";"
+                        css: "color:" + colourCom["font-color"] + ";" +
+                          "background:" + colourCom["background-colour"] + ";" +
+                          "border-color:" + colourCom["border-color"] + ";"
                       });
                     }
-
-
                     // Used only in addTypeAttributesToMarkers
                     // mark.markerId = markerId;
                     // Never used!
                     // mark.annotationId = currAnnotation.annotation._id;
-
                     break;
                 }
               }
@@ -542,14 +856,15 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
           }
 
           // Make annotation connection lines appear on top of text
-          $('.leader-line').css('z-index', 123);
+          // $('.leader-line').css('z-index', 123);
 
           TextWidgetAPI.clearAnnotationsToBeAdded();
           //editor.refresh();
-        };
+        }; /* visualizeAnnotations */
 
         /**
-         * If the annotator type is "Coreference Annotator", add a data-type attribute to each marker with the
+         * If the annotator type is "Coreference Annotator", add a data-type
+         * attribute to each marker with the
          * type of annotation
          */
         var addTypeAttributesToMarkers = function () {
@@ -563,7 +878,8 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
                 // Add the data type attribute
                 $(span).attr("data-type", mark.typeAttribute);
 
-                // If the marker has > 1 classes that set its type pseudoelement's background-color, we
+                // If the marker has > 1 classes that set its type
+                // pseudoelement's background-color, we
                 // need to keep only the correct one
                 var classes = span.className.trim().split(" ");
 
@@ -600,33 +916,13 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
             return false;
 
           var newAnnotations = TextWidgetAPI.getAnnotationsToBeAdded();
-          var annotatorType = TextWidgetAPI.getAnnotatorType();
+          var annotatorType  = TextWidgetAPI.getAnnotatorType();
 
-          if (!angular.isUndefined(newAnnotations) && newAnnotations.length > 0)
+          if (!angular.isUndefined(newAnnotations) && newAnnotations.length > 0) {
             visualizeAnnotations(newAnnotations, annotatorType);
-
-          TextWidgetAPI.disableIsRunning();
-        };
-
-        /**
-         * Remove a connection annotation's leader line instance as well as remove it from the connectedAnnotations list
-         */
-        var removeConnectedAnnotation = function (annotationId) {
-          // Find the relation annotation in connectedAnnotations
-          var connectedAnnotation = _.find(connectedAnnotations, function (ann) {
-            return ann.data._id === annotationId;
-          });
-
-          if (_.isUndefined(connectedAnnotation)) {
-            return;
           }
 
-          // Remove the LeaderLine instance
-          connectedAnnotation.instance.remove();
-
-          // Remove the object from the connectedAnnotations array
-          var arrayIndex = connectedAnnotations.indexOf(connectedAnnotation);
-          connectedAnnotations.splice(arrayIndex, 1);
+          TextWidgetAPI.disableIsRunning();
         };
 
         /**
@@ -640,18 +936,28 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
             return false;
 
           var annotationsToBeDeleted = TextWidgetAPI.getAnnotationsToBeDeleted();
-          if (angular.isUndefined(annotationsToBeDeleted) || annotationsToBeDeleted.length === 0) {
+          if (angular.isUndefined(annotationsToBeDeleted) ||
+              annotationsToBeDeleted.length === 0) {
             TextWidgetAPI.disableIsRunning();
             return false;
           }
 
           _.each(annotationsToBeDeleted, function (annotation) {
-            var annotationId = String(annotation._id).trim();
 
             if (annotation.type === 'argument_relation') {
               // Remove relation annotation
-              removeConnectedAnnotation(annotationId);
+              removeConnectedAnnotation({
+                "annotation": annotation,
+                "selected": false,
+                "action": "delete"
+              });
             } else {
+              var annotationId = "id-" + String(annotation._id).trim();
+              overlayMarkRemove({
+                "annotation": annotation,
+                "selected": false,
+                "action": "delete"
+              });
               // Regular annotations, delete their marks
               var editorMarks = editor.getAllMarks();
               _.each(editorMarks, function (mark) {
@@ -722,7 +1028,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
           editor.toTextArea();
           CodeMirror.off(mainContent, "mouseup", mouseUpHandler);
           CodeMirror.off(mainContent, "mousedown", mouseDownHandler);
-
+          graph.clear();
           // Destroy leader lines
           _.each(connectedAnnotations, function (annotation) {
             // Remove instance of line

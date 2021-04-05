@@ -1,3 +1,14 @@
+05 April 2020 Petasis George <petasis@iit.demokritos.gr>
+ * backend/clarin/resources/views/index.php:
+ * frontend/clarin/bower.json:
+ * frontend/clarin/css/clarin.css:
+ * frontend/clarin/js/config/ocLazyLoadConfig.js:
+ * frontend/clarin/js/directives/text-widget.js:
+ * frontend/clarin/js/services/text-widget-api.js:
+ * frontend/clarin/templates/annotation.html: Switched library for drawing
+ lines (from LeaderLine to Joint). Now relations are put in asingle SVG
+ element, layered on top of the editor.
+
 02 April 2020 Petasis George <petasis@iit.demokritos.gr>
  * backend/clarin/resources/views/index.php:
  * frontend/clarin/js/directives/annotator-widget.js:

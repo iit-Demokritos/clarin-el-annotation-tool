@@ -452,6 +452,36 @@ table td{ vertical-align:middle!important; }
 }
 /*** end of main layout styling ***/
 
+/*** Annotation Editor styling ***/
+
+/* Make Leader Lines clickable */
+svg.leader-line {
+  pointer-events:auto!important;
+}
+
+/* Position the editor overlay on top of the editor */
+/* From: https://stackoverflow.com/questions/2941189/how-to-overlay-one-div-over-another-div
+ * If we had bootstrap 4, we could have used this:
+ * https://stackoverflow.com/questions/60620315/put-div-above-another-div-in-bootstrap */
+.annotation-editor-text-widget-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+#annotation-editor-text-widget,
+#annotation-editor-text-widget-overlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none; /* auto=visiblePainted */
+}
+#annotation-editor-text-widget-overlay {
+  z-index: 10;
+}
+/*** end of Annotation Editor styling ***/
+
 /*** annotation visualizer styling ***/
 #layout_annotation-visualiser-layout_resizer_top{
 	width: 100%!important;
@@ -771,17 +801,6 @@ input, textarea { -webkit-user-select: auto!important; }
 	bottom: 0px;
 	right: 0px;
 	background: white;
-}
-
-
-
-
-
-
-
-/* Make Leader Lines clickable */
-svg.leader-line {
-  pointer-events:auto!important;
 }
 
 /* Annotation relation selection list menu styling */

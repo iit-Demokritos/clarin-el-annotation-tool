@@ -139,7 +139,8 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
       annotations.push(newAnnotation);
       annotationsToBeAdded.push({
         "annotation": newAnnotation,
-        "selected": selected
+        "selected": selected,
+        "action": "add"
       });
 
       notifyObservers(annotationsCallbacks);
@@ -166,7 +167,8 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
 
       annotationsToBeAdded.push({
         "annotation": updatedAnnotation,
-        "selected": selected
+        "selected": selected,
+        "action": "update"
       });
 
       notifyObservers(annotationsCallbacks);
@@ -264,14 +266,16 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
           annotations.push(annotation);
           annotationsToBeAdded.push({
             "annotation": annotation,
-            "selected": false
+            "selected": false,
+            "action": "matches"
           });
         } else if (this.belongsToSchemaAsSupportiveAnnotationType(annotation)) {
           // Always add argument relation annotations
           annotations.push(annotation);
           annotationsToBeAdded.push({
             "annotation": annotation,
-            "selected": false
+            "selected": false,
+            "action": "matches"
           });
         }
       }
@@ -430,13 +434,15 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
       if (!angular.equals(selectedAnnotation, {}))
         annotationsToBeAdded.push({
           "annotation": selectedAnnotation,
-          "selected": false
+          "selected": false,
+          "action": "deselect"
         });
 
       selectedAnnotation = angular.copy(newSelectedAnnotation);
       annotationsToBeAdded.push({
         "annotation": newSelectedAnnotation,
-        "selected": true
+        "selected": true,
+        "action": "select"
       });
       currentSelection = {};
       this.clearOverlappingAreas();
@@ -462,7 +468,8 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
       selectedAnnotation = angular.copy(newSelectedAnnotation);
       annotationsToBeAdded.push({
         "annotation": newSelectedAnnotation,
-        "selected": true
+        "selected": true,
+        "action": "select"
       });
       currentSelection = {};
       this.clearOverlappingAreas();
@@ -474,7 +481,8 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
       if (!angular.isUndefined(selectedAnnotation) && !angular.equals(selectedAnnotation, {})) {
         annotationsToBeAdded.push({
           "annotation": selectedAnnotation,
-          "selected": false
+          "selected": false,
+          "action": "deselect"
         });
         selectedAnnotation = {};
 
