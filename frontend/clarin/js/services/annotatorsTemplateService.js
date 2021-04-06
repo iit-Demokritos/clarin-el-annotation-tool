@@ -1,7 +1,13 @@
 angular.module('clarin-el').factory('AnnotatorsTemplate', function ($http, $q, CLARIN_CONSTANTS) {
 
   var getTemplate = function (annotatorType, annotationSchema) {
-    if (annotatorType == "Coreference Annotator") {			//Coreference Annotator
+    if (annotatorType.startsWith("Button_Annotator_")) {
+      annotatorType = "Button Annotator";
+    } else if (annotatorType.startsWith("Coreference_Annotator_")) {
+      annotatorType = "Coreference Annotator";
+    };
+
+    if (annotatorType == "Coreference Annotator") { //Coreference Annotator
       var deferred = $q.defer();
       $http({
         method: 'GET',
@@ -21,7 +27,7 @@ angular.module('clarin-el').factory('AnnotatorsTemplate', function ($http, $q, C
       });
 
       return deferred.promise;
-    } else if (annotatorType == "Button Annotator") {		//Button Annotator
+    } else if (annotatorType == "Button Annotator") { //Button Annotator
       var deferred = $q.defer();
       $http({
         method: 'GET',

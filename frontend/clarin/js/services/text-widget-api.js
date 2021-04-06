@@ -109,6 +109,11 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
         document_attribute: attribute
       });
     },
+    getAnnotationAttributeValue: function(annotation, attribute) {
+       return _.findWhere(annotation.attributes, {
+         name: attribute
+       }).value;
+    },
     selectAnnotations: function(type, attribute, attributeValues) {
       // console.warn("selectAnnotations:", type, attribute, attributeValues);
       var anns = annotations.filter(function(ann) {
@@ -206,6 +211,10 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
     },
 
     /*** Batch Annotation Methods ***/
+    isRelationAnnotationType: function(annotation) {
+      if (annotation.type === "argument_relation") return true;
+      return annotationSchemaAnnotationTypes.includes(annotation.type);
+    },
     belongsToSchemaAsSupportiveAnnotationType: function(newAnnotation) {
       // Annotation belongs to schema, but its annotation type can be different
       // than the main annotation type (i.e. the case of relations in Button Annotator)
@@ -355,7 +364,13 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
       return annotatorType;
     },
     setAnnotatorType: function(newAnnotatorType) {
-      annotatorType = angular.copy(newAnnotatorType);
+      if (newAnnotatorType.startsWith("Button_Annotator_")) {
+        annotatorType = "Button Annotator";
+      } else if (newAnnotatorType.startsWith("Coreference_Annotator_")) {
+        annotatorType = "Coreference Annotator";
+      } else {
+        annotatorType = angular.copy(newAnnotatorType);
+      }
     },
     clearAnnotatorType: function() {
       annotatorType = {};
@@ -410,8 +425,8 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
     setAnnotationSchemaAnnotationTypes: function(newAnnotationSchemaAnnotationTypes) {
       // Ensure that the annotationSchema.annotation_type is not included...
       annotationSchemaAnnotationTypes = angular.copy(newAnnotationSchemaAnnotationTypes)
-      .filter(function(ann) {
-        return ann.type != annotationSchema.annotation_type;
+      .filter(function(type) {
+        return type != annotationSchema.annotation_type;
       });
     },
     clearAnnotationSchemaAnnotationTypes: function() {

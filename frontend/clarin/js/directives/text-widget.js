@@ -321,6 +321,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
                   editor.refresh();
                   graph.clear();
                   annotationIdToGraphItem = {};
+                  originCoords = editor.charCoords({line:1, ch:0}, "page");
 
                   if (response.data.is_opened) {
                     RestoreAnnotation.restoreFromTemp(newDocument.collection_id, newDocument.id, AnnotatorTypeId)
@@ -468,7 +469,8 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
                    }
                 });
               // console.warn("<<overlayHighlight>>:", annotation.annotation._id);
-            } else if (annotation.action == "deselect") {
+            } else if (true || annotation.action == "deselect" ||
+                       annotation.action == "delete") {
               joint.highlighters.mask.remove(elementView);
               // console.warn("  overlayHighlight  :", annotation.annotation._id);
             }
@@ -557,6 +559,8 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
             for (const spanIndex in annotationIdToGraphItem[annotation.annotation._id]) {
               var item = annotationIdToGraphItem[annotation.annotation._id][spanIndex];
               graph.disconnectLinks(item);
+              const elementView = item.findView(paper);
+              joint.highlighters.mask.remove(elementView);
               item.remove();
             }
             delete annotationIdToGraphItem[annotation.annotation._id];
@@ -704,7 +708,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
           var editorMarks = editor.getAllMarks();
 
           _.each(newAnnotations, function (annotation) {
-            if (annotation.annotation.type === 'argument_relation') {
+            if (TextWidgetAPI.belongsToSchemaAsSupportiveAnnotationType(annotation.annotation)) {
               // Remove connected annotation
               removeConnectedAnnotation(annotation);
             } else {
@@ -977,8 +981,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
           }
 
           _.each(annotationsToBeDeleted, function (annotation) {
-
-            if (annotation.type === 'argument_relation') {
+            if (TextWidgetAPI.belongsToSchemaAsSupportiveAnnotationType(annotation)) {
               // Remove relation annotation
               removeConnectedAnnotation({
                 "annotation": annotation,

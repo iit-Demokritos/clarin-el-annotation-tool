@@ -6,11 +6,12 @@ angular.module('clarin-el').controller('detectChangesModalCtrl', function ($scop
       .then(function (response) {
         if (response.success) {
           var openCollection = _.findWhere(response.data, { id: documentFound.collection_id });
-          var openDocument   = _.findWhere(openCollection.children, { id: documentFound.document_id });
+          var openDocument = _.findWhere(openCollection.children, { id: documentFound.document_id });
 
           AnnotationSchema.restore(documentFound.annotator_type)
             .then(function (response) {
-              if (response.success && !angular.isUndefined(response.savedAnnotationSchema) && !angular.isUndefined(response.annotationSchemaOptions)) {
+              if (response.success && !angular.isUndefined(response.savedAnnotationSchema) &&
+                  !angular.isUndefined(response.annotationSchemaOptions)) {
                 TextWidgetAPI.disableIsRunning();
                 TextWidgetAPI.resetCallbacks();
 
@@ -45,7 +46,8 @@ angular.module('clarin-el').controller('detectChangesModalCtrl', function ($scop
   };
 
   $scope.discardChanges = function () {
-    RestoreAnnotation.discard(documentFound.collection_id, documentFound.document_id, documentFound.annotator_type)     //delete the old annotations of the document
+    //delete the old annotations of the document
+    RestoreAnnotation.discard(documentFound.collection_id, documentFound.document_id, documentFound.annotator_type)
       .then(function (response) {
         $modalInstance.close(response);
       }, function (error) {

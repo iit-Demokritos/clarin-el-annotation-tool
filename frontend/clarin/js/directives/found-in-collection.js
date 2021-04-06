@@ -6,6 +6,7 @@ angular.module('clarin-el').directive('foundInCollection', ['$compile', 'TextWid
     scope: {},
     link: function (scope, elem, attrs) {
       scope.foundInCollectionItems = 0;
+      scope.foundInCollectionValues = {};
 
       var updateFoundInCollection = function () {
         var annotationSchema  = TextWidgetAPI.getAnnotationSchema();
@@ -22,6 +23,10 @@ angular.module('clarin-el').directive('foundInCollection', ['$compile', 'TextWid
          }*/
 
         for (var i = 0; i < foundInCollection.length; i++, scope.foundInCollectionItems++) {
+          // Add button only if not already added...
+          if (foundInCollection[i].attributes[0].value in scope.foundInCollectionValues) {
+            continue;
+          }
           var colorCombo = CoreferenceColor.getColorCombination();
           // console.log(colorCombo)
           if (scope.foundInCollectionItems % colsNumber == 0) {
@@ -40,7 +45,7 @@ angular.module('clarin-el').directive('foundInCollection', ['$compile', 'TextWid
             "\" colour-font=\"" + colorCombo["font-color"] +
             "\" colour-selected-background=\"" + colorCombo["selected-background-colour"] +
             "\"></annotation-button></td>";
-
+          scope.foundInCollectionValues[foundInCollection[i].attributes[0].value] = null;
 
           // change condition to put buttons horizontally
           if (scope.foundInCollectionItems == foundInCollection.length - 1 ||

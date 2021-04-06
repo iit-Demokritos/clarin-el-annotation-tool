@@ -8,14 +8,14 @@ angular.module('clarin-el').controller('AnnotationCtrl', ['$scope', '$rootScope'
     $scope.layout = {
       editorTabs: false
     };
-    $scope.$on('ui.layout.loaded', function(evt, id){
+    $scope.$on('ui.layout.loaded', function (evt, id) {
       console.warn("ui.layout.loaded:");
-      $timeout(function(){
+      $timeout(function () {
         $scope.layout.editorTabs = false;
       });
     });
-    $scope.$on('ui.layout.toggle', function(evt, container){ 
-      console.warn(container); 
+    $scope.$on('ui.layout.toggle', function (evt, container) {
+      console.warn(container);
       //if (container.id === '1') { 
       //  vm.one = container.size > 0;  
       //}
@@ -43,7 +43,7 @@ angular.module('clarin-el').controller('AnnotationCtrl', ['$scope', '$rootScope'
 
     TextWidgetAPI.initializeCallbacks();
 
-    var createDocumentSelectionModal = function () {            //open the modal in order the user to select a document to annotate
+    var createDocumentSelectionModal = function () { //open the modal in order the user to select a document to annotate
       if (!TextWidgetAPI.isRunning())
         TextWidgetAPI.enableIsRunning();
       else
@@ -89,10 +89,10 @@ angular.module('clarin-el').controller('AnnotationCtrl', ['$scope', '$rootScope'
       OpenDocument.get(currentDocument.id, currentDocument.annotator_id)
         .then(function (response) {
           if (response.success && response.data.length > 0) {
-            var documentFound = _.findWhere(response.data, { opened: 1 });  //search if the user has an open document         
+            var documentFound = _.findWhere(response.data, { opened: 1 }); //search if the user has an open document         
 
-            if (!angular.isUndefined(documentFound) && documentFound.db_interactions > 0) {                //if changes have been done on the document
-              if ($scope.autoSaveIndicator) {                            //auto save functionality enabled
+            if (!angular.isUndefined(documentFound) && documentFound.db_interactions > 0) { //if changes have been done on the document
+              if ($scope.autoSaveIndicator) { //auto save functionality enabled
                 var AnnotatorTypeId = TextWidgetAPI.getAnnotatorTypeId();
                 RestoreAnnotation.autoSave(currentDocument.collection_id, currentDocument.id, AnnotatorTypeId)
                   .then(function (response) {
@@ -133,14 +133,17 @@ angular.module('clarin-el').controller('AnnotationCtrl', ['$scope', '$rootScope'
         });
     };
 
-    var detectOpenDocument = function () {                                //function to detect if the user has left any document open in the database
+    //function to detect if the user has left any document open in the database
+    var detectOpenDocument = function () {
       OpenDocument.getAll()
         .then(function (response) {
           if (response.success && response.data.length > 0) {
-            var documentFound = _.findWhere(response.data, { opened: 1 });                                //search if the user has an open document 
+            var documentFound = _.findWhere(response.data, { opened: 1 }); //search if the user has an open document 
 
-            if (!angular.isUndefined(documentFound)) {                                                    //user has left a document opened
-              if (_.where(response.data, { document_id: documentFound.document_id }).length == 1 && (documentFound.db_interactions == 0 || documentFound.confirmed == 1)) {         //document has been opened only from the current user & no db_interactions have occurred    
+            if (!angular.isUndefined(documentFound)) { //user has left a document opened
+              if (_.where(response.data, { document_id: documentFound.document_id }).length == 1 &&
+                  (documentFound.db_interactions == 0 || documentFound.confirmed == 1)) {
+                // Document has been opened only from the current user & no db_interactions have occurred    
                 TempAnnotation.destroy(documentFound.collection_id, documentFound.document_id, null)
                   .then(function (response) {
                     createDocumentSelectionModal();
@@ -148,7 +151,8 @@ angular.module('clarin-el').controller('AnnotationCtrl', ['$scope', '$rootScope'
                     var modalOptions = { body: 'Database error. Please refresh the page and try again.' };
                     Dialog.error(modalOptions);
                   });
-              } else if (!documentFound.confirmed && documentFound.db_interactions > 0) {                //document not shared and db_interactions > 0, open modal informing users about the work in proggress
+              } else if (!documentFound.confirmed && documentFound.db_interactions > 0) {
+                //document not shared and db_interactions > 0, open modal informing users about the work in progress
                 $ocLazyLoad.load('detectChangesModalCtrl').then(function () {
                   var detectChangesModalInstance = Dialog.custom('detect-changes-modal.html', 'detectChangesModalCtrl', documentFound, true, "");
 
