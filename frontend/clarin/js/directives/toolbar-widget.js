@@ -82,12 +82,6 @@ app.directive('toolbarWidget', function ($q, $ocLazyLoad, $timeout, $rootScope, 
         detectUnsavedChanges(newDocument);
       };
 
-      $scope.toggleEditorTabs = function() {
-        $scope.layout.editorTabs = !$scope.layout.editorTabs;
-        var elem = angular.element("#annotation-main-content-header-layout-container");
-        console.warn($rootScope.layout.editorTabs, elem);
-      };
-
       $scope.deleteAnnotation = function () {
         if (TextWidgetAPI.isRunning())
           return false;
@@ -168,7 +162,7 @@ app.directive('toolbarWidget', function ($q, $ocLazyLoad, $timeout, $rootScope, 
 
       TextWidgetAPI.registerCurrentCollectionCallback(updateCurrentCollection);
       TextWidgetAPI.registerCurrentDocumentCallback(updateCurrentDocument);
-    },
+    }/*,
     link: function (scope, elem, attrs) {
       var keyUpHandler = function (e) {
         if (e.which == 46)
@@ -177,6 +171,6 @@ app.directive('toolbarWidget', function ($q, $ocLazyLoad, $timeout, $rootScope, 
 
       $(document).on('keyup', keyUpHandler); // register keyup listener
       scope.$on('$destroy', function () { $(document).off('keyup', keyUpHandler); }); // delete keyup listener
-    }
+    }*/
   }
 });

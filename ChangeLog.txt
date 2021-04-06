@@ -1,3 +1,8 @@
+07 April 2020 Petasis George <petasis@iit.demokritos.gr>
+ * frontend/clarin/js/directives/text-widget.js:
+ * frontend/clarin/js/directives/toolbar-widget.js: Restricted "Delete" key
+ binding only to the editor window.
+
 06 April 2020 Petasis George <petasis@iit.demokritos.gr>
  * frontend/clarin/js/controllers/annotationCtrl.js:
  * frontend/clarin/js/controllers/modals/detectChangesModalCtrl.js:

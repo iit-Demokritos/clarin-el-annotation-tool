@@ -1,5 +1,5 @@
-angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$rootScope", "TextWidgetAPI", "RestoreAnnotation", "Document", "OpenDocument", "ButtonColor", "CoreferenceColor", "Dialog",
-  function ($q, $ocLazyLoad, $rootScope, TextWidgetAPI, RestoreAnnotation, Document, OpenDocument, ButtonColor, CoreferenceColor, Dialog) {
+angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$rootScope", "TextWidgetAPI", "RestoreAnnotation", "TempAnnotation", "Document", "OpenDocument", "ButtonColor", "CoreferenceColor", "Dialog",
+  function ($q, $ocLazyLoad, $rootScope, TextWidgetAPI, RestoreAnnotation, TempAnnotation, Document, OpenDocument, ButtonColor, CoreferenceColor, Dialog) {
     function ColorLuminance(col, amt) {
       var usePound = true;
 
@@ -1010,7 +1010,25 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
 
           TextWidgetAPI.clearAnnotationsToBeDeleted();
           TextWidgetAPI.disableIsRunning();
-        };
+        }; /* deleteAnnotations */
+
+        var deleteSelectedAnnotation = function(obj, evt) {
+          if (evt.which != 46)           {return false;} // key, code = "Delete"
+          if (TextWidgetAPI.isRunning()) {return false;}
+          var annotationToBeDeleted = TextWidgetAPI.getSelectedAnnotation();
+          if (angular.equals({}, annotationToBeDeleted)) {return false;}
+          TempAnnotation.destroy(annotationToBeDeleted.collection_id, annotationToBeDeleted.document_id, annotationToBeDeleted._id)
+          .then(function (response) {
+            if (!response.success) {
+              var modalOptions = { body: 'Error during the deleting the annotation. Please refresh the page and try again.' };
+              Dialog.error(modalOptions);
+            } else
+              TextWidgetAPI.deleteAnnotation(annotationToBeDeleted._id);
+          }, function (error) {
+            var modalOptions = { body: 'Error in delete Annotation. Please refresh the page and try again' };
+            Dialog.error(modalOptions);
+          });
+        }; /* deleteSelectedAnnotation */
 
         var updateCurrentSelection = function () {
           var currentSel = TextWidgetAPI.getCurrentSelection();
@@ -1055,6 +1073,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
 
         CodeMirror.on(mainContent, "mouseup", mouseUpHandler);
         CodeMirror.on(mainContent, "mousedown", mouseDownUpHandler);
+        editor.on('keyup', deleteSelectedAnnotation);
         TextWidgetAPI.registerCurrentDocumentCallback(updateCurrentDocument);
         TextWidgetAPI.registerCurrentSelectionCallback(updateCurrentSelection);
         TextWidgetAPI.registerNewAnnotationsCallback(addNewAnnotations);
@@ -1063,6 +1082,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
 
         scope.$on("$destroy", function () {
           editor.toTextArea();
+          editor.off('keyup', deleteSelectedAnnotation);
           CodeMirror.off(mainContent, "mouseup", mouseUpHandler);
           CodeMirror.off(mainContent, "mousedown", mouseDownHandler);
           graph.clear();
