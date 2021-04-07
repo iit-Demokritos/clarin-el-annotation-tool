@@ -1,4 +1,4 @@
-angular.module('clarin-el').controller('detectOpenDocModalCtrl', function ($scope, $modalInstance, externalData, RestoreAnnotation, Dialog) {
+angular.module('clarin-el').controller('detectOpenDocModalCtrl', function ($scope, $modalInstance, externalData, TextWidgetAPI, RestoreAnnotation, Dialog) {
   var currentDocument = angular.copy(externalData);
 
   $scope.saveChanges = function () {

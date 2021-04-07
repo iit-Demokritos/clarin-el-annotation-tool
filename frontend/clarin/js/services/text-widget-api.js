@@ -212,7 +212,7 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
 
     /*** Batch Annotation Methods ***/
     isRelationAnnotationType: function(annotation) {
-      if (annotation.type === "argument_relation") return true;
+      //if (annotation.type === "argument_relation") return true;
       return annotationSchemaAnnotationTypes.includes(annotation.type);
     },
     belongsToSchemaAsSupportiveAnnotationType: function(newAnnotation) {

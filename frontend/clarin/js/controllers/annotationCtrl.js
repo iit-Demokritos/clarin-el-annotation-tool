@@ -43,7 +43,9 @@ angular.module('clarin-el').controller('AnnotationCtrl', ['$scope', '$rootScope'
 
     TextWidgetAPI.initializeCallbacks();
 
-    var createDocumentSelectionModal = function () { //open the modal in order the user to select a document to annotate
+    //open the modal in order the user to select a document to annotate
+    var createDocumentSelectionModal = function () {
+            console.warn("createDocumentSelectionModal:");
       if (!TextWidgetAPI.isRunning())
         TextWidgetAPI.enableIsRunning();
       else
@@ -84,8 +86,10 @@ angular.module('clarin-el').controller('AnnotationCtrl', ['$scope', '$rootScope'
     };
 
     var detectUnsavedChanges = function () { //function to detect unsaved changes before leaving the current document
+            console.warn("detectUnsavedChanges:");
       var currentDocument = TextWidgetAPI.getCurrentDocument();
 
+            console.warn("detectUnsavedChanges:", currentDocument);
       OpenDocument.get(currentDocument.id, currentDocument.annotator_id)
         .then(function (response) {
           if (response.success && response.data.length > 0) {
@@ -135,15 +139,19 @@ angular.module('clarin-el').controller('AnnotationCtrl', ['$scope', '$rootScope'
 
     //function to detect if the user has left any document open in the database
     var detectOpenDocument = function () {
+      console.warn("detectOpenDocument:");
       OpenDocument.getAll()
         .then(function (response) {
+          console.warn("OpenDocument.getAll():", response);
           if (response.success && response.data.length > 0) {
             var documentFound = _.findWhere(response.data, { opened: 1 }); //search if the user has an open document 
+            console.warn("Document Found:", documentFound);
 
-            if (!angular.isUndefined(documentFound)) { //user has left a document opened
+            if (!angular.isUndefined(documentFound)) { //user has left documents opened
               if (_.where(response.data, { document_id: documentFound.document_id }).length == 1 &&
                   (documentFound.db_interactions == 0 || documentFound.confirmed == 1)) {
                 // Document has been opened only from the current user & no db_interactions have occurred    
+                console.warn("Document opened by current user & no db_interactions have occurred");
                 TempAnnotation.destroy(documentFound.collection_id, documentFound.document_id, null)
                   .then(function (response) {
                     createDocumentSelectionModal();
@@ -152,9 +160,11 @@ angular.module('clarin-el').controller('AnnotationCtrl', ['$scope', '$rootScope'
                     Dialog.error(modalOptions);
                   });
               } else if (!documentFound.confirmed && documentFound.db_interactions > 0) {
-                //document not shared and db_interactions > 0, open modal informing users about the work in progress
+                // Document not shared and db_interactions > 0, open modal informing users about the work in progress
+                console.warn("Document opened by current user & not shared & db_interactions > 0");
                 $ocLazyLoad.load('detectChangesModalCtrl').then(function () {
-                  var detectChangesModalInstance = Dialog.custom('detect-changes-modal.html', 'detectChangesModalCtrl', documentFound, true, "");
+                  var detectChangesModalInstance = Dialog.custom('detect-changes-modal.html',
+                      'detectChangesModalCtrl', documentFound, true, "");
 
                   detectChangesModalInstance.result.then(function (response) {
                     if (response.success) {
@@ -171,11 +181,16 @@ angular.module('clarin-el').controller('AnnotationCtrl', ['$scope', '$rootScope'
                     Dialog.error(modalOptions);
                   });
                 });
-              } else
+              } else {
+                console.warn("Document status fallback");
                 createDocumentSelectionModal();
-            } else                                    //user has a document open
+              }
+            } else { //user has a document open
+              console.warn("User has no open documents");
               createDocumentSelectionModal();
+            }
           } else if (response.success) {
+            console.warn("getAll(): response.data.length == 0");
             createDocumentSelectionModal();
           } else {
             var modalOptions = { body: 'Database error. Please refresh the page and try again.' };

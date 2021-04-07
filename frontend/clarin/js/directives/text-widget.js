@@ -91,6 +91,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
         scope.$on('ui.layout.resize', function (e, beforeContainer, afterContainer) {
           console.warn("text-widget: ui.layout.resize");
           editor.refresh();
+          originCoords = editor.charCoords({line:1, ch:0}, "page");
           overlayRefresh();
         });
 
@@ -498,7 +499,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
           // This method creates a polygon from codemirror coordinates (line, pos)
           var startCoords  = editor.charCoords(startPos, "local"),
               endCoords    = editor.charCoords(endPos, "local");
-          // console.warn(mark, startCoords, endCoords);
+          // console.warn(mark, startCoords, endCoords, originCoords);
           // Calculate points...
           if (startCoords.top == endCoords.top) {
             // Start & end on the same height, the region is a rectange...
@@ -537,7 +538,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
           // item.attr('label/text', annotation.annotation._id);
           item.attr('body/fill', "transparent");
           item.attr('body/stroke', 'none' /*'#7c68fc'*/);
-          //item.attr('body/stroke', 'green');
+          // item.attr('body/stroke', 'green');
           item.attr('root/pointer-events', 'none');
           item.addTo(graph);
           annotationIdToGraphItem[annotation.annotation._id][spanIndex] = item;
@@ -743,7 +744,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
           for (var k = 0; k < newAnnotations.length; k++) {
             var currAnnotation = newAnnotations[k];
 
-            if (currAnnotation.annotation.type === 'argument_relation') {
+            if (TextWidgetAPI.isRelationAnnotationType(currAnnotation.annotation)) {
               // Argument relation, add arrow. Find IDs of start/end annotations
               var startId = _.findWhere(currAnnotation.annotation.attributes, {
                 name: 'arg1'
@@ -816,8 +817,6 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
                           "border-top: 4px solid "+colorCombination.colour_border+"; "+
                           "border-bottom: 4px solid "+colorCombination.colour_border+"; "
                       });
-                      overlayMarkAdd(l, selection.start, selection.end,
-                                     currAnnotation);
                     } else {
                       // Normal marker
                       // editor.markText(selection.start, selection.end, {
@@ -831,9 +830,9 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
                           "background:" + colorCombination.colour_background + ";" +
                           "border-color:" + colorCombination.colour_border + ";"
                       });
-                      overlayMarkAdd(l, selection.start, selection.end,
-                                     currAnnotation);
                     }
+                    overlayMarkAdd(l, selection.start, selection.end,
+                                   currAnnotation);
 
                     break;
                   case "Coreference Annotator":
@@ -855,7 +854,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
                     // Create class for adding background color to the type pseudo-element
                     var colorClass = " mark_color_" +
                       colourCom["border-color"].replace("#", "").toUpperCase();
-                    var markClassName = "id-" + currAnnotation.annotation._id + " " +
+                    var markClassName = "id-" + String(currAnnotation.annotation._id).trim() + " " +
                       markerId + markedTextClass + colorClass;
 
                     if (!angular.isUndefined(currAnnotation.selected) &&
@@ -880,6 +879,8 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
                           "border-color:" + colourCom["border-color"] + ";"
                       });
                     }
+                    overlayMarkAdd(l, selection.start, selection.end,
+                                   currAnnotation);
                     // Used only in addTypeAttributesToMarkers
                     // mark.markerId = markerId;
                     // Never used!
