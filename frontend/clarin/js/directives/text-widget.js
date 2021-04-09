@@ -35,9 +35,11 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
         var textWidgetOverlay = document.getElementById('annotation-editor-text-widget-overlay');
         var editor = CodeMirror.fromTextArea(textWidget, {
           lineNumbers: true,
+          firstLineNumber: 0,
           dragDrop: false,
           readOnly: true,
-          theme: "night",
+          /*theme: "night",*/
+          direction: "ltr",
           lineWrapping: true,
           autofocus: false,
           cursorBlinkRate: -1,
@@ -46,8 +48,9 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
           extraKeys: {}
         });
         // Get the local coordinates of the first character in the editor...
-        var originCoords = editor.charCoords({line:1, ch:0}, "page");
         var textWidgetLines = document.getElementsByClassName("CodeMirror-lines")[0];
+        var textarea  = editor.getWrapperElement();
+        var gutter    = editor.getGutterElement();
 
         var graph = new joint.dia.Graph;
 
@@ -91,8 +94,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
         scope.$on('ui.layout.resize', function (e, beforeContainer, afterContainer) {
           console.warn("text-widget: ui.layout.resize");
           editor.refresh();
-          originCoords = editor.charCoords({line:1, ch:0}, "page");
-          overlayRefresh();
+          // overlayRefresh();
         });
 
         scope.$on('ui.layout.loaded', function(evt, id) {
@@ -315,14 +317,13 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
                 } else {
                   spinnerVisible = true;
                   TextWidgetAPI.resetData();
-                  // editor.refresh();
                   editor.setValue("");
                   editor.clearHistory();
                   editor.setValue(response.data.text);
-                  editor.refresh();
                   graph.clear();
                   annotationIdToGraphItem = {};
-                  originCoords = editor.charCoords({line:1, ch:0}, "page");
+                  connectedAnnotations = [];
+                  editor.refresh();
 
                   if (response.data.is_opened) {
                     RestoreAnnotation.restoreFromTemp(newDocument.collection_id, newDocument.id, AnnotatorTypeId)
@@ -397,6 +398,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
         }; /* migrateOldSpans */
 
         var overlayRefresh = function() {
+          // console.warn("overlayRefresh:", gutter.offsetWidth, textWidgetLines.offsetWidth);
           for (const annId in annotationIdToGraphItem) {
             var annotation = TextWidgetAPI.getAnnotationById(annId);
             for (var l = 0; l < annotation.spans.length; l++) {
@@ -498,41 +500,40 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
           }
           // This method creates a polygon from codemirror coordinates (line, pos)
           var startCoords  = editor.charCoords(startPos, "local"),
-              endCoords    = editor.charCoords(endPos, "local");
-          // console.warn(mark, startCoords, endCoords, originCoords);
+              endCoords    = editor.charCoords(endPos,   "local");
+          // console.warn(startCoords, endCoords);
           // Calculate points...
-          if (startCoords.top == endCoords.top) {
+          if (angular.isUndefined(item)) {
+            item = new joint.shapes.standard.Polygon();
+            item.addTo(graph);
+            annotationIdToGraphItem[annotation.annotation._id][spanIndex] = item;
+          }
+          if (endCoords.top - startCoords.top < 2) {
             // Start & end on the same height, the region is a rectange...
             // https://resources.jointjs.com/tutorial/elements
-            if (angular.isUndefined(item)) {
-              item = new joint.shapes.standard.Rectangle();
-            }
+            // if (angular.isUndefined(item)) {
+            //   item = new joint.shapes.standard.Rectangle();
+            // }
             // sets the position of the origin of the element (the top-left corner)
-            item.position(startCoords.left+originCoords.left-8, startCoords.top+4);
+            item.position(startCoords.left+gutter.offsetWidth-4, startCoords.top+3);
             // sets the dimensions of the element (width, height)
             item.resize(endCoords.right-startCoords.left-4,
-                        endCoords.bottom-startCoords.top-8);
+                        endCoords.bottom-startCoords.top-6);
+            item.attr('body/refPoints', "0,0 1,0 1,1 0,1");
           } else {
             var points = [];
-            // Get mark coordinates....
-            var mark = overlayAnnotationGetBoundingClientRect(annotation.annotation);
-            if (!mark) return null;
-
-            if (angular.isUndefined(item)) {
-              item = new joint.shapes.standard.Polygon();
-            }
             // sets the position of the origin of the element (the top-left corner)
-            item.position(originCoords.left+2, startCoords.top);
+            item.position(gutter.offsetWidth+8, startCoords.top+3);
             // sets the dimensions of the element (right, height)
-            item.resize(mark.right-originCoords.left, endCoords.bottom-startCoords.top);
-            points.push(String(2)+','+String(startCoords.bottom));
-            points.push(String(startCoords.left)+','+String(startCoords.bottom));
-            points.push(String(startCoords.left)+','+String(startCoords.top));
-            points.push(String(mark.right)+','+String(startCoords.top));
-            points.push(String(mark.right)+','+String(endCoords.top));
-            points.push(String(endCoords.right+6)+','+String(endCoords.top));
-            points.push(String(endCoords.right+6)+','+String(endCoords.bottom));
-            points.push(String(2)+','+String(endCoords.bottom));
+            item.resize(textWidgetLines.offsetWidth-16, endCoords.bottom-startCoords.top-6);
+            points.push('14,'+String(startCoords.bottom+3));
+            points.push(String(startCoords.left)+','+String(startCoords.bottom+3));
+            points.push(String(startCoords.left)+','+String(startCoords.top+3));
+            points.push(String(textWidgetLines.offsetWidth)+','+String(startCoords.top+3));
+            points.push(String(textWidgetLines.offsetWidth)+','+String(endCoords.top+3));
+            points.push(String(endCoords.right)+','+String(endCoords.top+3));
+            points.push(String(endCoords.right)+','+String(endCoords.bottom-4));
+            points.push('14,'+String(endCoords.bottom-4));
             item.attr('body/refPoints', points.join(' '));
           }
           // item.attr('label/text', annotation.annotation._id);
@@ -540,8 +541,6 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
           item.attr('body/stroke', 'none' /*'#7c68fc'*/);
           // item.attr('body/stroke', 'green');
           item.attr('root/pointer-events', 'none');
-          item.addTo(graph);
-          annotationIdToGraphItem[annotation.annotation._id][spanIndex] = item;
           return item;
         }; /* overlayMarkAdd */
 
@@ -1013,8 +1012,8 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
           TextWidgetAPI.disableIsRunning();
         }; /* deleteAnnotations */
 
-        var deleteSelectedAnnotation = function(obj, evt) {
-          if (evt.which != 46)           {return false;} // key, code = "Delete"
+        var deleteSelectedAnnotation = function(cm, evt) {
+          // if (evt.which != 46)           {return false;} // key, code = "Delete"
           if (TextWidgetAPI.isRunning()) {return false;}
           var annotationToBeDeleted = TextWidgetAPI.getSelectedAnnotation();
           if (angular.equals({}, annotationToBeDeleted)) {return false;}
@@ -1072,9 +1071,16 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
           //editor.scrollIntoView(null);
         };
 
-        CodeMirror.on(mainContent, "mouseup", mouseUpHandler);
+        CodeMirror.on(mainContent, "mouseup",   mouseUpHandler);
         CodeMirror.on(mainContent, "mousedown", mouseDownUpHandler);
-        editor.on('keyup', deleteSelectedAnnotation);
+        editor.setOption("extraKeys", {
+          Delete: deleteSelectedAnnotation,
+          Space: function() {editor.refresh();},
+        });
+	editor.on('refresh', overlayRefresh);
+        scope.$watch('maincontentSelector', function(newVal,oldVal) {
+           console.warn("maincontentSelector:", newVal);
+	});
         TextWidgetAPI.registerCurrentDocumentCallback(updateCurrentDocument);
         TextWidgetAPI.registerCurrentSelectionCallback(updateCurrentSelection);
         TextWidgetAPI.registerNewAnnotationsCallback(addNewAnnotations);
@@ -1082,16 +1088,11 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
         TextWidgetAPI.registerScrollIntoViewCallback(scrollToAnnotation);
 
         scope.$on("$destroy", function () {
-          editor.toTextArea();
-          editor.off('keyup', deleteSelectedAnnotation);
-          CodeMirror.off(mainContent, "mouseup", mouseUpHandler);
-          CodeMirror.off(mainContent, "mousedown", mouseDownHandler);
           graph.clear();
-          // Destroy leader lines
-          _.each(connectedAnnotations, function (annotation) {
-            // Remove instance of line
-            annotation.instance.remove();
-          });
+	  editor.off('refresh', overlayRefresh);
+          // CodeMirror.off(mainContent, "mouseup",   mouseUpHandler);
+          // CodeMirror.off(mainContent, "mousedown", mouseDownHandler);
+          editor.toTextArea();
         });
       }
     }

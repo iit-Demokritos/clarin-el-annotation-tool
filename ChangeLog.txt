@@ -1,3 +1,7 @@
+10 April 2020 Petasis George <petasis@iit.demokritos.gr>
+ * frontend/clarin/js/directives/text-widget.js: Fixes in overlay box
+ calculations.
+
 07 April 2020 Petasis George <petasis@iit.demokritos.gr>
  * frontend/clarin/js/directives/text-widget.js:
  * frontend/clarin/js/directives/toolbar-widget.js: Restricted "Delete" key
