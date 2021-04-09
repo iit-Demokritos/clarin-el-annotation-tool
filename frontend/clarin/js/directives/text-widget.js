@@ -641,8 +641,8 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
           link.target(annotationIdToGraphItem[endId][0]);
           link.attr('root/pointer-events', 'visiblePainted');
           link.router('manhattan', {
-            step: 1,
-            excludeTypes: ['joint.shapes.standard.Polygon'],
+            step: 20,
+            //excludeTypes: ['joint.shapes.standard.Polygon'],
             startDirections: ['top'],
             endDirections: ['bottom']
           });
