@@ -440,7 +440,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
         }; /* overlayAnnotationGetBoundingClientRect */
 
         var overlayHighlight = function(annotation) {
-          var deep = false, selector = 'body', items;
+          var deep = false, selector = 'body', items, colours = {}, colour;
           if (annotation.annotation._id in annotationIdToGraphItem) {
             items = annotationIdToGraphItem[annotation.annotation._id];
           } else {
@@ -454,10 +454,16 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
             items = {0: connectedAnnotation.instance,
                      1: annotationIdToGraphItem[connectedAnnotation.startId][0],
                      2: annotationIdToGraphItem[connectedAnnotation.endId][0]};
+            colours = {0: '#4666E5', 1: "purple", 2: "orange"};
             deep = true; selector = 'root';
           }
           for (const spanIndex in items) {
             var item = items[spanIndex];
+            if (spanIndex in colours) {
+              colour = colours[spanIndex];
+	    } else {
+              colour = '#4666E5';
+	    }
             const elementView = item.findView(paper);
             if (annotation.action == "select") {
               joint.highlighters.mask.remove(elementView);
@@ -466,7 +472,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
                    deep: deep,
                    padding: 4,
                    attrs: {
-                       'stroke': '#4666E5',
+                       'stroke': colour,
                        'stroke-width': 3,
                        'stroke-linejoin': 'round'
                    }
