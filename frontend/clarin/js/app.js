@@ -71,9 +71,6 @@ app.config(function($stateProvider, $locationProvider, $urlRouterProvider) {
       }
     })
     
-    
-    
-    
     .state('annotation', {
       url: '/annotation', 
       templateUrl: 'templates/annotation.html',

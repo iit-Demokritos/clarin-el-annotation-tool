@@ -1,7 +1,7 @@
 <div id="toolbar-widget" class="toolbar-widget">
     <div class="toolbar-element left">Collection:&nbsp;{{selectedCollectionName}}</div>
     <div class="toolbar-divider left"></div>
-    <div class="toolbar-element left">Document:&nbsp
+    <div class="toolbar-element left">Document:&nbsp;
         <select class="form-control right" ng-model="selectedDocument" ng-options="document as document.name for document in selectedCollectionDocuments" ng-change="updateDocumentDropdown(selectedDocument);"></select>
     </div>
     <div class="toolbar-divider left"></div>

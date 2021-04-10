@@ -1,4 +1,11 @@
 10 April 2020 Petasis George <petasis@iit.demokritos.gr>
+ * frontend/clarin/js/app.js:
+ * frontend/clarin/js/controllers/annotationCtrl.js:
+ * frontend/clarin/js/directives/text-widget.js:
+ * frontend/clarin/templates/annotation.html:
+ * frontend/clarin/templates/directives/toolbar.html: Added the ability to
+ select a router for links.
+
  * frontend/clarin/js/directives/text-widget.js: Fixes in overlay box
  calculations.
 

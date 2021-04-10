@@ -6,7 +6,28 @@ angular.module('clarin-el').controller('AnnotationCtrl', ['$scope', '$rootScope'
     $scope.sidebarSelector = "annotator";
     $scope.maincontentSelector = "document";
     $scope.layout = {
-      editorTabs: false
+      showEditorTabs: true,
+      showDocument: true,
+      showDocumentAttributes: true,
+      showLinkRouterSelector: false,
+      routerName: "direct",
+      routerOptions: {
+        direct: { step: 20 },
+        smooth: { step: 20 },
+        manhattan: {
+          step: 20,
+          //excludeTypes: ['joint.shapes.standard.Polygon'],
+          startDirections: ['top'],
+          endDirections: ['bottom']
+        },
+        metro: {
+          step: 20,
+          //excludeTypes: ['joint.shapes.standard.Polygon'],
+          startDirections: ['top'],
+          endDirections: ['bottom']
+        }
+      },
+      routerGAP: 60,
     };
     $scope.$on('ui.layout.loaded', function (evt, id) {
       console.warn("ui.layout.loaded:");
@@ -16,8 +37,8 @@ angular.module('clarin-el').controller('AnnotationCtrl', ['$scope', '$rootScope'
     });
     $scope.$on('ui.layout.toggle', function (evt, container) {
       console.warn(container);
-      //if (container.id === '1') { 
-      //  vm.one = container.size > 0;  
+      //if (container.id === '1') {
+      //  vm.one = container.size > 0;
       //}
     });
 
@@ -93,7 +114,7 @@ angular.module('clarin-el').controller('AnnotationCtrl', ['$scope', '$rootScope'
       OpenDocument.get(currentDocument.id, currentDocument.annotator_id)
         .then(function (response) {
           if (response.success && response.data.length > 0) {
-            var documentFound = _.findWhere(response.data, { opened: 1 }); //search if the user has an open document         
+            var documentFound = _.findWhere(response.data, { opened: 1 }); //search if the user has an open document
 
             if (!angular.isUndefined(documentFound) && documentFound.db_interactions > 0) { //if changes have been done on the document
               if ($scope.autoSaveIndicator) { //auto save functionality enabled
@@ -144,13 +165,13 @@ angular.module('clarin-el').controller('AnnotationCtrl', ['$scope', '$rootScope'
         .then(function (response) {
           console.warn("OpenDocument.getAll():", response);
           if (response.success && response.data.length > 0) {
-            var documentFound = _.findWhere(response.data, { opened: 1 }); //search if the user has an open document 
+            var documentFound = _.findWhere(response.data, { opened: 1 }); //search if the user has an open document
             console.warn("Document Found:", documentFound);
 
             if (!angular.isUndefined(documentFound)) { //user has left documents opened
               if (_.where(response.data, { document_id: documentFound.document_id }).length == 1 &&
                   (documentFound.db_interactions == 0 || documentFound.confirmed == 1)) {
-                // Document has been opened only from the current user & no db_interactions have occurred    
+                // Document has been opened only from the current user & no db_interactions have occurred
                 console.warn("Document opened by current user & no db_interactions have occurred");
                 TempAnnotation.destroy(documentFound.collection_id, documentFound.document_id, null)
                   .then(function (response) {
