@@ -16,14 +16,14 @@
                 <label class="btn btn-default" ng-model="maincontentSelector" btn-radio="'attributes'" ng-show="layout.showDocumentAttributes">Document Attributes</label>
               </div>
               <div class="toolbar-divider left" ng-show="layout.showLinkRouterSelector" />
-	      <div class="toolbar-element left" ng-show="layout.showLinkRouterSelector">Link Router:&nbsp;
+              <div class="toolbar-element left" ng-show="layout.showLinkRouterSelector">Link Router:&nbsp;
                 <select class="form-control right" name="linkRoutername" ng-model="layout.routerName" ng-change="updateLinkRouter(layout.routerName);">
                   <option value="direct">Direct</option>
                   <option value="smooth">Smooth</option>
                   <option value="manhattan">Manhattan</option>
                   <option value="metro">Metro</option>
                 </select>
-	      </div>
+              </div>
             </div>
           </div>
           <div ui-layout-container="central" class="main-content">

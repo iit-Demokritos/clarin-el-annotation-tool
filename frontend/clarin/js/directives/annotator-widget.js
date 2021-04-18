@@ -27,7 +27,9 @@ angular.module('clarin-el').directive('annotatorWidget', ['$compile', '$ocLazyLo
               var types_unique = types.filter(function (value, index, self) {return self.indexOf(value) === index;});
               TextWidgetAPI.setAnnotationSchemaAnnotationTypes(types_unique);
               // console.warn(types_unique);
-             
+              // Replace "\n" with <br/>...
+              annotatorsTemplate = annotatorsTemplate.replaceAll("\\n", "\n");
+
               element.html('<div autoslimscroll scroll-subtraction-height="145">' + annotatorsTemplate + '</div>');
               $compile(element.contents())(scope);
 

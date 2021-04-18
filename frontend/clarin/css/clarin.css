@@ -178,7 +178,7 @@ html,body{
 	padding: 15px;
 }
 
-table td{ vertical-align:middle!important; }
+table td { vertical-align: middle !important; }
 
 /*** manage collections widget ***/
 .no-available-documents {
@@ -306,18 +306,24 @@ table td{ vertical-align:middle!important; }
 	overflow-y: auto!important;
 }
 
+.button-widget-wrapper table {
+	height: 1px;
+}
+.button-widget-wrapper table tr {
+}
 .button-widget-wrapper table button {
-  	height: 24px!important;
-  	padding: 2px 0px;
-	margin: 2px 0!important;
+  	/*height: 24px!important;*/
+  	padding: 1px 0px;
+	margin: 1px 0px !important;
 	font-size: 12px!important;
 }
-.button-widget-wrapper table td{
+.button-widget-wrapper table td {
 	white-space: nowrap;
 	border-top:none!important;
 	padding:0px 2px!important;
+	vertical-align: top !important;
 }
-.button-widget-header{
+.button-widget-header {
 	font-family: 'Open Sans', sans-serif;
 	font-weight: 600;
 	font-size: 13px;
@@ -346,6 +352,15 @@ table td{ vertical-align:middle!important; }
   font-size: 13px;
   color: #D34332;
   padding: 4px 0 3px;
+}
+
+.annotation-btn {
+  white-space: pre !important;
+  display: inline-block;
+  overflow: auto;
+  height: 100% !important;
+  position: relative;
+  text-overflow: ellipsis;
 }
 
 

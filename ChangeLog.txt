@@ -1,3 +1,10 @@
+19 April 2020 Petasis George <petasis@iit.demokritos.gr>
+ * frontend/clarin/css/clarin.css:
+ * frontend/clarin/js/directives/annotator-widget.js:
+ * frontend/clarin/js/directives/button/annotation-button.js:
+ * frontend/clarin/templates/annotation.html: Added support for predefined
+ line breaks in Button Annotator labels. Also reduced paddings to 1px.
+
 10 April 2020 Petasis George <petasis@iit.demokritos.gr>
  * frontend/clarin/js/app.js:
  * frontend/clarin/js/controllers/annotationCtrl.js:
