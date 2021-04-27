@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AddDocumentFields' => $baseDir . '/database/migrations/2021_04_27_112120_add_document_fields.php',
     'Annotation' => $baseDir . '/app/Models/Annotation.php',
     'AnnotationController' => $baseDir . '/app/Http/Controllers/AnnotationController.php',
     'AnnotationSchema' => $baseDir . '/app/Models/AnnotationSchema.php',

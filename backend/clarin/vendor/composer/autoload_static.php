@@ -376,6 +376,7 @@ class ComposerStaticInit6843b9594ec443373d4c7a849b2549b6
     );
 
     public static $classMap = array (
+        'AddDocumentFields' => __DIR__ . '/../..' . '/database/migrations/2021_04_27_112120_add_document_fields.php',
         'Annotation' => __DIR__ . '/../..' . '/app/Models/Annotation.php',
         'AnnotationController' => __DIR__ . '/../..' . '/app/Http/Controllers/AnnotationController.php',
         'AnnotationSchema' => __DIR__ . '/../..' . '/app/Models/AnnotationSchema.php',
