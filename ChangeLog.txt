@@ -1,3 +1,8 @@
+27 April 2020 Petasis George <petasis@iit.demokritos.gr>
+ * backend/clarin/vendor/composer/autoload_classmap.php:
+ * backend/clarin/vendor/composer/autoload_static.php: Added backend migration
+ (new Document fields) for importing document types beyond text.
+
 19 April 2020 Petasis George <petasis@iit.demokritos.gr>
  * frontend/clarin/css/clarin.css:
  * frontend/clarin/js/directives/annotator-widget.js:
