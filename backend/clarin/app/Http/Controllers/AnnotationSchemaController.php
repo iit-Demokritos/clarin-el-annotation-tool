@@ -10,10 +10,10 @@ class AnnotationSchemaController extends \BaseController {
 	public function index()
 	{
 		try {
-			return Response::json(array('success' => true,
-										'data'	  => AnnotationSchema::get()));
+			return Response::json(['success' => true,
+										'data'	  => AnnotationSchema::get()]);
 		}catch(\Exception $e){
-    		return Response::json(array('success' => false, 'message' => $e->getMessage()));
+    		return Response::json(['success' => false, 'message' => $e->getMessage()]);
 		}
 	}
 
@@ -26,10 +26,10 @@ class AnnotationSchemaController extends \BaseController {
 	public function show($id)
 	{
 		try {
-			return Response::json(array('success' => true,
-										'data'	  => AnnotationSchema::find($id)));
+			return Response::json(['success' => true,
+										'data'	  => AnnotationSchema::find($id)]);
 		}catch(\Exception $e){
-    		return Response::json(array('success' => false, 'message' => $e->getMessage()));
+    		return Response::json(['success' => false, 'message' => $e->getMessage()]);
 		}
 	}
 
@@ -45,19 +45,19 @@ class AnnotationSchemaController extends \BaseController {
 			$input = Request::input('data');
 			$user = Sentinel::getUser();
 				
-			$annotationSchema = AnnotationSchema::create(array(
+			$annotationSchema = AnnotationSchema::create([
 				'xml' => $input['xml'],		
 				'owner_id' => $user['id'],	
 				'language' => $input['language'],
 				'annotation_type' => $input['annotation_type'],		
 				'attribute' => $input['attribute'],	
 				'alternative' => $input['alternative']
-			));
+			]);
 
-			return Response::json(array('success' => true, 
-										'last_id' => $annotationSchema->id));
+			return Response::json(['success' => true, 
+										'last_id' => $annotationSchema->id]);
 	    }catch(\Exception $e){
-    		return Response::json(array('success' => false, 'message' => $e->getMessage()));
+    		return Response::json(['success' => false, 'message' => $e->getMessage()]);
 		}
 	}
 
@@ -83,10 +83,10 @@ class AnnotationSchemaController extends \BaseController {
 		try {
 			AnnotationSchema::destroy($id);
 		}catch(\Exception $e){
-    		return Response::json(array('success' => false, 'message' => $e->getMessage()));
+    		return Response::json(['success' => false, 'message' => $e->getMessage()]);
 		}
 
-		return Response::json(array('success' => true));
+		return Response::json(['success' => true]);
 	}
 
 

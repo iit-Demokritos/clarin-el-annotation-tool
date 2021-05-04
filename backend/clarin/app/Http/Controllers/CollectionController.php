@@ -9,7 +9,7 @@ class CollectionController extends \BaseController {
   public function index() {
     try {
       $user = Sentinel::getUser();
-      return Response::json(array(
+      return Response::json([
 	'success' => true,
         'data'    => DB::table('collections')
           ->leftJoin('documents', 'collections.id', '=', 'documents.collection_id')
@@ -22,9 +22,9 @@ class CollectionController extends \BaseController {
           ->select(DB::raw('collections.id, collections.name, collections.encoding, collections.owner_id, shared_collections.confirmed, count(distinct documents.id) as document_count, IF('.$user['id']. '=collections.owner_id, true, false) as is_owner'))
           ->orderBy('collections.id', 'asc')
           ->groupBy('collections.id')
-          ->get()));
+          ->get()]);
     } catch(\Exception $e) {
-      return Response::json(array('success' => false, 'message' => $e->getMessage()));
+      return Response::json(['success' => false, 'message' => $e->getMessage()]);
     }
   }
 
@@ -33,7 +33,7 @@ class CollectionController extends \BaseController {
   public function showData() {
     try {
       $user = Sentinel::getUser();
-      return Response::json(array(
+      return Response::json([
         'success' => true,
         'data'    => DB::table('collections')
           ->leftJoin('documents', 'collections.id', '=', 'documents.collection_id')
@@ -47,9 +47,9 @@ class CollectionController extends \BaseController {
   	  ->distinct()
 	  ->orderBy('collection_name', 'asc')
 	  ->orderBy('name', 'asc')
-          ->get()));
+          ->get()]);
     } catch(\Exception $e) {
-      return Response::json(array('success' => false, 'message' => $e->getMessage()));
+      return Response::json(['success' => false, 'message' => $e->getMessage()]);
     }
   }
 
@@ -62,24 +62,24 @@ class CollectionController extends \BaseController {
 
       //get the documents of the collection
       $documents = Document::where('collection_id', $collection_id)
-        ->get(array('id', 'name', 'text', 'external_name','encoding','version', 'created_at', 'updated_at'));
+        ->get(['id', 'name', 'text', 'external_name','encoding','version', 'created_at', 'updated_at']);
 
       //iterate through the documents of the collection and get its annotations
       foreach ($documents as $value) {
         $annotations = Annotation::where('collection_id', (int) $collection_id)
           ->where('document_id', (int) $value->id)
-          ->get(array('_id', 'collection_id', 'document_id', 'annotator_id', 'type', 'spans', 'attributes', 'updated_by', 'updated_at', 'created_at'));
+          ->get(['_id', 'collection_id', 'document_id', 'annotator_id', 'type', 'spans', 'attributes', 'updated_by', 'updated_at', 'created_at']);
 
         $value->annotations=$annotations;
       }
 
       $collection->documents = $documents;
 
-      return Response::json(array('success' => true,
+      return Response::json(['success' => true,
         'message' => "ok",
-        'data'    => $collection));
+        'data'    => $collection]);
     } catch(\Exception $e) {
-      return Response::json(array('success' => false, 'message' => $e->getMessage(), 'data' => []));
+      return Response::json(['success' => false, 'message' => $e->getMessage(), 'data' => []]);
     }
   }
 
@@ -87,13 +87,13 @@ class CollectionController extends \BaseController {
   public function show($collection_id) {
     try {
       $user = Sentinel::getUser();
-      return Response::json(array(
+      return Response::json([
         'success' => true,
         'data'    => Collection::where('owner_id', $user['id'])
           ->where('id', $collection_id)
-          ->get()));
+          ->get()]);
     } catch(\Exception $e) {
-      return Response::json(array('success' => false, 'message' => $e->getMessage()));
+      return Response::json(['success' => false, 'message' => $e->getMessage()]);
     }
   }
 
@@ -114,47 +114,47 @@ class CollectionController extends \BaseController {
 
       if (empty($duplicateCollection) || $duplicateCollection->isEmpty()) {       //collection does not exist  -- save new collection
         //Log::info("Creating new collection!");
-        $newCollection = Collection::create(array(
+        $newCollection = Collection::create([
           'name' => $input['name'],
           'encoding' => $input['encoding'],
           'owner_id' => $user['id'],
           'handler' => $input['handler']
-	));
+	]);
 	//Log::info("Collection CREATED!");
 
 	//Log::info($newCollection);
         DB::unprepared('COMMIT');
         DB::unprepared('UNLOCK TABLES');
-        return Response::json(array('success' => true,
+        return Response::json(['success' => true,
           'collection_id' => $newCollection->id,
-          'exists'  => false));
+          'exists'  => false]);
       } elseif ($input['overwrite']=='true') {   //collection exists -- overwrite
 	//Log::info("Collection exists! Deleting & Recreating!");
         Collection::destroy($input['id']);  //destroy the old collection
-        $newCollection = Collection::create(array(  //add new collection
+        $newCollection = Collection::create([  //add new collection
           'name' => $input['name'],
           'encoding' => $input['encoding'],
           'owner_id' => $user['id'],
           'handler' => $input['handler']
-        ));
+        ]);
 
         DB::unprepared('COMMIT');
         DB::unprepared('UNLOCK TABLES');
-        return Response::json(array('success' => true,
+        return Response::json(['success' => true,
           'collection_id' => $newCollection->id,
-          'exists'  => false));
+          'exists'  => false]);
       } else {    //collection exists -- query for overwrite
         //Log::info("Collection exists! Query for Overwrite!");
         DB::unprepared('UNLOCK TABLES');
-        return Response::json(array('success' => true,
+        return Response::json(['success' => true,
           'exists'  => true,
-          'collection_id' => $duplicateCollection[0]->id));
+          'collection_id' => $duplicateCollection[0]->id]);
       }
     } catch(\Exception $e) {
       //Log::info("Catch Exception: ".$e->getMessage());
-      return Response::json(array('success' => false,
+      return Response::json(['success' => false,
         'exists'  => false,
-        'message' => $e->getMessage()));
+        'message' => $e->getMessage()]);
     }
   }
 
@@ -179,18 +179,18 @@ class CollectionController extends \BaseController {
         DB::unprepared('COMMIT');
         DB::unprepared('UNLOCK TABLES');
 
-        return Response::json(array('success' => true,
-          'exists'  => false));
+        return Response::json(['success' => true,
+          'exists'  => false]);
       } else {
         DB::unprepared('UNLOCK TABLES');
-        return Response::json(array('success' => true,
+        return Response::json(['success' => true,
           'exists'  => true,
-          'flash'    => 'The name you selected already exists. Please select a new name'));
+          'flash'    => 'The name you selected already exists. Please select a new name']);
       }
     } catch(\Exception $e) {
-      return Response::json(array('success' => false,
+      return Response::json(['success' => false,
         'exists'  => false,
-        'message' => $e->getMessage()));
+        'message' => $e->getMessage()]);
     }
   }
 
@@ -207,7 +207,7 @@ class CollectionController extends \BaseController {
           ->where('id', $collection_id)
           ->delete();
       } else                               //else stop the excecution informing the user about the permission issue
-        return Response::json(array('success' => false, 'message' => 'You do not have permission to delete this collection'));
+        return Response::json(['success' => false, 'message' => 'You do not have permission to delete this collection']);
 
       TempAnnotation::where('owner_id', $user['id'])
         ->where('collection_id', $collection_id)
@@ -217,9 +217,9 @@ class CollectionController extends \BaseController {
         ->where('collection_id', $collection_id)
         ->delete();
     } catch(\Exception $e) {
-      return Response::json(array('success' => false, 'message' => $e->getMessage()));
+      return Response::json(['success' => false, 'message' => $e->getMessage()]);
     }
 
-    return Response::json(array('success' => true));
+    return Response::json(['success' => true]);
   }
 }
