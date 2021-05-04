@@ -10,14 +10,14 @@ class AnnotationController extends \BaseController
   public function index($collection_id, $document_id)
   { //get all the annotations
     try {
-      return Response::json(array(
+      return Response::json([
         'success' => true,
         'data'      => Annotation::where('collection_id', (int) $collection_id)
           ->where('document_id', (int) $document_id)
-          ->get(array('collection_id', 'document_id', 'annotator_id', 'document_attribute', 'type', 'spans', 'attributes'))
-      ));
+          ->get(['collection_id', 'document_id', 'annotator_id', 'document_attribute', 'type', 'spans', 'attributes'])
+      ]);
     } catch (\Exception $e) {
-      return Response::json(array('success' => false, 'message' => $e->getMessage()));
+      return Response::json(['success' => false, 'message' => $e->getMessage()]);
     }
   }
 
@@ -25,26 +25,26 @@ class AnnotationController extends \BaseController
   { //get all the specific annotation of a document
     try {
       if (strpos($annotation_id, '_') !== false) {
-        return Response::json(array(
+        return Response::json([
           'success' => true,
           'data'    => TempAnnotation::where('collection_id', (int) $collection_id)
             ->where('document_id', (int) $document_id)
             ->where('annotator_id', $annotation_id)
-            ->get(array('collection_id', 'document_id', 'annotator_id', 'document_attribute', 'type', 'spans', 'attributes'))
-        ));
+            ->get(['collection_id', 'document_id', 'annotator_id', 'document_attribute', 'type', 'spans', 'attributes'])
+        ]);
       }
-      return Response::json(array(
+      return Response::json([
         'success' => true,
         'data'      => Annotation::find($annotation_id)
-      ));
+      ]);
     } catch (\Exception $e) {
-      return Response::json(array('success' => false, 'message' => $e->getMessage()));
+      return Response::json(['success' => false, 'message' => $e->getMessage()]);
     }
   }
 
   public function store($collection_id, $document_id)
   { //store annotations
-    $optional = array("document_attribute");
+    $optional = ["document_attribute"];
     try {
       $user = Sentinel::getUser();
       $new_annotations = [];
@@ -57,7 +57,7 @@ class AnnotationController extends \BaseController
           Annotation::destroy($annotation_data['_id']);
         } catch (Throwable $e) {
         }
-        $anno = new Annotation(array(
+        $anno = new Annotation([
           '_id' => $annotation_data['_id'],
           'document_id' => $annotation_data['document_id'],
           'collection_id' => $annotation_data['collection_id'],
@@ -67,7 +67,7 @@ class AnnotationController extends \BaseController
           'spans' => $annotation_data['spans'],
           'attributes' => $annotation_data['attributes'],
           'updated_by' => $user['email']
-        ));
+        ]);
         foreach ($optional as $field) {
           if (array_key_exists($field, $annotation_data)) {
             $anno[$field] = $annotation_data[$field];
@@ -83,7 +83,7 @@ class AnnotationController extends \BaseController
             Annotation::destroy($annotation['_id']);
           } catch (Throwable $e) {
           }
-          $anno = new Annotation(array(
+          $anno = new Annotation([
             '_id' => $annotation['_id'],
             'document_id' => $annotation['document_id'],
             'collection_id' => $annotation['collection_id'],
@@ -93,7 +93,7 @@ class AnnotationController extends \BaseController
             'spans' => $annotation['spans'],
             'attributes' => $annotation['attributes'],
             'updated_by' => $user['email']
-          ));
+          ]);
           foreach ($optional as $field) {
             if (array_key_exists($field, $annotation)) {
               $anno[$field] = $annotation[$field];
@@ -115,10 +115,10 @@ class AnnotationController extends \BaseController
         }
       }
     } catch (\Exception $e) {
-      return Response::json(array('success' => false, 'message' => $e->getMessage()));
+      return Response::json(['success' => false, 'message' => $e->getMessage()]);
     }
 
-    return Response::json(array('success' => true));
+    return Response::json(['success' => true]);
   }
 
   public function destroy($collection_id, $document_id, $annotation_id)
@@ -141,9 +141,9 @@ class AnnotationController extends \BaseController
         Annotation::destroy($annotation_id);
       }
     } catch (\Exception $e) {
-      return Response::json(array('success' => false, 'message' => $e->getMessage()));
+      return Response::json(['success' => false, 'message' => $e->getMessage()]);
     }
 
-    return Response::json(array('success' => true));
+    return Response::json(['success' => true]);
   }
 }

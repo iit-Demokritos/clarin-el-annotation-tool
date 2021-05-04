@@ -8,13 +8,13 @@ class SharedCollectionController extends \BaseController {
   public function index($collection_id) {
     try {
       $user = Sentinel::getUser();
-      return Response::json(array(
+      return Response::json([
                   'success' => true,
                   'data'    => SharedCollection::where('from', $user['email'])
                                  ->where('collection_id', $collection_id)
-                                 ->get(array('id', 'collection_id', 'to', 'confirmed'))));
+                                 ->get(['id', 'collection_id', 'to', 'confirmed'])]);
     }catch(\Exception $e){
-        return Response::json(array('success' => false, 'message' => $e->getMessage()));
+        return Response::json(['success' => false, 'message' => $e->getMessage()]);
     }
   }
 
@@ -25,13 +25,13 @@ class SharedCollectionController extends \BaseController {
       $user = Sentinel::getUser();
 
       if(strcmp(trim($user['email']), trim($input['to']))==0)
-        return Response::json(array('success' => false, 'message' => 'You cannot share a collection with yourself.'));
+        return Response::json(['success' => false, 'message' => 'You cannot share a collection with yourself.']);
 
       //$recepient = Sentry::findUserByLogin($input['to']);  //attempt to find the recepient in the database
       $recepient = Sentinel::findByCredentials(['login' => $input['to']]);
 
       $confirmation_code = Str::random(30);      //create a random string to complete the collection sharing request
-      $data = array(
+      $data = [
         'sender_name' => $user['name'],
         'recepient_name' => $recepient['name'],
         'to' => $input['to'],
@@ -40,7 +40,7 @@ class SharedCollectionController extends \BaseController {
         'collection_id' => $input['cid'],
         'collection_name' => $input['cname'],
         'confirmation_code' => $confirmation_code
-      );
+      ];
 
       $invitationExists = DB::table('shared_collections')
                   ->where('from', '=',  trim($data['from']))
@@ -55,22 +55,22 @@ class SharedCollectionController extends \BaseController {
                         ->first();
 
         if (is_null($checkIfOwner))                    //if the user is not the owner stop the execution and inform user
-          return Response::json(array('success' => false, 'message' => 'You cannot share a collection that you do not own.'));
+          return Response::json(['success' => false, 'message' => 'You cannot share a collection that you do not own.']);
 
-        SharedCollection::create(array(                  //insert a new record about the specific collection sharing
+        SharedCollection::create([                  //insert a new record about the specific collection sharing
           'collection_id' => $data['collection_id'],
           'from' => $data['from'],
           'to' => $data['to'],
           'confirmation_code' => $data['confirmation_code']
-        ));
+        ]);
       } else {                              //invitation exists
         if ($invitationExists==1)                    //if invitation is accepted, notify user that collection is already shared with the specific user.
-          return Response::json(array('success' => false, 'message' => 'You already share this collection with the specific user.'));
+          return Response::json(['success' => false, 'message' => 'You already share this collection with the specific user.']);
 
         SharedCollection::where('from', '=',  trim($data['from']))        //if invitation is not confirmed, reset the confirmation code
                 ->where('to', '=',  trim($data['to']))
                 ->where('collection_id', '=',  $data['collection_id'])
-                ->update(array('confirmation_code' => $data['confirmation_code']));
+                ->update(['confirmation_code' => $data['confirmation_code']]);
       }
 
       Mail::send('emails/verify-collection', $data, function($message) use ($data){          //send an email to notify the recepient for the shared collection request
@@ -78,10 +78,10 @@ class SharedCollectionController extends \BaseController {
                     ->subject('[Clarin-EL] ' . $data['sender_name'] . ' wants to share a collection with you!');
           });
       }catch(\Exception $e){
-        return Response::json(array('success' => false, 'message' => $e->getMessage()));
+        return Response::json(['success' => false, 'message' => $e->getMessage()]);
     }
 
-    return Response::json(array('success' => true));
+    return Response::json(['success' => true]);
   }
 
 
@@ -102,10 +102,10 @@ class SharedCollectionController extends \BaseController {
               ->where('id', '=', (int) $share_id)
               ->delete();
     }catch(\Exception $e){
-        return Response::json(array('success' => false, 'message' => $e->getMessage()));
+        return Response::json(['success' => false, 'message' => $e->getMessage()]);
     }
 
-    return Response::json(array('success' => true));
+    return Response::json(['success' => true]);
   }
 
 
@@ -115,21 +115,21 @@ class SharedCollectionController extends \BaseController {
           $invitationConfirmed = SharedCollection::where('confirmation_code', '=', $confirmation_code)->pluck('confirmed')->first();
 
       if (is_null($invitationConfirmed))                           //invitation does not exist -- add new invitation
-        return View::make('basic', array('message' => 'The requested invitation does not exist!'));
+        return View::make('basic', ['message' => 'The requested invitation does not exist!']);
       else {
         if ($invitationConfirmed==1)                          //if invitation is accepted, notify user that collection is already shared with the specific user.
-          return View::make('basic', array('message' => 'The requested invitation has already been accepted!'));
+          return View::make('basic', ['message' => 'The requested invitation has already been accepted!']);
           //return Response::json(array('success' => false, 'message' => 'The requested invitation has already been accepted!'));
         else {
           SharedCollection::where('collection_id', '=',  $collection_id)        //if invitation is not confirmed, reset the confirmation code
                   ->where('confirmation_code', '=',  $confirmation_code)
-                  ->update(array('confirmed' => 1));
+                  ->update(['confirmed' => 1]);
         }
       }
         } catch(\Exception $e){
-          return View::make('basic', array('message' => $e->getMessage()));
+          return View::make('basic', ['message' => $e->getMessage()]);
     }
 
-    return View::make('basic', array('message' => 'You have successfully accepted the invitation! Start the annotation!'));
+    return View::make('basic', ['message' => 'You have successfully accepted the invitation! Start the annotation!']);
   }
 }

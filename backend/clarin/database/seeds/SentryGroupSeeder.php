@@ -11,19 +11,19 @@ class SentryGroupSeeder extends Seeder {
 	{
 		DB::table('groups')->delete();
 
-		Sentry::getGroupProvider()->create(array(
+		Sentry::getGroupProvider()->create([
 	        'name'        => 'Users',
-	        'permissions' => array(
+	        'permissions' => [
 	            'admin' => 0,
 	            'users' => 1,
-	        )));
+	        ]]);
 
-		Sentry::getGroupProvider()->create(array(
+		Sentry::getGroupProvider()->create([
 	        'name'        => 'Admins',
-	        'permissions' => array(
+	        'permissions' => [
 	            'admin' => 1,
 	            'users' => 1,
-	        )));
+	        ]]);
 	}
 
 }

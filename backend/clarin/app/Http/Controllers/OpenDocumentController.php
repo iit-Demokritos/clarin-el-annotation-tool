@@ -7,20 +7,20 @@ class OpenDocumentController extends \BaseController {
     public function index() {
         try {
             $user = Sentinel::getUser();
-            return Response::json(array('success' => true,
+            return Response::json(['success' => true,
                                         'data'    => DB::table('open_documents')
                    ->leftJoin('shared_collections', 'open_documents.collection_id', '=', 'shared_collections.collection_id')
                    ->select(DB::raw('open_documents.collection_id, open_documents.document_id, open_documents.annotator_type, open_documents.db_interactions, shared_collections.confirmed, IF('.$user['id']. '=open_documents.user_id, true, false) as opened'))
-                   ->get()));
+                   ->get()]);
         } catch(\Exception $e){
-            return Response::json(array('success' => false, 'message' => "index(): ".$e->getMessage()."|\"".$user."\""));
+            return Response::json(['success' => false, 'message' => "index(): ".$e->getMessage()."|\"".$user."\""]);
         }
     }
 
     public function show($document_id, $annotator_id=null) {
         try {
             $user = Sentinel::getUser();
-            return Response::json(array('success' => true,
+            return Response::json(['success' => true,
                                         'data'    => DB::table('open_documents')
                    ->leftJoin('shared_collections', 'open_documents.collection_id', '=', 'shared_collections.collection_id')
                    ->where('open_documents.document_id', $document_id)
@@ -28,9 +28,9 @@ class OpenDocumentController extends \BaseController {
                           return $query->where('open_documents.annotator_type', $annotator_id);
                    })
                    ->select(DB::raw('open_documents.collection_id, open_documents.document_id, open_documents.annotator_type, open_documents.db_interactions, shared_collections.confirmed, IF('.$user['id']. '=open_documents.user_id, true, false) as opened'))
-                   ->get()));
+                   ->get()]);
         } catch(\Exception $e) {
-            return Response::json(array('success' => false, 'message' => "show(): ".$e->getMessage()));
+            return Response::json(['success' => false, 'message' => "show(): ".$e->getMessage()]);
         }
     }
 
@@ -61,10 +61,10 @@ class OpenDocumentController extends \BaseController {
             $open_document->db_interactions = $db_interactions;
             $open_document->save();
         } catch(\Exception $e){
-            return Response::json(array('success' => false, 'message' => "store(): ".$e->getMessage()));
+            return Response::json(['success' => false, 'message' => "store(): ".$e->getMessage()]);
         }
 
-        return Response::json(array('success' => true));
+        return Response::json(['success' => true]);
     }
 
     //close a document
@@ -78,8 +78,8 @@ class OpenDocumentController extends \BaseController {
                         })
                         ->delete();
         } catch(\Exception $e){
-            return Response::json(array('success' => false, 'message' => "destroy(): ".$e->getMessage()));
+            return Response::json(['success' => false, 'message' => "destroy(): ".$e->getMessage()]);
         }
-        return Response::json(array('success' => true));
+        return Response::json(['success' => true]);
     }
 }

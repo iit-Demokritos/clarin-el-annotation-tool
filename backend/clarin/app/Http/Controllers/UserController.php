@@ -21,7 +21,7 @@ class UserController extends \BaseController {
    * [GET] function that returns nothing. Just to get the CSRF token
    **/
    public function gettoken() {
-     return Response::json(array('success' => true, 'data' => []), 200);
+     return Response::json(['success' => true, 'data' => []], 200);
    }
 
 
@@ -31,19 +31,19 @@ class UserController extends \BaseController {
     public function index() {
         try {
             $user = Sentinel::getUser();
-            $stats = array(
+            $stats = [
                 'collections' => 0,
                 'documents' => 0,
                 'annotations' => 0
-            );
+            ];
 
             $stats['collections'] = Collection::where('owner_id', '=',  $user['id'])->count();
             $stats['documents'] = Document::where('owner_id', '=',  $user['id'])->count();
             $stats['annotations'] = Annotation::where('owner_id', $user['id'])->count();
 
-            return Response::json(array('success' => true, 'data' => $stats), 200);
+            return Response::json(['success' => true, 'data' => $stats], 200);
         }catch(\Exception $e){
-            return Response::json(array('success' => false, 'message' => $e->getMessage()), 500);
+            return Response::json(['success' => false, 'message' => $e->getMessage()], 500);
         }
     }
 
@@ -55,10 +55,10 @@ class UserController extends \BaseController {
    **/
     public function updatePassword() {
         try {
-            $credentials =  array(
+            $credentials =  [
                 'old_password' => Request::json('old_password'),
                 'new_password' => Request::json('new_password')
-            );
+            ];
 
             $user = Sentinel::getUser();
 
@@ -67,15 +67,15 @@ class UserController extends \BaseController {
 		$user = Sentinel::update($user, ['password' => $credentials['new_password']]);
 
                 if ($user->save()) {
-                    return Response::json(array('success' => true, 'message' => 'You password was successfully updated.'), 200);
+                    return Response::json(['success' => true, 'message' => 'You password was successfully updated.'], 200);
                 } else {
-                    return Response::json(array('success' => false, 'message' => 'An error was occured. Please try again.'), 500);
+                    return Response::json(['success' => false, 'message' => 'An error was occured. Please try again.'], 500);
                 }
             } else {
-                return Response::json(array('success' => false, 'message' => 'Your current password doesn\'t match'), 400);
+                return Response::json(['success' => false, 'message' => 'Your current password doesn\'t match'], 400);
             }
         } catch (Exception $e) {
-            return Response::json(array('success' => false, 'message' => $e->getMessage()), 500);
+            return Response::json(['success' => false, 'message' => $e->getMessage()], 500);
         }
     }
 
@@ -88,11 +88,11 @@ class UserController extends \BaseController {
      **/
     public function register() {
         try {
-            $credentials = array(
+            $credentials = [
                 'name' => Request::json('name'),
                 'email' => Request::json('email'),
                 'password' => Request::json('password')
-            );
+            ];
 
             //register user using Sentry and generate activation code
             $user = Sentinel::register($credentials, false);
@@ -101,13 +101,13 @@ class UserController extends \BaseController {
             $activation_code = $activation['code'];
 
             //prepare the required variables passed to the email view
-      $email_data = array(
+      $email_data = [
     'id' => $activation['user_id'],
                 'name' => $credentials['name'],
                 'to' => $credentials['email'],
                 'subject' => 'Welcome at Clarin-EL!',
                 'activation_code' => $activation_code
-            );
+            ];
 
             //send an email to notify user to activate the account
             Mail::send('emails/activate-account', $email_data, function($message) use ($email_data){
@@ -115,9 +115,9 @@ class UserController extends \BaseController {
                         ->subject($email_data['subject']);
             });
 
-            return Response::json(array('success' => true, 'message' => 'You were successfully registered.'), 200);
+            return Response::json(['success' => true, 'message' => 'You were successfully registered.'], 200);
         } catch (Exception $e) {
-            return Response::json(array('success' => false, 'message' => $e->getMessage()), 500);
+            return Response::json(['success' => false, 'message' => $e->getMessage()], 500);
         }
     }
 
@@ -139,14 +139,14 @@ class UserController extends \BaseController {
       // Attempt to activate the user
       if (Activation::complete($user, $activation_code)) {
             //if ($user->attemptActivation($activation_code)) {
-                return View::make('basic', array('message' => 'Your account has been successfully activated.'));
+                return View::make('basic', ['message' => 'Your account has been successfully activated.']);
             } else {
-                return View::make('basic', array('message' => 'An error was occured. Please try again.'));
+                return View::make('basic', ['message' => 'An error was occured. Please try again.']);
             }
         } catch (Cartalyst\Sentinel\Users\UserNotFoundException $e) {
-            return View::make('basic', array('message' => 'User was not found.'));
+            return View::make('basic', ['message' => 'User was not found.']);
         } catch (Cartalyst\Sentinel\Users\UserAlreadyActivatedException $e) {
-            return View::make('basic', array('message' => 'User is already activated.'));
+            return View::make('basic', ['message' => 'User is already activated.']);
         }
     }
 
@@ -158,10 +158,10 @@ class UserController extends \BaseController {
      **/
     public function login() {
       try {
-        $credentials = array(
+        $credentials = [
             'email' => Request::json('email'),
             'password' => Request::json('password')
-	);
+	];
 	//Log::info("Authenticate the user");
 	//Log::info($credentials);
 
@@ -176,22 +176,22 @@ class UserController extends \BaseController {
 	//Log::info($user);
 	//Log::info(json_encode(auth()));
 	//Log::info(json_encode(auth()->user()));
-        return Response::json(array('success' => true,   'data' => $user), 200);
+        return Response::json(['success' => true,   'data' => $user], 200);
       }
       catch (Cartalyst\Sentinel\Users\LoginRequiredException $e) {
-        return Response::json(array('success' => false, 'message'  => 'Login field is required.'), 400);
+        return Response::json(['success' => false, 'message'  => 'Login field is required.'], 400);
       }
       catch (Cartalyst\Sentinel\Users\PasswordRequiredException $e) {
-        return Response::json(array('success' => false, 'message'  => 'Password field is required.'), 400);
+        return Response::json(['success' => false, 'message'  => 'Password field is required.'], 400);
       }
       catch (Cartalyst\Sentinel\Users\WrongPasswordException $e) {
-        return Response::json(array('success' => false, 'message'  => 'Wrong password, try again.'), 400);
+        return Response::json(['success' => false, 'message'  => 'Wrong password, try again.'], 400);
       }
       catch (Cartalyst\Sentinel\Users\UserNotFoundException $e) {
-        return Response::json(array('success' => false, 'message'  => 'User was not found.'), 400);
+        return Response::json(['success' => false, 'message'  => 'User was not found.'], 400);
       }
       catch (Cartalyst\Sentinel\Users\UserNotActivatedException $e)  {
-        return Response::json(array('success' => false, 'message'  => 'Authentication failed'), 400);
+        return Response::json(['success' => false, 'message'  => 'Authentication failed'], 400);
       }
     }
 
@@ -214,7 +214,7 @@ class UserController extends \BaseController {
     {
       $user = auth()->user();
       $user['jwtToken'] = auth()->refresh();
-      return Response::json(array('success' => true,   'data' => $user), 200);
+      return Response::json(['success' => true,   'data' => $user], 200);
     }
 
     /**
@@ -255,12 +255,12 @@ class UserController extends \BaseController {
                 if ($user->attemptResetPassword($reset_code, $new_password)) {
 
                     //prepare the required variables passed to the email view
-                    $email_data = array(
+                    $email_data = [
                         'name' => $user['name'],
                         'to' => $user['email'],
                         'subject' => '[Clarin-EL] Your password has been reset.',
                         'new_password' => $new_password
-                    );
+                    ];
 
                     //send an email to notify the recepient for the password reset procedure
                     Mail::send('emails/reset-password', $email_data, function($message) use ($email_data){
@@ -268,17 +268,17 @@ class UserController extends \BaseController {
                                 ->subject($email_data['subject']);
                     });
 
-                    return Response::json(array(
+                    return Response::json([
                         'success' => false,
-                        'message' => 'Your password reset was successful. An email with your new password will arrive shortly.'), 200);
+                        'message' => 'Your password reset was successful. An email with your new password will arrive shortly.'], 200);
                 } else {
-                    return Response::json(array('success' => false, 'message' => 'An error was occured. Please try again.'), 500);
+                    return Response::json(['success' => false, 'message' => 'An error was occured. Please try again.'], 500);
                 }
             } else {
-                return Response::json(array('success' => false, 'message' => 'An error was occured. Please try again.'), 500);
+                return Response::json(['success' => false, 'message' => 'An error was occured. Please try again.'], 500);
             }
         } catch (Exception $e) {
-            return Response::json(array('success' => false, 'message' => $e->getMessage()), 500);
+            return Response::json(['success' => false, 'message' => $e->getMessage()], 500);
         }
     }
 
@@ -289,9 +289,9 @@ class UserController extends \BaseController {
       try {
         Sentinel::logout();
         auth()->logout();
-        return Response::json(array('success' => true, 'message' => 'You successfully signed out.'), 200);
+        return Response::json(['success' => true, 'message' => 'You successfully signed out.'], 200);
       } catch (Exception $e) {
-          return Response::json(array('success' => false, 'message' => $e->getMessage()), 500);
+          return Response::json(['success' => false, 'message' => $e->getMessage()], 500);
       }
     }
 
