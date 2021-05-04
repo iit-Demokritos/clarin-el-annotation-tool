@@ -172,6 +172,7 @@ return [
     */
 
     'aliases' => [
+        'Date' => Illuminate\Support\Facades\Date::class,
 
         'App'       => Illuminate\Support\Facades\App::class,
         'Artisan'   => Illuminate\Support\Facades\Artisan::class,
