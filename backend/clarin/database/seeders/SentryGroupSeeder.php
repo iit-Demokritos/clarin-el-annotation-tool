@@ -1,4 +1,7 @@
 <?php
+namespace Database\Seeders;
+use Illuminate\Support\Facades\DB;
+
 
 class SentryGroupSeeder extends Seeder {
 

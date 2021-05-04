@@ -2,13 +2,13 @@
 
 class DocumentController extends \BaseController {
 
-  protected $fillable = array('name', 'owner_id', 'handler');
+  protected $fillable = ['name', 'owner_id', 'handler'];
 
   //get all the documents of the user
   public function index($collection_id) {
     try {
       $user = Sentinel::getUser();
-      return Response::json(array(
+      return Response::json([
         'success' => true,
         'data'    => DB::table('documents')
           ->leftJoin('users', 'documents.owner_id', '=', 'users.id')
@@ -37,12 +37,12 @@ class DocumentController extends \BaseController {
                       });
           })
           ->distinct()
-          ->get(array('documents.*', 'users.email as owner_email'))));
+          ->get(['documents.*', 'users.email as owner_email'])]);
     }catch(\Exception $e){
-      return Response::json(array('success' => false, 'message' => $e->getMessage()));
+      return Response::json(['success' => false, 'message' => $e->getMessage()]);
     }
 
-    return Response::json(array('success' => true));
+    return Response::json(['success' => true]);
   }
 
   //get the specific document of the user
@@ -77,10 +77,10 @@ class DocumentController extends \BaseController {
       else
         $document['is_opened'] = false;
 
-      return Response::json(array( 'success' => true,
-        'data'     => $document));
+      return Response::json([ 'success' => true,
+        'data'     => $document]);
     }catch(\Exception $e){
-      return Response::json(array('success' => false, 'message' => $e->getMessage()));
+      return Response::json(['success' => false, 'message' => $e->getMessage()]);
     }
 
     /*return Response::json(array('success' => true));*/
@@ -130,7 +130,7 @@ class DocumentController extends \BaseController {
             break;
         };
 
-        $col = Document::create(array(
+        $col = Document::create([
           'name' => $document_name,
           'type' => $type,
           'text' => $text,
@@ -142,16 +142,16 @@ class DocumentController extends \BaseController {
           'handler' => $handler,
           'owner_id' => $user['id'],
           'updated_by' => $user['email']
-        ));
+        ]);
 
         DB::unprepared('COMMIT');
         DB::unprepared('UNLOCK TABLES');
       });
     }catch(\Exception $e){
-      return Response::json(array('success' => false, 'message' => $e->getMessage()));
+      return Response::json(['success' => false, 'message' => $e->getMessage()]);
     }
 
-    return Response::json(array('success' => true));
+    return Response::json(['success' => true]);
   }
 
   public function destroy($collection_id, $document_id) {
@@ -168,7 +168,7 @@ class DocumentController extends \BaseController {
           ->where('id', $document_id)
           ->delete();
       } else                              //else stop the excecution informing the user about the permission issue
-        return Response::json(array('success' => false, 'message' => 'You do not have permission to delete this document'));
+        return Response::json(['success' => false, 'message' => 'You do not have permission to delete this document']);
 
       TempAnnotation::where('owner_id', $user['id'])
         ->where('collection_id', $collection_id)
@@ -180,9 +180,9 @@ class DocumentController extends \BaseController {
         ->where('document_id', $document_id)
         ->delete();
     }catch(\Exception $e){
-      return Response::json(array('success' => false, 'message' => $e->getMessage()));
+      return Response::json(['success' => false, 'message' => $e->getMessage()]);
     }
 
-    return Response::json(array('success' => true));
+    return Response::json(['success' => true]);
   }
 }

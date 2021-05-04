@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -18,6 +19,8 @@ class User extends Model implements AuthenticatableContract,
 				    CanResetPasswordContract,
 				    JWTSubject
 {
+    use HasFactory;
+
     use Authenticatable, Authorizable, CanResetPassword, Notifiable;
 
     /**
