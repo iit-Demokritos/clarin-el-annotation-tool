@@ -27,17 +27,17 @@ class DocumentController extends \BaseController {
                          })*/
           ->where(function($query) use ($user) {
             $query->where('documents.owner_id', '=', $user['id'])
-      		->orWhere(function($query) use ($user) {
-       			 $query->where('shared_collections.from', '=', $user['email'])
-      				->where('shared_collections.confirmed', '=', 1);
-      		})
-      		->orWhere(function($query) use ($user) {
-        		$query->where('shared_collections.to', '=', $user['email'])
-      				->where('shared_collections.confirmed', '=', 1);
-      		});
+                      ->orWhere(function($query) use ($user) {
+                                $query->where('shared_collections.from', '=', $user['email'])
+                                      ->where('shared_collections.confirmed', '=', 1);
+                      })
+                      ->orWhere(function($query) use ($user) {
+                        $query->where('shared_collections.to', '=', $user['email'])
+                                      ->where('shared_collections.confirmed', '=', 1);
+                      });
           })
-	  ->distinct()
-	  ->get(array('documents.*', 'users.email as owner_email'))));
+          ->distinct()
+          ->get(array('documents.*', 'users.email as owner_email'))));
     }catch(\Exception $e){
       return Response::json(array('success' => false, 'message' => $e->getMessage()));
     }
@@ -109,12 +109,37 @@ class DocumentController extends \BaseController {
           }
         } while ($duplicateCounter != 0);
 
+        /* Caller will always place data in the "text" field */
+        data        = $input['text'];
+        type        = strtolower($input['type'] ?? "text");
+        handler     = $input['handler']['value'] ?? NULL;
+        text        = "";
+        data_text   = NULL;
+	data_binary = NULL;
+	visualisation_options = NULL;
+
+	switch ($type) {
+	case "tei xml":
+		data_text = $data;
+		text = "";
+		visualisation_options = NULL;
+		break;
+	case "text":
+	case default:
+            text = $data;
+            break;
+        };
+
         $col = Document::create(array(
           'name' => $document_name,
-          'text' => $input['text'],
+          'type' => $type,
+          'text' => $text,
+          'data_text' => $data_text,
+          'data_binary' => $data_binary,
           'collection_id' => $input['collection_id'],
           'external_name' => $document_name,
           'encoding' => $input['encoding'],
+          'handler' => $handler,
           'owner_id' => $user['id'],
           'updated_by' => $user['email']
         ));

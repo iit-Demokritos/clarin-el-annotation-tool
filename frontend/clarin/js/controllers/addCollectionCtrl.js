@@ -2,9 +2,8 @@ angular.module('clarin-el').controller('AddCollectionCtrl', ['$scope', '$timeout
   $scope.sidebarSelector = "myCollections";
   $scope.encodingOptions = ["UTF-8", "Unicode"];
   $scope.handlerOptions = [
-    {name: 'No Handler', value: 'noHandler'},
-    {name: 'Handler 1', value: 'handler1'},
-    {name: 'Handler 2', value: 'handler2'}
+    {name: 'No Handler',     value: 'none'},
+    {name: 'TEI XML Import', value: 'tei'},
   ];
 
 
@@ -27,8 +26,9 @@ angular.module('clarin-el').controller('AddCollectionCtrl', ['$scope', '$timeout
     $scope.collectionData = {};
     $scope.collectionData.name = "";
     $scope.collectionData.encoding = $scope.encodingOptions[0];
-    $scope.handlerOption = $scope.handlerOptions[0];
+    $scope.collectionData.handler  = $scope.handlerOptions[0];
     $scope.encodingChange();
+    $scope.handlerChange();
   };
 
   function validateCollection () {
@@ -56,7 +56,7 @@ angular.module('clarin-el').controller('AddCollectionCtrl', ['$scope', '$timeout
   $scope.submitCollection = function() {
     validateCollection().then(function(modalResult) {
       if (modalResult === "Yes") {
-        $scope.collectionData.handler =  $scope.handlerOption.value;
+        //$scope.collectionData.handler =  $scope.handlerOption.value;
         $scope.collectionData.overwrite = false;
 
         Collection.save($scope.collectionData)
@@ -120,6 +120,10 @@ angular.module('clarin-el').controller('AddCollectionCtrl', ['$scope', '$timeout
 
   $scope.encodingChange = function () {
     $scope.$broadcast("initializeUploaderEncoding", {encoding : $scope.collectionData.encoding});
+  }
+
+  $scope.handlerChange = function () {
+    $scope.$broadcast("initializeUploaderHandler", {handler : $scope.collectionData.handler});
   }
 
   $scope.$on('flowEvent', function(event, data) {    

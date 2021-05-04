@@ -18,8 +18,8 @@ class AddDocumentFields extends Migration
 	    $table->longText('data_text')->nullable($value = true)->collation('utf8_unicode_ci')->after('text');
 	    $table->binary('data_binary')->nullable($value = true)->after('data_text');
             $table->string('handler', 256)->nullable($value = true)->collation('utf8_unicode_ci')->after('data_binary');
-	    $table->json('visualisation_options')->nullable($value = true)->after('handler');
-	    $table->json('metadata')->nullable($value = true)->after('visualisation_options');
+	    $table->json('visualisation_options')->nullable($value = true)->collation('utf8_unicode_ci')->after('handler');
+	    $table->json('metadata')->nullable($value = true)->collation('utf8_unicode_ci')->after('visualisation_options');
         });
     }
 

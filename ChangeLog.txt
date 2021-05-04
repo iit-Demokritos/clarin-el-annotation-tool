@@ -1,16 +1,29 @@
-27 April 2020 Petasis George <petasis@iit.demokritos.gr>
+04 May 2021 Petasis George <petasis@iit.demokritos.gr>
+ * backend/clarin/app/Http/Controllers/DocumentController.php:
+ * backend/clarin/app/Models/Document.php:
+ * backend/clarin/database/migrations/2021_04_27_112120_add_document_fields.php:
+ * frontend/clarin/js/controllers/addCollectionCtrl.js:
+ * frontend/clarin/js/directives/uploader-directive.js:
+ * frontend/clarin/js/services/documentService.js:
+ * frontend/clarin/templates/collection-add.html:
+ * frontend/clarin/templates/directives/uploader.html: Added support for
+ uploading XML files. Also, during collection creation, the user can specify a
+ document type, and a document handler. Two handlers are currently supported,
+ "None" and "TEI XML".
+
+27 April 2021 Petasis George <petasis@iit.demokritos.gr>
  * backend/clarin/vendor/composer/autoload_classmap.php:
  * backend/clarin/vendor/composer/autoload_static.php: Added backend migration
  (new Document fields) for importing document types beyond text.
 
-19 April 2020 Petasis George <petasis@iit.demokritos.gr>
+19 April 2021 Petasis George <petasis@iit.demokritos.gr>
  * frontend/clarin/css/clarin.css:
  * frontend/clarin/js/directives/annotator-widget.js:
  * frontend/clarin/js/directives/button/annotation-button.js:
  * frontend/clarin/templates/annotation.html: Added support for predefined
  line breaks in Button Annotator labels. Also reduced paddings to 1px.
 
-10 April 2020 Petasis George <petasis@iit.demokritos.gr>
+10 April 2021 Petasis George <petasis@iit.demokritos.gr>
  * frontend/clarin/js/app.js:
  * frontend/clarin/js/controllers/annotationCtrl.js:
  * frontend/clarin/js/directives/text-widget.js:
@@ -21,12 +34,12 @@
  * frontend/clarin/js/directives/text-widget.js: Fixes in overlay box
  calculations.
 
-07 April 2020 Petasis George <petasis@iit.demokritos.gr>
+07 April 2021 Petasis George <petasis@iit.demokritos.gr>
  * frontend/clarin/js/directives/text-widget.js:
  * frontend/clarin/js/directives/toolbar-widget.js: Restricted "Delete" key
  binding only to the editor window.
 
-06 April 2020 Petasis George <petasis@iit.demokritos.gr>
+06 April 2021 Petasis George <petasis@iit.demokritos.gr>
  * frontend/clarin/js/controllers/annotationCtrl.js:
  * frontend/clarin/js/controllers/modals/detectChangesModalCtrl.js:
  * frontend/clarin/js/controllers/modals/detectOpenDocModalCtrl.js:
@@ -38,7 +51,7 @@
  (mainly on modal dialogs) of storing Annotator id instead of Annotator type
  in the opened documents database.
 
-05 April 2020 Petasis George <petasis@iit.demokritos.gr>
+05 April 2021 Petasis George <petasis@iit.demokritos.gr>
  * backend/clarin/resources/views/index.php:
  * frontend/clarin/bower.json:
  * frontend/clarin/css/clarin.css:
@@ -49,7 +62,7 @@
  lines (from LeaderLine to Joint). Now relations are put in asingle SVG
  element, layered on top of the editor.
 
-02 April 2020 Petasis George <petasis@iit.demokritos.gr>
+02 April 2021 Petasis George <petasis@iit.demokritos.gr>
  * backend/clarin/resources/views/index.php:
  * frontend/clarin/js/directives/annotator-widget.js:
  * frontend/clarin/js/directives/button/annotation-relation-annotate-btn.js:
@@ -79,13 +92,13 @@
  * frontend/clarin/templates/modals/rename-collection-modal.html: Added
  support for custom values in Button Annotator.
 
-28 March 2020 Petasis George <petasis@iit.demokritos.gr>
+28 March 2021 Petasis George <petasis@iit.demokritos.gr>
  * frontend/clarin/js/directives/document/annotation-text-text.js:
  * frontend/clarin/js/directives/dom-helpers.js:
  * frontend/clarin/js/directives/text-widget.js: Added initialisation of
  Document Attributes, if relevant annotations exist.
 :
-27 March 2020 Petasis George <petasis@iit.demokritos.gr>
+27 March 2021 Petasis George <petasis@iit.demokritos.gr>
  * backend/clarin/app/Http/Controllers/AnnotationController.php:
  * backend/clarin/app/Http/Controllers/TempAnnotationController.php:
  * frontend/clarin/js/directives/annotation-visualizer.js:
@@ -99,7 +112,7 @@
  <group type="document_attributes" name="Document Metadata" button_number="1"
  sort="false"><value type="paragraph" name="author">Author</value></group>.
 
-25 March 2020 Petasis George <petasis@iit.demokritos.gr>
+25 March 2021 Petasis George <petasis@iit.demokritos.gr>
  * frontend/clarin/css/clarin.css:
  * frontend/clarin/js/config/ocLazyLoadConfig.js:
  * frontend/clarin/js/directives/annotator-widget.js:
@@ -118,7 +131,7 @@
  * frontend/clarin/templates/annotation.html: Added two tabs above the
  document editor.
 
-23 March 2020 Petasis George <petasis@iit.demokritos.gr>
+23 March 2021 Petasis George <petasis@iit.demokritos.gr>
  * frontend/clarin/js/controllers/modals/selectDocumentModalCtrl.js:
  * frontend/clarin/templates/modals/select-document-modal.html: Fixed a bug,
  where the user can select a schema with empty attributes.
@@ -130,7 +143,7 @@
  * frontend/clarin/js/controllers/modals/detectChangesModalCtrl.js: Fixed a
  bug in backend, in OpenDocument::destroy().
 
-22 March 2020 Petasis George <petasis@iit.demokritos.gr>
+22 March 2021 Petasis George <petasis@iit.demokritos.gr>
  * backend/clarin/app/Http/Controllers/AnnotationController.php:
  * backend/clarin/app/Http/Controllers/CollectionController.php:
  * backend/clarin/app/Models/Annotation.php: Added more fields for annotations
@@ -168,7 +181,7 @@
  hopefully fix the deletion of annotations that happen if you accidentally
  open a different annotator on annotated docuemnts.
 :
-20 March 2020 Petasis George <petasis@iit.demokritos.gr>
+20 March 2021 Petasis George <petasis@iit.demokritos.gr>
  * frontend/clarin/css/clarin.css:
  * frontend/clarin/css/codemirror.css:
  * frontend/clarin/js/directives/annotation-visualizer.js:

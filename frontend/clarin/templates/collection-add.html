@@ -32,7 +32,7 @@
                       	</div>
                       	<div class="form-group">
                         	<label for="defaultHandler">Default Handler</label>
-                        	<select id="defaultHandler" class="form-control" ng-options="handlerOption as handlerOption.name for handlerOption in handlerOptions" ng-model="handlerOption"></select>
+                        	<select id="defaultHandler" class="form-control" ng-options="handlerOption as handlerOption.name for handlerOption in handlerOptions" ng-model="collectionData.handler" ng-change="handlerChange()"></select>
                       	</div>
                       	<div class="form-group">
                         	<label>Files to be added to the Collection</label>

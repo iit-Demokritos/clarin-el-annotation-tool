@@ -8,6 +8,14 @@ angular.module('clarin-el').directive('uploader', function() {
 			$scope.unsupportedFiles = [];
 			$scope.fileEncodingOptions = ["UTF-8", "Unicode"];
 			$scope.defaultEncodingIndex = 0;
+			$scope.fileHandlerOptions = [
+                          {name: 'No Handler',     value: 'none'},
+                          {name: 'TEI XML Import', value: 'tei'},
+                        ];
+			$scope.defaultHandlerIndex = 0;
+			$scope.allowedTypes = ["text/plain", "text/xml"];
+			$scope.fileTypeOptions = ["Text", "TEI XML"];
+			$scope.defaultTypeIndex = 0;
 
 			$scope.$watch("$flow.files.length", function( newValue, oldValue ) {
 				if (oldValue > newValue)
@@ -17,14 +25,27 @@ angular.module('clarin-el').directive('uploader', function() {
 				var encodingIndex = $scope.encodingOptions.indexOf(data.encoding);
 				$scope.defaultEncodingIndex = encodingIndex;
 			});
+			$scope.$on('initializeUploaderHandler', function(event, data) {
+				var handlerIndex = $scope.handlerOptions.findIndex(function(item, index) {
+                                  if (item.name == data.handler.name) return true;
+                                });
+				$scope.defaultHandlerIndex = handlerIndex;
+			});
 			$scope.$on('initializeUploaderFiles', function(event) {
 				$scope.$flow.files = [];
 				$scope.unsupportedFiles = [];
 			});
 			$scope.$on('flow::fileAdded', function (event, $flow, flowFile) {
-				if(flowFile.file.type !== "text/plain" && $scope.filterFiles !== false){
+				if(!$scope.allowedTypes.includes(flowFile.file.type) && $scope.filterFiles !== false){
 					event.preventDefault();
 					$scope.unsupportedFiles.push(flowFile);
+				}
+				// Guess the type...
+				$scope.defaultTypeIndex = $scope.allowedTypes.indexOf(flowFile.file.type);
+				if (flowFile.file.type == "text/xml") {
+				  $scope.defaultHandlerIndex = $scope.handlerOptions.findIndex(function(item, index) {
+                                    if (item.name == 'TEI XML Import') return true;
+                                  });
 				}
 			});
 			$scope.$on('flow::filesSubmitted', function (event, $flow, files) {

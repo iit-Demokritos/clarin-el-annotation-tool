@@ -6,10 +6,12 @@ angular.module('clarin-el').factory('Document', function ($http, $q) {
 
     reader.onload = function (e) {
       docData.name = documentFile.name;
+      docData.type = documentFile.type;
       docData.text = reader.result;
       docData.collection_id = collection_id;
       docData.external_name = documentFile.name;
       docData.encoding = documentFile.encoding;
+      docData.handler = documentFile.handler;
 
       deferred.resolve(docData);
     }
