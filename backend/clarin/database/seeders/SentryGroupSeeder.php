@@ -1,4 +1,6 @@
 <?php
+namespace Database\Seeders;
+
 
 class SentryGroupSeeder extends Seeder {
 
