@@ -8,25 +8,25 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": "^7.2.5|^8.0",
-        "laravel/framework": "^7.29",
+        "php": "^7.3|^8.0",
+        "laravel/framework": "^8.40",
         "jenssegers/mongodb": "3.7.*",
         "cartalyst/sentinel": "4.*",
         "tymon/jwt-auth": "^1.0",
         "laravel/helpers": "^1.4",
         "doctrine/dbal": "^3.1",
-        "laravel/ui": "^2.5",
+        "laravel/ui": "^3.2",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
-        "guzzlehttp/guzzle": "^6.3.1|^7.0.1",
+        "guzzlehttp/guzzle": "^7.0.1",
         "laravel/tinker": "^2.5"
     },
     "require-dev": {
-        "mockery/mockery": "^1.3.1",
+        "mockery/mockery": "^1.4.2",
         "fakerphp/faker": "^1.9.1",
-        "facade/ignition": "^2.0",
-        "nunomaduro/collision": "^4.3",
-        "phpunit/phpunit": "^8.5.8|^9.3.3"
+        "facade/ignition": "^2.5",
+        "nunomaduro/collision": "^5.0",
+        "phpunit/phpunit": "^9.3.3"
     },
     "autoload": {
         "classmap": [
