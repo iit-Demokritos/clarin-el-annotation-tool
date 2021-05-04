@@ -1,5 +1,6 @@
 <?php
 namespace Database\Seeders;
+use Illuminate\Support\Facades\DB;
 
 
 class SentryUserGroupSeeder extends Seeder {
