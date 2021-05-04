@@ -110,23 +110,23 @@ class DocumentController extends \BaseController {
         } while ($duplicateCounter != 0);
 
         /* Caller will always place data in the "text" field */
-        data        = $input['text'];
-        type        = strtolower($input['type'] ?? "text");
-        handler     = $input['handler']['value'] ?? NULL;
-        text        = "";
-        data_text   = NULL;
-	data_binary = NULL;
-	visualisation_options = NULL;
+        $data        = $input['text'];
+        $type        = strtolower($input['type'] ?? "text");
+        $handler     = $input['handler']['value'] ?? NULL;
+        $text        = "";
+        $data_text   = NULL;
+	$data_binary = NULL;
+	$visualisation_options = NULL;
 
 	switch ($type) {
 	case "tei xml":
-		data_text = $data;
-		text = "";
-		visualisation_options = NULL;
+		$data_text = $data;
+		$text = "";
+		$visualisation_options = NULL;
 		break;
 	case "text":
-	case default:
-            text = $data;
+	default:
+            $text = $data;
             break;
         };
 

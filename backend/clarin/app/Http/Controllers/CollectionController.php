@@ -118,7 +118,7 @@ class CollectionController extends \BaseController {
           'name' => $input['name'],
           'encoding' => $input['encoding'],
           'owner_id' => $user['id'],
-          'handler' => $input['handler']
+          'handler' => $input['handler']['value'] ?? NULL
 	));
 	//Log::info("Collection CREATED!");
 
