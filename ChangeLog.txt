@@ -1,3 +1,10 @@
+05 May 2021 Petasis George <petasis@iit.demokritos.gr>
+ * backend/clarin/.env.example:
+ * backend/clarin/app/Http/Controllers/DocumentController.php: Added execution
+ of handlers (for the time being through a call to an external, django-based
+ service).
+   Backend (Laravel) upgraded to 8.x.
+
 04 May 2021 Petasis George <petasis@iit.demokritos.gr>
  * backend/clarin/app/Http/Controllers/DocumentController.php:
  * backend/clarin/app/Models/Document.php:
