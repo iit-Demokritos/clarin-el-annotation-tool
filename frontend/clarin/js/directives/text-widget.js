@@ -323,6 +323,8 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
                   connectedAnnotations = [];
                   editor.refresh();
                   scope.layout.showLinkRouterSelector = false;
+                  visualiseVisualisationOptions(JSON.parse(response.data.visualisation_options));
+
 
                   if (response.data.is_opened) {
                     RestoreAnnotation.restoreFromTemp(newDocument.collection_id, newDocument.id, AnnotatorTypeId)
@@ -364,6 +366,15 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
           } else
             TextWidgetAPI.disableIsRunning();
         };
+        
+        var visualiseVisualisationOptions = function (options) {
+          for (var i = 0; i < options.length; i++) {
+            var item = options[i];
+            editor.markText(item.start, item.end, {
+              className: "tei-"+item.tags
+            });
+          }
+        }; /* visualiseVisualisationOptions */
 
         var migrateOldSpans = function (anns) {
           var annotations = [];

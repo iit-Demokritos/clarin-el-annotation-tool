@@ -43,7 +43,7 @@ angular.module('clarin-el').directive('uploader', function() {
 				// Guess the type...
 				$scope.defaultTypeIndex = $scope.allowedTypes.indexOf(flowFile.file.type);
 				if (flowFile.file.type == "text/xml") {
-				  $scope.defaultHandlerIndex = $scope.handlerOptions.findIndex(function(item, index) {
+				  $scope.defaultHandlerIndex = $scope.fileHandlerOptions.findIndex(function(item, index) {
                                     if (item.name == 'TEI XML Import') return true;
                                   });
 				}

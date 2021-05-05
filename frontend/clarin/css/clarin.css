@@ -845,6 +845,27 @@ input, textarea { -webkit-user-select: auto!important; }
 }
 
 .bootstrap-select .dropdown-menu > li > a > span {
-    line-height: initial;
+  line-height: initial;
 }
 
+/* TEI XML tags */
+.tei-stage {
+  font-style: italic;
+}
+
+.tei-speaker {
+  font-weight: bold;
+}
+
+.tei-noteindex {
+  font-size: .83em;
+  vertical-align: super;
+}
+
+.tei-quote {
+  background-color: yellow;
+}
+
+.tei-emph {
+  background-color: coral;
+}
