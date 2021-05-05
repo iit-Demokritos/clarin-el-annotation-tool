@@ -141,7 +141,7 @@ class DocumentController extends \BaseController
               $data_text = $data;
             }
             $text = $json['documents'][0]['text'] ?? "";
-            $visualisation_options = json_encode($json['documents'][0]['marks']) ?? NULL;
+            $visualisation_options = json_encode($json['documents'][0]['info']) ?? NULL;
             break;
         };
 

@@ -854,6 +854,7 @@ input, textarea { -webkit-user-select: auto!important; }
 }
 
 .CodeMirror-line .speaker, .tei-speaker {
+  line-height: 2.6;
   font-weight: bold;
 }
 

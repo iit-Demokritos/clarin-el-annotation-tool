@@ -32,9 +32,11 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
         var mainContent = document.getElementsByClassName("main-content")[0];
         var textWidget = document.getElementById("annotation-editor-text-widget");
         var textWidgetOverlay = document.getElementById('annotation-editor-text-widget-overlay');
+        var skipLineNumber = {};
+
         var editor = CodeMirror.fromTextArea(textWidget, {
           lineNumbers: true,
-          firstLineNumber: 0,
+          firstLineNumber: 1,
           dragDrop: false,
           readOnly: true,
           /*theme: "night",*/
@@ -317,14 +319,19 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
                   TextWidgetAPI.resetData();
                   editor.setValue("");
                   editor.clearHistory();
+                  var options = JSON.parse(response.data.visualisation_options);
+                  if ("gutter" in options) {
+                    skipLineNumber = options["gutter"];
+                  } else {
+                    skipLineNumber = {};
+                  }
                   editor.setValue(response.data.text);
                   graph.clear();
                   annotationIdToGraphItem = {};
                   connectedAnnotations = [];
                   editor.refresh();
                   scope.layout.showLinkRouterSelector = false;
-                  visualiseVisualisationOptions(JSON.parse(response.data.visualisation_options));
-
+                  visualiseVisualisationOptions(options);
 
                   if (response.data.is_opened) {
                     RestoreAnnotation.restoreFromTemp(newDocument.collection_id, newDocument.id, AnnotatorTypeId)
@@ -368,13 +375,23 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
         };
         
         var visualiseVisualisationOptions = function (options) {
-          for (var i = 0; i < options.length; i++) {
-            var item = options[i];
+          if (!"marks" in options) {
+            return;
+          }
+          var marks = options["marks"];
+          for (var i = 0; i < marks.length; i++) {
+            var item = marks[i];
             editor.markText(item.start, item.end, {
               className: /*"tei-"+*/item.tags
             });
           }
         }; /* visualiseVisualisationOptions */
+
+        var lineNumberFormatter = function(line) {
+          return line-1 in skipLineNumber ?
+                   skipLineNumber[line-1] : line.toString();
+        }; /* lineNumberFormatter */
+        editor.setOption("lineNumberFormatter", lineNumberFormatter);
 
         var migrateOldSpans = function (anns) {
           var annotations = [];
