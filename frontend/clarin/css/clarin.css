@@ -849,23 +849,26 @@ input, textarea { -webkit-user-select: auto!important; }
 }
 
 /* TEI XML tags */
-.tei-stage {
+.CodeMirror-line .stage, .tei-stage {
   font-style: italic;
 }
 
-.tei-speaker {
+.CodeMirror-line .speaker, .tei-speaker {
   font-weight: bold;
 }
 
-.tei-noteindex {
+.CodeMirror-line .noteindex, .tei-noteindex {
   font-size: .83em;
   vertical-align: super;
 }
 
-.tei-quote {
-  background-color: yellow;
+.CodeMirror-line .quote::before, .tei-quote::before {
+    content: open-quote;
+}
+.CodeMirror-line .quote::after, .tei-quote::after {
+    content: close-quote;
 }
 
-.tei-emph {
-  background-color: coral;
+.CodeMirror-line .emph, .tei-emph {
+  font-style: italic;
 }

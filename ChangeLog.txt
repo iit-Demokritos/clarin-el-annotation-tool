@@ -1,4 +1,5 @@
 05 May 2021 Petasis George <petasis@iit.demokritos.gr>
+ * frontend/clarin/css/clarin.css: Added CSS styling for TEI elements.
  * backend/clarin/.env.example:
  * backend/clarin/app/Http/Controllers/DocumentController.php: Added execution
  of handlers (for the time being through a call to an external, django-based

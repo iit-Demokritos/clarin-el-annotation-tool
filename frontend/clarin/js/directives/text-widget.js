@@ -371,7 +371,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
           for (var i = 0; i < options.length; i++) {
             var item = options[i];
             editor.markText(item.start, item.end, {
-              className: "tei-"+item.tags
+              className: /*"tei-"+*/item.tags
             });
           }
         }; /* visualiseVisualisationOptions */
