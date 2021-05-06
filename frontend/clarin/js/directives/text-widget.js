@@ -320,7 +320,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
                   editor.setValue("");
                   editor.clearHistory();
                   var options = JSON.parse(response.data.visualisation_options);
-                  if ("gutter" in options) {
+                  if (options !== null && "gutter" in options) {
                     skipLineNumber = options["gutter"];
                   } else {
                     skipLineNumber = {};
@@ -375,7 +375,7 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
         };
         
         var visualiseVisualisationOptions = function (options) {
-          if (!"marks" in options) {
+          if (options == null || (!"marks" in options)) {
             return;
           }
           var marks = options["marks"];
