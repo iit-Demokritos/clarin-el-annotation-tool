@@ -1,0 +1,118 @@
+<form name="userForm" class="form-horizontal" role="form" (submit)="closeWithNewSchema()">
+    <div class="success-modal-header modal-header">
+      <h4 style="color:#fff" class="modal-title" *ngIf="showSelectDocument">Select Document..</h4>
+      <h4 style="color:#fff" class="modal-title" *ngIf="!showSelectDocument">Select Annotation Characteristics..</h4>
+    </div>
+    <div class="modal-body">
+        <flash-messages></flash-messages>
+      {{data.message}}
+      <div slimscroll scroll-height="documentSelectorHeight" *ngIf="showSelectDocument" id="document-selector-widget"
+        treecontrol class="tree-classic tree-tagging" tree-model="dataForTheTree" options="treeOptions"
+        on-selection="showSelected(node)" selected-node="node1">
+        <!--Node name-->
+        <span *ngIf="!node.hasOwnProperty('children')" title="{{node.name}}">{{ node.name }}</span>
+        <span *ngIf="node.hasOwnProperty('children')">{{ node.name }}</span>
+  
+        <!--Node tags (for parent nodes)-->
+        <span class="right" ng-if="node.hasOwnProperty('children')">
+          <span *ngIf="node.confirmed==1 && node.is_owner" class="label label-info">Shared by me</span>
+          <span *ngIf="node.confirmed==1 && !node.is_owner" class="label label-info"
+            title="The actions that can be performed on this collection are limited because it does not belong to you">Shared
+            with me</span>
+          ({{node.document_count}} Documents)
+        </span>
+      </div>
+      <div *ngIf="!showSelectDocument">
+        <div class="text-center subheader">
+          <div class="btn-group btn-group-justified">
+            <label class="btn btn-primary" [(ngModel)]="subheader" btn-radio="'Button Annotator'"
+              (click)="updateSubheader('Button Annotator'); annotationSchema.language=''; annotationSchema.annotation_type=''; annotationSchema.attribute=''; annotationSchema.alternative=''; annotationSchemaOptions.annotation_types=[]; annotationSchemaOptions.attributes=[]; annotationSchemaOptions.alternatives=[];">Button
+              Annotator</label>
+  
+            <label class="btn btn-primary" [(ngModel)]="subheader" btn-radio="'Coreference Annotator'"
+              (click)="updateSubheader('Coreference Annotator'); annotationSchema.language=''; annotationSchema.annotation_type=''; annotationSchema.attribute=''; annotationSchema.alternative=''; annotationSchemaOptions.annotation_types=[]; annotationSchemaOptions.attributes=[]; annotationSchemaOptions.alternatives=[];">Coreference
+              Annotator</label>
+          </div>
+        </div><br />
+  
+        <div>
+          <div class="form-group">
+            <label for="selectedLanguage" class="col-sm-4 control-label">Language</label>
+            <div class="col-sm-8">
+              <select id="selectedLanguage" class="form-control" ng-required="true" [(ngModel)]="annotationSchema.language"
+                ng-options="language for language in annotationSchemaOptions.languages"
+                ng-change="changeLanguage(annotationSchema.language); annotationSchema.annotation_type=''; annotationSchema.attribute=''; annotationSchema.alternative=''; annotationSchemaOptions.attributes=[]; annotationSchemaOptions.alternatives=[];">
+                <option value="">Please select language..</option>
+                <option *ngFor="let language of annotationSchemaOptions.languages" value="language">{{language}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="selectedAnnotationType" class="col-sm-4 control-label">Annotation Type</label>
+            <div class="col-sm-8">
+              <select id="selectedAnnotationType" class="form-control" ng-required="true" [(ngModel)]="annotationSchema.annotation_type"
+                ng-options="annotationType for annotationType in annotationSchemaOptions.annotation_types"
+                ng-change="changeAnnotationType(annotationSchema.annotation_type); annotationSchema.attribute=''; annotationSchema.alternative=''; annotationSchemaOptions.alternatives=[];">
+                <option value="">Please select annotation type..</option>
+                <option *ngFor="let annotationType of annotationSchemaOptions.annotation_types" value="annotationType">{{annotationType}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group" *ngIf="subheader!='Coreference Annotator'">
+            <label for="selectedAnnotationAttribute" class="col-sm-4 control-label">Annotation Attribute</label>
+            <div class="col-sm-8">
+              <select id="selectedAnnotationAttribute" class="form-control" [(ngModel)]="annotationSchema.attribute"
+                ng-options="annotationAttribute for annotationAttribute in annotationSchemaOptions.attributes"
+                ng-change="changeAnnotationAttribute(annotationSchema.attribute); annotationSchema.alternative='';">
+                <option value="">Please select annotation attribute..</option>
+                <option *ngFor="let annotationAttribute of annotationSchemaOptions.attributes" value="annotationAttribute">{{annotationAttribute}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="selectedAttributeAlternative" class="col-sm-4 control-label">Attribute Alternative</label>
+            <div class="col-sm-8">
+              <select id="selectedAttributeAlternative" class="form-control" ng-required="true" [(ngModel)]="annotationSchema.alternative"
+                ng-options="attributeAlternative for attributeAlternative in annotationSchemaOptions.alternatives"
+                ng-change="changeAttributeAlternative(annotationSchema.alternative)">
+                <option value="">Please select attribute alternative..</option>
+                <option *ngFor="let attributeAlternative of annotationSchemaOptions.alternatives" value="attributeAlternative">{{attributeAlternative}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputLanguage" class="col-sm-4 control-label"
+              *ngIf="subheader=='Button Annotator'">Values</label>
+            <label for="inputLanguage" class="col-sm-4 control-label"
+              *ngIf="subheader=='Coreference Annotator'">Attributes</label>
+            <div class="col-sm-8"
+              *ngIf="(subheader=='Button Annotator' && (groups==undefined || groups.length==0)) || (subheader=='Coreference Annotator' && (attrs==undefined || attrs.length==0))">
+              <ul class="list-group">
+                <li class="list-group-item">No available values</li>
+              </ul>
+            </div>
+            <div class="col-sm-8" *ngIf="subheader!='Coreference Annotator' || groups!=undefined || groups.length>0">
+              <ul class="list-group" [(ngModel)]="groups" button-annotator-value-list slimscroll scroll-height="120"></ul>
+            </div>
+            <div class="col-sm-8" *ngIf="subheader!='Button Annotator' || attrs!=undefined || attrs.length>0">
+              <ul class="list-group" [(ngModel)]="attrs" coreference-annotator-value-list slimscroll scroll-height="120">
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" *ngIf="!annotationSchemaExists && showSelectDocument"
+        (click)="selectDocument()">Select</button>
+      <button type="button" class="btn btn-default" *ngIf="!annotationSchemaExists && !showSelectDocument"
+        (click)="back()">Back</button>
+      <button type="submit" class="btn btn-default" *ngIf="!annotationSchemaExists && !showSelectDocument">Ok</button>
+  
+      <button type="button" class="btn btn-default" *ngIf="annotationSchemaExists" (click)="resetSchema()">Reset
+        Annotation Schema</button>
+      <button type="button" class="btn btn-default" *ngIf="annotationSchemaExists"
+        (click)="closeWithSameSchema()">Select</button>
+    </div>
+  </form>
+  

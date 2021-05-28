@@ -1,0 +1,60 @@
+<div class="cover" *ngIf="documentSelection"></div>
+<div ui-layout="{dividerSize:'0'}">
+  <app-navbar></app-navbar>
+  <div ui-layout-container size="46px" min-size="46px" max-size="46px">
+    <toolbar-widget></toolbar-widget>
+  </div>
+  <div ui-layout-container>
+    <!-- ng-hide="documentSelection" -->
+    <div ui-layout="{flow : 'column'}">
+      <div ui-layout-container>
+        <div ui-layout="{dividerSize:'0', disableToggle:true}">
+          <div ui-layout-container size="46px" min-size="0px" max-size="46px" collapsed="!layout.showEditorTabs">
+            <div class="main-content-header flow-effect-top" id="annotation-main-content-header">
+              <div class="btn-group">
+                <label class="btn btn-default active" name="lbl-sbsri" btn-radio="'document'">Document</label>
+                <label class="btn btn-default" name="lbl-sbsrii" btn-radio="'attributes'">Document Attributes</label>
+              </div>
+            </div>
+          </div>
+          <div ui-layout-container="central">
+            <div class="main-content">
+              <div class='spinner-border' role='status'><span class='sr-only'>Loading...</span></div>
+              <div class="main-content-document" *ngIf="maincontentSelector=='document'"><text-widget></text-widget></div>
+              <table id="main-content-annotate-document-attributes" class="main-content-attributes" *ngIf="maincontentSelector=='attributes'">
+                <tbody>
+                  <tr class="main-content-attributes-header">
+                    <td></td>
+                  </tr>
+                  <tr class="main-content-attributes-row"><td class="main-content-attributes-cell" ></td></tr>
+                </tbody>
+              </table>
+              <div *ngIf='spinnerVisible'><span class='fa fa-spinner'>Loading...</span></div>
+            </div>
+          </div>
+          <div ui-layout-container size="48px" min-size="48px" max-size="48px">
+            <overlapping-areas></overlapping-areas>
+          </div>
+        </div>
+        <!--
+        <div class="main-content" autoslimscroll scroll-subtraction-height="144">
+          <text-widget></text-widget>
+        </div>
+        <overlapping-areas></overlapping-areas> -->
+      </div>
+      <!-- Petasis, 19/03/2021: allow bar to move to a wider range<div ui-layout-container size="400px" min-size="280px" max-size="520px"> -->
+      <div ui-layout-container size="25%" min-size="15%" max-size="75%">
+        <div class="sidebar-header flow-effect-top" id="annotation-sidebar-header">
+          <div class="btn-group btn-group-justified">
+            <label class="btn btn-default" name="lbl-sbsi" btn-radio="'annotator'">{{annotatorType}}</label>
+            <label class="btn btn-default" name="lbl-sbsr" btn-radio="'annotationVisualiser'">Annotation Visualiser</label>
+          </div>
+        </div>
+        <div class="sidebar-main-content" trigger-resize>
+          <annotation-visualizer *ngIf="sidebarSelector=='annotationVisualiser'"></annotation-visualizer>
+          <annotator-widget *ngIf="sidebarSelector=='annotator'"></annotator-widget>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

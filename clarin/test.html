@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Test Stream Functionality</title>
+    </head>
+
+<body>
+	<ul id="messages" >
+		<li>item</li>
+	</ul>
+
+
+	<script>
+        let stream = new EventSource('/clarin/teststream'),
+            list = document.getElementById('messages');
+	console.log(list);
+
+        stream.addEventListener('ping', event => {
+	    JSON.parse(event.data).forEach(message => {
+		    console.log(message);
+                    let li = document.createElement('li');
+                    li.innerHTML = `<em>${message.username}</em>: ${message.count}`;
+                    list.appendChild(li);
+	    });
+        });
+    </script>
+
+</body>
+
+</html>

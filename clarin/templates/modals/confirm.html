@@ -1,0 +1,10 @@
+<div class="{{modalOptions.headerType}}-modal-header modal-header">  
+    <h4 style="color:#fff" class="modal-title">{{modalOptions.header}}</h4>
+</div>
+<div class="modal-body">
+	{{modalOptions.body}}	
+</div>
+<div class="modal-footer">
+	<button class="btn btn-default" ng-click="cancel()" ng-show="modalOptions.showCalcelButton">Cancel</button>
+	<button class="btn btn-default" ng-repeat="button in modalOptions.buttons" ng-click="confirm(button)">{{button}}</button>
+</div>
