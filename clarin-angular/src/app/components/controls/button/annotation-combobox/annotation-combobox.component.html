@@ -1,0 +1,6 @@
+<select #cb class="form-control coref-combobox" disabled>
+    <option value="">Please select an option</option>
+    <option *ngFor="let option in comboOptions" value="{{option}}">
+        {{option}}
+    </option>
+</select>

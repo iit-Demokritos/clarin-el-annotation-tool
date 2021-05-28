@@ -1,0 +1,29 @@
+<div class="success-modal-header modal-header">
+    <h4 style="color:#fff" class="modal-title">Import collection</h4>
+</div>
+<div class="modal-body">
+    <!--div class="alert alert-danger" modal-error ng-hide="flash===undefined || flash===''">{{flash}}</div-->
+    <flash-messages></flash-messages>
+
+    <!-- Collection name input -->
+    <div class="form-group">
+        <label for="collectionName">Collection Name</label>
+        <input type="text" id="collectionName" class="form-control"
+            placeholder="Please enter a name for the new collection..." [(ngModel)]="collectionName" [required]="true">
+    </div>
+
+    <!-- File selector -->
+    <div class="form-group">
+        <label>Files to import</label>
+        <div class="table-responsive">
+            <!--uploader flow-init></uploader-->
+            <!--div class="drop-area" flowDrop [flow]="flow.flowJs">
+            </div-->
+            <uploader (handleFileInput)="handleFileInput($event)"></uploader>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" (click)="cancel()">Cancel</button>
+    <button type="submit" class="btn btn-default" (click)="import()">Import</button>
+</div>
