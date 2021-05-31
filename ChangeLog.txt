@@ -1,6 +1,13 @@
 31 May 2021 Petasis George <petasis@iit.demokritos.gr>
  * clarin/app/Http/routes.php: Added some more routes (domain dependent) to
  support the UI in Angular.
+ * clarin-angular/src/app/app-routing.module.ts:
+ * clarin-angular/src/app/components/views/navbar/navbar.component.html:
+ * clarin-angular/src/app/components/views/navbar/navbar.component.ts:
+ * clarin-angular/src/app/components/views/welcome/welcome.component.html:
+ * clarin-angular/src/app/components/views/welcome/welcome.component.ts:
+ * clarin-angular/src/index.html: Minor changes for hosting both UIs
+ (AngularJS & Angular) on the same server.
  
 28 May 2021 Petasis George <petasis@iit.demokritos.gr>
  * clarin-angular: A new folder, containing a migration from AngularJS to
