@@ -11,6 +11,15 @@
 |
 */
 
+Route::domain('vast.ellogon.org')->group(function () {
+  Route::get('/', function () {
+    return View::make('angular2_index');
+  });
+  Route::get('/welcome', function() {
+    return View::make('angular2_index');
+  });
+});
+
 Route::get('/', function () {
   //return view('welcome');
   return View::make('index');
@@ -59,6 +68,11 @@ Route::group([/*'middleware' => 'jwt.verify' <= uncomment to enable JWT ,*/ 'pre
 
 #Route::get('/teststream', 'TestStreamController@test');
 
+Route::domain('vast.ellogon.org')->group(function () {
+  Route::any('{catchall}', function() {
+    return View::make('angular2_index');
+  })->where('catchall', '.*');
+});
 Route::any('{catchall}', function() {
   return View::make('index');
 })->where('catchall', '.*');
