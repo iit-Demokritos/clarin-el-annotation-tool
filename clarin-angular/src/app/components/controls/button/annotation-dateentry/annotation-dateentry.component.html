@@ -1,7 +1,0 @@
-<div #annotationEntry class="input-group col-md-12 annotation-date-entry">
-    <!--[annotationType]="{{annotationType}}" annotation-attribute="{{annotationAttribute}}" datepicker-popup="{{format}} is-open="opened" datepicker-options="dateOptions close-text="Close"""-->
-    <input disabled [readonly]="readonly"  (click)="open($event)" (change)="addAttribute(annotationType, annotationAttribute)" type="text" class="form-control datepicker-input" [(ngModel)]="dt" [required]="true" />
-    <span class="input-group-btn date-entry-btn">
-    <button type="button" class="btn btn-default btn-sm datepicker-btn" (click)="open($event)" disabled><i class="fa fa-calendar-minus-o"></i></button>
-    </span>
-</div>
