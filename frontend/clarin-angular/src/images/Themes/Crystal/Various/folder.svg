@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20000303 Stylable//EN" "http://www.w3.org/TR/2000/03/WD-SVG-20000303/DTD/svg-20000303-stylable.dtd">
+<!-- Creator: CorelDRAW -->
+<svg xml:space="preserve" x="-3.45696in" y="0.756972in" width="0.733161in" height="0.781185in" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality"
+     viewBox="-3457 0 733 781">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .str2 {stroke:#FFFFFF;stroke-width:7}
+    .str0 {stroke:#6192F9;stroke-width:7}
+    .str3 {stroke:#9292E5;stroke-width:7}
+    .str1 {stroke:#1D61F9;stroke-width:14}
+    .str4 {stroke:#6192F9;stroke-width:14}
+    .fil3 {fill:none}
+    .fil0 {fill:#DFDFDE}
+    .fil5 {fill:#316AF1}
+    .fil4 {fill:#A1CAFD}
+    .fil2 {fill:#FDFDFE}
+    .fil6 {fill:url(#id8)}
+    .fil1 {fill:url(#id9)}
+   ]]>
+  </style>
+  <linearGradient id="id8" x1="-2728" y1="776" x2="-3386" y2="496">
+   <stop offset="0" style="stop-color:#8181C6"/>
+   <stop offset="1" style="stop-color:#FFFFFF"/>
+  </linearGradient>
+  <linearGradient id="id9" x1="-3143" y1="203" x2="-2758" y2="756">
+   <stop offset="0" style="stop-color:#BDD2F9"/>
+   <stop offset="0.278431" style="stop-color:#618BEC"/>
+   <stop offset="1" style="stop-color:#0444DE"/>
+  </linearGradient>
+ </defs>
+ <g id="Camada 1">
+  <g>
+  </g>
+  <g>
+  </g>
+  <g>
+  </g>
+  <g>
+  </g>
+  <g>
+  </g>
+  <g>
+  </g>
+  <g>
+  </g>
+  <g>
+   <g>
+   </g>
+   <g>
+   </g>
+  </g>
+  <g>
+   <defs>
+    <mask id="id0">
+     <defs>
+  <linearGradient id="id1" x1="-3167" y1="145" x2="-2951" y2="608">
+   <stop offset="0" style="stop-opacity:0"/>
+   <stop offset="1" style="stop-opacity:1"/>
+  </linearGradient>
+     </defs>
+     <rect style="fill:url(#id1)" x="-3359" y="12" width="599" height="729"/>
+    </mask>
+    <mask id="id2">
+     <defs>
+  <linearGradient id="id3" x1="-3167" y1="145" x2="-2951" y2="608">
+   <stop offset="0" style="stop-opacity:0"/>
+   <stop offset="1" style="stop-opacity:1"/>
+  </linearGradient>
+     </defs>
+     <rect style="fill:url(#id3)" x="-3359" y="12" width="599" height="729"/>
+    </mask>
+   </defs>
+   <path id="46471172" class="fil0" d="M-3322 643l564 138 34 -20 0 -518 -315 -67 -78 -113 -161 -19 -55 48 11 551z"/>
+   <path id="45993116" class="fil1 str0" d="M-3351 580l561 158 23 -6 11 -8 0 -517 -315 -68 -77 -113 -161 -19 -55 48 13 525z"/>
+   <path id="45993204" class="fil1 str1" d="M-3351 580l561 165 34 -20 0 -518 -315 -68 -77 -113 -161 -19 -55 48 13 525z"/>
+   <path id="45993292" class="fil2" style="mask:url(#id0)" d="M-3349 582l589 159 -1 -530 -313 -68 -78 -112 -156 -19 -50 45 9 525z"/>
+   <path id="45993380" class="fil2" style="mask:url(#id2)" d="M-3349 582l589 159 -1 -530 -313 -68 -78 -112 -156 -19 -50 45 9 525z"/>
+   <path id="45993468" class="fil3 str2" d="M-3349 161l-1 -99 47 -41 155 18"/>
+   <path id="45993644" class="fil2 str3" d="M-3296 478l0 -348 457 103 -2 358 -455 -113z"/>
+   <g>
+    <defs>
+     <mask id="id4">
+      <defs>
+  <linearGradient id="id5" x1="-3392" y1="195" x2="-2855" y2="700">
+   <stop offset="0" style="stop-opacity:0"/>
+   <stop offset="1" style="stop-opacity:1"/>
+  </linearGradient>
+      </defs>
+      <rect style="fill:url(#id5)" x="-3449" y="153" width="651" height="589"/>
+     </mask>
+     <mask id="id6">
+      <defs>
+  <linearGradient id="id7" x1="-3063" y1="615" x2="-3127" y2="457">
+   <stop offset="0" style="stop-opacity:0"/>
+   <stop offset="1" style="stop-opacity:1"/>
+  </linearGradient>
+      </defs>
+      <rect style="fill:url(#id7)" x="-3393" y="330" width="596" height="412"/>
+     </mask>
+    </defs>
+    <path id="45993732" class="fil4 str0" style="mask:url(#id4)" d="M-2853 253l-302 -68 -68 20 -226 -52 75 454 576 135 -55 -489z"/>
+    <path id="45993820" class="fil3 str4" d="M-2853 253l-302 -68 -68 20 -226 -52 75 454 576 135 -55 -489z"/>
+    <path id="45993908" class="fil5" style="mask:url(#id6)" d="M-2847 338c-297,-54 -367,175 -545,149l19 119 576 136 -50 -404z"/>
+    <path id="45993996" class="fil6" d="M-2819 592l-574 -137 19 153 575 134 -20 -150z"/>
+    <path id="45994084" class="fil3 str3" d="M-3026 682l126 -110"/>
+    <path id="45994172" class="fil3 str3" d="M-2957 700l117 -113"/>
+    <path id="45994260" class="fil3 str3" d="M-2887 717l78 -72"/>
+    <path id="45994348" class="fil3 str2" d="M-3370 597l570 143"/>
+    <path id="45994436" class="fil3 str2" d="M-3437 163l72 439"/>
+    <path id="45994524" class="fil3 str2" d="M-3437 163l72 439"/>
+    <path id="45994612" class="fil3 str2" d="M-3436 165l213 46 66 -16 296 67"/>
+   </g>
+  </g>
+ </g>
+</svg>

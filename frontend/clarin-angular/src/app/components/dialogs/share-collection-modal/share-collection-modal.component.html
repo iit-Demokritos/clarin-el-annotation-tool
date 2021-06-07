@@ -1,0 +1,35 @@
+<form name="shareForm" #shareForm (submit)="share()">
+    <div class="primary-modal-header modal-header">
+        <h4 style="color:#fff" class="modal-title">Share Collection</h4>
+    </div>
+    <div class="modal-body">
+        <!--div class="alert alert-danger" modal-error ng-hide="flash===undefined || flash===''">{{flash}}</div-->
+        Enter the recepient's email address:
+        <input type="email" class="form-control" placeholder="Add the recepient's email address.." style="margin-top:10px" [(ngModel)]="sharingData.to" [required]="true">
+        <br/>
+        <div *ngIf="invitations.length>0">
+            Invitations have also been sent to:<br/><br/>
+            <ul class="list-group" slimscroll scroll-height="60">
+                <li class="list-group-item clearfix" *ngFor="let invitation of invitations">
+                    <div class="row">
+                        <div class="col-sm-8">{{invitation.to}}</div>
+                        <div class="col-sm-4" style="text-align: right;">
+                            <span *ngIf="invitation.confirmed==1" class="label label-success">Accepted</span>
+                            <span *ngIf="invitation.confirmed!=1" class="label label-warning">Pending</span>
+                            <i class="fa fa-close" (click)="remove(invitation.collection_id, invitation.id)" style="padding: 0px 15px 0 35px;"></i>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-default">Send Invitation</button>
+        <button type="button" class="btn btn-default" (click)="cancel()">Done</button>
+    </div>
+    </form>
+    
+    
+    
+    
+    

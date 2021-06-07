@@ -1,0 +1,10 @@
+<div class="{{data?.headerType}}-modal-header modal-header">  
+    <h4 style="color:#fff" class="modal-title">{{data?.dialogTitle}}</h4>
+</div>
+<div class="modal-body">
+	{{data?.message}}	
+</div>
+<div class="modal-footer">
+	<button class="btn btn-default" (click)="cancel()" *ngIf="data?.showCalcelButton">Cancel</button>
+	<button class="btn btn-default" *ngFor="let button of data?.buttons" (click)="confirm(button)">{{button}}</button>
+</div>

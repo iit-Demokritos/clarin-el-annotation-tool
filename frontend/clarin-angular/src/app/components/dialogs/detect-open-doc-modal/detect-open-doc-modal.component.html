@@ -1,0 +1,11 @@
+<div class="warning-modal-header modal-header">
+    <h4 style="color:#fff" class="modal-title">Warning</h4>
+</div>
+<div class="modal-body">
+	<flash-messages></flash-messages>
+	It seems that you have done changes on the document that have not been saved. What do you want to do?
+</div>
+<div class="modal-footer">
+	<button type="submit" class="btn btn-default" (click)="saveChanges()">Save changes</button>
+    <button type="button" class="btn btn-default" (click)="discardChanges()">Continue without saving</button>
+</div>
