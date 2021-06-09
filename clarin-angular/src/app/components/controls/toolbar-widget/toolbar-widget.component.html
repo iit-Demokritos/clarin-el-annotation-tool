@@ -1,9 +1,9 @@
 <div id="toolbar-widget" class="toolbar-widget">
     <div class="toolbar-element left">Collection:&nbsp;{{selectedCollectionName}}</div>
     <div class="toolbar-divider left"></div>
-    <div class="toolbar-element left">Document:&nbsp
+    <div class="toolbar-element left">Document:&nbsp;
         <select class="form-control right" [(ngModel)]="selectedDocument" ng-options="document as document.name for document in selectedCollectionDocuments" (change)="updateDocumentDropdown(selectedDocument);">
-            <option *ngFor="let document of selectedCollectionDocuments" value="document">{{document.name}}</option>
+            <option *ngFor="let document of selectedCollectionDocuments" [ngValue]="document" value="document">{{document.name}}</option>
         </select>
     </div>
     <div class="toolbar-divider left"></div>

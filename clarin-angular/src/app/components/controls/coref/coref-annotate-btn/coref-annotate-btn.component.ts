@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ErrorDialogComponent } from 'src/app/components/dialogs/error-dialog/error-dialog.component';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 import { BaseControlComponent } from '../../base-control/base-control.component';
-import { cloneDeep, findWhere,indexOf,where,contains } from "lodash";
+import * as _ from 'lodash';
 
 @Component({
   selector: 'coref-annotate-btn',
@@ -45,10 +45,10 @@ export class CorefAnnotateBtnComponent extends BaseControlComponent implements O
       selectedAnnotation.type = this.annotationType;
 
       if (selectedAnnotation.spans != validationResult.annotation.spans) //if the spans have changed
-        selectedAnnotation.spans = cloneDeep(validationResult.annotation.spans); //assign the updated annotation spans to the existing annotation 
+        selectedAnnotation.spans = _.cloneDeep(validationResult.annotation.spans); //assign the updated annotation spans to the existing annotation 
 
       for (var i = 0; i < validationResult.annotation.attributes.length; i++) { //iterate through all the attributes of the annotation that returned from validation
-        var selectedAnnotationAttribute = where(selectedAnnotation.attributes, {
+        var selectedAnnotationAttribute = _.where(selectedAnnotation.attributes, {
           name: validationResult.annotation.attributes[i].name
         })[0];
 
@@ -56,7 +56,7 @@ export class CorefAnnotateBtnComponent extends BaseControlComponent implements O
           selectedAnnotation.attributes.push(validationResult.annotation.attributes[i]);
         else { //the specific attribute exists in the current annotation, so update it 
           var index = selectedAnnotation.attributes.indexOf(selectedAnnotationAttribute);
-          selectedAnnotation.attributes[index] = cloneDeep(validationResult.annotation.attributes[i]);
+          selectedAnnotation.attributes[index] = _.cloneDeep(validationResult.annotation.attributes[i]);
         }
       }
 
@@ -93,7 +93,7 @@ export class CorefAnnotateBtnComponent extends BaseControlComponent implements O
             attributes: []
           };
         } else {
-          result.annotation = cloneDeep(selectedAnnotation);
+          result.annotation = _.cloneDeep(selectedAnnotation);
           result.annotation["spans"] = [];
           result.annotation["attributes"] = [];
         }

@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { BaseControlComponent } from '../../base-control/base-control.component';
 import { ErrorDialogComponent } from 'src/app/components/dialogs/error-dialog/error-dialog.component';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
-import { cloneDeep, findWhere, indexOf, where, contains } from "lodash";
+import * as _ from 'lodash';
 
 @Component({
   selector: 'annotation-entry',
@@ -24,10 +24,10 @@ export class AnnotationEntryComponent extends BaseControlComponent implements On
     var selectedAnnotation = this.TextWidgetAPI.getSelectedAnnotation();
 
     if (Object.keys(selectedAnnotation).length > 0) {
-      var updatedAnnotation = cloneDeep(selectedAnnotation);
+      var updatedAnnotation = _.cloneDeep(selectedAnnotation);
       updatedAnnotation.type = type;
 
-      var selectedAnnotationAttribute = where(updatedAnnotation.attributes, { name : this.annotationAttribute, 
+      var selectedAnnotationAttribute = _.where(updatedAnnotation.attributes, { name : this.annotationAttribute, 
                                                                                 value: this.annotationValue })[0];
       var attributeIndex = updatedAnnotation.attributes.indexOf(selectedAnnotationAttribute);
         
@@ -57,7 +57,7 @@ export class AnnotationEntryComponent extends BaseControlComponent implements On
       var selectedAnnotationButton = this.element.nativeElement.closest("tr").find('.annotation-btn.active'); //search for active .annotation-btn in the same row that the element belongs
 
       if (selectedAnnotationButton.length>0 && this.element.nativeElement.disabled) {                  //if .annotation-btn is active and element is disabled
-        var selectedAnnotationAttribute = where(selectedAnnotation.attributes, { name: this.annotationAttribute })[0];
+        var selectedAnnotationAttribute = _.where(selectedAnnotation.attributes, { name: this.annotationAttribute })[0];
 
         if (typeof(selectedAnnotationAttribute) != "undefined")
           this.element.nativeElement.value = selectedAnnotationAttribute.value;

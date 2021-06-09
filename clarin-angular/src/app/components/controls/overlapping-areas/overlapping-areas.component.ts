@@ -14,7 +14,7 @@ export class OverlappingAreasComponent extends BaseControlComponent implements O
   super() { }
 
   ngOnInit(): void {
-    this.TextWidgetAPI.registerOverlappingAreasCallback(this.updateOverlappingAreasList);
+    this.TextWidgetAPI.registerOverlappingAreasCallback(this.updateOverlappingAreasList.bind(this));
   }
 
   //function to be called when the overlapping areas update

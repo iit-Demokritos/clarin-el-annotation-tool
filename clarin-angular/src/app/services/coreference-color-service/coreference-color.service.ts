@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { type } from 'node:os';
 import { MainService } from '../main/main.service';
-import { cloneDeep, findWhere, indexOf, where, contains, each } from "lodash";
+import * as _ from 'lodash';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { AnnotationService } from '../annotation-service/annotation.service';
@@ -59,7 +59,7 @@ export class CoreferenceColorService {
         var classesString = "";
 
         // Generate a string with the classes
-        each(this.colorCombinations, function (combo) {
+        _.each(this.colorCombinations, function (combo) {
             classesString += ".mark_color_" + (combo["border-color"].replace("#", "").toUpperCase()) + ":after{" +
                 "background-color:" + combo["border-color"] + "}";
         });

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { BaseControlComponent } from '../../base-control/base-control.component';
-import { cloneDeep, findWhere, indexOf, where, contains } from "lodash";
+import * as _ from 'lodash';
 
 @Component({
   selector: 'coref-segment-entry',
@@ -23,7 +23,7 @@ export class CorefSegmentEntryComponent extends BaseControlComponent implements 
 
     if (Object.keys(selectedAnnotation).length > 0) { //is selected annotation is not empty 
       //search for the specific attribute of the annotation
-      var selAnnotationAttribute = findWhere(selectedAnnotation.attributes, { name: this.annotationAttribute });
+      var selAnnotationAttribute = _.findWhere(selectedAnnotation.attributes, { name: this.annotationAttribute });
 
       //if attribute found and has segment inside, assign it to the input element
       /*if (!angular.isUndefined(selAnnotationAttribute.value.segment) && selAnnotationAttribute.value.segment != $(element).text()) {
@@ -34,7 +34,7 @@ export class CorefSegmentEntryComponent extends BaseControlComponent implements 
       if (typeof (selAnnotationAttribute.value) != "undefined") {
         var span = selAnnotationAttribute.value.split(" ");
         if (span.length == 2) {
-          var selSpan = findWhere(selectedAnnotation.spans, { start: parseInt(span[0]), end: parseInt(span[1]) });
+          var selSpan = _.findWhere(selectedAnnotation.spans, { start: parseInt(span[0]), end: parseInt(span[1]) });
           if (typeof (selSpan.segment) != "undefined" && selSpan.segment != this.element.innerHTML) {
             this.element.innerHTML = (selSpan.segment);
             this.element.setAttribute('title', selSpan.segment);

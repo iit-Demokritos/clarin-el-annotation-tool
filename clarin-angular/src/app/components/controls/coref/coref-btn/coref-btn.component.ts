@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { threadId } from 'node:worker_threads';
 import { BaseControlComponent } from '../../base-control/base-control.component';
-import { cloneDeep, findWhere,indexOf,where,contains } from "lodash";
+import * as _ from 'lodash';
 
 @Component({
   selector: 'coref-btn',
@@ -59,7 +59,7 @@ export class CorefBtnComponent extends BaseControlComponent implements OnInit {
     var selectedAnnotation:any = this.TextWidgetAPI.getSelectedAnnotation();
 
     if (Object.keys(selectedAnnotation).length > 0) { //is selected annotation is not empty 
-      var selectedAnnotationAttribute = where(selectedAnnotation.attributes, { name: this.annotationAttribute })[0];
+      var selectedAnnotationAttribute = _.where(selectedAnnotation.attributes, { name: this.annotationAttribute })[0];
 
       //if element has the specific attribute, it is not active and has the specific annotation value
       if (typeof(selectedAnnotationAttribute) != "undefined" && !this.element.classList.contains('active') &&

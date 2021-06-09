@@ -5,7 +5,7 @@ import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
 import { MainComponent } from '../../views/main/main.component';
 import { BaseControlComponent } from '../base-control/base-control.component';
-import { cloneDeep, findWhere, indexOf, where, contains } from "lodash";
+import { cloneDeep} from "lodash";
 
 @Component({
   selector: 'annotation-visualizer',
@@ -97,14 +97,14 @@ export class AnnotationVisualizerComponent extends BaseControlComponent implemen
           return;
         }
 
-        var currentSelection = this.TextWidgetAPI.getCurrentSelection();
+        var currentSelection:any = this.TextWidgetAPI.getCurrentSelection();
 
         for (var i = 0; i < serviceResponse.length; i++) { //if (!serviceResponse[i].modified_by==1) return;
           if (!this.TextWidgetAPI.belongsToSchema(serviceResponse[i]))
             continue;
 
           var oldAnnotation = this.TextWidgetAPI.getAnnotationById(serviceResponse[i]._id);
-          var currentSelectedAnnotation = cloneDeep(this.TextWidgetAPI.getSelectedAnnotation());
+          var currentSelectedAnnotation:any = cloneDeep(this.TextWidgetAPI.getSelectedAnnotation());
           this.TextWidgetAPI.clearSelectedAnnotation();
 
           if (typeof (oldAnnotation) == "undefined") { //annotation does not exist

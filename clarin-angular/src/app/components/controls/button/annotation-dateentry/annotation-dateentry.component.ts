@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { BaseControlComponent } from '../../base-control/base-control.component';
-import { cloneDeep, findWhere, indexOf, where, contains } from "lodash";
+import * as _ from 'lodash';
 import { ErrorDialogComponent } from 'src/app/components/dialogs/error-dialog/error-dialog.component';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 
@@ -53,7 +53,7 @@ export class AnnotationDateentryComponent extends BaseControlComponent implement
       var selectedAnnotationButton = this.annotationEntry.nativeElement.parent().closest("tr").find('.annotation-btn.active');//$(element).closest("tr").find('.annotation-btn.active'); //search for active .annotation-btn in the same row that the element belongs
 
       if (selectedAnnotationButton.length > 0 && this.datepickerInput.nativeElement.disabled) {                  //if .annotation-btn is active and element is disabled
-        var selectedAnnotationAttribute = where(selectedAnnotation.attributes, { name: this.annotationAttribute })[0];
+        var selectedAnnotationAttribute = _.where(selectedAnnotation.attributes, { name: this.annotationAttribute })[0];
         
         if (typeof(selectedAnnotationAttribute) != "undefined")
           this.datepickerInput.nativeElement.value = selectedAnnotationAttribute.value;
@@ -82,10 +82,10 @@ export class AnnotationDateentryComponent extends BaseControlComponent implement
   addAttribute(type, attribute) { 
     var selectedAnnotation = this.TextWidgetAPI.getSelectedAnnotation();
     if (Object.keys(selectedAnnotation).length > 0) {
-      var updatedAnnotation = cloneDeep(selectedAnnotation);
+      var updatedAnnotation = _.cloneDeep(selectedAnnotation);
       updatedAnnotation.type = type;
 
-      var selectedAnnotationAttribute = where(updatedAnnotation.attributes, { name : this.annotationAttribute })[0];
+      var selectedAnnotationAttribute = _.where(updatedAnnotation.attributes, { name : this.annotationAttribute })[0];
       var attributeIndex = updatedAnnotation.attributes.indexOf(selectedAnnotationAttribute);
 
       if (attributeIndex > -1 && this.dt == null)       //if date cleared, remove the attribute

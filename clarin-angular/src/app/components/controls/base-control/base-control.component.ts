@@ -1,13 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MainComponent } from '../../views/main/main.component';
-import { cloneDeep, findWhere,indexOf,where,contains } from "lodash";
+import { ValueAccessorComponent } from '../value-accessor/value-accessor.component';
 
 @Component({
   selector: 'base-control',
   templateUrl: './base-control.component.html',
   styleUrls: ['./base-control.component.scss']
 })
-export class BaseControlComponent extends MainComponent implements OnInit {
+export class BaseControlComponent extends ValueAccessorComponent<any> implements OnInit {
 
   @Input() annotationAttribute;
   @Input() annotationValue;

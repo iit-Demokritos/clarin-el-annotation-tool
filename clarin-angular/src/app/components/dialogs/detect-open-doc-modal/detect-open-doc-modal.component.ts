@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MainDialogComponent } from '../main-dialog/main-dialog.component';
-import { cloneDeep } from "lodash";
+import * as _ from 'lodash';
 
 @Component({
   selector: 'detect-open-doc-modal',
@@ -14,7 +14,7 @@ export class DetectOpenDocModalComponent extends MainDialogComponent implements 
   ngOnInit(): void {
   }
 
-  currentDocument = cloneDeep(this.data);
+  currentDocument = _.cloneDeep(this.data);
   flash:string = "";
 
   saveChanges() {

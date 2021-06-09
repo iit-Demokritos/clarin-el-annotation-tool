@@ -2,7 +2,7 @@
     <h4 style="color:#fff" class="modal-title">Warning</h4>
 </div>
 <div class="modal-body">
-	<div class="alert alert-danger" modal-error *ngIf="flash!=undefined || flash!=''">{{flash}}</div>
+	<flash-messages></flash-messages>
 	It seems that you have done changes on the document that have not been saved. What do you want to do?
 </div>
 <div class="modal-footer">

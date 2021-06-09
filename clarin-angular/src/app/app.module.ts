@@ -65,9 +65,17 @@ import { AnnotatorWidgetComponent } from './components/controls/annotator-widget
 import { AnnotationTextLabelComponent } from './components/controls/document/annotation-text-label/annotation-text-label.component';
 import { AnnotationTextTextComponent } from './components/controls/document/annotation-text-text/annotation-text-text.component';
 import { AnnotationTextComponent } from './components/controls/document/annotation-text/annotation-text.component';
+import {MatTree, MatTreeModule} from '@angular/material/tree';
+import {MatIconModule} from '@angular/material/icon';
+import { TreeviewModule } from 'ngx-treeview';
+import {MatButtonModule} from '@angular/material/button';
+import { ValueAccessorComponent } from './components/controls/value-accessor/value-accessor.component';
+import {MatSelectModule} from '@angular/material/select';
+import { ButtonAnnotatorValueListDirective } from './directives/button-annotator-value-list/button-annotator-value-list.directive';
 
 @NgModule({
   declarations: [
+    ButtonAnnotatorValueListDirective,
     AppComponent,
     MainComponent,
     WelcomeComponent,
@@ -133,7 +141,70 @@ import { AnnotationTextComponent } from './components/controls/document/annotati
     BrowserAnimationsModule,
     MatDialogModule,
     NgxFlowModule,
-    CodemirrorModule
+    CodemirrorModule,
+    MatTreeModule,
+    MatIconModule,
+    TreeviewModule.forRoot(),
+    MatButtonModule,
+    MatSelectModule
+  ],
+  exports:[
+    ButtonAnnotatorValueListDirective,
+    AppComponent,
+    MainComponent,
+    WelcomeComponent,
+    ProfileComponent,
+    NavbarComponent,
+    ManageCollectionsComponent,
+    ConfirmDialogComponent,
+    MainDialogComponent,
+    AddDocumentsDialogComponent,
+    ImportModalComponent,
+    RenameCollectionModalComponent,
+    ShareCollectionModalComponent,
+    AddCollectionComponent,
+    AnnotationComponent,
+    ErrorDialogComponent,
+    UploaderComponent,
+    SelectDocumentModalComponent,
+    DetectOpenDocModalComponent,
+    DetectChangesModalComponent,
+    ToolbarWidgetComponent,
+    AnnotationVisualizerComponent,
+    BaseControlComponent,
+    OverlappingAreasComponent,
+    AnnotationButtonComponent,
+    AnnotationComboboxComponent,
+    AnnotationDateentryComponent,
+    AnnotationEntryComponent,
+    AnnotationIndicatorComponent,
+    AnnotationRelationAnotateBtnComponent,
+    AnnotationRelationClearBtnComponent,
+    AnnotationRelationComboboxComponent,
+    AnnotationRelationDelBtnComponent,
+    AnnotationRelationImportBtnComponent,
+    AnnotationRelationComponent,
+    CorefAddBtnComponent,
+    CorefAnnotateBtnComponent,
+    CorefAnnotatorValueListDirective,
+    CorefBtnComponent,
+    CorefCheckboxComponent,
+    CorefClearBtnComponent,
+    CorefComboboxComponent,
+    CorefDelBtnComponent,
+    CorefEntryComponent,
+    CorefImportBtnComponent,
+    CorefMultiEntryComponent,
+    CorefSegmentEntryComponent,
+    CorefSpanEndComponent,
+    CorefSpanStartComponent,
+    FoundInCollectionDirective,
+    TextWidgetComponent,
+    DomHelpersDirective,
+    AnnotatorWidgetComponent,
+    AnnotationTextLabelComponent,
+    AnnotationTextTextComponent,
+    AnnotationTextComponent
   ],
   providers: [
     {

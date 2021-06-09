@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { BaseControlComponent } from '../../base-control/base-control.component';
-import { cloneDeep, findWhere, indexOf, where, contains } from "lodash";
+import * as _ from 'lodash';
 
 @Component({
   selector: 'coref-checkbox',
@@ -21,7 +21,7 @@ export class CorefCheckboxComponent extends BaseControlComponent implements OnIn
     var selectedAnnotation: any = this.TextWidgetAPI.getSelectedAnnotation();
 
     if (Object.keys(selectedAnnotation).length > 0) { //is selected annotation is not empty 
-      var selAnnotationAttribute = findWhere(selectedAnnotation.attributes, { name: this.annotationAttribute });
+      var selAnnotationAttribute = _.findWhere(selectedAnnotation.attributes, { name: this.annotationAttribute });
 
       // if element has the specific attribute, it is not checked and the attribute value is 1
       if (typeof (selAnnotationAttribute) != "undefined" && !this.element.querySelector('input').checked &&

@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import * as CodeMirror from 'codemirror';
 import { BaseControlComponent } from '../base-control/base-control.component';
-import { cloneDeep, findWhere, indexOf, where, contains, has, filter, without, find } from "lodash";
+import { cloneDeep, indexOf, has, filter, without, find } from "lodash";
 import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 import 'leader-line';
@@ -48,7 +48,7 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
   ngOnInit(): void {
     this.mainContent = document.getElementsByClassName("main-content")[0];
     this.editor = CodeMirror.fromTextArea(this.element.nativeElement, {
-      lineNumbers: false,
+      lineNumbers: true,
       dragDrop: false,
       readOnly: true,
       theme: "night",
@@ -82,11 +82,11 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
     //TODO: Sub. cm. events
     //CodeMirror.on(this.mainContent, "mouseup", this.mouseUpHandler);
     //CodeMirror.on(this.mainContent, "mousedown", this.mouseDownUpHandler);
-    this.TextWidgetAPI.registerCurrentDocumentCallback(this.updateCurrentDocument);
-    this.TextWidgetAPI.registerCurrentSelectionCallback(this.updateCurrentSelection);
-    this.TextWidgetAPI.registerNewAnnotationsCallback(this.addNewAnnotations);
-    this.TextWidgetAPI.registerDeletedAnnotationsCallback(this.deleteAnnotations);
-    this.TextWidgetAPI.registerScrollIntoViewCallback(this.scrollToAnnotation);
+    this.TextWidgetAPI.registerCurrentDocumentCallback(this.updateCurrentDocument.bind(this));
+    this.TextWidgetAPI.registerCurrentSelectionCallback(this.updateCurrentSelection.bind(this));
+    this.TextWidgetAPI.registerNewAnnotationsCallback(this.addNewAnnotations.bind(this));
+    this.TextWidgetAPI.registerDeletedAnnotationsCallback(this.deleteAnnotations.bind(this));
+    this.TextWidgetAPI.registerScrollIntoViewCallback(this.scrollToAnnotation.bind(this));
 
   }
 
@@ -325,7 +325,7 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
                   });
               }
             }
-          }, function (error) {
+          }, (error)=> {
             this.TextWidgetAPI.disableIsRunning();
             this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Database error. Please refresh the page and try again.") })
           });
@@ -361,7 +361,7 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
   /**
    * Connect two elements with the specified IDs with an arrow using the LeaderLine library
    */
-  makeLeaderLine = function (startId, endId, label, annotation) {
+  makeLeaderLine(startId, endId, label, annotation) {
     if (startId === endId) {
       return;
     }
@@ -376,7 +376,7 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
       path: 'fluid'
     });
 
-    document.querySelectorAll('.leader-line')[document.querySelectorAll('.leader-line').length - 1].addEventListener("click", this.makeLineCF(annotation))
+    document.querySelectorAll('.leader-line')[document.querySelectorAll('.leader-line').length - 1].addEventListener("click", ()=>{this.makeLineCF(annotation)});
 
     return line;
   };
@@ -403,14 +403,14 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
 
       if (currAnnotation.annotation.type === 'argument_relation') {
         // Argument relation, add arrow. Find IDs of start/end annotations
-        var startId = findWhere(currAnnotation.annotation.attributes, {
+        var startId = find(currAnnotation.annotation.attributes, {
           name: 'arg1'
         }).value;
-        var endId = findWhere(currAnnotation.annotation.attributes, {
+        var endId = find(currAnnotation.annotation.attributes, {
           name: 'arg2'
         }).value;
 
-        var label = findWhere(currAnnotation.annotation.attributes, {
+        var label = find(currAnnotation.annotation.attributes, {
           name: 'type'
         }).value;
 
@@ -489,7 +489,7 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
               var markerId = "mrkr_" + Math.floor(Math.random() * 1000000);
               // Find type
               var value = annotationSpan.start + " " + annotationSpan.end;
-              var typeAttribute = findWhere(annotationsAttributes, {
+              var typeAttribute = find(annotationsAttributes, {
                 value: value
               }).name;
               var markAttributes = {
@@ -589,8 +589,8 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
    * Add annotation to the text widget
    * @returns {boolean}
    */
-  addNewAnnotations = function () {
-    if (!this.TextWidgetAPI.isRunning())
+  addNewAnnotations() {
+    if (!this.TextWidgetAPI.checkIsRunning())
       this.TextWidgetAPI.enableIsRunning();
     else
       return false;
@@ -629,8 +629,8 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
    * Remove annotation from the text widget
    * @returns {boolean}
    */
-  deleteAnnotations = function () {
-    if (this.TextWidgetAPI.isRunning()) //check if running
+  deleteAnnotations() {
+    if (this.TextWidgetAPI.checkIsRunning()) //check if running
       this.TextWidgetAPI.enableIsRunning();
     else
       return false;
@@ -641,7 +641,7 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
       return false;
     }
 
-    annotationsToBeDeleted.foreach((annotation) => {
+    annotationsToBeDeleted.forEach((annotation) => {
       var annotationId = String(annotation._id).trim();
 
       if (annotation.type === 'argument_relation') {
@@ -650,7 +650,7 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
       } else {
         // Regular annotations, delete their marks
         var editorMarks = this.editor.getAllMarks();
-        editorMarks.foreach((mark) => {
+        editorMarks.forEach((mark) => {
           if (String(mark.className).trim().indexOf(annotationId) !== -1) {
             mark.clear();
           }

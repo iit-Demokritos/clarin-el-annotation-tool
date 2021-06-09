@@ -51,12 +51,7 @@ export class ButtonAnnotatorService {
 
   getLanguages() {
     return new Promise((resolve, reject) => {
-      this.http.get(CLARIN_CONSTANTS.ELLOGON_SERVICES + '/annotation_scheme.tcl', {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json; charset=utf-8',
-          'Accept': 'application/json; charset=utf-8'
-        })
-      }).subscribe((data: any) => {   // Asynchronous Service calling
+      this.http.get(CLARIN_CONSTANTS.ELLOGON_SERVICES + '/annotation_scheme.tcl').subscribe((data: any) => {   // Asynchronous Service calling
         resolve(data);
       }, (error) => {
         reject();
@@ -69,12 +64,7 @@ export class ButtonAnnotatorService {
     return new Promise((resolve, reject) => {
       this.http.get(CLARIN_CONSTANTS.ELLOGON_SERVICES
         + '/annotation_scheme.tcl/'
-        + encodeURIComponent(language), {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json; charset=utf-8',
-          'Accept': 'application/json; charset=utf-8'
-        })
-      }).subscribe((data) => {   // Asynchronous Service calling
+        + encodeURIComponent(language)).subscribe((data) => {   // Asynchronous Service calling
         resolve(data);
       }, (error) => {
         reject();
@@ -88,12 +78,7 @@ export class ButtonAnnotatorService {
       this.http.get(CLARIN_CONSTANTS.ELLOGON_SERVICES
         + '/annotation_scheme.tcl/'
         + encodeURIComponent(language) + '/'
-        + encodeURIComponent(annotationType), {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json; charset=utf-8',
-          'Accept': 'application/json; charset=utf-8'
-        })
-      }).subscribe((data) => {   // Asynchronous Service calling
+        + encodeURIComponent(annotationType)).subscribe((data) => {   // Asynchronous Service calling
         resolve(data);
       }, (error) => {
         reject();
@@ -108,12 +93,7 @@ export class ButtonAnnotatorService {
         + '/annotation_scheme.tcl/'
         + encodeURIComponent(language) + '/'
         + encodeURIComponent(annotationType) + '/'
-        + encodeURIComponent(annotationAttribute), {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json; charset=utf-8',
-          'Accept': 'application/json; charset=utf-8'
-        })
-      }).subscribe((data) => {   // Asynchronous Service calling
+        + encodeURIComponent(annotationAttribute)).subscribe((data) => {   // Asynchronous Service calling
         resolve(data);
       }, (error) => {
         reject();
@@ -129,12 +109,7 @@ export class ButtonAnnotatorService {
         + encodeURIComponent(language) + '/'
         + encodeURIComponent(annotationType) + '/'
         + encodeURIComponent(annotationAttribute) + '/'
-        + encodeURIComponent(attributeAlternative), {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json; charset=utf-8',
-          'Accept': 'application/json; charset=utf-8'
-        })
-      }).subscribe((data) => {   // Asynchronous Service calling
+        + encodeURIComponent(attributeAlternative)).subscribe((data) => {   // Asynchronous Service calling
         resolve(data);
       }, (error) => {
         reject();

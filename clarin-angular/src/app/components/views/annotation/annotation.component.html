@@ -1,13 +1,13 @@
 <div class="cover" *ngIf="documentSelection"></div>
-<div ui-layout="{dividerSize:'0'}">
+<div ui-layout="{dividerSize:'0'}" class="annotation-wrapper">
   <app-navbar></app-navbar>
   <div ui-layout-container size="46px" min-size="46px" max-size="46px">
     <toolbar-widget></toolbar-widget>
   </div>
   <div ui-layout-container>
     <!-- ng-hide="documentSelection" -->
-    <div ui-layout="{flow : 'column'}">
-      <div ui-layout-container>
+    <div ui-layout="{flow : 'column'}" class="layout-mirror-wrapper">
+      <div ui-layout-container class="layout-mirror">
         <div ui-layout="{dividerSize:'0', disableToggle:true}">
           <div ui-layout-container size="46px" min-size="0px" max-size="46px" collapsed="!layout.showEditorTabs">
             <div class="main-content-header flow-effect-top" id="annotation-main-content-header">
@@ -43,7 +43,7 @@
         <overlapping-areas></overlapping-areas> -->
       </div>
       <!-- Petasis, 19/03/2021: allow bar to move to a wider range<div ui-layout-container size="400px" min-size="280px" max-size="520px"> -->
-      <div ui-layout-container size="25%" min-size="15%" max-size="75%">
+      <div ui-layout-container class="layout-buttons" size="25%" min-size="15%" max-size="75%">
         <div class="sidebar-header flow-effect-top" id="annotation-sidebar-header">
           <div class="btn-group btn-group-justified">
             <label class="btn btn-default" name="lbl-sbsi" btn-radio="'annotator'">{{annotatorType}}</label>

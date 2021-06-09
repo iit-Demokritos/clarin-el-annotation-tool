@@ -255,6 +255,7 @@ table td{ vertical-align:middle!important; }
 	background: #fff;
 	font-size: 13px;
 	line-height: 20px;
+	margin-top: 50px;
 	/*margin-bottom: 2px;*/
 }
 .toolbar-widget select{
@@ -417,7 +418,7 @@ table td{ vertical-align:middle!important; }
 }
 .sidebar-header{
 	width: 100%;
-	height: 46px;
+	height: 49px !important;
 	padding: 9px 10px;
 	background: #fff;
 	border-bottom: 1px solid #d9e0e2;
@@ -838,3 +839,41 @@ display: block;
 .cdk-overlay-container {
     z-index: 1000000 !important;
 }
+
+
+
+
+
+
+
+
+mat-tree{
+	overflow: auto;
+    max-height: 500px;
+}
+
+.layout-mirror-wrapper{
+	display: table;
+}
+.layout-mirror{
+display: table-cell;
+width: 75%;
+}
+.layout-buttons{
+	display: table-cell;
+	width: 24%;
+}
+
+
+.annotation-wrapper{
+	overflow-x: hidden;
+}
+
+.CodeMirror {
+	border: 1px solid #eee;
+	height: auto;
+  }
+
+  .selected-node{
+	  text-decoration: underline !important;
+  }

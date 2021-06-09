@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { MainService } from '../main/main.service';
 import { TextWidgetAPI } from '../text-widget/text-widget.service';
-import { cloneDeep, findWhere,indexOf,where,contains } from "lodash";
+import * as _ from 'lodash';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { AnnotationService } from '../annotation-service/annotation.service';
@@ -76,7 +76,7 @@ export class RestoreAnnotationService {
     this.openDocumentService.get(documentId, annotatorId)
       .then((response:any)=> {
         if (response["success"] && response["data"].length > 0) {
-          var documentFound = findWhere(response["data"], {
+          var documentFound = _.findWhere(response["data"], {
             opened: 1
           });
 
@@ -156,21 +156,21 @@ export class RestoreAnnotationService {
     });
   };
 
-  discard = function (collectionId, documentId, annotatorId) {
+  discard(collectionId, documentId, annotatorId) {
     return new Promise((resolve, reject) => {
 
     this.tempAnnotationService.destroy(collectionId, documentId, annotatorId /*null*/) //delete the old annotations of the document*/
-      .then(function (response) {
+      .then((response:any)=> {
         if (response.success)
-          return this.this.openDocumentServiceService.destroy(documentId, annotatorId);
+          return this.openDocumentService.destroy(documentId, annotatorId);
         else
           return reject(response);
-      }).then(function (response) { //delete the temp annotations
+      }).then((response:any)=> { //delete the temp annotations
         if (response.success)
           resolve(response);
         else
           reject(response);
-      }, function (error) {
+      },(error)=> {
         reject(error);
       });
 

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BaseControlComponent } from '../../base-control/base-control.component';
-import { cloneDeep, findWhere, indexOf, where, contains, filter } from "lodash";
+import * as _ from 'lodash';
 
 @Component({
   selector: 'annotation-relation-combobox',
@@ -12,7 +12,7 @@ export class AnnotationRelationComboboxComponent extends BaseControlComponent im
   super() { }
 
   ngOnInit(): void {
-    this.TextWidgetAPI.registerAnnotationSchemaCallback(this.schemaCallback);
+    this.TextWidgetAPI.registerAnnotationSchemaCallback(this.schemaCallback.bind(this));
     // Make sure we register the callbacks when the component loads
     this.schemaCallback();
   }
@@ -38,9 +38,9 @@ export class AnnotationRelationComboboxComponent extends BaseControlComponent im
     // Filter annotations
     var allowedValues = this.annotationArgumentValues.split(' ');
 
-    this.annotations = filter(annotations, function (annotation) {
+    this.annotations = _.filter(annotations, function (annotation) {
       // Check if the type is in the allowedValues
-      var type = findWhere(annotation.attributes, { name: 'type' }).value;
+      var type = _.findWhere(annotation.attributes, { name: 'type' }).value;
 
       return allowedValues.indexOf(type) !== -1;
     });
@@ -58,7 +58,7 @@ export class AnnotationRelationComboboxComponent extends BaseControlComponent im
     }
 
     // Check if this annotation concerns this combobox (same relation attribute value)
-    var relationAttributeValue = findWhere(annotation.attributes, this.selAnnotationFilter).value;
+    var relationAttributeValue = _.findWhere(annotation.attributes, this.selAnnotationFilter).value;
 
     if (relationAttributeValue !== this.annotationRelationValue) {
 
@@ -67,7 +67,7 @@ export class AnnotationRelationComboboxComponent extends BaseControlComponent im
     }
 
     // Get the selected annotation ID from the attributes of the arrow annotation
-    var id = findWhere(annotation.attributes, { name: this.annotationAttribute }).value;
+    var id = _.findWhere(annotation.attributes, { name: this.annotationAttribute }).value;
 
     // Find the annotation with this ID in the list of annotations and select it
     this.selectedAnnotationId = id;
@@ -75,8 +75,8 @@ export class AnnotationRelationComboboxComponent extends BaseControlComponent im
 
   // Register callback for annotation updates
   schemaCallback() {
-    this.TextWidgetAPI.registerAnnotationsCallback(this.updateAnnotationList);
-    this.TextWidgetAPI.registerSelectedAnnotationCallback(this.annotationSelected);
+    this.TextWidgetAPI.registerAnnotationsCallback(this.updateAnnotationList.bind(this));
+    this.TextWidgetAPI.registerSelectedAnnotationCallback(this.annotationSelected.bind(this));
   }
 
 }

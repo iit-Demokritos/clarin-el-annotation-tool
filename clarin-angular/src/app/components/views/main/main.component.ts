@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Compiler, Component, Injector, NgModuleRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FlashMessagesService } from 'flash-messages-angular';
 import { CollectionService } from 'src/app/services/collection-service/collection-service.service';
@@ -20,6 +20,7 @@ import { ButtonColorService } from 'src/app/services/button-color-service/button
 import { CoreferenceAnnotatorService } from 'src/app/services/coreference-annotator-service/coreference-annotator.service';
 import { CoreferenceColorService } from 'src/app/services/coreference-color-service/coreference-color.service';
 import { AnnotatorsTemplateService } from 'src/app/services/annotators-template-service/annotators-template.service';
+import { AnnotationSchemaService } from 'src/app/services/annotation-schema-service/annotation-schema.service';
 
 @Component({
   selector: 'main',
@@ -45,7 +46,11 @@ export class MainComponent implements OnInit {
     public buttonColorService:ButtonColorService,
     public coreferenceAnnotatorService:CoreferenceAnnotatorService,
     public coreferenceColorService:CoreferenceColorService,
-    public annotatorsTemplateService:AnnotatorsTemplateService) { }
+    public annotatorsTemplateService:AnnotatorsTemplateService,
+    public annotationSchemaService:AnnotationSchemaService,
+    public compiler:Compiler,
+    public injector:Injector,
+    public _m: NgModuleRef<any>) { }
 
   ngOnInit(): void {
   }

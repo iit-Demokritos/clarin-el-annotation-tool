@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { cloneDeep, findWhere,indexOf,where,contains } from "lodash";
+import * as _ from 'lodash';
 
 @Injectable({
   providedIn: 'root'
@@ -47,7 +47,7 @@ export class TextWidgetAPI {
   scrollIntoViewCallbacks = [];
 
   notifyObservers(observerStack: any[]) {
-    observerStack.forEach(function (callback) {
+    observerStack.forEach((callback)=> {
       callback();
     });
   }; //function to trigger the callbacks of observers
@@ -110,7 +110,7 @@ export class TextWidgetAPI {
   }
 
   getAnnotationById(annotationId) {
-    return findWhere(this.annotations, {
+    return _.find_.where(this.annotations, {
       _id: annotationId
     });
     /*return annotationsFound;*/
@@ -121,7 +121,7 @@ export class TextWidgetAPI {
   }
 
   getAnnotationForDocumentAttribute(attribute) {
-    return findWhere(this.annotations, {
+    return _.find_.where(this.annotations, {
       document_attribute: attribute
     });
   }
@@ -139,7 +139,7 @@ export class TextWidgetAPI {
     this.notifyObservers(this.annotationsToBeAddedCallbacks);
 
     if (selected)
-      this.selectedAnnotation = cloneDeep(newAnnotation);
+      this.selectedAnnotation = _.cloneDeep(newAnnotation);
     else
       this.selectedAnnotation = {};
 
@@ -153,7 +153,7 @@ export class TextWidgetAPI {
 
     for (var i = 0; i < this.annotations.length; i++) {
       if (this.annotations[i]._id == updatedAnnotation._id) {
-        this.annotations[i] = cloneDeep(updatedAnnotation);
+        this.annotations[i] = _.cloneDeep(updatedAnnotation);
         break;
       }
     }
@@ -167,7 +167,7 @@ export class TextWidgetAPI {
     this.notifyObservers(this.annotationsToBeAddedCallbacks);
 
     if (selected)
-      this.selectedAnnotation = cloneDeep(updatedAnnotation);
+      this.selectedAnnotation = _.cloneDeep(updatedAnnotation);
     else
       this.selectedAnnotation = {};
 
@@ -177,12 +177,12 @@ export class TextWidgetAPI {
   }
 
   deleteAnnotation(annotationId) {
-    var deletedAnnotation = findWhere(this.annotations, {
+    var deletedAnnotation = _.find_.where(this.annotations, {
       _id: annotationId
     });
     if (typeof deletedAnnotation == "undefined") return false;
 
-    var deletedAnnotationIndex = indexOf(this.annotations, deletedAnnotation);
+    var deletedAnnotationIndex = _.indexOf(this.annotations, deletedAnnotation);
     this.annotations.splice(deletedAnnotationIndex, 1);
     this.annotationsToBeDeleted.push(deletedAnnotation);
 
@@ -206,12 +206,12 @@ export class TextWidgetAPI {
     }
     switch (this.annotatorType) {
       case "Button Annotator":
-        if (where(newAnnotation.attributes, { name: this.annotationSchema["attribute"] }).length > 0) return true;
+        if (_.where(newAnnotation.attributes, { name: this.annotationSchema["attribute"] }).length > 0) return true;
 
         return false;
       case "Coreference Annotator":
         for (var j = 0; j < newAnnotation.attributes.length; j++) {
-          if (contains(this.annotationSchemaOptions["attributes"], newAnnotation.attributes[j].name))
+          if (_.contains(this.annotationSchemaOptions["attributes"], newAnnotation.attributes[j].name))
             return true;
         }
 
@@ -246,7 +246,7 @@ export class TextWidgetAPI {
         }
         if ((this.annotatorType == "Button Annotator") && (!("document_attribute" in annotation))) {
           for (var j = 0; j < annotation.attributes.length; j++) {
-            if (!contains(this.annotationSchemaOptions["values"], annotation.attributes[j].value)) { //check if the annotation belongs to the "found in collection"
+            if (!_.contains(this.annotationSchemaOptions["values"], annotation.attributes[j].value)) { //check if the annotation belongs to the "found in collection"
               this.foundInCollection.push(annotation);
               break;
             }
@@ -308,7 +308,7 @@ export class TextWidgetAPI {
   }
 
   setCurrentCollection(newCurrentCollection) {
-    this.currentCollection = cloneDeep(newCurrentCollection);
+    this.currentCollection = _.cloneDeep(newCurrentCollection);
     this.notifyObservers(this.currentCollectionCallbacks);
   }
 
@@ -322,7 +322,7 @@ export class TextWidgetAPI {
   }
 
   setCurrentDocument(newDocument) {
-    this.currentDocument = cloneDeep(newDocument);
+    this.currentDocument = _.cloneDeep(newDocument);
     this.notifyObservers(this.currentDocumentCallbacks);
   }
 
@@ -336,7 +336,7 @@ export class TextWidgetAPI {
   }
 
   setCurrentSelection(newCurrentSelection, notify) {
-    this.currentSelection = cloneDeep(newCurrentSelection);
+    this.currentSelection = _.cloneDeep(newCurrentSelection);
 
     if (notify)
       this.notifyObservers(this.currentSelectionCallbacks);
@@ -353,7 +353,7 @@ export class TextWidgetAPI {
   }
 
   setAnnotatorType(newAnnotatorType) {
-    this.annotatorType = cloneDeep(newAnnotatorType);
+    this.annotatorType = _.cloneDeep(newAnnotatorType);
   }
 
   clearAnnotatorType() {
@@ -383,7 +383,7 @@ export class TextWidgetAPI {
   }
 
   setAnnotationSchemaOptions(newAnnotationSchemaOptions) {
-    this.annotationSchemaOptions = cloneDeep(newAnnotationSchemaOptions);
+    this.annotationSchemaOptions = _.cloneDeep(newAnnotationSchemaOptions);
   }
 
   clearAnnotationSchemaOptions() {
@@ -400,7 +400,7 @@ export class TextWidgetAPI {
   }
 
   setAnnotationSchema(newAnnotationSchema) {
-    this.annotationSchema = cloneDeep(newAnnotationSchema);
+    this.annotationSchema = _.cloneDeep(newAnnotationSchema);
     this.notifyObservers(this.annotationSchemaCallbacks);
   }
 
@@ -429,7 +429,7 @@ export class TextWidgetAPI {
         "selected": false
       });
 
-    this.selectedAnnotation = cloneDeep(newSelectedAnnotation);
+    this.selectedAnnotation = _.cloneDeep(newSelectedAnnotation);
     this.annotationsToBeAdded.push({
       "annotation": newSelectedAnnotation,
       "selected": true
@@ -450,14 +450,14 @@ export class TextWidgetAPI {
                 if(!angular.equals(selectedAnnotation,{}))
                     annotationsToBeAdded.push({"annotation": selectedAnnotation, "selected": false}); */
 
-    var newSelectedAnnotation = findWhere(this.annotations, {
+    var newSelectedAnnotation = _.find_.where(this.annotations, {
       _id: annotationId
     });
 
     if (typeof (newSelectedAnnotation) == "undefined")
       return false;
 
-    this.selectedAnnotation = cloneDeep(newSelectedAnnotation);
+    this.selectedAnnotation = _.cloneDeep(newSelectedAnnotation);
     this.annotationsToBeAdded.push({
       "annotation": newSelectedAnnotation,
       "selected": true
@@ -523,7 +523,7 @@ export class TextWidgetAPI {
   }
 
   setFoundInCollection(newFoundInCollection) {
-    this.foundInCollection = cloneDeep(newFoundInCollection);
+    this.foundInCollection = _.cloneDeep(newFoundInCollection);
   }
 
   clearFoundInCollection() {
@@ -536,7 +536,7 @@ export class TextWidgetAPI {
   }
 
   scrollToAnnotation(annotation) {
-    this.scrollIntoView = cloneDeep(annotation);
+    this.scrollIntoView = _.cloneDeep(annotation);
     this.notifyObservers(this.scrollIntoViewCallbacks);
     this.scrollIntoView = [];
   }

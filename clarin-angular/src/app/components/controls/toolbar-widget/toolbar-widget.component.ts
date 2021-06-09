@@ -5,7 +5,7 @@ import { DetectChangesModalComponent } from '../../dialogs/detect-changes-modal/
 import { DetectOpenDocModalComponent } from '../../dialogs/detect-open-doc-modal/detect-open-doc-modal.component';
 import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
 import { MainComponent } from '../../views/main/main.component';
-import { cloneDeep, findWhere, indexOf, where, contains } from "lodash";
+import * as _ from 'lodash';
 import { BaseControlComponent } from '../base-control/base-control.component';
 import { AnnotationComponent } from '../../views/annotation/annotation.component';
 
@@ -19,17 +19,18 @@ export class ToolbarWidgetComponent extends BaseControlComponent implements OnIn
   super() { }
 
   ngOnInit(): void {
-    this.TextWidgetAPI.registerCurrentCollectionCallback(this.updateCurrentCollection);
-    this.TextWidgetAPI.registerCurrentDocumentCallback(this.updateCurrentDocument);
+    this.TextWidgetAPI.registerCurrentCollectionCallback(this.updateCurrentCollection.bind(this));
+    this.TextWidgetAPI.registerCurrentDocumentCallback(this.updateCurrentDocument.bind(this));
   }
 
-  @Input() parent:AnnotationComponent;
+  @Input() parent: AnnotationComponent;
 
   selectedDocument = {};
   autoSaveIndicator = false;
   selectedCollectionDocuments;
   selectedCollection;
   selectedCollectionName;
+  deleteAnnotationModalInstance;
 
   detectUnsavedChanges(newDocument) {
     var currentDocument: any = this.TextWidgetAPI.getCurrentDocument();
@@ -37,7 +38,7 @@ export class ToolbarWidgetComponent extends BaseControlComponent implements OnIn
     this.openDocumentService.get(currentDocument.id, currentDocument.annotator_id)
       .then((response: any) => {
         if (response.success && response.data.length > 0) {
-          var documentFound = findWhere(response.data, { opened: 1 }); // search if the user has an open document
+          var documentFound = _.findWhere(response.data, { opened: 1 }); // search if the user has an open document
 
           if (typeof (documentFound) != "undefined" && documentFound.db_interactions > 0) {
             if (this.autoSaveIndicator) { // auto save functionality enabled
@@ -50,7 +51,7 @@ export class ToolbarWidgetComponent extends BaseControlComponent implements OnIn
                   } else {
                     this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Error during the save annotations. Please refresh the page and try again.") })
                   }
-                }, function (error) {
+                }, (error)=> {
                   this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Database error. Please refresh the page and try again.") })
                 });
             } else {
@@ -74,16 +75,16 @@ export class ToolbarWidgetComponent extends BaseControlComponent implements OnIn
             this.TextWidgetAPI.setCurrentDocument(newDocument);
           }
         }
-      }, function (error) {
+      }, (error)=> {
         this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Database error. Please refresh the page and try again.") })
       });
   };
 
-  nextDocument = function () {
+  nextDocument() {
     if (this.TextWidgetAPI.checkIsRunning())
       return false;
 
-    var index = indexOf(this.selectedCollectionDocuments, this.selectedDocument);
+    var index = _.indexOf(this.selectedCollectionDocuments, this.selectedDocument);
     if (index < this.selectedCollectionDocuments.length - 1)
       this.detectUnsavedChanges(this.selectedCollectionDocuments[index + 1])
   }
@@ -102,11 +103,11 @@ export class ToolbarWidgetComponent extends BaseControlComponent implements OnIn
   };
 
 
-  deleteAnnotation = function () {
+  deleteAnnotation() {
     if (this.TextWidgetAPI.checkIsRunning())
       return false;
 
-    var annotationToBeDeleted = this.TextWidgetAPI.getSelectedAnnotation();
+    var annotationToBeDeleted:any = this.TextWidgetAPI.getSelectedAnnotation();
 
     if (Object.keys(annotationToBeDeleted).length > 0 && !this.deleteAnnotationModalInstance) {   //no annotation has been selected open error modal
 
@@ -162,18 +163,20 @@ export class ToolbarWidgetComponent extends BaseControlComponent implements OnIn
 
   updateCurrentCollection() {
     var newCollection: any = this.TextWidgetAPI.getCurrentCollection();
-    if (Object.keys(newCollection).length > 0) {
-      this.selectedCollection = cloneDeep(newCollection);
-      this.selectedCollectionName = cloneDeep(newCollection.name);
-      this.selectedCollectionDocuments = cloneDeep(newCollection.children);
+    if (typeof newCollection != "undefined") {
+      if (Object.keys(newCollection).length > 0) {
+        this.selectedCollection = _.cloneDeep(newCollection);
+        this.selectedCollectionName = _.cloneDeep(newCollection.name);
+        this.selectedCollectionDocuments = _.cloneDeep(newCollection.children);
+      }
     }
   };
 
   updateCurrentDocument() {
-    var newDocument:any = this.TextWidgetAPI.getCurrentDocument();
+    var newDocument: any = this.TextWidgetAPI.getCurrentDocument();
 
     if (Object.keys(newDocument).length > 0)
-      this.selectedDocument = where(this.selectedCollectionDocuments, { id: newDocument.id })[0];
+      this.selectedDocument = _.where(this.selectedCollectionDocuments, { id: newDocument.id })[0];
   };
 
   /*TODO: Check those event handlers

@@ -1,6 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { MainService } from '../main/main.service';
-import { cloneDeep, findWhere,indexOf,where,contains } from "lodash";
+import * as _ from 'lodash';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { AnnotationService } from '../annotation-service/annotation.service';
@@ -25,7 +25,7 @@ export class ButtonColorService {
   addColorCombination(colorCombination) { this.colorCombinations.push(colorCombination); };
   clearColorCombinations() { this.colorCombinations = []; };
   getColorCombination(annotationValue) {
-    var colorCombo = where(this.colorCombinations, { value: annotationValue });
+    var colorCombo = _.where(this.colorCombinations, { value: annotationValue });
 
     if (colorCombo.length == 1)
       return colorCombo[0];

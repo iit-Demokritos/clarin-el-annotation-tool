@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { BaseControlComponent } from '../../base-control/base-control.component';
-import { cloneDeep, findWhere, indexOf, where, contains } from "lodash";
+import * as _ from 'lodash';
 
 @Component({
   selector: 'coref-combobox',
@@ -28,7 +28,7 @@ export class CorefComboboxComponent extends BaseControlComponent implements OnIn
     var selectedAnnotation: any = this.TextWidgetAPI.getSelectedAnnotation();
 
     if (Object.keys(selectedAnnotation).length > 0) { //is selected annotation is not empty 
-      var selectedAnnotationAttribute = where(selectedAnnotation.attributes, { name: this.annotationAttribute })[0];
+      var selectedAnnotationAttribute = _.where(selectedAnnotation.attributes, { name: this.annotationAttribute })[0];
 
       // if element has the specific attribute, the attribute value is inside comboOptions and the option selected is different
       if (typeof (selectedAnnotationAttribute) != "undefined" &&

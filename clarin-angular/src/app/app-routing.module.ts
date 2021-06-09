@@ -9,15 +9,11 @@ import { WelcomeComponent } from './components/views/welcome/welcome.component';
 
 const routes: Routes = [
   {
-    path: "", component: WelcomeComponent, data: {
+    path: "clarin/welcome", component: WelcomeComponent, data: {
       breadcrumb: 'main'
     },
   },  {
-    path: "app/welcome", component: WelcomeComponent, data: {
-      breadcrumb: 'main'
-    },
-  },  {
-    path: "app/profile", component: ProfileComponent, data: {
+    path: "clarin/profile", component: ProfileComponent, data: {
       breadcrumb: 'main'
     },
   },

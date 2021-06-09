@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { BaseControlComponent } from '../../base-control/base-control.component';
-import { cloneDeep, findWhere, indexOf, where, contains } from "lodash";
+import * as _ from 'lodash';
 import { ErrorDialogComponent } from 'src/app/components/dialogs/error-dialog/error-dialog.component';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 import { element } from 'protractor';
@@ -12,8 +12,8 @@ import { element } from 'protractor';
 })
 export class AnnotationButtonComponent extends BaseControlComponent implements OnInit {
 
-  @ViewChild('btn') el: ElementRef;
-  element:any;
+  @ViewChild('btn', { static: true }) el: ElementRef<HTMLButtonElement>;
+  element: HTMLButtonElement;
 
   @Input() buttonTooltip;
   @Input() label;
@@ -22,43 +22,46 @@ export class AnnotationButtonComponent extends BaseControlComponent implements O
 
   ngOnInit(): void {
     this.element = this.el.nativeElement;
+    this.buttonColorService.addColorCombination({
+      value: this.annotationValue, bg_color: this.bgColor, fg_color: this.fgColor,
+      colour_background: this.colourBackground, colour_font: this.colourFont,
+      colour_border: this.colourBorder, colour_selected_background: this.colourSelectedBackground
+    });
 
-    this.buttonColorService.addColorCombination({value:this.annotationValue, bg_color:this.bgColor, fg_color:this.fgColor,
-      colour_background:this.colourBackground, colour_font:this.colourFont,
-      colour_border:this.colourBorder, colour_selected_background:this.colourSelectedBackground});
+    //if IE add button color
+    var ua = window.navigator.userAgent;
+    if (ua.indexOf("MSIE ") > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))
+      this.element.querySelector('i').setAttribute('color', this.bgColor);
 
-//if IE add button color
-var ua = window.navigator.userAgent;
-if (ua.indexOf("MSIE ") > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))
-this.element.find('i').css('color', this.bgColor);
+    //register callbacks for the annotation list and the selected annotation
+    this.TextWidgetAPI.registerSelectedAnnotationCallback(this.updateSelectedAnnotationButton.bind(this));
+  }
 
-var updateSelectedAnnotationButton = function () {
-var selectedAnnotation = this.TextWidgetAPI.getSelectedAnnotation();   
+  updateSelectedAnnotationButton() {
+    var selectedAnnotation: any = this.TextWidgetAPI.getSelectedAnnotation();
 
-if (Object.keys(selectedAnnotation).length > 0) { //if selected annotation is not empty 
-var selectedAnnotationAttribute = where(selectedAnnotation.attributes, { name: this.annotationAttribute, 
-                                                                  value: this.annotationValue })[0];
+    if (Object.keys(selectedAnnotation).length > 0) { //if selected annotation is not empty 
+      var selectedAnnotationAttribute = _.where(selectedAnnotation.attributes, {
+        name: this.annotationAttribute,
+        value: this.annotationValue
+      })[0];
 
-var attributeIndex = selectedAnnotation.attributes.indexOf(selectedAnnotationAttribute);
+      var attributeIndex = selectedAnnotation.attributes.indexOf(selectedAnnotationAttribute);
 
-if (attributeIndex > -1 && !this.element.hasClass('active')) {       //if the element has the same attribute and it is not active 
-  this.element.addClass('active'); 
-  this.element.css('color', this.fgColor);
-  this.element.css('background', this.bgColor);
-} else if (attributeIndex < 0 && this.element.hasClass('active')) {     //if the element has different attribute and it is active
-  this.element.removeClass('active');
-  this.element.css('color', '#333');
-  this.element.css('background', '#fff'); 
-}
-} else if (Object.keys(selectedAnnotation).length == 0 && this.element.hasClass('active')) {  //if selected annotation is empty and the specific element is active
-  this.element.removeClass('active');
-  this.element.css('color', '#333');
-  this.element.css('background', '#fff');
-}
-}
-
-//register callbacks for the annotation list and the selected annotation
-this.TextWidgetAPI.registerSelectedAnnotationCallback(updateSelectedAnnotationButton);
+      if (attributeIndex > -1 && !this.element.classList.contains('active')) {       //if the element has the same attribute and it is not active 
+        this.element.classList.add('active');
+        this.element.setAttribute("style","color:"+this.fgColor);
+        this.element.setAttribute("style","background:"+this.bgColor);
+      } else if (attributeIndex < 0 && this.element.classList.contains('active')) {     //if the element has different attribute and it is active
+        this.element.classList.remove('active');
+        this.element.setAttribute("style","color:#333");
+        this.element.setAttribute("style","background:#fff");
+      }
+    } else if (Object.keys(selectedAnnotation).length == 0 && this.element.classList.contains('active')) {  //if selected annotation is empty and the specific element is active
+      this.element.classList.remove('active');
+      this.element.setAttribute("style","color:#333");
+      this.element.setAttribute("style","background:#fff");
+    }
   }
 
   addAnnotation(annotationType, annotationAttribute, annotationValue) {
@@ -70,7 +73,7 @@ this.TextWidgetAPI.registerSelectedAnnotationCallback(updateSelectedAnnotationBu
       selectedAnnotation.type = annotationType;
 
       //search for the selected attribute inside the annotation
-      var selectedAnnotationAttribute = where(selectedAnnotation.attributes, { name: annotationAttribute })[0];
+      var selectedAnnotationAttribute = _.where(selectedAnnotation.attributes, { name: annotationAttribute })[0];
       var newAttribute = {
         name: annotationAttribute,
         value: annotationValue
@@ -80,7 +83,7 @@ this.TextWidgetAPI.registerSelectedAnnotationCallback(updateSelectedAnnotationBu
         selectedAnnotation.attributes.push(newAttribute);
       else {                                                    //the specific attribute exists in the current annotation, so update it 
         var index = selectedAnnotation.attributes.indexOf(selectedAnnotationAttribute);
-        selectedAnnotation.attributes[index] = cloneDeep(newAttribute);
+        selectedAnnotation.attributes[index] = _.cloneDeep(newAttribute);
       }
 
       this.tempAnnotationService.update(selectedAnnotation)

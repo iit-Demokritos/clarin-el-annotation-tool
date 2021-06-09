@@ -19,11 +19,11 @@ export class NavbarComponent extends MainComponent implements OnInit {
       delete sessionStorage.authenticated;
       this.flashMessage.show(response.message, { cssClass: 'alert alert-warning', timeout: 2000 });
       //$state.go('welcome');
-      this.router.navigate(["/app/welcome"])
+      this.router.navigate(["/clarin/welcome"])
     }, (error) => {
       delete sessionStorage.authenticated;
       this.flashMessage.show(error.message, { cssClass: 'alert alert-warning', timeout: 2000 });
-      this.router.navigate(["/app/welcome"])
+      this.router.navigate(["/clarin/welcome"])
       //$state.go('welcome');
     });
   };

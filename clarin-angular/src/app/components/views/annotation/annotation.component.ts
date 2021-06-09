@@ -5,7 +5,7 @@ import { DetectOpenDocModalComponent } from '../../dialogs/detect-open-doc-modal
 import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
 import { SelectDocumentModalComponent } from '../../dialogs/select-document-modal/select-document-modal.component';
 import { MainComponent } from '../main/main.component';
-import { cloneDeep, findWhere,indexOf,where,contains } from "lodash";
+import * as _ from 'lodash';
 
 @Component({
   selector: 'annotation',
@@ -91,6 +91,8 @@ export class AnnotationComponent extends MainComponent implements OnInit {
               this.TextWidgetAPI.setAnnotationSchemaOptions(result.newAnnotationSchemaOptions);
               this.TextWidgetAPI.setAnnotationSchema(result.newAnnotationSchema);
 
+              this.annotatorType = result.newAnnotator;
+
               this.TextWidgetAPI.setCurrentCollection(result.newCollection);
               result.newDocument.annotator_id = this.TextWidgetAPI.getAnnotatorTypeId();
               this.TextWidgetAPI.setCurrentDocument(result.newDocument);
@@ -114,7 +116,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
     this.openDocumentService.get(currentDocument.id, currentDocument.annotator_id)
       .then((response: any) => {
         if (response.success && response.data.length > 0) {
-          var documentFound = findWhere(response.data, { opened: 1 });  //search if the user has an open document         
+          var documentFound = _.findWhere(response.data, { opened: 1 });  //search if the user has an open document         
 
           if (typeof (documentFound) != "undefined" && documentFound.db_interactions > 0) {                //if changes have been done on the document
             if (this.autoSaveIndicator) {                            //auto save functionality enabled
@@ -134,7 +136,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
               //$ocLazyLoad.load('detectOpenDocModalCtrl').then(function () {
               //var detectOpenDocModalInstance = Dialog.custom('detect-open-doc-modal.html', 'detectOpenDocModalCtrl', currentDocument, true, "");
 
-              let dialogRef = this.dialog.open(DetectOpenDocModalComponent, currentDocument);
+              let dialogRef = this.dialog.open(DetectOpenDocModalComponent, {data:currentDocument});
 
               dialogRef.afterClosed().subscribe((response) => {
                 if (response.success) {
@@ -160,10 +162,10 @@ export class AnnotationComponent extends MainComponent implements OnInit {
     this.openDocumentService.getAll()
       .then((response:any) => {
         if (response.success && response.data.length > 0) {
-          var documentFound = findWhere(response.data, { opened: 1 });                                //search if the user has an open document 
+          var documentFound = _.findWhere(response.data, { opened: 1 });                                //search if the user has an open document 
 
           if (typeof (documentFound) != "undefined") {                                                    //user has left a document opened
-            if (where(response.data, { document_id: documentFound.document_id }).length == 1 && (documentFound.db_interactions == 0 || documentFound.confirmed == 1)) {         //document has been opened only from the current user & no db_interactions have occurred    
+            if (_.where(response.data, { document_id: documentFound.document_id }).length == 1 && (documentFound.db_interactions == 0 || documentFound.confirmed == 1)) {         //document has been opened only from the current user & no db_interactions have occurred    
               this.tempAnnotationService.destroy(documentFound.collection_id, documentFound.document_id, null)
                 .then((response)=> {
                   this.createDocumentSelectionModal();
@@ -174,7 +176,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
               //$ocLazyLoad.load('detectChangesModalCtrl').then(function () {
                 //var detectChangesModalInstance = Dialog.custom('detect-changes-modal.html', 'detectChangesModalCtrl', documentFound, true, "");
 
-                var dialogRef = this.dialog.open(DetectChangesModalComponent,documentFound);
+                var dialogRef = this.dialog.open(DetectChangesModalComponent,{data:documentFound});
                 dialogRef.afterClosed().subscribe((response:any)=> {
                   if (response.success) {
                     if (typeof(response.resume) != "undefined" && response.resume)
@@ -188,7 +190,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
                   } else {
                     this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Error during the restoration of your annotations. Please refresh the page and try again.") })
                   }
-                }, function (error) {
+                },(error)=> {
                   this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Database error. Please refresh the page and try again.") })
                 });
               //});
@@ -201,7 +203,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
         } else {
           this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Database error. Please refresh the page and try again.") })
         }
-      }, function (error) {
+      }, (error)=> {
         this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Database error. Please refresh the page and try again.") })
       });
   };

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { BaseControlComponent } from '../../base-control/base-control.component';
-import { cloneDeep, findWhere, indexOf, where, contains } from "lodash";
+import * as _ from 'lodash';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 import { ErrorDialogComponent } from 'src/app/components/dialogs/error-dialog/error-dialog.component';
 
@@ -118,7 +118,7 @@ export class AnnotationRelationAnotateBtnComponent extends BaseControlComponent 
    */
   updateAnnotation() {
     // Create copy of the selected annotation (to update its values)
-    var annotation: any = cloneDeep(this.TextWidgetAPI.getSelectedAnnotation());
+    var annotation: any = _.cloneDeep(this.TextWidgetAPI.getSelectedAnnotation());
 
     // Update attributes of the comboboxes
     this.comboboxIds.forEach(id => {
@@ -133,7 +133,7 @@ export class AnnotationRelationAnotateBtnComponent extends BaseControlComponent 
       var newValue = elemScope.selectedAnnotationId;
 
       // Find the attribute with annotationAttribute as its name and update the value
-      var attribute = findWhere(annotation.attributes, { name: annotationAttribute });
+      var attribute = _.findWhere(annotation.attributes, { name: annotationAttribute });
 
       attribute.value = newValue;
 
@@ -161,7 +161,7 @@ export class AnnotationRelationAnotateBtnComponent extends BaseControlComponent 
     }
 
     // Check if the selected annotation concerns this button to show the update button
-    var attr = findWhere(selectedAnnotation.attributes, this.annotationAttribute);
+    var attr = _.findWhere(selectedAnnotation.attributes, this.annotationAttribute);
 
     // Show the annotate button if we didn't find this button's attribute in the selected annotation
     this.showAnnotateBtn = (typeof (attr) == "undefined");

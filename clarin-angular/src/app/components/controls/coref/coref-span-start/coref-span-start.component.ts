@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { cloneDeep, findWhere, indexOf, where, contains } from "lodash";
+import * as _ from 'lodash';
 import { BaseControlComponent } from '../../base-control/base-control.component';
 
 @Component({
@@ -23,7 +23,7 @@ export class CorefSpanStartComponent extends BaseControlComponent implements OnI
 
     if (Object.keys(selectedAnnotation).length > 0) { //if selected annotation is not empty 
       //search for the specific attribute of the annotation
-      var selAnnotationAttribute = findWhere(selectedAnnotation.attributes, { name: this.annotationAttribute });
+      var selAnnotationAttribute = _.findWhere(selectedAnnotation.attributes, { name: this.annotationAttribute });
 
       /*// if element has the specific attribute and the attribute value is different from the element's value
       if (!angular.isUndefined(selectedAnnotationAttribute.value.start) && selectedAnnotationAttribute.value.start != $(element).text())

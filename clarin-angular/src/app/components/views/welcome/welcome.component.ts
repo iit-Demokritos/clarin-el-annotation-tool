@@ -97,7 +97,7 @@ export class WelcomeComponent extends MainComponent implements OnInit {
 					//Flash.clear();
 					this.initializeUserInfo();
 					//$state.go('profile');
-					this.router.navigate(['/app/profile']);
+					this.router.navigate(['/clarin/profile']);
 
 				} else {
 					delete sessionStorage.authenticated;

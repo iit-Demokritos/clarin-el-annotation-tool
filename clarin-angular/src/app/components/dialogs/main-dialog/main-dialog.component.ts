@@ -25,7 +25,7 @@ import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 })
 export class MainDialogComponent implements OnInit {
 
-  constructor(public injector:Injector, @Inject(MAT_DIALOG_DATA) public data: any, public dialogRef:MatDialogRef<any>, public collectionService:CollectionService, public flashMessage:FlashMessagesService,public sharedCollectionService:SharedCollectionService, public documentService:DocumentService, public dialogService:DialogService,
+  constructor(public injector:Injector, @Inject(MAT_DIALOG_DATA) public data: any, public dialogRef:MatDialogRef<MainDialogComponent>, public collectionService:CollectionService, public flashMessage:FlashMessagesService,public sharedCollectionService:SharedCollectionService, public documentService:DocumentService, public dialogService:DialogService,
   public annotationSchemaService:AnnotationSchemaService,
   public buttonAnnotatorService:ButtonAnnotatorService,
   public coreferenceAnnotatorService:CoreferenceAnnotatorService,

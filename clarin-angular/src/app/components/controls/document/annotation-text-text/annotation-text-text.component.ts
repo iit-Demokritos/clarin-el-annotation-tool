@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseControlComponent } from '../../base-control/base-control.component';
-import { cloneDeep, findWhere, indexOf, where, contains } from "lodash";
+import * as _ from 'lodash';
 import { ErrorDialogComponent } from 'src/app/components/dialogs/error-dialog/error-dialog.component';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 
@@ -51,7 +51,7 @@ export class AnnotationTextTextComponent extends BaseControlComponent implements
     var annotation = this.getAnnotation();
     var index = this.getAnnotationAttributeIndex();
     if (annotation.attributes[index].value == value) return;
-    annotation.attributes[index].value = cloneDeep(value);
+    annotation.attributes[index].value = _.cloneDeep(value);
     this.tempAnnotationService.update(annotation)
       .then((data)=> {
         this.TextWidgetAPI.updateAnnotation(annotation, false);
@@ -62,13 +62,13 @@ export class AnnotationTextTextComponent extends BaseControlComponent implements
 
   getAnnotationAttributeIndex() {
     var annotation = this.getAnnotation();
-    var attribute  = where(annotation.attributes, {name: this.annotationDocumentAttribute})[0];
+    var attribute  = _.where(annotation.attributes, {name: this.annotationDocumentAttribute})[0];
     return annotation.attributes.indexOf(attribute);
   }; // getAnnotationAttributeIndex
   
   getAnnotationAttribute() {
     var annotation = this.getAnnotation();
-    return where(annotation.attributes, {name: this.annotationDocumentAttribute})[0];
+    return _.where(annotation.attributes, {name: this.annotationDocumentAttribute})[0];
   }; // getAnnotationAttribute
   
   getAnnotation() {

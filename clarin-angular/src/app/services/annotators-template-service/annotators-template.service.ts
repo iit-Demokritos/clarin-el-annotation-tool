@@ -28,12 +28,7 @@ export class AnnotatorsTemplateService {
           + '/annotation_scheme_multi_ui.tcl?'
           + 'language=' + encodeURIComponent(annotationSchema.language)
           + '&annotation=' + encodeURIComponent(annotationSchema.annotation_type)
-          + '&alternative=' + encodeURIComponent(annotationSchema.alternative), {
-          headers: new HttpHeaders({
-            'Content-Type': 'application/json; charset=utf-8',
-            'Accept': 'application/json; charset=utf-8'
-          })
-        }
+          + '&alternative=' + encodeURIComponent(annotationSchema.alternative)
         ).subscribe((data) => {
           resolve(data);
         }, (error) => {
@@ -50,13 +45,13 @@ export class AnnotatorsTemplateService {
           + '&attribute=' + encodeURIComponent(annotationSchema.attribute)
           + '&alternative=' + encodeURIComponent(annotationSchema.alternative), {
           headers: new HttpHeaders({
-            'Content-Type': 'application/json; charset=utf-8',
-            'Accept': 'application/json; charset=utf-8'
+            'Accept': 'text/html'
           })
         }).subscribe((data) => {
           resolve(data);
         }, (error) => {
-          reject();
+          //reject();
+          resolve(error.error.text);
         });
       });
 
