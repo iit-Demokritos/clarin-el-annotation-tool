@@ -84,7 +84,7 @@ export class CorefAnnotateBtnComponent extends BaseControlComponent implements O
         if (Object.keys(selectedAnnotation).length == 0) {
           var currentDocument:any = this.TextWidgetAPI.getCurrentDocument();
           result.annotation = {
-            //TODO: Get objectid lib _id: new ObjectId().toString(),
+            _id: this.ObjectId().toString(),
             document_id: currentDocument.id,
             collection_id: currentDocument.collection_id,
             annotator_id: currentDocument.annotator_id,

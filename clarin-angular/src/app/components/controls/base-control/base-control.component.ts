@@ -32,4 +32,10 @@ export class BaseControlComponent extends ValueAccessorComponent<any> implements
   ngOnInit(): void {
   }
 
+  ObjectId(){
+    var n = require("bson-objectid");
+
+    return n().id;
+  }
+
 }

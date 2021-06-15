@@ -29,6 +29,7 @@ export class AnnotatorsTemplateService {
           + 'language=' + encodeURIComponent(annotationSchema.language)
           + '&annotation=' + encodeURIComponent(annotationSchema.annotation_type)
           + '&alternative=' + encodeURIComponent(annotationSchema.alternative)
+          + '&framework=angular'
         ).subscribe((data) => {
           resolve(data);
         }, (error) => {
@@ -43,7 +44,8 @@ export class AnnotatorsTemplateService {
           + 'language=' + encodeURIComponent(annotationSchema.language)
           + '&annotation=' + encodeURIComponent(annotationSchema.annotation_type)
           + '&attribute=' + encodeURIComponent(annotationSchema.attribute)
-          + '&alternative=' + encodeURIComponent(annotationSchema.alternative), {
+          + '&alternative=' + encodeURIComponent(annotationSchema.alternative)
+          + '&framework=angular', {
           headers: new HttpHeaders({
             'Accept': 'text/html'
           })

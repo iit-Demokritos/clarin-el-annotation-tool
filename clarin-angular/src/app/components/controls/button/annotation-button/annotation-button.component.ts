@@ -102,7 +102,7 @@ export class AnnotationButtonComponent extends BaseControlComponent implements O
     if (typeof (currentSelection) != "undefined" && Object.keys(currentSelection).length > 0 && currentSelection.segment.length > 0) {
       var currentDocument: any = this.TextWidgetAPI.getCurrentDocument();
       var newAnnotation = {
-        //TODO : _id: new ObjectId().toString(),
+        _id: this.ObjectId().toString(),
         document_id: currentDocument.id,
         collection_id: currentDocument.collection_id,
         annotator_id: currentDocument.annotator_id,

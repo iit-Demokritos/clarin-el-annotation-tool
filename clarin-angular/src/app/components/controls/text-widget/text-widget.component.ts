@@ -80,7 +80,20 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
     }), false);*/
 
     //TODO: Sub. cm. events
-    //CodeMirror.on(this.mainContent, "mouseup", this.mouseUpHandler);
+    this.editor.on("dblclick", (e)=> {
+      this.mouseUpHandler(e);
+  });
+
+  this.editor.on("cursorActivity", (e)=> {
+    this.mouseUpHandler(e);
+});
+
+  this.editor.on("mousedown", (e)=> {
+    this.mouseDownUpHandler(e);
+});
+    CodeMirror.on(this.mainContent, "mouseup", ()=>{this.mouseUpHandler});
+    CodeMirror.on(this.mainContent, "mousedown", ()=>{this.mouseDownUpHandler});
+    this.element.nativeElement.addEventListener("mouseup",this.mouseUpHandler);
     //CodeMirror.on(this.mainContent, "mousedown", this.mouseDownUpHandler);
     this.TextWidgetAPI.registerCurrentDocumentCallback(this.updateCurrentDocument.bind(this));
     this.TextWidgetAPI.registerCurrentSelectionCallback(this.updateCurrentSelection.bind(this));
@@ -201,8 +214,12 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
   };
 
   mouseUpHandler(e): any {
-    if (e.button === 0) { //left button click
+    if (typeof e.button == "undefined") { //left button click
       var selection = this.getSelectionInfo();
+
+      if(selection.segment.length == 0){
+        return;
+      }
 
       if (Object.keys(selection).length > 0) {
         this.TextWidgetAPI.setCurrentSelection(selection, false);
@@ -432,6 +449,9 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
         //TODO:Implement broadcast $rootScope.$broadcast('sendDocumentAttribute:' + currAnnotation.annotation.document_attribute, currAnnotation.annotation);
       } else {
         // Normal annotation
+        if(typeof newAnnotations[k].annotation.spans == "undefined"){
+          continue;
+        }
         for (var l = 0; l < newAnnotations[k].annotation.spans.length; l++) { // Iterate through annotations spans
           var colorCombination: any = {};
           var annotationSpan = currAnnotation.annotation.spans[l];
@@ -539,7 +559,9 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
     }
 
     // Make annotation connection lines appear on top of text
-    document.querySelector('.leader-line').setAttribute("style", "z-index:123");
+    if(document.querySelector('.leader-line') != null){
+      document.querySelector('.leader-line').setAttribute("style", "z-index:123");
+    }
 
     this.TextWidgetAPI.clearAnnotationsToBeAdded();
     //editor.refresh();

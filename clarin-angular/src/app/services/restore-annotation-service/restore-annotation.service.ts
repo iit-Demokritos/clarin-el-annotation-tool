@@ -17,7 +17,7 @@ import { TempAnnotationService } from '../temp-annotation-service/temp-annotatio
 })
 export class RestoreAnnotationService {
 
-  constructor(public http:HttpClient, public openDocumentService:OpenDocumentService, public annotationService:AnnotationService, public tempAnnotationService:TempAnnotationService) {}
+  constructor(public http:HttpClient, public openDocumentService:OpenDocumentService, public annotationService:AnnotationService, public tempAnnotationService:TempAnnotationService, public TextWidgetAPI:TextWidgetAPI) {}
 
   restoreFromTemp(collectionId, documentId, annotatorId) {
     return new Promise((resolve, reject) => {
@@ -47,7 +47,7 @@ export class RestoreAnnotationService {
           reject(response);
         }
       })
-      .then(function (response) {
+      .then((response)=> {
         annotationsResponse = response;
         if (response["success"] && response["data"].length > 0) {//if annotations number is greater than 0 save them to Temp
           annotationsResponse.data = this.TextWidgetAPI.selectAnnotationsMatchingSchema(response["data"], annotatorId);
@@ -58,7 +58,7 @@ export class RestoreAnnotationService {
           reject(response);
         }
       })
-      .then((response)=> {
+      .then((response:any)=> {
         if (!response.success)
           reject(response);
         else

@@ -55,7 +55,7 @@ export class AnnotationRelationAnotateBtnComponent extends BaseControlComponent 
 
     // Create annotation object
     var annotation = {
-      //TODO: Check Object lib, _id: new ObjectId().toString(),
+      _id: this.ObjectId().toString(),
       document_id: currentDocument.id,
       collection_id: currentDocument.collection_id,
       annotator_id: currentDocument.annotator_id,
