@@ -97,12 +97,12 @@ class UserController extends \BaseController {
             //register user using Sentry and generate activation code
             $user = Sentinel::register($credentials, false);
             //$activation_code = $user->getActivationCode();
-      $activation = Activation::create($user);
+            $activation = Activation::create($user);
             $activation_code = $activation['code'];
 
             //prepare the required variables passed to the email view
-      $email_data = [
-    'id' => $activation['user_id'],
+            $email_data = [
+                'id' => $activation['user_id'],
                 'name' => $credentials['name'],
                 'to' => $credentials['email'],
                 'subject' => 'Welcome at Clarin-EL!',
@@ -192,6 +192,39 @@ class UserController extends \BaseController {
       }
       catch (Cartalyst\Sentinel\Users\UserNotActivatedException $e)  {
         return Response::json(['success' => false, 'message'  => 'Authentication failed'], 400);
+      }
+      catch (Cartalyst\Sentinel\Checkpoints\NotActivatedException $e) {
+	$message = $e->getMessage();
+        try {
+          $user = Sentinel::findByCredentials($credentials);
+	  if (Activation::exists($user)) {
+            $activation = Activation::create($user);
+	  } else {
+	    $activation = Activation::create($user);
+	  }
+          $message .= ' Resending Activation email.';
+          // Send an activation mail...
+	  $activation_code = $activation['code'];
+          //prepare the required variables passed to the email view
+          $email_data = [
+             'id' => $activation['user_id'],
+             'name' => 'Non-activated User',
+             'to' => $credentials['email'],
+             'subject' => 'Welcome at Clarin-EL!',
+             'activation_code' => $activation_code
+          ];
+          //send an email to notify user to activate the account
+          Mail::send('emails/activate-account', $email_data, function($message) use ($email_data) {
+             $message->to($email_data['to'])
+                     ->subject($email_data['subject']);
+          });
+	} catch (Exception $e) {
+          $message .= ' (Failed: ';
+	  $message .= $e->getMessage();
+	  $message .= ')';
+        }
+        //$activation_code = $user->getActivationCode();
+        return Response::json(['success' => false, 'message'  => $message], 400);
       }
     }
 
