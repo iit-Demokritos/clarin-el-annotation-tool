@@ -5,8 +5,13 @@
     </head>
     <body>
         <div style="max-width:450px; margin:0 auto 20px;">
-            <img src="{{ $message->embed('images/logo.jpg') }}" style="margin: 0 auto; width: 170px; display: block;"/><br/><br/>
-        	Hello {{$recepient_name}},<br/><br/>
+            @if (file_exists('images/logo.jpg'))
+            <img src="{{ $message->embed('images/logo.jpg') }}" style="margin: 0 auto; width: 170px; display: block;"/>
+            @else
+            <img src="{{ $message->embed('assets/images/logo.jpg') }}" style="margin: 0 auto; width: 170px; display: block;"/>
+            @endif
+            <br/><br/>
+            Hello {{$recepient_name}},<br/><br/>
             We would like to inform you that user {{$from}} wants to share the collection "{{$collection_name}}" with you!
             Please follow the link below to accept the invitation.<br/><br/>
 

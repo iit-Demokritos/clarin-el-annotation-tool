@@ -5,8 +5,13 @@
     </head>
     <body>
         <div style="max-width:450px; margin:0 auto 20px;">
-            <img src="{{ $message->embed('images/logo.jpg') }}" style="margin: 0 auto; width: 170px; display: block;"/><br/><br/>
-        	Hello {{$name}},<br/><br/>
+            @if (file_exists('images/logo.jpg'))
+            <img src="{{ $message->embed('images/logo.jpg') }}" style="margin: 0 auto; width: 170px; display: block;"/>
+            @else
+            <img src="{{ $message->embed('assets/images/logo.jpg') }}" style="margin: 0 auto; width: 170px; display: block;"/>
+            @endif
+            <br/><br/>
+            Hello {{$name}},<br/><br/>
             To finish signing up for your Clarin-EL account, you must click the link below to confirm your email address.<br/><br/>
 
             <div style="padding: 19px; border: 1px solid #e3e3e3;background-color: #f5f5f5;max-width: 400px; ">
