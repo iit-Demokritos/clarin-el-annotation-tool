@@ -8,7 +8,7 @@
       </div>
       <div *ngIf="annotations.length==0" class="caution-msg">This document has not annotations</div>
       <div *ngIf="annotations.length>0">
-        <div class="annotation-visualiser-content" *ngFor="let annotation in annotations; let i = index;"
+        <div class="annotation-visualiser-content" *ngFor="let annotation of annotations; let i = index;"
           (click)="setSelectedAnnotation(annotation, i)" [ngClass]="{ active: i == selectedIndex }">
           <div class="col-md-4 right-divider overflow-ellipsis">{{annotation._id}}</div>
           <div class="col-md-4 right-divider overflow-ellipsis">{{annotation.type}}</div>
@@ -39,13 +39,13 @@
           <div class="col-md-3 right-divider overflow-ellipsis">Document Attribute</div>
           <div class="col-md-9 overflow-ellipsis">{{selectedAnnotation.document_attribute}}</div>
         </div>
-        <div class="annotation-visualiser-content" *ngFor="let span in selectedAnnotation.spans; let i = index">
+        <div class="annotation-visualiser-content" *ngFor="let span of selectedAnnotation.spans; let i = index">
           <div class="col-md-3 right-divider overflow-ellipsis"><span *ngIf="i==1">Spans</span>&nbsp;</div>
           <div class="col-md-9 overflow-ellipsis" title="{{span.segment}}">{{span.start}}:{{span.end}}
             ["{{span.segment}}"]</div>
         </div>
         <div class="annotation-visualiser-content"
-          *ngFor="let attribute in selectedAnnotation.attributes; let i = index">
+          *ngFor="let attribute of selectedAnnotation.attributes; let i = index">
           <div class="col-md-3 right-divider overflow-ellipsis"><span *ngIf="i==0">Attributes</span>&nbsp;</div>
           <div class="col-md-9 overflow-ellipsis">{{attribute.name}} &nbsp;-&nbsp; "{{attribute.value}}"</div>
         </div>

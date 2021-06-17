@@ -18,7 +18,7 @@ export class AnnotationVisualizerComponent extends BaseControlComponent implemen
 
   ngOnInit(): void {
     this.updateAnnotationList();
-    this.TextWidgetAPI.registerAnnotationSchemaCallback(this.annotationSchemaUpdate);
+    this.TextWidgetAPI.registerAnnotationSchemaCallback(this.annotationSchemaUpdate.bind(this));
   }
 
   annotations = [];
@@ -27,7 +27,9 @@ export class AnnotationVisualizerComponent extends BaseControlComponent implemen
   sseEventSubscription: Subscription;
 
   ngOnDestroy() {
-    this.sseEventSubscription.unsubscribe();
+    if(this.sseEventSubscription){
+      this.sseEventSubscription.unsubscribe();
+    }
   }
 
   /*$scope.$on('$destroy', function () {  //listen when scope is destroying
@@ -139,9 +141,9 @@ export class AnnotationVisualizerComponent extends BaseControlComponent implemen
   }
 
   annotationSchemaUpdate() {
-    this.TextWidgetAPI.registerCurrentDocumentCallback(this.liveUpdateDocument);
-    this.TextWidgetAPI.registerAnnotationsCallback(this.updateAnnotationList);
-    this.TextWidgetAPI.registerSelectedAnnotationCallback(this.updateSelectedAnnotationDetails);
+    this.TextWidgetAPI.registerCurrentDocumentCallback(this.liveUpdateDocument.bind(this));
+    this.TextWidgetAPI.registerAnnotationsCallback(this.updateAnnotationList.bind(this));
+    this.TextWidgetAPI.registerSelectedAnnotationCallback(this.updateSelectedAnnotationDetails.bind(this));
   };
 
   //register callbacks for the annotation list and the selected annotation

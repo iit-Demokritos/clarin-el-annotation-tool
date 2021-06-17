@@ -26,10 +26,10 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
     });
   }
 
-  @ViewChild("element",{static: true}) element: ElementRef<HTMLTextAreaElement>;;
+  @ViewChild("element", { static: true }) element: ElementRef<HTMLTextAreaElement>;;
   mainContent;
   editor: CodeMirror.EditorFromTextArea;
-
+  initialLoad: boolean = false;
 
   // Variable controlling whether the spinner is visible...
   spinnerVisible = false;
@@ -50,7 +50,7 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
     this.editor = CodeMirror.fromTextArea(this.element.nativeElement, {
       lineNumbers: true,
       dragDrop: false,
-      readOnly: true,
+      readOnly: false,
       theme: "night",
       lineWrapping: true,
       autofocus: false,
@@ -80,20 +80,20 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
     }), false);*/
 
     //TODO: Sub. cm. events
-    this.editor.on("dblclick", (e)=> {
+    this.editor.on("dblclick", (e) => {
       this.mouseUpHandler(e);
-  });
+    });
 
-  this.editor.on("cursorActivity", (e)=> {
-    this.mouseUpHandler(e);
-});
+    this.editor.on("cursorActivity", (e) => {
+      this.mouseUpHandler(e);
+    });
 
-  this.editor.on("mousedown", (e)=> {
-    this.mouseDownUpHandler(e);
-});
-    CodeMirror.on(this.mainContent, "mouseup", ()=>{this.mouseUpHandler});
-    CodeMirror.on(this.mainContent, "mousedown", ()=>{this.mouseDownUpHandler});
-    this.element.nativeElement.addEventListener("mouseup",this.mouseUpHandler);
+    this.editor.on("mousedown", (e) => {
+      this.mouseDownUpHandler(e);
+    });
+    CodeMirror.on(this.mainContent, "mouseup", () => { this.mouseUpHandler });
+    CodeMirror.on(this.mainContent, "mousedown", () => { this.mouseDownUpHandler });
+    this.element.nativeElement.addEventListener("mouseup", this.mouseUpHandler);
     //CodeMirror.on(this.mainContent, "mousedown", this.mouseDownUpHandler);
     this.TextWidgetAPI.registerCurrentDocumentCallback(this.updateCurrentDocument.bind(this));
     this.TextWidgetAPI.registerCurrentSelectionCallback(this.updateCurrentSelection.bind(this));
@@ -214,12 +214,14 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
   };
 
   mouseUpHandler(e): any {
+    
+    if(!this.initialLoad){
+      this.initialLoad = true;
+      return;
+    }
+
     if (typeof e.button == "undefined") { //left button click
       var selection = this.getSelectionInfo();
-
-      if(selection.segment.length == 0){
-        return;
-      }
 
       if (Object.keys(selection).length > 0) {
         this.TextWidgetAPI.setCurrentSelection(selection, false);
@@ -239,7 +241,7 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
             annotationId = annotationId.split(" ")[0];
           }
 
-          if (!(annotationId)) {
+          if (annotationId) {
             // Get the selected annotation from its ID and the previous selected annotation
             var selectedAnnotation = this.TextWidgetAPI.getAnnotationById(annotationId);
             var prevAnnotationId = this.TextWidgetAPI.getSelectedAnnotation()["_id"];
@@ -342,7 +344,7 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
                   });
               }
             }
-          }, (error)=> {
+          }, (error) => {
             this.TextWidgetAPI.disableIsRunning();
             this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Database error. Please refresh the page and try again.") })
           });
@@ -393,7 +395,7 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
       path: 'fluid'
     });
 
-    document.querySelectorAll('.leader-line')[document.querySelectorAll('.leader-line').length - 1].addEventListener("click", ()=>{this.makeLineCF(annotation)});
+    document.querySelectorAll('.leader-line')[document.querySelectorAll('.leader-line').length - 1].addEventListener("click", () => { this.makeLineCF(annotation) });
 
     return line;
   };
@@ -449,7 +451,7 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
         //TODO:Implement broadcast $rootScope.$broadcast('sendDocumentAttribute:' + currAnnotation.annotation.document_attribute, currAnnotation.annotation);
       } else {
         // Normal annotation
-        if(typeof newAnnotations[k].annotation.spans == "undefined"){
+        if (typeof newAnnotations[k].annotation.spans == "undefined") {
           continue;
         }
         for (var l = 0; l < newAnnotations[k].annotation.spans.length; l++) { // Iterate through annotations spans
@@ -494,12 +496,14 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
                 //   css: "color:" + colorCombination.fg_color + ";" +
                 //     "background:" + colorCombination.bg_color + ";"
                 // });
-                this.editor.markText(selection.start, selection.end, {
+                let res = this.editor.getDoc().markText(selection.start, selection.end, {
                   className: markClassName,
                   css: "color:" + colorCombination.colour_font + ";" +
                     "background:" + colorCombination.colour_background + ";" +
                     "border-color:" + colorCombination.colour_border + ";"
                 });
+
+                
               }
 
               break;
@@ -559,7 +563,7 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
     }
 
     // Make annotation connection lines appear on top of text
-    if(document.querySelector('.leader-line') != null){
+    if (document.querySelector('.leader-line') != null) {
       document.querySelector('.leader-line').setAttribute("style", "z-index:123");
     }
 

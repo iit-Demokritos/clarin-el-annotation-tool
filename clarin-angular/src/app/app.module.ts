@@ -72,6 +72,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { ValueAccessorComponent } from './components/controls/value-accessor/value-accessor.component';
 import {MatSelectModule} from '@angular/material/select';
 import { ButtonAnnotatorValueListDirective } from './directives/button-annotator-value-list/button-annotator-value-list.directive';
+import { NgScrollbarModule } from 'ngx-scrollbar';
 
 @NgModule({
   declarations: [
@@ -146,7 +147,8 @@ import { ButtonAnnotatorValueListDirective } from './directives/button-annotator
     MatIconModule,
     TreeviewModule.forRoot(),
     MatButtonModule,
-    MatSelectModule
+    MatSelectModule,
+    NgScrollbarModule
   ],
   exports:[
     ButtonAnnotatorValueListDirective,

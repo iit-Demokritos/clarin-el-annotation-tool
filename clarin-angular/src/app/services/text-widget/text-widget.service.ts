@@ -110,7 +110,7 @@ export class TextWidgetAPI {
   }
 
   getAnnotationById(annotationId) {
-    return _.find_.where(this.annotations, {
+    return _.find(this.annotations, {
       _id: annotationId
     });
     /*return annotationsFound;*/
@@ -121,7 +121,7 @@ export class TextWidgetAPI {
   }
 
   getAnnotationForDocumentAttribute(attribute) {
-    return _.find_.where(this.annotations, {
+    return _.find(this.annotations, {
       document_attribute: attribute
     });
   }
@@ -177,7 +177,7 @@ export class TextWidgetAPI {
   }
 
   deleteAnnotation(annotationId) {
-    var deletedAnnotation = _.find_.where(this.annotations, {
+    var deletedAnnotation = _.find(this.annotations, {
       _id: annotationId
     });
     if (typeof deletedAnnotation == "undefined") return false;
@@ -450,7 +450,7 @@ export class TextWidgetAPI {
                 if(!angular.equals(selectedAnnotation,{}))
                     annotationsToBeAdded.push({"annotation": selectedAnnotation, "selected": false}); */
 
-    var newSelectedAnnotation = _.find_.where(this.annotations, {
+    var newSelectedAnnotation = _.find(this.annotations, {
       _id: annotationId
     });
 

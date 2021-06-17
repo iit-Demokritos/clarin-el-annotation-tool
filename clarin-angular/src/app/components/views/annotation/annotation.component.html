@@ -19,17 +19,24 @@
           </div>
           <div ui-layout-container="central">
             <div class="main-content">
-              <div class='spinner-border' role='status'><span class='sr-only'>Loading...</span></div>
-              <div class="main-content-document" *ngIf="maincontentSelector=='document'"><text-widget></text-widget></div>
-              <table id="main-content-annotate-document-attributes" class="main-content-attributes" *ngIf="maincontentSelector=='attributes'">
-                <tbody>
-                  <tr class="main-content-attributes-header">
-                    <td></td>
-                  </tr>
-                  <tr class="main-content-attributes-row"><td class="main-content-attributes-cell" ></td></tr>
-                </tbody>
-              </table>
-              <div *ngIf='spinnerVisible'><span class='fa fa-spinner'>Loading...</span></div>
+              <ng-scrollbar>
+                <div class='spinner-border' role='status'><span class='sr-only'>Loading...</span></div>
+                <div class="main-content-document" *ngIf="maincontentSelector=='document'">
+                  <text-widget></text-widget>
+                </div>
+                <table id="main-content-annotate-document-attributes" class="main-content-attributes"
+                  *ngIf="maincontentSelector=='attributes'">
+                  <tbody>
+                    <tr class="main-content-attributes-header">
+                      <td></td>
+                    </tr>
+                    <tr class="main-content-attributes-row">
+                      <td class="main-content-attributes-cell"></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div *ngIf='spinnerVisible'><span class='fa fa-spinner'>Loading...</span></div>
+              </ng-scrollbar>
             </div>
           </div>
           <div ui-layout-container size="48px" min-size="48px" max-size="48px">
@@ -46,13 +53,15 @@
       <div ui-layout-container class="layout-buttons" size="25%" min-size="15%" max-size="75%">
         <div class="sidebar-header flow-effect-top" id="annotation-sidebar-header">
           <div class="btn-group btn-group-justified">
-            <label class="btn btn-default" name="lbl-sbsi" btn-radio="'annotator'">{{annotatorType}}</label>
-            <label class="btn btn-default" name="lbl-sbsr" btn-radio="'annotationVisualiser'">Annotation Visualiser</label>
+            <label class="btn btn-default" name="lbl-sbsi" (click)="sidebarSelector='annotator'">{{annotatorType}}</label>
+            <label class="btn btn-default" name="lbl-sbsr" (click)="sidebarSelector='annotationVisualiser'">Annotation Visualiser</label>
           </div>
         </div>
         <div class="sidebar-main-content" trigger-resize>
-          <annotation-visualizer *ngIf="sidebarSelector=='annotationVisualiser'"></annotation-visualizer>
-          <annotator-widget *ngIf="sidebarSelector=='annotator'"></annotator-widget>
+          <ng-scrollbar>
+            <annotation-visualizer *ngIf="sidebarSelector=='annotationVisualiser'"></annotation-visualizer>
+            <annotator-widget *ngIf="sidebarSelector=='annotator'"></annotator-widget>
+          </ng-scrollbar>
         </div>
       </div>
     </div>
