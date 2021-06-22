@@ -64,7 +64,7 @@ export class DocumentService {
 
     var promises: any = [];
 
-    documents.array.forEach(element => {
+    documents.forEach(element => {
       promises.push(new Promise<any>((resolve, reject) => {
         this.readDocument(collectionId, element)
           .then((readData) => {

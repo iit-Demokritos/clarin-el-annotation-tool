@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FlowDirective, Transfer } from '@flowjs/ngx-flow';
 import { Subscription } from 'rxjs';
 import { BaseControlComponent } from '../base-control/base-control.component';
@@ -16,6 +16,7 @@ export class UploaderComponent extends BaseControlComponent implements OnInit {
   autoupload = true;
   filterFiles = false;
 
+  @Input() files:any[] = [];
   userFiles:any[] = [];
   unsupportedFiles:any[] = [];
   @Output() handleFileInputs = new EventEmitter<any>();
@@ -71,6 +72,7 @@ export class UploaderComponent extends BaseControlComponent implements OnInit {
           fileObj.push(element["file"]);
         })
 
+        this.files = fileObj;
         this.handleFileInputs.emit({files:fileObj,message:message});
 
       }

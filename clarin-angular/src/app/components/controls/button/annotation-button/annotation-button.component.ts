@@ -46,6 +46,10 @@ export class AnnotationButtonComponent extends BaseControlComponent implements O
         value: this.annotationValue
       })[0];
 
+      if(typeof(selectedAnnotationAttribute) == "undefined" || !selectedAnnotationAttribute){
+        return;
+      }
+
       var attributeIndex = selectedAnnotation.attributes.indexOf(selectedAnnotationAttribute);
 
       if (attributeIndex > -1 && !this.element.classList.contains('active')) {       //if the element has the same attribute and it is not active 

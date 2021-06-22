@@ -102,7 +102,9 @@ $scope.dataForTheTree = $scope.collections;*/
     var data = {
       collectionId: this.selectedCollection.id,
       collectionName: this.selectedCollection.name,
-      collectionEncoding: this.selectedCollection.encoding
+      collectionEncoding: this.selectedCollection.encoding,
+      dialogTitle:"Add collection",
+      dialogMessage:"Add new collections"
     };
 
     /*$ocLazyLoad.load('addDocumentsModalCtrl').then(function () {
@@ -113,7 +115,7 @@ $scope.dataForTheTree = $scope.collections;*/
       });
     });*/
 
-    var dialogRef = this.dialog.open(AddDocumentsDialogComponent, {data:new ConfirmDialogData("Add collection", "Add new collections"),width: '550px'});
+    var dialogRef = this.dialog.open(AddDocumentsDialogComponent, {data:data,width: '550px'});
 
     dialogRef.afterClosed().subscribe(modalResult => {
 

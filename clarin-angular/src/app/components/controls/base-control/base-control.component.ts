@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Guid } from 'src/app/models/guid';
 import { MainComponent } from '../../views/main/main.component';
 import { ValueAccessorComponent } from '../value-accessor/value-accessor.component';
 
@@ -33,9 +34,11 @@ export class BaseControlComponent extends ValueAccessorComponent<any> implements
   }
 
   ObjectId(){
-    var n = require("bson-objectid");
+    //var n = require("bson-objectid");
 
-    return n().id;
+    //return n().id;
+
+    return Guid.newGuid();
   }
 
 }

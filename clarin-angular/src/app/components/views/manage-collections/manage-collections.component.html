@@ -34,7 +34,7 @@
 						<div class="btn-toolbar right" *ngIf="btnShow">
                     		<button type="button" class="btn btn-xs btn-success" (click)="addDocuments()" *ngIf="selectedCollection.is_owner"><i class="fa fa-plus"></i> Add</button>
                     		<button type="button" class="btn btn-xs btn-primary" (click)="shareCollection()" *ngIf="selectedCollection.is_owner"><i class="fa fa-user-plus"></i> Share</button>
-				<a [href]="'./api/collections/'+selectedCollection.id+'/export'" target="_self" class="btn btn-xs btn-primary"><i class="fa fa-download"></i> Export</a>
+				<a [href]="'./api/collections/'+selectedCollection.id+'/export'" target="_blank" class="btn btn-xs btn-primary"><i class="fa fa-download"></i> Export</a>
                     		<button type="button" class="btn btn-xs btn-primary" (click)="renameCollection()" *ngIf="selectedCollection.is_owner"><i class="fa fa-pencil-square-o"></i> Rename</button>
                     		<button type="button" class="btn btn-xs btn-danger" (click)="deleteCollection(selectedCollection.id)" *ngIf="selectedCollection.is_owner"><i class="fa fa-trash-o fa-lg"></i> Delete Collection</button>
                  		</div>

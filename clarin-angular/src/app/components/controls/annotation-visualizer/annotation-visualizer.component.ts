@@ -6,6 +6,7 @@ import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.co
 import { MainComponent } from '../../views/main/main.component';
 import { BaseControlComponent } from '../base-control/base-control.component';
 import { cloneDeep} from "lodash";
+import * as _ from 'lodash';
 
 @Component({
   selector: 'annotation-visualizer',
@@ -58,8 +59,9 @@ export class AnnotationVisualizerComponent extends BaseControlComponent implemen
     }
   };
 
-  setSelectedAnnotation(selectedAnnotation, $index) {         //function to visualize the annotation that the user selected from the annotation list
-    this.selectedIndex = $index;
+  setSelectedAnnotation(selectedAnnotation, index) {         //function to visualize the annotation that the user selected from the annotation list
+    this.selectedIndex = index;
+    this.selectedAnnotation = cloneDeep(selectedAnnotation);
     // console.warn(selectedAnnotation);
     this.TextWidgetAPI.setSelectedAnnotation(selectedAnnotation);
     this.TextWidgetAPI.scrollToAnnotation(selectedAnnotation);

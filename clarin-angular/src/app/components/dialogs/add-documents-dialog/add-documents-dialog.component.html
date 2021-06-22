@@ -2,10 +2,11 @@
     <h4 style="color:#fff" class="modal-title">{{data.dialogTitle}}</h4>
 </div>
 <div class="modal-body">
+    <flash-messages></flash-messages>
 	<!--div class="alert alert-danger" modal-error ng-hide="flash===undefined || flash===''">{{flash}}</div-->
 	{{data.message}}
 	<!--uploader flow-init></uploader-->
-    <uploader (handleFileInput)="handleFileInput($event)"></uploader>
+    <uploader (handleFileInputs)="handleFileInput($event)"></uploader>
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-default" (click)="cancel()">Cancel</button>

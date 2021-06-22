@@ -14,7 +14,7 @@ export class RenameCollectionModalComponent extends MainDialogComponent implemen
   }
 
   collectionData: any = this.data;
-  oldCollectionName = this.collectionData.collectionName;
+  oldCollectionName = this.collectionData.data.collectionName;
 
   rename() {
     if (this.oldCollectionName === this.collectionData.collectionName) {
@@ -25,7 +25,7 @@ export class RenameCollectionModalComponent extends MainDialogComponent implemen
 
     if (typeof this.collectionData.collectionName != "undefined") {
       var updateData = {
-        id: this.collectionData.collectionId,
+        id: this.collectionData.data.collectionId,
         name: this.collectionData.collectionName
       };
 

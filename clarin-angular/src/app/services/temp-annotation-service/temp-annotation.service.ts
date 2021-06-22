@@ -81,8 +81,8 @@ export class TempAnnotationService {
 
   destroy = function (collectionId, documentId, annotationId) {
     return new Promise((resolve, reject) => {
-    this.http.delete('./api/collections/' + collectionId + '/documents/' + documentId + '/temp_annotations/' + annotationId)
-      .subscribe(function (data) {
+    this.http.delete('api/collections/' + collectionId + '/documents/' + documentId + '/temp_annotations/' + annotationId)
+      .subscribe((data)=> {
         resolve(data);
       },(error)=> {
         reject(error);

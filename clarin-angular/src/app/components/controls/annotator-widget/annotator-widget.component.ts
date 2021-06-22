@@ -30,6 +30,7 @@ export class AnnotatorWidgetComponent extends BaseControlComponent implements On
 
   ngOnInit(): void {
     this.TextWidgetAPI.registerAnnotationSchemaCallback(this.updateAnnotatorTemplate.bind(this));
+    this.updateAnnotatorTemplate();
   }
 
   updateAnnotatorTemplate() {

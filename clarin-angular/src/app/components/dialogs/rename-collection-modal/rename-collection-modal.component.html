@@ -5,7 +5,7 @@
     <div class="modal-body"><!-- ng-show="$parent.flashShow"  -->
         <flash-messages></flash-messages>
         Enter a new collection name:
-        <input type="text" placeholder="Add a collection name.." style="margin-top:10px" class="form-control" [(ngModel)]="collectionData.collectionName" modal-focus auto-clear-flash [required]="true">	
+        <input type="text" name="collectionName" placeholder="Add a collection name.." style="margin-top:10px" class="form-control" [(ngModel)]="collectionData.collectionName" modal-focus auto-clear-flash [required]="true">	
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" (click)="cancel()">Cancel</button>

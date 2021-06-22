@@ -109,7 +109,7 @@ export class ToolbarWidgetComponent extends BaseControlComponent implements OnIn
 
     var annotationToBeDeleted:any = this.TextWidgetAPI.getSelectedAnnotation();
 
-    if (Object.keys(annotationToBeDeleted).length > 0 && !this.deleteAnnotationModalInstance) {   //no annotation has been selected open error modal
+    if (Object.keys(annotationToBeDeleted).length == 0 && !this.deleteAnnotationModalInstance) {   //no annotation has been selected open error modal
 
       let dialogRef = this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "No annotation has been selected.") })
 

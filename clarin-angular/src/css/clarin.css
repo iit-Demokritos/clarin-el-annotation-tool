@@ -522,6 +522,7 @@ table td{ vertical-align:middle!important; }
 	white-space:nowrap!important;
 	overflow: hidden!important;
     text-overflow: ellipsis!important;
+	max-width: 330px;
 }
 
 .right-divider{ border-right: 1px solid #d9e0e2; }

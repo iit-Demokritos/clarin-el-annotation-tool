@@ -59,11 +59,11 @@
         <div class="btn-group btn-group-justified">
 
           <button class="btn btn-primary" btn-radio="'Button Annotator'"
-            (click)="updateSubheader('Button Annotator'); annotationSchema.language=''; annotationSchema.annotation_type=''; annotationSchema.attribute=''; annotationSchema.alternative=''; annotationSchemaOptions.annotation_types=[]; annotationSchemaOptions.attributes=[]; annotationSchemaOptions.alternatives=[];">Button
+            (click)="updateSubheader('Button Annotator'); annotationSchema.language=''; annotationSchema.annotation_type=''; annotationSchema.attribute=''; annotationSchema.alternative='';">Button
             Annotator</button>
 
           <button class="btn btn-primary" btn-radio="'Coreference Annotator'"
-            (click)="updateSubheader('Coreference Annotator'); annotationSchema.language=''; annotationSchema.annotation_type=''; annotationSchema.attribute=''; annotationSchema.alternative=''; annotationSchemaOptions.annotation_types=[]; annotationSchemaOptions.attributes=[]; annotationSchemaOptions.alternatives=[];">Coreference
+            (click)="updateSubheader('Coreference Annotator'); annotationSchema.language=''; annotationSchema.annotation_type=''; annotationSchema.attribute=''; annotationSchema.alternative='';">Coreference
             Annotator
           </button>
         </div>
@@ -76,7 +76,7 @@
             <select id="selectedLanguage" [compareWith]="compareFn" class="form-control" required="true"
               name="annotationSchema.language" [(ngModel)]="annotationSchema.language"
               ng-options="language for language in annotationSchemaOptions.languages"
-              ng-change="changeLanguage(annotationSchema.language); annotationSchema.annotation_type=''; annotationSchema.attribute=''; annotationSchema.alternative=''; annotationSchemaOptions.attributes=[]; annotationSchemaOptions.alternatives=[];">
+              ng-change="changeLanguage(annotationSchema.language); annotationSchema.annotation_type=''; annotationSchema.attribute=''; annotationSchema.alternative='';">
               <option value="">Please select language..</option>
               <option *ngFor="let language of annotationSchemaOptions.languages" [ngValue]="language" value="language">{{language}}</option>
             </select>
@@ -97,7 +97,7 @@
             <select id="selectedAnnotationType" [compareWith]="compareFn" class="form-control" ng-required="true"
               name="annotationSchema.annotation_type" [(ngModel)]="annotationSchema.annotation_type"
               ng-options="annotationType for annotationType in annotationSchemaOptions.annotation_types"
-              ng-change="changeAnnotationType(annotationSchema.annotation_type); annotationSchema.attribute=''; annotationSchema.alternative=''; annotationSchemaOptions.alternatives=[];">
+              ng-change="changeAnnotationType(annotationSchema.annotation_type); annotationSchema.attribute=''; annotationSchema.alternative='';">
               <option value="">Please select annotation type..</option>
               <option *ngFor="let annotationType of annotationSchemaOptions.annotation_types" [ngValue]="annotationType" value="annotationType">
                 {{annotationType}}</option>

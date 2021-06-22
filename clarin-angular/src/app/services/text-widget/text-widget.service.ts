@@ -190,6 +190,7 @@ export class TextWidgetAPI {
 
     this.notifyObservers(this.selectedAnnotationCallbacks);
     this.notifyObservers(this.annotationsToBeDeletedCallbacks);
+    this.notifyObservers(this.currentDocumentCallbacks);
 
     this.clearOverlappingAreas();
     this.clearSelection();
