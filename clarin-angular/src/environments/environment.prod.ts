@@ -1,3 +1,6 @@
 export const environment = {
-  production: true
+  production: true,
+  baseUrl: '',
+  useHash: false,
+  hmr: false,
 };

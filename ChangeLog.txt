@@ -1,3 +1,6 @@
+23 June 2021 Petasis George <petasis@iit.demokritos.gr>
+ * clarin-angular: Pulled changes from SEMANTIKA, and resolved some conflicts.
+
 16 June 2021 Petasis George <petasis@iit.demokritos.gr>
  * backend/clarin/app/Http/Controllers/UserController.php:
  * backend/clarin/resources/views/emails/activate-account.blade.php:

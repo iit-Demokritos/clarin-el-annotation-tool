@@ -1,0 +1,8 @@
+// https://github.com/angular-split/angular-split/issues/224
+.as-split-gutter {
+  height: revert !important;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}

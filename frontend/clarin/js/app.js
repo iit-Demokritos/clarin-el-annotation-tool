@@ -1,7 +1,7 @@
 var app = angular.module("clarin-el", ['ngAnimate', 'ngSanitize', 'oc.lazyLoad', 'ui.router', 'ui.bootstrap', 
   'treeControl', 'flow', 'ui.layout', 'smart-table']);
 
-app.run(function($http,CSRF_TOKEN){ $http.defaults.headers.common['csrf_token'] = CSRF_TOKEN; });
+//app.run(function($http,CSRF_TOKEN){ $http.defaults.headers.common['csrf_token'] = CSRF_TOKEN; });
 
 // Defining global variables for the Clarin-EL app
 app.constant("CLARIN_CONSTANTS", {

@@ -1,5 +1,5 @@
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 import { RenameDialogData } from 'src/app/models/dialogs/rename-dialog-data';
 import { SharedCollectionService } from 'src/app/services/shared-collection/shared-collection.service';
@@ -14,7 +14,8 @@ import { MainComponent } from '../main/main.component';
 @Component({
   selector: 'manage-collections',
   templateUrl: './manage-collections.component.html',
-  styleUrls: ['./manage-collections.component.scss']
+  styleUrls: ['./manage-collections.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ManageCollectionsComponent extends MainComponent implements OnInit {
 
@@ -102,9 +103,7 @@ $scope.dataForTheTree = $scope.collections;*/
     var data = {
       collectionId: this.selectedCollection.id,
       collectionName: this.selectedCollection.name,
-      collectionEncoding: this.selectedCollection.encoding,
-      dialogTitle:"Add collection",
-      dialogMessage:"Add new collections"
+      collectionEncoding: this.selectedCollection.encoding
     };
 
     /*$ocLazyLoad.load('addDocumentsModalCtrl').then(function () {
@@ -115,7 +114,7 @@ $scope.dataForTheTree = $scope.collections;*/
       });
     });*/
 
-    var dialogRef = this.dialog.open(AddDocumentsDialogComponent, {data:data,width: '550px'});
+    var dialogRef = this.dialog.open(AddDocumentsDialogComponent, {data:new ConfirmDialogData("Add collection", "Add new collections"),width: '550px'});
 
     dialogRef.afterClosed().subscribe(modalResult => {
 

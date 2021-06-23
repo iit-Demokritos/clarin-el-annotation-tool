@@ -15,6 +15,18 @@
       "es2018",
       "dom"
     ],
+    "paths": {
+      "@core": ["src/app/ng-matero/core"],
+      "@core/*": ["src/app/ng-matero/core/*"],
+      "@shared": ["src/app/ng-matero/shared"],
+      "@shared/*": ["src/app/ng-matero/shared/*"],
+      "@theme": ["src/app/ng-matero/theme"],
+      "@theme/*": ["src/app/ng-matero/theme/*"],
+      "@testing": ["testing"],
+      "@testing/*": ["testing/*"],
+      "@env": ["src/environments"],
+      "@env/*": ["src/environments/*"]
+    },
     "allowSyntheticDefaultImports":true
   },
   "angularCompilerOptions": {

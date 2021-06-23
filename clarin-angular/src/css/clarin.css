@@ -72,6 +72,9 @@ border-bottom-left-radius: 5px;
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 }
+.landing-wrapper .badge {
+        color: #fff;
+}
 .landing-wrapper form .control-label {
 	padding-right: 0;
 }
@@ -95,9 +98,9 @@ border-bottom-left-radius: 5px;
 	color: #fff;
 }
 
-.stats-wrapper .row>div:nth-child(1) .profile-stats {background-color: #5cb85c;}
-.stats-wrapper .row>div:nth-child(2) .profile-stats{ background-color: #5bc0de; }
-.stats-wrapper .row>div:nth-child(3) .profile-stats{ background-color: #f0ad4e; }
+.stats-wrapper .row>div:nth-child(1) .profile-stats { background-color: #5cb85c; }
+.stats-wrapper .row>div:nth-child(2) .profile-stats { background-color: #5bc0de; }
+.stats-wrapper .row>div:nth-child(3) .profile-stats { background-color: #f0ad4e; }
 
 .profile-update-wrapper {
 	max-width: 350px;
@@ -545,6 +548,7 @@ table td{ vertical-align:middle!important; }
 	border-radius: 3px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
+/*	font-size: 14px;*/
 }
 
 .btn-success[disabled],

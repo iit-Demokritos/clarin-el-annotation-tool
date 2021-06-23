@@ -177,6 +177,7 @@ class DocumentController extends \BaseController
         DB::unprepared('UNLOCK TABLES');
       });
     } catch (\Exception $e) {
+      Log::info("DocumentController - store() - Catch Exception: ".$e->getMessage());
       return Response::json(['success' => false, 'message' => $e->getMessage()]);
     }
 

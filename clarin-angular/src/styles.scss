@@ -1,17 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
-@import url(css/bootstrap.min.css);
-@import url(css/clarin.css);
-@import url(css/codemirror.css);
-@import url(css/datetimepicker.css);
-@import url(css/font-awesome.min.css);
-@import url(css/tree-control-attribute.css);
-@import url(css/ui-layout.css);
-@import url(css/yamm.css);
+/*@import url(css/bootstrap.min.css);*/
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
 
+/* ng-matero */
+@import 'app/ng-matero/theme/style';
+@import 'styles/themes';
+@import 'styles/custom';
+@import 'styles/grid';
+@import 'styles/helpers';
+@import 'styles/plugins';
+
+@import 'css/yamm.css';
+@import 'css/tree-control-attribute.css';
 @import '~codemirror/lib/codemirror';
 @import '~codemirror/theme/material';
+@import 'css/codemirror.css';
+@import 'css/ui-layout.css';
+@import 'css/datetimepicker.css';
+@import 'css/clarin.scss'; /* It is important the css to appear as scss, as it will get applied in the correct order, after ng-bootstrap imports its own stylesheets. */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
+//html, body { height: 100%; }
+//body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

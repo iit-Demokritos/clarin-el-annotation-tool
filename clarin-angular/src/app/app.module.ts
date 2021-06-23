@@ -1,11 +1,13 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { AppRoutingModule } from './app-routing.module';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { BrowserModule } from '@angular/platform-browser';
+
 import { AppComponent } from './app.component';
+
+import { AppRoutingModule } from './app-routing.module';
 import { MainComponent } from './components/views/main/main.component';
 import { WelcomeComponent } from './components/views/welcome/welcome.component';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule} from '@angular/common/http';
 import { FlashMessagesModule } from 'flash-messages-angular';
 import { ProfileComponent } from './components/views/profile/profile.component';
 import { NavbarComponent } from './components/views/navbar/navbar.component';
@@ -68,11 +70,43 @@ import { AnnotationTextComponent } from './components/controls/document/annotati
 import {MatTree, MatTreeModule} from '@angular/material/tree';
 import {MatIconModule} from '@angular/material/icon';
 import { TreeviewModule } from 'ngx-treeview';
-import {MatButtonModule} from '@angular/material/button';
+import { MatButtonModule} from '@angular/material/button';
 import { ValueAccessorComponent } from './components/controls/value-accessor/value-accessor.component';
 import {MatSelectModule} from '@angular/material/select';
 import { ButtonAnnotatorValueListDirective } from './directives/button-annotator-value-list/button-annotator-value-list.directive';
 import { NgScrollbarModule } from 'ngx-scrollbar';
+
+/* Petasis, 17/6 */
+//import { MatMenuModule } from '@angular/material/menu';
+import { MatCardModule } from '@angular/material/card';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatInputModule } from '@angular/material/input';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+/* Petasis, 18/06/21: ng-matero template */
+import { CoreModule } from './ng-matero/core/core.module';
+import { ThemeModule } from './ng-matero/theme/theme.module';
+import { RoutesModule } from './ng-matero/routes/routes.module';
+import { SharedModule } from './ng-matero/shared/shared.module';
+import { FormlyConfigModule } from './ng-matero/formly-config.module';
+import { ToastrModule } from 'ngx-toastr';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+import { environment } from '@env/environment';
+import { BASE_URL } from '@core/interceptors/base-url-interceptor';
+import { httpInterceptorProviders } from '@core/interceptors';
+import { appInitializerProviders } from '@core/initializers';
+// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+/* Petasis, 20/06/2021 */
+import { AngularSplitModule } from 'angular-split';
+
+// Required for AOT compilation
+export function TranslateHttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -148,7 +182,30 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
     TreeviewModule.forRoot(),
     MatButtonModule,
     MatSelectModule,
-    NgScrollbarModule
+    NgScrollbarModule,
+
+    //MatMenuModule,
+    MatCardModule,
+    MatSidenavModule,
+    MatInputModule,
+    MatTooltipModule,
+    MatToolbarModule,
+    NgbModule,
+    FontAwesomeModule,
+    CoreModule,
+    ThemeModule,
+    RoutesModule,
+    SharedModule,
+    FormlyConfigModule.forRoot(),
+    ToastrModule.forRoot(),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: TranslateHttpLoaderFactory,
+        deps: [HttpClient],
+      },
+    }),
+    AngularSplitModule,
   ],
   exports:[
     ButtonAnnotatorValueListDirective,
@@ -206,13 +263,17 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
     AnnotatorWidgetComponent,
     AnnotationTextLabelComponent,
     AnnotationTextTextComponent,
-    AnnotationTextComponent
+    AnnotationTextComponent,
   ],
   providers: [
     {
       provide: FlowInjectionToken,
-      useValue: Flow
-    }
+      useValue: Flow,
+    },
+    /* ng-matero */
+    { provide: BASE_URL, useValue: environment.baseUrl },
+    httpInterceptorProviders,
+    appInitializerProviders,
   ],
   bootstrap: [AppComponent]
 })

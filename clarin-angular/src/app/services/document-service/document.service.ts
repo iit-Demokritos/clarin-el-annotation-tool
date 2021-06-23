@@ -25,10 +25,12 @@ export class DocumentService {
 
       reader.onload = function (e) {
         docData["name"] = documentFile.name;
+        docData["type"] = documentFile.type;
         docData["text"] = reader.result;
         docData["collection_id"] = collection_id;
         docData["external_name"] = documentFile.name;
-        docData["encoding"] = documentFile.encoding;
+        docData["encoding"]      = documentFile.encoding;
+        docData["handler"]       = documentFile.handler;
 
         resolve(docData);
       }
@@ -63,6 +65,7 @@ export class DocumentService {
   save(collectionId, documents) {   //read and save multiple documents
 
     var promises: any = [];
+    console.error("Documents:", documents);
 
     documents.forEach(element => {
       promises.push(new Promise<any>((resolve, reject) => {

@@ -1,31 +1,31 @@
 <div class="navbar yamm navbar-default navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a href="collections/manage"><img src="clarin-angular/src/images/logo.jpg"  class="app-logo"></a>
+            <a href="collections/manage"><img src="assets/images/logo.jpg" class="app-logo"></a>
         </div>
         <div>
             <ul class="nav navbar-nav cursor">
-                <li ui-sref-active="active" class="dropdown">
-                    <a ui-sref="#" class="dropdown-toggle" data-toggle="dropdown">Collections<i class="fa fa-circle-o fa-super" ng-class="{'fa-circle':$state.includes('collections')}"></i></a>
+                <li routerLinkActive="active" class="dropdown">
+                    <a routerLink="#" class="dropdown-toggle" data-toggle="dropdown">Collections<i class="fa fa-circle-o fa-super" [ngClass]="{'fa-circle':this.router.url.includes('collections')}"></i></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a ui-sref="collections.add">Add new collection</a></li>
+                        <li><a routerLink="/collections/add" routerLinkActive="active"> Add new collection</a></li>
                         <li class="divider"></li>
-                        <li><a ui-sref="collections.manage">Manage collections</a></li>
+                        <li><a routerLink="/collections/manage" routerLinkActive="active"> Manage collections</a></li>
                     </ul>
                 </li>
-                <li ui-sref-active="active">
-                    <a ui-sref="schemas">Schemas<i class="fa fa-circle-o fa-super" ng-class="{'fa-circle':$state.includes('schemas')}"></i></a>
+                <li routerLinkActive="active">
+                    <a routerLink="/schemas">Schemas<i class="fa fa-circle-o fa-super" [ngClass]="{'fa-circle':this.router.url.includes('schemas')}"></i></a>
                 </li>
-                <li ui-sref-active="active">
-                    <a href="annotation">Annotation<i class="fa fa-circle-o fa-super" ng-class="{'fa-circle':$state.includes('annotation')}"></i></a>
+                <li routerLinkActive="active">
+                    <a routerLink="/annotation" routerLinkActive="active">Annotation<i class="fa fa-circle-o fa-super" [ngClass]="{'fa-circle':this.router.url.includes('annotation')}"></i></a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li ui-sref-active="active">
-                    <a ui-sref="profile"><i class="fa fa-user" aria-hidden="true"></i> My Profile</a>
+                <li routerLinkActive="active">
+                    <a routerLink="/clarin/profile" routerLinkActive="active"><i class="fa fa-user" aria-hidden="true"></i> My Profile</a>
                 </li>
                 <li>
-                    <a href="#" (click)="logout()"><i class="fa fa-sign-out" aria-hidden="true"></i> Sign Out</a>
+                    <a href="#" (click)="logout()" routerLinkActive="active"><i class="fa fa-sign-out" aria-hidden="true"></i> Sign Out</a>
                 </li>
             </ul>
         </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 import { ConfirmDialogComponent } from '../../dialogs/confirm-dialog/confirm-dialog.component';
 import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
@@ -7,15 +7,17 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'add-collection',
   templateUrl: './add-collection.component.html',
-  styleUrls: ['./add-collection.component.scss']
+  styleUrls: ['./add-collection.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AddCollectionComponent extends MainComponent implements OnInit {
 
-  super() { }
+  super() { };
 
   ngOnInit(): void {
     this.initializeForm();
@@ -23,16 +25,16 @@ export class AddCollectionComponent extends MainComponent implements OnInit {
   }
 
   sidebarSelector = "myCollections";
+  allowedTypes    = ["text/plain", "text/xml"];
+  typeOptions     = ["Text", "TEI XML"];
   encodingOptions = ["UTF-8", "Unicode"];
-  handlerOptions = [
-    { name: 'No Handler', value: 'noHandler' },
-    { name: 'Handler 1', value: 'handler1' },
-    { name: 'Handler 2', value: 'handler2' }
+  handlerOptions  = [
+    {name: 'No Handler',     value: 'none'},
+    {name: 'TEI XML Import', value: 'tei'},
   ];
-  dataForTheTree: any;
+  dataForTheTree: any = [];
   collectionData: any = {};
-  handlerOption: any = {};
-
+  collectionDataUpdated: boolean;
 
   initializeCollections() {
     this.collectionService.getAll()
@@ -55,13 +57,18 @@ export class AddCollectionComponent extends MainComponent implements OnInit {
     this.collectionData = {};
     this.collectionData.name = "";
     this.collectionData.encoding = this.encodingOptions[0];
-    this.handlerOption = this.handlerOptions[0];
+    this.collectionData.handler  = this.handlerOptions[0];
     this.encodingChange();
   };
 
   validateCollection() {
     return new Promise((resolve, reject) => {
-      if (this.userFiles.length === 0) {
+      if (this.collectionData.name.length < 4) {
+        this.dialog.open(ErrorDialogComponent, {
+          data: new ConfirmDialogData("Error", 'Collections.NameMustBeAtLeast4CharactersLlong.')
+        });
+        reject('Collections.NameMustBeAtLeast4CharactersLlong.');
+      } else if (this.userFiles.length === 0) {
 
         var modalOptions = new ConfirmDialogData();
 
@@ -94,7 +101,7 @@ export class AddCollectionComponent extends MainComponent implements OnInit {
 
         this.collectionService.save(this.collectionData)
           .then((response) => {
-            if (response["success"] && response["exists"]) {              // collection already exists
+            if (response["success"] && response["exists"]) { // collection already exists
 
               var modalOptions = new ConfirmDialogData();
 
@@ -159,8 +166,20 @@ export class AddCollectionComponent extends MainComponent implements OnInit {
   };
 
   encodingChange() {
-    //$scope.$broadcast("initializeUploaderEncoding", { encoding: $scope.collectionData.encoding }); TODO: Update
+    this.collectionDataUpdated = !this.collectionDataUpdated;
   }
+  handlerChange() {
+    this.collectionDataUpdated = !this.collectionDataUpdated;
+  }
+  handleFileInputs(event) {
+    this.userFiles = event.files;
+    if (event.message != "") {
+      this.dialog.open(ErrorDialogComponent, {
+        data: new ConfirmDialogData("Error", event.message)
+      });
+    }
+  };
+
 
   /*$scope.$on('flowEvent', function(event, data) {
     $scope.userFiles = data.userFiles;

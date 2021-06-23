@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { MainComponent } from '../main/main.component';
+import { ViewEncapsulation } from '@angular/core'
+import { faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
 	selector: 'welcome',
 	templateUrl: './welcome.component.html',
-	styleUrls: ['./welcome.component.scss']
+	styleUrls: ['./welcome.component.scss'],
+        encapsulation: ViewEncapsulation.None,
 })
 export class WelcomeComponent extends MainComponent implements OnInit {
+	faArrowCircleLeft = faArrowCircleLeft;
 
 	super() { }
 
@@ -14,7 +18,7 @@ export class WelcomeComponent extends MainComponent implements OnInit {
 	}
 
 	flash = "";
-	mode = "default";
+	mode = "";
 	regInfo = {
 		name: "",
 		email: "",

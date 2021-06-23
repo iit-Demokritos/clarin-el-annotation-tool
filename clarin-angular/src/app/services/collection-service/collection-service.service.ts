@@ -18,7 +18,6 @@ export class CollectionService{
   constructor(public http:HttpClient) {}
 
   getAll() {
-
     return new Promise((resolve, reject) => {
       this.http.get('./api/collections')
         .subscribe((data) => {
@@ -31,7 +30,6 @@ export class CollectionService{
   }
 
   getData() {
-
     return new Promise((resolve, reject) => {
       this.http.get('./api/collections_data')
         .subscribe((response) => {
@@ -136,7 +134,6 @@ export class CollectionService{
   }
 
   readFile(documentFile) {
-
     return new Promise((resolve, reject) => {
       var reader = new FileReader();
       // source: https://stackoverflow.com/a/26322343
