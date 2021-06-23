@@ -1,0 +1,32 @@
+@import '~@angular/material/theming';
+@import 'app-theme';
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+
+//
+// Light style
+//
+$primary: mat-palette($mat-indigo);
+$accent: mat-palette($mat-pink, A200, A100, A400);
+$theme: mat-light-theme($primary, $accent);
+
+$config: mat-typography-config();
+
+@include mat-core();
+
+@include angular-material-theme($theme);
+@include matero-admin-theme($theme);
+
+//
+// Demo purposes only
+//
+.theme-dark {
+  $primary: mat-palette($mat-blue, 700, 300, 900);
+  $accent:  mat-palette($mat-amber, A200, A100, A400);
+  $theme: mat-dark-theme($primary, $accent);
+
+  @include angular-material-theme($theme);
+  @include matero-admin-theme($theme);
+}

@@ -1,0 +1,12 @@
+// Alignment
+
+$utilities: map-merge(
+  (
+    'vertical-align': (
+      property: vertical-align,
+      class: align,
+      values: top middle bottom
+    )
+  ),
+  $utilities
+);

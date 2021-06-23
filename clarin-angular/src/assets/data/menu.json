@@ -1,0 +1,35 @@
+{
+  "menu": [{
+      "route": "dashboard",
+      "name": "dashboard",
+      "type": "link",
+      "icon": "dashboard",
+      "badge": {
+        "color": "red-500",
+        "value": "0"
+      }
+    }, {
+      "route": "collections",
+      "name": "Collections",
+      "type": "sub",
+      "icon": "folder",
+      "children": [{
+          "route": "add",
+          "name": "Add New Collection",
+          "type": "link",
+	  "icon": "create_new_folder"
+        },{
+          "route": "manage",
+          "name": "Manage Collections",
+          "type": "link",
+	  "icon": "settings_applications"
+        }
+      ]
+    }, {
+      "route": "annotation",
+      "name": "Annotation",
+      "type": "link",
+      "icon": "article"
+    }
+  ]
+}
