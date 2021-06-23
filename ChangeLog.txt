@@ -1,4 +1,8 @@
 23 June 2021 Petasis George <petasis@iit.demokritos.gr>
+ * clarin-angular/src/app/components/controls/uploader/*:
+ * clarin-angular/src/app/components/views/add-collection/*: Fixes in file
+ comboboxes and collection upload.
+
  * clarin-angular/src/app/ng-matero/*: Added the ng-matero template.
  * clarin-angular: Pulled changes from SEMANTIKA, and resolved some conflicts.
 

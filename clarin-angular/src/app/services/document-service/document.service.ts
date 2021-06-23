@@ -65,7 +65,7 @@ export class DocumentService {
   save(collectionId, documents) {   //read and save multiple documents
 
     var promises: any = [];
-    console.error("Documents:", documents);
+    // console.error("Documents:", documents);
 
     documents.forEach(element => {
       promises.push(new Promise<any>((resolve, reject) => {

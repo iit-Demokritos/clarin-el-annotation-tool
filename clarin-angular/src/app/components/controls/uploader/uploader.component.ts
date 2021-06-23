@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FlowDirective, Transfer } from '@flowjs/ngx-flow';
 import { Subscription } from 'rxjs';
 import { BaseControlComponent } from '../base-control/base-control.component';
@@ -8,75 +8,112 @@ import { BaseControlComponent } from '../base-control/base-control.component';
   templateUrl: './uploader.component.html',
   styleUrls: ['./uploader.component.scss']
 })
-export class UploaderComponent extends BaseControlComponent implements OnInit {
-  
+export class UploaderComponent extends BaseControlComponent implements OnInit, OnChanges {
+
   @ViewChild('flowAdvanced')
   flow: FlowDirective;
   autoUploadSubscription: Subscription;
   autoupload = true;
-  filterFiles = false;
+  filterFiles = true;
 
-  @Input() files:any[] = [];
-  userFiles:any[] = [];
-  unsupportedFiles:any[] = [];
+  @Input() files: any[] = [];
+  userFiles: any[] = [];
+  unsupportedFiles: any[] = [];
+  @Input() fileEncodingOptions;
+  defaultEncodingIndex = 0;
+  @Input() fileHandlerOptions;
+  defaultHandlerIndex = 0;
+  @Input() allowedTypes;
+  @Input() fileTypeOptions;
+  defaultTypeIndex = 0;
+  @Input() collectionData;
+  @Input() collectionDataUpdated;
+
   @Output() handleFileInputs = new EventEmitter<any>();
 
   super() { }
 
-  ngOnInit(){
+  ngOnInit() {
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    for (const propName in changes) {
+      if (changes.hasOwnProperty(propName)) {
+        switch (propName) {
+          case 'collectionDataUpdated': {
+            //let change = changes[propName];
+            //this.collectionData = change.currentValue;
+            this.defaultEncodingIndex =
+              this.fileEncodingOptions.indexOf(this.collectionData.encoding);
+            this.defaultHandlerIndex =
+              this.fileHandlerOptions.indexOf(this.collectionData.handler);
+          }
+        }
+      }
+    }
   }
 
   ngAfterViewInit() {
     this.autoUploadSubscription = this.flow.events$.subscribe(event => {
-      
+
       if (event.type === 'fileRemoved') {
-        for(var i=0;i<this.userFiles.length;i++){
-          if(this.userFiles[i]["file"].name == event.event["file"].name){
-            this.userFiles.splice(i,1);
+        for (var i = 0; i < this.userFiles.length; i++) {
+          if (this.userFiles[i]["file"].name == event.event["file"].name) {
+            this.userFiles.splice(i, 1);
             break;
           }
         }
       }
       else if (this.autoupload && (event.type === 'fileAdded')) {
-        
-        if(event.event[0]["file"].type != "text/plain"){
-           let fEvent = event.event[1] as Event;
-           fEvent.stopPropagation();
-           fEvent.preventDefault();
-           this.unsupportedFiles.push(event.event[0]["file"]);
-        }else{
+        if (!this.allowedTypes.includes(event.event[0]["file"].type)) {
+          let fEvent = event.event[1] as Event;
+          fEvent.stopPropagation();
+          fEvent.preventDefault();
+          this.unsupportedFiles.push(event.event[0]["file"]);
+        } else {
+          // Guess the type...
+          this.defaultTypeIndex = this.allowedTypes.indexOf(event.event[0]["file"].type);
+          if (event.event[0]["file"].type == "text/xml") {
+            this.defaultHandlerIndex = this.fileHandlerOptions.findIndex(function (item, index) {
+              if (item.name == 'TEI XML Import') return true;
+            });
+          }
+          event.event[0]["ftype"] = this.fileTypeOptions[this.defaultTypeIndex];
+          event.event[0]["handler"] = this.fileHandlerOptions[this.defaultHandlerIndex];
+          event.event[0]["encoding"] = this.fileEncodingOptions[this.defaultEncodingIndex];
           this.userFiles.push(event.event[0]);
         }
 
       }
       else if (this.autoupload && event.type === 'filesSubmitted') {
-
-        let message:string = "";
-        if(this.unsupportedFiles.length == 1){
+        let message: string = "";
+        if (this.unsupportedFiles.length == 1) {
           message = "The file " + this.unsupportedFiles[0].name;
-          message+=" is not supported.";
-        }else if(this.unsupportedFiles.length > 1){
+          message += " is not supported.";
+        } else if (this.unsupportedFiles.length > 1) {
           message = "The files";
-          this.unsupportedFiles.forEach(element =>{
-            message+= " '" +element.name +"',";
+          this.unsupportedFiles.forEach(element => {
+            message += " '" + element.name + "',";
           });
-          
-          message = message.substring(0,message.length-1);
-          message+=" are not supported.";
+          message = message.substring(0, message.length - 1);
+          message += " are not supported.";
         }
-
         this.unsupportedFiles = [];
-        
+
         let fileObj = [];
-        this.userFiles.forEach(element=>{
-          fileObj.push(element["file"]);
+        this.userFiles.forEach(element => {
+          fileObj.push({
+            'file':     element["file"],
+            'name':     element["name"],
+            'type':     element["ftype"],
+            'encoding': element["encoding"],
+            'handler':  element["handler"]
+          });
         })
-
         this.files = fileObj;
-        this.handleFileInputs.emit({files:fileObj,message:message});
-
+        this.handleFileInputs.emit({ files: fileObj, message: message });
+        this.flow.cancel();
       }
-
     });
   }
 

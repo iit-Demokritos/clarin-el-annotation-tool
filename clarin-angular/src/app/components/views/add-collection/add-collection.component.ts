@@ -35,6 +35,7 @@ export class AddCollectionComponent extends MainComponent implements OnInit {
   dataForTheTree: any = [];
   collectionData: any = {};
   collectionDataUpdated: boolean;
+  filterFiles = true;
 
   initializeCollections() {
     this.collectionService.getAll()
@@ -122,8 +123,6 @@ export class AddCollectionComponent extends MainComponent implements OnInit {
                 } else if (modalResult === "Overwrite") {
                   this.collectionData.overwrite = true;
                   this.collectionData.id = response["collection_id"];
-                  this.collectionService.save(this.collectionData).then((val) => { });
-
                   this.collectionService.save(this.collectionData)
                     .then((newCollectionResponse: any) => {           // execute after saving collection
                       if (newCollectionResponse["success"]) {
@@ -172,7 +171,7 @@ export class AddCollectionComponent extends MainComponent implements OnInit {
     this.collectionDataUpdated = !this.collectionDataUpdated;
   }
   handleFileInputs(event) {
-    this.userFiles = event.files;
+    event.files.forEach(file => {this.userFiles.push(file);});
     if (event.message != "") {
       this.dialog.open(ErrorDialogComponent, {
         data: new ConfirmDialogData("Error", event.message)

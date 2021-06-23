@@ -131,7 +131,7 @@ class CollectionController extends \BaseController {
           'collection_id' => $newCollection->id,
           'exists'  => false]);
       } elseif ($input['overwrite']=='true') {   //collection exists -- overwrite
-	// Log::info("Collection exists! Deleting & Recreating!");
+	Log::info("Collection exists (".$input['id'].")! Deleting & Recreating!");
         DB::unprepared('LOCK TABLES collections WRITE');
         Collection::destroy($input['id']);  //destroy the old collection
         $newCollection = Collection::create([  //add new collection
@@ -199,17 +199,21 @@ class CollectionController extends \BaseController {
 
   //destroy a collection and its annotations
   public function destroy($collection_id) {
+    Log::info("CollectionController - destroy(".$collection_id.")");
     try {
       $user = Sentinel::getUser();
+      Log::info("CollectionController - destroy".$collection_id."): user: ".$user);
       $collection = Collection::where('owner_id', $user['id']) //check if the user is the owner of the collection
         ->where('id', $collection_id)
-        ->get();
+	->get();
+      log::info("Found: ".count($collection)); 
 
       if (count($collection) > 0) { //if the user is the owner of the collection, delete it
         Collection::where('owner_id', $user['id'])
           ->where('id', $collection_id)
           ->delete();
       } else                               //else stop the excecution informing the user about the permission issue
+        Log::info("CollectionController - destroy(".$collection_id.", ".$user['id']."): You do not have permission to delete this collection");
         return Response::json(['success' => false, 'message' => 'You do not have permission to delete this collection']);
 
       TempAnnotation::where('owner_id', $user['id'])
@@ -220,6 +224,7 @@ class CollectionController extends \BaseController {
         ->where('collection_id', $collection_id)
         ->delete();
     } catch(\Exception $e) {
+      Log::info("CollectionController - destroy(".$collection_id.") - Catch Exception: ".$e->getMessage());
       return Response::json(['success' => false, 'message' => $e->getMessage()]);
     }
 
