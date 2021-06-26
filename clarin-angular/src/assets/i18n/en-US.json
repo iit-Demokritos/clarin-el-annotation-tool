@@ -112,14 +112,17 @@
     "logout": "logout"
   },
   "login": {
-    "title": "Welcome Back",
+    "title": "The Ellogon Annotation Tool",
+    "subtitle": "Welcome Back!",
     "username": "Username",
     "password": "Password",
     "remember_me": "Remember Me",
     "login": "Login",
-    "have_no_account": "Don't have an account",
-    "create_one": "Click here to create one",
-    "please_enter": "Please enter"
+    "have_no_account": "Don't have an account?",
+    "create_one": "Click here to create one!",
+    "please_enter": "Please enter",
+    "please_enter_username": "Please enter your user name (e-mail)",
+    "please_enter_password": "Please enter your password"
   },
   "register": {
     "welcome": "Welcome",

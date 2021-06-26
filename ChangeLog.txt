@@ -1,3 +1,12 @@
+26 June 2021 Petasis George <petasis@iit.demokritos.gr>
+ * clarin-angular/src/assets/*: Removed various unused images.
+
+ * backend/clarin/app/Http/Controllers/CollectionController.php:
+ * backend/clarin/app/Http/Controllers/UserController.php:
+ * backend/clarin/app/Http/routes.php: Modifications to the Laravel backend,
+ to fix some bugs and support the new Angular UI (additional API under
+ api/auth).
+
 23 June 2021 Petasis George <petasis@iit.demokritos.gr>
  * clarin-angular/src/app/components/controls/uploader/*:
  * clarin-angular/src/app/components/views/add-collection/*: Fixes in file

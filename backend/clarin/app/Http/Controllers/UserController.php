@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\Response as HttpResponseCode;
 
 class UserController extends \BaseController {
 
@@ -162,14 +163,19 @@ class UserController extends \BaseController {
             'email' => Request::json('email'),
             'password' => Request::json('password')
 	];
-	//Log::info("Authenticate the user");
-	//Log::info($credentials);
+	// Log::info("Authenticate the user: credentials: ".json_encode($credentials));
+	$remember_me = Request::json('remember_me', false);
 
-        // Authenticate the user
-        $user = Sentinel::authenticate($credentials, true);
+	// Authenticate the user
+	Sentinel::enableCheckpoints();
+	if (!$user = Sentinel::authenticate($credentials, $remember_me)) {
+          // Log::info("Authentication FAILED!");
+	  return Response::json(['success' => false, 'message'  => 'Authentication failed!'], 400);
+	}
+	// Log::info("User: ".json_encode($user));
 	// https://jwt-auth.readthedocs.io/en/develop/quick-start/
 	if (! $token = JWTAuth::attempt($credentials)) {
-          return response()->json(['success' => false, 'message' => 'Unauthorized'], HttpResponse::HTTP_UNAUTHORIZED);
+          return response()->json(['success' => false, 'message' => 'Unauthorized'], HttpResponseCode::HTTP_UNAUTHORIZED);
         }
 	$user['jwtToken'] = $token;
 	
@@ -225,6 +231,10 @@ class UserController extends \BaseController {
         }
         //$activation_code = $user->getActivationCode();
         return Response::json(['success' => false, 'message'  => $message], 400);
+      }
+      catch(\Exception $e) {
+        Log::info("UserController - login() - Catch Exception: ".$e->getMessage());
+        return Response::json(['success' => false, 'message' => $e->getMessage()], 500);
       }
     }
 

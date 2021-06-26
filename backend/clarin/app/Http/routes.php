@@ -38,6 +38,15 @@ Route::group(['prefix' => 'auth'], function() {
   Route::get ('gettoken',  'UserController@gettoken');
 });
 
+Route::group(['prefix' => 'api/auth'], function() {
+  Route::post('register',  ['uses' => 'UserController@register']);
+  Route::get ('activate',  ['uses' => 'UserController@activate_account']);
+  Route::post('reset',     ['uses' => 'UserController@reset']);
+  
+  Route::post('login',     ['before' => ['csrf_json'], 'uses' => 'UserController@login']);
+  Route::get ('gettoken',  'UserController@gettoken');
+});
+
 Route::get('api/collections/{collection_id}/export', 'CollectionController@exportData');
 
 Route::group([/*'middleware' => 'jwt.verify' <= uncomment to enable JWT ,*/ 'prefix' => 'api', 'before' => 'auth'], function() {

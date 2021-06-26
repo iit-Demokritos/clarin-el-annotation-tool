@@ -8,7 +8,14 @@ class CollectionController extends \BaseController {
   //get all collections of user
   public function index() {
     try {
+      if (!Sentinel::check()) {
+        Log::info("CollectionController - index() - Sentinel::check() failed");
+      }
+      if (!Auth::check()) {
+        Log::info("CollectionController - index() - Auth::check() failed");
+      }
       $user = Sentinel::getUser();
+      Log::info("CollectionController - index() - user: ".$user);
       return Response::json([
 	'success' => true,
         'data'    => DB::table('collections')
@@ -24,10 +31,10 @@ class CollectionController extends \BaseController {
           ->groupBy('collections.id')
           ->get()]);
     } catch(\Exception $e) {
+      Log::info("CollectionController - index() - Catch Exception: ".$e->getMessage());
       return Response::json(['success' => false, 'message' => $e->getMessage()]);
     }
   }
-
 
   //get all collections data
   public function showData() {
@@ -49,6 +56,7 @@ class CollectionController extends \BaseController {
 	  ->orderBy('name', 'asc')
           ->get()]);
     } catch(\Exception $e) {
+      Log::info("CollectionController - showData() - Catch Exception: ".$e->getMessage());
       return Response::json(['success' => false, 'message' => $e->getMessage()]);
     }
   }
@@ -79,6 +87,7 @@ class CollectionController extends \BaseController {
         'message' => "ok",
         'data'    => $collection]);
     } catch(\Exception $e) {
+      Log::info("CollectionController - exportData() - Catch Exception: ".$e->getMessage());
       return Response::json(['success' => false, 'message' => $e->getMessage(), 'data' => []]);
     }
   }
@@ -93,6 +102,7 @@ class CollectionController extends \BaseController {
           ->where('id', $collection_id)
           ->get()]);
     } catch(\Exception $e) {
+      Log::info("CollectionController - show() - Catch Exception: ".$e->getMessage());
       return Response::json(['success' => false, 'message' => $e->getMessage()]);
     }
   }
@@ -153,7 +163,7 @@ class CollectionController extends \BaseController {
           'collection_id' => $duplicateCollection[0]->id]);
       }
     } catch(\Exception $e) {
-      Log::info("CollectionController - save() - Catch Exception: ".$e->getMessage());
+      Log::info("CollectionController - store() - Catch Exception: ".$e->getMessage());
       return Response::json(['success' => false,
         'exists'  => false,
 	'message' => $e->getMessage(),
@@ -191,6 +201,7 @@ class CollectionController extends \BaseController {
           'flash'    => 'The name you selected already exists. Please select a new name']);
       }
     } catch(\Exception $e) {
+      Log::info("CollectionController - update() - Catch Exception: ".$e->getMessage());
       return Response::json(['success' => false,
         'exists'  => false,
         'message' => $e->getMessage()]);
