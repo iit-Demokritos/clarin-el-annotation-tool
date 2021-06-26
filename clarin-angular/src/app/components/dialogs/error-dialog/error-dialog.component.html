@@ -1,11 +1,5 @@
-<mat-dialog-content class="mat-typography">
-    <div class="error-modal-header modal-header">
-        <h4 style="color:#fff" class="modal-title">{{data?.dialogTitle}}</h4>
-    </div>
-    <div class="modal-body">
-        {{data?.message}}
-    </div>
-    <div class="modal-footer">
-        <button class="btn btn-default" (click)="cancel()">Ok</button>
-    </div>
-</mat-dialog-content>
+<h2 mat-dialog-title>{{data?.dialogTitle}}</h2>
+<mat-dialog-content class="mat-typography">{{data?.message}}</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close (click)="cancel()">Ok</button>
+</mat-dialog-actions>

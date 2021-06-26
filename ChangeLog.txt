@@ -1,4 +1,25 @@
 26 June 2021 Petasis George <petasis@iit.demokritos.gr>
+ * clarin-angular/src/app/components/views/auth-layout-mod/:
+ * clarin-angular/src/app/components/views/login/:
+ * clarin-angular/src/app/components/views/register/: New components (copied
+ and adjusted from ng-matero).
+
+ * clarin-angular/src/proxy.conf.json: Support for testing UI with "ng serve".
+
+ * clarin-angular/src/app/directives/coref-annotator-value-list/coref-annotator-value-list.directive.ts:
+ Added implementation.
+
+ * clarin-angular/src/app/components/dialogs/select-document-modal/select-document-modal.component.html:
+ * clarin-angular/src/app/components/dialogs/select-document-modal/select-document-modal.component.ts:
+ Aesthetic changes, and bug fixes regarding the document selection/schema
+ selection dialog process.
+
+ * clarin-angular/src/app/components/dialogs/error-dialog/error-dialog.component.html:
+ Reworked dialog to be more "angular material".
+
+ * clarin-angular/src/app/app-routing.module.ts: Added routes for ng-matero
+ authentication dialogs.
+
  * clarin-angular/src/assets/*: Removed various unused images.
 
  * backend/clarin/app/Http/Controllers/CollectionController.php:

@@ -12,34 +12,6 @@ interface ExampleFlatNode {
   level: number;
 }
 
-const TREE_DATA: any[] = [
-  {
-    name: 'Fruit',
-    children: [
-      { name: 'Apple' },
-      { name: 'Banana' },
-      { name: 'Fruit loops' },
-    ]
-  }, {
-    name: 'Vegetables',
-    children: [
-      {
-        name: 'Green',
-        children: [
-          { name: 'Broccoli' },
-          { name: 'Brussels sprouts' },
-        ]
-      }, {
-        name: 'Orange',
-        children: [
-          { name: 'Pumpkins' },
-          { name: 'Carrots' },
-        ]
-      },
-    ]
-  },
-];
-
 @Component({
   selector: 'select-document-modal',
   templateUrl: './select-document-modal.component.html',
@@ -74,7 +46,6 @@ export class SelectDocumentModalComponent extends MainDialogComponent implements
       this.subheader = this.data.annotator;
     }
 
-
     var treeData: any = [];
 
     this.data.collectionsData.forEach(element => {
@@ -91,6 +62,7 @@ export class SelectDocumentModalComponent extends MainDialogComponent implements
         obj.confirmed = element.confirmed;
         obj.id = element.collection_id;
         obj.is_owner = element.is_owner;
+        obj.document_count = obj.children.length;
         treeData.push(obj);
       }
     });
@@ -129,8 +101,8 @@ export class SelectDocumentModalComponent extends MainDialogComponent implements
     values: []
   };
 
-  groups;
-  attrs;
+  groups = [];
+  attrs = [];
 
   emptyValuesArrays() {
     this.groups = [];
@@ -142,7 +114,7 @@ export class SelectDocumentModalComponent extends MainDialogComponent implements
       this.annotationSchemaOptions.attributes = [];
   }
 
-  initializeLanguages() {	  	//fill the language select
+  initializeLanguages() { //fill the language select
     this.annotationSchemaService.restore(this.subheader)
       .then((response: any) => {
         this.annotationSchemaOptions = _.cloneDeep(response.annotationSchemaOptions);
@@ -164,7 +136,7 @@ export class SelectDocumentModalComponent extends MainDialogComponent implements
     }
   };
 
-  changeLanguage(lang) {			//trigger function when the language changes
+  changeLanguage(lang) { //trigger function when the language changes
     this.annotationSchema.language = lang;
     this.changeAttributeAlternative(null);
 
@@ -182,7 +154,7 @@ export class SelectDocumentModalComponent extends MainDialogComponent implements
     }
   };
 
-  changeAnnotationType(type) {			//trigger function when the annotation type changes
+  changeAnnotationType(type) { //trigger function when the annotation type changes
     if (typeof (type) == "undefined" || type === null)
       this.annotationSchema.annotation_type = "";
     else
@@ -206,7 +178,7 @@ export class SelectDocumentModalComponent extends MainDialogComponent implements
     }
   };
 
-  changeAnnotationAttribute(attr) {		//trigger function when the annotation attribute changes
+  changeAnnotationAttribute(attr) { //trigger function when the annotation attribute changes
     if (typeof (attr) == "undefined" || attr === null)
       this.annotationSchema.attribute = "";
     else
@@ -219,7 +191,7 @@ export class SelectDocumentModalComponent extends MainDialogComponent implements
       });
   };
 
-  changeAttributeAlternative(attrAlt) {		//trigger function when the annotation attribute changes
+  changeAttributeAlternative(attrAlt) { //trigger function when the annotation attribute changes
     if (typeof (attrAlt) == "undefined" || attrAlt === null || attrAlt === "") {
       this.annotationSchema.alternative = "";
       this.emptyValuesArrays();
@@ -260,7 +232,7 @@ export class SelectDocumentModalComponent extends MainDialogComponent implements
     return optionOne === optionTwo;
   }
 
-  showSelected(sel) { 	//function to be called when a user clicks a document 
+  showSelected(sel) { //function to be called when a user clicks a document 
     if (typeof (sel) == "undefined")
       this.selectedDocument = {};
     else {//if (!('document_count' in sel)) {
@@ -268,7 +240,7 @@ export class SelectDocumentModalComponent extends MainDialogComponent implements
     }
   };
 
-  selectDocument() {		//function to validate which document has been selected, if any
+  selectDocument() { //function to validate which document has been selected, if any
     if (Object.keys(this.selectedDocument).length > 0) {
       this.flash = "";
       //let selectedCollection = $filter('filter')(this.dataForTheTree, { id: this.selectedDocument["collection_id"] }, true);
@@ -288,7 +260,7 @@ export class SelectDocumentModalComponent extends MainDialogComponent implements
     }
   };
 
-  resetSchema() {		//function to be called when a user decides to reset the current annotation schema
+  resetSchema() { //function to be called when a user decides to reset the current annotation schema
     var documentSelectionResponse = this.selectDocument();
     if (documentSelectionResponse) {
       if (typeof (this.annotationSchema) != "undefined") {
@@ -298,7 +270,7 @@ export class SelectDocumentModalComponent extends MainDialogComponent implements
     }
   };
 
-  closeWithNewSchema() {		//fuction to close the modal by setting a new annotation schema
+  closeWithNewSchema() { //fuction to close the modal by setting a new annotation schema
     var userOptions = {
       newAnnotator: this.subheader,
       newAnnotationSchemaOptions: this.annotationSchemaOptions,
@@ -310,7 +282,7 @@ export class SelectDocumentModalComponent extends MainDialogComponent implements
     this.dialogRef.close(userOptions);
   };
 
-  closeWithSameSchema() {			//fuction to close the modal by setting the same annotation schema
+  closeWithSameSchema() { //fuction to close the modal by setting the same annotation schema
     if (typeof (this.data.annotationSchema) != "undefined" && Object.keys(this.data.annotationSchema).length > 0) {
       var documentSelectionResponse = this.selectDocument();
 

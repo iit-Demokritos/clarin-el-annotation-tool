@@ -19,7 +19,9 @@
 @import 'css/codemirror.css';
 @import 'css/ui-layout.css';
 @import 'css/datetimepicker.css';
-@import 'css/clarin.scss'; /* It is important the css to appear as scss, as it will get applied in the correct order, after ng-bootstrap imports its own stylesheets. */
+@import 'css/clarin-matero.scss';
+@import 'css/clarin-material.scss';
+//@import 'css/clarin.scss'; /* It is important the css to appear as scss, as it will get applied in the correct order, after ng-bootstrap imports its own stylesheets. */
 
 //html, body { height: 100%; }
 //body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

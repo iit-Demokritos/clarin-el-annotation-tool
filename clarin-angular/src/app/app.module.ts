@@ -67,14 +67,14 @@ import { AnnotatorWidgetComponent } from './components/controls/annotator-widget
 import { AnnotationTextLabelComponent } from './components/controls/document/annotation-text-label/annotation-text-label.component';
 import { AnnotationTextTextComponent } from './components/controls/document/annotation-text-text/annotation-text-text.component';
 import { AnnotationTextComponent } from './components/controls/document/annotation-text/annotation-text.component';
-import {MatTree, MatTreeModule} from '@angular/material/tree';
-import {MatIconModule} from '@angular/material/icon';
+import { MatTree, MatTreeModule } from '@angular/material/tree';
+import { MatIconModule } from '@angular/material/icon';
 import { TreeviewModule } from 'ngx-treeview';
 import { MatButtonModule} from '@angular/material/button';
 import { ValueAccessorComponent } from './components/controls/value-accessor/value-accessor.component';
-import {MatSelectModule} from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
 import { ButtonAnnotatorValueListDirective } from './directives/button-annotator-value-list/button-annotator-value-list.directive';
-import { NgScrollbarModule } from 'ngx-scrollbar';
+// import { NgScrollbarModule } from 'ngx-scrollbar';
 
 /* Petasis, 17/6 */
 //import { MatMenuModule } from '@angular/material/menu';
@@ -94,6 +94,10 @@ import { FormlyConfigModule } from './ng-matero/formly-config.module';
 import { ToastrModule } from 'ngx-toastr';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { AuthLayoutModComponent } from './components/views/auth-layout-mod/auth-layout-mod.component';
+import { LoginComponent }         from './components/views/login/login.component';
+import { RegisterComponent }      from './components/views/register/register.component';
+
 
 import { environment } from '@env/environment';
 import { BASE_URL } from '@core/interceptors/base-url-interceptor';
@@ -165,7 +169,10 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
     AnnotatorWidgetComponent,
     AnnotationTextLabelComponent,
     AnnotationTextTextComponent,
-    AnnotationTextComponent
+    AnnotationTextComponent,
+    AuthLayoutModComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -182,7 +189,7 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
     TreeviewModule.forRoot(),
     MatButtonModule,
     MatSelectModule,
-    NgScrollbarModule,
+    //NgScrollbarModule,
 
     //MatMenuModule,
     MatCardModule,

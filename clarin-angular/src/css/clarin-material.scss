@@ -1,0 +1,45 @@
+/* Dialogs */
+.select-document-modal {
+  //width:  700px;
+  //height: 600px;
+}
+
+.select-document-modal .collections-tree {
+  width:    600px;
+  height:   400px;
+  overflow: auto;
+}
+
+.select-document-modal .collections-tree .selected-node {
+  @extend .mat-primary;
+  text-decoration: underline !important;
+}
+
+.select-document-modal .annotation-schema {
+  width:    600px;
+  height:   400px;
+  overflow: hidden;
+}
+.select-document-modal .annotation-schema-row {
+  width:    100%;
+  height:   100%;
+  overflow: auto;
+}
+.select-document-modal .annotation-schema-options {
+  width:    200px;
+  overflow: auto;
+}
+.select-document-modal .annotation-schema-values {
+  width:    360px;
+  height:   260px;
+  overflow: auto;
+}
+
+/* Login screen */
+.login-card {
+  max-width: 400px;
+}
+.tool-header-avatar-image {
+  background-image: url('/assets/images/logo.svg');
+  background-size: cover;
+}

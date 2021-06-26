@@ -16,6 +16,8 @@
       "dom"
     ],
     "paths": {
+      "@components": ["src/app/components"],
+      "@components/*": ["src/app/components/*"],
       "@core": ["src/app/ng-matero/core"],
       "@core/*": ["src/app/ng-matero/core/*"],
       "@shared": ["src/app/ng-matero/shared"],

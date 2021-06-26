@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core';
 import { AddCollectionComponent } from './components/views/add-collection/add-collection.component';
 import { AnnotationComponent } from './components/views/annotation/annotation.component';
 import { ManageCollectionsComponent } from './components/views/manage-collections/manage-collections.component';
@@ -7,9 +7,13 @@ import { ProfileComponent } from './components/views/profile/profile.component';
 import { WelcomeComponent } from './components/views/welcome/welcome.component';
 
  /* Petasis, 18/06/21: ng-matero template: https://github.com/ng-matero/ng-matero */
-import { SharedModule } from '@shared/shared.module';
-import { AdminLayoutComponent } from './ng-matero/theme/admin-layout/admin-layout.component';
-import { DashboardComponent } from './ng-matero/routes/dashboard/dashboard.component';
+import { SharedModule }           from '@shared/shared.module';
+import { AdminLayoutComponent }   from './ng-matero/theme/admin-layout/admin-layout.component';
+import { DashboardComponent }     from './ng-matero/routes/dashboard/dashboard.component';
+import { AuthLayoutModComponent } from './components/views/auth-layout-mod/auth-layout-mod.component';
+import { LoginComponent }         from './components/views/login/login.component';
+import { RegisterComponent }      from './components/views/register/register.component';
+import { AuthGuard }              from '@core';
 
 const COMPONENTS = [];
 const COMPONENTS_DYNAMIC = [];
@@ -18,14 +22,28 @@ const routes: Routes = [
   {
     path: '',
     component: AdminLayoutComponent,
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'dashboard', component: DashboardComponent },
-      { path: 'collections/add', component: AddCollectionComponent },
+      { path: 'dashboard',          component: DashboardComponent },
+      { path: 'collections/add',    component: AddCollectionComponent },
       { path: 'collections/manage', component: ManageCollectionsComponent },
-      { path: "annotation", component: AnnotationComponent },
+      { path: "annotation",         component: AnnotationComponent },
     ],
-  }, {
+  },
+  {
+    path: 'auth',
+    component: AuthLayoutModComponent,
+    children: [
+      { path: 'login',    component: LoginComponent },
+      { path: 'register', component: RegisterComponent },
+    ],
+  },
+  { path: '**', redirectTo: 'dashboard' },
+  { path: "auth/login", component: WelcomeComponent },
+ 
+  {
     path: "clarin/welcome", component: WelcomeComponent, data: {
       breadcrumb: 'main'
     },

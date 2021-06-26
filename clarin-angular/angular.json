@@ -66,11 +66,16 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "clarin-angular:build"
+            "browserTarget": "clarin-angular:build",
+	    "proxyConfig": "src/proxy.conf.json"
           },
           "configurations": {
             "production": {
               "browserTarget": "clarin-angular:build:production"
+            },
+            "hmr": {
+              "hmr": true,
+              "browserTarget": "clarin-angular:build:hmr"
             }
           }
         },
