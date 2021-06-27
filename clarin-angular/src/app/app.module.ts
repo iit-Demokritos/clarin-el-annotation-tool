@@ -84,7 +84,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+//import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 /* Petasis, 18/06/21: ng-matero template */
 import { CoreModule } from './ng-matero/core/core.module';
 import { ThemeModule } from './ng-matero/theme/theme.module';
@@ -198,7 +198,7 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
     MatTooltipModule,
     MatToolbarModule,
     NgbModule,
-    FontAwesomeModule,
+    //FontAwesomeModule,
     CoreModule,
     ThemeModule,
     RoutesModule,

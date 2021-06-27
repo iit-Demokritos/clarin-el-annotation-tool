@@ -10,10 +10,11 @@ export class TextWidgetAPI {
 
   isRunning = false; //flag that indicates if a process is running
 
-  annotatorType:any = ""; //the type of the annotator (Button of Coreference Annotator)
+  annotatorType: any = ""; //the type of the annotator (Button of Coreference Annotator)
   annotationSchemaOptions = {}; //the available options of the annotation schema
 
   annotationSchema = {}; //the annotation schema that user selected for the current document
+  annotationSchemaAnnotationTypes = {}; // A list of annotation types for the schema
   annotationSchemaCallbacks = []; //registered callbacks for the current annotation schema
 
   currentCollection = {}; //the collection that the document belongs
@@ -47,7 +48,7 @@ export class TextWidgetAPI {
   scrollIntoViewCallbacks = [];
 
   notifyObservers(observerStack: any[]) {
-    observerStack.forEach((callback)=> {
+    observerStack.forEach((callback) => {
       callback();
     });
   }; //function to trigger the callbacks of observers
@@ -126,13 +127,47 @@ export class TextWidgetAPI {
     });
   }
 
+  getAnnotationAttributeValue(annotation, attribute) {
+    return _.find(annotation.attributes, {
+      name: attribute
+    });
+  }
+
+  // TODO: FIX
+  selectAnnotations(type, attribute, attributeValues) {
+    // console.warn("selectAnnotations:", type, attribute, attributeValues);
+    var anns = this.annotations.filter(function (ann) {
+      return ann.type === type;
+    });
+    if (!angular.isUndefined(attribute)) {
+      if (!angular.isUndefined(attributeValues)) {
+        anns = anns.filter(function (ann) {
+          return ann.attributes.some(function (attr) {
+            return (attr.name === attribute &&
+              attributeValues.includes(attr.value));
+          });
+        });
+      } else {
+        anns = anns.filter(function (ann) {
+          return ann.attributes.some(function (attr) {
+            return attr.name === attribute;
+          });
+        });
+      }
+    }
+    // console.warn("result:", anns);
+    return anns;
+  }
+
   addAnnotation(newAnnotation, selected) {
     if (typeof newAnnotation._id == "undefined") return false;
 
     this.annotations.push(newAnnotation);
     this.annotationsToBeAdded.push({
       "annotation": newAnnotation,
-      "selected": selected
+      "selected": selected,
+      "action": "add"
+
     });
 
     this.notifyObservers(this.annotationsCallbacks);
@@ -160,7 +195,8 @@ export class TextWidgetAPI {
 
     this.annotationsToBeAdded.push({
       "annotation": updatedAnnotation,
-      "selected": selected
+      "selected": selected,
+      "action": "update"
     });
 
     this.notifyObservers(this.annotationsCallbacks);
@@ -201,13 +237,30 @@ export class TextWidgetAPI {
   }
 
   /*** Batch Annotation Methods ***/
-  belongsToSchema(newAnnotation) { //annotation belongs to the annotation schema if has the same type and has at least one of the schema's attributes
+  // TODO: FIX
+  isRelationAnnotationType(annotation) {
+    //if (annotation.type === "argument_relation") return true;
+    return this.annotationSchemaAnnotationTypes.includes(annotation.type);
+  }
+
+  // TODO: FIX
+  belongsToSchemaAsSupportiveAnnotationType(newAnnotation) {
+    // Annotation belongs to schema, but its annotation type can be different
+    // than the main annotation type (i.e. the case of relations in Button Annotator)
+    return this.annotationSchemaAnnotationTypes.includes(newAnnotation.type);
+  }
+
+  belongsToSchema(newAnnotation) {
+    // Annotation belongs to the annotation schema if it has the same type
+    // and has at least one of the schema's attributes
     if (this.annotationSchema["annotation_type"] != newAnnotation.type) {
       return false;
     }
     switch (this.annotatorType) {
       case "Button Annotator":
-        if (_.where(newAnnotation.attributes, { name: this.annotationSchema["attribute"] }).length > 0) return true;
+        if (_.where(newAnnotation.attributes, {
+          name: this.annotationSchema["attribute"]
+        }).length > 0) return true;
 
         return false;
       case "Coreference Annotator":
@@ -224,7 +277,8 @@ export class TextWidgetAPI {
     var belong = [];
     for (var i = 0; i < Annotations.length; i++) {
       var annotation = Annotations[i];
-      if (!this.belongsToSchema(annotation)) { continue }
+      if (!(this.belongsToSchema(annotation) ||
+        this.belongsToSchemaAsSupportiveAnnotationType(annotation))) { continue }
       if ("annotator_id" in annotation) {
         if (annotation["annotator_id"] != annotator_id) { continue }
       } else {
@@ -235,7 +289,8 @@ export class TextWidgetAPI {
     return belong;
   }
 
-  matchAnnotationsToSchema(newAnnotations, annotator_id) { //match the document's annotations to the annotation schema
+  matchAnnotationsToSchema(newAnnotations, annotator_id) {
+    // Match the document's annotations to the annotation schema
     for (var i = 0; i < newAnnotations.length; i++) {
       var annotation = newAnnotations[i];
 
@@ -247,7 +302,8 @@ export class TextWidgetAPI {
         }
         if ((this.annotatorType == "Button Annotator") && (!("document_attribute" in annotation))) {
           for (var j = 0; j < annotation.attributes.length; j++) {
-            if (!_.contains(this.annotationSchemaOptions["values"], annotation.attributes[j].value)) { //check if the annotation belongs to the "found in collection"
+            if (!_.contains(this.annotationSchemaOptions["values"], annotation.attributes[j].value)) {
+              //check if the annotation belongs to the "found in collection"
               this.foundInCollection.push(annotation);
               break;
             }
@@ -257,14 +313,16 @@ export class TextWidgetAPI {
         this.annotations.push(annotation);
         this.annotationsToBeAdded.push({
           "annotation": annotation,
-          "selected": false
+          "selected": false,
+          "action": "matches"
         });
       } else if (annotation.type === 'argument_relation') {
         // Always add argument relation annotations
         this.annotations.push(annotation);
         this.annotationsToBeAdded.push({
           "annotation": annotation,
-          "selected": false
+          "selected": false,
+          "action": "matches"
         });
       }
     }
@@ -353,8 +411,15 @@ export class TextWidgetAPI {
     return this.annotatorType;
   }
 
+  // TODO: FIX
   setAnnotatorType(newAnnotatorType) {
-    this.annotatorType = _.cloneDeep(newAnnotatorType);
+    if (newAnnotatorType.startsWith("Button_Annotator_")) {
+      annotatorType = "Button Annotator";
+    } else if (newAnnotatorType.startsWith("Coreference_Annotator_")) {
+      annotatorType = "Coreference Annotator";
+    } else {
+      this.annotatorType = _.cloneDeep(newAnnotatorType);
+    }
   }
 
   clearAnnotatorType() {
@@ -402,11 +467,30 @@ export class TextWidgetAPI {
 
   setAnnotationSchema(newAnnotationSchema) {
     this.annotationSchema = _.cloneDeep(newAnnotationSchema);
+    this.annotationSchemaAnnotationTypes = {};
     this.notifyObservers(this.annotationSchemaCallbacks);
   }
 
   clearAnnotationSchema() {
     this.annotationSchema = {};
+    this.annotationSchemaAnnotationTypes = {};
+  }
+
+  getAnnotationSchemaAnnotationTypes() {
+    return this.annotationSchemaAnnotationTypes;
+  }
+
+  // TODO: FIX
+  setAnnotationSchemaAnnotationTypes(newAnnotationSchemaAnnotationTypes) {
+    // Ensure that the annotationSchema.annotation_type is not included...
+    this.annotationSchemaAnnotationTypes = _.cloneDeep(newAnnotationSchemaAnnotationTypes)
+      .filter(function (type) {
+        return type != annotationSchema.annotation_type;
+      });
+  }
+
+  clearAnnotationSchemaAnnotationTypes() {
+    this.annotationSchemaAnnotationTypes = {};
   }
 
   /*** Selected Annotation Methods ***/
@@ -427,13 +511,15 @@ export class TextWidgetAPI {
     if ((this.selectedAnnotation != {}))
       this.annotationsToBeAdded.push({
         "annotation": this.selectedAnnotation,
-        "selected": false
+        "selected": false,
+        "action": "deselect"
       });
 
     this.selectedAnnotation = _.cloneDeep(newSelectedAnnotation);
     this.annotationsToBeAdded.push({
       "annotation": newSelectedAnnotation,
-      "selected": true
+      "selected": true,
+      "action": "select"
     });
     this.currentSelection = {};
     this.clearOverlappingAreas();
@@ -461,7 +547,8 @@ export class TextWidgetAPI {
     this.selectedAnnotation = _.cloneDeep(newSelectedAnnotation);
     this.annotationsToBeAdded.push({
       "annotation": newSelectedAnnotation,
-      "selected": true
+      "selected": true,
+      "action": "select"
     });
     this.currentSelection = {};
     this.clearOverlappingAreas();
@@ -474,7 +561,8 @@ export class TextWidgetAPI {
     if (typeof (this.selectedAnnotation) != "undefined" && (this.selectedAnnotation != {})) {
       this.annotationsToBeAdded.push({
         "annotation": this.selectedAnnotation,
-        "selected": false
+        "selected": false,
+        "action": "deselect"
       });
       this.selectedAnnotation = {};
 
@@ -503,7 +591,8 @@ export class TextWidgetAPI {
 
     for (var i = 0; i < this.annotations.length; i++) {
       for (var j = 0; j < this.annotations[i].spans.length; j++) {
-        if (parseInt(offset) >= parseInt(this.annotations[i].spans[j].start) && parseInt(offset) <= parseInt(this.annotations[i].spans[j].end)) {
+        if (parseInt(offset) >= parseInt(this.annotations[i].spans[j].start) &&
+          parseInt(offset) <= parseInt(this.annotations[i].spans[j].end)) {
           newOverlaps.push(this.annotations[i]);
           break;
         }
@@ -525,6 +614,7 @@ export class TextWidgetAPI {
 
   setFoundInCollection(newFoundInCollection) {
     this.foundInCollection = _.cloneDeep(newFoundInCollection);
+    this.notifyObservers(foundInCollectionCallbacks);
   }
 
   clearFoundInCollection() {
@@ -545,5 +635,4 @@ export class TextWidgetAPI {
   getScrollToAnnotation() {
     return this.scrollIntoView;
   }
-
 }

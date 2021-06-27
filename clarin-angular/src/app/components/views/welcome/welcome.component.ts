@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MainComponent } from '../main/main.component';
 import { ViewEncapsulation } from '@angular/core'
-import { faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons';
+//import { faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'welcome',
@@ -10,7 +10,7 @@ import { faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons';
   encapsulation: ViewEncapsulation.None,
 })
 export class WelcomeComponent extends MainComponent implements OnInit {
-  faArrowCircleLeft = faArrowCircleLeft;
+  //faArrowCircleLeft = faArrowCircleLeft;
 
   super() { }
 

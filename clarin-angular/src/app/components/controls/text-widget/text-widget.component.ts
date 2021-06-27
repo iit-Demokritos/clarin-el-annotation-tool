@@ -256,7 +256,8 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
           }
         }
       }
-    } else if (e.button === 1) { //middle button click
+    } else if (e.button === 1) {
+      //middle button click
       e.preventDefault();
       var updatedSelection: any = {};
       var savedSelection: any = this.TextWidgetAPI.getCurrentSelection();

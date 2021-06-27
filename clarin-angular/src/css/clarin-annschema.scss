@@ -71,4 +71,29 @@
   padding: 4px 0 3px;
 }
 
+.annotation-btn {
+  text-align: left;
+}
+.annotation-btn-span {
+  text-align: left;
+  &::before {
+    color: var(--color-bg);
+    content: "\258C";
+    margin: 0 0 0 2px;
+  }
+}
+
+/* Bootstrap 4.x does not have a btn-default any more. Extend primary... */
+.btn-default {
+  @extend .btn-outline-primary;
+  color: #333;
+  background-color: #fff;
+  border-color: #ccc;
+
+  &:hover {
+    color: #333;
+    background-color: #e6e6e6;
+    border-color: #adadad;
+  }
+}
 /*** end of button annotator widget ***/

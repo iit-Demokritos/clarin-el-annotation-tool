@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { BaseControlComponent } from '../../base-control/base-control.component';
 import * as _ from 'lodash';
 import { ErrorDialogComponent } from 'src/app/components/dialogs/error-dialog/error-dialog.component';
@@ -8,7 +8,8 @@ import { element } from 'protractor';
 @Component({
   selector: 'annotation-button',
   templateUrl: './annotation-button.component.html',
-  styleUrls: ['./annotation-button.component.scss']
+  styleUrls: ['./annotation-button.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AnnotationButtonComponent extends BaseControlComponent implements OnInit {
 
