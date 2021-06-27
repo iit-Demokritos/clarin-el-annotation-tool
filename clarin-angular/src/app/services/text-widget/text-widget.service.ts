@@ -485,7 +485,7 @@ export class TextWidgetAPI {
     // Ensure that the annotationSchema.annotation_type is not included...
     this.annotationSchemaAnnotationTypes = _.cloneDeep(newAnnotationSchemaAnnotationTypes)
       .filter((type) => {
-        return type != this.annotationSchema.annotation_type;
+        return type != this.annotationSchema["annotation_type"];
       });
   }
 
