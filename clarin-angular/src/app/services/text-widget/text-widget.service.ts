@@ -14,7 +14,7 @@ export class TextWidgetAPI {
   annotationSchemaOptions = {}; //the available options of the annotation schema
 
   annotationSchema = {}; //the annotation schema that user selected for the current document
-  annotationSchemaAnnotationTypes = {}; // A list of annotation types for the schema
+  annotationSchemaAnnotationTypes = []; // A list of annotation types for the schema
   annotationSchemaCallbacks = []; //registered callbacks for the current annotation schema
 
   currentCollection = {}; //the collection that the document belongs
@@ -139,8 +139,8 @@ export class TextWidgetAPI {
     var anns = this.annotations.filter(function (ann) {
       return ann.type === type;
     });
-    if (!angular.isUndefined(attribute)) {
-      if (!angular.isUndefined(attributeValues)) {
+    if (typeof attribute != "undefined") {
+      if (typeof attributeValues != "undefined") {
         anns = anns.filter(function (ann) {
           return ann.attributes.some(function (attr) {
             return (attr.name === attribute &&
@@ -414,9 +414,9 @@ export class TextWidgetAPI {
   // TODO: FIX
   setAnnotatorType(newAnnotatorType) {
     if (newAnnotatorType.startsWith("Button_Annotator_")) {
-      annotatorType = "Button Annotator";
+      this.annotatorType = "Button Annotator";
     } else if (newAnnotatorType.startsWith("Coreference_Annotator_")) {
-      annotatorType = "Coreference Annotator";
+      this.annotatorType = "Coreference Annotator";
     } else {
       this.annotatorType = _.cloneDeep(newAnnotatorType);
     }
@@ -467,13 +467,13 @@ export class TextWidgetAPI {
 
   setAnnotationSchema(newAnnotationSchema) {
     this.annotationSchema = _.cloneDeep(newAnnotationSchema);
-    this.annotationSchemaAnnotationTypes = {};
+    this.annotationSchemaAnnotationTypes = [];
     this.notifyObservers(this.annotationSchemaCallbacks);
   }
 
   clearAnnotationSchema() {
     this.annotationSchema = {};
-    this.annotationSchemaAnnotationTypes = {};
+    this.annotationSchemaAnnotationTypes = [];
   }
 
   getAnnotationSchemaAnnotationTypes() {
@@ -485,12 +485,12 @@ export class TextWidgetAPI {
     // Ensure that the annotationSchema.annotation_type is not included...
     this.annotationSchemaAnnotationTypes = _.cloneDeep(newAnnotationSchemaAnnotationTypes)
       .filter(function (type) {
-        return type != annotationSchema.annotation_type;
+        return type != this.annotationSchema.annotation_type;
       });
   }
 
   clearAnnotationSchemaAnnotationTypes() {
-    this.annotationSchemaAnnotationTypes = {};
+    this.annotationSchemaAnnotationTypes = [];
   }
 
   /*** Selected Annotation Methods ***/
@@ -614,7 +614,7 @@ export class TextWidgetAPI {
 
   setFoundInCollection(newFoundInCollection) {
     this.foundInCollection = _.cloneDeep(newFoundInCollection);
-    this.notifyObservers(foundInCollectionCallbacks);
+    this.notifyObservers(this.foundInCollectionCallbacks);
   }
 
   clearFoundInCollection() {
