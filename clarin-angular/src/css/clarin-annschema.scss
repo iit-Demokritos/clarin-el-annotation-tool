@@ -72,10 +72,18 @@
 }
 
 .annotation-btn {
-  text-align: left;
+  //text-align: left;
+  white-space: pre !important;
+  display: inline-block;
+  overflow: auto;
+  height: 100% !important;
+  position: relative;
+  text-overflow: ellipsis;
 }
 .annotation-btn-span {
-  text-align: left;
+  @extend .annotation-btn;
+  //text-align: left;
+  float: left;
   &::before {
     color: var(--color-bg);
     content: "\258C";

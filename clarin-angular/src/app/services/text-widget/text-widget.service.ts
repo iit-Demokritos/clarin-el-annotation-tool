@@ -141,14 +141,14 @@ export class TextWidgetAPI {
     });
     if (typeof attribute != "undefined") {
       if (typeof attributeValues != "undefined") {
-        anns = anns.filter(function (ann) {
+        anns = anns.filter((ann) => {
           return ann.attributes.some(function (attr) {
             return (attr.name === attribute &&
               attributeValues.includes(attr.value));
           });
         });
       } else {
-        anns = anns.filter(function (ann) {
+        anns = anns.filter((ann) => {
           return ann.attributes.some(function (attr) {
             return attr.name === attribute;
           });
@@ -484,7 +484,7 @@ export class TextWidgetAPI {
   setAnnotationSchemaAnnotationTypes(newAnnotationSchemaAnnotationTypes) {
     // Ensure that the annotationSchema.annotation_type is not included...
     this.annotationSchemaAnnotationTypes = _.cloneDeep(newAnnotationSchemaAnnotationTypes)
-      .filter(function (type) {
+      .filter((type) => {
         return type != this.annotationSchema.annotation_type;
       });
   }

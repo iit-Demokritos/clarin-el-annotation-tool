@@ -71,7 +71,7 @@ export class AnnotationVisualizerComponent extends BaseControlComponent implemen
   liveUpdateDocument() {
     var currentDocument: any = this.TextWidgetAPI.getCurrentDocument();
 
-    this.sseService.getSSEvent(CLARIN_CONSTANTS.BASE_URL + "/clarin/api/collections/"
+    this.sseService.getSSEvent("./api/collections/"
       + currentDocument.collection_id
       + "/documents/"
       + currentDocument.id
