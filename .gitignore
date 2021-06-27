@@ -3,4 +3,12 @@ frontend/clarin/bower_components
 backend/clarin/app/storage/sessions/*
 backend/clarin/app/storage/views/*
 backend/clarin/app/storage/logs/*
+backend/clarin/storage/
+backend/clarin/resources/views/angular2_index.php
+backend/clarin/bootstrap/cache/
+backend/clarin-laravel-6.20/
 .DS_Store
+frontend/clarin.zip
+frontend/clarin2/
+frontend/webpack-demo/
+backend/clarin_old/

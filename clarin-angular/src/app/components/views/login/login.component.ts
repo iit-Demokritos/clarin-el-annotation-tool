@@ -41,11 +41,12 @@ export class LoginComponent implements OnInit {
     this.auth
       // This service is in src/ng-matero/core/authentication/auth.service.ts
       .login(this.username.value, this.password.value, this.rememberMe.value)
-      .pipe(filter(authenticated => authenticated))
+      //.pipe(filter(authenticated => authenticated))
       .subscribe(
-        () => this.router.navigateByUrl('/'),
+        () => {
+          this.router.navigateByUrl('/');
+	},
         (error: HttpErrorResponse) => {
-                console.error(error);
           if (error.status === 422) {
             const form = this.loginForm;
             const errors = error.error.errors;

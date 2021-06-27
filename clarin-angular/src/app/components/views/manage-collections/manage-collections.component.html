@@ -7,19 +7,19 @@
           <mat-card-title>{{'Collections.MyCollections'|translate}} ({{dataForTheTree.length}})</mat-card-title>
         </mat-card-header>
         <mat-card-content class="sidebar-main-content">
-          <ul>
-            <li class="cursor" *ngFor="let collection of dataForTheTree;let index=index"
+          <mat-action-list>
+            <button mat-list-item class="cursor" *ngFor="let collection of dataForTheTree;let index=index"
               (click)="showSelectedCollection(collection, index)"
               [ngClass]="{selectedCollection: index==selectedCollectionIndex}">
-              <img src="assets/images/folder-closed.png" /> {{collection.name}} <span class="right">
+              <mat-icon class="mat-icon-rtl-mirror">folder</mat-icon> {{collection.name}} <span class="right">
                 <span *ngIf="collection.confirmed==1 && collection.is_owner"
                   class="label label-info">{{'Collections.SharedByMe'|translate}}</span>
                 <span *ngIf="collection.confirmed==1 && !collection.is_owner" class="label label-info"
                   title="The actions that can be performed on this collection are limited because it does not belong to you">{{'Collections.SharedWithMe'|translate}}</span>
                 ({{collection.document_count}} {{'Collections.Documents'|translate}})
               </span>
-            </li>
-          </ul>
+            </button>
+          </mat-action-list>
         </mat-card-content>
       </mat-card>
     </as-split-area>

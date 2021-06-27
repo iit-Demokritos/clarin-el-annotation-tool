@@ -3,8 +3,10 @@ import { BehaviorSubject, iif, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map, share, switchMap, tap } from 'rxjs/operators';
 import { TokenService } from './token.service';
-import { Token, User } from './interface';
+import { Token, BackendUser, User } from './interface';
 import { admin, guest } from './user';
+import { MainComponent } from '@components/views/main/main.component';
+import { UserService } from 'src/app/services/user-service/user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -30,17 +32,28 @@ export class AuthService {
   }
 
   login(email: string, password: string, rememberMe = false) {
+    const _token = { access_token: 'MW56YjMyOUAxNjMuY29tWm9uZ2Jpbg==', token_type: 'bearer' };
+    return of(_token).pipe(
+      tap(token => this.token.set(token)),
+      map(() => this.check())
+    );
+    return this.http
+     .post<BackendUser>('/api/auth/login', { email, password, remember_me: rememberMe })
+     .pipe(
+       tap(user => this.token.set({ access_token: user.jwtToken, token_type: 'bearer' })),
+       map(() => this.check())
+     );
     // return this.http
     //   .post<Token>('/auth/login', { email, password, remember_me: rememberMe })
     //   .pipe(
     //     tap(token => this.token.set(token)),
     //     map(() => this.check())
     //   );
-    const _token = { access_token: 'MW56YjMyOUAxNjMuY29tWm9uZ2Jpbg==', token_type: 'bearer' };
-    return of(_token).pipe(
-      tap(token => this.token.set(token)),
-      map(() => this.check())
-    );
+    // const _token = { access_token: 'MW56YjMyOUAxNjMuY29tWm9uZ2Jpbg==', token_type: 'bearer' };
+    // return of(_token).pipe(
+    //   tap(token => this.token.set(token)),
+    //   map(() => this.check())
+    // );
   }
 
   logout() {

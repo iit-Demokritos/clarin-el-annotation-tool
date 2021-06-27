@@ -49,9 +49,11 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
     this.mainContent = document.getElementsByClassName("main-content")[0];
     this.editor = CodeMirror.fromTextArea(this.element.nativeElement, {
       lineNumbers: true,
+      firstLineNumber: 1,
       dragDrop: false,
       readOnly: true,
-      theme: "night",
+      /*theme: "night",*/
+      direction: "ltr",
       lineWrapping: true,
       autofocus: false,
       cursorBlinkRate: -1,

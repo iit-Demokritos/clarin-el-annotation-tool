@@ -9,7 +9,9 @@ import { WelcomeComponent } from './components/views/welcome/welcome.component';
  /* Petasis, 18/06/21: ng-matero template: https://github.com/ng-matero/ng-matero */
 import { SharedModule }           from '@shared/shared.module';
 import { AdminLayoutComponent }   from './ng-matero/theme/admin-layout/admin-layout.component';
+import { AuthLayoutComponent }    from './ng-matero/theme/auth-layout/auth-layout.component';
 import { DashboardComponent }     from './ng-matero/routes/dashboard/dashboard.component';
+//import { LoginComponent }         from './ng-matero/routes/sessions/login/login.component';
 import { AuthLayoutModComponent } from './components/views/auth-layout-mod/auth-layout-mod.component';
 import { LoginComponent }         from './components/views/login/login.component';
 import { RegisterComponent }      from './components/views/register/register.component';

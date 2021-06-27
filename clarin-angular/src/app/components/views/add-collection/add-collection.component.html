@@ -7,17 +7,17 @@
           <mat-card-title>{{'Collections.MyCollections'|translate}} ({{dataForTheTree.length}})</mat-card-title>
         </mat-card-header>
         <mat-card-content class="sidebar-main-content">
-          <ul>
-            <li *ngFor="let collection of dataForTheTree">
-              <img src="assets/images/folder-closed.png" /> {{collection.name}} <span class="right">
+          <mat-action-list>
+            <button mat-list-item *ngFor="let collection of dataForTheTree">
+              <mat-icon class="mat-icon-rtl-mirror">folder</mat-icon> {{collection.name}} <span class="right">
                 <span *ngIf="collection.confirmed==1 && collection.is_owner"
                   class="label label-info">{{'Collections.SharedByMe'|translate}}</span>
                 <span *ngIf="collection.confirmed==1 && !collection.is_owner" class="label label-info"
                   title="The actions that can be performed on this collection are limited because it does not belong to you">{{'Collections.SharedWithMe'|translate}}</span>
                 ({{collection.document_count}} {{'Collections.Documents'|translate}})
               </span>
-            </li>
-          </ul>
+            </button>
+          </mat-action-list>
         </mat-card-content>
       </mat-card>
     </as-split-area>
@@ -62,8 +62,7 @@
               <label>{{'Collections.FilesToBeAddedToTheCollection' | translate}}</label>
               <div class="table-responsive">
                 <div id="uploadTable">
-                  <table class="table table-bordered" 
-                    *ngIf="userFiles.length!=undefined && userFiles.length>0">
+                  <table class="table table-bordered" *ngIf="userFiles.length!=undefined && userFiles.length>0">
                     <thead>
                       <tr>
                         <th>#</th>
@@ -79,21 +78,25 @@
                         <td>{{index+1}}</td>
                         <td>{{file.name}}</td>
                         <td *ngIf="filterFiles !== false">
-                          <select id="type" class="form-control" [(ngModel)]="file.type" [ngModelOptions]="{standalone: true}">
+                          <select id="type" class="form-control" [(ngModel)]="file.type"
+                            [ngModelOptions]="{standalone: true}">
                             <option *ngFor="let o of typeOptions" [value]="o">{{o}}</option>
                           </select>
                         </td>
                         <td *ngIf="filterFiles !== false">
-                          <select id="defaultEndoding" class="form-control" [(ngModel)]="file.encoding" [ngModelOptions]="{standalone: true}">
+                          <select id="defaultEndoding" class="form-control" [(ngModel)]="file.encoding"
+                            [ngModelOptions]="{standalone: true}">
                             <option *ngFor="let o of encodingOptions" [value]="o">{{o}}</option>
                           </select>
                         </td>
                         <td *ngIf="filterFiles !== false">
-                          <select id="handler" class="form-control" [(ngModel)]="file.handler" [ngModelOptions]="{standalone: true}">
+                          <select id="handler" class="form-control" [(ngModel)]="file.handler"
+                            [ngModelOptions]="{standalone: true}">
                             <option *ngFor="let o of handlerOptions" [ngValue]="o">{{o.name}}</option>
                           </select>
                         </td>
-                        <td class="col-lg-1"><a class="btn btn-danger btn-xs" (click)="userFiles.splice(index, 1)">Remove</a></td>
+                        <td class="col-lg-1"><a class="btn btn-danger btn-xs"
+                            (click)="userFiles.splice(index, 1)">Remove</a></td>
                       </tr>
                     </tbody>
                   </table>

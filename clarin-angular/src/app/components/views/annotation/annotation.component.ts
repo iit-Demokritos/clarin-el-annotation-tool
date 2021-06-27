@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 import { DetectChangesModalComponent } from '../../dialogs/detect-changes-modal/detect-changes-modal.component';
 import { DetectOpenDocModalComponent } from '../../dialogs/detect-open-doc-modal/detect-open-doc-modal.component';
@@ -10,7 +10,8 @@ import * as _ from 'lodash';
 @Component({
   selector: 'annotation',
   templateUrl: './annotation.component.html',
-  styleUrls: ['./annotation.component.scss']
+  styleUrls: ['./annotation.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AnnotationComponent extends MainComponent implements OnInit {
 
@@ -24,12 +25,12 @@ export class AnnotationComponent extends MainComponent implements OnInit {
 
   autoSaveIndicator;
   documentSelection = true;
-  annotatorType = "";
+  annotatorType = "No Schema";
   annotationSchema = {};
   sidebarSelector = "annotator";
   maincontentSelector = "document";
   layout = {
-    showEditorTabs: false,
+    showEditorTabs: true,
   };
   spinnerVisible;
 
@@ -61,7 +62,8 @@ export class AnnotationComponent extends MainComponent implements OnInit {
 
 
 
-  createDocumentSelectionModal() {            //open the modal in order the user to select a document to annotate
+  //open the modal in order the user to select a document to annotate
+  createDocumentSelectionModal() {
     if (!this.TextWidgetAPI.checkIsRunning())
       this.TextWidgetAPI.enableIsRunning();
     else
@@ -136,7 +138,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
               //$ocLazyLoad.load('detectOpenDocModalCtrl').then(function () {
               //var detectOpenDocModalInstance = Dialog.custom('detect-open-doc-modal.html', 'detectOpenDocModalCtrl', currentDocument, true, "");
 
-              let dialogRef = this.dialog.open(DetectOpenDocModalComponent, {data:currentDocument});
+              let dialogRef = this.dialog.open(DetectOpenDocModalComponent, { data: currentDocument });
 
               dialogRef.afterClosed().subscribe((response) => {
                 if (response.success) {
@@ -153,46 +155,46 @@ export class AnnotationComponent extends MainComponent implements OnInit {
             this.documentSelection = true;
           }
         }
-      },(error)=> {
+      }, (error) => {
         this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Database error. Please refresh the page and try again.") })
       });
   }
 
   detectOpenDocument() {                                //function to detect if the user has left any document open in the database
     this.openDocumentService.getAll()
-      .then((response:any) => {
+      .then((response: any) => {
         if (response.success && response.data.length > 0) {
           var documentFound = _.findWhere(response.data, { opened: 1 });                                //search if the user has an open document 
 
           if (typeof (documentFound) != "undefined") {                                                    //user has left a document opened
             if (_.where(response.data, { document_id: documentFound.document_id }).length == 1 && (documentFound.db_interactions == 0 || documentFound.confirmed == 1)) {         //document has been opened only from the current user & no db_interactions have occurred    
               this.tempAnnotationService.destroy(documentFound.collection_id, documentFound.document_id, null)
-                .then((response)=> {
+                .then((response) => {
                   this.createDocumentSelectionModal();
-                }, (error)=> {
+                }, (error) => {
                   this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Database error. Please refresh the page and try again.") })
                 });
             } else if (!documentFound.confirmed && documentFound.db_interactions > 0) {                //document not shared and db_interactions > 0, open modal informing users about the work in proggress
               //$ocLazyLoad.load('detectChangesModalCtrl').then(function () {
-                //var detectChangesModalInstance = Dialog.custom('detect-changes-modal.html', 'detectChangesModalCtrl', documentFound, true, "");
+              //var detectChangesModalInstance = Dialog.custom('detect-changes-modal.html', 'detectChangesModalCtrl', documentFound, true, "");
 
-                var dialogRef = this.dialog.open(DetectChangesModalComponent,{data:documentFound});
-                dialogRef.afterClosed().subscribe((response:any)=> {
-                  if (response.success) {
-                    if (typeof(response.resume) != "undefined" && response.resume)
-                      //$timeout(function () { $scope.documentSelection = false; }, 800);
-                      setTimeout(()=>{                           //<<<---using ()=> syntax
-                        this.documentSelection = false;
-                   }, 800);
+              var dialogRef = this.dialog.open(DetectChangesModalComponent, { data: documentFound });
+              dialogRef.afterClosed().subscribe((response: any) => {
+                if (response.success) {
+                  if (typeof (response.resume) != "undefined" && response.resume)
+                    //$timeout(function () { $scope.documentSelection = false; }, 800);
+                    setTimeout(() => {                           //<<<---using ()=> syntax
+                      this.documentSelection = false;
+                    }, 800);
 
-                    else
-                      this.createDocumentSelectionModal();
-                  } else {
-                    this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Error during the restoration of your annotations. Please refresh the page and try again.") })
-                  }
-                },(error)=> {
-                  this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Database error. Please refresh the page and try again.") })
-                });
+                  else
+                    this.createDocumentSelectionModal();
+                } else {
+                  this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Error during the restoration of your annotations. Please refresh the page and try again.") })
+                }
+              }, (error) => {
+                this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Database error. Please refresh the page and try again.") })
+              });
               //});
             } else
               this.createDocumentSelectionModal();
@@ -203,12 +205,12 @@ export class AnnotationComponent extends MainComponent implements OnInit {
         } else {
           this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Database error. Please refresh the page and try again.") })
         }
-      }, (error)=> {
+      }, (error) => {
         this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Database error. Please refresh the page and try again.") })
       });
   };
 
-  openDocumentSelectionModal () {
+  openDocumentSelectionModal() {
     if (this.TextWidgetAPI.checkIsRunning()) {
       alert('running');
       return false;

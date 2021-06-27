@@ -32,7 +32,7 @@ export class UserService {
 	register(user): Promise<any> {
 
 		return new Promise((resolve, reject) => {
-			this.http.post('./auth/register', user)
+			this.http.post('./api/auth/register', user)
 				.subscribe((response) => {
 					resolve(response);
 				}, (error) => {
@@ -49,7 +49,7 @@ export class UserService {
 		credentials["csrf_token"] = "this.CSRF_TOKEN";
 
 		return new Promise((resolve, reject) => {
-			this.http.post('./auth/login', credentials)
+			this.http.post('./api/auth/login', credentials)
 				.subscribe((response) => {
 					if (response["success"] && typeof (response["data"]["email"] != "undefined")) {
 						resolve(response);
@@ -66,7 +66,7 @@ export class UserService {
 	logout(): Promise<any> {
 		//var deferred = $q.defer();
 		return new Promise((resolve, reject) => {
-			this.http.get('./auth/logout')            // Make an AJAX call to check if the user is logged in
+			this.http.get('./api/auth/logout')            // Make an AJAX call to check if the user is logged in
 				.subscribe((response) => {
 					resolve(response);
 				}, (error) => {
@@ -79,7 +79,7 @@ export class UserService {
 	resetPassword(credentials): Promise<any> {
 
 		return new Promise((resolve, reject) => {
-			this.http.post('./auth/reset', credentials)
+			this.http.post('./api/auth/reset', credentials)
 				.subscribe((response) => {
 					resolve(response);
 				}, (error) => {

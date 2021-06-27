@@ -1,0 +1,74 @@
+/*** button annotator widget ***/
+.button-widget-wrapper {
+  margin: 0 8px;
+  padding-bottom: 13px;
+}
+.button-widget-wrapper table {
+  table-layout: fixed;
+  border-collapse: separate;
+  margin-bottom: 0px;
+}
+
+.sidebar-main-content .btn-sm i {
+  font-size: 18px;
+}
+.sidebar-main-content .coref-span-start,
+.sidebar-main-content .coref-span-end,
+.sidebar-main-content .annotation-entry,
+.sidebar-main-content .coref-entry,
+.sidebar-main-content .coref-segment-entry,
+.sidebar-main-content input[type="text"],
+.sidebar-main-content select {
+  height: 24px;
+  resize: none;
+  font-size: 12px !important;
+  padding: 2px !important;
+}
+.sidebar-main-content .coref-multi-entry {
+  resize: none;
+  font-size: 12px !important;
+  padding: 3px 5px 2px !important;
+  margin: 2px 0;
+  white-space: pre-wrap;
+  overflow-y: auto !important;
+}
+
+.button-widget-wrapper table button {
+  /*height: 24px!important;*/
+  padding: 2px 0px;
+  margin: 2px 0 !important;
+  font-size: 12px !important;
+}
+.button-widget-wrapper table td {
+  white-space: nowrap;
+  border-top: none !important;
+  padding: 0px 2px !important;
+}
+.button-widget-header {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: #d34332;
+  padding: 4px 0 3px;
+}
+.button-widget-subheader {
+  /*	white-space:nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;*/
+  padding: 6px 0;
+
+  white-space: pre-wrap; /* CSS3 */
+  white-space: -moz-pre-wrap; /* Firefox */
+  white-space: -pre-wrap; /* Opera <7 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  word-wrap: break-word; /* IE */
+}
+.button-widget-paragraph-label {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: #d34332;
+  padding: 4px 0 3px;
+}
+
+/*** end of button annotator widget ***/
