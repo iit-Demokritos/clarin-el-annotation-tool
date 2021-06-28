@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import * as CodeMirror from 'codemirror';
 import { BaseControlComponent } from '../base-control/base-control.component';
 import { cloneDeep, indexOf, has, filter, without, find } from "lodash";
@@ -10,7 +10,8 @@ declare let LeaderLine: any;
 @Component({
   selector: 'text-widget',
   templateUrl: './text-widget.component.html',
-  styleUrls: ['./text-widget.component.scss']
+  styleUrls: ['./text-widget.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class TextWidgetComponent extends BaseControlComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
@@ -26,7 +27,7 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
     });
   }
 
-  @ViewChild("element", { static: true }) element: ElementRef<HTMLTextAreaElement>;;
+  @ViewChild("element", { static: true }) element: ElementRef<HTMLTextAreaElement>;
   mainContent;
   editor: CodeMirror.EditorFromTextArea;
   initialLoad: boolean = false;
@@ -47,7 +48,11 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
 
   ngOnInit(): void {
     this.mainContent = document.getElementsByClassName("main-content")[0];
-    this.editor = CodeMirror.fromTextArea(this.element.nativeElement, {
+    this.textWidget = document.getElementById("annotation-editor-text-widget");
+    this.textWidgetOverlay = document.getElementById('annotation-editor-text-widget-overlay');
+    this.skipLineNumber = {};
+
+    this.editor = CodeMirror.fromTextArea(this.textWidget /*this.element.nativeElement */, {
       lineNumbers: true,
       firstLineNumber: 1,
       dragDrop: false,
@@ -61,6 +66,11 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
       scrollbarStyle: "native",
       extraKeys: {}
     });
+
+    // Get the local coordinates of the first character in the editor...
+    this.textWidgetLines = document.getElementsByClassName("CodeMirror-lines")[0];
+    this.textarea = this.editor.getWrapperElement();
+    this.gutter = this.editor.getGutterElement();
 
     //TODO: Resize event impl.
     // When the editor is resized (by dragging the ui-layout-container line) refresh the editor
