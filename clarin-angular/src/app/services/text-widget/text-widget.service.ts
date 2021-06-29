@@ -133,23 +133,23 @@ export class TextWidgetAPI {
     });
   }
 
-  // TODO: FIX
+  
   selectAnnotations(type, attribute, attributeValues) {
     // console.warn("selectAnnotations:", type, attribute, attributeValues);
-    var anns = this.annotations.filter(function (ann) {
+    var anns = this.annotations.filter((ann)=> {
       return ann.type === type;
     });
     if (typeof attribute != "undefined") {
       if (typeof attributeValues != "undefined") {
         anns = anns.filter((ann) => {
-          return ann.attributes.some(function (attr) {
+          return ann.attributes.some((attr)=> {
             return (attr.name === attribute &&
               attributeValues.includes(attr.value));
           });
         });
       } else {
         anns = anns.filter((ann) => {
-          return ann.attributes.some(function (attr) {
+          return ann.attributes.some((attr)=> {
             return attr.name === attribute;
           });
         });
@@ -237,13 +237,11 @@ export class TextWidgetAPI {
   }
 
   /*** Batch Annotation Methods ***/
-  // TODO: FIX
   isRelationAnnotationType(annotation) {
     //if (annotation.type === "argument_relation") return true;
     return this.annotationSchemaAnnotationTypes.includes(annotation.type);
   }
 
-  // TODO: FIX
   belongsToSchemaAsSupportiveAnnotationType(newAnnotation) {
     // Annotation belongs to schema, but its annotation type can be different
     // than the main annotation type (i.e. the case of relations in Button Annotator)
@@ -411,8 +409,8 @@ export class TextWidgetAPI {
     return this.annotatorType;
   }
 
-  // TODO: FIX
-  setAnnotatorType(newAnnotatorType) {
+  
+  setAnnotatorType(newAnnotatorType:string) {
     if (newAnnotatorType.startsWith("Button_Annotator_")) {
       this.annotatorType = "Button Annotator";
     } else if (newAnnotatorType.startsWith("Coreference_Annotator_")) {
@@ -480,7 +478,7 @@ export class TextWidgetAPI {
     return this.annotationSchemaAnnotationTypes;
   }
 
-  // TODO: FIX
+  
   setAnnotationSchemaAnnotationTypes(newAnnotationSchemaAnnotationTypes) {
     // Ensure that the annotationSchema.annotation_type is not included...
     this.annotationSchemaAnnotationTypes = _.cloneDeep(newAnnotationSchemaAnnotationTypes)

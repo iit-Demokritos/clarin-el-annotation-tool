@@ -27,10 +27,16 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            "styles": [
-              "src/styles.scss"
+"styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "src/styles.scss",
+              "./node_modules/codemirror/lib/codemirror.css",
+              "./node_modules/codemirror/theme/material.css",
+              "./node_modules/jointjs/css/layout.css"
             ],
-            "scripts": []
+            "scripts": ["node_modules/leader-line/leader-line.min.js",
+              "./node_modules/jquery/dist/jquery.min.js",
+              "./node_modules/jointjs/dist/joint.js"]
           },
           "configurations": {
             "production": {
@@ -96,10 +102,16 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            "styles": [
-              "src/styles.scss"
+"styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "src/styles.scss",
+              "./node_modules/codemirror/lib/codemirror.css",
+              "./node_modules/codemirror/theme/material.css",
+              "./node_modules/jointjs/css/layout.css"
             ],
-            "scripts": []
+            "scripts": ["node_modules/leader-line/leader-line.min.js",
+              "./node_modules/jquery/dist/jquery.min.js",
+              "./node_modules/jointjs/dist/joint.js"]
           }
         },
         "lint": {
