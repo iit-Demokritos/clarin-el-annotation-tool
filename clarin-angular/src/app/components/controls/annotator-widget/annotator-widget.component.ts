@@ -79,12 +79,12 @@ export class AnnotatorWidgetComponent extends BaseControlComponent
         //TODO:Check dynamic compile $compile(elem.contents())(scope);
         // Does the template include Document Attributes?
 
-	try {
+        try {
           await this.initDynamicWithTemplate(this.annotatorsInnerTemplate);
-	}
-	catch (error) {
+        }
+        catch (error) {
           console.error("compile:", error);
-	}
+        }
 
         if (annotatorsTemplate.indexOf("group-type=\"document_attributes\"") != -1) {
           this.layout.showEditorTabs = true;
