@@ -1,7 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { MainService } from '../main/main.service';
 import { TextWidgetAPI } from '../text-widget/text-widget.service';
-import * as _ from 'lodash';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { AnnotationService } from '../annotation-service/annotation.service';
@@ -70,15 +69,20 @@ export class RestoreAnnotationService {
     });
   }
 
+  updateToTemp(annotation) {
+    this.tempAnnotationService.update(annotation);
+  }; /* updateToTemp */
+
   save(collectionId, documentId, annotatorId) {
     return new Promise((resolve, reject) => {
 
     this.openDocumentService.get(documentId, annotatorId)
       .then((response:any)=> {
         if (response["success"] && response["data"].length > 0) {
-          var documentFound = _.findWhere(response["data"], {
+          /*var documentFound = _.findWhere(response["data"], {
             opened: 1
-          });
+          });*/
+	  var documentFound = response["data"].find(doc => doc.opened === 1);
 
           if (typeof(documentFound) != "undefined" && documentFound.db_interactions > 0) {
             var annotations = [];

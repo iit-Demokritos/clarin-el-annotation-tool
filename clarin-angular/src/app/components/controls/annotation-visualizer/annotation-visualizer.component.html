@@ -1,55 +1,55 @@
-<div autoheight scroll-subtraction-height="145">
-  <div ui-layout>
-    <div ui-layout-container size="300px">
-      <div class="annotation-visualiser-header">
-        <div class="col-md-4 right-divider">ID</div>
-        <div class="col-md-4 right-divider">Type</div>
-        <div class="col-md-4">Spans</div>
-      </div>
-      <div *ngIf="annotations.length==0" class="caution-msg">This document has not annotations</div>
-      <div *ngIf="annotations.length>0">
-        <div class="annotation-visualiser-content" *ngFor="let annotation of annotations; let i = index;"
-          (click)="setSelectedAnnotation(annotation, i)" [ngClass]="{ active: i == selectedIndex }">
-          <div class="col-md-4 right-divider overflow-ellipsis">{{annotation._id}}</div>
-          <div class="col-md-4 right-divider overflow-ellipsis">{{annotation.type}}</div>
-          <div class="col-md-4 overflow-ellipsis">{{annotation.spans[0].start}}:{{annotation.spans[0].end}}</div>
-        </div>
-      </div>
-    </div>
-    <div ui-layout-container>
+<div class="annotation-visualiser">
+  <as-split direction="vertical" style="height: 100%;">
+    <as-split-area [size]="30" [minSize]="10" [maxSize]="90" class="annotation-list">
+      <table #annvisannlist mat-table [dataSource]="annotationsDataSource" ngClass="annotation-visualiser-container">
+        <!-- ID Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>ID</th>
+          <td mat-cell *matCellDef="let annotation" class="overflow-ellipsis">{{annotation._id}}</td>
+        </ng-container>
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef>Type</th>
+          <td mat-cell *matCellDef="let annotation" class="overflow-ellipsis">{{annotation.type}}</td>
+        </ng-container>
+        <ng-container matColumnDef="span">
+          <th mat-header-cell *matHeaderCellDef>Span</th>
+          <td mat-cell *matCellDef="let annotation" class="overflow-ellipsis">
+            {{annotation.spans[0].start}}:{{annotation.spans[0].end}}</td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="annotationListDisplayedColumns"></tr>
+        <tr mat-row (click)="setSelectedAnnotation(row, i)" [ngClass]="{ active: i == selectedIndex }"
+          *matRowDef="let row; let i = index; columns: annotationListDisplayedColumns;"></tr>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell">No data matching the filter</td>
+        </tr>
+      </table>
+    </as-split-area>
+    <as-split-area [size]="70" [minSize]="10" [maxSize]="90" class="annotation-info">
       <div class="annotation-visualiser-header">
         <div class="col-md-3 right-divider">Name</div>
         <div class="col-md-9">Value</div>
       </div>
-      <div *ngIf="!selectedAnnotation._id" class="caution-msg">No available details</div>
-      <div *ngIf="selectedAnnotation._id">
-        <div class="annotation-visualiser-content">
-          <div class="col-md-3 right-divider overflow-ellipsis">ID</div>
-          <div class="col-md-9 overflow-ellipsis">{{selectedAnnotation._id}}</div>
-        </div>
-        <div class="annotation-visualiser-content">
-          <div class="col-md-3 right-divider overflow-ellipsis">Type</div>
-          <div class="col-md-9 overflow-ellipsis">{{selectedAnnotation.type}}</div>
-        </div>
-        <div class="annotation-visualiser-content">
-          <div class="col-md-3 right-divider overflow-ellipsis">Annotator ID</div>
-          <div class="col-md-9 overflow-ellipsis">{{selectedAnnotation.annotator_id}}</div>
-        </div>
-        <div class="annotation-visualiser-content">
-          <div class="col-md-3 right-divider overflow-ellipsis">Document Attribute</div>
-          <div class="col-md-9 overflow-ellipsis">{{selectedAnnotation.document_attribute}}</div>
-        </div>
-        <div class="annotation-visualiser-content" *ngFor="let span of selectedAnnotation.spans; let i = index">
-          <div class="col-md-3 right-divider overflow-ellipsis"><span *ngIf="i==1">Spans</span>&nbsp;</div>
-          <div class="col-md-9 overflow-ellipsis" title="{{span.segment}}">{{span.start}}:{{span.end}}
-            ["{{span.segment}}"]</div>
-        </div>
-        <div class="annotation-visualiser-content"
-          *ngFor="let attribute of selectedAnnotation.attributes; let i = index">
-          <div class="col-md-3 right-divider overflow-ellipsis"><span *ngIf="i==0">Attributes</span>&nbsp;</div>
-          <div class="col-md-9 overflow-ellipsis">{{attribute.name}} &nbsp;-&nbsp; "{{attribute.value}}"</div>
-        </div>
+      <div class="annotation-visualiser-content">
+        <div class="col-md-3 right-divider overflow-ellipsis">Type</div>
+        <div class="col-md-9 overflow-ellipsis">{{selectedAnnotation.type}}</div>
       </div>
-    </div>
-  </div>
+      <div class="annotation-visualiser-content">
+        <div class="col-md-3 right-divider overflow-ellipsis">Annotator ID</div>
+        <div class="col-md-9 overflow-ellipsis">{{selectedAnnotation.annotator_id}}</div>
+      </div>
+      <div class="annotation-visualiser-content">
+        <div class="col-md-3 right-divider overflow-ellipsis">Document Attribute</div>
+        <div class="col-md-9 overflow-ellipsis">{{selectedAnnotation.document_attribute}}</div>
+      </div>
+      <div class="annotation-visualiser-content" *ngFor="let span of selectedAnnotation.spans; let i = index">
+        <div class="col-md-3 right-divider overflow-ellipsis"><span *ngIf="i==1">Spans</span>&nbsp;</div>
+        <div class="col-md-9 overflow-ellipsis" title="{{span.segment}}">{{span.start}}:{{span.end}}
+          ["{{span.segment}}"]</div>
+      </div>
+      <div class="annotation-visualiser-content" *ngFor="let attribute of selectedAnnotation.attributes; let i = index">
+        <div class="col-md-3 right-divider overflow-ellipsis"><span *ngIf="i==0">Attributes</span>&nbsp;</div>
+        <div class="col-md-9 overflow-ellipsis">{{attribute.name}} &nbsp;-&nbsp; "{{attribute.value}}"</div>
+      </div>
+    </as-split-area>
+  </as-split>
 </div>

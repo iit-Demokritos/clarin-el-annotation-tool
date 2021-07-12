@@ -1,26 +1,30 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import * as CodeMirror from 'codemirror';
 import { BaseControlComponent } from '../base-control/base-control.component';
 import { cloneDeep, indexOf, has, filter, without, find } from "lodash";
 import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
-import 'leader-line';
-const joint = require('../../../../../node_modules/jointjs/dist/joint.js');
-declare let LeaderLine: any;
 import * as _ from 'lodash';
+//import * as $ from 'backbone';
+import * as $ from 'jquery';
+import * as joint from 'jointjs';
 import { type } from 'node:os';
 
 @Component({
   selector: 'text-widget',
   templateUrl: './text-widget.component.html',
-  styleUrls: ['./text-widget.component.scss']
+  styleUrls: ['./text-widget.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
-export class TextWidgetComponent extends BaseControlComponent implements OnInit, OnDestroy {
+export class TextWidgetComponent extends BaseControlComponent
+  implements OnInit, OnDestroy {
 
-  @ViewChild("element", { static: true }) element: ElementRef<HTMLTextAreaElement>;
+  /* @ViewChild("annotationeditortextwidget", { static: true }) */
+  element: ElementRef<HTMLTextAreaElement>;
   mainContent;
   editor: CodeMirror.EditorFromTextArea;
-  textWidgetOverlay:any;
+  textWidget: any;
+  textWidgetOverlay: any;
   skipLineNumber = {};
   paper;
   routerName;
@@ -39,23 +43,32 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
   // List of connected annotation arrows
   connectedAnnotations = [];
   annotationIdToGraphItem = {};
-  showLinkRouterSelector;
+  showLinkRouterSelector = false;
 
   // Get the local coordinates of the first character in the editor...
-  textWidgetLines:any;
+  textWidgetLines: any;
   textarea;
   gutter;
 
-  initialLoad:boolean = false;
+  // Resize observer for refreshing overlay when codemirror changes...
+  resizeObserver: any;
+
+  initialLoad: boolean = false;
 
   ngOnInit() {
-    this.textarea = this.element.nativeElement;
-    this.editor = CodeMirror.fromTextArea(this.element.nativeElement, /* TODO: FIX OPTIONS, CURRENTLY REPLACED WITH OLD ONES{
+    //comment this
+    //this.textarea = this.element.nativeElement;
+
+    this.mainContent= document.getElementsByClassName("main-content")[0];
+    this.textWidget = document.getElementById("annotation-editor-text-widget");//
+    this.textWidgetOverlay = document.getElementById('annotation-editor-text-widget-overlay');
+    // this.editor = CodeMirror.fromTextArea(this.element.nativeElement, {
+    this.editor = CodeMirror.fromTextArea(this.textWidget, {
       lineNumbers: true,
       firstLineNumber: 1,
       dragDrop: false,
       readOnly: true,
-      /*theme: "night",*//*
+      /*theme: "night",*/
       direction: "ltr",
       lineWrapping: true,
       autofocus: false,
@@ -63,17 +76,10 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
       viewportMargin: Infinity,
       scrollbarStyle: "native",
       extraKeys: {}
-    }*/    {lineNumbers: true,
-      dragDrop: false,
-      readOnly: false,
-      theme: "night",
-      lineWrapping: true,
-      autofocus: false,
-      cursorBlinkRate: -1,
-      viewportMargin: Infinity,
-      scrollbarStyle: "native",
-      extraKeys: {}});
+    });
 
+    this.textWidgetLines = document.getElementsByClassName("CodeMirror-lines")[0];
+    this.textarea = this.editor.getWrapperElement();
     this.gutter = this.editor.getGutterElement();
 
     this.paper = new joint.dia.Paper({
@@ -94,9 +100,8 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
         useLinkTools: false
       }
     });
-
     // Set an event on lines pointer clicks...
-    this.paper.on('link:pointerup',(elementView, evt, x, y)=> {
+    this.paper.on('link:pointerup', (elementView, evt, x, y) => {
       evt.stopPropagation();
       // evt.stopImmediatePropagation();
       var currentElement = elementView.model;
@@ -104,39 +109,48 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
       var annotation = this.TextWidgetAPI.getAnnotationById(currentElement.annotation_id);
       if (typeof (annotation) != "undefined") return;
       // Set this annotation as the selected one
-      this.TextWidgetAPI.setSelectedAnnotation(annotation);
+      this.TextWidgetAPI.setSelectedAnnotation(annotation);//
       this.TextWidgetAPI.clearOverlappingAreas(); // not sure if required...
     });
 
-    //TODO:FIX this.editor.setOption("lineNumberFormatter", this.lineNumberFormatter);
+    /* this segment exist in text-widget.js- transformation needed
+    // When the editor is resized (by dragging the ui-layout-container line)
+        // refresh the editor so that text selection works normally.
+        scope.$on('ui.layout.resize', function (e, beforeContainer, afterContainer) {
+          console.warn("text-widget: ui.layout.resize");
+          editor.refresh();
+          // overlayRefresh();
+        });
 
-
-
-    //CodeMirror.on(this.mainContent, "mouseup", () => { this.mouseUpHandler });
-    //CodeMirror.on(this.mainContent, "mousedown", () => { this.mouseDownUpHandler });
+        scope.$on('ui.layout.loaded', function (evt, id) {
+          console.warn("text-widget: ui.layout.loaded", id);
+        });
     
-    /*TODO:FIX this.editor.setOption("extraKeys", {
-      Delete: this.deleteSelectedAnnotation,
-      Space: function () { this.editor.refresh(); },
-    });*/
-    
-    //TODO:FIX this.editor.on('refresh', this.overlayRefresh);
+    */
 
-    this.editor.on("dblclick", (e) => {
-      this.mouseUpHandler(e);
+    CodeMirror.on(this.mainContent, "mouseup",   (...e) => { this.mouseUpHandler(e) });
+    CodeMirror.on(this.mainContent, "mousedown", (...e) => { this.mouseDownUpHandler(e) });
+    this.editor.setOption("extraKeys", {
+      Delete: (...e) => {this.deleteSelectedAnnotation(e);},
+      Space:  (...e) => {this.editor.refresh();},
     });
-
-    this.editor.on("cursorActivity", (e) => {
-      this.mouseUpHandler(e);
+    this.editor.on("refresh", () => {
+      this.overlayRefresh();
     });
-
-    this.editor.on("mousedown", (e) => {
-      this.mouseDownUpHandler(e);
+    // create an Observer instance
+    this.resizeObserver = new ResizeObserver((entries) => {
+      this.overlayRefresh();
+      // const height = entries[0].target.clientHeight;
+      // console.error("div.CodeMirror.CodeMirror-wrap height changed:", height);
     });
+    var codeMirror = document.querySelector("div.CodeMirror.CodeMirror-wrap");
+    this.resizeObserver.observe(codeMirror);
 
     /*scope.$watch('maincontentSelector', function (newVal, oldVal) {
       console.warn("maincontentSelector:", newVal);
     });
+    
+    //implemented without scope?
     scope.updateLinkRouter = function (routerName) {
       var router, connector = "rounded";
       switch (routerName) {
@@ -164,12 +178,14 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
     this.TextWidgetAPI.registerNewAnnotationsCallback(this.addNewAnnotations.bind(this));
     this.TextWidgetAPI.registerDeletedAnnotationsCallback(this.deleteAnnotations.bind(this));
     this.TextWidgetAPI.registerScrollIntoViewCallback(this.scrollToAnnotation.bind(this));
+  }; /* ngOnInit */
 
-    this.textWidgetLines = document.getElementsByClassName("CodeMirror-lines")[0];
-    this.textWidgetOverlay = document.getElementById('annotation-editor-text-widget-overlay');
-  }
-
-  ngOnDestroy(){}
+  ngOnDestroy() {
+    // instead of scope.$on("$destroy",function(){})-new lines
+    this.graph.clear()
+    this.editor.off('refresh', this.overlayRefresh);
+    this.editor.toTextArea()
+  } /* ngOnDestroy */
 
 
 
@@ -185,22 +201,6 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
   //  console.warn("text-widget: ui.layout.loaded", id);
   //});
   //}
-
-  // Listen to scroll event to scroll annotation relations
-  /* Dropped Leader library, so not this is deprecated
-  mainContent.addEventListener('scroll', AnimEvent.add(function () {
-    _.each(connectedAnnotations, function (annotation) {
-      try {
-        annotation.instance.position();
-      }
-      catch (err) {
-        // Remove instance of line and redraw it
-        annotation.instance.remove();
-        annotation.instance = overlayLinkAdd(annotation.startId, annotation.endId, annotation.label, annotation.data);
-      }
-    });
-    $('.leader-line').css('z-index', 1);
-  }), false); */
 
   getSelectionInfo() {
     // var start = 0, end = 0;
@@ -221,74 +221,35 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
       selection.startOffset = this.editor.indexFromPos(editorSelectionStart);
       selection.endOffset = this.editor.indexFromPos(editorSelectionEnd);
       selection.segment = this.editor.getSelection();
-      /*
-      for (var i = 0; i < totalDocLines; i++) {
-        var lineLength = editor.getLine(i).length;
-        end = start + lineLength;
-        if (selection.startOffset === -1 && angular.equals(i, editorSelectionStart.line))
-          selection.startOffset = start + editorSelectionStart.ch;
-        if (selection.startOffset !== -1 && angular.equals(i, editorSelectionEnd.line)) {
-          selection.endOffset = start + editorSelectionEnd.ch;
-          selection.segment = editorSegment;
-          break;
-        }
-        start = end;
-      }*/
     }
 
     return selection;
-  };
+  }; /* getSelectionInfo */
 
   computeSelectionFromOffsets(startOffset, endOffset) {
     return {
       start: this.editor.posFromIndex(startOffset),
       end: this.editor.posFromIndex(endOffset)
     }
-    /* Petasis, 20/03/2021: Use codemirror's conversion from offsets to position
-    var start = 0, end = 0;
-    var selection = {
-      start: {
-        line: -1,
-        ch: -1
-      },
-      end: {
-        line: -1,
-        ch: -1
-      }
-    };
-    var totalDocLines = editor.lineCount();
-    for (var i = 0; i < totalDocLines; i++) {
-      var lineLength = editor.getLine(i).length;
-      end = start + lineLength;
-      if (startOffset >= start && startOffset <= end && selection.start.line === -1) {
-        selection.start.line = i;
-        selection.start.ch = startOffset - start;
-      }
-      if (endOffset >= start && endOffset <= end && selection.end.line === -1) {
-        selection.end.line = i;
-        selection.end.ch = endOffset - start;
-        break;
-      }
-      start = end;
-    }
-    return selection; */
-  };
+  }; /* computeSelectionFromOffsets */
 
-  mouseDownUpHandler(e) {
-    if (e.button === 1) { //middle button click
+  mouseDownUpHandler(args) {
+    var e = args[0];
+    if (e.button === 1) { // middle button click
       e.preventDefault();
       return false;
     }
-  };
+  }; /* mouseDownUpHandler */
 
-  mouseUpHandler(e) {
-
-    if(!this.initialLoad){
+  mouseUpHandler(args) {
+    var e = args[0];
+    console.error("mouseUpHandler:", e);
+    if (!this.initialLoad) {
       this.initialLoad = true;
-      return;
     }
 
-    if (typeof e.button == "undefined") { //left button click
+    // left button click
+    if (e.button === 0) {
       var selection = this.getSelectionInfo();
       // console.warn("MOUSE 1:", selection, e);
 
@@ -299,14 +260,18 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
         if (selection.segment == "") { //point selection
           var annotationId = null;
 
-          // Regular mark selection, use CodeMirror's api
-          var editorSelection = this.computeSelectionFromOffsets(selection.startOffset, selection.startOffset); //transform selection from absolute to cm format
-          var availableAnnotationsOnCursor = this.editor.findMarksAt(editorSelection.start/*TODO:FIX, editorSelection.end*/); //find available marks at the position of the cursor
+          // Regular mark selection, use CodeMirror's api,
+          // transform selection from absolute to cm format
+          var editorSelection = this.computeSelectionFromOffsets(
+            selection.startOffset, selection.startOffset);
+          //find available marks at the position of the cursor
+          var availableAnnotationsOnCursor = this.editor.findMarksAt(
+            editorSelection.start/*TODO:FIX, editorSelection.end*/);
           var availableAnnotationsLength = availableAnnotationsOnCursor.length;
-
           if (availableAnnotationsLength > 0) {
             // Get first part of the annotation's class name, which should be the ID
-            annotationId = availableAnnotationsOnCursor[availableAnnotationsLength - 1].className;
+            annotationId =
+              availableAnnotationsOnCursor[availableAnnotationsLength - 1].className;
             annotationId = annotationId.split(" ")[0].substr(3); // remove "id-" prefix...
           }
 
@@ -314,8 +279,8 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
             // Get the selected annotation from its ID and the previous selected annotation
             var selectedAnnotation = this.TextWidgetAPI.getAnnotationById(annotationId);
             var prevAnnotationId = this.TextWidgetAPI.getSelectedAnnotation()["_id"];
-
-            if (typeof (selectedAnnotation) != "undefined" && prevAnnotationId !== selectedAnnotation._id) {
+            if (typeof (selectedAnnotation) != "undefined" &&
+              prevAnnotationId !== selectedAnnotation._id) {
               this.TextWidgetAPI.setSelectedAnnotation(selectedAnnotation);
               this.TextWidgetAPI.computeOverlappingAreas(selection.startOffset);
               return false;
@@ -323,7 +288,8 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
           }
         }
       }
-    } else if (e.button === 1) { //middle button click
+    } else if (e.button === 1) {
+      //middle button click
       e.preventDefault();
       var updatedSelection: any = {};
       var savedSelection: any = this.TextWidgetAPI.getCurrentSelection();
@@ -333,18 +299,26 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
       this.editor.setSelection(word.anchor, word.head);
       var currentSelection = this.getSelectionInfo();
 
-      if (typeof (savedSelection) == "undefined" || Object.keys(savedSelection).length == 0 || savedSelection.segment.length === 0) {
+      if (typeof (savedSelection) == "undefined" ||
+        Object.keys(savedSelection).length == 0 ||
+        savedSelection.segment.length === 0) {
         this.TextWidgetAPI.setCurrentSelection(currentSelection, false);
       } else if (savedSelection.segment.length > 0) {
-        if (currentSelection.startOffset < savedSelection.startOffset)
-          updatedSelection = this.computeSelectionFromOffsets(currentSelection.startOffset, savedSelection.endOffset);
-        else if (currentSelection.endOffset > savedSelection.endOffset)
-          updatedSelection = this.computeSelectionFromOffsets(savedSelection.startOffset, currentSelection.endOffset);
-        else
+        if (currentSelection.startOffset < savedSelection.startOffset) {
+          updatedSelection = this.computeSelectionFromOffsets(currentSelection.startOffset,
+            savedSelection.endOffset);
+        } else if (currentSelection.endOffset > savedSelection.endOffset) {
+          updatedSelection = this.computeSelectionFromOffsets(savedSelection.startOffset,
+            currentSelection.endOffset);
+        } else {
           updatedSelection = currentSelection;
+        }
 
-        if ((!_.has(updatedSelection, "start") || !_.has(updatedSelection, "end")) && this.TextWidgetAPI.getAnnotatorType() === "Coreference Annotator") {
-          updatedSelection = this.computeSelectionFromOffsets(updatedSelection.startOffset, updatedSelection.endOffset);
+        if ((!_.has(updatedSelection, "start") ||
+          !_.has(updatedSelection, "end")) &&
+          this.TextWidgetAPI.getAnnotatorType() === "Coreference Annotator") {
+          updatedSelection = this.computeSelectionFromOffsets(updatedSelection.startOffset,
+            updatedSelection.endOffset);
         }
 
         this.editor.setSelection(updatedSelection.start, updatedSelection.end);
@@ -352,16 +326,19 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
         if (currentSelection.segment != "")
           this.TextWidgetAPI.setCurrentSelection(currentSelection, false);
       }
-    } else
+    } else {
       this.TextWidgetAPI.clearSelection();
-  };
+    }
+  }; /* mouseUpHandler */
 
   /**
    * Bring the text and the annotations when a document changes
    */
   updateCurrentDocument() {
     var newDocument: any = this.TextWidgetAPI.getCurrentDocument();
-    this.AnnotatorTypeId = newDocument.annotator_id; //TextWidgetAPI.getAnnotatorTypeId();
+    this.AnnotatorTypeId = newDocument.annotator_id;
+    // console.error("updateCurrentDocument: newDoc:", newDocument,
+    //               "annotator:", this.AnnotatorTypeId);
     return new Promise((resolve, reject) => {
 
       if (Object.keys(newDocument).length > 0) { //if new document is not empty
@@ -374,26 +351,33 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
         this.openDocumentService.save(documentData)
           .then((response: any) => {
             if (response.success)
-              return this.documentService.get(newDocument.collection_id, newDocument.id); //get document's data
+              // get document's data
+              return this.documentService.get(newDocument.collection_id, newDocument.id);
             else
               return reject();
           })
           .then((response: any) => {
             if (!response.success) {
               this.TextWidgetAPI.disableIsRunning();
-              this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Error during the restore of your document. Please refresh the page and try again.") })
+              this.dialog.open(ErrorDialogComponent, {
+                data: new ConfirmDialogData("Error",
+                  "Error during the restore of your document. Please refresh the page and try again.")
+              })
             } else {
               this.spinnerVisible = true;
               this.TextWidgetAPI.resetData();
               this.editor.setValue("");
               this.editor.clearHistory();
               var options = JSON.parse(response.data.visualisation_options);
+              console.log(options)
               if (options !== null && "gutter" in options) {
                 this.skipLineNumber = options["gutter"];
+
               } else {
                 this.skipLineNumber = {};
               }
               this.editor.setValue(response.data.text);
+
               this.graph.clear();
               this.annotationIdToGraphItem = {};
               this.connectedAnnotations = [];
@@ -402,41 +386,56 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
               this.visualiseVisualisationOptions(options);
 
               if (response.data.is_opened) {
-                this.restoreAnnotationService.restoreFromTemp(newDocument.collection_id, newDocument.id, this.AnnotatorTypeId)
+                this.restoreAnnotationService.restoreFromTemp(newDocument.collection_id,
+                  newDocument.id, this.AnnotatorTypeId)
                   .then((response: any) => {
                     this.TextWidgetAPI.disableIsRunning();
 
                     if (!response.success) {
-                      this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Error during the restore of your annotations. Please refresh the page and try again.") })
-                    } else
+                      this.dialog.open(ErrorDialogComponent, {
+                        data: new ConfirmDialogData("Error",
+                          "Error during the restore of your annotations. Please refresh the page and try again.")
+                      })
+                    } else {
                       response.data = this.migrateOldSpans(response.data);
-                    this.TextWidgetAPI.matchAnnotationsToSchema(response.data, this.AnnotatorTypeId);
+                    }
+                    this.TextWidgetAPI.matchAnnotationsToSchema(response.data,
+                      this.AnnotatorTypeId);
                   });
               } else {
-                this.restoreAnnotationService.restoreFromDB(newDocument.collection_id, newDocument.id, this.AnnotatorTypeId)
+                this.restoreAnnotationService.restoreFromDB(newDocument.collection_id,
+                  newDocument.id, this.AnnotatorTypeId)
                   .then((response: any) => {
                     this.TextWidgetAPI.disableIsRunning();
 
                     if (!response.success) {
-                      this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Error during the restore of your annotations. Please refresh the page and try again.") })
-                    } else
+                      this.dialog.open(ErrorDialogComponent, {
+                        data: new ConfirmDialogData("Error",
+                          "Error during the restore of your annotations. Please refresh the page and try again.")
+                      })
+                    } else {
                       response.data = this.migrateOldSpans(response.data);
-                    this.TextWidgetAPI.matchAnnotationsToSchema(response.data, this.AnnotatorTypeId);
+                    }
+                    this.TextWidgetAPI.matchAnnotationsToSchema(response.data,
+                      this.AnnotatorTypeId);
                   });
               }
             }
           }, (error) => {
             this.TextWidgetAPI.disableIsRunning();
-            this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Database error. Please refresh the page and try again.") })
+            this.dialog.open(ErrorDialogComponent, {
+              data: new ConfirmDialogData("Error",
+                "Database error. Please refresh the page and try again.")
+            })
           });
-      } else
+      } else {
         this.TextWidgetAPI.disableIsRunning();
+      }
     });
-  }
-
+  } /* updateCurrentDocument */
 
   visualiseVisualisationOptions(options) {
-    if (options == null /*|| (!"marks" in options)*/) {
+    if (options == null || (!("marks" in options))) {
       return;
     }
     var marks = options["marks"];
@@ -448,11 +447,6 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
     }
   }; /* visualiseVisualisationOptions */
 
-  /*TODO:FIX lineNumberFormatter(line) {
-    return line - 1 in this.skipLineNumber ?
-      this.skipLineNumber[line - 1] : line.toString();
-  }; /* lineNumberFormatter */
-
   migrateOldSpans(anns) {
     var annotations = [];
     for (var i = 0; i < anns.length; i++) {
@@ -463,7 +457,7 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
         var selection = this.computeSelectionFromOffsets(span.start, span.end);
         var fragment = this.editor.getRange(selection.start, selection.end);
         if (span.segment !== fragment) {
-          /*TODO:FIX var cursor = this.editor.getSearchCursor(span.segment, selection.start);
+          var cursor = this.editor.getSearchCursor(span.segment, selection.start);
           var found = cursor.findNext();
           if (!found) {
             found = cursor.findPrevious();
@@ -473,12 +467,12 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
             span.end = this.editor.indexFromPos(cursor.to());
             ann.spans[j] = span;
             modified = true;
-          }*/
+          }
         }
       }
       if (modified) {
         //TODO: Update service
-        //this.restoreAnnotationService.updateToTemp(ann);
+        this.restoreAnnotationService.updateToTemp(ann);
       }
       annotations.push(ann);
     }
@@ -545,7 +539,7 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
       items = this.annotationIdToGraphItem[annotation.annotation._id];
     } else {
       // A link...
-      var connectedAnnotation = _.find(this.connectedAnnotations, (ann)=> {
+      var connectedAnnotation = _.find(this.connectedAnnotations, (ann) => {
         return ann.data._id === annotation.annotation._id;
       });
       if (typeof (connectedAnnotation) == "undefined") {
@@ -626,7 +620,7 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
       item.position(startCoords.left + this.gutter.offsetWidth - 4, startCoords.top + 3);
       // sets the dimensions of the element (width, height)
       item.resize(endCoords.right - startCoords.left - 4,
-        endCoords.bottom - startCoords.top - 6);
+                  endCoords.bottom - startCoords.top - 6);
       item.attr('body/refPoints', "0,0 1,0 1,1 0,1");
     } else {
       var points = [];
@@ -647,7 +641,8 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
     // item.attr('label/text', annotation.annotation._id);
     item.attr('body/fill', "transparent");
     item.attr('body/stroke', 'none' /*'#7c68fc'*/);
-    // item.attr('body/stroke', 'green');
+    /* Uncomment the following line to make boxes drawn on overlay visible */
+    item.attr('body/stroke', 'green');
     item.attr('root/pointer-events', 'none');
     return item;
   }; /* overlayMarkAdd */
@@ -686,15 +681,15 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
       return;
     }
 
-    /*TODO: FIX
-    if (!startId in this.annotationIdToGraphItem) return;
-    if (!endId in this.annotationIdToGraphItem) return;
-    if (!scope.layout.showLinkRouterSelector) {
-      scope.layout.showLinkRouterSelector = true;
-    }*/
+    /*TODO: FIX */
+    if (!(startId in this.annotationIdToGraphItem)) return;
+    if (!(endId in this.annotationIdToGraphItem)) return;
+    if (!this.showLinkRouterSelector) {
+      this.showLinkRouterSelector = true;
+    }
 
     // Do we have already a line?
-    var connectedAnnotation = _.find(this.connectedAnnotations, (ann)=> {
+    var connectedAnnotation = _.find(this.connectedAnnotations, (ann) => {
       return ann.data._id === annotation.annotation._id;
     });
     if (typeof (connectedAnnotation) != "undefined") {
@@ -767,7 +762,7 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
     link.attr('root/pointer-events', 'visiblePainted');
 
     //TODO: FIX Link router
-    //link.router(router, scope.layout.routerOptions[this.routerName]);
+    //link.router(router, this.routerOptions[this.routerName]);
     link.addTo(this.graph);
     // Add the annotation id to the link...
     link["annotation_id"] = annotation.annotation._id;
@@ -798,13 +793,13 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
       // `cell` is an element
 
       _.chain(this.graph.getConnectedLinks(cell))
-        .groupBy((link)=> {
+        .groupBy((link) => {
 
           // the key of the group is the model id of the link's source or target
           // cell id is omitted
           return _.omit([link.source().id, link.target().id], cell.id)[0];
         })
-        .each((group, key)=> {
+        .each((group, key) => {
 
           // if the member of the group has both source and target model
           // then adjust vertices
@@ -863,16 +858,16 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
         var sourceCenter = this.graph.getCell(sourceId).getBBox().center();
         var targetCenter = this.graph.getCell(targetId).getBBox().center();
         var midPoint = 0;//TODO: FIX g reference ! g.Line(sourceCenter, targetCenter).midpoint();
-
         // find the angle of the link
         var theta = sourceCenter.theta(targetCenter);
 
         // constant
         // the maximum distance between two sibling links
         //TODO FIX GAP
+        //scope.layout problem
         var GAP = 0;//scope.layout.routerGAP;
 
-        _.each(siblings, (sibling, index)=> {
+        _.each(siblings, (sibling, index) => {
 
           // we want offset values to be calculated as 0, 20, 20, 40, 40, 60, 60 ...
           var offset = GAP * Math.ceil(index / 2);
@@ -913,7 +908,7 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
    * Remove a connection annotation's leader line instance as well as
    * remove it from the connectedAnnotations list
    */
-  removeConnectedAnnotation (annotation) {
+  removeConnectedAnnotation(annotation) {
     // Find the relation annotation in connectedAnnotations
     var connectedAnnotation = _.find(this.connectedAnnotations, (ann) => {
       return ann.data._id === annotation.annotation._id;
@@ -943,14 +938,14 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
   clearDuplicateAnnotationsFromEditor(newAnnotations) {
     var editorMarks = this.editor.getAllMarks();
 
-    _.each(newAnnotations,(annotation)=> {
+    _.each(newAnnotations, (annotation) => {
       if (this.TextWidgetAPI.belongsToSchemaAsSupportiveAnnotationType(annotation.annotation)) {
         // Remove connected annotation
         this.removeConnectedAnnotation(annotation);
       } else {
         this.overlayMarkRemove(annotation);
         // Remove marks of regular annotation
-        _.each(editorMarks,(editorMark)=> {
+        _.each(editorMarks, (editorMark) => {
           // Get ID of mark
           var editorMarkClass = editorMark.className.split(" ")[0];
 
@@ -981,16 +976,16 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
 
       if (this.TextWidgetAPI.isRelationAnnotationType(currAnnotation.annotation)) {
         // Argument relation, add arrow. Find IDs of start/end annotations
-        var startId = _.findWhere(currAnnotation.annotation.attributes, {
-          name: 'arg1'
-        }).value;
-        var endId = _.findWhere(currAnnotation.annotation.attributes, {
-          name: 'arg2'
-        }).value;
+        var startId = currAnnotation.annotation.attributes.find(attr =>
+          attr.name === 'arg1'
+        ).value;
+        var endId = currAnnotation.annotation.attributes.find(attr =>
+          attr.name === 'arg2'
+        ).value;
 
-        var label = _.findWhere(currAnnotation.annotation.attributes, {
-          name: 'type'
-        }).value;
+        var label = currAnnotation.annotation.attributes.find(attr =>
+          attr.name === 'type'
+        ).value;
 
         // Create the line
         var line = this.overlayLinkAdd(startId, endId, label, currAnnotation);
@@ -1012,11 +1007,10 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
       } else {
         // Normal annotation
         // Iterate through annotations spans
-
         if (typeof newAnnotations[k].annotation.spans == "undefined") {
           continue;
         }
-        
+
         for (var l = 0; l < newAnnotations[k].annotation.spans.length; l++) {
           var colorCombination: any = {};
           var annotationSpan = currAnnotation.annotation.spans[l];
@@ -1083,9 +1077,9 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
               var markerId = "mrkr_" + Math.floor(Math.random() * 1000000);
               // Find type
               var value = annotationSpan.start + " " + annotationSpan.end;
-              var typeAttribute = _.findWhere(annotationsAttributes, {
-                value: value
-              }).name;
+              var typeAttribute = annotationsAttributes.find(attr =>
+                attr.value === value
+              ).name;
               var markAttributes = {
                 markerId: markerId
               }
@@ -1133,9 +1127,6 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
       // (Re)generate the SPAN elements that show the marker types
       // Petasis, 20/03/2021: non needed anymore! addTypeAttributesToMarkers();
     }
-
-    // Make annotation connection lines appear on top of text
-    // $('.leader-line').css('z-index', 123);
 
     this.TextWidgetAPI.clearAnnotationsToBeAdded();
     this.overlayLinksRefresh();
@@ -1185,7 +1176,7 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
       });
     }
     // editor.refresh();
-  };
+  }; /* addTypeAttributesToMarkers */
 
   /**
    * Add annotation to the text widget
@@ -1205,7 +1196,7 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
     }
 
     this.TextWidgetAPI.disableIsRunning();
-  };
+  }; /* addNewAnnotations */
 
   /**
    * Remove annotation from the text widget
@@ -1224,7 +1215,7 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
       return false;
     }
 
-    _.each(annotationsToBeDeleted, (annotation)=> {
+    _.each(annotationsToBeDeleted, (annotation) => {
       if (this.TextWidgetAPI.belongsToSchemaAsSupportiveAnnotationType(annotation)) {
         // Remove relation annotation
         this.removeConnectedAnnotation({
@@ -1241,7 +1232,7 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
         });
         // Regular annotations, delete their marks
         var editorMarks = this.editor.getAllMarks();
-        _.each(editorMarks, (mark)=> {
+        _.each(editorMarks, (mark) => {
           if (String(mark.className).trim().indexOf(annotationId) !== -1) {
             mark.clear();
           }
@@ -1256,20 +1247,27 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
     this.TextWidgetAPI.disableIsRunning();
   }; /* deleteAnnotations */
 
-  deleteSelectedAnnotation(cm, evt) {
+  deleteSelectedAnnotation(...e) {
     // if (evt.which != 46)           {return false;} // key, code = "Delete"
     if (this.TextWidgetAPI.checkIsRunning()) { return false; }
     var annotationToBeDeleted: any = this.TextWidgetAPI.getSelectedAnnotation();
     if (Object.keys(annotationToBeDeleted).length == 0) { return false; }
-    this.tempAnnotationService.destroy(annotationToBeDeleted.collection_id, annotationToBeDeleted.document_id, annotationToBeDeleted._id)
+    this.tempAnnotationService.destroy(annotationToBeDeleted.collection_id,
+      annotationToBeDeleted.document_id, annotationToBeDeleted._id)
       .then((response: any) => {
         if (!response.success) {
-          this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Error during the deleting the annotation. Please refresh the page and try again.") })
-        } else
+          this.dialog.open(ErrorDialogComponent, {
+            data: new ConfirmDialogData("Error",
+              "Error during the deleting the annotation. Please refresh the page and try again.")
+          })
+        } else {
           this.TextWidgetAPI.deleteAnnotation(annotationToBeDeleted._id);
+        }
       }, (error) => {
-        var modalOptions = { body: 'Error in delete Annotation. Please refresh the page and try again' };
-        this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Error in delete Annotation. Please refresh the page and try again") })
+        this.dialog.open(ErrorDialogComponent, {
+          data: new ConfirmDialogData("Error",
+            "Error in delete Annotation. Please refresh the page and try again")
+        })
       });
   }; /* deleteSelectedAnnotation */
 
@@ -1289,12 +1287,13 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
         scroll: false
       });
     } else {
-      var sel = this.computeSelectionFromOffsets(parseInt(currentSel.startOffset), parseInt(currentSel.endOffset));
+      var sel = this.computeSelectionFromOffsets(parseInt(currentSel.startOffset),
+                                                 parseInt(currentSel.endOffset));
       this.editor.setSelection(sel.start, sel.end, {
         scroll: false
       });
     }
-  };
+  }; /* updateCurrentSelection */
 
   scrollToAnnotation() {
     var annotation: any = this.TextWidgetAPI.getScrollToAnnotation();
@@ -1312,6 +1311,6 @@ export class TextWidgetComponent extends BaseControlComponent implements OnInit,
     this.editor.scrollIntoView(pos);
     //editor.setCursor(annotation.spans[0].start);
     //editor.scrollIntoView(null);
-  };
+  }; /* scrollToAnnotation */
 
 }

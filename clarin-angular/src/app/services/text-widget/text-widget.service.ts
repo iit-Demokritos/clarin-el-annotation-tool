@@ -114,11 +114,6 @@ export class TextWidgetAPI {
     return _.find(this.annotations, {
       _id: annotationId
     });
-    /*return annotationsFound;*/
-    /*if (annotationsFound.length>0)
-            return annotationsFound[0];
-        else
-          return -1;*/
   }
 
   getAnnotationForDocumentAttribute(attribute) {
@@ -130,9 +125,8 @@ export class TextWidgetAPI {
   getAnnotationAttributeValue(annotation, attribute) {
     return _.find(annotation.attributes, {
       name: attribute
-    });
+    })['value'];
   }
-
   
   selectAnnotations(type, attribute, attributeValues) {
     // console.warn("selectAnnotations:", type, attribute, attributeValues);
@@ -167,7 +161,6 @@ export class TextWidgetAPI {
       "annotation": newAnnotation,
       "selected": selected,
       "action": "add"
-
     });
 
     this.notifyObservers(this.annotationsCallbacks);
@@ -226,7 +219,6 @@ export class TextWidgetAPI {
 
     this.notifyObservers(this.selectedAnnotationCallbacks);
     this.notifyObservers(this.annotationsToBeDeletedCallbacks);
-    this.notifyObservers(this.currentDocumentCallbacks);
 
     this.clearOverlappingAreas();
     this.clearSelection();
@@ -256,14 +248,14 @@ export class TextWidgetAPI {
     }
     switch (this.annotatorType) {
       case "Button Annotator":
-        if (_.where(newAnnotation.attributes, {
-          name: this.annotationSchema["attribute"]
-        }).length > 0) return true;
+        // if (_.where(newAnnotation.attributes, {
+        if (newAnnotation.attributes.filter(attr =>
+              attr.name === this.annotationSchema["attribute"]).length > 0) return true;
 
         return false;
       case "Coreference Annotator":
         for (var j = 0; j < newAnnotation.attributes.length; j++) {
-          if (_.contains(this.annotationSchemaOptions["attributes"], newAnnotation.attributes[j].name))
+          if (_.includes(this.annotationSchemaOptions["attributes"], newAnnotation.attributes[j].name))
             return true;
         }
 
@@ -300,7 +292,7 @@ export class TextWidgetAPI {
         }
         if ((this.annotatorType == "Button Annotator") && (!("document_attribute" in annotation))) {
           for (var j = 0; j < annotation.attributes.length; j++) {
-            if (!_.contains(this.annotationSchemaOptions["values"], annotation.attributes[j].value)) {
+            if (!_.includes(this.annotationSchemaOptions["values"], annotation.attributes[j].value)) {
               //check if the annotation belongs to the "found in collection"
               this.foundInCollection.push(annotation);
               break;
@@ -314,7 +306,7 @@ export class TextWidgetAPI {
           "selected": false,
           "action": "matches"
         });
-      } else if (annotation.type === 'argument_relation') {
+      } else if (this.belongsToSchemaAsSupportiveAnnotationType(annotation)) {
         // Always add argument relation annotations
         this.annotations.push(annotation);
         this.annotationsToBeAdded.push({
@@ -477,7 +469,6 @@ export class TextWidgetAPI {
   getAnnotationSchemaAnnotationTypes() {
     return this.annotationSchemaAnnotationTypes;
   }
-
   
   setAnnotationSchemaAnnotationTypes(newAnnotationSchemaAnnotationTypes) {
     // Ensure that the annotationSchema.annotation_type is not included...
@@ -530,10 +521,6 @@ export class TextWidgetAPI {
     if (typeof annotationId == "undefined") {
       return false;
     }
-
-    /*
-                if(!angular.equals(selectedAnnotation,{}))
-                    annotationsToBeAdded.push({"annotation": selectedAnnotation, "selected": false}); */
 
     var newSelectedAnnotation = _.find(this.annotations, {
       _id: annotationId
@@ -632,5 +619,22 @@ export class TextWidgetAPI {
 
   getScrollToAnnotation() {
     return this.scrollIntoView;
+  }
+
+  /*
+   * Replacement for "_.findWhere()", which exists in underscore,
+   * but got removed from lodash 4.x.
+   */
+  findWhere(array, criteria) {
+    return array.find(item => Object.keys(criteria).every(key => item[key] === criteria[key]))
+  } /* findWhere */
+  
+  /*
+   * Replacement for "_.where()", which exists in underscore,
+   * but got removed from lodash 4.x.
+   */
+  where(array, object) {
+    let keys = Object.keys(object);
+    return array.filter(item => keys.every(key => item[key] === object[key]));
   }
 }

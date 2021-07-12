@@ -5,7 +5,6 @@ import { DetectOpenDocModalComponent } from '../../dialogs/detect-open-doc-modal
 import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
 import { SelectDocumentModalComponent } from '../../dialogs/select-document-modal/select-document-modal.component';
 import { MainComponent } from '../main/main.component';
-import * as _ from 'lodash';
 
 @Component({
   selector: 'annotation',
@@ -124,7 +123,8 @@ export class AnnotationComponent extends MainComponent implements OnInit {
       .then((response: any) => {
         //search if the user has an open document         
         if (response.success && response.data.length > 0) {
-          var documentFound = _.findWhere(response.data, { opened: 1 });
+          // var documentFound = _.findWhere(response.data, { opened: 1 });
+          var documentFound = response.data.find(doc => doc.opened === 1);
 
           //if changes have been done on the document
           if (typeof (documentFound) != "undefined" && documentFound.db_interactions > 0) {
@@ -138,12 +138,14 @@ export class AnnotationComponent extends MainComponent implements OnInit {
                     this.documentSelection = true;
                   } else {
                     this.dialog.open(ErrorDialogComponent, {
-                      data: new ConfirmDialogData("Error", "Error during the save annotations. Please refresh the page and try again.")
+                      data: new ConfirmDialogData("Error",
+                        "Error during the save annotations. Please refresh the page and try again.")
                     })
                   }
                 }, (error) => {
                   this.dialog.open(ErrorDialogComponent, {
-                    data: new ConfirmDialogData("Error", "Database error. Please refresh the page and try again.")
+                    data: new ConfirmDialogData("Error",
+                        "Database error. Please refresh the page and try again.")
                   })
                 });
             } else {
@@ -158,7 +160,8 @@ export class AnnotationComponent extends MainComponent implements OnInit {
                   this.documentSelection = true;
                 } else {
                   this.dialog.open(ErrorDialogComponent, {
-                    data: new ConfirmDialogData("Error", "Database error. Please refresh the page and try again.")
+                    data: new ConfirmDialogData("Error",
+                        "Database error. Please refresh the page and try again.")
                   })
                 }
 
@@ -182,14 +185,15 @@ export class AnnotationComponent extends MainComponent implements OnInit {
       .then((response: any) => {
         //search if the user has an open document 
         if (response.success && response.data.length > 0) {
-          var documentFound = _.findWhere(response.data, { opened: 1 });
+          // var documentFound = _.findWhere(response.data, { opened: 1 });
+          var documentFound = response.data.find(doc => doc.opened === 1);
 
           //user has left a document opened
           if (typeof (documentFound) != "undefined") {
             //document has been opened only from the current user & no db_interactions have occurred    
-            if (_.where(response.data, {
-              document_id: documentFound.document_id
-            }).length == 1 && (documentFound.db_interactions == 0 || documentFound.confirmed == 1)) {
+            // if (_.where(response.data, {document_id: documentFound.document_id}).length == 1
+            if (response.data.filter(doc => doc.document_id === documentFound.document_id).length == 1
+                && (documentFound.db_interactions == 0 || documentFound.confirmed == 1)) {
               this.tempAnnotationService.destroy(documentFound.collection_id, documentFound.document_id, null)
                 .then((response) => {
                   this.createDocumentSelectionModal();

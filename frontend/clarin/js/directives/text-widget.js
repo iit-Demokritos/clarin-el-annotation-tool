@@ -388,10 +388,12 @@ angular.module("clarin-el").directive("textWidget", ["$q", "$ocLazyLoad", "$root
         }; /* visualiseVisualisationOptions */
 
         var lineNumberFormatter = function(line) {
-          return line-1 in skipLineNumber ?
+         console.log("ss")
+         //console.log(skipLineNumber)
+         return line-1 in skipLineNumber ?
                    skipLineNumber[line-1] : line.toString();
         }; /* lineNumberFormatter */
-        editor.setOption("lineNumberFormatter", lineNumberFormatter);
+        //editor.setOption("lineNumberFormatter", lineNumberFormatter);
 
         var migrateOldSpans = function (anns) {
           var annotations = [];

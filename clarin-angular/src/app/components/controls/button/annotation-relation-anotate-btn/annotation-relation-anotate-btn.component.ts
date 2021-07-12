@@ -133,7 +133,8 @@ export class AnnotationRelationAnotateBtnComponent extends BaseControlComponent 
       var newValue = elemScope.selectedAnnotationId;
 
       // Find the attribute with annotationAttribute as its name and update the value
-      var attribute = _.findWhere(annotation.attributes, { name: annotationAttribute });
+      // var attribute = _.findWhere(annotation.attributes, { name: annotationAttribute });
+      var attribute = annotation.attributes.find(attr => attr.name === annotationAttribute);
 
       attribute.value = newValue;
 
@@ -161,7 +162,8 @@ export class AnnotationRelationAnotateBtnComponent extends BaseControlComponent 
     }
 
     // Check if the selected annotation concerns this button to show the update button
-    var attr = _.findWhere(selectedAnnotation.attributes, this.annotationAttribute);
+    // var attr = _.findWhere(selectedAnnotation.attributes, this.annotationAttribute);
+    var attr = this.TextWidgetAPI.findWhere(selectedAnnotation.attributes, this.annotationAttribute);
 
     // Show the annotate button if we didn't find this button's attribute in the selected annotation
     this.showAnnotateBtn = (typeof (attr) == "undefined");

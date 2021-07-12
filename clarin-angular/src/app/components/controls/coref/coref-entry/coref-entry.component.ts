@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { BaseControlComponent } from '../../base-control/base-control.component';
-import * as _ from 'lodash';
 
 @Component({
   selector: 'coref-entry',
@@ -27,7 +26,8 @@ export class CorefEntryComponent extends BaseControlComponent implements OnInit 
 
     if (Object.keys(selectedAnnotation).length > 0) { //is selected annotation is not empty
       //search for the specific attribute of the annotation
-      var selectedAnnotationAttribute = _.where(selectedAnnotation.attributes, { name: this.annotationAttribute })[0];
+      // var selectedAnnotationAttribute = _.where(selectedAnnotation.attributes, { name: this.annotationAttribute })[0];
+      var selectedAnnotationAttribute = selectedAnnotation.attributes.find(attr => attr.name == this.annotationAttribute);
 
       // if element has the specific attribute, the attribute value is different from the element's value
       if (typeof (selectedAnnotationAttribute.value) != "undefined" &&

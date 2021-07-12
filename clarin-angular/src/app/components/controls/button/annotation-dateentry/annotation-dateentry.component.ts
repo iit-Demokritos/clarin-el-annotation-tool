@@ -52,8 +52,9 @@ export class AnnotationDateentryComponent extends BaseControlComponent implement
     if (Object.keys(selectedAnnotation).length > 0) { //is selected annotation is not empty 
       var selectedAnnotationButton = this.annotationEntry.nativeElement.parent().closest("tr").find('.annotation-btn.active');//$(element).closest("tr").find('.annotation-btn.active'); //search for active .annotation-btn in the same row that the element belongs
 
-      if (selectedAnnotationButton.length > 0 && this.datepickerInput.nativeElement.disabled) {                  //if .annotation-btn is active and element is disabled
-        var selectedAnnotationAttribute = _.where(selectedAnnotation.attributes, { name: this.annotationAttribute })[0];
+      if (selectedAnnotationButton.length > 0 && this.datepickerInput.nativeElement.disabled) {                          //if .annotation-btn is active and element is disabled
+        // var selectedAnnotationAttribute = _.where(selectedAnnotation.attributes, { name: this.annotationAttribute })[0];
+        var selectedAnnotationAttribute = selectedAnnotation.attributes.find(attr => attr.name === this.annotationAttribute);
         
         if (typeof(selectedAnnotationAttribute) != "undefined")
           this.datepickerInput.nativeElement.value = selectedAnnotationAttribute.value;
@@ -85,7 +86,8 @@ export class AnnotationDateentryComponent extends BaseControlComponent implement
       var updatedAnnotation = _.cloneDeep(selectedAnnotation);
       updatedAnnotation.type = type;
 
-      var selectedAnnotationAttribute = _.where(updatedAnnotation.attributes, { name : this.annotationAttribute })[0];
+      // var selectedAnnotationAttribute = _.where(updatedAnnotation.attributes, { name : this.annotationAttribute })[0];
+      var selectedAnnotationAttribute = updatedAnnotation.attributes.find(attr => attr.name === this.annotationAttribute);
       var attributeIndex = updatedAnnotation.attributes.indexOf(selectedAnnotationAttribute);
 
       if (attributeIndex > -1 && this.dt == null)       //if date cleared, remove the attribute

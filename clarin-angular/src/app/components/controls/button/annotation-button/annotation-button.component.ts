@@ -42,10 +42,14 @@ export class AnnotationButtonComponent extends BaseControlComponent implements O
     var selectedAnnotation: any = this.TextWidgetAPI.getSelectedAnnotation();
 
     if (Object.keys(selectedAnnotation).length > 0) { //if selected annotation is not empty 
-      var selectedAnnotationAttribute = _.where(selectedAnnotation.attributes, {
+      /* var selectedAnnotationAttribute = _.where(selectedAnnotation.attributes, {
         name: this.annotationAttribute,
         value: this.annotationValue
-      })[0];
+      })[0]; */
+      var selectedAnnotationAttribute = selectedAnnotation.attributes.find(attr =>
+        attr.name === this.annotationAttribute &&
+        attr.value === this.annotationValue
+      );
 
       if(typeof(selectedAnnotationAttribute) == "undefined" || !selectedAnnotationAttribute){
         return;
@@ -78,7 +82,8 @@ export class AnnotationButtonComponent extends BaseControlComponent implements O
       selectedAnnotation.type = annotationType;
 
       //search for the selected attribute inside the annotation
-      var selectedAnnotationAttribute = _.where(selectedAnnotation.attributes, { name: annotationAttribute })[0];
+      // var selectedAnnotationAttribute = _.where(selectedAnnotation.attributes, { name: annotationAttribute })[0];
+      var selectedAnnotationAttribute = selectedAnnotation.attributes.find(attr => attr.name === annotationAttribute);
       var newAttribute = {
         name: annotationAttribute,
         value: annotationValue

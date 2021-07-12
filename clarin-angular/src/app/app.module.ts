@@ -61,7 +61,6 @@ import { CorefSpanEndComponent } from './components/controls/coref/coref-span-en
 import { CorefSpanStartComponent } from './components/controls/coref/coref-span-start/coref-span-start.component';
 import { FoundInCollectionDirective } from './directives/found-in-collection/found-in-collection.directive';
 import { TextWidgetComponent } from './components/controls/text-widget/text-widget.component';
-import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { DomHelpersDirective } from './directives/dom-helpers/dom-helpers.directive';
 import { AnnotatorWidgetComponent } from './components/controls/annotator-widget/annotator-widget.component';
 import { AnnotationTextLabelComponent } from './components/controls/document/annotation-text-label/annotation-text-label.component';
@@ -183,7 +182,6 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
     BrowserAnimationsModule,
     MatDialogModule,
     NgxFlowModule,
-    CodemirrorModule,
     MatTreeModule,
     MatIconModule,
     TreeviewModule.forRoot(),

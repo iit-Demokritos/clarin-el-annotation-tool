@@ -1,28 +1,53 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ViewChild, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { MatTable } from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { CLARIN_CONSTANTS } from 'src/app/helpers/constants';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
 import { MainComponent } from '../../views/main/main.component';
 import { BaseControlComponent } from '../base-control/base-control.component';
-import { cloneDeep} from "lodash";
+import { cloneDeep } from "lodash";
 import * as _ from 'lodash';
+
+export interface Span {
+  start: number;
+  end: number;
+  segment: string;
+}
+export interface Attribute {
+  name: string;
+  value: any;
+}
+export interface Annotation {
+  _id: string;
+  type: string;
+  spans: Span[];
+  attributes: Attribute[];
+}
 
 @Component({
   selector: 'annotation-visualizer',
   templateUrl: './annotation-visualizer.component.html',
-  styleUrls: ['./annotation-visualizer.component.scss']
+  styleUrls: ['./annotation-visualizer.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AnnotationVisualizerComponent extends BaseControlComponent implements OnInit, OnDestroy {
+
+  @ViewChild(MatTable, { static: true })
+  table: MatTable<any>;
 
   super() { }
 
   ngOnInit(): void {
     this.updateAnnotationList();
+    //register callbacks for the annotation list and the selected annotation
     this.TextWidgetAPI.registerAnnotationSchemaCallback(this.annotationSchemaUpdate.bind(this));
   }
 
+  annotationListDisplayedColumns: string[] = ['id', 'type', 'span'];
   annotations = [];
+  annotationsDataSource = new MatTableDataSource<Annotation>(this.annotations);
   selectedAnnotation: any = {};
   selectedIndex;
   sseEventSubscription: Subscription;
@@ -40,6 +65,8 @@ export class AnnotationVisualizerComponent extends BaseControlComponent implemen
 
   updateAnnotationList() {  //function to be called when the document annotations being updated
     this.annotations = this.TextWidgetAPI.getAnnotations();
+    this.annotationsDataSource = new MatTableDataSource<Annotation>(this.annotations);
+    if (this.annotations.length) this.table.renderRows();
   };
 
   updateSelectedAnnotationDetails() {  //function to be called when the selected annotation being updated
@@ -147,8 +174,6 @@ export class AnnotationVisualizerComponent extends BaseControlComponent implemen
     this.TextWidgetAPI.registerAnnotationsCallback(this.updateAnnotationList.bind(this));
     this.TextWidgetAPI.registerSelectedAnnotationCallback(this.updateSelectedAnnotationDetails.bind(this));
   };
-
-  //register callbacks for the annotation list and the selected annotation
 
 }
 

@@ -28,7 +28,8 @@ export class CorefComboboxComponent extends BaseControlComponent implements OnIn
     var selectedAnnotation: any = this.TextWidgetAPI.getSelectedAnnotation();
 
     if (Object.keys(selectedAnnotation).length > 0) { //is selected annotation is not empty 
-      var selectedAnnotationAttribute = _.where(selectedAnnotation.attributes, { name: this.annotationAttribute })[0];
+      // var selectedAnnotationAttribute = _.where(selectedAnnotation.attributes, { name: this.annotationAttribute })[0];
+      var selectedAnnotationAttribute = selectedAnnotation.attributes.find(attr => attr.name === this.annotationAttribute);
 
       // if element has the specific attribute, the attribute value is inside comboOptions and the option selected is different
       if (typeof (selectedAnnotationAttribute) != "undefined" &&

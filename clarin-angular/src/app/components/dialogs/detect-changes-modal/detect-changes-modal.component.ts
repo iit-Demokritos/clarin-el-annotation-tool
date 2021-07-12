@@ -35,8 +35,10 @@ export class DetectChangesModalComponent extends MainDialogComponent implements 
     this.collectionService.getData()
       .then((response:any)=> {
         if (response.success) {
-          var openCollection = _.findWhere(response.data, { id: this.documentFound.collection_id });
-          var openDocument   = _.findWhere(openCollection.children, { id: this.documentFound.document_id });
+          // var openCollection = _.findWhere(response.data, { id: this.documentFound.collection_id });
+          // var openDocument   = _.findWhere(openCollection.children, { id: this.documentFound.document_id });
+          var openCollection = response.data.find(doc => doc.id === this.documentFound.collection_id);
+          var openDocument   = openCollection.children.find(doc => doc.id === this.documentFound.document_id);
 
           this.annotationSchemaService.restore(this.documentFound.annotator_type)
             .then((response:any)=> {

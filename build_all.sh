@@ -12,13 +12,13 @@ cd $ANGULAR2_DIR
 ## Install modules...
 #rm -rf ./node_modules
 #npm install
-rm -rf ./node_modules/@types/lodash
-cp --force src/css/clarin.css src/css/clarin.scss
+#rm -rf ./node_modules/@types/lodash
+#cp --force src/css/clarin.css src/css/clarin.scss
 
 ## Build Angular project (will create dist/clarin-angular folder)
 ng build
 
-rm -rf src/css/clarin.scss
+#rm -rf src/css/clarin.scss
 
 ## Copy Laravel's index.php to dist/clarin-angular
 cp --force src/index.php dist/$ANGULAR2_PROJECT_NAME/index.php

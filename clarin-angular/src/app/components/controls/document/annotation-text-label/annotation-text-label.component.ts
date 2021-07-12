@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { BaseControlComponent } from '../../base-control/base-control.component';
 
 @Component({
@@ -8,8 +8,9 @@ import { BaseControlComponent } from '../../base-control/base-control.component'
 })
 export class AnnotationTextLabelComponent extends BaseControlComponent implements OnInit {
 
+  @Input() groupType;
+
   super() { }
-  groupType;
 
   ngOnInit(): void {
   }

@@ -1,7 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MainComponent } from 'src/app/components/views/main/main.component';
 import { BaseControlComponent } from '../../base-control/base-control.component';
-import * as _ from 'lodash';
 
 @Component({
   selector: 'annotation-combobox',
@@ -30,7 +29,8 @@ export class AnnotationComboboxComponent extends BaseControlComponent implements
     var selectedAnnotation: any = this.TextWidgetAPI.getSelectedAnnotation();
 
     if (Object.keys(selectedAnnotation).length > 0) { //is selected annotation is not empty 
-      var selectedAnnotationAttribute = _.where(selectedAnnotation.attributes, { name: attrs.annotationAttribute })[0];
+      // var selectedAnnotationAttribute = _.where(selectedAnnotation.attributes, { name: attrs.annotationAttribute })[0];
+      var selectedAnnotationAttribute = selectedAnnotation.attributes.find(attr => attr.name === attrs.annotationAttribute);
 
       // if element has the specific attribute, the attribute value is inside comboOptions and the option selected is different
       if (typeof (selectedAnnotationAttribute) != "undefined" &&

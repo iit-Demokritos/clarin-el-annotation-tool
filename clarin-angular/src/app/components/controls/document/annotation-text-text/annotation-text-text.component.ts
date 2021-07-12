@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { BaseControlComponent } from '../../base-control/base-control.component';
 import * as _ from 'lodash';
 import { ErrorDialogComponent } from 'src/app/components/dialogs/error-dialog/error-dialog.component';
@@ -11,9 +11,11 @@ import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 })
 export class AnnotationTextTextComponent extends BaseControlComponent implements OnInit {
 
-  attributeValue;
-  annotationDocumentAttribute;
-  groupType;
+  @Input() attributeValue;
+  @Input() annotationDocumentAttribute;
+  @Input() groupType;
+  @Input() cols;
+  @Input() rows;
 
   super() { }
 
@@ -62,13 +64,15 @@ export class AnnotationTextTextComponent extends BaseControlComponent implements
 
   getAnnotationAttributeIndex() {
     var annotation = this.getAnnotation();
-    var attribute  = _.where(annotation.attributes, {name: this.annotationDocumentAttribute})[0];
+    // var attribute  = _.where(annotation.attributes, {name: this.annotationDocumentAttribute})[0];
+    var attribute  = annotation.attributes.find(attr => attr.name === this.annotationDocumentAttribute);
     return annotation.attributes.indexOf(attribute);
   }; // getAnnotationAttributeIndex
   
   getAnnotationAttribute() {
     var annotation = this.getAnnotation();
-    return _.where(annotation.attributes, {name: this.annotationDocumentAttribute})[0];
+    // return _.where(annotation.attributes, {name: this.annotationDocumentAttribute})[0];
+    return annotation.attributes.find(attr => attr.name === this.annotationDocumentAttribute);
   }; // getAnnotationAttribute
   
   getAnnotation() {

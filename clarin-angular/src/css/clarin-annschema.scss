@@ -1,3 +1,38 @@
+/************************************************/
+.CodeMirror {
+  font-family: Helvetica,Arial,sans-serif;
+  font-size: 1.1em;
+  line-height: 1.9em;
+  background-color: #FFF;
+}
+
+.CodeMirror-lines {
+  background-color: #FFF;
+}
+
+.annotated-text {
+  padding: 0.1em 0.35em;
+  margin: 0 0.1em;
+  line-height: 1;
+  border-radius: 0.25em;
+  border: 1px solid;
+}
+
+.annotated-text:after {
+  content: attr(data-type);
+  box-sizing: border-box;
+  font-size: 0.7em;
+  line-height: 1;
+  padding: 0.1em;
+  border-radius: 0.35em;
+  text-transform: uppercase;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 0 0.2rem 0.5rem;
+}
+
+/************************************************/
+
 /*** button annotator widget ***/
 .button-widget-wrapper {
   margin: 0 8px;
@@ -52,9 +87,9 @@
   padding: 4px 0 3px;
 }
 .button-widget-subheader {
-  /*	white-space:nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;*/
+  /* white-space:nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;*/
   padding: 6px 0;
 
   white-space: pre-wrap; /* CSS3 */
@@ -105,3 +140,29 @@
   }
 }
 /*** end of button annotator widget ***/
+
+/* TEI XML tags */
+.CodeMirror-line .stage, .tei-stage {
+  font-style: italic;
+}
+
+.CodeMirror-line .speaker, .tei-speaker {
+  line-height: 2.6;
+  font-weight: bold;
+}
+
+.CodeMirror-line .noteindex, .tei-noteindex {
+  font-size: .83em;
+  vertical-align: super;
+}
+
+.CodeMirror-line .quote::before, .tei-quote::before {
+    content: open-quote;
+}
+.CodeMirror-line .quote::after, .tei-quote::after {
+    content: close-quote;
+}
+
+.CodeMirror-line .emph, .tei-emph {
+  font-style: italic;
+}

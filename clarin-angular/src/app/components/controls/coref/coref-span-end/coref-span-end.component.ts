@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { BaseControlComponent } from '../../base-control/base-control.component';
-import * as _ from 'lodash';
 
 @Component({
   selector: 'coref-span-end',
@@ -23,7 +22,8 @@ export class CorefSpanEndComponent extends BaseControlComponent implements OnIni
 
     if (Object.keys(selectedAnnotation).length > 0) { //is selected annotation is not empty 
       //search for the specific attribute of the annotation
-      var selAnnotationAttribute = _.findWhere(selectedAnnotation.attributes, { name: this.annotationAttribute });
+      // var selAnnotationAttribute = _.findWhere(selectedAnnotation.attributes, { name: this.annotationAttribute });
+      var selAnnotationAttribute = selectedAnnotation.attributes.find(attr => attr.name === this.annotationAttribute);
 
       /*// if element has the specific attribute and the attribute value is different from the element's value
       if (!angular.isUndefined(selectedAnnotationAttribute.value.end) && selectedAnnotationAttribute.value.end != $(element).text())

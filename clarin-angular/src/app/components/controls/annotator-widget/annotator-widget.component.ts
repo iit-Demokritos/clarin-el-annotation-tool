@@ -42,12 +42,14 @@ export class AnnotatorWidgetComponent extends BaseControlComponent
   updateAnnotatorTemplate() {
     this.annotatorType = this.TextWidgetAPI.getAnnotatorType();
     this.annotationSchema = this.TextWidgetAPI.getAnnotationSchema();
-
+    if (this.annotatorType.length == 0) return;
+    // console.error("updateAnnotatorTemplate(): calling getTemplate():", this.annotatorType, this.annotationSchema);
     this.annotatorsTemplateService.getTemplate(
       this.annotatorType, this.annotationSchema)
       .then(async (annotatorsTemplate: string) => {
         this.buttonColorService.clearColorCombinations();
         this.coreferenceColorService.clearColorCombinations();
+        //console.error("annotatorsTemplate:", annotatorsTemplate);
 
         if (this.annotatorType == "Button Annotator") {
           var foundInCollectionPosition = annotatorsTemplate.indexOf("<table") + 6;
@@ -56,13 +58,13 @@ export class AnnotatorWidgetComponent extends BaseControlComponent
             + " found-in-collection"
             + annotatorsTemplate.slice(foundInCollectionPosition);
         }
-	console.warn("Template:", annotatorsTemplate);
+        // console.warn("Template:", annotatorsTemplate);
 
-	// Try to see how many annotation types this schema involves...
+        // Try to see how many annotation types this schema involves...
         var types = annotatorsTemplate.match(/\[annotationType\]=\"[^\"]+"/ig);
-	// console.warn("types:", types);
+        // console.warn("types:", types);
         types = types.map(value => value.substr(17).replace(/['"]+/g, ''));
-	// console.warn("types:", types);
+        // console.warn("types:", types);
         var types_unique = types.filter((value, index, self) => {return self.indexOf(value) === index;});
         // console.warn(types_unique);
         this.TextWidgetAPI.setAnnotationSchemaAnnotationTypes(types_unique);

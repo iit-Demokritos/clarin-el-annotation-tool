@@ -48,9 +48,11 @@ export class CorefAnnotateBtnComponent extends BaseControlComponent implements O
         selectedAnnotation.spans = _.cloneDeep(validationResult.annotation.spans); //assign the updated annotation spans to the existing annotation 
 
       for (var i = 0; i < validationResult.annotation.attributes.length; i++) { //iterate through all the attributes of the annotation that returned from validation
-        var selectedAnnotationAttribute = _.where(selectedAnnotation.attributes, {
+        /*var selectedAnnotationAttribute = _.where(selectedAnnotation.attributes, {
           name: validationResult.annotation.attributes[i].name
-        })[0];
+        })[0];*/
+        var selectedAnnotationAttribute = selectedAnnotation.attributes.find(attr =>
+            attr.name === validationResult.annotation.attributes[i].name);
 
         if (typeof(selectedAnnotationAttribute) != "undefined") //the specific attribute does not exist in the current annotation, so add it 
           selectedAnnotation.attributes.push(validationResult.annotation.attributes[i]);

@@ -1,3 +1,45 @@
+12 July 2021 Petasis George <petasis@iit.demokritos.gr>
+ * clarin-angular/src/css/clarin-annschema.scss
+ * clarin-angular/src/css/clarin-material.scss: Fixes for the overlay to
+ occupy the exact space above codemirror.
+
+ * clarin-angular/src/css/clarin.css:
+ * clarin-angular/src/css/codemirror.css:
+ * clarin-angular/src/css/ui-layout.css: Deleted unsused files.
+
+ * clarin-angular/src/app/components/controls/annotation-visualizer/annotation-visualizer.component.html:
+ * clarin-angular/src/app/components/controls/annotation-visualizer/annotation-visualizer.component.ts:
+ * clarin-angular/src/app/components/controls/annotator-widget/annotator-widget.component.ts:
+ * clarin-angular/src/app/components/controls/button/annotation-button/annotation-button.component.ts:
+ * clarin-angular/src/app/components/controls/button/annotation-combobox/annotation-combobox.component.ts:
+ * clarin-angular/src/app/components/controls/button/annotation-dateentry/annotation-dateentry.component.ts:
+ * clarin-angular/src/app/components/controls/button/annotation-entry/annotation-entry.component.ts:
+ * clarin-angular/src/app/components/controls/button/annotation-relation-anotate-btn/annotation-relation-anotate-btn.component.ts:
+ * clarin-angular/src/app/components/controls/button/annotation-relation-combobox/annotation-relation-combobox.component.ts:
+ * clarin-angular/src/app/components/controls/coref/coref-annotate-btn/coref-annotate-btn.component.ts:
+ * clarin-angular/src/app/components/controls/coref/coref-btn/coref-btn.component.ts:
+ * clarin-angular/src/app/components/controls/coref/coref-checkbox/coref-checkbox.component.ts:
+ * clarin-angular/src/app/components/controls/coref/coref-combobox/coref-combobox.component.ts:
+ * clarin-angular/src/app/components/controls/coref/coref-entry/coref-entry.component.ts:
+ * clarin-angular/src/app/components/controls/coref/coref-multi-entry/coref-multi-entry.component.ts:
+ * clarin-angular/src/app/components/controls/coref/coref-segment-entry/coref-segment-entry.component.ts:
+ * clarin-angular/src/app/components/controls/coref/coref-span-end/coref-span-end.component.ts:
+ * clarin-angular/src/app/components/controls/coref/coref-span-start/coref-span-start.component.ts:
+ * clarin-angular/src/app/components/controls/document/annotation-text-label/annotation-text-label.component.ts:
+ * clarin-angular/src/app/components/controls/document/annotation-text-text/annotation-text-text.component.ts:
+ * clarin-angular/src/app/components/controls/document/annotation-text/annotation-text.component.ts:
+ * clarin-angular/src/app/components/controls/text-widget/text-widget.component.html:
+ * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
+ * clarin-angular/src/app/components/controls/toolbar-widget/toolbar-widget.component.ts:
+ * clarin-angular/src/app/components/dialogs/detect-changes-modal/detect-changes-modal.component.ts:
+ * clarin-angular/src/app/components/views/annotation/annotation.component.ts:
+ * clarin-angular/src/app/services/annotators-template-service/annotators-template.service.ts:
+ * clarin-angular/src/app/services/button-color-service/button-color.service.ts:
+ * clarin-angular/src/app/services/open-document/open-document.service.ts:
+ * clarin-angular/src/app/services/restore-annotation-service/restore-annotation.service.ts:
+ * clarin-angular/src/app/services/text-widget/text-widget.service.ts: Various
+ updates to modernise the code (i.e. moved from underscore to lodash 4.x).
+
 27 June 2021 Petasis George <petasis@iit.demokritos.gr>
  * clarin-angular/src/css/clarin-annschema.scss: New file for CSS related to
  the Annotator Widget (only).

@@ -26,9 +26,10 @@ export class AnnotationEntryComponent extends BaseControlComponent implements On
     if (Object.keys(selectedAnnotation).length > 0) {
       var updatedAnnotation = _.cloneDeep(selectedAnnotation);
       updatedAnnotation.type = type;
-
-      var selectedAnnotationAttribute = _.where(updatedAnnotation.attributes, { name : this.annotationAttribute, 
-                                                                                value: this.annotationValue })[0];
+      // var selectedAnnotationAttribute = _.where(updatedAnnotation.attributes, { name : this.annotationAttribute, 
+      //                                                                           value: this.annotationValue })[0];
+      var selectedAnnotationAttribute = updatedAnnotation.attributes.find(attr =>
+          attr.name === this.annotationAttribute && attr.value === this.annotationValue);
       var attributeIndex = updatedAnnotation.attributes.indexOf(selectedAnnotationAttribute);
         
       //if attribute exists in annotation and input is empty, delete attribute from the array of attributes
@@ -57,7 +58,8 @@ export class AnnotationEntryComponent extends BaseControlComponent implements On
       var selectedAnnotationButton = this.element.nativeElement.closest("tr").find('.annotation-btn.active'); //search for active .annotation-btn in the same row that the element belongs
 
       if (selectedAnnotationButton.length>0 && this.element.nativeElement.disabled) {                  //if .annotation-btn is active and element is disabled
-        var selectedAnnotationAttribute = _.where(selectedAnnotation.attributes, { name: this.annotationAttribute })[0];
+        // var selectedAnnotationAttribute = _.where(selectedAnnotation.attributes, { name: this.annotationAttribute })[0];
+        var selectedAnnotationAttribute = selectedAnnotation.attributes.find(attr => attr.name === this.annotationAttribute);
 
         if (typeof(selectedAnnotationAttribute) != "undefined")
           this.element.nativeElement.value = selectedAnnotationAttribute.value;

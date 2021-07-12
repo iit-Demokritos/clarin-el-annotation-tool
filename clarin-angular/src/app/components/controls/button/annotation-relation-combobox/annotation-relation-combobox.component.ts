@@ -40,7 +40,8 @@ export class AnnotationRelationComboboxComponent extends BaseControlComponent im
 
     this.annotations = _.filter(annotations, function (annotation) {
       // Check if the type is in the allowedValues
-      var type = _.findWhere(annotation.attributes, { name: 'type' }).value;
+      // var type = _.findWhere(annotation.attributes, { name: 'type' }).value;
+      var type = annotation.attributes.find(attr => attr.name === 'type').value;
 
       return allowedValues.indexOf(type) !== -1;
     });
@@ -58,7 +59,8 @@ export class AnnotationRelationComboboxComponent extends BaseControlComponent im
     }
 
     // Check if this annotation concerns this combobox (same relation attribute value)
-    var relationAttributeValue = _.findWhere(annotation.attributes, this.selAnnotationFilter).value;
+    // var relationAttributeValue = _.findWhere(annotation.attributes, this.selAnnotationFilter).value;
+    var relationAttributeValue = this.TextWidgetAPI.findWhere(annotation.attributes, this.selAnnotationFilter).value;
 
     if (relationAttributeValue !== this.annotationRelationValue) {
 
@@ -67,7 +69,8 @@ export class AnnotationRelationComboboxComponent extends BaseControlComponent im
     }
 
     // Get the selected annotation ID from the attributes of the arrow annotation
-    var id = _.findWhere(annotation.attributes, { name: this.annotationAttribute }).value;
+    // var id = _.findWhere(annotation.attributes, { name: this.annotationAttribute }).value;
+    var id = annotation.attributes.find(attr => attr.name === this.annotationAttribute).value;
 
     // Find the annotation with this ID in the list of annotations and select it
     this.selectedAnnotationId = id;

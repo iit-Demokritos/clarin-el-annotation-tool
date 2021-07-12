@@ -1,16 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable, NgZone } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Injectable } from '@angular/core';
 import { CLARIN_CONSTANTS } from 'src/app/helpers/constants';
-import { AnnotationService } from '../annotation-service/annotation.service';
-import { ButtonAnnotatorService } from '../button-annotator-service/button-annotator.service';
-import { CollectionService } from '../collection-service/collection-service.service';
-import { CoreferenceAnnotatorService } from '../coreference-annotator-service/coreference-annotator.service';
-import { CoreferenceColorDataService } from '../coreference-color-data-service/coreference-color-data.service';
-import { MainService } from '../main/main.service';
-import { OpenDocumentService } from '../open-document/open-document.service';
-import { TempAnnotationService } from '../temp-annotation-service/temp-annotation.service';
-import { TextWidgetAPI } from '../text-widget/text-widget.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,10 +9,9 @@ export class AnnotatorsTemplateService {
 
   constructor(public http:HttpClient) {}
 
-  getTemplate(annotatorType, annotationSchema) {
-
-    if (annotatorType == "Coreference Annotator") {			//Coreference Annotator
-
+  getTemplate(annotatorType:string, annotationSchema:any) {
+    if (annotatorType == "Coreference Annotator") {
+      //Coreference Annotator
       return new Promise((resolve, reject) => {
         this.http.get(CLARIN_CONSTANTS.ELLOGON_SERVICES
           + '/annotation_scheme_multi_ui.tcl?'
@@ -37,7 +26,8 @@ export class AnnotatorsTemplateService {
         });
 
       });
-    } else if (annotatorType == "Button Annotator") {		//Button Annotator
+    } else if (annotatorType == "Button Annotator") {
+      //Button Annotator
       return new Promise((resolve, reject) => {
         this.http.get(CLARIN_CONSTANTS.ELLOGON_SERVICES
           + '/annotation_scheme_ui.tcl?'
@@ -56,7 +46,7 @@ export class AnnotatorsTemplateService {
           resolve(error.error.text);
         });
       });
-
     }
-  }
+    return Promise.reject("unknown annotatorType: \""+annotatorType+"\"");
+  }; /* getTemplate */
 }

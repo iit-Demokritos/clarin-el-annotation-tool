@@ -59,7 +59,8 @@ export class CorefBtnComponent extends BaseControlComponent implements OnInit {
     var selectedAnnotation:any = this.TextWidgetAPI.getSelectedAnnotation();
 
     if (Object.keys(selectedAnnotation).length > 0) { //is selected annotation is not empty 
-      var selectedAnnotationAttribute = _.where(selectedAnnotation.attributes, { name: this.annotationAttribute })[0];
+      // var selectedAnnotationAttribute = _.where(selectedAnnotation.attributes, { name: this.annotationAttribute })[0];
+      var selectedAnnotationAttribute = selectedAnnotation.attributes.find(attr => attr.name === this.annotationAttribute);
 
       //if element has the specific attribute, it is not active and has the specific annotation value
       if (typeof(selectedAnnotationAttribute) != "undefined" && !this.element.classList.contains('active') &&

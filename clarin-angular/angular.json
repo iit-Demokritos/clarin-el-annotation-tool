@@ -27,16 +27,19 @@
               "src/favicon.ico",
               "src/assets"
             ],
-"styles": [
+            "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.scss",
               "./node_modules/codemirror/lib/codemirror.css",
               "./node_modules/codemirror/theme/material.css",
-              "./node_modules/jointjs/css/layout.css"
+              "./node_modules/jointjs/css/layout.css",
+              "src/styles.scss"
             ],
-            "scripts": ["node_modules/leader-line/leader-line.min.js",
+            "scripts": [
               "./node_modules/jquery/dist/jquery.min.js",
-              "./node_modules/jointjs/dist/joint.js"]
+	      "./node_modules/lodash/lodash.min.js",
+              "./node_modules/backbone/backbone-min.js",
+              "./node_modules/jointjs/dist/joint.min.js"
+	    ]
           },
           "configurations": {
             "production": {
@@ -102,16 +105,19 @@
               "src/favicon.ico",
               "src/assets"
             ],
-"styles": [
+            "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.scss",
               "./node_modules/codemirror/lib/codemirror.css",
               "./node_modules/codemirror/theme/material.css",
-              "./node_modules/jointjs/css/layout.css"
+              "./node_modules/jointjs/css/layout.css",
+              "src/styles.scss"
             ],
-            "scripts": ["node_modules/leader-line/leader-line.min.js",
-              "./node_modules/jquery/dist/jquery.min.js",
-              "./node_modules/jointjs/dist/joint.js"]
+            "scripts": [
+	      "./node_modules/jquery/dist/jquery.min.js",
+	      "./node_modules/lodash/lodash.min.js",
+              "./node_modules/backbone/backbone-min.js",
+              "./node_modules/jointjs/dist/joint.min.js"
+	    ]
           }
         },
         "lint": {

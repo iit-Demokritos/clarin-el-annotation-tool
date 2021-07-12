@@ -38,7 +38,9 @@ export class ToolbarWidgetComponent extends BaseControlComponent implements OnIn
     this.openDocumentService.get(currentDocument.id, currentDocument.annotator_id)
       .then((response: any) => {
         if (response.success && response.data.length > 0) {
-          var documentFound = _.findWhere(response.data, { opened: 1 }); // search if the user has an open document
+	  // search if the user has an open document
+          // var documentFound = _.findWhere(response.data, { opened: 1 });
+          var documentFound = response.data.find(doc => doc.opened === 1);
 
           if (typeof (documentFound) != "undefined" && documentFound.db_interactions > 0) {
             if (this.autoSaveIndicator) { // auto save functionality enabled
@@ -176,7 +178,8 @@ export class ToolbarWidgetComponent extends BaseControlComponent implements OnIn
     var newDocument: any = this.TextWidgetAPI.getCurrentDocument();
 
     if (Object.keys(newDocument).length > 0)
-      this.selectedDocument = _.where(this.selectedCollectionDocuments, { id: newDocument.id })[0];
+      // this.selectedDocument = _.where(this.selectedCollectionDocuments, { id: newDocument.id })[0];
+      this.selectedDocument = this.selectedCollectionDocuments.find(doc => doc.id === newDocument.id);
   };
 
   /*TODO: Check those event handlers
