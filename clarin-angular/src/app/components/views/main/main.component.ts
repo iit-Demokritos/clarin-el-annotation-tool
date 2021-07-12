@@ -7,7 +7,7 @@ import { UserService } from 'src/app/services/user-service/user.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 import { TextWidgetAPI } from 'src/app/services/text-widget/text-widget.service';

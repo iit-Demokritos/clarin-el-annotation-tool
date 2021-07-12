@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import {
   Component, ComponentRef, ElementRef, Input, NgModule, OnChanges,
-  OnInit, ViewChild, ViewContainerRef
+  OnInit, ViewChild, ViewContainerRef, ViewEncapsulation
 } from '@angular/core';
 import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { AppModule } from 'src/app/app.module';
@@ -10,10 +10,13 @@ import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.co
 import { BaseControlComponent } from '../base-control/base-control.component';
 import { ValueAccessorComponent } from '../value-accessor/value-accessor.component';
 
+import { isDevMode } from '@angular/core';
+
 @Component({
   selector: 'annotator-widget',
   templateUrl: './annotator-widget.component.html',
-  styleUrls: ['./annotator-widget.component.scss']
+  styleUrls: ['./annotator-widget.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AnnotatorWidgetComponent extends BaseControlComponent
   implements OnInit {
@@ -76,7 +79,12 @@ export class AnnotatorWidgetComponent extends BaseControlComponent
         //TODO:Check dynamic compile $compile(elem.contents())(scope);
         // Does the template include Document Attributes?
 
-        await this.initDynamicWithTemplate(this.annotatorsInnerTemplate);
+	try {
+          await this.initDynamicWithTemplate(this.annotatorsInnerTemplate);
+	}
+	catch (error) {
+          console.error("compile:", error);
+	}
 
         if (annotatorsTemplate.indexOf("group-type=\"document_attributes\"") != -1) {
           this.layout.showEditorTabs = true;
@@ -103,8 +111,10 @@ export class AnnotatorWidgetComponent extends BaseControlComponent
 
 
   async initDynamicWithTemplate(template) {
+    this.compiler.clearCache();
+    console.error("DEV MODE:", isDevMode());
 
-    const tmpCmp = Component({ template: template })(class extends ValueAccessorComponent<any> implements OnChanges {
+    const tmpCmp = Component({ template: template, styles:[] })(class /*extends ValueAccessorComponent<any>*/ implements OnChanges {
 
       super() { }
 
