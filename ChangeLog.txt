@@ -1,4 +1,25 @@
-12 July 2021 Petasis George <petasis@iit.demokritos.gr>
+12 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/angular.json:
+ * clarin-angular/package.json:
+ * clarin-angular/src/app/app-routing.module.ts:
+ * clarin-angular/src/app/app.component.spec.ts:
+ * clarin-angular/src/app/components/dialogs/add-documents-dialog/add-documents-dialog.component.spec.ts:
+ * clarin-angular/src/app/components/dialogs/confirm-dialog/confirm-dialog.component.spec.ts:
+ * clarin-angular/src/app/components/dialogs/error-dialog/error-dialog.component.spec.ts:
+ * clarin-angular/src/app/components/dialogs/import-modal/import-modal.component.spec.ts:
+ * clarin-angular/src/app/components/dialogs/main-dialog/main-dialog.component.spec.ts:
+ * clarin-angular/src/app/components/dialogs/rename-collection-modal/rename-collection-modal.component.spec.ts:
+ * clarin-angular/src/app/components/dialogs/share-collection-modal/share-collection-modal.component.spec.ts:
+ * clarin-angular/src/app/components/views/add-collection/add-collection.component.spec.ts:
+ * clarin-angular/src/app/components/views/annotation/annotation.component.spec.ts:
+ * clarin-angular/src/app/components/views/main/main.component.spec.ts:
+ * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.spec.ts:
+ * clarin-angular/src/app/components/views/navbar/navbar.component.spec.ts:
+ * clarin-angular/src/app/components/views/profile/profile.component.spec.ts:
+ * clarin-angular/src/app/components/views/welcome/welcome.component.spec.ts:
+ * clarin-angular/src/app/ng-matero/routes/routes-routing.module.ts: Migrated
+ from Angular 10.2 to 12.1.1.
+
  * clarin-angular/src/css/clarin-annschema.scss
  * clarin-angular/src/css/clarin-material.scss: Fixes for the overlay to
  occupy the exact space above codemirror.

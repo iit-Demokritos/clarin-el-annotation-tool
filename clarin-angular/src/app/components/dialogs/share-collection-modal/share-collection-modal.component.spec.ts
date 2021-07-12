@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ShareCollectionModalComponent } from './share-collection-modal.component';
 
@@ -6,7 +6,7 @@ describe('ShareCollectionModalComponent', () => {
   let component: ShareCollectionModalComponent;
   let fixture: ComponentFixture<ShareCollectionModalComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ShareCollectionModalComponent ]
     })

@@ -72,7 +72,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [SharedModule, RouterModule.forRoot(routes)],
+  imports: [SharedModule, RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
   declarations: [...COMPONENTS, ...COMPONENTS_DYNAMIC],
   entryComponents: COMPONENTS_DYNAMIC,
   exports: [RouterModule]

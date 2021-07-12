@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { RenameCollectionModalComponent } from './rename-collection-modal.component';
 
@@ -6,7 +6,7 @@ describe('RenameCollectionModalComponent', () => {
   let component: RenameCollectionModalComponent;
   let fixture: ComponentFixture<RenameCollectionModalComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ RenameCollectionModalComponent ]
     })
