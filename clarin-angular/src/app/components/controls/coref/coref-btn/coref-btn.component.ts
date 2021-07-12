@@ -1,5 +1,4 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { threadId } from 'node:worker_threads';
 import { BaseControlComponent } from '../../base-control/base-control.component';
 import * as _ from 'lodash';
 

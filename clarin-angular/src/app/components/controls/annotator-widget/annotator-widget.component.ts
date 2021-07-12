@@ -109,11 +109,11 @@ export class AnnotatorWidgetComponent extends BaseControlComponent
       super() { }
 
       ngOnChanges(changes) {
-        console.log("Changes invoked: ", changes);
+        console.error("Changes invoked: ", changes);
       }
 
       ngOnInit() {
-        console.log("Dynamic form init.");
+        console.error("Dynamic form init.");
       }
 
     });

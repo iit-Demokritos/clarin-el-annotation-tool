@@ -8,7 +8,7 @@ import * as _ from 'lodash';
 //import * as $ from 'backbone';
 import * as $ from 'jquery';
 import * as joint from 'jointjs';
-import { type } from 'node:os';
+//import { type } from 'node:os';
 
 @Component({
   selector: 'text-widget',

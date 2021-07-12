@@ -1,4 +1,22 @@
 12 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/package.json:
+ * clarin-angular/src/app/app.module.ts:
+ * clarin-angular/src/app/components/controls/annotator-widget/annotator-widget.component.ts:
+ * clarin-angular/src/app/components/controls/coref/coref-btn/coref-btn.component.ts:
+ * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
+ * clarin-angular/src/app/ng-matero/core/bootstrap/menu.service.ts:
+ * clarin-angular/src/app/ng-matero/shared/components/error-code/_long-shadow.scss:
+ * clarin-angular/src/app/ng-matero/shared/components/error-code/_math.scss:
+ * clarin-angular/src/app/ng-matero/shared/shared.module.ts:
+ * clarin-angular/src/app/ng-matero/theme/style/_misc.scss:
+ * clarin-angular/src/app/services/coreference-color-service/coreference-color.service.ts:
+ * clarin-angular/src/css/clarin-annschema.scss:
+ * clarin-angular/src/styles.scss:
+ * clarin-angular/src/styles/grid/_grid.scss:
+ * clarin-angular/src/styles/grid/_mixins.scss:
+ * clarin-angular/tsconfig.json: More fixes to get code to compile  under
+ Angular 12.
+
  * clarin-angular/angular.json:
  * clarin-angular/package.json:
  * clarin-angular/src/app/app-routing.module.ts:

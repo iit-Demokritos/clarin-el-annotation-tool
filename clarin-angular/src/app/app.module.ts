@@ -68,7 +68,7 @@ import { AnnotationTextTextComponent } from './components/controls/document/anno
 import { AnnotationTextComponent } from './components/controls/document/annotation-text/annotation-text.component';
 import { MatTree, MatTreeModule } from '@angular/material/tree';
 import { MatIconModule } from '@angular/material/icon';
-import { TreeviewModule } from 'ngx-treeview';
+// import { TreeviewModule } from 'ngx-treeview';
 import { MatButtonModule} from '@angular/material/button';
 import { ValueAccessorComponent } from './components/controls/value-accessor/value-accessor.component';
 import { MatSelectModule } from '@angular/material/select';
@@ -82,7 +82,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+// import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 //import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 /* Petasis, 18/06/21: ng-matero template */
 import { CoreModule } from './ng-matero/core/core.module';
@@ -184,7 +184,7 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
     NgxFlowModule,
     MatTreeModule,
     MatIconModule,
-    TreeviewModule.forRoot(),
+    // TreeviewModule.forRoot(),
     MatButtonModule,
     MatSelectModule,
     //NgScrollbarModule,
@@ -195,7 +195,7 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
     MatInputModule,
     MatTooltipModule,
     MatToolbarModule,
-    NgbModule,
+    // NgbModule,
     //FontAwesomeModule,
     CoreModule,
     ThemeModule,

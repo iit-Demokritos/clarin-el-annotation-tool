@@ -1,6 +1,7 @@
 // Long Shadow
 //
 // https://codepen.io/c_fitzmaurice/pen/ZYJeRY
+@use 'sass:math';
 
 @function long-shadow($direction, $length, $color, $fade: false, $shadow-count: 100) {
   $shadows: ();
@@ -24,14 +25,14 @@
   }
 
   @for $i from 1 through $shadow-count {
-    $current-step: ($i * $length / $shadow-count);
+    $current-step: math.div($i * $length, $shadow-count); //($i * $length / $shadow-count);
     $current-color: if(
       not $fade,
       $color,
       if(
         type-of($fade) == 'color',
-        mix($fade, $color, ($i / $shadow-count * 100)),
-        rgba($color, 1 - $i / $shadow-count)
+        mix($fade, $color, (math.div($i, $shadow-count) /*$i / $shadow-count*/ * 100)),
+        rgba($color, 1 - math.div($i, $shadow-count) /*$i / $shadow-count*/)
       )
     );
 

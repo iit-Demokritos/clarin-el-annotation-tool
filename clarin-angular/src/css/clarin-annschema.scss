@@ -128,7 +128,7 @@
 
 /* Bootstrap 4.x does not have a btn-default any more. Extend primary... */
 .btn-default {
-  @extend .btn-outline-primary;
+  //@extend .btn-outline-primary;
   color: #333;
   background-color: #fff;
   border-color: #ccc;

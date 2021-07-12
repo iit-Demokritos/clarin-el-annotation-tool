@@ -30,7 +30,8 @@
       "@env": ["src/environments"],
       "@env/*": ["src/environments/*"]
     },
-    "allowSyntheticDefaultImports":true
+    "allowSyntheticDefaultImports":true,
+    "emitDecoratorMetadata": true
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
