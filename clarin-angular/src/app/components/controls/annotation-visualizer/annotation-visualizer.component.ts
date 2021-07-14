@@ -45,11 +45,13 @@ export class AnnotationVisualizerComponent extends BaseControlComponent implemen
     this.TextWidgetAPI.registerAnnotationSchemaCallback(this.annotationSchemaUpdate.bind(this));
   }
 
-  annotationListDisplayedColumns: string[] = ['id', 'type', 'span'];
+  annotationListDisplayedColumns: string[] = ['id', 'type', 'spans'];
+  selectedAannotationDisplayedColumns: string[] = ['name', 'value'];
   annotations = [];
   annotationsDataSource = new MatTableDataSource<Annotation>(this.annotations);
   selectedAnnotation: any = {};
   selectedIndex;
+  selectedAnnotationDataSource;
   sseEventSubscription: Subscription;
 
   ngOnDestroy() {
@@ -69,26 +71,60 @@ export class AnnotationVisualizerComponent extends BaseControlComponent implemen
     if (this.annotations.length) this.table.renderRows();
   };
 
-  updateSelectedAnnotationDetails() {  //function to be called when the selected annotation being updated
-
+  updateSelectedAnnotationDetails() {
+    //function to be called when the selected annotation being updated
     this.selectedAnnotation = this.TextWidgetAPI.getSelectedAnnotation();
 
     if (Object.keys(this.selectedAnnotation).length > 0) {
-      this.selectedIndex = -1;
-    }
-    else {
-      for (var j = 0; j < this.annotations.length; j++) {
-        if (this.selectedAnnotation._id == this.annotations[j]._id) {
-          this.selectedIndex = j;
-          break;
-        }
-      }
+      this.selectedIndex = this.selectedAnnotation._id;
+      this.selectedAnnotationDataSource = Object.entries(this.selectedAnnotation)
+      .map(this.propertyToDisplayObject)
+      .filter(e => e != null);
+    } else {
+      this.selectedIndex = "";
     }
   };
 
-  setSelectedAnnotation(selectedAnnotation, index) {         //function to visualize the annotation that the user selected from the annotation list
-    this.selectedIndex = index;
+  propertyToDisplayObject(p) {
+    switch (p[0]) {
+      case "_id":
+        return {name: "ID", value: p[1]};
+        break;
+      case "type":
+        return {name: "Type", value: p[1]};
+        break;
+      case "annotator_id":
+        return {name: "Annotator ID", value: p[1]};
+        break;
+      case "spans":
+        return {name: "Spans", value: p[1].map(e =>
+          e.start.toString()+":"+e.end.toString()+" [\""+e.segment+"\"]"
+        ).join("\n")};
+        break;
+      case "attributes":
+        return {name: "Attributes", value: p[1].map(e =>
+          e.name+" - \""+e.value+"\""
+        ).join("\n")};
+        break;
+      case "document_id":
+      case "collection_id":
+        return null;
+        break;
+      default:
+        return {name: p[0], value: JSON.stringify(p[1])};
+        break;
+    }
+  }; /* propertyToDisplayObject */
+
+  setSelectedAnnotation(selectedAnnotation, index=null) {
+    //function to visualize the annotation that the user selected from
+    // the annotation list
+    console.error("setSelectedAnnotation:", selectedAnnotation, index);
+    this.selectedIndex = selectedAnnotation._id;
     this.selectedAnnotation = cloneDeep(selectedAnnotation);
+    this.selectedAnnotationDataSource = Object.entries(selectedAnnotation)
+      .map(this.propertyToDisplayObject)
+      .filter(e => e != null);
     // console.warn(selectedAnnotation);
     this.TextWidgetAPI.setSelectedAnnotation(selectedAnnotation);
     this.TextWidgetAPI.scrollToAnnotation(selectedAnnotation);
@@ -106,7 +142,8 @@ export class AnnotationVisualizerComponent extends BaseControlComponent implemen
 
         var serviceResponse = JSON.parse(e.data);
 
-        if (typeof serviceResponse === 'string') {  //if share is not enabled revoke access
+        if (typeof serviceResponse === 'string') {
+          //if share is not enabled revoke access
           e.target.close();       //close live connection
           var AnnotatorTypeId = this.TextWidgetAPI.getAnnotatorTypeId();
           this.TextWidgetAPI.resetData();

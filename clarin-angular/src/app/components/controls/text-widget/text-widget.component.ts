@@ -658,8 +658,8 @@ export class TextWidgetComponent extends BaseControlComponent
     // item.attr('label/text', annotation.annotation._id);
     item.attr('body/fill', "transparent");
     item.attr('body/stroke', 'none' /*'#7c68fc'*/);
-    /* Uncomment the following line to make boxes drawn on overlay visible */
-    item.attr('body/stroke', 'green');
+    /* DEBUG: Uncomment the following line to make boxes drawn on overlay visible */
+    // item.attr('body/stroke', 'green');
     item.attr('root/pointer-events', 'none');
     return item;
   }; /* overlayMarkAdd */
