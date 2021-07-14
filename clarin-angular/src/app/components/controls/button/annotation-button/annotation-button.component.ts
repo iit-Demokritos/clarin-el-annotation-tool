@@ -41,7 +41,8 @@ export class AnnotationButtonComponent extends BaseControlComponent implements O
   updateSelectedAnnotationButton() {
     var selectedAnnotation: any = this.TextWidgetAPI.getSelectedAnnotation();
 
-    if (Object.keys(selectedAnnotation).length > 0) { //if selected annotation is not empty 
+    if (Object.keys(selectedAnnotation).length > 0) {
+      //if selected annotation is not empty 
       /* var selectedAnnotationAttribute = _.where(selectedAnnotation.attributes, {
         name: this.annotationAttribute,
         value: this.annotationValue
@@ -50,23 +51,25 @@ export class AnnotationButtonComponent extends BaseControlComponent implements O
         attr.name === this.annotationAttribute &&
         attr.value === this.annotationValue
       );
+      var attributeIndex = -1;
 
-      if(typeof(selectedAnnotationAttribute) == "undefined" || !selectedAnnotationAttribute){
-        return;
+      if(!(typeof(selectedAnnotationAttribute) == "undefined" || !selectedAnnotationAttribute)){
+        attributeIndex = selectedAnnotation.attributes.indexOf(selectedAnnotationAttribute);
       }
 
-      var attributeIndex = selectedAnnotation.attributes.indexOf(selectedAnnotationAttribute);
-
-      if (attributeIndex > -1 && !this.element.classList.contains('active')) {       //if the element has the same attribute and it is not active 
+      if (attributeIndex > -1 && !this.element.classList.contains('active')) {
+        // if the element has the same attribute and it is not active 
         this.element.classList.add('active');
         this.element.setAttribute("style","color:"+this.fgColor);
         this.element.setAttribute("style","background:"+this.bgColor);
-      } else if (attributeIndex < 0 && this.element.classList.contains('active')) {     //if the element has different attribute and it is active
+      } else if (attributeIndex < 0 && this.element.classList.contains('active')) {
+	// if the element has different attribute and it is active
         this.element.classList.remove('active');
         this.element.setAttribute("style","color:#333");
         this.element.setAttribute("style","background:#fff");
       }
-    } else if (Object.keys(selectedAnnotation).length == 0 && this.element.classList.contains('active')) {  //if selected annotation is empty and the specific element is active
+    } else if (Object.keys(selectedAnnotation).length == 0 && this.element.classList.contains('active')) {
+      //if selected annotation is empty and the specific element is active
       this.element.classList.remove('active');
       this.element.setAttribute("style","color:#333");
       this.element.setAttribute("style","background:#fff");
