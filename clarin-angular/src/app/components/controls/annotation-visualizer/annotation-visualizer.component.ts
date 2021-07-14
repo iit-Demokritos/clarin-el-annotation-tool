@@ -116,16 +116,14 @@ export class AnnotationVisualizerComponent extends BaseControlComponent implemen
     }
   }; /* propertyToDisplayObject */
 
-  setSelectedAnnotation(selectedAnnotation, index=null) {
-    //function to visualize the annotation that the user selected from
+  setSelectedAnnotation(selectedAnnotation) {
+    // function to visualize the annotation that the user selected from
     // the annotation list
-    console.error("setSelectedAnnotation:", selectedAnnotation, index);
     this.selectedIndex = selectedAnnotation._id;
     this.selectedAnnotation = cloneDeep(selectedAnnotation);
     this.selectedAnnotationDataSource = Object.entries(selectedAnnotation)
       .map(this.propertyToDisplayObject)
       .filter(e => e != null);
-    // console.warn(selectedAnnotation);
     this.TextWidgetAPI.setSelectedAnnotation(selectedAnnotation);
     this.TextWidgetAPI.scrollToAnnotation(selectedAnnotation);
     this.TextWidgetAPI.clearOverlappingAreas();
