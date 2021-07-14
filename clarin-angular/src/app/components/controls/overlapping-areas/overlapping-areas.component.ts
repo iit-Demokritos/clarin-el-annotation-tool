@@ -18,6 +18,10 @@ export class OverlappingAreasComponent extends BaseControlComponent implements O
     this.TextWidgetAPI.registerOverlappingAreasCallback(this.updateOverlappingAreasList.bind(this));
   }
 
+  getAnnotationPresentableId(annotation) {
+    return this.TextWidgetAPI.getAnnotationPresentableId(annotation);
+  }; /* getAnnotationPresentableId */
+
   //function to be called when the overlapping areas update
   updateOverlappingAreasList() {
     var overlaps = this.TextWidgetAPI.getOverlappingAreas();

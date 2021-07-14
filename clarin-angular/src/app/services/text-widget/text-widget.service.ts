@@ -127,6 +127,17 @@ export class TextWidgetAPI {
       name: attribute
     })['value'];
   }
+
+  /**
+   * This method returns an id we can present to the user.
+   */
+  getAnnotationPresentableId(annotation) {
+    if (this.annotatorType == "Button Annotator") {
+      return this.getAnnotationAttributeValue(annotation,
+                      this.annotationSchema['attribute'])
+    }
+    return annotation._id;
+  }; /* getAnnotationPresentableId */
   
   selectAnnotations(type, attribute, attributeValues) {
     // console.warn("selectAnnotations:", type, attribute, attributeValues);
@@ -493,7 +504,7 @@ export class TextWidgetAPI {
 
   setSelectedAnnotation(newSelectedAnnotation) {
     if (typeof newSelectedAnnotation == "undefined" ||
-	       newSelectedAnnotation == {}) {
+               newSelectedAnnotation == {}) {
       return false;
     }
 

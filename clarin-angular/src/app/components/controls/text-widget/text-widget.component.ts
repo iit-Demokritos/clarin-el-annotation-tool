@@ -233,6 +233,16 @@ export class TextWidgetComponent extends BaseControlComponent
     }
   }; /* computeSelectionFromOffsets */
 
+  /**
+   * Given a codemirror mark, it returns the associated annotation.
+   */
+  getAnnotationFromMark(mark) {
+    var annotationId = mark.className;
+    annotationId = annotationId.split(" ")[0].substr(3); // remove "id-" prefix...
+    // Get the selected annotation from its ID
+    return this.TextWidgetAPI.getAnnotationById(annotationId);
+  }; /* getAnnotationFromMark */
+
   mouseDownUpHandler(args) {
     var e = args[0];
     if (e.button === 1) { // middle button click
@@ -264,15 +274,22 @@ export class TextWidgetComponent extends BaseControlComponent
           // transform selection from absolute to cm format
           var editorSelection = this.computeSelectionFromOffsets(
             selection.startOffset, selection.startOffset);
-          //find available marks at the position of the cursor
-          var availableAnnotationsOnCursor = this.editor.findMarksAt(
-            editorSelection.start/*TODO:FIX, editorSelection.end*/);
-          var availableAnnotationsLength = availableAnnotationsOnCursor.length;
+          // find available marks at the position of the cursor
+          var availableMarksOnCursor = this.editor.findMarksAt(
+            editorSelection.start);
+          var availableAnnotationsLength = availableMarksOnCursor.length;
           if (availableAnnotationsLength > 0) {
-            // Get first part of the annotation's class name, which should be the ID
-            annotationId =
-              availableAnnotationsOnCursor[availableAnnotationsLength - 1].className;
-            annotationId = annotationId.split(" ")[0].substr(3); // remove "id-" prefix...
+            // Petasis, 14/07/2021: Find the annotation with the smallest segment...
+            var availableAnnotationsOnCursor = availableMarksOnCursor.map((a) => this.getAnnotationFromMark(a));
+            var smallestAnn = availableAnnotationsOnCursor.reduce((a, b) => 
+              a.spans[0].segment.length <= b.spans[0].segment.length ? a : b
+	    );
+	    // console.error("small:", smallestAnn);
+	    annotationId = smallestAnn['_id'];
+            // // Get first part of the annotation's class name, which should be the ID
+            // annotationId =
+            //   availableMarksOnCursor[availableAnnotationsLength - 1].className;
+            // annotationId = annotationId.split(" ")[0].substr(3); // remove "id-" prefix...
           }
 
           if (!_.isNull(annotationId)) {
