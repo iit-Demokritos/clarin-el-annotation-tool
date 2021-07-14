@@ -230,6 +230,9 @@ $foreground: map-get($theme, foreground);
           // font-weight: bold;
         }
       }
+      .preformated {
+        white-space: pre;
+      }
       .annotation-row {
         &:not(.selected):hover {
           background-color: mat-color($background, hover); //whitesmoke;

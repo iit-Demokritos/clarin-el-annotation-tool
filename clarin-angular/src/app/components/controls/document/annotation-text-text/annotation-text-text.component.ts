@@ -11,9 +11,12 @@ import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 })
 export class AnnotationTextTextComponent extends BaseControlComponent implements OnInit {
 
-  @Input() attributeValue;
-  @Input() annotationDocumentAttribute;
   @Input() groupType;
+  @Input() annotationType;
+  @Input() annotationAttribute;
+  @Input() annotationValue;
+  @Input() annotationDocumentAttribute;
+  @Input() attributeValue;
   @Input() cols;
   @Input() rows;
 
@@ -58,21 +61,25 @@ export class AnnotationTextTextComponent extends BaseControlComponent implements
       .then((data)=> {
         this.TextWidgetAPI.updateAnnotation(annotation, false);
       }, function(error) {
-        this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Error in update Annotation. Please refresh the page and try again") });
+        this.dialog.open(ErrorDialogComponent, {
+          data: new ConfirmDialogData("Error",
+         "Error in update Annotation. Please refresh the page and try again")});
       });
   }; // setAnnotationValue
 
   getAnnotationAttributeIndex() {
     var annotation = this.getAnnotation();
     // var attribute  = _.where(annotation.attributes, {name: this.annotationDocumentAttribute})[0];
-    var attribute  = annotation.attributes.find(attr => attr.name === this.annotationDocumentAttribute);
+    var attribute  = annotation.attributes.find(attr =>
+      attr.name === this.annotationDocumentAttribute);
     return annotation.attributes.indexOf(attribute);
   }; // getAnnotationAttributeIndex
   
   getAnnotationAttribute() {
     var annotation = this.getAnnotation();
     // return _.where(annotation.attributes, {name: this.annotationDocumentAttribute})[0];
-    return annotation.attributes.find(attr => attr.name === this.annotationDocumentAttribute);
+    return annotation.attributes.find(attr =>
+      attr.name === this.annotationDocumentAttribute);
   }; // getAnnotationAttribute
   
   getAnnotation() {
@@ -80,6 +87,5 @@ export class AnnotationTextTextComponent extends BaseControlComponent implements
     if (typeof(annotation) != "undefined") {
       return annotation;
     }
-    
   }; // getAnnotation
 }

@@ -1,3 +1,15 @@
+15 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/app.module.ts:
+ * clarin-angular/src/app/components/controls/annotation-visualizer/annotation-visualizer.component.html:
+ * clarin-angular/src/app/components/controls/annotation-visualizer/annotation-visualizer.component.ts:
+ * clarin-angular/src/app/components/controls/document/annotation-text-label/annotation-text-label.component.html:
+ * clarin-angular/src/app/components/controls/document/annotation-text-text/annotation-text-text.component.html:
+ * clarin-angular/src/app/components/controls/document/annotation-text-text/annotation-text-text.component.ts:
+ * clarin-angular/src/app/components/controls/document/annotation-text/annotation-text.component.html:
+ * clarin-angular/src/css/clarin-material.scss:
+ * clarin-angular/src/app/directives/document-attributes/: Added support for
+ Document Attributes.
+
 14 July 2021 Petasis George <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/controls/annotation-visualizer/annotation-visualizer.component.html:
  * clarin-angular/src/app/components/controls/annotation-visualizer/annotation-visualizer.component.ts:

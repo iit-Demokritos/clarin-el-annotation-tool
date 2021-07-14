@@ -106,6 +106,9 @@ export class AnnotationVisualizerComponent extends BaseControlComponent implemen
           e.name+" - \""+e.value+"\""
         ).join("\n")};
         break;
+      case "document_attribute":
+        return {name: "Document Attribute", value: p[1]};
+        break;
       case "document_id":
       case "collection_id":
         return null;
