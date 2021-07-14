@@ -63,7 +63,7 @@ export class AnnotationButtonComponent extends BaseControlComponent implements O
         this.element.setAttribute("style","color:"+this.fgColor);
         this.element.setAttribute("style","background:"+this.bgColor);
       } else if (attributeIndex < 0 && this.element.classList.contains('active')) {
-	// if the element has different attribute and it is active
+        // if the element has different attribute and it is active
         this.element.classList.remove('active');
         this.element.setAttribute("style","color:#333");
         this.element.setAttribute("style","background:#fff");
