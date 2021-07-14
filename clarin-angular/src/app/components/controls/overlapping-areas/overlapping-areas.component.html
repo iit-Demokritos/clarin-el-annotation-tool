@@ -1,10 +1,10 @@
 <mat-toolbar class="annotation-toolbar overlapping-areas-widget">
   <span>Overlapping Areas ({{overlaps.length}}):&nbsp;&nbsp;</span>
   <mat-form-field appearance="outline" class="overlapping-areas-select">
-    <mat-select [(ngModel)]="selectedOverlappingAnnotation"
-        (change)="updateSelectedAnnotation(selectedOverlappingAnnotation)"
-        ng-options="overlap as (overlap._id + \' : \' + overlap.spans[0].segment) for overlap in overlaps">
-      <mat-option value="">Please select overlapping area...</mat-option>
+    <mat-label class="overlapping-areas-select-label">Please select an overlapping area...</mat-label>
+    <mat-select [disabled]="!overlaps.length" [(ngModel)]="selectedOverlappingAnnotation"
+        (selectionChange)="updateSelectedAnnotation(selectedOverlappingAnnotation)"
+        ng-options="overlap as (overlap._id + \':\' + overlap.spans[0].segment) for overlap in overlaps">
       <!-- TODO: Update ngFor for overlaps -->
       <mat-option *ngFor="let overlap of overlaps" [value]="overlap">{{overlap._id + " : " + overlap.spans[0].segment}}</mat-option>
     </mat-select>

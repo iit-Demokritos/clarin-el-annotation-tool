@@ -72,6 +72,11 @@
         padding: 0px 4px 0px 4px;
         .mat-form-field-infix {
           padding: 0px 0px 4px 0px;
+	  .mat-form-field-label-wrapper {
+            .mat-form-field-label.mat-form-field-empty {
+              top: 0.98em;
+	    }
+	  }
         }
       }
     }

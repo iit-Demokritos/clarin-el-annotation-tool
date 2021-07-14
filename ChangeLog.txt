@@ -1,3 +1,11 @@
+14 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/controls/overlapping-areas/overlapping-areas.component.html:
+ * clarin-angular/src/app/components/controls/overlapping-areas/overlapping-areas.component.ts:
+ * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
+ * clarin-angular/src/app/services/text-widget/text-widget.service.ts:
+ * clarin-angular/src/css/clarin-material.scss: Fixed overlaping area
+ selection, and added pre-selection for some cases.
+
 12 July 2021 Petasis George <petasis@iit.demokritos.gr>:
  * clarin-angular/package.json:
  * clarin-angular/src/app/app.module.ts:

@@ -492,7 +492,8 @@ export class TextWidgetAPI {
   }
 
   setSelectedAnnotation(newSelectedAnnotation) {
-    if (typeof newSelectedAnnotation == "undefined" || newSelectedAnnotation == {}) {
+    if (typeof newSelectedAnnotation == "undefined" ||
+	       newSelectedAnnotation == {}) {
       return false;
     }
 
@@ -583,7 +584,6 @@ export class TextWidgetAPI {
         }
       }
     }
-
     this.overlappingAreas = newOverlaps;
     this.notifyObservers(this.overlappingAreasCallbacks);
   }

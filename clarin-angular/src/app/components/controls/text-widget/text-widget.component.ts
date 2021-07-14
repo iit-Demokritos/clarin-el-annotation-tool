@@ -243,7 +243,7 @@ export class TextWidgetComponent extends BaseControlComponent
 
   mouseUpHandler(args) {
     var e = args[0];
-    console.error("mouseUpHandler:", e);
+    // console.error("mouseUpHandler:", e);
     if (!this.initialLoad) {
       this.initialLoad = true;
     }

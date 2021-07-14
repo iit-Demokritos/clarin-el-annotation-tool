@@ -10,6 +10,7 @@ export class OverlappingAreasComponent extends BaseControlComponent implements O
 
   overlaps = [];
   selectedOverlappingAnnotation;
+  clearOverlappingAreasIgnore = false;
 
   super() { }
 
@@ -19,14 +20,28 @@ export class OverlappingAreasComponent extends BaseControlComponent implements O
 
   //function to be called when the overlapping areas update
   updateOverlappingAreasList() {
-    this.overlaps = this.TextWidgetAPI.getOverlappingAreas();
+    var overlaps = this.TextWidgetAPI.getOverlappingAreas();
+    if (this.clearOverlappingAreasIgnore && !overlaps.length) return;
     this.selectedOverlappingAnnotation = null;
+    if (overlaps.length == 1) {
+      // Select the overlap
+      this.selectedOverlappingAnnotation = overlaps[0]
+    } else if (overlaps.length > 1) {
+      var selected = this.TextWidgetAPI.getSelectedAnnotation();
+      if (!(typeof selected == "undefined" || selected == {})) {
+        // Locate the selected annotation in the overlaps list
+        this.selectedOverlappingAnnotation = overlaps.find(item => item._id == selected['_id']);
+      }
+    }
+    this.overlaps = overlaps;
   }
 
   //function to be called when the user select annotation from the dropdown
   updateSelectedAnnotation(selectedAnnotation) {
     if (selectedAnnotation)
+      this.clearOverlappingAreasIgnore = true;
       this.TextWidgetAPI.setSelectedAnnotation(selectedAnnotation);
+      this.clearOverlappingAreasIgnore = false;
   }
 
 }
