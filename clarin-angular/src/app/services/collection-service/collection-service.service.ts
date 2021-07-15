@@ -33,7 +33,8 @@ export class CollectionService{
     return new Promise((resolve, reject) => {
       this.http.get('./api/collections_data')
         .subscribe((response) => {
-          if (response["subscribe"] && response["data"].length > 0) { //initialize the documents tree
+          if (response["success"] && response["data"].length > 0) {
+            // initialize the documents tree
             var treeData = [];
             var currentCollectionId = -1;
 

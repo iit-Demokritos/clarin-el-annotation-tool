@@ -10,6 +10,12 @@ export class AnnotatorsTemplateService {
   constructor(public http:HttpClient) {}
 
   getTemplate(annotatorType:string, annotationSchema:any) {
+    if (annotatorType.startsWith("Button_Annotator_")) {
+      annotatorType = "Button Annotator";
+    } else if (annotatorType.startsWith("Coreference_Annotator_")) {
+      annotatorType = "Coreference Annotator";
+    };
+
     if (annotatorType == "Coreference Annotator") {
       //Coreference Annotator
       return new Promise((resolve, reject) => {

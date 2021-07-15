@@ -39,6 +39,12 @@ export class AnnotationSchemaService {
         }
       };
 
+      if (annotatorType.startsWith("Button_Annotator_")) {
+        annotatorType = "Button Annotator";
+      } else if (annotatorType.startsWith("Coreference_Annotator_")) {
+        annotatorType = "Coreference Annotator";
+      };
+
       switch (annotatorType) {
         case "Button Annotator":
           this.buttonAnnotator.checkForSavedSchema() //clear the temp annotations of the doc
@@ -71,11 +77,9 @@ export class AnnotationSchemaService {
             })
             .then((response: any) => {
 
-
               response.groups.forEach(function (value) {
                 responseData.annotationSchemaOptions.values = responseData.annotationSchemaOptions.values.concat(value.values);
               });
-
 
               resolve(responseData);
             }, (response: any) => {
@@ -133,6 +137,12 @@ export class AnnotationSchemaService {
 
   update(annotationSchema, annotatorType) {
     return new Promise((resolve, reject) => {
+
+      if (annotatorType.startsWith("Button_Annotator_")) {
+        annotatorType = "Button Annotator";
+      } else if (annotatorType.startsWith("Coreference_Annotator_")) {
+        annotatorType = "Coreference Annotator";
+      };
 
       switch (annotatorType) {
         case "Button Annotator":

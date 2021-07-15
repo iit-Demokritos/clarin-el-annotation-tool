@@ -1,4 +1,13 @@
 15 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/dialogs/detect-changes-modal/detect-changes-modal.component.ts:
+ * clarin-angular/src/app/components/views/annotation/annotation.component.ts:
+ * clarin-angular/src/app/ng-matero/core/interceptors/error-interceptor.ts:
+ * clarin-angular/src/app/services/annotation-schema-service/annotation-schema.service.ts:
+ * clarin-angular/src/app/services/annotators-template-service/annotators-template.service.ts:
+ * clarin-angular/src/app/services/collection-service/collection-service.service.ts:
+ Fixed a bug in in continuing annotation, if unsaved changes have been
+ detected.
+
  * clarin-angular/src/app/components/controls/annotator-widget/annotator-widget.component.ts:
  * clarin-angular/src/app/components/controls/document/annotation-text-text/annotation-text-text.component.ts:
  * clarin-angular/src/app/components/dialogs/detect-changes-modal/detect-changes-modal.component.ts:

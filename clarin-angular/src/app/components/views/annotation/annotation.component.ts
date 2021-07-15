@@ -79,7 +79,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
             parent: this
           };
 
-          var dialogRef = this.dialog.open(SelectDocumentModalComponent, { data: inputData });
+          var dialogRef = this.dialog.open(SelectDocumentModalComponent, { data: inputData, disableClose: true });
 
           //this.selectDocumentModalInstance = Dialog.custom('select-document-modal.html',
           // 'selectDocumentModalCtrl', inputData, false, "document-selector"); // animated fadeIn
@@ -153,7 +153,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
               //$ocLazyLoad.load('detectOpenDocModalCtrl').then(function () {
               //var detectOpenDocModalInstance = Dialog.custom('detect-open-doc-modal.html', 'detectOpenDocModalCtrl', currentDocument, true, "");
 
-              let dialogRef = this.dialog.open(DetectOpenDocModalComponent, { data: currentDocument });
+              let dialogRef = this.dialog.open(DetectOpenDocModalComponent, { data: currentDocument, disableClose: true });
 
               dialogRef.afterClosed().subscribe((response) => {
                 if (response.success) {
@@ -208,13 +208,14 @@ export class AnnotationComponent extends MainComponent implements OnInit {
               //$ocLazyLoad.load('detectChangesModalCtrl').then(function () {
               //var detectChangesModalInstance = Dialog.custom('detect-changes-modal.html', 'detectChangesModalCtrl', documentFound, true, "");
 
-              var dialogRef = this.dialog.open(DetectChangesModalComponent, { data: documentFound });
+              var dialogRef = this.dialog.open(DetectChangesModalComponent, { data: documentFound, disableClose: true });
               dialogRef.afterClosed().subscribe((response: any) => {
                 if (response.success) {
                   if (typeof (response.resume) != "undefined" && response.resume)
                     //$timeout(function () { $scope.documentSelection = false; }, 800);
                     setTimeout(() => { //<<<---using ()=> syntax
                       this.documentSelection = false;
+		      this.annotatorType = this.TextWidgetAPI.getAnnotatorType();
                     }, 800);
 
                   else
