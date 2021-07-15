@@ -1,4 +1,7 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+  Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation,
+  Output, EventEmitter
+} from '@angular/core';
 import * as CodeMirror from 'codemirror';
 import { BaseControlComponent } from '../base-control/base-control.component';
 import { cloneDeep, indexOf, has, filter, without, find } from "lodash";
@@ -20,6 +23,8 @@ export class TextWidgetComponent extends BaseControlComponent
   implements OnInit, OnDestroy {
 
   /* @ViewChild("annotationeditortextwidget", { static: true }) */
+  @Output()
+  textWidgetEvent: EventEmitter<any> = new EventEmitter();
   element: ElementRef<HTMLTextAreaElement>;
   mainContent;
   editor: CodeMirror.EditorFromTextArea;
@@ -283,9 +288,9 @@ export class TextWidgetComponent extends BaseControlComponent
             var availableAnnotationsOnCursor = availableMarksOnCursor.map((a) => this.getAnnotationFromMark(a));
             var smallestAnn = availableAnnotationsOnCursor.reduce((a, b) => 
               a.spans[0].segment.length <= b.spans[0].segment.length ? a : b
-	    );
-	    // console.error("small:", smallestAnn);
-	    annotationId = smallestAnn['_id'];
+            );
+            // console.error("small:", smallestAnn);
+            annotationId = smallestAnn['_id'];
             // // Get first part of the annotation's class name, which should be the ID
             // annotationId =
             //   availableMarksOnCursor[availableAnnotationsLength - 1].className;
@@ -1018,7 +1023,13 @@ export class TextWidgetComponent extends BaseControlComponent
           });
         }
       } else if ("document_attribute" in currAnnotation.annotation) {
-        // This is a document Annotation... TODO:FIX BROADCAST
+        // This is a document Annotation...
+        // Broadcast an event to our parent that a Document Attribute was found.
+        this.textWidgetEvent.emit({
+          event: "sendDocumentAttribute",
+          attributeName: currAnnotation.annotation.document_attribute,
+          annotation: currAnnotation.annotation
+        })
         //$rootScope.$broadcast('sendDocumentAttribute:' +
         //  currAnnotation.annotation.document_attribute, currAnnotation.annotation);
       } else {

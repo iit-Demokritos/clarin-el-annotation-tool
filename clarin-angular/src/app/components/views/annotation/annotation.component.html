@@ -14,7 +14,7 @@
         <!--div class='spinner-border' role='status'><span class='sr-only'>Loading...</span></div>
       <div *ngIf='spinnerVisible'><span class='fa fa-spinner'>Loading...</span></div-->
         <div class="main-content-document" [hidden]="maincontentSelector!='document'">
-          <text-widget></text-widget>
+          <text-widget (textWidgetEvent)="getTextWidgetNotification($event)"></text-widget>
         </div>
         <table id="main-content-annotate-document-attributes" class="main-content-attributes"
           [hidden]="maincontentSelector!='attributes'">
@@ -42,7 +42,7 @@
         </mat-toolbar>
         <div class="side-content-container">
           <annotation-visualizer [hidden]="sidebarSelector!='annotationVisualiser'"></annotation-visualizer>
-          <annotator-widget [hidden]="sidebarSelector!='annotator'"></annotator-widget>
+          <annotator-widget [broadcastedEvent]="broadcastEvent" [hidden]="sidebarSelector!='annotator'"></annotator-widget>
         </div>
       </div>
     </as-split-area>

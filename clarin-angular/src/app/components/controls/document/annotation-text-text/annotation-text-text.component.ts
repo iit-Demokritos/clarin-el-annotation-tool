@@ -19,11 +19,16 @@ export class AnnotationTextTextComponent extends BaseControlComponent implements
   @Input() attributeValue;
   @Input() cols;
   @Input() rows;
+  @Input() broadcastedEvent: any = {};
 
   super() { }
 
   ngOnInit(): void {
   }
+
+  ngOnChanges(changes) {
+    console.error("AnnotationTextTextComponent: Changes invoked: ", changes);
+  }; /* ngOnChanges */
 
   onFocus() { // Called when element gained focus
     this.setElementValue(this.getAnnotationValue());

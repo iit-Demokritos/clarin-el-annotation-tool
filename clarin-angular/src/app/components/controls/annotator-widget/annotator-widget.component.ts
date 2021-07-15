@@ -19,12 +19,13 @@ import { isDevMode } from '@angular/core';
   encapsulation: ViewEncapsulation.None
 })
 export class AnnotatorWidgetComponent extends BaseControlComponent
-  implements OnInit {
+  implements OnInit, OnChanges {
 
   @ViewChild("element") element: ElementRef;
   public cmpRef: ComponentRef<any>;
   @ViewChild('vc', { read: ViewContainerRef, static: true }) vc: ViewContainerRef;
   @Input() component: any;
+  @Input() broadcastedEvent: any = {};
 
   layout = {
     showEditorTabs: true,
@@ -32,6 +33,7 @@ export class AnnotatorWidgetComponent extends BaseControlComponent
   annotatorType;
   annotationSchema;
   annotatorsInnerTemplate = "";
+  broadcastEvent = {};
 
   super() { }
 
@@ -41,6 +43,18 @@ export class AnnotatorWidgetComponent extends BaseControlComponent
     );
     this.updateAnnotatorTemplate();
   }
+
+  ngOnChanges(changes) {
+    // console.error("AnnotatorWidgetComponent: Changes invoked: ", changes);
+    // We are interested only on broadcasted events...
+    if (!changes.hasOwnProperty("broadcastedEvent")) {
+      return;
+    }
+    this.broadcastEvent = changes.broadcastedEvent.currentValue;
+    if(typeof this.cmpRef !== 'undefined') {
+      this.cmpRef.instance.broadcastEvent = this.broadcastEvent;
+    }
+  }; /* ngOnChanges */
 
   updateAnnotatorTemplate() {
     this.annotatorType = this.TextWidgetAPI.getAnnotatorType();
@@ -73,6 +87,10 @@ export class AnnotatorWidgetComponent extends BaseControlComponent
         this.TextWidgetAPI.setAnnotationSchemaAnnotationTypes(types_unique);
         // Replace "\n" with <br/>...
         annotatorsTemplate = annotatorsTemplate.replaceAll("\\n", "\n");
+	// Add the event listeners to all <annotation-text-text>
+	annotatorsTemplate = annotatorsTemplate.replaceAll("<annotation-text-text ",
+	  "<annotation-text-text [broadcastedEvent]=\"broadcastEvent\" ");
+	// console.error("annotatorsTemplate:", annotatorsTemplate);
 
         this.annotatorsInnerTemplate = (
           '<div autoslimscroll scroll-subtraction-height="145">' + annotatorsTemplate + '</div>');
@@ -85,6 +103,7 @@ export class AnnotatorWidgetComponent extends BaseControlComponent
         catch (error) {
           console.error("compile:", error);
         }
+	console.error("compiled:", this.cmpRef)
 
         if (annotatorsTemplate.indexOf("group-type=\"document_attributes\"") != -1) {
           this.layout.showEditorTabs = true;
@@ -112,18 +131,27 @@ export class AnnotatorWidgetComponent extends BaseControlComponent
 
   async initDynamicWithTemplate(template) {
     this.compiler.clearCache();
+    this.vc.clear();
     console.error("DEV MODE:", isDevMode());
 
     const tmpCmp = Component({ template: template, styles:[] })(class /*extends ValueAccessorComponent<any>*/ implements OnChanges {
 
+      broadcastEvent = {};
+      
       super() { }
 
       ngOnChanges(changes) {
-        console.error("Changes invoked: ", changes);
+        // console.error("Changes invoked: ", changes);
+        // We are interested only on broadcasted events...
+        if (!changes.hasOwnProperty("broadcastedEvent")) {
+          return;
+        }
+	// The following assignment will broadcast event to all children...
+        this.broadcastEvent = changes.broadcastedEvent.currentValue;
       }
 
       ngOnInit() {
-        console.error("Dynamic form init.");
+        // console.error("Dynamic form init.");
       }
 
     });
@@ -144,6 +172,7 @@ export class AnnotatorWidgetComponent extends BaseControlComponent
 
         this.cmpRef.instance.component = this.component;
         this.vc.insert(this.cmpRef.hostView);
+	this.cmpRef.instance.broadcastEvent = this.broadcastEvent;
       });
   }
 

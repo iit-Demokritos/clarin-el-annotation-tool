@@ -32,6 +32,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
     showEditorTabs: true,
   };
   spinnerVisible;
+  broadcastEvent = {};
 
   //TODO: CHECK STATE CHANGE EVENT SUBSC.
   /*$on('$stateChangeStart', function (event) {        //close document selection modal instance when user change page
@@ -256,4 +257,12 @@ export class AnnotationComponent extends MainComponent implements OnInit {
     }
     this.detectUnsavedChanges();
   };
+
+  /**
+   * This method gets called when the text widget child sends an event
+   * through EventEmitter.emit().
+   */
+  getTextWidgetNotification(evt) {
+    this.broadcastEvent = evt;
+  }; /* getTextWidgetNotification */
 }

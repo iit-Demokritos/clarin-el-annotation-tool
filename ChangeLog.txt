@@ -1,4 +1,13 @@
 15 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/controls/annotator-widget/annotator-widget.component.ts:
+ * clarin-angular/src/app/components/controls/document/annotation-text-text/annotation-text-text.component.ts:
+ * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
+ * clarin-angular/src/app/components/views/annotation/annotation.component.html:
+ * clarin-angular/src/app/components/views/annotation/annotation.component.ts:
+ Fixed broadcast issues from Text widget to Annotator widget (which goes
+ through the parent of both, Annotation widget). Also, fixed the issue of
+ multiple annotation schemes when reloading (and re-compiling) the template.
+
  * clarin-angular/src/app/app.module.ts:
  * clarin-angular/src/app/components/controls/annotation-visualizer/annotation-visualizer.component.html:
  * clarin-angular/src/app/components/controls/annotation-visualizer/annotation-visualizer.component.ts:
