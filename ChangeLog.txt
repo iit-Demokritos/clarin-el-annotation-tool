@@ -1,6 +1,11 @@
 15 July 2021 Petasis George <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/controls/annotator-widget/annotator-widget.component.ts:
  * clarin-angular/src/app/components/controls/document/annotation-text-text/annotation-text-text.component.ts:
+ * clarin-angular/src/app/components/dialogs/detect-changes-modal/detect-changes-modal.component.ts:
+ Fixed the generation of new Annotations in Document Attributes.
+
+ * clarin-angular/src/app/components/controls/annotator-widget/annotator-widget.component.ts:
+ * clarin-angular/src/app/components/controls/document/annotation-text-text/annotation-text-text.component.ts:
  * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
  * clarin-angular/src/app/components/views/annotation/annotation.component.html:
  * clarin-angular/src/app/components/views/annotation/annotation.component.ts:

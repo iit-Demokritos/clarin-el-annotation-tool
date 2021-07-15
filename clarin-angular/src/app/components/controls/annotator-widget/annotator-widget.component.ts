@@ -103,7 +103,7 @@ export class AnnotatorWidgetComponent extends BaseControlComponent
         catch (error) {
           console.error("compile:", error);
         }
-	console.error("compiled:", this.cmpRef)
+	// console.error("compiled:", this.cmpRef)
 
         if (annotatorsTemplate.indexOf("group-type=\"document_attributes\"") != -1) {
           this.layout.showEditorTabs = true;
