@@ -1,3 +1,17 @@
+16 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/controls/button/annotation-button-custom-value-add/:
+ * clarin-angular/src/css/clarin-material.scss:
+ * clarin-angular/src/app/app.module.ts: Added a component for the "New Value"
+ button in Button Annotator (<annotation-button-custom-value-add>).
+
+ * clarin-angular/src/app/components/controls/annotator-widget/annotator-widget.component.ts:
+ * clarin-angular/src/app/components/controls/document/annotation-text-text/annotation-text-text.component.ts:
+ * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
+ * clarin-angular/src/app/components/views/annotation/annotation.component.ts:
+ Fix a bug in "broadcasting", where only the last assigned value was
+ broadcasted. (this.changeDetectorRef.detectChanges() called after every
+ assignment).
+
 15 July 2021 Petasis George <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/dialogs/detect-changes-modal/detect-changes-modal.component.ts:
  * clarin-angular/src/app/components/views/annotation/annotation.component.ts:

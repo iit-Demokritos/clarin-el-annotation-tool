@@ -1029,7 +1029,7 @@ export class TextWidgetComponent extends BaseControlComponent
           event: "sendDocumentAttribute",
           attributeName: currAnnotation.annotation.document_attribute,
           annotation: currAnnotation.annotation
-        })
+        });
         //$rootScope.$broadcast('sendDocumentAttribute:' +
         //  currAnnotation.annotation.document_attribute, currAnnotation.annotation);
       } else {

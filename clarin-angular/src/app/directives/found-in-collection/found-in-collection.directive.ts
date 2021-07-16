@@ -15,9 +15,9 @@ export class FoundInCollectionDirective implements OnInit {
     private template: TemplateRef<any>,private TextWidgetAPI:TextWidgetAPI,
     private coreferenceColorService:CoreferenceColorService) { }
   
-    ngOnInit(){
+    ngOnInit() {
       this.TextWidgetAPI.registerFoundInCollectionCallback(this.updateFoundInCollection);
-  }
+    }
 
     updateFoundInCollection() {	
       var annotationSchema:any = this.TextWidgetAPI.getAnnotationSchema();

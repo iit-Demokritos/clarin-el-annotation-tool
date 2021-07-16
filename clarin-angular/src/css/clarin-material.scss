@@ -177,6 +177,9 @@ $foreground: map-get($theme, foreground);
       }
     }
   }
+  .main-content-attributes {
+    width: 100%;
+  }
   .side-content {
     height: 100%;
     .side-content-header-container {
@@ -194,6 +197,11 @@ $foreground: map-get($theme, foreground);
     .side-content-container {
       overflow: auto;
       height: calc(100% - 46px); // Minus one toolbar
+      .found_in_collection_add {
+        font-size: 12px;
+        line-height: 1;
+        .material-icons { font-size: 18px; height: 18px;}
+      }
     }
   }
 }

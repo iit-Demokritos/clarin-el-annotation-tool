@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 import { DetectChangesModalComponent } from '../../dialogs/detect-changes-modal/detect-changes-modal.component';
 import { DetectOpenDocModalComponent } from '../../dialogs/detect-open-doc-modal/detect-open-doc-modal.component';
@@ -265,5 +265,6 @@ export class AnnotationComponent extends MainComponent implements OnInit {
    */
   getTextWidgetNotification(evt) {
     this.broadcastEvent = evt;
+    this.changeDetectorRef.detectChanges(); // forces change detection to run
   }; /* getTextWidgetNotification */
 }

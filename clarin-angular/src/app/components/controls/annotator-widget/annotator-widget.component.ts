@@ -45,7 +45,6 @@ export class AnnotatorWidgetComponent extends BaseControlComponent
   }
 
   ngOnChanges(changes) {
-    // console.error("AnnotatorWidgetComponent: Changes invoked: ", changes);
     // We are interested only on broadcasted events...
     if (!changes.hasOwnProperty("broadcastedEvent")) {
       return;
@@ -54,6 +53,7 @@ export class AnnotatorWidgetComponent extends BaseControlComponent
     if(typeof this.cmpRef !== 'undefined') {
       this.cmpRef.instance.broadcastEvent = this.broadcastEvent;
     }
+    this.changeDetectorRef.detectChanges(); // forces change detection to run
   }; /* ngOnChanges */
 
   updateAnnotatorTemplate() {

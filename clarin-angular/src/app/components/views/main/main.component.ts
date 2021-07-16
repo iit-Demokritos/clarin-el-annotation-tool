@@ -1,4 +1,4 @@
-import { Compiler, Component, Injector, NgModuleRef, OnInit } from '@angular/core';
+import { Compiler, Component, Injector, NgModuleRef, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { FlashMessagesService } from 'flash-messages-angular';
 import { CollectionService } from 'src/app/services/collection-service/collection-service.service';
@@ -50,7 +50,8 @@ export class MainComponent implements OnInit {
     public annotationSchemaService:AnnotationSchemaService,
     public compiler:Compiler,
     public injector:Injector,
-    public _m: NgModuleRef<any>) { }
+    public _m: NgModuleRef<any>,
+    public changeDetectorRef:ChangeDetectorRef) { }
 
   ngOnInit(): void {
   }

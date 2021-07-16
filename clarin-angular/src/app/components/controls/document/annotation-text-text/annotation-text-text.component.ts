@@ -31,12 +31,11 @@ export class AnnotationTextTextComponent extends BaseControlComponent implements
     if (!changes.hasOwnProperty("broadcastedEvent")) {
       return;
     }
-    if (changes.broadcastedEvent.currentValue.event != "sendDocumentAttribute") {
+    if (changes.broadcastedEvent.currentValue.event!="sendDocumentAttribute") {
       return;
     }
     if (changes.broadcastedEvent.currentValue.attributeName ==
         this.annotationDocumentAttribute) {
-      // console.error("AnnotationTextTextComponent: Changes invoked: ", changes);
       this.setElementValue(this.getAnnotationValue());
     }
   }; /* ngOnChanges */
