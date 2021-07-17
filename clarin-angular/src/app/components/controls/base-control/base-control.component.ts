@@ -34,9 +34,9 @@ export class BaseControlComponent extends ValueAccessorComponent<any> implements
   }
 
   ObjectId(){
-    //var n = require("bson-objectid");
+    var n = require("bson-objectid");
 
-    //return n().id;
+    return n();
 
     return Guid.newGuid();
   }

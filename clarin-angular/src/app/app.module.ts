@@ -30,6 +30,7 @@ import { UploaderComponent } from './components/controls/uploader/uploader.compo
 import { SelectDocumentModalComponent } from './components/dialogs/select-document-modal/select-document-modal.component';
 import { DetectOpenDocModalComponent } from './components/dialogs/detect-open-doc-modal/detect-open-doc-modal.component';
 import { DetectChangesModalComponent } from './components/dialogs/detect-changes-modal/detect-changes-modal.component';
+import { AddCustomValueModalComponent } from './components/dialogs/add-custom-value-modal/add-custom-value-modal.component';
 import { ToolbarWidgetComponent } from './components/controls/toolbar-widget/toolbar-widget.component';
 import { AnnotationVisualizerComponent } from './components/controls/annotation-visualizer/annotation-visualizer.component';
 import { BaseControlComponent } from './components/controls/base-control/base-control.component';
@@ -135,6 +136,7 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
     SelectDocumentModalComponent,
     DetectOpenDocModalComponent,
     DetectChangesModalComponent,
+    AddCustomValueModalComponent,
     ToolbarWidgetComponent,
     AnnotationVisualizerComponent,
     BaseControlComponent,
@@ -237,6 +239,7 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
     SelectDocumentModalComponent,
     DetectOpenDocModalComponent,
     DetectChangesModalComponent,
+    AddCustomValueModalComponent,
     ToolbarWidgetComponent,
     AnnotationVisualizerComponent,
     BaseControlComponent,

@@ -19,10 +19,8 @@ import { TextWidgetAPI } from '../text-widget/text-widget.service';
 export class CoreferenceColorService {
 
     constructor(public coreferenceColorDataService: CoreferenceColorDataService) {
-
-        // Generate the classes for each color on page load
-        this.generateColorClasses();
-
+      // Generate the classes for each color on page load
+      this.generateColorClasses();
     }
 
     colorCursor = -1;
@@ -31,24 +29,24 @@ export class CoreferenceColorService {
     hexDigits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"];
 
     getColorCombination(annotationId) {
-        var annotationColorCombo: any = this.annotationColors.filter(s => s._id == annotationId)[0];
+      var annotationColorCombo: any = this.annotationColors.filter(s => s._id == annotationId)[0];
 
-        if (typeof (annotationColorCombo) != "undefined" || typeof (annotationId) == "undefined") {
-            if (this.colorCursor === this.colorCombinations.length)
-                this.colorCursor = -1;
+      if (typeof (annotationColorCombo) == "undefined" || typeof (annotationId) == "undefined") {
+        if (this.colorCursor === this.colorCombinations.length)
+            this.colorCursor = -1;
 
-            this.colorCursor++;
-            this.annotationColors.push({ _id: annotationId, color: this.colorCombinations[this.colorCursor] });
+        this.colorCursor++;
+        this.annotationColors.push({ _id: annotationId, color: this.colorCombinations[this.colorCursor] });
 
-            return this.colorCombinations[this.colorCursor];
-        } else if (typeof (annotationColorCombo) != "undefined") {
-            return annotationColorCombo["color"];
-        }
+        return this.colorCombinations[this.colorCursor];
+      } else if (typeof (annotationColorCombo) != "undefined") {
+        return annotationColorCombo["color"];
+      }
     }
 
     clearColorCombinations() {
-        this.annotationColors = [];
-        this.colorCursor = -1;
+      this.annotationColors = [];
+      this.colorCursor = -1;
     }
 
     /**
@@ -56,20 +54,20 @@ export class CoreferenceColorService {
      * pseudo-element that contains the marker's key/type
      */
     generateColorClasses() {
-        var classesString = "";
+      var classesString = "";
 
-        // Generate a string with the classes
-        _.each(this.colorCombinations, function (combo) {
-            classesString += ".mark_color_" + (combo["border-color"].replace("#", "").toUpperCase()) + ":after{" +
-                "background-color:" + combo["border-color"] + "}";
-        });
+      // Generate a string with the classes
+      _.each(this.colorCombinations, function (combo) {
+          classesString += ".mark_color_" + (combo["border-color"].replace("#", "").toUpperCase()) + ":after{" +
+              "background-color:" + combo["border-color"] + "}";
+      });
 
-        // Add the classes to the page
-        /*
-        $("<style>")
-            .prop("type", "text/css")
-            .html(classesString)
-            .appendTo("head");*/
+      // Add the classes to the page
+      /*
+      $("<style>")
+          .prop("type", "text/css")
+          .html(classesString)
+          .appendTo("head");*/
     };
 
     /**
@@ -78,12 +76,12 @@ export class CoreferenceColorService {
      * @returns {string}
      */
     rgb2hex(rgb) {
-        rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
-        return this.hex(rgb[1]) + this.hex(rgb[2]) + this.hex(rgb[3]);
+      rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+      return this.hex(rgb[1]) + this.hex(rgb[2]) + this.hex(rgb[3]);
     };
 
     hex(x) {
-        return isNaN(x) ? "00" : this.hexDigits[(x - x % 16) / 16] + this.hexDigits[x % 16];
+      return isNaN(x) ? "00" : this.hexDigits[(x - x % 16) / 16] + this.hexDigits[x % 16];
     };
 
 

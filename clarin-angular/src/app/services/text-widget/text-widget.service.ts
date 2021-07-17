@@ -140,7 +140,6 @@ export class TextWidgetAPI {
   }; /* getAnnotationPresentableId */
   
   selectAnnotations(type, attribute, attributeValues) {
-    // console.warn("selectAnnotations:", type, attribute, attributeValues);
     var anns = this.annotations.filter((ann)=> {
       return ann.type === type;
     });
@@ -160,7 +159,6 @@ export class TextWidgetAPI {
         });
       }
     }
-    // console.warn("result:", anns);
     return anns;
   }
 
@@ -188,7 +186,7 @@ export class TextWidgetAPI {
   }
 
   updateAnnotation(updatedAnnotation, selected) {
-    if (typeof updatedAnnotation._id == "undefined") return false
+    if (typeof updatedAnnotation._id == "undefined") return false;
 
     for (var i = 0; i < this.annotations.length; i++) {
       if (this.annotations[i]._id == updatedAnnotation._id) {
@@ -306,6 +304,7 @@ export class TextWidgetAPI {
             if (!_.includes(this.annotationSchemaOptions["values"], annotation.attributes[j].value)) {
               //check if the annotation belongs to the "found in collection"
               this.foundInCollection.push(annotation);
+              // console.error("FoundInCollection:", annotation);
               break;
             }
           }

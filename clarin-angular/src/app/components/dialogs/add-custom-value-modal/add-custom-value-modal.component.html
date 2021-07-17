@@ -1,0 +1,22 @@
+<form name="customValueAddForm" role="form" (ngSubmit)="addbutton()">
+<div class="success-modal-header modal-header">
+  <h4 style="color:#fff" class="modal-title">Add Annotation Button</h4>
+</div>
+<div class="modal-body">
+  <div class="alert alert-danger" modal-error [hidden]="!(flash===undefined || flash==='')">{{flash}}</div>
+  <div class="form-group">
+    <label for="buttonAttribute">Button Value</label>
+    <input type="text" id="buttonAttribute" class="form-control"
+      placeholder="Please enter an attribute value for the new button..." [ngModel]="buttonAttributeValue" [required]="true">
+  </div>
+  <div class="form-group">
+    <label for="buttonLabel">Button Label</label>
+    <input type="text" id="buttonLabel" class="form-control" placeholder="Please enter a label for the new button..."
+      [ngModel]="buttonLabel" [required]="true">
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" (click)="cancel()">Cancel</button>
+  <button type="submit" class="btn btn-default">Add</button>
+</div>
+</form>

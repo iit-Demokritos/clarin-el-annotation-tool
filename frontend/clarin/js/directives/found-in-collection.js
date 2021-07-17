@@ -36,8 +36,8 @@ angular.module('clarin-el').directive('foundInCollection', ['$compile', 'TextWid
           template += "<td><annotation-button id=\"x_button123\" annotation-type=\"" + annotationSchema.annotation_type +
             "\" annotation-attribute=\"" + annotationSchema.attribute +
             "\" annotation-value=\"" + foundInCollection[i].attributes[0].value +
-            "\" label=\"" + foundInCollection[i].attributes[0].value +
-            "\" custom_attribute=\"" + foundInCollection[i].attributes[0].custom_attribute +
+            "\" label=\"" + foundInCollection[i].attributes[0].label +
+            "\" custom-attribute=\"" + foundInCollection[i].attributes[0].label +
             "\" bg-color=\"" + colorCombo["background-colour"] +
             "\" fg-color=\"" + colorCombo["font-color"] +
             "\" colour-background=\"" + colorCombo["background-colour"] +

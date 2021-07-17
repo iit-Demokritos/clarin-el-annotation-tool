@@ -6,6 +6,7 @@ angular.module('clarin-el').directive('annotationButton', function (TextWidgetAP
       annotationType: '@',
       annotationAttribute: '@',
       annotationValue: '@',
+      customAttribute: '@',
       label: '@',
       buttonTooltip: '@',
       bgColor: '@',
@@ -63,17 +64,22 @@ angular.module('clarin-el').directive('annotationButton', function (TextWidgetAP
       $scope.addAnnotation = function (annotationType, annotationAttribute, annotationValue) {
         /*        if(TextWidgetAPI.isRunning())
                   return false;*/
+        // console.error("annotationButton: addAnnotation():", annotationType, annotationAttribute, annotationValue, $scope.customAttribute);
         var selectedAnnotation = TextWidgetAPI.getSelectedAnnotation();     //if the user has already selected an annotation, update it
+	var newAttribute = {
+          name: annotationAttribute,
+          value: annotationValue
+        };
+        if (!angular.isUndefined($scope.customAttribute)) {
+          newAttribute.label = $scope.customAttribute;
+	}
 
         if (!angular.equals({}, selectedAnnotation)) {
           selectedAnnotation.type = annotationType;
 
           //search for the selected attribute inside the annotation
           var selectedAnnotationAttribute = _.where(selectedAnnotation.attributes, { name: annotationAttribute })[0];
-          var newAttribute = {
-            name: annotationAttribute,
-            value: annotationValue
-          };
+          
 
           if (angular.isUndefined(selectedAnnotationAttribute))     //the specific attribute does not exist in the current annotation, so add it 
             selectedAnnotation.attributes.push(newAttribute);
@@ -109,10 +115,7 @@ angular.module('clarin-el').directive('annotationButton', function (TextWidgetAP
               start: currentSelection.startOffset,
               end: currentSelection.endOffset
             }],
-            attributes: [{
-              name: annotationAttribute,
-              value: annotationValue
-            }]
+            attributes: [newAttribute]
           };
 
           //newAnnotation.spans.push(annotationSpan);

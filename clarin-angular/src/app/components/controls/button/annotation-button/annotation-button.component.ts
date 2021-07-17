@@ -18,6 +18,7 @@ export class AnnotationButtonComponent extends BaseControlComponent implements O
 
   @Input() buttonTooltip;
   @Input() label;
+  @Input() customAttribute;
 
   super() { }
 
@@ -79,20 +80,27 @@ export class AnnotationButtonComponent extends BaseControlComponent implements O
   addAnnotation(annotationType, annotationAttribute, annotationValue) {
     /*        if(TextWidgetAPI.isRunning())
               return false;*/
-    var selectedAnnotation: any = this.TextWidgetAPI.getSelectedAnnotation();     //if the user has already selected an annotation, update it
+    // console.error("AnnotationButtonComponent: addAnnotation():", annotationType, annotationAttribute, annotationValue);
+    //if the user has already selected an annotation, update it
+    var selectedAnnotation: any = this.TextWidgetAPI.getSelectedAnnotation();
+    var newAttribute = {
+      name: annotationAttribute,
+      value: annotationValue
+    };
+    if (typeof this.customAttribute != "undefined") {
+      // This is a custom annotation button, preserve its label...
+      newAttribute["label"] = this.customAttribute
+    }
 
     if (Object.keys(selectedAnnotation).length > 0) {
       selectedAnnotation.type = annotationType;
 
-      //search for the selected attribute inside the annotation
+      // search for the selected attribute inside the annotation
       // var selectedAnnotationAttribute = _.where(selectedAnnotation.attributes, { name: annotationAttribute })[0];
       var selectedAnnotationAttribute = selectedAnnotation.attributes.find(attr => attr.name === annotationAttribute);
-      var newAttribute = {
-        name: annotationAttribute,
-        value: annotationValue
-      };
 
-      if (typeof (selectedAnnotationAttribute) == "undefined")     //the specific attribute does not exist in the current annotation, so add it 
+      if (typeof (selectedAnnotationAttribute) == "undefined")
+        //the specific attribute does not exist in the current annotation, so add it 
         selectedAnnotation.attributes.push(newAttribute);
       else {                                                    //the specific attribute exists in the current annotation, so update it 
         var index = selectedAnnotation.attributes.indexOf(selectedAnnotationAttribute);
@@ -125,10 +133,7 @@ export class AnnotationButtonComponent extends BaseControlComponent implements O
           start: currentSelection.startOffset,
           end: currentSelection.endOffset
         }],
-        attributes: [{
-          name: annotationAttribute,
-          value: annotationValue
-        }]
+        attributes: [newAttribute]
       };
 
       //newAnnotation.spans.push(annotationSpan);

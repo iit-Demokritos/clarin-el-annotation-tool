@@ -1,3 +1,21 @@
+17 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/dialogs/add-custom-value-modal/:
+ * clarin-angular/src/app/app.module.ts:
+ * clarin-angular/src/app/components/controls/annotator-widget/annotator-widget.component.ts:
+ * clarin-angular/src/app/components/controls/base-control/base-control.component.ts:
+ * clarin-angular/src/app/components/controls/button/annotation-button-custom-value-add/annotation-button-custom-value-add.component.ts:
+ * clarin-angular/src/app/components/controls/button/annotation-button/annotation-button.component.ts:
+ * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
+ * clarin-angular/src/app/directives/found-in-collection/found-in-collection.directive.ts:
+ * clarin-angular/src/app/services/button-color-service/button-color.service.ts:
+ * clarin-angular/src/app/services/coreference-color-service/coreference-color.service.ts:
+ * clarin-angular/src/app/services/text-widget/text-widget.service.ts:
+ * frontend/clarin/js/controllers/modals/addCustomValueModalCtrl.js:
+ * frontend/clarin/js/directives/button/annotation-button.js:
+ * frontend/clarin/js/directives/found-in-collection.js: Partially fixed
+ custom Annotation Buttons: They appear (if values found in the Document) and
+ work, but still adding new custom Annotation Button does not work.
+
 16 July 2021 Petasis George <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/controls/button/annotation-button-custom-value-add/:
  * clarin-angular/src/css/clarin-material.scss:

@@ -1042,7 +1042,7 @@ export class TextWidgetComponent extends BaseControlComponent
         for (var l = 0; l < newAnnotations[k].annotation.spans.length; l++) {
           var colorCombination: any = {};
           var annotationSpan = currAnnotation.annotation.spans[l];
-          var annotationsAttributes = currAnnotation.annotation.attributes;
+          var annotationAttributes = currAnnotation.annotation.attributes;
 
           // create the selection in the editor and annotate it
           var selection = this.computeSelectionFromOffsets(
@@ -1051,9 +1051,10 @@ export class TextWidgetComponent extends BaseControlComponent
           switch (annotatorType) {
             case "Button Annotator":
               // If it is Button Annotator get the required color combination
-              for (var m = 0; m < annotationsAttributes.length; m++) {
+              for (var m = 0; m < annotationAttributes.length; m++) {
                 colorCombination =
-                  this.buttonColorService.getColorCombination(annotationsAttributes[m].value);
+                  this.buttonColorService.getColorCombination(annotationAttributes[m].value);
+                  // console.error("colorCombination:", annotationAttributes[m].value, colorCombination);
                 if (typeof (colorCombination) != "undefined")
                   break;
               }
@@ -1105,7 +1106,7 @@ export class TextWidgetComponent extends BaseControlComponent
               var markerId = "mrkr_" + Math.floor(Math.random() * 1000000);
               // Find type
               var value = annotationSpan.start + " " + annotationSpan.end;
-              var typeAttribute = annotationsAttributes.find(attr =>
+              var typeAttribute = annotationAttributes.find(attr =>
                 attr.value === value
               ).name;
               var markAttributes = {

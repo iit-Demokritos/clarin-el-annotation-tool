@@ -21,8 +21,13 @@ export class ButtonColorService {
   colorCombinations = [];
 
   /*** Button Annotator Color Combinations Service ***/
-  addColorCombination(colorCombination) { this.colorCombinations.push(colorCombination); };
+  addColorCombination(colorCombination) {
+    // console.error("addColorCombination:", colorCombination);
+    this.colorCombinations.push(colorCombination);
+  }; /* addColorCombination */
+
   clearColorCombinations() { this.colorCombinations = []; };
+
   getColorCombination(annotationValue) {
     // var colorCombo = _.where(this.colorCombinations, { value: annotationValue });
     var colorCombo = this.colorCombinations.filter(col => col.value === annotationValue);

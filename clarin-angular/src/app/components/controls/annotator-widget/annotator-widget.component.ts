@@ -87,10 +87,10 @@ export class AnnotatorWidgetComponent extends BaseControlComponent
         this.TextWidgetAPI.setAnnotationSchemaAnnotationTypes(types_unique);
         // Replace "\n" with <br/>...
         annotatorsTemplate = annotatorsTemplate.replaceAll("\\n", "\n");
-	// Add the event listeners to all <annotation-text-text>
-	annotatorsTemplate = annotatorsTemplate.replaceAll("<annotation-text-text ",
-	  "<annotation-text-text [broadcastedEvent]=\"broadcastEvent\" ");
-	// console.error("annotatorsTemplate:", annotatorsTemplate);
+        // Add the event listeners to all <annotation-text-text>
+        annotatorsTemplate = annotatorsTemplate.replaceAll("<annotation-text-text ",
+          "<annotation-text-text [broadcastedEvent]=\"broadcastEvent\" ");
+        // console.error("annotatorsTemplate:", annotatorsTemplate);
 
         this.annotatorsInnerTemplate = (
           '<div autoslimscroll scroll-subtraction-height="145">' + annotatorsTemplate + '</div>');
@@ -103,7 +103,7 @@ export class AnnotatorWidgetComponent extends BaseControlComponent
         catch (error) {
           console.error("compile:", error);
         }
-	// console.error("compiled:", this.cmpRef)
+        // console.error("compiled:", this.cmpRef)
 
         if (annotatorsTemplate.indexOf("group-type=\"document_attributes\"") != -1) {
           this.layout.showEditorTabs = true;
@@ -132,7 +132,8 @@ export class AnnotatorWidgetComponent extends BaseControlComponent
   async initDynamicWithTemplate(template) {
     this.compiler.clearCache();
     this.vc.clear();
-    console.error("DEV MODE:", isDevMode());
+    // console.error("DEV MODE:", isDevMode());
+    // console.error("AnnotatorWidgetComponent: vc:", this.vc);
 
     const tmpCmp = Component({ template: template, styles:[] })(class /*extends ValueAccessorComponent<any>*/ implements OnChanges {
 
@@ -146,7 +147,7 @@ export class AnnotatorWidgetComponent extends BaseControlComponent
         if (!changes.hasOwnProperty("broadcastedEvent")) {
           return;
         }
-	// The following assignment will broadcast event to all children...
+        // The following assignment will broadcast event to all children...
         this.broadcastEvent = changes.broadcastedEvent.currentValue;
       }
 
@@ -172,7 +173,7 @@ export class AnnotatorWidgetComponent extends BaseControlComponent
 
         this.cmpRef.instance.component = this.component;
         this.vc.insert(this.cmpRef.hostView);
-	this.cmpRef.instance.broadcastEvent = this.broadcastEvent;
+        this.cmpRef.instance.broadcastEvent = this.broadcastEvent;
       });
   }
 
