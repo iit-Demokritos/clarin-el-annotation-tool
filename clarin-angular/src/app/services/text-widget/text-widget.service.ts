@@ -67,6 +67,33 @@ export class TextWidgetAPI {
     this.scrollIntoViewCallbacks = [];
   }
 
+  resetCallbacks() {
+    //this.initializeCallbacks();
+    this.annotationsCallbacks = [];
+    this.foundInCollectionCallbacks = [];
+    this.selectedAnnotationCallbacks = [];
+  }
+
+  resetData() {
+    this.currentSelection = {};
+    this.selectedAnnotation = {};
+    this.annotations = [];
+    this.annotationsToBeAdded = [];
+    this.annotationsToBeDeleted = [];
+    this.overlappingAreas = [];
+    this.foundInCollection = [];
+    this.scrollIntoView = [];
+
+    this.notifyObservers(this.currentSelectionCallbacks);
+    this.notifyObservers(this.selectedAnnotationCallbacks);
+    this.notifyObservers(this.annotationsCallbacks);
+    this.notifyObservers(this.annotationsToBeAddedCallbacks);
+    this.notifyObservers(this.annotationsToBeDeletedCallbacks);
+    this.notifyObservers(this.overlappingAreasCallbacks);
+    this.notifyObservers(this.foundInCollectionCallbacks);
+  }
+
+
   checkIsRunning() {
     return this.isRunning;
   }
@@ -330,31 +357,6 @@ export class TextWidgetAPI {
     this.notifyObservers(this.annotationsCallbacks);
     this.notifyObservers(this.foundInCollectionCallbacks);
     this.notifyObservers(this.annotationsToBeAddedCallbacks);
-  }
-
-  resetCallbacks() {
-    this.annotationsCallbacks = [];
-    this.foundInCollectionCallbacks = [];
-    this.selectedAnnotationCallbacks = [];
-  }
-
-  resetData() {
-    this.currentSelection = {};
-    this.selectedAnnotation = {};
-    this.annotations = [];
-    this.annotationsToBeAdded = [];
-    this.annotationsToBeDeleted = [];
-    this.overlappingAreas = [];
-    this.foundInCollection = [];
-    this.scrollIntoView = [];
-
-    this.notifyObservers(this.currentSelectionCallbacks);
-    this.notifyObservers(this.selectedAnnotationCallbacks);
-    this.notifyObservers(this.annotationsCallbacks);
-    this.notifyObservers(this.annotationsToBeAddedCallbacks);
-    this.notifyObservers(this.annotationsToBeDeletedCallbacks);
-    this.notifyObservers(this.overlappingAreasCallbacks);
-    this.notifyObservers(this.foundInCollectionCallbacks);
   }
 
   /*** Current Collection Methods ***/

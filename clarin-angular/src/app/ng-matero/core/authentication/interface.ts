@@ -19,6 +19,11 @@ export interface BackendUser {
   jwtToken?:    string | null;
 }
 
+export interface LoginData {
+  sucess:boolean;
+  data:BackendUser;
+}
+
 export interface Token {
   access_token?: string;
   token?: string;

@@ -18,6 +18,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
 
   ngOnInit(): void {
     this.TextWidgetAPI.initializeCallbacks();
+    this.TextWidgetAPI.resetData();
     this.detectOpenDocument();
     //CHECL Widgets $ocLazyLoad.load('annotationWidgets')
   }

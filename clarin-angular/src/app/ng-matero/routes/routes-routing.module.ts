@@ -5,8 +5,8 @@ import { environment } from '@env/environment';
 import { AdminLayoutComponent } from '../theme/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from '../theme/auth-layout/auth-layout.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { LoginComponent } from './sessions/login/login.component';
-import { RegisterComponent } from './sessions/register/register.component';
+//import { LoginComponent } from './sessions/login/login.component';
+//import { RegisterComponent } from './sessions/register/register.component';
 import { AuthGuard } from '@core';
 
 const routes: Routes = [
@@ -28,8 +28,8 @@ const routes: Routes = [
     path: 'auth',
     component: AuthLayoutComponent,
     children: [
-      { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent },
+      //{ path: 'login', component: LoginComponent },
+      //{ path: 'register', component: RegisterComponent },
     ],
   },
   { path: '**', redirectTo: 'dashboard' },

@@ -1,6 +1,6 @@
 {
   "menu": [{
-      "route": "dashboard",
+      "route": "app/dashboard",
       "name": "dashboard",
       "type": "link",
       "icon": "dashboard",
@@ -9,7 +9,7 @@
         "value": "0"
       }
     }, {
-      "route": "collections",
+      "route": "app/collections",
       "name": "Collections",
       "type": "sub",
       "icon": "folder",
@@ -26,7 +26,7 @@
         }
       ]
     }, {
-      "route": "annotation",
+      "route": "app/annotation",
       "name": "Annotation",
       "type": "link",
       "icon": "article"

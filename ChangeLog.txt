@@ -1,3 +1,15 @@
+21 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/angular.json:
+ * clarin-angular/src/app/app-routing.module.ts:
+ * clarin-angular/src/app/components/views/annotation/annotation.component.ts:
+ * clarin-angular/src/app/components/views/login/login.component.ts:
+ * clarin-angular/src/app/ng-matero/core/authentication/auth.service.ts:
+ * clarin-angular/src/app/ng-matero/core/authentication/interface.ts:
+ * clarin-angular/src/app/ng-matero/routes/routes-routing.module.ts:
+ * clarin-angular/src/app/ng-matero/routes/routes.module.ts:
+ * clarin-angular/src/app/services/text-widget/text-widget.service.ts:
+ * clarin-angular/src/assets/data/menu.json: Fixed login/logout.
+
 20 July 2021 Petasis George <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/controls/annotator-widget/annotator-widget.component.ts:
  * clarin-angular/src/app/components/controls/button/annotation-button-custom-value-add/annotation-button-custom-value-add.component.ts:

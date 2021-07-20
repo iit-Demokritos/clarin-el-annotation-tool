@@ -20,9 +20,14 @@ import { AuthGuard }              from '@core';
 const COMPONENTS = [];
 const COMPONENTS_DYNAMIC = [];
 
+/*
+ * The entries shown in the sidebar, are defined in file:
+ *   src/assets/data/menu.json
+ */
 const routes: Routes = [
+  { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
   {
-    path: '',
+    path: 'app',
     component: AdminLayoutComponent,
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard],
@@ -42,8 +47,8 @@ const routes: Routes = [
       { path: 'register', component: RegisterComponent },
     ],
   },
-  { path: '**', redirectTo: 'dashboard' },
-  { path: "auth/login", component: WelcomeComponent },
+  { path: '**', redirectTo: '/auth/login' },
+  /*{ path: "auth/login", component: WelcomeComponent },
  
   {
     path: "clarin/welcome", component: WelcomeComponent, data: {
@@ -68,7 +73,7 @@ const routes: Routes = [
     path: "annotation", component: AnnotationComponent, data: {
       breadcrumb: 'main'
     },
-  }
+  }*/
 ];
 
 @NgModule({
