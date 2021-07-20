@@ -64,8 +64,8 @@ class UserController extends \BaseController {
             $user = Sentinel::getUser();
 
             if (Sentinel::validateCredentials($user, ['password' => $credentials['old_password']])) {
-		// $user->password = $credentials['new_password'];
-		$user = Sentinel::update($user, ['password' => $credentials['new_password']]);
+                // $user->password = $credentials['new_password'];
+                $user = Sentinel::update($user, ['password' => $credentials['new_password']]);
 
                 if ($user->save()) {
                     return Response::json(['success' => true, 'message' => 'You password was successfully updated.'], 200);
@@ -162,26 +162,26 @@ class UserController extends \BaseController {
         $credentials = [
             'email' => Request::json('email'),
             'password' => Request::json('password')
-	];
-	// Log::info("Authenticate the user: credentials: ".json_encode($credentials));
-	$remember_me = Request::json('remember_me', false);
+        ];
+        // Log::info("Authenticate the user: credentials: ".json_encode($credentials));
+        $remember_me = Request::json('remember_me', false);
 
-	// Authenticate the user
-	Sentinel::enableCheckpoints();
-	if (!$user = Sentinel::authenticate($credentials, $remember_me)) {
+        // Authenticate the user
+        Sentinel::enableCheckpoints();
+        if (!$user = Sentinel::authenticate($credentials, $remember_me)) {
           // Log::info("Authentication FAILED!");
-	  return Response::json(['success' => false, 'message'  => 'Authentication failed!'], 400);
-	}
-	// Log::info("User: ".json_encode($user));
-	// https://jwt-auth.readthedocs.io/en/develop/quick-start/
-	if (! $token = JWTAuth::attempt($credentials)) {
+          return Response::json(['success' => false, 'message'  => 'Authentication failed!'], 400);
+        }
+        // Log::info("User: ".json_encode($user));
+        // https://jwt-auth.readthedocs.io/en/develop/quick-start/
+        if (! $token = JWTAuth::attempt($credentials)) {
           return response()->json(['success' => false, 'message' => 'Unauthorized'], HttpResponseCode::HTTP_UNAUTHORIZED);
         }
-	$user['jwtToken'] = $token;
-	
-	//Log::info($user);
-	//Log::info(json_encode(auth()));
-	//Log::info(json_encode(auth()->user()));
+        $user['jwtToken'] = $token;
+        
+        //Log::info($user);
+        //Log::info(json_encode(auth()));
+        //Log::info(json_encode(auth()->user()));
         return Response::json(['success' => true,   'data' => $user], 200);
       }
       catch (Cartalyst\Sentinel\Users\LoginRequiredException $e) {
@@ -200,17 +200,17 @@ class UserController extends \BaseController {
         return Response::json(['success' => false, 'message'  => 'Authentication failed'], 400);
       }
       catch (Cartalyst\Sentinel\Checkpoints\NotActivatedException $e) {
-	$message = $e->getMessage();
+        $message = $e->getMessage();
         try {
           $user = Sentinel::findByCredentials($credentials);
-	  if (Activation::exists($user)) {
+          if (Activation::exists($user)) {
             $activation = Activation::create($user);
-	  } else {
-	    $activation = Activation::create($user);
-	  }
+          } else {
+            $activation = Activation::create($user);
+          }
           $message .= ' Resending Activation email.';
           // Send an activation mail...
-	  $activation_code = $activation['code'];
+          $activation_code = $activation['code'];
           //prepare the required variables passed to the email view
           $email_data = [
              'id' => $activation['user_id'],
@@ -224,10 +224,10 @@ class UserController extends \BaseController {
              $message->to($email_data['to'])
                      ->subject($email_data['subject']);
           });
-	} catch (Exception $e) {
+        } catch (Exception $e) {
           $message .= ' (Failed: ';
-	  $message .= $e->getMessage();
-	  $message .= ')';
+          $message .= $e->getMessage();
+          $message .= ')';
         }
         //$activation_code = $user->getActivationCode();
         return Response::json(['success' => false, 'message'  => $message], 400);
@@ -245,7 +245,9 @@ class UserController extends \BaseController {
      */
     public function me()
     {
-      return response()->json(['success' => true, 'data' => auth()->user()]);
+      // $user = auth()->user();
+      $user = Sentinel::getUser();
+      return response()->json(['success' => true, 'data' => $user]);
     }
 
     /**

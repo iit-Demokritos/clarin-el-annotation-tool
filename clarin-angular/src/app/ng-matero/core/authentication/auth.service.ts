@@ -15,11 +15,28 @@ export class AuthService {
   private user$ = new BehaviorSubject<User>(guest);
 
   // private userReq$ = this.http.get<User>('/me');
-  private userReq$ = of(admin);
+  // private userReq$ = of(admin);
+  private userReq$ = this.http.get<LoginData>('/api/user/me')
+  .pipe(
+    map(data => {
+      if (data.data) {
+        return {id: data.data.id,
+                name: data.data.first_name,
+                email: data.data.email,
+                avatar: './assets/images/avatar-default.jpg'};
+      } else {
+        return of(guest);
+      }
+    })
+  );
 
   headers;
 
   constructor(private http: HttpClient, private token: TokenService) {
+    this.updateUser();
+  }
+
+  updateUser() {
     this.token
       .change()
       .pipe(
@@ -42,6 +59,7 @@ export class AuthService {
        tap(data => {
          // console.error("AuthService: login(): user", data);
          this.token.set({ access_token: data.data.jwtToken, token_type: 'bearer' });
+         this.updateUser();
        }),
        map(() => this.check())
      );
