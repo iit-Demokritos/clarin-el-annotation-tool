@@ -1,22 +1,39 @@
-<form name="customValueAddForm" role="form" (ngSubmit)="addbutton()">
-<div class="success-modal-header modal-header">
-  <h4 style="color:#fff" class="modal-title">Add Annotation Button</h4>
+<div class="add-custom-value-modal">
+  <h2 mat-dialog-title>Add New Annotation Button</h2>
+  <form [formGroup]="addCustomValueForm">
+    <mat-dialog-content>
+      <mat-grid-list cols="2" [cols]="breakpoint" rowHeight="85px" (window:resize)="onResize($event)">
+        <mat-grid-tile>
+          <div class="text-inside">
+            <mat-form-field>
+              <input matInput placeholder="Button Value" [(ngModel)]="value" formControlName="value" required>
+              <mat-error *ngIf="addCustomValueForm.controls.value.hasError('required')">
+                Please enter an attribute value for the new button
+              </mat-error>
+              <mat-error *ngIf="addCustomValueForm.controls.value.hasError('pattern')">
+                Please enter a valid attribute value
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <div class="text-inside">
+            <mat-form-field>
+              <input matInput placeholder="Button Label" [(ngModel)]="label" formControlName="label" required>
+              <mat-error *ngIf="addCustomValueForm.controls.label.hasError('required')">
+                Please enter a label for the new button
+              </mat-error>
+              <mat-error *ngIf="addCustomValueForm.controls.label.hasError('pattern')">
+                Please enter a valid label
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button type="submit" mat-raised-button color="primary" (click)="addButton()">Add</button>
+      <button type="button" mat-raised-button mat-dialog-close (click)="cancel()">Cancel</button>
+    </mat-dialog-actions>
+  </form>
 </div>
-<div class="modal-body">
-  <div class="alert alert-danger" modal-error [hidden]="!(flash===undefined || flash==='')">{{flash}}</div>
-  <div class="form-group">
-    <label for="buttonAttribute">Button Value</label>
-    <input type="text" id="buttonAttribute" class="form-control"
-      placeholder="Please enter an attribute value for the new button..." [ngModel]="buttonAttributeValue" [required]="true">
-  </div>
-  <div class="form-group">
-    <label for="buttonLabel">Button Label</label>
-    <input type="text" id="buttonLabel" class="form-control" placeholder="Please enter a label for the new button..."
-      [ngModel]="buttonLabel" [required]="true">
-  </div>
-</div>
-<div class="modal-footer">
-  <button type="button" class="btn btn-default" (click)="cancel()">Cancel</button>
-  <button type="submit" class="btn btn-default">Add</button>
-</div>
-</form>

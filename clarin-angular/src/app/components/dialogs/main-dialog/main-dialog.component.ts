@@ -17,6 +17,7 @@ import { TextWidgetAPI } from 'src/app/services/text-widget/text-widget.service'
 import { UserService } from 'src/app/services/user-service/user.service';
 import { MainComponent } from '../../views/main/main.component';
 import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'main-dialog',
@@ -30,7 +31,8 @@ export class MainDialogComponent implements OnInit {
   public buttonAnnotatorService:ButtonAnnotatorService,
   public coreferenceAnnotatorService:CoreferenceAnnotatorService,
   public TextWidgetAPI:TextWidgetAPI,
-  public restoreAnnotationService:RestoreAnnotationService) {
+  public restoreAnnotationService:RestoreAnnotationService,
+  public formBuilder:FormBuilder) {
   }
 
   flash:any="";

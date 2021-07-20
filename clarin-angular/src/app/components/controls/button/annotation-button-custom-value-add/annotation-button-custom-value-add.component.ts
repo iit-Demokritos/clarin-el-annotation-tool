@@ -19,9 +19,8 @@ export class AnnotationButtonCustomValueAddComponent extends BaseControlComponen
   }; /* ngOnInit */
 
   openCustomValueModal() {
-    console.error("openCustomValueModal()");
     var dialogRef = this.dialog.open(AddCustomValueModalComponent,
-      {disableClose: true});
+      {width: '600px', disableClose: true});
   }; /* openCustomValueModal */
 
 }

@@ -35,6 +35,11 @@ export class AnnotatorWidgetComponent extends BaseControlComponent
   annotatorsInnerTemplate = "";
   broadcastEvent = {};
 
+  foundInCollection = [[]];
+  foundInCollectionItems = 0;
+  foundInCollectionValues = {};
+  colspan = 1;
+
   super() { }
 
   ngOnInit(): void {
@@ -45,6 +50,7 @@ export class AnnotatorWidgetComponent extends BaseControlComponent
   }
 
   ngOnChanges(changes) {
+    // console.error("AnnotatorWidgetComponent: ngOnChanges():", changes);
     // We are interested only on broadcasted events...
     if (!changes.hasOwnProperty("broadcastedEvent")) {
       return;
@@ -55,6 +61,55 @@ export class AnnotatorWidgetComponent extends BaseControlComponent
     }
     this.changeDetectorRef.detectChanges(); // forces change detection to run
   }; /* ngOnChanges */
+
+  updateFoundInCollection() {
+    var foundInCollection = this.TextWidgetAPI.getFoundInCollection();
+    // console.error("AnnotatorWidgetComponent: updateFoundInCollection():", foundInCollection);
+    if (!foundInCollection.length) return;
+    var annotationSchema:any = this.TextWidgetAPI.getAnnotationSchema();
+
+    // Get the last row from foundInCollection...
+    var row = this.foundInCollection[this.foundInCollection.length-1];
+    if (row.length >= this.colspan) {
+      // Push a new row...
+      row = [];
+      this.foundInCollection.push(row);
+    }
+    for (var i=0; i<foundInCollection.length; i++) {
+      // Add button only if not already added...
+      if (foundInCollection[i].attributes[0].value in this.foundInCollectionValues) {
+        continue;
+      }
+      var colorCombo:any = this.coreferenceColorService.getColorCombination(undefined);
+      var item = {
+        annotationType: annotationSchema.annotation_type,
+        annotationAttribute: annotationSchema.attribute,
+        annotationValue: foundInCollection[i].attributes[0].value,
+        label: ((typeof foundInCollection[i].attributes[0]['label'] != "undefined") ?
+              foundInCollection[i].attributes[0].label :
+              foundInCollection[i].attributes[0].value),
+        customAttribute: foundInCollection[i].attributes[0]['label'],
+        bgColor: colorCombo["background-colour"],
+        fgColor: colorCombo["font-color"],
+        colourBackground: colorCombo["background-colour"],
+        colourBorder: colorCombo["border-color"],
+        colourFont: colorCombo["font-color"],
+        colourSelectedBackground: colorCombo["selected-background-colour"]
+      }
+      this.foundInCollectionValues[foundInCollection[i].attributes[0].value] = null;
+      this.foundInCollectionItems++;
+      row.push(item);
+      if (row.length % this.colspan == 0) {
+        row = [];
+        this.foundInCollection.push(row);
+      }
+      // console.error("updateFoundInCollection():", this.foundInCollectionItems, this.colspan);
+    }
+    // console.error("foundInCollection:", this.foundInCollection);
+    if(typeof this.cmpRef !== 'undefined') {
+      this.cmpRef.instance.foundInCollection = this.foundInCollection;
+    }
+  }; /* updateFoundInCollection */
 
   updateAnnotatorTemplate() {
     this.annotatorType = this.TextWidgetAPI.getAnnotatorType();
@@ -68,13 +123,13 @@ export class AnnotatorWidgetComponent extends BaseControlComponent
         this.coreferenceColorService.clearColorCombinations();
         //console.error("annotatorsTemplate:", annotatorsTemplate);
 
-        if (this.annotatorType == "Button Annotator") {
-          var foundInCollectionPosition = annotatorsTemplate.indexOf("<table") + 6;
+        //if (this.annotatorType == "Button Annotator") {
+        //  var foundInCollectionPosition = annotatorsTemplate.indexOf("<table") + 6;
 
-          annotatorsTemplate = annotatorsTemplate.slice(0, foundInCollectionPosition)
-            + " found-in-collection"
-            + annotatorsTemplate.slice(foundInCollectionPosition);
-        }
+        //  annotatorsTemplate = annotatorsTemplate.slice(0, foundInCollectionPosition)
+        //    + " found-in-collection"
+        //    + annotatorsTemplate.slice(foundInCollectionPosition);
+        //}
         // console.warn("Template:", annotatorsTemplate);
 
         // Try to see how many annotation types this schema involves...
@@ -90,10 +145,34 @@ export class AnnotatorWidgetComponent extends BaseControlComponent
         // Add the event listeners to all <annotation-text-text>
         annotatorsTemplate = annotatorsTemplate.replaceAll("<annotation-text-text ",
           "<annotation-text-text [broadcastedEvent]=\"broadcastEvent\" ");
-        // console.error("annotatorsTemplate:", annotatorsTemplate);
+        
+        if (this.annotatorType == "Button Annotator") {
+          // Get how many columns the table has...
+          this.colspan = parseInt(annotatorsTemplate.match(/colspan=\"(\d+)\"/i)[1]);
+
+          // Find the last </tbody> and place a special "row"...
+          var lastTBody = annotatorsTemplate.lastIndexOf("</tbody>")
+          annotatorsTemplate = annotatorsTemplate.slice(0, lastTBody)
+              + '<tr *ngFor="let row of foundInCollection"><td *ngFor="let cell of row">'
+              + '<annotation-button [annotationType]="cell.annotationType"'
+              + '[annotationAttribute]="cell.annotationAttribute"'
+              + '[annotationValue]="cell.annotationValue"'
+              + '[label]="cell.label"'
+              + '[customAttribute]="cell.customAttribute"'
+              + '[bgColor]="cell.bgColor"'
+              + '[fgColor]="cell.fgColor"'
+              + '[colourBackground]="cell.colourBackground"'
+              + '[colourBorder]="cell.colourBorder"'
+              + '[colourFont]="cell.colourFont"'
+              + '[colourSelectedBackground]="cell.colourSelectedBackground"'
+              + '></annotation-button>'
+              + '</td></tr>'
+              + annotatorsTemplate.slice(lastTBody);
+        }
 
         this.annotatorsInnerTemplate = (
           '<div autoslimscroll scroll-subtraction-height="145">' + annotatorsTemplate + '</div>');
+        // console.error("annotatorsTemplate:", annotatorsTemplate);
         //TODO:Check dynamic compile $compile(elem.contents())(scope);
         // Does the template include Document Attributes?
 
@@ -110,6 +189,11 @@ export class AnnotatorWidgetComponent extends BaseControlComponent
         } else {
           this.layout.showEditorTabs = false;
         }
+
+        this.foundInCollection = [[]];
+        this.foundInCollectionItems = 0;
+        this.foundInCollectionValues = {};
+        this.TextWidgetAPI.registerFoundInCollectionCallback(this.updateFoundInCollection.bind(this));
 
         this.annotationSchemaService.update(this.annotationSchema, this.annotatorType)
           .then((response: any) => {
@@ -138,11 +222,13 @@ export class AnnotatorWidgetComponent extends BaseControlComponent
     const tmpCmp = Component({ template: template, styles:[] })(class /*extends ValueAccessorComponent<any>*/ implements OnChanges {
 
       broadcastEvent = {};
+      foundInCollection = [];
       
       super() { }
 
       ngOnChanges(changes) {
         // console.error("Changes invoked: ", changes);
+        // console.error("tmpCmp: ngOnChanges():", changes);
         // We are interested only on broadcasted events...
         if (!changes.hasOwnProperty("broadcastedEvent")) {
           return;

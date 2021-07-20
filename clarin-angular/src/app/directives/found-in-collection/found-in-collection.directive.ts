@@ -52,6 +52,7 @@ export class FoundInCollectionDirective implements OnInit {
       if (this.foundInCollectionItems % colsNumber == 0) {
         template += "<tr>";
       }
+      console.error("foundInCollectionItems:", this.foundInCollectionItems, "colsNumber:", colsNumber);
 
       template += "<td><annotation-button id=\"x_button_fic_"+this.foundInCollectionItems.toString()+
         "\" [annotationType]=\"'" + annotationSchema.annotation_type +
@@ -77,7 +78,7 @@ export class FoundInCollectionDirective implements OnInit {
         template += "</tr>";
       }
     }
-    // console.error("FoundInCollectionDirective: updateFoundInCollection(): template:", template);
+    console.error("FoundInCollectionDirective: updateFoundInCollection(): template:", template);
     try {
       this.initDynamicWithTemplate(template);
       // console.error("COMPILED!");

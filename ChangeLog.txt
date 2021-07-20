@@ -1,3 +1,17 @@
+20 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/controls/annotator-widget/annotator-widget.component.ts:
+ * clarin-angular/src/app/components/controls/button/annotation-button-custom-value-add/annotation-button-custom-value-add.component.ts:
+ * clarin-angular/src/app/components/dialogs/add-custom-value-modal/add-custom-value-modal.component.html:
+ * clarin-angular/src/app/components/dialogs/add-custom-value-modal/add-custom-value-modal.component.ts:
+ * clarin-angular/src/app/components/dialogs/main-dialog/main-dialog.component.ts:
+ * clarin-angular/src/app/directives/found-in-collection/found-in-collection.directive.ts:
+ * clarin-angular/src/css/clarin-material.scss: Reworked the dialog for adding
+ a new Annotator Button to be more angular-like, and finished the
+ implementation of custom Annotation Buttons. The found-in-collection
+ directive is not used anymore, custom buttons are created by the
+ annotator-widget, in a more "Angular" way (by filling an object with the
+ items, and using *ngFor in the template...).
+
 17 July 2021 Petasis George <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/dialogs/add-custom-value-modal/:
  * clarin-angular/src/app/app.module.ts:

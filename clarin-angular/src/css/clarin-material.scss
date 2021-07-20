@@ -258,6 +258,18 @@ $foreground: map-get($theme, foreground);
     }
   }
 }
+
+/* Modals */
+.add-custom-value-modal {
+  mat-form-field {
+    width: 90%;
+  }
+  .text-inside {
+    position: absolute;
+    left: 5px;
+    width: 100%;
+  }
+}
 .overflow-ellipsis{
   white-space:nowrap!important;
   overflow: hidden!important;
