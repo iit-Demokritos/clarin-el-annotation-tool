@@ -1,4 +1,13 @@
 21 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/views/login/login.component.html:
+ * clarin-angular/src/app/components/views/login/login.component.ts:
+ * clarin-angular/src/app/components/views/register/register.component.html:
+ * clarin-angular/src/app/components/views/register/register.component.ts:
+ * clarin-angular/src/app/ng-matero/routes/dashboard/dashboard.component.html:
+ * clarin-angular/src/app/ng-matero/routes/dashboard/dashboard.component.ts:
+ * clarin-angular/src/app/services/user-service/user.service.ts:
+ * clarin-angular/src/styles.scss: Dashboard with some statistics.
+
  * clarin-angular/src/app/app-routing.module.ts:
  * clarin-angular/src/app/components/views/add-collection/add-collection.component.scss:
  * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.html:

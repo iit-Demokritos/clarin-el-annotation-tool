@@ -12,109 +12,109 @@ import { TempAnnotationService } from '../temp-annotation-service/temp-annotatio
 import { TextWidgetAPI } from '../text-widget/text-widget.service';
 
 @Injectable({
-	providedIn: 'root'
+  providedIn: 'root'
 })
 export class UserService {
 
-	constructor(public http:HttpClient, public dialog:MatDialog, public TextWidgetAPI: TextWidgetAPI, public annotationService:AnnotationService, public tempAnnotationService:TempAnnotationService, public buttonAnnotator:ButtonAnnotatorService, public coreferenceAnnotatorService:CoreferenceAnnotatorService,
-		public collectionService:CollectionService,
-		public zone:NgZone,
-		public coreferenceColorDataService:CoreferenceColorDataService) {}
+  constructor(public http: HttpClient, public dialog: MatDialog, public TextWidgetAPI: TextWidgetAPI, public annotationService: AnnotationService, public tempAnnotationService: TempAnnotationService, public buttonAnnotator: ButtonAnnotatorService, public coreferenceAnnotatorService: CoreferenceAnnotatorService,
+    public collectionService: CollectionService,
+    public zone: NgZone,
+    public coreferenceColorDataService: CoreferenceColorDataService) { }
 
-	/*var sanitizeObj = function (inputObj) {
-		  _.each(inputObj, function(val, key) {
-			  inputObj[key] = $sanitize(val);
-		  });
+  /*var sanitizeObj = function (inputObj) {
+      _.each(inputObj, function(val, key) {
+        inputObj[key] = $sanitize(val);
+      });
   
-		  return inputObj;
-	  };*/
+      return inputObj;
+    };*/
 
-	register(user): Promise<any> {
+  register(user): Promise<any> {
 
-		return new Promise((resolve, reject) => {
-			this.http.post('./api/auth/register', user)
-				.subscribe((response) => {
-					resolve(response);
-				}, (error) => {
-					reject(error);
-				});
-		});
-	};
-
-
-	login(credentials): Promise<any> {
-		//var deferred = $q.defer();
-		//var sanCredentials = sanitizeObj(credentials);
-		//sanCredentials.csrf_token = CSRF_TOKEN;
-		credentials["csrf_token"] = "this.CSRF_TOKEN";
-
-		return new Promise((resolve, reject) => {
-			this.http.post('./api/auth/login', credentials)
-				.subscribe((response) => {
-					if (response["success"] && typeof (response["data"]["email"] != "undefined")) {
-						resolve(response);
-					} else {
-						reject(response);
-					}
-				}, (error) => {
-					reject(error);
-				});
-
-		});
-	};
-
-	logout(): Promise<any> {
-		//var deferred = $q.defer();
-		return new Promise((resolve, reject) => {
-			this.http.get('./api/auth/logout')            // Make an AJAX call to check if the user is logged in
-				.subscribe((response) => {
-					resolve(response);
-				}, (error) => {
-					reject(error);
-				});
-
-		});
-	};
-
-	resetPassword(credentials): Promise<any> {
-
-		return new Promise((resolve, reject) => {
-			this.http.post('./api/auth/reset', credentials)
-				.subscribe((response) => {
-					resolve(response);
-				}, (error) => {
-					reject(error);
-				});
-		});
-
-	};
+    return new Promise((resolve, reject) => {
+      this.http.post('./api/auth/register', user)
+        .subscribe((response) => {
+          resolve(response);
+        }, (error) => {
+          reject(error);
+        });
+    });
+  };
 
 
-	updatePassword(credentials): Promise<any> {
-		//var deferred = $q.defer();
-		//var sanCredentials = sanitizeObj(credentials);
+  login(credentials): Promise<any> {
+    //var deferred = $q.defer();
+    //var sanCredentials = sanitizeObj(credentials);
+    //sanCredentials.csrf_token = CSRF_TOKEN;
+    credentials["csrf_token"] = "this.CSRF_TOKEN";
 
-		return new Promise((resolve, reject) => {
-			this.http.post('./api/user/update', credentials)
-				.subscribe((data) => {
-					resolve(data);
-				}, (error) => {
-					reject(error);
-				});
+    return new Promise((resolve, reject) => {
+      this.http.post('./api/auth/login', credentials)
+        .subscribe((response) => {
+          if (response["success"] && typeof (response["data"]["email"] != "undefined")) {
+            resolve(response);
+          } else {
+            reject(response);
+          }
+        }, (error) => {
+          reject(error);
+        });
 
-		});
-	};
+    });
+  };
 
-	getStats(): Promise<any> {
+  logout(): Promise<any> {
+    //var deferred = $q.defer();
+    return new Promise((resolve, reject) => {
+      this.http.get('./api/auth/logout')            // Make an AJAX call to check if the user is logged in
+        .subscribe((response) => {
+          resolve(response);
+        }, (error) => {
+          reject(error);
+        });
 
-		return new Promise((resolve, reject) => {
-			this.http.get('./api/user')
-				.subscribe((response) => {
-					resolve(response);
-				}, (error) => {
-					reject(error);
-				});
+    });
+  };
 
-		});
-	}
+  resetPassword(credentials): Promise<any> {
+
+    return new Promise((resolve, reject) => {
+      this.http.post('./api/auth/reset', credentials)
+        .subscribe((response) => {
+          resolve(response);
+        }, (error) => {
+          reject(error);
+        });
+    });
+
+  };
+
+
+  updatePassword(credentials): Promise<any> {
+    //var deferred = $q.defer();
+    //var sanCredentials = sanitizeObj(credentials);
+
+    return new Promise((resolve, reject) => {
+      this.http.post('./api/user/update', credentials)
+        .subscribe((data) => {
+          resolve(data);
+        }, (error) => {
+          reject(error);
+        });
+
+    });
+  };
+
+  getStats(): Promise<any> {
+
+    return new Promise((resolve, reject) => {
+      this.http.get('./api/user')
+        .subscribe((response) => {
+          resolve(response);
+        }, (error) => {
+          reject(error);
+        });
+
+    });
+  }
 }

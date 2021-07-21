@@ -40,8 +40,8 @@ export class LoginComponent implements OnInit {
   login() {
     // console.error("LoginComponent: login(): username:", this.username.value,
     //               ", remember:", this.rememberMe.value);
+    // This service is in src/ng-matero/core/authentication/auth.service.ts (@core)
     this.auth
-      // This service is in src/ng-matero/core/authentication/auth.service.ts (@core)
       .login(this.username.value, this.password.value, this.rememberMe.value)
       .pipe(filter(authenticated => authenticated))
       .subscribe(
