@@ -90,7 +90,9 @@ class UserController extends \BaseController {
     public function register() {
         try {
             $credentials = [
-                'name' => Request::json('name'),
+                //'name' => Request::json('name'),
+                'first_name' => Request::json('first_name'),
+                'last_name' => Request::json('last_name'),
                 'email' => Request::json('email'),
                 'password' => Request::json('password')
             ];

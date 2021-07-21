@@ -21,7 +21,7 @@ export class AuthService {
     map(data => {
       if (data.data) {
         return {id: data.data.id,
-                name: data.data.first_name,
+                name: data.data.first_name + " " + data.data.last_name,
                 email: data.data.email,
                 avatar: './assets/images/avatar-default.jpg'};
       } else {

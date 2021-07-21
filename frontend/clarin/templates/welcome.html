@@ -1,82 +1,98 @@
 <div class="landing-wrapper" ng-keydown="formContentChanged()">
-	<div class="row text-center">
-		<img class="logo" src="images/logo.jpg"></div>
-	<hr/>
-	<div ng-switch="mode">
-		<div id="flash" class="alert alert-warning" ng-show="flash">{{ flash }}</div>
+  <div class="row text-center">
+    <img class="logo" src="images/logo.jpg">
+  </div>
+  <hr />
+  <div ng-switch="mode">
+    <div id="flash" class="alert alert-warning" ng-show="flash">{{ flash }}</div>
 
-		<div ng-switch-when="register">
-			<form class="form-horizontal" name="registerForm" ng-submit="register(registerForm)" novalidate>
-				<div class="form-group">
-					<label class="col-xs-4 control-label">Name(*):</label>
-					<div class="col-xs-8">
-						<input type="text" class="form-control" name="regName" placeholder="Name"
-							   ng-model="regInfo.name" ng-required="true">
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-xs-4 control-label">Email(*):</label>
-					<div class="col-xs-8">
-						<input type="email" class="form-control" name="regEmail" placeholder="Email"
-							   ng-model="regInfo.email" ng-required="true">
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-xs-4 control-label">Password(*):</label>
-					<div class="col-xs-8">
-						<input type="password" class="form-control" name="regPassword" placeholder="Password"
-							   ng-model="regInfo.password" ng-required="true" ng-minlength="6">
-					</div>
-				</div>
-				<button type="submit" class="btn btn-success btn-lg btn-block">Sign Up</button>
-			</form>
-		</div>
+    <div ng-switch-when="register">
+      <form class="form-horizontal" name="registerForm" ng-submit="register(registerForm)" novalidate>
+        <!--<div class="form-group">
+          <label class="col-xs-4 control-label">Name(*):</label>
+          <div class="col-xs-8">
+            <input type="text" class="form-control" name="regName" placeholder="Name" ng-model="regInfo.name"
+              ng-required="true">
+          </div>
+        </div>-->
+        <div class="form-group">
+          <label class="col-xs-4 control-label">First Name(*):</label>
+          <div class="col-xs-8">
+            <input type="text" class="form-control" name="regName" placeholder="First Name" ng-model="regInfo.first_name"
+              ng-required="true">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-xs-4 control-label">Last Name(*):</label>
+          <div class="col-xs-8">
+            <input type="text" class="form-control" name="regName" placeholder="Last Name" ng-model="regInfo.last_name"
+              ng-required="true">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-xs-4 control-label">Email(*):</label>
+          <div class="col-xs-8">
+            <input type="email" class="form-control" name="regEmail" placeholder="Email" ng-model="regInfo.email"
+              ng-required="true">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-xs-4 control-label">Password(*):</label>
+          <div class="col-xs-8">
+            <input type="password" class="form-control" name="regPassword" placeholder="Password"
+              ng-model="regInfo.password" ng-required="true" ng-minlength="6">
+          </div>
+        </div>
+        <button type="submit" class="btn btn-success btn-lg btn-block">Sign Up</button>
+      </form>
+    </div>
 
-		<div ng-switch-when="login">
-			<form class="form-horizontal" name="loginForm" ng-submit="login(loginForm)" novalidate>
-				<div class="form-group">
-					<label class="col-xs-4 control-label">Email:</label>
-					<div class="col-xs-8">
-						<input type="email" class="form-control" name="loginEmail" placeholder="Email"
-							   ng-model="loginInfo.email" ng-required="true">
-					</div>
-                </div>
-				<div class="form-group">
-				   <label class="col-xs-4 control-label">Password:</label>
-				   <div class="col-xs-8">
-					   <input type="password" class="form-control" name="loginPassword" placeholder="Password"
-							  ng-model="loginInfo.password" ng-required="true" ng-minlength="6">
-				   </div>
-                </div>
-                <button type="submit" class="btn btn-primary btn-lg btn-block">Sign In</button>
-			</form>
-		</div>
+    <div ng-switch-when="login">
+      <form class="form-horizontal" name="loginForm" ng-submit="login(loginForm)" novalidate>
+        <div class="form-group">
+          <label class="col-xs-4 control-label">Email:</label>
+          <div class="col-xs-8">
+            <input type="email" class="form-control" name="loginEmail" placeholder="Email" ng-model="loginInfo.email"
+              ng-required="true">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-xs-4 control-label">Password:</label>
+          <div class="col-xs-8">
+            <input type="password" class="form-control" name="loginPassword" placeholder="Password"
+              ng-model="loginInfo.password" ng-required="true" ng-minlength="6">
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg btn-block">Sign In</button>
+      </form>
+    </div>
 
-		<div ng-switch-when="forgotPassword">
-			<form class="form-horizontal" name="resetForm" ng-submit="reset(resetForm)" novalidate>
-				<div class="form-group">
-					<label class="col-xs-2 control-label">Email:</label>
-					<div class="col-xs-10">
-						<input type="email" class="form-control" name="resetEmail" placeholder="Email"
-							   ng-model="resetInfo.email" ng-required="true">
-					</div>
-				</div>
-				<button type="submit" class="btn btn-primary btn-lg btn-block">Reset Password</button>
-			</form>
-		</div>
+    <div ng-switch-when="forgotPassword">
+      <form class="form-horizontal" name="resetForm" ng-submit="reset(resetForm)" novalidate>
+        <div class="form-group">
+          <label class="col-xs-2 control-label">Email:</label>
+          <div class="col-xs-10">
+            <input type="email" class="form-control" name="resetEmail" placeholder="Email" ng-model="resetInfo.email"
+              ng-required="true">
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg btn-block">Reset Password</button>
+      </form>
+    </div>
 
-		<div ng-switch-default class="text-center">
-			<button type="button" class="btn btn-success btn-lg btn-block" ng-click="selectMode('register')">Sign Up</button>
-			<span class="badge badge-divider">OR</span>
-			<button type="button" class="btn btn-primary btn-lg btn-block" ng-click="selectMode('login')">Sign In</button>
-			<div class="text-center">
-				<button type="button" class="btn btn-link" ng-click="selectMode('forgotPassword')">Forgot your password?</button>
-			</div>
-		</div>
+    <div ng-switch-default class="text-center">
+      <button type="button" class="btn btn-success btn-lg btn-block" ng-click="selectMode('register')">Sign Up</button>
+      <span class="badge badge-divider">OR</span>
+      <button type="button" class="btn btn-primary btn-lg btn-block" ng-click="selectMode('login')">Sign In</button>
+      <div class="text-center">
+        <button type="button" class="btn btn-link" ng-click="selectMode('forgotPassword')">Forgot your
+          password?</button>
+      </div>
+    </div>
 
-		<div class="text-center" ng-if="mode!=''">
-			<button type="button" class="btn btn-link" ng-click="selectMode('')">
-				<span class="glyphicon glyphicon-circle-arrow-left"></span> Back</button>
-		</div>
-	</div>
+    <div class="text-center" ng-if="mode!=''">
+      <button type="button" class="btn btn-link" ng-click="selectMode('')">
+        <span class="glyphicon glyphicon-circle-arrow-left"></span> Back</button>
+    </div>
+  </div>
 </div>
