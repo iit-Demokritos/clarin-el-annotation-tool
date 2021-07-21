@@ -17,11 +17,11 @@ import { User } from '@core/authentication/interface';
     </button>
 
     <mat-menu #menu="matMenu">
-      <button routerLink="/profile/overview" mat-menu-item>
+      <button routerLink="app/profile/overview" mat-menu-item>
         <mat-icon>account_circle</mat-icon>
         <span>{{ 'user.profile' | translate }}</span>
       </button>
-      <button routerLink="/profile/settings" mat-menu-item>
+      <button routerLink="app/profile/settings" mat-menu-item>
         <mat-icon>settings</mat-icon>
         <span>{{ 'user.settings' | translate }}</span>
       </button>

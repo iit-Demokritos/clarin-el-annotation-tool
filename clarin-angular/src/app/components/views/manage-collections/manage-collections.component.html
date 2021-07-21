@@ -1,8 +1,8 @@
 <page-header></page-header>
-<div class="manage-collectiond-wrapper">
+<div class="manage-collections-wrapper">
   <as-split direction="horizontal">
     <as-split-area [size]="30" [minSize]="10" [maxSize]="60" class="side-bar-wrapper">
-      <mat-card>
+      <mat-card class="mat-card-fill-parent">
         <mat-card-header class="sidebar-header">
           <mat-card-title>{{'Collections.MyCollections'|translate}} ({{dataForTheTree.length}})</mat-card-title>
         </mat-card-header>
@@ -24,7 +24,7 @@
       </mat-card>
     </as-split-area>
     <as-split-area [size]="70" [minSize]="40" [maxSize]="90" class="main-content-wrapper">
-      <mat-card>
+      <mat-card class="mat-card-fill-parent">
         <mat-card-header *ngIf="showStaticHeader==true">
           <mat-card-actions><span>Manage collections</span>
             <span class="example-spacer"></span>

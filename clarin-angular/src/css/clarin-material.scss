@@ -259,6 +259,18 @@ $foreground: map-get($theme, foreground);
   }
 }
 
+/* Collection Routes */
+.manage-collections-wrapper,
+.collection-add-wrapper {
+  height: calc(100% - 64px - 16px);
+  .mat-card-fill-parent {
+    width: 100%;
+    height: calc(100% - 4px);
+    box-sizing: border-box;
+    margin-bottom: 4px;
+  }
+}
+
 /* Modals */
 .add-custom-value-modal {
   mat-form-field {

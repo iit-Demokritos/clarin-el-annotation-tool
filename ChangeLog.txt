@@ -1,4 +1,19 @@
 21 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/app-routing.module.ts:
+ * clarin-angular/src/app/components/views/add-collection/add-collection.component.scss:
+ * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.html:
+ * clarin-angular/src/app/ng-matero/theme/sidebar/user-panel.component.ts:
+ * clarin-angular/src/app/ng-matero/theme/widgets/user.component.ts:
+ * clarin-angular/src/css/clarin-material.scss: Layout fixes.
+
+ * backend/clarin/app/Http/Controllers/UserController.php:
+ * clarin-angular/src/app/ng-matero/core/authentication/auth.service.ts:
+ * frontend/clarin/css/clarin.css:
+ * frontend/clarin/js/controllers/welcomeCtrl.js:
+ * frontend/clarin/js/services/userService.js:
+ * frontend/clarin/templates/welcome.html: Added firts/last name in
+ registration dialog (to be compatible with the user table in MySQL).
+
  * clarin-angular/angular.json:
  * clarin-angular/src/app/app-routing.module.ts:
  * clarin-angular/src/app/components/views/annotation/annotation.component.ts:

@@ -11,10 +11,10 @@ import { Router } from '@angular/router';
       <h4 class="matero-user-panel-name">{{ user.name }}</h4>
       <h5 class="matero-user-panel-email">{{ user.email }}</h5>
       <div class="matero-user-panel-icons">
-        <a routerLink="/profile/overview" mat-icon-button>
+        <a routerLink="/app/profile/overview" mat-icon-button>
           <mat-icon class="icon-20">account_circle</mat-icon>
         </a>
-        <a routerLink="/profile/settings" mat-icon-button>
+        <a routerLink="/app/profile/settings" mat-icon-button>
           <mat-icon class="icon-20">settings</mat-icon>
         </a>
         <a (click)="logout()" mat-icon-button>

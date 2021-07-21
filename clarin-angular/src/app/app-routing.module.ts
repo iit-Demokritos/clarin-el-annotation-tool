@@ -47,6 +47,8 @@ const routes: Routes = [
       { path: 'register', component: RegisterComponent },
     ],
   },
+  { path: 'profile/overview', redirectTo: 'app/profile/overview' },
+  { path: 'profile/settings', redirectTo: 'app/profile/settings' },
   { path: '**', redirectTo: '/auth/login' },
   /*{ path: "auth/login", component: WelcomeComponent },
  
