@@ -1,3 +1,11 @@
+22 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * backend/clarin/app/Http/Controllers/UserController.php:
+ * clarin-angular/src/app/components/views/register/register.component.ts:
+ * clarin-angular/src/app/ng-matero/core/authentication/auth.service.ts:
+ * clarin-angular/src/app/services/user-service/user.service.ts: Ensure that
+ we always have a valid CSRF token before doing a POST action (even if the
+ frontend is not served by the backend (i.e. by ng serve)).
+
 21 July 2021 Petasis George <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/views/login/login.component.html:
  * clarin-angular/src/app/components/views/login/login.component.ts:

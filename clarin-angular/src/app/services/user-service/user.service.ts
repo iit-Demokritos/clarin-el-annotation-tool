@@ -29,8 +29,17 @@ export class UserService {
       return inputObj;
     };*/
 
-  register(user): Promise<any> {
+  async getToken() {
+    return await this.http.get('api/auth/gettoken').toPromise();
+  }
 
+  refreshCSRFToken() {
+    return this.getToken();
+  }
+
+  register(user): Promise<any> {
+    // Ensure we have a valid CSRF token...
+    this.refreshCSRFToken();
     return new Promise((resolve, reject) => {
       this.http.post('./api/auth/register', user)
         .subscribe((response) => {
@@ -43,6 +52,8 @@ export class UserService {
 
 
   login(credentials): Promise<any> {
+    // Ensure we have a valid CSRF token...
+    this.refreshCSRFToken();
     //var deferred = $q.defer();
     //var sanCredentials = sanitizeObj(credentials);
     //sanCredentials.csrf_token = CSRF_TOKEN;
@@ -64,6 +75,8 @@ export class UserService {
   };
 
   logout(): Promise<any> {
+    // Ensure we have a valid CSRF token...
+    this.refreshCSRFToken();
     //var deferred = $q.defer();
     return new Promise((resolve, reject) => {
       this.http.get('./api/auth/logout')            // Make an AJAX call to check if the user is logged in
@@ -77,7 +90,8 @@ export class UserService {
   };
 
   resetPassword(credentials): Promise<any> {
-
+    // Ensure we have a valid CSRF token...
+    this.refreshCSRFToken();
     return new Promise((resolve, reject) => {
       this.http.post('./api/auth/reset', credentials)
         .subscribe((response) => {
@@ -91,6 +105,8 @@ export class UserService {
 
 
   updatePassword(credentials): Promise<any> {
+    // Ensure we have a valid CSRF token...
+    this.refreshCSRFToken();
     //var deferred = $q.defer();
     //var sanCredentials = sanitizeObj(credentials);
 
@@ -106,7 +122,8 @@ export class UserService {
   };
 
   getStats(): Promise<any> {
-
+    // Ensure we have a valid CSRF token...
+    this.refreshCSRFToken();
     return new Promise((resolve, reject) => {
       this.http.get('./api/user')
         .subscribe((response) => {

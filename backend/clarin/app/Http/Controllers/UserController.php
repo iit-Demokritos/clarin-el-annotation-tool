@@ -83,7 +83,8 @@ class UserController extends \BaseController {
 
     /**
      * [POST] function that registers a new user
-     * @param {String} name
+     * @param {String} first_name
+     * @param {String} last_name
      * @param {String} email
      * @param {String} password
      **/
@@ -106,7 +107,7 @@ class UserController extends \BaseController {
             //prepare the required variables passed to the email view
             $email_data = [
                 'id' => $activation['user_id'],
-                'name' => $credentials['name'],
+                'name' => $credentials['first_name'] . ' ' . $credentials['last_name'],
                 'to' => $credentials['email'],
                 'subject' => 'Welcome at Clarin-EL!',
                 'activation_code' => $activation_code
@@ -303,7 +304,7 @@ class UserController extends \BaseController {
 
                     //prepare the required variables passed to the email view
                     $email_data = [
-                        'name' => $user['name'],
+                        'name' => $user['first_name'].' '.$user['last_name'],
                         'to' => $user['email'],
                         'subject' => '[Clarin-EL] Your password has been reset.',
                         'new_password' => $new_password

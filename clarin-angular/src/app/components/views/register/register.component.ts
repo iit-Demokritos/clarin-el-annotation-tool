@@ -80,7 +80,7 @@ export class RegisterComponent implements OnInit {
       .then((response) => {
         this.flashMessage.show(response.message,
           { cssClass: 'alert alert-warning', timeout: 10000 });
-        this.router.navigateByUrl('/auth/login');
+         this.router.navigateByUrl('/auth/login');
       },(error) => {
         this.flashMessage.show(error.message,
           { cssClass: 'alert alert-warning', timeout: 10000 });

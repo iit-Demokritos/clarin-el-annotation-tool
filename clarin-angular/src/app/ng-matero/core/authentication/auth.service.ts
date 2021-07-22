@@ -50,9 +50,17 @@ export class AuthService {
     return this.token.valid();
   }
 
+  async getToken() {
+    return await this.http.get('api/auth/gettoken').toPromise();
+  }
+
+  refreshCSRFToken() {
+    return this.getToken();
+  }
+
   login(email: string, password: string, rememberMe:boolean = false) {
     // Ensure we have a valid CSRF token...
-    this.http.get('api/auth/gettoken');
+    this.refreshCSRFToken();
     return this.http
      .post<LoginData>('/api/auth/login', { email, password, remember_me: rememberMe })
      .pipe(
