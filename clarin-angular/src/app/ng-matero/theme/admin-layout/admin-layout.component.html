@@ -39,7 +39,8 @@
                   [showToggle]="!options.sidenavCollapsed && options.navPos!=='top'"
                   [showBranding]="options.navPos==='top'"
                   (toggleSidenav)="sidenav.toggle()"
-                  (toggleSidenavNotice)="sidenavNotice.toggle()">
+                  (toggleSidenavNotice)="sidenavNotice.toggle()"
+                  (toggleSettingsPanel)="appsettings.togglePanel()">
       </app-header>
 
       <app-topmenu *ngIf="options.navPos==='top'"></app-topmenu>
@@ -49,4 +50,7 @@
       </div>
     </mat-sidenav-content>
   </mat-sidenav-container>
+
+  <!-- Demo purposes only -->
+  <app-customizer #appsettings (optionsChange)="receiveOptions($event)"></app-customizer>
 </div>

@@ -1,3 +1,4 @@
+@use '~@angular/material/core/style/variables';
 @import '~@angular/material/theming';
 
 // Layout
@@ -59,3 +60,7 @@ $mat-colors: (
   light: $light-primary-text,
   dark: $dark-primary-text,
 ) !default;
+
+// The material default animation curves
+$swift-ease-out-duration: variables.$swift-ease-out-duration;
+$swift-ease-out-timing-function: variables.$swift-ease-out-timing-function;

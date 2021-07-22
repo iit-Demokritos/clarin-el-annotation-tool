@@ -22,6 +22,9 @@ import { NotificationComponent } from './widgets/notification.component';
 import { TranslateComponent } from './widgets/translate.component';
 import { UserComponent } from './widgets/user.component';
 
+/* From ng-matero starter: https://github.com/ng-matero/starter */
+import { CustomizerComponent } from './customizer/customizer.component';
+
 @NgModule({
   declarations: [
     AdminLayoutComponent,
@@ -40,6 +43,7 @@ import { UserComponent } from './widgets/user.component';
     NotificationComponent,
     TranslateComponent,
     UserComponent,
+    CustomizerComponent,
   ],
   imports: [SharedModule],
 })

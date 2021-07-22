@@ -7,6 +7,7 @@ import {
   ChangeDetectionStrategy,
   ViewEncapsulation,
 } from '@angular/core';
+import { SettingsService, AppSettings } from '@core';
 import * as screenfull from 'screenfull';
 
 @Component({
@@ -25,10 +26,13 @@ export class HeaderComponent implements OnInit {
 
   @Output() toggleSidenav = new EventEmitter<void>();
   @Output() toggleSidenavNotice = new EventEmitter<void>();
+  @Output() toggleSettingsPanel = new EventEmitter<void>();
 
   private get screenfull(): screenfull.Screenfull {
     return screenfull as screenfull.Screenfull;
   }
+
+  options;
 
   constructor() {}
 
@@ -38,5 +42,9 @@ export class HeaderComponent implements OnInit {
     if (this.screenfull.isEnabled) {
       this.screenfull.toggle();
     }
+  }
+
+  receiveOptions(options: AppSettings): void {
+    this.options = options;
   }
 }

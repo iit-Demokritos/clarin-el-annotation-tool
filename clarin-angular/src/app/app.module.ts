@@ -96,6 +96,7 @@ import { FormlyConfigModule } from './ng-matero/formly-config.module';
 import { ToastrModule } from 'ngx-toastr';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { NgxPermissionsModule } from 'ngx-permissions';
 import { AuthLayoutModComponent } from './components/views/auth-layout-mod/auth-layout-mod.component';
 import { LoginComponent }         from './components/views/login/login.component';
 import { RegisterComponent }      from './components/views/register/register.component';
@@ -207,6 +208,7 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
     ThemeModule,
     RoutesModule,
     SharedModule,
+    NgxPermissionsModule.forRoot(),
     FormlyConfigModule.forRoot(),
     ToastrModule.forRoot(),
     TranslateModule.forRoot({

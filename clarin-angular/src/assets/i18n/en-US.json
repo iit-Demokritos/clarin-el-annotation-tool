@@ -78,7 +78,10 @@
     "Collections": "Collections",
     "Collections.Add New Collection": "Add New Collection",
     "Collections.Manage Collections": "Manage Collections",
-    "Annotation": "Annotation"
+    "Annotation": "Annotation",
+    "Settings": "Settings",
+    "Send Feedback": "Send Feedback",
+    "Help": "Help"
   },
   "Collections": {
      "MyCollections": "My Collections",
@@ -94,7 +97,8 @@
      "NameIsRequired.": "Name is required.",
      "NameMustBeAtLeast4CharactersLlong.": "Name must be at least 4 characters long.",
      "FilesToBeAddedToTheCollection": "Files to be added to the Collection",
-     "PleaseEnterTheNameOfTheCollection...": "Please enter the name of the collection..."
+     "PleaseEnterTheNameOfTheCollection...": "Please enter the name of the collection...",
+     "Import": "Import"
   },
   "validations": {
     "required": "This field is required",

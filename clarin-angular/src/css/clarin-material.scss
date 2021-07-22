@@ -8,12 +8,6 @@ $foreground: map-get($theme, foreground);
   height: revert !important;
 }
 
-.matero-content {
-  padding: 0;
-  height: calc(100% - 64px - 16px); // Minus the toolbar & 16px padding
-  width: 100%;
-}
-
 /* Dialogs */
 .select-document-modal {
   //width:  700px;
@@ -52,9 +46,13 @@ $foreground: map-get($theme, foreground);
 }
 
 /* Login screen */
-.login-card {
-  max-width: 400px;
+.login-component {
+  margin: 80px 0 0;
+  .login-card {
+    max-width: 400px;
+  }
 }
+
 .tool-header-avatar-image {
   background-image: url("/assets/images/logo.svg");
   background-size: cover;
@@ -269,6 +267,16 @@ $foreground: map-get($theme, foreground);
     box-sizing: border-box;
     margin-bottom: 4px;
   }
+  .side-bar-wrapper,
+  .main-content-wrapper {
+    .mat-card-header-text {
+      display: flex;
+      align-items: center;
+      .mat-card-title {
+        margin: 0;
+      }
+    }
+  }
 }
 
 /* Modals */
@@ -288,3 +296,7 @@ $foreground: map-get($theme, foreground);
   text-overflow: ellipsis!important;
 }
 
+/* Special class for filling empty space, used to right-align buttons */
+.fill-space {
+  flex: 1 1 auto;
+}

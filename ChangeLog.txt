@@ -1,3 +1,22 @@
+23 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/app.module.ts:
+ * clarin-angular/src/app/components/views/login/login.component.html:
+ * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.html:
+ * clarin-angular/src/app/ng-matero/core/bootstrap/startup.service.ts:
+ * clarin-angular/src/app/ng-matero/theme/admin-layout/admin-layout.component.html:
+ * clarin-angular/src/app/ng-matero/theme/header/header.component.html:
+ * clarin-angular/src/app/ng-matero/theme/header/header.component.ts:
+ * clarin-angular/src/app/ng-matero/theme/style/_transitions.scss:
+ * clarin-angular/src/app/ng-matero/theme/style/_variables.scss:
+ * clarin-angular/src/app/ng-matero/theme/theme.module.ts:
+ * clarin-angular/src/assets/data/menu.json:
+ * clarin-angular/src/assets/i18n/el-GR.json:
+ * clarin-angular/src/assets/i18n/en-US.json:
+ * clarin-angular/src/css/clarin-material.scss:
+ * clarin-angular/src/css/clarin-matero.scss:
+ * clarin-angular/src/styles/_app-theme.scss: Added a settings button in top
+ toolbar, and some buttons in Collection Management.
+
 22 July 2021 Petasis George <petasis@iit.demokritos.gr>:
  * backend/clarin/app/Http/Controllers/UserController.php:
  * clarin-angular/src/app/components/views/register/register.component.ts:

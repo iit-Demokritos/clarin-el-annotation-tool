@@ -2,3 +2,9 @@
   background-color: white;
   background-image: none;
 }
+
+.matero-content {
+  padding: 0;
+  height: calc(100% - 64px - 16px); // Minus the toolbar & 16px padding
+  width: 100%;
+}

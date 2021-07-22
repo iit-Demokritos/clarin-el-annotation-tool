@@ -6,6 +6,7 @@
 @import '../app/ng-matero/theme/sidebar/sidebar-theme';
 @import '../app/ng-matero/theme/sidemenu/sidemenu-theme';
 @import '../app/ng-matero/theme/topmenu/topmenu-theme';
+@import '../app/ng-matero/theme/customizer/customizer-theme';
 @import '../app/ng-matero/shared/components/error-code/error-code-theme';
 
 @import './custom/table-theme';
@@ -20,6 +21,7 @@
   @include matero-sidebar-theme($theme);
   @include matero-sidemenu-theme($theme);
   @include matero-topmenu-theme($theme);
+  @include matero-customizer-theme($theme);
   @include matero-error-code-theme($theme);
 
   @include custom-table-theme($theme);

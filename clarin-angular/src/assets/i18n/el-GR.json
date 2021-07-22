@@ -1,6 +1,6 @@
 {
   "menu": {
-    "dashboard": "Dashboard",
+    "dashboard": "Ταμπλό",
     "design": "Design",
     "design.colors": "Color System",
     "design.icons": "Material Icons",
@@ -78,21 +78,26 @@
     "Collections": "Συλλογές",
     "Collections.Add New Collection": "Νέα Συλλογή",
     "Collections.Manage Collections": "Διαχείριση Συλλογών",
-    "Annotation": "Επισημείση"
+    "Annotation": "Επισημείωση",
+    "Settings": "Ρυθμίσεις",
+    "Send Feedback": "Αποστολή Σχολίων",
+    "Help": "Βοήθεια"
   },
   "Collections": {
      "MyCollections": "Οι Συλλογές Μου",
-     "AddNewCollection": "Προσήκη Νέας Συλλογής",
-     "AddCollection": "Προσήκη Συλλογής",
+     "AddNewCollection": "Προσθήκη Νέας Συλλογής",
+     "AddCollection": "Προσθήκη Συλλογής",
      "ManageCollections": "Διαχείριση Συλλογών",
-     "CollectionName": "νομα Συλλογής",
+     "CollectionName": "Όνομα Συλλογής",
      "SharedByMe": "Shared By Me",
      "SharedWithMe": "Shared With Me",
-     "Documents": "Έγγραα",
-     "DefaultEncoding": "Προκαορισμένη Κδικοποίηση",
+     "Documents": "Έγγραφα",
+     "DefaultEncoding": "Προκαθορισμένη Κωδικοποίηση",
      "DefaultHandler": "Default Handler",
-     "FilesToBeAddedToTheCollection": "Files to be added to the Collection",
-     "PleaseEnterTheNameOfTheCollection...": "Please enter the name of the collection..."
+     "NameMustBeAtLeast4CharactersLlong.": "Το όνομα πρέπει να περιέχει τουλάχιστον 4 χαρακτήρες.",
+     "FilesToBeAddedToTheCollection": "Αρχεία που θα προστεθούν στην Συλλογή",
+     "PleaseEnterTheNameOfTheCollection...": "Παρακαλώ εισάγετε το όνομα της Συλλογής...",
+     "Import": "Εισαγωγή"
   },
   "validations": {
     "required": "This field is required",
@@ -105,9 +110,9 @@
     "invalid_email": "Invalid email"
   },
   "user": {
-    "profile": "profile",
-    "settings": "settings",
-    "logout": "logout"
+    "profile": "προφίλ",
+    "settings": "ρυθμίσεις",
+    "logout": "αποσύνδεση"
   },
   "login": {
     "title": "Welcome Back",

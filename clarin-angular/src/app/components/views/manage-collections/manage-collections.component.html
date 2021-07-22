@@ -5,6 +5,9 @@
       <mat-card class="mat-card-fill-parent">
         <mat-card-header class="sidebar-header">
           <mat-card-title>{{'Collections.MyCollections'|translate}} ({{dataForTheTree.length}})</mat-card-title>
+          <div fxFlex></div>
+          <button mat-icon-button color="primary" [routerLink]="['/app/collections/add']" [matTooltip]="'Collections.AddNewCollection'|translate"><mat-icon>add_circle_outline</mat-icon></button>
+	  <button mat-icon-button color="primary" (click)="importDocuments()" [matTooltip]="'Collections.Import'|translate"><mat-icon>cloud_upload</mat-icon></button>
         </mat-card-header>
         <mat-card-content class="sidebar-main-content">
           <mat-action-list>
@@ -26,11 +29,9 @@
     <as-split-area [size]="70" [minSize]="40" [maxSize]="90" class="main-content-wrapper">
       <mat-card class="mat-card-fill-parent">
         <mat-card-header *ngIf="showStaticHeader==true">
-          <mat-card-actions><span>Manage collections</span>
-            <span class="example-spacer"></span>
-            <button mat-stroked-button color="primary" (click)="importDocuments()"><i class="fa fa-upload"
-                aria-hidden="true"></i> Import</button>
-          </mat-card-actions>
+          <mat-card-title>Manage Collections</mat-card-title>
+          <div fxFlex></div>
+          <button mat-stroked-button color="primary" (click)="importDocuments()"><mat-icon>cloud_upload</mat-icon> Import</button>
         </mat-card-header>
         <!--download="{{selectedCollection.name}}_export.json"-->
         <div *ngIf="showStaticHeader!=true">
@@ -42,6 +43,8 @@
               *ngIf="selectedCollection.is_owner"><i class="fa fa-user-plus"></i> Share</button>
             <a [href]="'./api/collections/'+selectedCollection.id+'/export'" target="_blank"
               class="btn btn-xs btn-primary"><i class="fa fa-download"></i> Export</a>
+	    <button mat-stroked-button color="primary" (click)="importDocuments()"><i class="fa fa-upload"
+                aria-hidden="true"></i> Import</button>
             <button type="button" class="btn btn-xs btn-primary" (click)="renameCollection()"
               *ngIf="selectedCollection.is_owner"><i class="fa fa-pencil-square-o"></i>
               Rename</button>
