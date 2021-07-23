@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MainDialogComponent } from '../main-dialog/main-dialog.component';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'share-collection-modal',
@@ -8,26 +9,32 @@ import { MainDialogComponent } from '../main-dialog/main-dialog.component';
 })
 export class ShareCollectionModalComponent extends MainDialogComponent implements OnInit {
 
+  public shareForm: FormGroup;
+  public invitations = [];
+  public sharingData = {
+    "cname": this.data.collectionName,
+    "cid": this.data.collectionId,
+    "to": undefined
+  };
+
   super() { }
 
   ngOnInit(): void {
+    this.shareForm = this.formBuilder.group({
+      email: [this.sharingData.to]
+    });
     this.initializeSharingData();
   }
 
-  invitations = [];
-  sharingData = {
-    "cname": this.data.collectionName,
-    "cid": this.data.collectionId,
-    "to": ""
-  }
-
-  initializeSharingData() {				//initialize the collections tree
-    this.sharedCollectionService.getAll(this.data.collectionId).then((response) => {
+  initializeSharingData() {
+    //initialize the collections tree
+    this.sharedCollectionService.getAll(this.data.collectionId)
+    .then((response) => {
       if (!response["success"]) {
-
         this.flashMessage.show("Error during the restoring of your collections. Please refresh the page and try again.", { cssClass: 'alert alert-danger', timeout: 2000 });
       } else {
         this.invitations = response["data"];
+	console.error("initializeSharingData:", this.invitations);
       }
     })
   }

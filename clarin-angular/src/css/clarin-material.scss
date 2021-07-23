@@ -290,6 +290,17 @@ $foreground: map-get($theme, foreground);
     width: 100%;
   }
 }
+.share-collection-modal {
+  mat-form-field {
+    width: 100%;
+  }
+  .invitations {
+    width: 500px;
+    height: 250px;
+    overflow: auto;
+  }
+}
+
 .overflow-ellipsis{
   white-space:nowrap!important;
   overflow: hidden!important;

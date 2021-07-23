@@ -163,7 +163,9 @@ $scope.dataForTheTree = $scope.collections;*/
       });
     });*/
 
-    var dialogRef = this.dialog.open(RenameCollectionModalComponent, {data:dialogData,width: '550px'});
+    var dialogRef = this.dialog.open(RenameCollectionModalComponent, {
+      data:dialogData, width: '600px', height:'400px'
+    });
 
     dialogRef.afterClosed().subscribe(modalResult => {
       this.initializeCollections();
@@ -171,31 +173,26 @@ $scope.dataForTheTree = $scope.collections;*/
 
   }
 
-  shareCollection() {            //function to be called when a user wants to rename a collection
+  // function to be called when a user wants to share a collection
+  shareCollection() {
     var data = {
       collectionId: this.selectedCollection.id,
       collectionName: this.selectedCollection.name
     };
-    var dialogData = new RenameDialogData(data);
-    /*$ocLazyLoad.load('shareCollectionModalCtrl').then(function () {
-      var modalInstance = Dialog.custom('share-collection-modal.html', 'shareCollectionModalCtrl', data);
-      modalInstance.result.then(function (newName) {
-        /*$scope.selectedCollection.name = newName;
-    initializeCollections();
-      });
-    });*/
-
-    var dialogRef = this.dialog.open(ShareCollectionModalComponent, {data:dialogData,width: '550px'});
-
+    var dialogRef = this.dialog.open(ShareCollectionModalComponent, {
+      data: data
+    });
     dialogRef.afterClosed().subscribe(modalResult => {
       this.initializeCollections();
     });
+  }; /* shareCollection */
 
-  };
-
-  deleteDocuments() {            //function to be called when a user wants to delete selected documents
-    if (this.selectedDocuments.length == 0)        //no document has been selected
+  //function to be called when a user wants to delete selected documents
+  deleteDocuments() {
+    if (this.selectedDocuments.length == 0) {
+      //no document has been selected
       return false;
+    }
 
     var modalOptions = new ConfirmDialogData();
 
