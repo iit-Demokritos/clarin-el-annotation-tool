@@ -126,6 +126,8 @@
     <div class="modal-footer">
       <button mat-stroked-button *ngIf="!annotationSchemaExists && showSelectDocument"
         (click)="selectDocument()">Select</button>
+      <button mat-stroked-button *ngIf="!annotationSchemaExists && showSelectDocument"
+        mat-dialog-close>Cancel</button>
       <button mat-stroked-button *ngIf="!annotationSchemaExists && !showSelectDocument" (click)="back()">Back</button>
       <button mat-stroked-button *ngIf="!annotationSchemaExists && !showSelectDocument"
         (click)="closeWithNewSchema()">Ok</button>

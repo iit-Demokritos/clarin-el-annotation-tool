@@ -300,3 +300,8 @@ $foreground: map-get($theme, foreground);
 .fill-space {
   flex: 1 1 auto;
 }
+
+.center-vertically {
+  display:flex;
+  align-items: center;
+}

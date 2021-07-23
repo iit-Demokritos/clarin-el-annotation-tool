@@ -1,4 +1,8 @@
 23 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/dialogs/select-document-modal/select-document-modal.component.html:
+ * clarin-angular/src/css/clarin-material.scss: Added Cancel button on
+ Document Selection.
+
  * clarin-angular/src/app/app.module.ts:
  * clarin-angular/src/app/components/views/login/login.component.html:
  * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.html:
