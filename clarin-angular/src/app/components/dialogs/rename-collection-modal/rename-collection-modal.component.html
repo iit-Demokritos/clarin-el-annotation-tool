@@ -1,15 +1,30 @@
-<form>
-    <div class="primary-modal-header modal-header">
-        <h4 style="color:#fff" class="modal-title">Rename Collection</h4>
-    </div>
-    <div class="modal-body"><!-- ng-show="$parent.flashShow"  -->
-        <flash-messages></flash-messages>
-        Enter a new collection name:
-        <input type="text" name="collectionName" placeholder="Add a collection name.." style="margin-top:10px" class="form-control" [(ngModel)]="collectionData.collectionName" modal-focus auto-clear-flash [required]="true">	
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-default" (click)="cancel()">Cancel</button>
-        <button type="submit" class="btn btn-default" (click)="rename()">Rename</button>
-    </div>
-    </form>
-    
+<div class="rename-collection-modal">
+  <h1 mat-dialog-title>{{'Collections.Rename Collection'|translate}}:
+    "{{data.data.collectionName}}"</h1>
+  <form [formGroup]="renameForm">
+    <mat-dialog-content>
+      <flash-messages></flash-messages>
+      <mat-form-field appearance="outline">
+        <mat-label>{{'Collections.CollectionName' | translate}}</mat-label>
+        <input matInput type="text" formControlName="collectionName"
+          placeholder="{{'Collections.Enter a new Collection name' | translate}}"
+          [(ngModel)]="collectionData.collectionName" required minlength="4" pattern="[a-zA-Z0-9]+([a-zA-Z0-9_ -]+)*">
+        <mat-error *ngIf="renameForm.get('collectionName').hasError('required')">
+          {{'validations.required' | translate}}
+        </mat-error>
+        <mat-error *ngIf="renameForm.get('collectionName').hasError('pattern')">
+          {{'validations.pattern' | translate}}
+        </mat-error>
+        <mat-error translate [translateParams]="{number:'4'}"
+          *ngIf="renameForm.get('collectionName').hasError('minlength')">
+          validations.minlength
+        </mat-error>
+      </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button type="button" mat-raised-button mat-dialog-close (click)="cancel()">{{'Cancel'|translate}}</button>
+      <button type="submit" mat-raised-button color="primary" [disabled]="renameForm.invalid"
+        (click)="rename()">{{'Collections.Rename'|translate}}</button>
+    </mat-dialog-actions>
+  </form>
+</div>

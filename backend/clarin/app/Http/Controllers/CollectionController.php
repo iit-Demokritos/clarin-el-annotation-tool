@@ -17,7 +17,7 @@ class CollectionController extends \BaseController {
       $user = Sentinel::getUser();
       Log::info("CollectionController - index() - user: ".$user);
       return Response::json([
-	'success' => true,
+        'success' => true,
         'data'    => DB::table('collections')
           ->leftJoin('documents', 'collections.id', '=', 'documents.collection_id')
           ->leftJoin('shared_collections', 'collections.id', '=', 'shared_collections.collection_id')
@@ -26,7 +26,7 @@ class CollectionController extends \BaseController {
             $query->where('shared_collections.to', '=', $user['email'])
                   ->where('shared_collections.confirmed', '=', 1);
           })
-          ->select(DB::raw('collections.id, collections.name, collections.encoding, collections.owner_id, shared_collections.confirmed, count(distinct documents.id) as document_count, IF('.$user['id']. '=collections.owner_id, true, false) as is_owner'))
+          ->select(DB::raw('collections.id, collections.name, collections.encoding, collections.handler, collections.owner_id, shared_collections.confirmed, count(distinct documents.id) as document_count, IF('.$user['id']. '=collections.owner_id, true, false) as is_owner'))
           ->orderBy('collections.id', 'asc')
           ->groupBy('collections.id')
           ->get()]);
@@ -48,12 +48,12 @@ class CollectionController extends \BaseController {
           ->where('collections.owner_id', '=', $user['id'])
           ->orWhere(function($query) use ($user) {
             $query->where('shared_collections.to', '=', $user['email'])
-      		->where('shared_collections.confirmed', '=', 1);
+                      ->where('shared_collections.confirmed', '=', 1);
           })
-	  ->select('documents.id', 'documents.name', 'documents.collection_id', 'collections.name as collection_name', 'collections.owner_id','shared_collections.confirmed', DB::raw('IF(' . $user['id'] . '=collections.owner_id, true, false) as is_owner'))
-  	  ->distinct()
-	  ->orderBy('collection_name', 'asc')
-	  ->orderBy('name', 'asc')
+          ->select('documents.id', 'documents.name', 'documents.collection_id', 'collections.name as collection_name', 'collections.owner_id','shared_collections.confirmed', DB::raw('IF(' . $user['id'] . '=collections.owner_id, true, false) as is_owner'))
+            ->distinct()
+          ->orderBy('collection_name', 'asc')
+          ->orderBy('name', 'asc')
           ->get()]);
     } catch(\Exception $e) {
       Log::info("CollectionController - showData() - Catch Exception: ".$e->getMessage());
@@ -70,7 +70,7 @@ class CollectionController extends \BaseController {
 
       //get the documents of the collection
       $documents = Document::where('collection_id', $collection_id)
-        ->get(['id', 'name', 'text', 'external_name','encoding','version', 'created_at', 'updated_at']);
+        ->get(['id', 'name', 'text', 'external_name','encoding','handler', 'version', 'created_at', 'updated_at']);
 
       //iterate through the documents of the collection and get its annotations
       foreach ($documents as $value) {
@@ -123,7 +123,8 @@ class CollectionController extends \BaseController {
         ->where('name', '=',  $input['name'])
         ->get();
 
-      if (empty($duplicateCollection) || $duplicateCollection->isEmpty()) {       //collection does not exist  -- save new collection
+      if (empty($duplicateCollection) || $duplicateCollection->isEmpty()) {
+        //collection does not exist  -- save new collection
         // Log::info("Creating new collection!");
         DB::unprepared('LOCK TABLES collections WRITE');
         $newCollection = Collection::create([
@@ -131,17 +132,17 @@ class CollectionController extends \BaseController {
           'encoding' => $input['encoding'],
           'owner_id' => $user['id'],
           'handler' => $input['handler']['value'] ?? NULL
-	]);
-	// Log::info("Collection CREATED!");
+        ]);
+        // Log::info("Collection CREATED!");
 
-	// Log::info($newCollection);
+        // Log::info($newCollection);
         DB::unprepared('COMMIT');
         DB::unprepared('UNLOCK TABLES');
         return Response::json(['success' => true,
           'collection_id' => $newCollection->id,
           'exists'  => false]);
       } elseif ($input['overwrite']=='true') {   //collection exists -- overwrite
-	Log::info("Collection exists (".$input['id'].")! Deleting & Recreating!");
+        Log::info("Collection exists (".$input['id'].")! Deleting & Recreating!");
         DB::unprepared('LOCK TABLES collections WRITE');
         Collection::destroy($input['id']);  //destroy the old collection
         $newCollection = Collection::create([  //add new collection
@@ -166,7 +167,7 @@ class CollectionController extends \BaseController {
       Log::info("CollectionController - store() - Catch Exception: ".$e->getMessage());
       return Response::json(['success' => false,
         'exists'  => false,
-	'message' => $e->getMessage(),
+        'message' => $e->getMessage(),
         'user'    => $user]);
     }
   }
@@ -178,13 +179,15 @@ class CollectionController extends \BaseController {
       $input = Request::input('data');
 
       $user = Sentinel::getUser();
+      // Log::info($input);
       DB::unprepared('LOCK TABLES collections WRITE');
       $duplicateCollection = DB::table('collections')
         /*->where('owner_id', '=',  $user['id'])*/
         ->where('name', '=',  $input['name'])
         ->get();
 
-      if (empty($duplicateCollection)) {       //collection name does not exist  -- update collection
+      if (empty($duplicateCollection) || $duplicateCollection->isEmpty()) {
+        // collection name does not exist  -- update collection
         $collection = Collection::find($collection_id);
         $collection->name = $input['name'];
         $collection->save();
@@ -196,6 +199,8 @@ class CollectionController extends \BaseController {
           'exists'  => false]);
       } else {
         DB::unprepared('UNLOCK TABLES');
+        // Log::info("CollectionController - update() - duplicate:");
+        // Log::info($duplicateCollection);
         return Response::json(['success' => true,
           'exists'  => true,
           'flash'    => 'The name you selected already exists. Please select a new name']);
@@ -216,7 +221,7 @@ class CollectionController extends \BaseController {
       Log::info("CollectionController - destroy".$collection_id."): user: ".$user);
       $collection = Collection::where('owner_id', $user['id']) //check if the user is the owner of the collection
         ->where('id', $collection_id)
-	->get();
+        ->get();
       log::info("Found: ".count($collection)); 
 
       if (count($collection) > 0) { //if the user is the owner of the collection, delete it

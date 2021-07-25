@@ -23,8 +23,7 @@ export class TextWidgetComponent extends BaseControlComponent
   implements OnInit, OnDestroy {
 
   /* @ViewChild("annotationeditortextwidget", { static: true }) */
-  @Output()
-  textWidgetEvent: EventEmitter<any> = new EventEmitter();
+  @Output() textWidgetEvent: EventEmitter<any> = new EventEmitter();
   element: ElementRef<HTMLTextAreaElement>;
   mainContent;
   editor: CodeMirror.EditorFromTextArea;

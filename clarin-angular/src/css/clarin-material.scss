@@ -261,11 +261,26 @@ $foreground: map-get($theme, foreground);
 .manage-collections-wrapper,
 .collection-add-wrapper {
   height: calc(100% - 64px - 16px);
+  .as-split-area:not(.as-hidden) {
+    padding: 4px;
+  }
+  .text-inside {
+    position: absolute;
+    left: 5px;
+    width: 100%;
+  }
   .mat-card-fill-parent {
     width: 100%;
-    height: calc(100% - 4px);
-    box-sizing: border-box;
-    margin-bottom: 4px;
+    height: 100%;
+    margin: 0;
+    //height: calc(100% - 4px);
+    //box-sizing: border-box;
+    //margin-bottom: 4px;
+  }
+  .sidebar-main-content {
+    .mat-badge-small.mat-badge-above .mat-badge-content {
+      top: 0px;
+    }
   }
   .side-bar-wrapper,
   .main-content-wrapper {
@@ -276,7 +291,20 @@ $foreground: map-get($theme, foreground);
         margin: 0;
       }
     }
+    .document-list-table {
+      overflow-x: auto;
+      max-height: 17em;
+      margin-bottom: 10px;
+    }
   }
+  mat-form-field {
+    width: 100%;
+  }
+  .mat-grid-tile-content {
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+  
 }
 
 /* Modals */
@@ -298,6 +326,16 @@ $foreground: map-get($theme, foreground);
     width: 500px;
     height: 250px;
     overflow: auto;
+  }
+}
+.confirm-dialog-modal {
+  .mat-button {
+    text-transform: uppercase;
+  }
+}
+.rename-collection-modal {
+  mat-form-field {
+    width: 100%;
   }
 }
 

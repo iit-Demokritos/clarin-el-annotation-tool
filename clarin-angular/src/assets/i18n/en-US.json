@@ -108,17 +108,29 @@
     "Send Invitation": "Send Invitation",
     "Close": "Close",
     "Revoke Invitation": "Revoke Invitation",
-    "Delete Collection": "Delete Collection"
+    "Delete Collection": "Delete Collection",
+    "Delete Documents": "Delete Document(s)",
+    "This action is going to delete the entire Collection. Do you want to proceed?": "This action is going to delete the entire Collection (\"{{name}}\"). Do you want to proceed?",
+    "Error in delete Collection. Please refresh the page and try again.": "Error in delete Collection. Please refresh the page and try again.",
+    "EditCollection": "EditCollection",
+    "Add Documents": "Add Documents",
+    "Add Documents to Collection": "Add Documents to Collection",
+    "Export Collection": "Export Collection",
+    "Rename Collection": "Rename Collection",
+    "Enter a new Collection name": "Enter a new Collection name",
+    "Import": "Import",
+    "Rename": "Rename"
   },
   "validations": {
     "required": "This field is required",
-    "minlength": "Should have atleast {{number}} characters",
+    "minlength": "This value must have at least {{number}} characters",
     "maxlength": "This value should be less than {{number}} characters",
     "min": "This value should be more than {{number}}",
     "max": "This value should be less than {{number}}",
-    "exist": "The {{value}} has exists",
+    "exist": "The {{value}} exists",
     "inconsistent": "Inconsistent with {{value}}",
-    "invalid_email": "Invalid email"
+    "invalid_email": "Invalid e-mail",
+    "pattern": "Invalid value"
   },
   "user": {
     "profile": "profile",
@@ -175,5 +187,12 @@
     "confirm_delete": "Confirm delete?",
     "ok": "Ok",
     "close": "Close"
-  }
+  },
+  "dialog": {
+
+  },
+  "Yes": "Yes",
+  "No": "No",
+  "Warning": "Warning",
+  "Error": "Error"
 }

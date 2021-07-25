@@ -51,7 +51,10 @@ export class UserService {
   };
 
 
+  // Login/logout is handled by:
+  // src/ng-matero/core/authentication/auth.service.ts (@core)
   login(credentials): Promise<any> {
+    return;
     // Ensure we have a valid CSRF token...
     this.refreshCSRFToken();
     //var deferred = $q.defer();
@@ -74,6 +77,8 @@ export class UserService {
     });
   };
 
+  // Login/logout is handled by:
+  // src/ng-matero/core/authentication/auth.service.ts (@core)
   logout(): Promise<any> {
     // Ensure we have a valid CSRF token...
     this.refreshCSRFToken();

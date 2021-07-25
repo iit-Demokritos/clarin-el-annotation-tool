@@ -34,7 +34,6 @@ export class ShareCollectionModalComponent extends MainDialogComponent implement
         this.flashMessage.show("Error during the restoring of your collections. Please refresh the page and try again.", { cssClass: 'alert alert-danger', timeout: 2000 });
       } else {
         this.invitations = response["data"];
-	console.error("initializeSharingData:", this.invitations);
       }
     })
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, ViewEncapsulation } from '@angular/core';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 import { ConfirmDialogComponent } from '../../dialogs/confirm-dialog/confirm-dialog.component';
 import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
@@ -7,7 +7,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
-import { TranslateService } from '@ngx-translate/core';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'add-collection',
@@ -17,14 +17,18 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class AddCollectionComponent extends MainComponent implements OnInit {
 
-  super() { };
+  @Input() creatingNewCollection: boolean = true;
+  @Input() editingCollectionData: any = {};
+  @Input() showPageHeader: boolean = true;
+  @Input() showMyCollections: boolean = true;
+  @Input() showHeader: boolean = true;
+  @Input() showNameField: boolean = true;
+  @Input() showSubmitButton: boolean = true;
+  @Output() filesChange = new EventEmitter<any[]>();
 
-  ngOnInit(): void {
-    this.initializeForm();
-    this.initializeCollections();
-  }
-
-  sidebarSelector = "myCollections";
+  public breakpoint: number; // Breakpoint observer code
+  public editCollectionForm: FormGroup;
+  // sidebarSelector = "myCollections";
   allowedTypes    = ["text/plain", "text/xml"];
   typeOptions     = ["Text", "TEI XML"];
   encodingOptions = ["UTF-8", "Unicode"];
@@ -37,7 +41,33 @@ export class AddCollectionComponent extends MainComponent implements OnInit {
   collectionDataUpdated: boolean;
   filterFiles = true;
 
+  super() { };
+
+  ngOnInit(): void {
+    this.initializeForm();
+    this.initializeCollections();
+    this.editCollectionForm = this.formBuilder.group({
+      collectionName: [this.collectionData.name],
+      collectionEncoding: [this.collectionData.encoding],
+      collectionHandler: [this.collectionData.handler],
+    });
+    // Breakpoint observer code
+    this.breakpoint = window.innerWidth <= 600 ? 1 : 2;
+  }
+
+  initializeForm() {
+    this.userFiles = [];
+    this.collectionData = {};
+    this.collectionData.name = "";
+    this.collectionData.encoding = this.encodingOptions[0];
+    this.collectionData.handler  = this.handlerOptions[0];
+    this.encodingChange();
+    this.sendFiles();
+  };
+
   initializeCollections() {
+    if (!this.showMyCollections) return;
+
     this.collectionService.getAll()
       .then((response) => {
         if (!response["success"]) {
@@ -51,15 +81,6 @@ export class AddCollectionComponent extends MainComponent implements OnInit {
           this.dataForTheTree = response["data"]; //angular.copy(response.data); TODO: Copy data
         }
       });
-  };
-
-  initializeForm() {
-    this.userFiles = [];
-    this.collectionData = {};
-    this.collectionData.name = "";
-    this.collectionData.encoding = this.encodingOptions[0];
-    this.collectionData.handler  = this.handlerOptions[0];
-    this.encodingChange();
   };
 
   validateCollection() {
@@ -177,7 +198,16 @@ export class AddCollectionComponent extends MainComponent implements OnInit {
         data: new ConfirmDialogData("Error", event.message)
       });
     }
+    this.sendFiles();
   };
+
+  public onResize(event: any): void {
+    this.breakpoint = event.target.innerWidth <= 600 ? 1 : 2;
+  }
+
+  sendFiles() {
+    this.filesChange.emit(this.userFiles);
+  }
 
 
   /*$scope.$on('flowEvent', function(event, data) {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MainDialogComponent } from '../main-dialog/main-dialog.component';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'rename-collection-modal',
@@ -8,13 +9,17 @@ import { MainDialogComponent } from '../main-dialog/main-dialog.component';
 })
 export class RenameCollectionModalComponent extends MainDialogComponent implements OnInit {
 
+  public renameForm: FormGroup;
+  collectionData: any = this.data;
+  oldCollectionName = this.collectionData.data.collectionName;
+
   super() { }
 
   ngOnInit(): void {
-  }
-
-  collectionData: any = this.data;
-  oldCollectionName = this.collectionData.data.collectionName;
+    this.renameForm = this.formBuilder.group({
+      collectionName: [""]
+    });
+  }; /* ngOnInit */
 
   rename() {
     if (this.oldCollectionName === this.collectionData.collectionName) {
@@ -34,9 +39,11 @@ export class RenameCollectionModalComponent extends MainDialogComponent implemen
           if (response["success"] && !response["exists"]) {
             this.dialogRef.close(updateData.name);
           } else if (response["success"] && response["exists"]) {
-            this.flashMessage.show(response["flash"], { cssClass: 'alert alert-warning', timeout: 2000 });
+            this.flashMessage.show(response["flash"],
+              { cssClass: 'alert alert-warning', timeout: 6000 });
           } else {
-            this.flashMessage.show("An error occurred during the renaming of your collection", { cssClass: 'alert alert-warning', timeout: 2000 });
+            this.flashMessage.show("An error occurred during the renaming of your collection",
+              { cssClass: 'alert alert-warning', timeout: 6000 });
           }
         }, (error) => {
           this.dialogRef.close('Error in edit Collection. Please refresh the page and try again');
@@ -45,7 +52,6 @@ export class RenameCollectionModalComponent extends MainDialogComponent implemen
   };
 
   cancel() {
-    //TODO:Close dialog
     this.dialogRef.close();
   };
 

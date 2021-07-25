@@ -1,10 +1,10 @@
-<div class="{{data?.headerType}}-modal-header modal-header">  
-    <h4 style="color:#fff" class="modal-title">{{data?.dialogTitle}}</h4>
-</div>
-<div class="modal-body">
-	{{data?.message}}	
-</div>
-<div class="modal-footer">
-	<button class="btn btn-default" (click)="cancel()" *ngIf="data?.showCalcelButton">Cancel</button>
-	<button class="btn btn-default" *ngFor="let button of data?.buttons" (click)="confirm(button)">{{button}}</button>
+<div class="confirm-dialog-modal">
+  <div class="confirm-dialog-{{data?.headerType}}-modal-header">
+    <h1 mat-dialog-title>{{data?.dialogTitle|translate}}</h1>
+  </div>
+  <mat-dialog-content>{{data?.message}}</mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="cancel()" *ngIf="data?.showCalcelButton">Cancel</button>
+    <button mat-button *ngFor="let button of data?.buttons" (click)="confirm(button)">{{button|translate}}</button>
+  </mat-dialog-actions>
 </div>

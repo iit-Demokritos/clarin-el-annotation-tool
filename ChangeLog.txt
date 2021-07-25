@@ -1,3 +1,38 @@
+25 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * backend/clarin/app/Http/Controllers/CollectionController.php: Fixed a bug
+ in update() function, as empty() was not enough to detect if a collection
+ with the same name already exists.
+
+ * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
+ * clarin-angular/src/app/components/dialogs/confirm-dialog/confirm-dialog.component.html:
+ * clarin-angular/src/app/components/dialogs/rename-collection-modal/rename-collection-modal.component.html:
+ * clarin-angular/src/app/components/dialogs/rename-collection-modal/rename-collection-modal.component.ts:
+ * clarin-angular/src/app/components/dialogs/share-collection-modal/share-collection-modal.component.html:
+ * clarin-angular/src/app/components/dialogs/share-collection-modal/share-collection-modal.component.ts:
+ * clarin-angular/src/app/components/views/main/main.component.ts:
+ * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.html:
+ * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.ts:
+ * clarin-angular/src/app/models/dialogs/confirm-dialog.ts:
+ * clarin-angular/src/app/models/dialogs/dialog-data.ts:
+ * clarin-angular/src/app/models/dialogs/rename-dialog-data.ts:
+ * clarin-angular/src/app/ng-matero/core/authentication/auth.service.ts:
+ * clarin-angular/src/app/services/user-service/user.service.ts:
+ * clarin-angular/src/assets/i18n/el-GR.json:
+ * clarin-angular/src/assets/i18n/en-US.json:
+ * clarin-angular/src/css/clarin-material.scss: Fixed and tested
+ implementation of all Collection management actions (except import).
+
+ * clarin-angular/src/app/components/dialogs/add-documents-dialog/add-documents-dialog.component.html:
+ * clarin-angular/src/app/components/dialogs/add-documents-dialog/add-documents-dialog.component.ts:
+ Fixed add new Documents to an existing Collection. Re-uses the
+ add-collection.component.
+
+ * clarin-angular/src/app/components/views/add-collection/add-collection.component.html:
+ * clarin-angular/src/app/components/views/add-collection/add-collection.component.ts:
+ Modified component to also "edit" an existing Collection, not only creating a
+ new one. The component is re-used in the add Documents to an existing
+ Collection functionality.
+
 24 July 2021 Petasis George <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/dialogs/share-collection-modal/share-collection-modal.component.html:
  * clarin-angular/src/app/components/dialogs/share-collection-modal/share-collection-modal.component.ts:

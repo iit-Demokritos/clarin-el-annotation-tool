@@ -21,6 +21,8 @@ import { CoreferenceAnnotatorService } from 'src/app/services/coreference-annota
 import { CoreferenceColorService } from 'src/app/services/coreference-color-service/coreference-color.service';
 import { AnnotatorsTemplateService } from 'src/app/services/annotators-template-service/annotators-template.service';
 import { AnnotationSchemaService } from 'src/app/services/annotation-schema-service/annotation-schema.service';
+import { TranslateService } from '@ngx-translate/core';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'main',
@@ -51,7 +53,9 @@ export class MainComponent implements OnInit {
     public compiler:Compiler,
     public injector:Injector,
     public _m: NgModuleRef<any>,
-    public changeDetectorRef:ChangeDetectorRef) { }
+    public changeDetectorRef:ChangeDetectorRef,
+    public translate: TranslateService,
+    public formBuilder:FormBuilder) { }
 
   ngOnInit(): void {
   }

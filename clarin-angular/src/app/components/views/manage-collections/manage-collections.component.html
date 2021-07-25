@@ -4,7 +4,8 @@
     <as-split-area [size]="30" [minSize]="10" [maxSize]="60" class="side-bar-wrapper">
       <mat-card class="mat-card-fill-parent">
         <mat-card-header class="sidebar-header">
-          <mat-card-title>{{'Collections.MyCollections'|translate}} ({{dataForTheTree.length}})</mat-card-title>
+          <mat-card-title matBadge="{{dataForTheTree.length}}" matBadgeOverlap="false" matBadgeColor="accent">
+            {{'Collections.MyCollections'|translate}}</mat-card-title>
           <div fxFlex></div>
           <button mat-icon-button color="primary" [routerLink]="['/app/collections/add']"
             [matTooltip]="'Collections.AddNewCollection'|translate">
@@ -14,23 +15,27 @@
             [matTooltip]="'Collections.Import'|translate">
             <mat-icon>cloud_upload</mat-icon>
           </button>
-	  <!--<button mat-icon-button color="primary" (click)="importDocuments()"
+          <!--<button mat-icon-button color="primary" (click)="importDocuments()"
             [matTooltip]="'Collections.DeleteSelectedCollection'|translate">
             <mat-icon>delete_forever</mat-icon>
-	  </button>-->
+          </button>-->
         </mat-card-header>
         <mat-card-content class="sidebar-main-content">
           <mat-selection-list #shoes [multiple]="false">
             <mat-list-option *ngFor="let collection of dataForTheTree;let index=index" [value]="collection">
               <div class="center-vertically">
-                <mat-icon>folder</mat-icon> {{collection.name}} <div fxFlex></div>
-		<mat-icon *ngIf="collection.confirmed==1 && collection.is_owner">folder_shared</mat-icon>
-		<mat-icon *ngIf="!(collection.confirmed==1 && collection.is_owner)"><!--toggle_off--></mat-icon>
-		<mat-icon *ngIf="collection.confirmed==1 && !collection.is_owner">folder_shared</mat-icon>
-		<mat-icon *ngIf="!(collection.confirmed==1 && !collection.is_owner)"><!--toggle_off--></mat-icon>
-                <button mat-icon-button (click)="deleteCollection(selectedCollection.id)"
-                  *ngIf="collection.is_owner" [matTooltip]="'Collections.Delete Collection'|translate">
-                  <mat-icon>delete_forever</mat-icon></button>
+                <mat-icon>folder</mat-icon><span matBadge="{{collection.document_count}}" matBadgeOverlap="false"
+                  matBadgeColor="accent" matBadgeSize="small"> {{collection.name}} </span>
+                <div fxFlex></div>
+                <mat-icon matBadge="{{collection.document_count}}" matBadgeColor="accent"></mat-icon>
+                <mat-icon *ngIf="collection.confirmed==1 && collection.is_owner">folder_shared</mat-icon>
+                <mat-icon *ngIf="!(collection.confirmed==1 && collection.is_owner)">check_box_outline_blank</mat-icon>
+                <mat-icon *ngIf="collection.confirmed==1 && !collection.is_owner">folder_shared</mat-icon>
+                <mat-icon *ngIf="!(collection.confirmed==1 && !collection.is_owner)">check_box_outline_blank</mat-icon>
+                <button mat-icon-button (click)="deleteCollection(selectedCollection.id)" *ngIf="collection.is_owner"
+                  [matTooltip]="'Collections.Delete Collection'|translate">
+                  <mat-icon>delete_forever</mat-icon>
+                </button>
               </div>
             </mat-list-option>
           </mat-selection-list>
@@ -64,31 +69,34 @@
           <mat-card-title>Collection: <i>{{selectedCollection.name}}</i></mat-card-title>
           <div fxFlex></div>
 
-          <mat-card-actions align="end" *ngIf="btnShow">
-            <button type="button" class="btn btn-xs btn-success" (click)="addDocuments()"
-              *ngIf="selectedCollection.is_owner">
-              <mat-icon>add_circle_outline</mat-icon> Add
-            </button>
-            <button type="button" class="btn btn-xs btn-primary" (click)="shareCollection()"
-              *ngIf="selectedCollection.is_owner">
-              <mat-icon>folder_shared</mat-icon> Share
-            </button>
-            <a [href]="'./api/collections/'+selectedCollection.id+'/export'" target="_blank"
-              class="btn btn-xs btn-primary">
-              <mat-icon>cloud_download</mat-icon> Export
-            </a>
-            <button type="button" class="btn btn-xs btn-primary" (click)="renameCollection()"
-              *ngIf="selectedCollection.is_owner"><i class="fa fa-pencil-square-o"></i>
-              Rename</button>
-            <button type="button" class="btn btn-xs btn-danger" (click)="deleteCollection(selectedCollection.id)"
-              *ngIf="selectedCollection.is_owner">
-              <mat-icon>delete_forever</mat-icon> Delete Collection
-            </button>
-          </mat-card-actions>
-          <mat-card-actions align="end" *ngIf="!btnShow">
-            <button type="button" class="btn btn-xs btn-danger" (click)="deleteDocuments()"><i
-                class="fa fa-trash-o fa-lg"></i> Delete Document(s)</button>
-          </mat-card-actions>
+          <button mat-icon-button color="primary" (click)="addDocuments()"
+            [disabled]="!selectedCollection.is_owner"
+	    [matTooltip]="'Collections.Add Documents'|translate">
+            <mat-icon>note_add</mat-icon>
+          </button>
+          <button mat-icon-button color="primary" (click)="shareCollection()"
+            [disabled]="!selectedCollection.is_owner"
+	    [matTooltip]="'Collections.Share Collection'|translate">
+            <mat-icon>share</mat-icon>
+          </button>
+          <a mat-icon-button color="primary" [href]="'./api/collections/'+selectedCollection.id+'/export'"
+            target="_blank" [matTooltip]="'Collections.Export Collection'|translate">
+            <mat-icon>file_download</mat-icon>
+          </a>
+          <button mat-icon-button color="primary" (click)="renameCollection()"
+            [disabled]="!selectedCollection.is_owner"
+	    [matTooltip]="'Collections.Rename Collection'|translate">
+            <mat-icon>drive_file_rename_outline</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="deleteCollection(selectedCollection.id)"
+            [disabled]="!selectedCollection.is_owner"
+	    [matTooltip]="'Collections.Delete Collection'|translate">
+            <mat-icon>delete_forever</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="deleteDocuments()" [disabled]="btnShow"
+           [matTooltip]="'Collections.Delete Documents'|translate">
+            <mat-icon>delete_forever</mat-icon>
+          </button>
         </mat-card-header>
         <mat-card-content class="main-content">
           <div class="text-center no-available-documents" *ngIf="collectionDocuments.length==0">

@@ -1,7 +1,8 @@
-<page-header></page-header>
+<page-header *ngIf="showPageHeader"></page-header>
 <div class="collection-add-wrapper">
   <as-split direction="horizontal" style="height: 100%;">
-    <as-split-area [size]="30" [minSize]="10" [maxSize]="60" class="side-bar-wrapper">
+    <as-split-area order="1" [visible]="showMyCollections" [size]="30" [minSize]="10" [maxSize]="60"
+      class="side-bar-wrapper">
       <mat-card class="mat-card-fill-parent">
         <mat-card-header class="sidebar-header">
           <mat-card-title>{{'Collections.MyCollections'|translate}} ({{dataForTheTree.length}})</mat-card-title>
@@ -21,59 +22,69 @@
         </mat-card-content>
       </mat-card>
     </as-split-area>
-    <as-split-area [size]="70" [minSize]="40" [maxSize]="90" class="main-content-wrapper">
+    <as-split-area order="2" [size]="70" [minSize]="40" [maxSize]="90" class="main-content-wrapper">
       <mat-card class="mat-card-fill-parent">
-        <mat-card-header class="main-content-header">
-          <mat-card-title>{{'Collections.AddNewCollection' | translate}}</mat-card-title>
+        <mat-card-header class="main-content-header" *ngIf="showHeader">
+          <mat-card-title>{{(creatingNewCollection ? 'Collections.AddNewCollection' : 'Collections.EditCollection') |
+            translate}}</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <form class="form-field-full" (submit)="submitCollection()">
-            <div class="form-group">
-              <label for="collectionName">{{'Collections.CollectionName' | translate}}</label>
-              <input type="text" id="collectionName" name="collectionName" class="form-control"
+          <form [formGroup]="editCollectionForm" (submit)="submitCollection()">
+            <mat-form-field appearance="outline" *ngIf="showNameField">
+              <mat-label>{{'Collections.CollectionName' | translate}}</mat-label>
+              <input matInput type="text" formControlName="collectionName"
                 placeholder="{{'Collections.PleaseEnterTheNameOfTheCollection...' | translate}}"
-                [(ngModel)]="collectionData.name" required minlength="4" #name="ngModel">
-              <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert">
-                <div *ngIf="name.errors?.required">
-                  {{'Collections.NameIsRequired.' | translate}}
-                </div>
-                <div *ngIf="name.errors?.minlength">
-                  {{'Collections.NameMustBeAtLeast4CharactersLlong.' | translate}}
-                </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <label>{{'Collections.DefaultEncoding' | translate}}</label>
-              <select id="defaultEndoding" class="form-control" name="collectionEncoding"
-                [(ngModel)]="collectionData.encoding" (change)="encodingChange()">
-                <option *ngFor="let encodingOption of encodingOptions" [value]="encodingOption">{{encodingOption}}
-                </option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="defaultHandler">{{'Collections.DefaultHandler' | translate}}</label>
-              <select id="defaultHandler" class="form-control" name="collectionHandler"
-                [(ngModel)]="collectionData.handler" (change)="handlerChange()">
-                <option *ngFor="let handlerOption of handlerOptions" [ngValue]="handlerOption">
-                  {{handlerOption.name}}</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>{{'Collections.FilesToBeAddedToTheCollection' | translate}}</label>
-              <div class="table-responsive">
-                <div id="uploadTable">
-                  <table class="table table-bordered" *ngIf="userFiles.length!=undefined && userFiles.length>0">
+                [(ngModel)]="collectionData.name" required minlength="4" pattern="[a-zA-Z0-9]+([a-zA-Z0-9_ -]+)*">
+              <mat-error *ngIf="editCollectionForm.get('collectionName').hasError('required')">
+                {{'validations.required' | translate}}
+              </mat-error>
+              <mat-error *ngIf="editCollectionForm.get('collectionName').hasError('pattern')">
+                {{'validations.pattern' | translate}}
+              </mat-error>
+              <mat-error translate [translateParams]="{number:'4'}"
+                *ngIf="editCollectionForm.get('collectionName').hasError('minlength')">
+                validations.minlength
+              </mat-error>
+            </mat-form-field>
+            <mat-grid-list cols="2" [cols]="breakpoint" rowHeight="6em" (window:resize)="onResize($event)">
+              <mat-grid-tile>
+                <mat-form-field appearance="outline">
+                  <mat-label>{{'Collections.DefaultEncoding' | translate}}</mat-label>
+                  <mat-select formControlName="collectionEncoding" [(ngModel)]="collectionData.encoding"
+                    (change)="encodingChange()">
+                    <mat-option *ngFor="let encodingOption of encodingOptions" [value]="encodingOption">
+                      {{encodingOption}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <mat-form-field appearance="outline">
+                  <mat-label>{{'Collections.DefaultHandler' | translate}}</mat-label>
+                  <mat-select formControlName="collectionHandler" [(ngModel)]="collectionData.handler"
+                    (change)="handlerChange()">
+                    <mat-option *ngFor="let handlerOption of handlerOptions" [value]="handlerOption">
+                      {{handlerOption.name}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </mat-grid-tile>
+            </mat-grid-list>
+            <div class="document-list">
+              <label>{{'Collections.FilesToBeAddedToTheCollection' | translate}}:</label>
+              <div class="document-list-component">
+                <div id="uploadTable" class="document-list-table">
+                  <table class="table table-bordered">
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th>Filename</th>
-                        <th *ngIf="filterFiles !== false">Type</th>
-                        <th *ngIf="filterFiles !== false">Encoding</th>
-                        <th *ngIf="filterFiles !== false">Handler</th>
+                        <th>{{'Filename'|translate}}</th>
+                        <th *ngIf="filterFiles !== false">{{'Type'|translate}}</th>
+                        <th *ngIf="filterFiles !== false">{{'Encoding'|translate}}</th>
+                        <th *ngIf="filterFiles !== false">{{'Handler'|translate}}</th>
                         <th></th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody *ngIf="userFiles.length!=undefined && userFiles.length>0">
                       <tr *ngFor="let file of userFiles;let index=index">
                         <td>{{index+1}}</td>
                         <td>{{file.name}}</td>
@@ -95,8 +106,12 @@
                             <option *ngFor="let o of handlerOptions" [ngValue]="o">{{o.name}}</option>
                           </select>
                         </td>
-                        <td class="col-lg-1"><a class="btn btn-danger btn-xs"
-                            (click)="userFiles.splice(index, 1)">Remove</a></td>
+                        <td>
+                          <button mat-icon-button (click)="userFiles.splice(index, 1)"
+                            [matTooltip]="'Remove'|translate">
+                            <mat-icon>delete</mat-icon>
+                          </button>
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -107,7 +122,7 @@
                   [fileEncodingOptions]="encodingOptions" [fileHandlerOptions]="handlerOptions"
                   [collectionData]="collectionData" [collectionDataUpdated]="collectionDataUpdated"
                   (handleFileInputs)="handleFileInputs($event)"></uploader>
-                <button type="submit" class="btn btn-primary right">
+                <button type="submit" mat-stroked-button color="primary" *ngIf="showSubmitButton">
                   {{'Collections.AddCollection' | translate}}
                 </button>
               </div>

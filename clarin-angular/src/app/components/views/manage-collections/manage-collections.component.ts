@@ -37,10 +37,13 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
 
   collectionDocuments: any = [];
 
+  dialogWidth: "550px";
+  dialogHeight: "600px";
+
   initializeCollections() {                //initialize the collections tree
     this.collectionService.getAll().then((response) => {
       if (!response["success"]) {
-        this.dialog.open(ErrorDialogComponent, {data:new ConfirmDialogData("Error", "Error during the restoring of your collections. Please refresh the page and try again.")});
+        this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Error during the restoring of your collections. Please refresh the page and try again.") });
       } else {
         /*$scope.collections = response.data;
 $scope.dataForTheTree = $scope.collections;*/
@@ -54,7 +57,7 @@ $scope.dataForTheTree = $scope.collections;*/
     this.documentService.getAll(this.selectedCollection.id)
       .then((response) => {
         if (!response["success"]) {
-          this.dialog.open(ErrorDialogComponent, {data:new ConfirmDialogData("Error", "Error during the restoring of your collection\'s documents. Please refresh the page and try again.")});
+          this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Error during the restoring of your collection\'s documents. Please refresh the page and try again.") });
         } else {
           this.collectionDocuments = response["data"];
           this.selectedDocuments = [];
@@ -70,19 +73,19 @@ $scope.dataForTheTree = $scope.collections;*/
     this.initializeCollectionData();
   };
 
-  deleteCollection(id) {                            //function to be called when a user presses the delete collection button
+  // function to be called when a user presses the delete collection button
+  deleteCollection(id) {
     if (typeof id != "undefined") {
       var modalOptions = new ConfirmDialogData();
 
       modalOptions.headerType = "warning";
       modalOptions.dialogTitle = 'Warning';
-      modalOptions.message = 'This action is going to delete the entire collection. Do you want to proceed?';
-      modalOptions.buttons = ['Yes', 'No'];
+      modalOptions.message = this.translate.instant('Collections.This action is going to delete the entire Collection. Do you want to proceed?', {name: this.selectedCollection.name});
+      modalOptions.buttons = ['No', 'Yes'];
 
-      var dialogRef = this.dialog.open(ConfirmDialogComponent, {data:modalOptions,width: '550px'});
+      var dialogRef = this.dialog.open(ConfirmDialogComponent, { data: modalOptions, width: this.dialogWidth });
 
       dialogRef.afterClosed().subscribe(modalResult => {
-
         if (modalResult === "Yes") {
           this.collectionService.destroy(id)
             .then((data) => {
@@ -92,37 +95,32 @@ $scope.dataForTheTree = $scope.collections;*/
               this.showStaticHeader = true;
               this.selectedCollectionIndex = null;
             }, (error) => {
-              this.dialog.open(ConfirmDialogComponent, {data:new ConfirmDialogData("Error", "Error in delete Collection. Please refresh the page and try again."),width: '550px'});
+              this.dialog.open(ConfirmDialogComponent, {
+                data: new ConfirmDialogData("Error",
+                this.translate.instant("Collections.Error in delete Collection. Please refresh the page and try again.")), width: this.dialogWidth });
             });
         }
       });
     }
-  }
+  }; /* deleteCollection */
 
-  addDocuments() {                //function to be called when a user wants to add documents to a collection
+  //function to be called when a user wants to add documents to a collection
+  addDocuments() {
     var data = {
       collectionId: this.selectedCollection.id,
       collectionName: this.selectedCollection.name,
-      collectionEncoding: this.selectedCollection.encoding
+      collectionEncoding: this.selectedCollection.encoding,
+      collectionHandler: this.selectedCollection.handler
     };
+    var modalOptions = new ConfirmDialogData("Add Documents to Collection");
+    modalOptions.data = data;
 
-    /*$ocLazyLoad.load('addDocumentsModalCtrl').then(function () {
-      var modalInstance = Dialog.custom('add-documents-modal.html', 'addDocumentsModalCtrl', data);
-      modalInstance.result.then(function () {
-        this.initializeCollections();
-        this.initializeCollectionData();
-      });
-    });*/
-
-    var dialogRef = this.dialog.open(AddDocumentsDialogComponent, {data:new ConfirmDialogData("Add collection", "Add new collections"),width: '550px'});
-
+    var dialogRef = this.dialog.open(AddDocumentsDialogComponent, {
+       data: modalOptions, width: this.dialogWidth });
     dialogRef.afterClosed().subscribe(modalResult => {
-
       this.initializeCollections();
       this.initializeCollectionData();
-
     });
-
   };
 
   /**
@@ -136,7 +134,7 @@ $scope.dataForTheTree = $scope.collections;*/
       });
     });*/
 
-    var dialogRef = this.dialog.open(ImportModalComponent,{width: '550px'});
+    var dialogRef = this.dialog.open(ImportModalComponent, { width: this.dialogWidth });
 
     dialogRef.afterClosed().subscribe(modalResult => {
 
@@ -147,31 +145,20 @@ $scope.dataForTheTree = $scope.collections;*/
   };
 
 
-  renameCollection() {            //function to be called when a user wants to rename a collection
+  // function to be called when a user wants to rename a collection
+  renameCollection() {
     var data = {
       collectionId: this.selectedCollection.id,
       collectionName: this.selectedCollection.name
     };
-
     var dialogData = new RenameDialogData(data);
-
-    /*$ocLazyLoad.load('renameCollectionModalCtrl').then(function () {
-      var modalInstance = Dialog.custom('rename-collection-modal.html', 'renameCollectionModalCtrl', data);
-      modalInstance.result.then((newName) => {
-        this.selectedCollection.name = newName;
-        this.initializeCollections();
-      });
-    });*/
-
     var dialogRef = this.dialog.open(RenameCollectionModalComponent, {
-      data:dialogData, width: '600px', height:'400px'
+      data: dialogData, width: this.dialogWidth
     });
-
     dialogRef.afterClosed().subscribe(modalResult => {
       this.initializeCollections();
     });
-
-  }
+  }; /* renameCollection */
 
   // function to be called when a user wants to share a collection
   shareCollection() {
@@ -180,7 +167,7 @@ $scope.dataForTheTree = $scope.collections;*/
       collectionName: this.selectedCollection.name
     };
     var dialogRef = this.dialog.open(ShareCollectionModalComponent, {
-      data: data
+      data: data, width: this.dialogWidth
     });
     dialogRef.afterClosed().subscribe(modalResult => {
       this.initializeCollections();
@@ -201,7 +188,7 @@ $scope.dataForTheTree = $scope.collections;*/
     modalOptions.message = 'This action is going to delete the selected document(s) from your collection. Do you want to proceed?';
     modalOptions.buttons = ['Yes', 'No'];
 
-    var dialogRef = this.dialog.open(ConfirmDialogComponent, {data:modalOptions,width: '550px'});
+    var dialogRef = this.dialog.open(ConfirmDialogComponent, { data: modalOptions, width: '550px' });
 
     dialogRef.afterClosed().subscribe(modalResult => {
 

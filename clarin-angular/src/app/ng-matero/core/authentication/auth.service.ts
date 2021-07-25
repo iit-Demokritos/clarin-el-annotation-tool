@@ -85,6 +85,8 @@ export class AuthService {
   }
 
   logout() {
+    // Ensure we have a valid CSRF token...
+    this.refreshCSRFToken();
     return this.http.post('/api/auth/logout', {}).pipe(
       tap(() => this.token.clear()),
       map(() => !this.check())

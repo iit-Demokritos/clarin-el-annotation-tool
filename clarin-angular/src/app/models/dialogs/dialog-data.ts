@@ -1,4 +1,5 @@
 export interface DialogData {
-    message:any;
-    dialogTitle:any;
-  }
+  dialogTitle:any;
+  message:any;
+  data:any;
+}

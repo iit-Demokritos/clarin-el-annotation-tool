@@ -1,5 +1,5 @@
 import { DialogData } from "./dialog-data";
-import {MatDialogConfig} from '@angular/material/dialog';
+import { MatDialogConfig } from '@angular/material/dialog';
 
 export class RenameDialogData extends MatDialogConfig<any> implements DialogData{
     message: any;
