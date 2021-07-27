@@ -13,5 +13,5 @@ class TempAnnotation extends Eloquent /*Moloquent*/ {
     protected $connection = 'mongodb';
     protected $collection = 'annotations_temp';
     protected $dates = ['deleted_at'];
-    protected $fillable = ['_id', 'document_id', 'collection_id', 'owner_id', 'annotator_id', 'type', 'spans', 'attributes', 'updated_by']; 
+    protected $fillable = ['_id', 'document_id', 'collection_id', 'owner_id', 'annotator_id', 'type', 'spans', 'attributes', 'created_by', 'updated_by', 'document_attribute']; 
 }

@@ -2,7 +2,10 @@
  * backend/clarin/app/Http/Controllers/AnnotationController.php:
  * backend/clarin/app/Http/Controllers/CollectionController.php:
  * backend/clarin/app/Http/Controllers/DocumentController.php:
+ * backend/clarin/app/Http/Controllers/TempAnnotationController.php:
+ * backend/clarin/app/Models/TempAnnotation.php:
  * backend/clarin/app/Http/routes.php: Changes in backend, to support import.
+
 
 25 July 2021 Petasis George <petasis@iit.demokritos.gr>:
  * backend/clarin/app/Http/Controllers/CollectionController.php: Fixed a bug

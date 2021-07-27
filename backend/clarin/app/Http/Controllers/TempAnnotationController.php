@@ -17,7 +17,7 @@ class TempAnnotationController extends \BaseController
         'success' => true,
         'data'    => TempAnnotation::where('collection_id', (int) $collection_id)
           ->where('document_id', (int) $document_id)
-          ->get(['collection_id', 'document_id', 'annotator_id', 'document_attribute', 'type', 'spans', 'attributes'])
+          ->get(['collection_id', 'document_id', 'annotator_id', 'document_attribute', 'type', 'spans', 'attributes', 'created_by', 'updated_by'])
       ]);
     } catch (\Exception $e) {
       return Response::json(['success' => false, 'message' => $e->getMessage()]);
@@ -34,7 +34,7 @@ class TempAnnotationController extends \BaseController
           'data'    => TempAnnotation::where('collection_id', (int) $collection_id)
             ->where('document_id', (int) $document_id)
             ->where('annotator_id', $annotation_id)
-            ->get(['collection_id', 'document_id', 'annotator_id', 'document_attribute', 'type', 'spans', 'attributes'])
+            ->get(['collection_id', 'document_id', 'annotator_id', 'document_attribute', 'type', 'spans', 'attributes', 'created_by', 'updated_by'])
         ]);
       }
       return Response::json([
@@ -58,13 +58,15 @@ class TempAnnotationController extends \BaseController
       if ((bool)count(array_filter(array_keys($annotation_data), 'is_string'))) { //if the user send a single annotation
         $anno = new TempAnnotation([
           '_id' => $annotation_data['_id'],
-          'document_id' => $annotation_data['document_id'],
-          'collection_id' => $annotation_data['collection_id'],
+          'document_id' => (int)$document_id, //$annotation_data['document_id'],
+          'collection_id' => (int)$collection_id, //$annotation_data['collection_id'],
           'owner_id' => $user['id'],
           'annotator_id' => (array_key_exists('annotator_id', $annotation_data) ? $annotation_data['annotator_id'] : null),
           'type' => $annotation_data['type'],
           'spans' => $annotation_data['spans'],
           'attributes' => $annotation_data['attributes'],
+	  'created_by' => array_key_exists('created_by', $annotation_data) ?
+                          $annotation_data['updated_by'] : $user['email'],
           'updated_by' => $user['email']
         ]);
         foreach ($optional as $field) {
@@ -84,13 +86,15 @@ class TempAnnotationController extends \BaseController
         foreach ($annotation_data as $annotation) {
           $anno = new TempAnnotation([
             '_id' => $annotation['_id'],
-            'document_id' => $annotation['document_id'],
-            'collection_id' => $annotation['collection_id'],
+            'document_id' => (int)$document_id, // $annotation['document_id'],
+            'collection_id' => (int)$collection_id, // $annotation['collection_id'],
             'owner_id' => $user['id'],
             'annotator_id' => (array_key_exists('annotator_id', $annotation) ? $annotation['annotator_id'] : null),
             'type' => $annotation['type'],
             'spans' => $annotation['spans'],
-            'attributes' => $annotation['attributes'],
+	    'attributes' => $annotation['attributes'],
+	    'created_by' => array_key_exists('created_by', $annotation) ?
+                            $annotation['created_by'] : $user['email'],
             'updated_by' => $user['email']
           ]);
           foreach ($optional as $field) {
