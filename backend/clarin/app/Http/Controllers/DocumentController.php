@@ -97,44 +97,74 @@ class DocumentController extends \BaseController
 
   public function store()
   {
+    $input;
+    $doc;
     try {
-      DB::transaction(function () {
-        $duplicateCounter = -1;
-        $unique_identifier = 1;
+      // DB::transaction(function () {
+      $duplicateCounter = -1;
+      $unique_identifier = 1;
 
-        $input = Request::input('data');
-        $document_name = $input['name'];
+      $input = Request::input('data');
+      $document_name = $input['name'];
 
-        $user = Sentinel::getUser();
+      $user = Sentinel::getUser();
 
-        /* Caller will always place data in the "text" field */
-        $data         = $input['text'];
-        $type         = strtolower($input['type'] ?? "text");
-        $handler_type = $input['handler']['value'] ?? NULL;
-        $handler_name = $input['handler']['name'] ?? NULL;
-        $text         = "";
-        $data_text    = NULL;
-        $data_binary  = NULL;
-        $visualisation_options = NULL;
-        switch ($type) {
-          case "tei xml":
-          case "text":
-          default:
-            $binary = False;
-            break;
-        };
+      /* Caller will always place data in the "text" field */
+      $data         = $input['text'];
+      $type         = strtolower($input['type'] ?? "text");
+      $handler_type = NULL;
+      $handler_name = NULL;
+      $handler_apply = false;
+      switch (gettype($input['handler'])) {
+        case "string":
+          $handler_type = $input['handler'];
+          break;
+        default:
+          if (array_key_exists("value", $input['handler'])) {
+            $handler_type = $input['handler']['value'] ?? "none";
+          }
+          if (array_key_exists("name", $input['handler'])) {
+            $handler_name = $input['handler']['name'] ?? NULL;
+            $handler_apply = true;
+          }
+          break;
+      };
 
-        /* Apply handler... */
-        switch (strtolower($handler_type)) {
-          case "none":
-            $text = $data;
-            break;
-          default:
-            $json = Http::post('https://annotation.ellogon.org/api/fileoperation/handler/apply/', [
-              'type' => $handler_type,
-              'handler_name' => $handler_name,
-              'binary_file' => $data
-            ])->throw()->json();
+      $text         = "";
+      $data_text    = NULL;
+      $data_binary  = NULL;
+      $visualisation_options = $input['visualisation_options'] ?? NULL;
+      switch ($type) {
+        case "tei xml":
+        case "text":
+        default:
+          $binary = False;
+          break;
+      };
+
+      /* Apply handler... */
+      switch (strtolower($handler_type)) {
+        case "none":
+          $text = $data;
+          break;
+        default:
+          if ($handler_apply) {
+            try {
+              $json = Http::post('https://annotation.ellogon.org/api/fileoperation/handler/apply/', [
+                'type' => $handler_type,
+                'handler_name' => $handler_name,
+                'binary_file' => $data
+              ])->throw()->json();
+            } catch(\Exception $e) {
+              Log::info("DocumentController - store() - Handler Exception: ".$e->getMessage());
+              Log::info("Error during handler (\"".$handler_name."\", \"".$handler_type."\"): ".
+                $e->getMessage());
+              throw new Exception("Error during handler (\"".$handler_name."\", \"".$handler_type."\"): ".
+                $e->getMessage());
+              // return Response::json(['success' => false,
+              //   'message' => "Error during handler (\"".$handler_name."\", \"".$handler_type."\"): ".
+              //   $e->getMessage()]);
+            } 
             if ($binary) {
               $data_binary = $data;
             } else {
@@ -142,46 +172,52 @@ class DocumentController extends \BaseController
             }
             $text = $json['documents'][0]['text'] ?? "";
             $visualisation_options = json_encode($json['documents'][0]['info']) ?? NULL;
-            break;
-        };
-
-        DB::unprepared('LOCK TABLE documents WRITE');
-        do {
-          $duplicateCounter = DB::table('documents')
-            ->where('name', '=',  $document_name)
-            ->where('collection_id', '=',  $input['collection_id'])
-            ->count();
-
-          if ($duplicateCounter > 0) {
-            $document_name = $input['name'] . "_" . $unique_identifier;
-            $unique_identifier++;
           }
-        } while ($duplicateCounter != 0);
+          break;
+      };
 
-        $col = Document::create([
-          'name' => $document_name,
-          'type' => $type,
-          'text' => $text,
-          'data_text' => $data_text,
-          'data_binary' => $data_binary,
-          'handler' => $handler_type,
-          'visualisation_options' => $visualisation_options,
-          'external_name' => $document_name,
-          'encoding' => $input['encoding'],
-          'collection_id' => $input['collection_id'],
-          'owner_id' => $user['id'],
-          'updated_by' => $user['email']
-        ]);
+      DB::beginTransaction();
+      DB::unprepared('LOCK TABLE documents WRITE');
+      do {
+        $duplicateCounter = DB::table('documents')
+          ->where('name', '=',  $document_name)
+          ->where('collection_id', '=',  $input['collection_id'])
+          ->count();
 
-        DB::unprepared('COMMIT');
-        DB::unprepared('UNLOCK TABLES');
-      });
+        if ($duplicateCounter > 0) {
+          $document_name = $input['name'] . "_" . $unique_identifier;
+          $unique_identifier++;
+        }
+      } while ($duplicateCounter != 0);
+
+      $doc = Document::create([
+        'name' => $document_name,
+        'type' => $type,
+        'text' => $text,
+        'data_text' => $data_text,
+        'data_binary' => $data_binary,
+        'handler' => $handler_type,
+        'visualisation_options' => $visualisation_options,
+        'external_name' => $document_name,
+        'encoding' => $input['encoding'],
+        'collection_id' => $input['collection_id'],
+        'owner_id' => $user['id'],
+        'updated_by' => $user['email']
+      ]);
+
+      DB::unprepared('COMMIT');
+      DB::unprepared('UNLOCK TABLES');
+      // });
     } catch (\Exception $e) {
+      DB::unprepared('UNLOCK TABLES');
+      DB::rollback();
       Log::info("DocumentController - store() - Catch Exception: ".$e->getMessage());
       return Response::json(['success' => false, 'message' => $e->getMessage()]);
     }
-
-    return Response::json(['success' => true]);
+    return Response::json(['success' => true,
+      'collection_id' => $input['collection_id'],
+      'document_id'   => $doc->id]);
+    return Response::json(['success' => false, 'message' => 'out of scope return']);
   }
 
   public function destroy($collection_id, $document_id)

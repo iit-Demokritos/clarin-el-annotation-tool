@@ -14,7 +14,8 @@ class AnnotationController extends \BaseController
         'success' => true,
         'data'      => Annotation::where('collection_id', (int) $collection_id)
           ->where('document_id', (int) $document_id)
-          ->get(['collection_id', 'document_id', 'annotator_id', 'document_attribute', 'type', 'spans', 'attributes'])
+          ->get(['collection_id', 'document_id', 'annotator_id', 'document_attribute',
+                 'type', 'spans', 'attributes', 'updated_by'])
       ]);
     } catch (\Exception $e) {
       return Response::json(['success' => false, 'message' => $e->getMessage()]);
@@ -30,7 +31,8 @@ class AnnotationController extends \BaseController
           'data'    => TempAnnotation::where('collection_id', (int) $collection_id)
             ->where('document_id', (int) $document_id)
             ->where('annotator_id', $annotation_id)
-            ->get(['collection_id', 'document_id', 'annotator_id', 'document_attribute', 'type', 'spans', 'attributes'])
+            ->get(['collection_id', 'document_id', 'annotator_id', 'document_attribute',
+                   'type', 'spans', 'attributes', 'updated_by'])
         ]);
       }
       return Response::json([
@@ -42,7 +44,7 @@ class AnnotationController extends \BaseController
     }
   }
 
-  public function store($collection_id, $document_id)
+  public function store($collection_id, $document_id, $importing=false)
   { //store annotations
     $optional = ["document_attribute"];
     try {
@@ -52,21 +54,21 @@ class AnnotationController extends \BaseController
       $annotator_id = "";
 
       if ((bool)count(array_filter(array_keys($annotation_data), 'is_string'))) { //if the user send a single annotation
-        // Just make sure during migration, that annotatio does not exists
+        // Just make sure during migration, that annotation does not exists
         try {
           Annotation::destroy($annotation_data['_id']);
         } catch (Throwable $e) {
         }
         $anno = new Annotation([
           '_id' => $annotation_data['_id'],
-          'document_id' => $annotation_data['document_id'],
-          'collection_id' => $annotation_data['collection_id'],
+          'document_id' => (int)$document_id, // : $annotation_data['document_id'],
+          'collection_id' => (int)$collection_id, // : $annotation_data['collection_id'],
           'owner_id' => $user['id'],
           'annotator_id' => $annotation_data['annotator_id'],
           'type' => $annotation_data['type'],
           'spans' => $annotation_data['spans'],
           'attributes' => $annotation_data['attributes'],
-          'updated_by' => $user['email']
+          'updated_by' => $importing ? $annotation_data['updated_by'] : $user['email']
         ]);
         foreach ($optional as $field) {
           if (array_key_exists($field, $annotation_data)) {
@@ -85,14 +87,14 @@ class AnnotationController extends \BaseController
           }
           $anno = new Annotation([
             '_id' => $annotation['_id'],
-            'document_id' => $annotation['document_id'],
-            'collection_id' => $annotation['collection_id'],
+            'document_id' => (int)$document_id, // : $annotation['document_id'],
+            'collection_id' => (int)$collection_id, // : $annotation['collection_id'],
             'owner_id' => $user['id'],
             'annotator_id' => $annotation['annotator_id'],
             'type' => $annotation['type'],
             'spans' => $annotation['spans'],
             'attributes' => $annotation['attributes'],
-            'updated_by' => $user['email']
+            'updated_by' => $importing ? $annotation['updated_by'] : $user['email']
           ]);
           foreach ($optional as $field) {
             if (array_key_exists($field, $annotation)) {
@@ -117,9 +119,12 @@ class AnnotationController extends \BaseController
     } catch (\Exception $e) {
       return Response::json(['success' => false, 'message' => $e->getMessage()]);
     }
-
     return Response::json(['success' => true]);
-  }
+  } /* store */
+
+  public function import($collection_id, $document_id) {
+    return $this->store($collection_id, $document_id, true);
+  } /* import */
 
   public function destroy($collection_id, $document_id, $annotation_id)
   {  //destroy annotations

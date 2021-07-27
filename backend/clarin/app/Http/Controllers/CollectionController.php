@@ -61,7 +61,7 @@ class CollectionController extends \BaseController {
     }
   }
 
-  //get all collections data
+  // Export collection's data
   public function exportData($collection_id) {
     try {
       //get the specified collection
@@ -70,7 +70,7 @@ class CollectionController extends \BaseController {
 
       //get the documents of the collection
       $documents = Document::where('collection_id', $collection_id)
-        ->get(['id', 'name', 'text', 'external_name','encoding','handler', 'version', 'created_at', 'updated_at']);
+        ->get(['id', 'name', 'text', 'external_name','encoding','handler', 'version', 'created_at', 'updated_at', 'updated_by', 'type', 'data_binary', 'data_text', 'metadata', 'visualisation_options']);
 
       //iterate through the documents of the collection and get its annotations
       foreach ($documents as $value) {
@@ -91,6 +91,37 @@ class CollectionController extends \BaseController {
       return Response::json(['success' => false, 'message' => $e->getMessage(), 'data' => []]);
     }
   }
+
+  // Import Collection
+  public function importData() {
+    try {
+      $user = Sentinel::getUser();
+      $collectionName = Request::input('name');
+      $files          = Request::input('files');
+      foreach ($files as $file) {
+        $json = json_decode(base64_decode($file), true);
+        $col = $json['data'];
+        $collection = [
+          'name'     => $collectionName,
+          'encoding' => $col['encoding'],
+          'owner_id' => $user['id'],
+          'handler'  => $col['handler']
+        ];
+      }
+      $data = [
+        'user'   => $user,
+        'collection' => $collection,
+        'filenu' => count($files)
+      ];
+
+      return Response::json([
+        'success' => true,
+        'data'    => $data]);
+    } catch(\Exception $e) {
+      Log::info("CollectionController - importData() - Catch Exception: ".$e->getMessage());
+      return Response::json(['success' => false, 'message' => $e->getMessage()]);
+    }
+  } /* importData */
 
   //get selected collection of user
   public function show($collection_id) {
@@ -121,39 +152,68 @@ class CollectionController extends \BaseController {
       $duplicateCollection = DB::table('collections')
         ->where('owner_id', '=',  $user['id'])
         ->where('name', '=',  $input['name'])
-        ->get();
+         ->get();
+      $handler = "none";
+      switch (gettype($input['handler'])) {
+        case "string":
+          $handler = $input['handler'];
+          break;
+        default:
+          if (array_key_exists("value",$input['handler'])) {
+            $handler = $input['handler']['value'] ?? "none";
+          }
+          break;
+      };
 
       if (empty($duplicateCollection) || $duplicateCollection->isEmpty()) {
         //collection does not exist  -- save new collection
         // Log::info("Creating new collection!");
         DB::unprepared('LOCK TABLES collections WRITE');
-        $newCollection = Collection::create([
-          'name' => $input['name'],
-          'encoding' => $input['encoding'],
-          'owner_id' => $user['id'],
-          'handler' => $input['handler']['value'] ?? NULL
-        ]);
-        // Log::info("Collection CREATED!");
+        try {
+          $newCollection = Collection::create([
+            'name' => $input['name'],
+            'encoding' => $input['encoding'],
+            'owner_id' => $user['id'],
+            'handler' => $handler
+          ]);
+          // Log::info("Collection CREATED!");
 
-        // Log::info($newCollection);
-        DB::unprepared('COMMIT');
-        DB::unprepared('UNLOCK TABLES');
+          // Log::info($newCollection);
+          DB::unprepared('COMMIT');
+        } catch(\Illuminate\Database\QueryException $e) {
+          return Response::json(['success' => false,
+            'exists'  => false,
+            'message' => $e->getMessage(),
+            'user'    => $user]);
+        } finally {
+          DB::unprepared('UNLOCK TABLES');
+        }
         return Response::json(['success' => true,
           'collection_id' => $newCollection->id,
           'exists'  => false]);
       } elseif ($input['overwrite']=='true') {   //collection exists -- overwrite
         Log::info("Collection exists (".$input['id'].")! Deleting & Recreating!");
         DB::unprepared('LOCK TABLES collections WRITE');
-        Collection::destroy($input['id']);  //destroy the old collection
-        $newCollection = Collection::create([  //add new collection
-          'name' => $input['name'],
-          'encoding' => $input['encoding'],
-          'owner_id' => $user['id'],
-          'handler' => $input['handler']['value'] ?? NULL
-        ]);
+        try {
+          Collection::destroy($input['id']);  //destroy the old collection
+          $newCollection = Collection::create([  //add new collection
+            'id'       => $input['id'],
+            'name'     => $input['name'],
+            'encoding' => $input['encoding'],
+            'owner_id' => $user['id'],
+            'handler'  => $handler
+          ]);
 
-        DB::unprepared('COMMIT');
-        DB::unprepared('UNLOCK TABLES');
+          DB::unprepared('COMMIT');
+        } catch(\Illuminate\Database\QueryException $e) {
+          return Response::json(['success' => false,
+            'exists'  => false,
+            'message' => $e->getMessage(),
+            'user'    => $user]);
+        } finally {
+          DB::unprepared('UNLOCK TABLES');
+        }
+        Log::info("New Collection id: ".$newCollection->id);
         return Response::json(['success' => true,
           'collection_id' => $newCollection->id,
           'exists'  => false]);
@@ -182,7 +242,7 @@ class CollectionController extends \BaseController {
       // Log::info($input);
       DB::unprepared('LOCK TABLES collections WRITE');
       $duplicateCollection = DB::table('collections')
-        /*->where('owner_id', '=',  $user['id'])*/
+        ->where('owner_id', '=',  $user['id'])
         ->where('name', '=',  $input['name'])
         ->get();
 
@@ -228,9 +288,11 @@ class CollectionController extends \BaseController {
         Collection::where('owner_id', $user['id'])
           ->where('id', $collection_id)
           ->delete();
-      } else                               //else stop the excecution informing the user about the permission issue
+      } else {
+        //else stop the excecution informing the user about the permission issue
         Log::info("CollectionController - destroy(".$collection_id.", ".$user['id']."): You do not have permission to delete this collection");
         return Response::json(['success' => false, 'message' => 'You do not have permission to delete this collection']);
+      }
 
       TempAnnotation::where('owner_id', $user['id'])
         ->where('collection_id', $collection_id)
@@ -246,4 +308,29 @@ class CollectionController extends \BaseController {
 
     return Response::json(['success' => true]);
   }
+
+  public function exists($collection_name) {
+    try {
+      $user = Sentinel::getUser();
+      // Log::info("User:");
+      // Log::info($user);
+      $duplicateCollection = DB::table('collections')
+        ->where('owner_id', '=',  $user['id'])
+        ->where('name',     '=',  $collection_name)
+        ->get();
+
+      if (empty($duplicateCollection) || $duplicateCollection->isEmpty()) {
+        return Response::json(['success' => true,
+                               'exists'  => false]);
+      } else {
+        return Response::json(['success' => true,
+          'exists' => true,
+          'flash'  => 'The name you selected already exists. Please select a new name',
+          'data'   => $duplicateCollection]);
+      }
+    } catch(\Exception $e) {
+      Log::info("CollectionController - exists() - Catch Exception: ".$e->getMessage());
+      return Response::json(['success' => false, 'message' => $e->getMessage()]);
+    }
+  } /* exists */
 }

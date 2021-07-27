@@ -58,7 +58,7 @@ Route::group([/*'middleware' => 'jwt.verify' <= uncomment to enable JWT ,*/ 'pre
 
 	Route::resource('collections', 'CollectionController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
 	Route::get('collections_data/', 'CollectionController@showData');
-	Route::resource('collections/{collection_id}/share', 'SharedCollectionController', ['only' => ['index','store', 'destroy']]);
+	Route::resource('collections/{collection_id}/share', 'SharedCollectionController', ['only' => ['index', 'store', 'destroy']]);
 	Route::get('collections/{collection_id}/share_verify/{confirmation_code}', 'SharedCollectionController@confirm');
 
 	Route::resource('collections/{collection_id}/documents', 'DocumentController', ['only' => ['index', 'show', 'store', 'destroy']]);
@@ -67,12 +67,18 @@ Route::group([/*'middleware' => 'jwt.verify' <= uncomment to enable JWT ,*/ 'pre
 	Route::delete('open_documents/{document_id}/{annotator_id}', 'OpenDocumentController@destroy');
 	Route::resource('open_documents', 'OpenDocumentController', ['only' => ['index', 'show', 'store', 'destroy']]);
 
-	Route::resource('collections/{collection_id}/documents/{document_id}/annotations', 'AnnotationController', ['only' => ['index','show','store', 'destroy']]);
-	Route::resource('collections/{collection_id}/documents/{document_id}/temp_annotations', 'TempAnnotationController', ['only' => ['index','show','store', 'update', 'destroy']]);
+	Route::resource('collections/{collection_id}/documents/{document_id}/annotations', 'AnnotationController', ['only' => ['index', 'show', 'store', 'destroy']]);
+	Route::resource('collections/{collection_id}/documents/{document_id}/temp_annotations', 'TempAnnotationController', ['only' => ['index', 'show','store', 'update', 'destroy']]);
 
 	Route::resource('button_annotators', 'ButtonAnnotatorController', ['only' => ['index', 'store']]);
 	Route::resource('coreference_annotators', 'CoreferenceAnnotatorController', ['only' => ['index', 'store']]);
 	Route::resource('annotation_schemas', 'AnnotationSchemaController', ['only' => ['index', 'show', 'store', 'destroy']]);	//ellogon will use api for the database ? if not, remove destroy and (maybe) index
+
+	/* Collection Import */
+	Route::post('collections/import', 'CollectionController@importData');
+	Route::post('collections/{collection_id}/documents/{document_id}/annotations/import', 'AnnotationController@import');
+	Route::get('collections/exists/{collection_name}', 'CollectionController@exists');
+
 });
 
 #Route::get('/teststream', 'TestStreamController@test');
