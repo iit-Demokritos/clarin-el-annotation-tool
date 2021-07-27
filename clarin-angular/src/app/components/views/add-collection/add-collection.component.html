@@ -121,6 +121,7 @@
                 <uploader [allowedTypes]="allowedTypes" [fileTypeOptions]="typeOptions"
                   [fileEncodingOptions]="encodingOptions" [fileHandlerOptions]="handlerOptions"
                   [collectionData]="collectionData" [collectionDataUpdated]="collectionDataUpdated"
+                  [flowAttributes]="flowAttributes"
                   (handleFileInputs)="handleFileInputs($event)"></uploader>
                 <button type="submit" mat-stroked-button color="primary" *ngIf="showSubmitButton">
                   {{'Collections.AddCollection' | translate}}

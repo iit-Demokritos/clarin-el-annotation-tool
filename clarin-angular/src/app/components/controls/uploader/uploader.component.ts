@@ -23,11 +23,12 @@ export class UploaderComponent extends BaseControlComponent implements OnInit, O
   defaultEncodingIndex = 0;
   @Input() fileHandlerOptions;
   defaultHandlerIndex = 0;
-  @Input() allowedTypes;
+  @Input() allowedTypes = ["text/plain"];
   @Input() fileTypeOptions;
   defaultTypeIndex = 0;
   @Input() collectionData;
   @Input() collectionDataUpdated;
+  @Input() flowAttributes:any = {accept: this.allowedTypes};
 
   @Output() handleFileInputs = new EventEmitter<any>();
 
@@ -56,6 +57,7 @@ export class UploaderComponent extends BaseControlComponent implements OnInit, O
   ngAfterViewInit() {
     this.autoUploadSubscription = this.flow.events$.subscribe(event => {
 
+      // console.error("UploaderComponent: event():", event);
       if (event.type === 'fileRemoved') {
         for (var i = 0; i < this.userFiles.length; i++) {
           if (this.userFiles[i]["file"].name == event.event["file"].name) {
@@ -78,9 +80,12 @@ export class UploaderComponent extends BaseControlComponent implements OnInit, O
               if (item.name == 'TEI XML Import') return true;
             });
           }
-          event.event[0]["ftype"] = this.fileTypeOptions[this.defaultTypeIndex];
-          event.event[0]["handler"] = this.fileHandlerOptions[this.defaultHandlerIndex];
-          event.event[0]["encoding"] = this.fileEncodingOptions[this.defaultEncodingIndex];
+          event.event[0]["ftype"] = this.fileTypeOptions === undefined ?
+            undefined : this.fileTypeOptions[this.defaultTypeIndex];
+          event.event[0]["handler"] = this.fileHandlerOptions === undefined ?
+            undefined : this.fileHandlerOptions[this.defaultHandlerIndex];
+          event.event[0]["encoding"] = this.fileEncodingOptions === undefined ?
+            undefined : this.fileEncodingOptions[this.defaultEncodingIndex];
           this.userFiles.push(event.event[0]);
         }
 

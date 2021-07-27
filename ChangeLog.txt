@@ -1,4 +1,11 @@
 27 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/views/add-collection/add-collection.component.html:
+ * clarin-angular/src/app/components/views/add-collection/add-collection.component.ts:
+ * clarin-angular/src/app/components/controls/uploader/uploader.component.html:
+ * clarin-angular/src/app/components/controls/uploader/uploader.component.ts:
+ Added ability to specify file types throught directive (to also support the
+ Collection import functionality).
+
  * clarin-angular/src/app/ng-matero/core/interceptors/error-interceptor.ts:
  * clarin-angular/src/app/app-routing.module.ts:
  * clarin-angular/src/app/app.module.ts: Removed the HTTP interceptor

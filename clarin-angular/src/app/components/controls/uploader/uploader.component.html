@@ -1,93 +1,19 @@
-
 <ng-container #flowAdvanced="flow" [flowConfig]="{target: '/'}"></ng-container>
-
-<!--div class="drop-area"
-     flowDrop
-     [flow]="flowAdvanced.flowJs">
-     <input type="file"
-       flowButton
-       title="Upload files"
-       [flow]="flowAdvanced.flowJs"
-       [flowAttributes]="{accept: 'image/*'}">
-     <span>or drop files here</span>
-</div-->
-
-<!--input type="file"
-id="file"
-(change)="fileHandler($event.target.files)">
-
-<div class="drop-area"
-    flowDrop
-    [flow]="flow.flowJs">
-</div-->
-
-<!-- Table moved to AddCollectionComponent
-<div id="uploadTable">
-    <table class="table table-bordered" flow-transfers *ngIf="userFiles.length!=undefined && userFiles.length>0">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Filename</th>
-          <th *ngIf="filterFiles !== false">Type</th>
-          <th *ngIf="filterFiles !== false">Encoding</th>
-          <th *ngIf="filterFiles !== false">Handler</th>
-          <th></th>                     
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let file of userFiles;let index=index">
-          <td>{{index+1}}</td>
-          <td>{{file.name}}</td>
-          <td *ngIf="filterFiles !== false">
-            <select
-              id="type" class="form-control" 
-              [(ngModel)]="file.ftype"
-            ><option *ngFor="let o of fileTypeOptions" [value]="o">{{o}}</option>
-            </select>
-          </td>
-          <td *ngIf="filterFiles !== false">
-            <select
-              id="defaultEndoding" class="form-control" 
-              [(ngModel)]="file.encoding"
-            ><option *ngFor="let o of fileEncodingOptions" [value]="o">{{o}}</option>
-            </select>
-          </td>
-          <td *ngIf="filterFiles !== false">
-            <select
-              id="handler" class="form-control" 
-              [(ngModel)]="file.handler"
-            ><option *ngFor="let o of fileHandlerOptions" [ngValue]="o">{{o.name}}</option>
-            </select>
-          </td>
-          <td class="col-lg-1"><a class="btn btn-danger btn-xs" (click)="file.cancel()">Remove</a></td>
-        </tr>
-      </tbody>
-    </table>
+<div class="drop-area" id="drag" flow-drop
+  flow-drag-enter="class='alert-success'"
+  flow-drag-leave="class=''"
+  ng-class="class" flowDrop [flow]="flowAdvanced.flowJs">
+  <div class="btn-toolbar">
+    <label for="upload">
+      <a flowButton type="button" class="btn btn-default" aria-hidden="true">{{'Upload File(s)'|translate}}</a>
+      <input flowButton [flowAttributes]="flowAttributes" [flow]="flowAdvanced.flowJs" type="file" id="upload"
+        style="display:none">
+    </label>
+    <label for="upload-dir">
+      <a flowButton flowDirectory type="button" class="btn btn-default" aria-hidden="true">{{'Upload Folder'|translate}}</a>
+      <input flowButton [flowAttributes]="flowAttributes" [flow]="flowAdvanced.flowJs" type="file"
+        id="upload-dir" style="display:none" webkitdirectory mozdirectory>
+    </label>
+    <strong>{{'OR'|translate}}</strong>&nbsp;{{'Drag And Drop your file(s) here'|translate}}
   </div>
--->
-
-
-  <div class="drop-area" id="drag" flow-drop flow-drag-enter="class='alert-success'" flow-drag-leave="class=''" ng-class="class"
-     flowDrop
-     [flow]="flowAdvanced.flowJs"
-     >
-     <!--input type="file"
-       flowButton
-       title="Upload files"
-       [flow]="flowAdvanced.flowJs"
-       [flowAttributes]="{accept: 'text/plain'}"-->
-       <div class="btn-toolbar">
-
-        <label for="upload">
-            <a flowButton type="button" class="btn btn-default" aria-hidden="true">Upload File(s)</a>
-            <input flowButton [flowAttributes]="{accept: 'text/plain'}" [flow]="flowAdvanced.flowJs" type="file" id="upload" style="display:none">
-        </label>
-
-        <label for="upload-dir">
-            <a flowButton flowDirectory type="button" class="btn btn-default" aria-hidden="true">Upload Folder</a>
-            <input flowButton [flowAttributes]="{accept: 'text/plain'}" [flow]="flowAdvanced.flowJs" type="file" id="upload-dir" style="display:none" webkitdirectory mozdirectory>
-        </label>
-        
-        <strong>OR</strong>&nbsp;Drag And Drop your file(s) here
-      </div>
 </div>

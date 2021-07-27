@@ -40,6 +40,7 @@ export class AddCollectionComponent extends MainComponent implements OnInit {
   collectionData: any = {};
   collectionDataUpdated: boolean;
   filterFiles = true;
+  flowAttributes = {accept: this.allowedTypes};
 
   super() { };
 
@@ -61,6 +62,8 @@ export class AddCollectionComponent extends MainComponent implements OnInit {
     this.collectionData.name = "";
     this.collectionData.encoding = this.encodingOptions[0];
     this.collectionData.handler  = this.handlerOptions[0];
+    this.collectionData.type = "text";
+    this.collectionData.visualisation_options = "";
     this.encodingChange();
     this.sendFiles();
   };
