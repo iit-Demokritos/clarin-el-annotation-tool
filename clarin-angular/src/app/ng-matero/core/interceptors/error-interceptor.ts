@@ -36,6 +36,7 @@ export class ErrorInterceptor implements HttpInterceptor {
   }
 
   private handleError(error: HttpErrorResponse) {
+	  console.error("ErrorInterceptor:", error);
     if (error.status === STATUS.UNAUTHORIZED) {
       this.router.navigateByUrl('/auth/login');
     } else if (this.errorPages.includes(error.status)) {
@@ -43,7 +44,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         skipLocationChange: true,
       });
     } else if (error instanceof HttpErrorResponse) {
-      // console.error('ERROR', error);
+      console.error('ErrorInterceptor: ERROR', error);
       this.toastr.error(error.error.msg || `${error.status} ${error.statusText}`);
     }
 

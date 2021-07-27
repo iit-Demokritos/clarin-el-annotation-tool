@@ -1,4 +1,9 @@
 27 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/ng-matero/core/interceptors/error-interceptor.ts:
+ * clarin-angular/src/app/app-routing.module.ts:
+ * clarin-angular/src/app/app.module.ts: Removed the HTTP interceptor
+ ng-matero has.
+
  * backend/clarin/app/Http/Controllers/AnnotationController.php:
  * backend/clarin/app/Http/Controllers/CollectionController.php:
  * backend/clarin/app/Http/Controllers/DocumentController.php:

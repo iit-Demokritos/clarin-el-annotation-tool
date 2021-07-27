@@ -49,7 +49,7 @@ const routes: Routes = [
   },
   { path: 'profile/overview', redirectTo: 'app/profile/overview' },
   { path: 'profile/settings', redirectTo: 'app/profile/settings' },
-  { path: '**', redirectTo: '/auth/login' },
+  //{ path: '**', redirectTo: '404' },
   /*{ path: "auth/login", component: WelcomeComponent },
  
   {
@@ -79,7 +79,8 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [SharedModule, RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
+  imports: [SharedModule, RouterModule.forRoot(routes,
+    {enableTracing: true, relativeLinkResolution: 'legacy'})],
   declarations: [...COMPONENTS, ...COMPONENTS_DYNAMIC],
   entryComponents: COMPONENTS_DYNAMIC,
   exports: [RouterModule]
