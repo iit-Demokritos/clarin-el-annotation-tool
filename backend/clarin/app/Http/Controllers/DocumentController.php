@@ -97,8 +97,6 @@ class DocumentController extends \BaseController
 
   public function store()
   {
-    $input;
-    $doc;
     try {
       // DB::transaction(function () {
       $duplicateCounter = -1;
@@ -207,6 +205,7 @@ class DocumentController extends \BaseController
 
       DB::unprepared('COMMIT');
       DB::unprepared('UNLOCK TABLES');
+      DB::commit();
       // });
     } catch (\Exception $e) {
       DB::unprepared('UNLOCK TABLES');

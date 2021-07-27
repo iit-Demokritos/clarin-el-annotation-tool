@@ -15,7 +15,7 @@ class AnnotationController extends \BaseController
         'data'      => Annotation::where('collection_id', (int) $collection_id)
           ->where('document_id', (int) $document_id)
           ->get(['collection_id', 'document_id', 'annotator_id', 'document_attribute',
-                 'type', 'spans', 'attributes', 'updated_by'])
+                 'type', 'spans', 'attributes', 'created_by', 'updated_by'])
       ]);
     } catch (\Exception $e) {
       return Response::json(['success' => false, 'message' => $e->getMessage()]);
@@ -32,7 +32,7 @@ class AnnotationController extends \BaseController
             ->where('document_id', (int) $document_id)
             ->where('annotator_id', $annotation_id)
             ->get(['collection_id', 'document_id', 'annotator_id', 'document_attribute',
-                   'type', 'spans', 'attributes', 'updated_by'])
+                   'type', 'spans', 'attributes', 'created_by', 'updated_by'])
         ]);
       }
       return Response::json([
@@ -67,7 +67,9 @@ class AnnotationController extends \BaseController
           'annotator_id' => $annotation_data['annotator_id'],
           'type' => $annotation_data['type'],
           'spans' => $annotation_data['spans'],
-          'attributes' => $annotation_data['attributes'],
+	  'attributes' => $annotation_data['attributes'],
+	  'created_by' => array_key_exists('created_by', $annotation_data) ?
+                          $annotation_data['updated_by'] : $user['email'],
           'updated_by' => $importing ? $annotation_data['updated_by'] : $user['email']
         ]);
         foreach ($optional as $field) {
@@ -93,7 +95,9 @@ class AnnotationController extends \BaseController
             'annotator_id' => $annotation['annotator_id'],
             'type' => $annotation['type'],
             'spans' => $annotation['spans'],
-            'attributes' => $annotation['attributes'],
+	    'attributes' => $annotation['attributes'],
+	    'created_by' => array_key_exists('created_by', $annotation) ?
+                            $annotation['created_by'] : $user['email'],
             'updated_by' => $importing ? $annotation['updated_by'] : $user['email']
           ]);
           foreach ($optional as $field) {
