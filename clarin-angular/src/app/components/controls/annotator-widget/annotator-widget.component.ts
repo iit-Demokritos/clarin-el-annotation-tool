@@ -75,7 +75,7 @@ export class AnnotatorWidgetComponent extends BaseControlComponent
       row = [];
       this.foundInCollection.push(row);
     }
-    for (var i=0; i<foundInCollection.length; i++) {
+    for (var i=0; i < foundInCollection.length; i++) {
       // Add button only if not already added...
       if (foundInCollection[i].attributes[0].value in this.foundInCollectionValues) {
         continue;

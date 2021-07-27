@@ -60,12 +60,8 @@ export class AnnotationVisualizerComponent extends BaseControlComponent implemen
     }
   }
 
-  /*$scope.$on('$destroy', function () {  //listen when scope is destroying
-    if (!angular.isUndefined($scope.es)) { $scope.es.close(); } //delete previous open connections when leaving
-  });*/
-
-
-  updateAnnotationList() {  //function to be called when the document annotations being updated
+  // function to be called when the document annotations being updated
+  updateAnnotationList() {
     this.annotations = this.TextWidgetAPI.getAnnotations();
     this.annotationsDataSource = new MatTableDataSource<Annotation>(this.annotations);
     if (this.annotations.length) this.table.renderRows();
@@ -77,7 +73,8 @@ export class AnnotationVisualizerComponent extends BaseControlComponent implemen
 
     if (Object.keys(this.selectedAnnotation).length > 0) {
       this.selectedIndex = this.selectedAnnotation._id;
-      this.selectedAnnotationDataSource = Object.entries(this.selectedAnnotation)
+      this.selectedAnnotationDataSource =
+        Object.entries(this.selectedAnnotation)
       .map(this.propertyToDisplayObject)
       .filter(e => e != null);
     } else {
@@ -148,21 +145,19 @@ export class AnnotationVisualizerComponent extends BaseControlComponent implemen
           e.target.close();       //close live connection
           var AnnotatorTypeId = this.TextWidgetAPI.getAnnotatorTypeId();
           this.TextWidgetAPI.resetData();
-          this.restoreAnnotationService.save(currentDocument.collection_id, currentDocument.id, AnnotatorTypeId);
+          this.restoreAnnotationService.save(currentDocument.collection_id,
+            currentDocument.id, AnnotatorTypeId);
           this.openDocumentService.destroy(currentDocument.id, null);
 
           var modalOptions = { body: serviceResponse };
-          var dialogRef = this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", serviceResponse) })
-
+          var dialogRef = this.dialog.open(ErrorDialogComponent,
+            { data: new ConfirmDialogData("Error", serviceResponse) });
           dialogRef.afterClosed().subscribe((response) => {
-
             setTimeout(() => {
               //TODO: Emit selectDocument
               //$scope.$emit('selectDocument');
             }, 500);
-
           });
-
           return;
         }
 
@@ -214,5 +209,3 @@ export class AnnotationVisualizerComponent extends BaseControlComponent implemen
   };
 
 }
-
-

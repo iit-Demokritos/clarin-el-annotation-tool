@@ -326,9 +326,11 @@ export class TextWidgetAPI {
         } else {
           annotation["annotator_id"] = annotator_id;
         }
-        if ((this.annotatorType == "Button Annotator") && (!("document_attribute" in annotation))) {
+        if ((this.annotatorType == "Button Annotator") &&
+            (!("document_attribute" in annotation))) {
           for (var j = 0; j < annotation.attributes.length; j++) {
-            if (!_.includes(this.annotationSchemaOptions["values"], annotation.attributes[j].value)) {
+            if (!_.includes(this.annotationSchemaOptions["values"],
+                            annotation.attributes[j].value)) {
               //check if the annotation belongs to the "found in collection"
               this.foundInCollection.push(annotation);
               // console.error("FoundInCollection:", annotation);

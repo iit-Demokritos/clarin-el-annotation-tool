@@ -26,19 +26,23 @@ export class BaseControlComponent extends ValueAccessorComponent<any> implements
   @Input() annotationRelationAttribute;
   @Input() annotationRelationValue;
   @Input() annotationWidgetIds;
+  n;
 
 
   super() { }
 
   ngOnInit(): void {
+    this.n = require("bson-objectid");
   }
 
-  ObjectId(){
-    var n = require("bson-objectid");
+  ObjectId() {
+    /* WARNING: If this function changes, the change must be also reflected
+     * in CollectionImportService (app/services/collection-import-service) */
+    // var n = require("bson-objectid");
 
-    return n();
+    return this.n();
 
-    return Guid.newGuid();
+    //return Guid.newGuid();
   }
 
 }

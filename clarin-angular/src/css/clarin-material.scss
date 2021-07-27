@@ -333,9 +333,13 @@ $foreground: map-get($theme, foreground);
     text-transform: uppercase;
   }
 }
+.import-collection-modal,
 .rename-collection-modal {
   mat-form-field {
     width: 100%;
+  }
+  .mat-button {
+    text-transform: uppercase;
   }
 }
 

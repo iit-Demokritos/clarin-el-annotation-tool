@@ -216,7 +216,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
                     //$timeout(function () { $scope.documentSelection = false; }, 800);
                     setTimeout(() => { //<<<---using ()=> syntax
                       this.documentSelection = false;
-		      this.annotatorType = this.TextWidgetAPI.getAnnotatorType();
+                      this.annotatorType = this.TextWidgetAPI.getAnnotatorType();
                     }, 800);
 
                   else

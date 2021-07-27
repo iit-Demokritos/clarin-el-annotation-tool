@@ -1,6 +1,6 @@
 <div class="select-document-modal">
-  <h1 mat-dialog-title *ngIf="showSelectDocument">Select Document...</h1>
-  <h1 mat-dialog-title *ngIf="!showSelectDocument">Select Annotation Characteristics...</h1>
+  <h1 mat-dialog-title *ngIf="showSelectDocument">{{'Collections.Select Document'|translate}}...</h1>
+  <h1 mat-dialog-title *ngIf="!showSelectDocument">{{'Collections.Select Annotation Characteristics'|translate}}...</h1>
   <mat-dialog-content>
     <flash-messages></flash-messages>
     {{data.message}}
@@ -22,7 +22,7 @@
           <mat-icon class="mat-icon-rtl-mirror">
             {{treeControl.isExpanded(node) ? 'folder_open' : 'folder'}}
           </mat-icon>
-          {{node.name}} ({{node.element.document_count}} Documents)
+	  {{node.name}} ({{node.element.document_count}} {{(node.name ? 'Documents' : "Collections")|translate}})
         </button>
       </mat-tree-node>
     </mat-tree>
