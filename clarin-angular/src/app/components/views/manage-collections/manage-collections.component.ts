@@ -45,15 +45,18 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
       if (!response["success"]) {
         this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Error during the restoring of your collections. Please refresh the page and try again.") });
       } else {
-        /*$scope.collections = response.data;
-$scope.dataForTheTree = $scope.collections;*/
-        this.dataForTheTree = response["data"];   //angular.copy(response.data); TOOD: 
+        this.dataForTheTree = response["data"]; //angular.copy(response.data); TODO: 
       }
     });
   }
 
 
   initializeCollectionData() {            //refresh collection's data
+    if (this.selectedCollection === undefined) {
+      this.collectionDocuments = [];
+      this.btnShow = false;
+      return;
+    }
     this.documentService.getAll(this.selectedCollection.id)
       .then((response) => {
         if (!response["success"]) {
@@ -67,7 +70,8 @@ $scope.dataForTheTree = $scope.collections;*/
       });
   }
 
-  showSelectedCollection(collection, index) {       //function to be called when a user selects a collection from the sidebar tree
+  //function to be called when a user selects a collection from the sidebar tree
+  showSelectedCollection(collection, index) {
     this.selectedCollectionIndex = index;
     this.selectedCollection = collection;
     this.initializeCollectionData();
@@ -90,8 +94,8 @@ $scope.dataForTheTree = $scope.collections;*/
           this.collectionService.destroy(id)
             .then((data) => {
               this.initializeCollections();
-              delete this.selectedCollection;
-              delete this.collectionDocuments;
+              this.selectedCollection = undefined;
+              this.collectionDocuments = undefined;
               this.showStaticHeader = true;
               this.selectedCollectionIndex = null;
             }, (error) => {
@@ -127,23 +131,13 @@ $scope.dataForTheTree = $scope.collections;*/
    * Import documents to the collection
    */
   importDocuments() {
-    /*$ocLazyLoad.load('importModalCtrl').then(function () {
-      var modalInstance = Dialog.custom('import-modal.html', 'importModalCtrl', {});
-      modalInstance.result.then(function () {
-        this.initializeCollections();
-      });
-    });*/
-
-    var dialogRef = this.dialog.open(ImportModalComponent, { width: this.dialogWidth });
-
+    var dialogRef = this.dialog.open(ImportModalComponent,
+    { width: this.dialogWidth });
     dialogRef.afterClosed().subscribe(modalResult => {
-
       this.initializeCollections();
-
+      this.initializeCollectionData();
     });
-
-  };
-
+  }; /* importDocuments */
 
   // function to be called when a user wants to rename a collection
   renameCollection() {
@@ -157,6 +151,7 @@ $scope.dataForTheTree = $scope.collections;*/
     });
     dialogRef.afterClosed().subscribe(modalResult => {
       this.initializeCollections();
+      this.initializeCollectionData();
     });
   }; /* renameCollection */
 
@@ -171,6 +166,7 @@ $scope.dataForTheTree = $scope.collections;*/
     });
     dialogRef.afterClosed().subscribe(modalResult => {
       this.initializeCollections();
+      this.initializeCollectionData();
     });
   }; /* shareCollection */
 

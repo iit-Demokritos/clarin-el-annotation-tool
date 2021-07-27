@@ -1,29 +1,63 @@
-<div class="success-modal-header modal-header">
-    <h4 style="color:#fff" class="modal-title">Import collection</h4>
-</div>
-<div class="modal-body">
-    <!--div class="alert alert-danger" modal-error ng-hide="flash===undefined || flash===''">{{flash}}</div-->
-    <flash-messages></flash-messages>
-
-    <!-- Collection name input -->
-    <div class="form-group">
-        <label for="collectionName">Collection Name</label>
-        <input type="text" id="collectionName" class="form-control"
-            placeholder="Please enter a name for the new collection..." [(ngModel)]="collectionName" [required]="true">
-    </div>
-
-    <!-- File selector -->
-    <div class="form-group">
-        <label>Files to import</label>
-        <div class="table-responsive">
-            <!--uploader flow-init></uploader-->
-            <!--div class="drop-area" flowDrop [flow]="flow.flowJs">
-            </div-->
-            <uploader (handleFileInput)="handleFileInput($event)"></uploader>
+<div class="import-collection-modal">
+  <h1 mat-dialog-title>{{'Collections.Import Collection'|translate}}</h1>
+  <form [formGroup]="importForm">
+    <mat-dialog-content>
+      <flash-messages></flash-messages>
+      <!-- Collection name input -->
+      <mat-form-field appearance="outline">
+        <mat-label>{{'Collections.CollectionName' | translate}}</mat-label>
+        <input matInput type="text" formControlName="collectionName"
+          placeholder="{{'Collections.Enter a new Collection name' | translate}}"
+          [(ngModel)]="collectionName" required
+          minlength="4" pattern="[a-zA-Z0-9]+([a-zA-Z0-9_ -]+)*">
+        <mat-error *ngIf="importForm.get('collectionName').hasError('required')">
+          {{'validations.required' | translate}}
+        </mat-error>
+        <mat-error *ngIf="importForm.get('collectionName').hasError('pattern')">
+          {{'validations.pattern' | translate}}
+        </mat-error>
+        <mat-error translate [translateParams]="{number:'4'}"
+          *ngIf="importForm.get('collectionName').hasError('minlength')">
+          validations.minlength
+        </mat-error>
+      </mat-form-field>
+      <!-- File selector -->
+      <div class="file-list">
+        <label>{{'Collections.Files to Import'|translate}}:</label>
+        <div class="file-list-component">
+          <div class="file-list-table">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>{{'Filename'|translate}}</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody *ngIf="userFiles.length!=undefined && userFiles.length>0">
+                <tr *ngFor="let file of userFiles;let index=index">
+                  <td>{{index+1}}</td>
+                  <td>{{file.name}}</td>
+                  <td>
+                    <button mat-icon-button (click)="userFiles.splice(index, 1)" [matTooltip]="'Remove'|translate">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="table-responsive">
+            <uploader [flowAttributes]="flowAttributes" [allowedTypes]="allowedTypes"
+              (handleFileInputs)="handleFileInputs($event)"></uploader>
+          </div>
         </div>
-    </div>
-</div>
-<div class="modal-footer">
-    <button type="button" class="btn btn-default" (click)="cancel()">Cancel</button>
-    <button type="submit" class="btn btn-default" (click)="import()">Import</button>
+      </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-button mat-dialog-close (click)="cancel()">{{'Cancel'|translate}}</button>
+      <button mat-button [disabled]="userFiles.length !=1 || importForm.invalid"
+        (click)="import()">{{'Import'|translate}}</button>
+    </mat-dialog-actions>
+  </form>
 </div>

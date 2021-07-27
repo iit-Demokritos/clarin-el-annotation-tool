@@ -62,11 +62,10 @@ export class DocumentService {
     });
   };
 
-  save(collectionId, documents) {   //read and save multiple documents
-
+  save(collectionId, documents) {
+    //read and save multiple documents
     var promises: any = [];
     // console.error("Documents:", documents);
-
     documents.forEach(element => {
       promises.push(new Promise<any>((resolve, reject) => {
         this.readDocument(collectionId, element)
@@ -84,11 +83,35 @@ export class DocumentService {
       })
       )
     });
-
-
     return Promise.all(promises);
-
   }
+
+  saveDocument(collectionId, doc) {
+    // doc is an object, not a FILE/BLOB.
+    doc['collection_id'] = collectionId;
+    return new Promise((resolve, reject) => {
+      this.http.post('./api/collections/' + collectionId + '/documents', { data: doc })
+        .subscribe((response) => {
+          // console.error("DocumentService: saveDocument(): response:", response);
+          if (response["success"]) {
+            resolve(response);
+          } else {
+            reject(response);
+          }
+        }, (error) => {
+          //console.error("DocumentService: saveDocument(): error:", error);
+          reject(error);
+        });
+    });
+  }; /* saveDocument */
+
+  saveDocuments(collectionId, docs) {
+    var promises: any = [];
+    docs.forEach(doc => {
+      promises.push(this.saveDocument(collectionId, doc));
+    });
+    return Promise.all(promises);
+  }; /* saveDocuments */
 
   destroy(collectionId, documentId) {
     return new Promise((resolve, reject) => {

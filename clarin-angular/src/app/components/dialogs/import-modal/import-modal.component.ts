@@ -1,12 +1,12 @@
-import { Component, Inject, Injector, OnInit } from '@angular/core';
+import { Component, Inject, Injector, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FlashMessagesService } from 'flash-messages-angular';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
-import { CollectionService } from 'src/app/services/collection-service/collection-service.service';
-import { DocumentService } from 'src/app/services/document-service/document.service';
-import { SharedCollectionService } from 'src/app/services/shared-collection/shared-collection.service';
+import { ConfirmDialogComponent } from '../../dialogs/confirm-dialog/confirm-dialog.component';
 import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 import { MainDialogComponent } from '../main-dialog/main-dialog.component';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { CollectionImportService } from 'src/app/services/collection-import-service/collection-import-service.service';
 
 @Component({
   selector: 'import-modal',
@@ -15,84 +15,105 @@ import { MainDialogComponent } from '../main-dialog/main-dialog.component';
 })
 export class ImportModalComponent implements OnInit {
 
-  filterFiles = false;
+  public importForm: FormGroup;
   userFiles: any[] = [];
   collectionName: any = "";
+  allowedTypes = ["application/json"];
+  flowAttributes = {accept: this.allowedTypes};
 
-  constructor(public injector:Injector, @Inject(MAT_DIALOG_DATA) public data: any, public dialogRef:MatDialogRef<any>, public collectionService:CollectionService, public flashMessage:FlashMessagesService,public sharedCollectionService:SharedCollectionService, public documentService:DocumentService, public dialog:MatDialog) {
+  constructor(
+    public injector: Injector,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialogRef: MatDialogRef<any>,
+    public formBuilder: FormBuilder,
+    public collectionImportService: CollectionImportService,
+    public flashMessage: FlashMessagesService,
+    public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
+    this.importForm = this.formBuilder.group({
+      collectionName: [this.collectionName]
+    });
   }
 
-  //TODO: Implement uploader
-  /*$scope.$on('flowEvent', function(event, data) {
-    $scope.userFiles = data.userFiles;
-    if (data.msg !== "")
-      $scope.$parent.flash = data.msg;
-    else if ($scope.$parent.flash !== "")
-      $scope.$parent.flash = "";
-  });*/
-
-  // import() {
-  /*if (angular.isUndefined($scope.userFiles) || $scope.userFiles.length === 0) {
-    $scope.$parent.flash = "Please add at least one document";
-    return false;
-  } else if (angular.isUndefined($scope.collectionName) || $scope.collectionName.length === 0) {
-    $scope.$parent.flash = "Please enter a collection name";
-    return false;
-  } else {
-    // Reset error
-    $scope.$parent.flash = "";
-
-    // Import files
-    Collection.importFiles($scope.collectionName, $scope.userFiles)
-      .then(function(data) {
-        $modalInstance.close();
-        $scope.$destroy();
-      });
-  };*/
-  //}
-
-  handleFileInput(obj: any) {
+  handleFileInputs(obj: any) {
+    // console.error("handleFileInput():", obj);
     this.userFiles = obj["files"];
-
     if (obj["message"].length > 0) {
-      this.dialog.open(ErrorDialogComponent,{data:new ConfirmDialogData("Error",obj["message"])});
+      this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", obj["message"]) });
     }
+  }; /* handleFileInputs */
 
-  }
-
+  async collectionExists(name) {
+    var response = await this.collectionImportService.exists(name);
+    return response;
+  }; /* collectionExists */
 
   import() {
-    if (typeof this.userFiles != "undefined") {
-      if (this.userFiles.length > 0) {
-        if (!this.collectionName || this.collectionName.length === 0) {
-          this.flashMessage.show("Please enter a collection name", { cssClass: 'alert alert-danger', timeout: 4000 });
+    this.collectionImportService.exists(this.collectionName)
+      .then((response) => {
+        if (response["success"] && response["exists"]) {
+          var collectionId = response["data"][0]["id"];
+          // collection already exists
+          var modalOptions = new ConfirmDialogData();
+              modalOptions.headerType = "warning";
+              modalOptions.dialogTitle = 'Warning';
+              modalOptions.message = 'The collection "' + this.collectionName +
+                '" already exists. What do you want to do?';
+              modalOptions.buttons = ['Cancel', 'Overwrite'];
+          var dialogRef = this.dialog.open(ConfirmDialogComponent, { data: modalOptions, width: '550px' });
+          dialogRef.afterClosed().subscribe(modalResult => {
+            if (modalResult === "Cancel") {
+              return false;
+            } else if (modalResult === "Overwrite") {
+              this.doImport(true, collectionId);
+            }
+          });
         } else {
-          // Reset error
-          //$scope.$parent.flash = "";
+          this.doImport(false);
+        }
+      }, (error) => {
+        console.error("ImportModalComponent: import() Error:", error);
+        this.flashMessage.show("Error occured while importing: "+error.message,
+          { cssClass: 'alert alert-danger', timeout: 6000 });
+      });
+  }; /* import */
 
-          // Import files
-          this.collectionService.importFiles(this.collectionName, this.userFiles)
-            .then((data)=> {
-              this.dialogRef.close();
-            },(error)=>{
-              this.flashMessage.show("Error occured while importing. Please, try again", { cssClass: 'alert alert-danger', timeout: 4000 });
-            });
-        };
-      }
-      else {
-        this.flashMessage.show("Please add at least one document", { cssClass: 'alert alert-danger', timeout: 4000 });
-      }
-    } else {
-      this.flashMessage.show("Please add at least one document", { cssClass: 'alert alert-danger', timeout: 4000 });
-    }
-  }
+  doImport(overwrite:boolean = false, collectionId = undefined) {
+    // Import files
+    this.collectionImportService.importFiles(this.collectionName,
+      this.userFiles, overwrite, collectionId)
+      .then((responses) => {
+        // console.error("promises:", responses);
+        var promises;
+        if (Array.isArray(responses)) {
+          promises = responses;
+        } else {
+          promises = [responses];
+        }
+        var all_ok = true;
+        promises.forEach(response => {
+          if (response["success"]) {
+          } else {
+            // console.error("ImportModalComponent: doImport(): response:", response);
+            this.flashMessage.show("Error occured while importing: "+response['message'],
+              { cssClass: 'alert alert-danger', timeout: 8000 });
+            all_ok = false;
+          }
+        });
+        if (all_ok) {
+          this.dialogRef.close();
+        }
+      }, (error) => {
+        console.error("ImportModalComponent: doImport() Error:", error);
+        this.flashMessage.show("Error occured while importing: "+error.message,
+          { cssClass: 'alert alert-danger', timeout: 8000 });
+      });
+  }; /* doImport */
 
   cancel() {
-    //TODO : Close dialog
     this.dialogRef.close();
-  };
+  }; /* cancel */
 
 }

@@ -46,20 +46,37 @@ export class AnnotationService {
     });
   };
 
-  save(collectionId, documentId, annotationData) {  //console.log("annotation save:", annotationData)
+  save(collectionId, documentId, annotationData) {
+    //console.log("annotation save:", annotationData)
     return new Promise((resolve, reject) => {
-    this.http.post('./api/collections/' + collectionId + '/documents/' + documentId + '/annotations',{ data: annotationData },{
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
+      this.http.post('./api/collections/' + collectionId + '/documents/' + documentId + '/annotations',{ data: annotationData },{
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+        })
       })
-    }).subscribe(function (data) {
-      resolve(data);
-    },(error) =>{
-      reject();
-    });
-
+        .subscribe(function (data) {
+          resolve(data);
+        },(error) =>{
+          reject();
+        });
     });
   };
+
+  import(collectionId, documentId, annotationData) {
+    //console.log("annotation save:", annotationData)
+    return new Promise((resolve, reject) => {
+      this.http.post('./api/collections/' + collectionId + '/documents/' + documentId + '/annotations/import',{ data: annotationData },{
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+        })
+      })
+        .subscribe((data) => {
+          resolve(data);
+        },(error) =>{
+          reject();
+        });
+    });
+  }; /* import */
 
   destroy(collectionId, documentId, annotationId) {
     return new Promise((resolve, reject) => {
@@ -69,7 +86,6 @@ export class AnnotationService {
       },(error)=> {
         reject();
       });
-
     });
   };
 

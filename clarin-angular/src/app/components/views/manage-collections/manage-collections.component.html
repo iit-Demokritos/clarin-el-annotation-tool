@@ -71,12 +71,12 @@
 
           <button mat-icon-button color="primary" (click)="addDocuments()"
             [disabled]="!selectedCollection.is_owner"
-	    [matTooltip]="'Collections.Add Documents'|translate">
+            [matTooltip]="'Collections.Add Documents'|translate">
             <mat-icon>note_add</mat-icon>
           </button>
           <button mat-icon-button color="primary" (click)="shareCollection()"
             [disabled]="!selectedCollection.is_owner"
-	    [matTooltip]="'Collections.Share Collection'|translate">
+            [matTooltip]="'Collections.Share Collection'|translate">
             <mat-icon>share</mat-icon>
           </button>
           <a mat-icon-button color="primary" [href]="'./api/collections/'+selectedCollection.id+'/export'"
@@ -85,12 +85,12 @@
           </a>
           <button mat-icon-button color="primary" (click)="renameCollection()"
             [disabled]="!selectedCollection.is_owner"
-	    [matTooltip]="'Collections.Rename Collection'|translate">
+            [matTooltip]="'Collections.Rename Collection'|translate">
             <mat-icon>drive_file_rename_outline</mat-icon>
           </button>
           <button mat-icon-button color="warn" (click)="deleteCollection(selectedCollection.id)"
             [disabled]="!selectedCollection.is_owner"
-	    [matTooltip]="'Collections.Delete Collection'|translate">
+            [matTooltip]="'Collections.Delete Collection'|translate">
             <mat-icon>delete_forever</mat-icon>
           </button>
           <button mat-icon-button color="warn" (click)="deleteDocuments()" [disabled]="btnShow"

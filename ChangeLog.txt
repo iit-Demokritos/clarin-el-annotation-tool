@@ -1,4 +1,18 @@
 27 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.html:
+ * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.ts:
+ All functionality tested.
+
+ * clarin-angular/src/app/components/dialogs/import-modal/import-modal.component.html:
+ * clarin-angular/src/app/components/dialogs/import-modal/import-modal.component.ts:
+ * clarin-angular/src/app/services/annotation-service/annotation.service.ts:
+ * clarin-angular/src/app/services/collection-service/collection-service.service.ts:
+ * clarin-angular/src/app/services/document-service/document.service.ts:
+ Changes to support import Collection functionality.
+
+ * clarin-angular/src/app/services/collection-import-service/: A new service
+ for importing Collections.
+
  * clarin-angular/src/app/components/views/add-collection/add-collection.component.html:
  * clarin-angular/src/app/components/views/add-collection/add-collection.component.ts:
  * clarin-angular/src/app/components/controls/uploader/uploader.component.html:

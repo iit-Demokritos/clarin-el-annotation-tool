@@ -13,9 +13,10 @@ import { TextWidgetAPI } from '../text-widget/text-widget.service';
 @Injectable({
   providedIn: 'root'
 })
-export class CollectionService{
+export class CollectionService {
 
-  constructor(public http:HttpClient) {}
+  constructor(
+    public http: HttpClient) { }
 
   getAll() {
     return new Promise((resolve, reject) => {
@@ -102,6 +103,23 @@ export class CollectionService{
     });
   };
 
+  exists(collectionName) {
+    return new Promise((resolve, reject) => {
+      this.http.get('api/collections/exists/' + collectionName)
+        .subscribe(function (data) {
+          resolve(data);
+        }, (error) => {
+          reject(error);
+        });
+    });
+  };
+
+  async collectionExists(name) {
+    // return (async () => await this.exists(name) )();
+    return await this.exists(name);
+  }; /* collectionExists */
+
+
   update(collectionData) {
     return new Promise((resolve, reject) => {
       this.http.patch('api/collections/' + collectionData.id, {
@@ -119,9 +137,9 @@ export class CollectionService{
     })
   }
 
-  save(collectionData):Promise<any> {
+  save(collectionData): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.http.post('api/collections', {data:collectionData},
+      this.http.post('api/collections', { data: collectionData },
         {
           headers: new HttpHeaders({
             'Content-Type': 'application/json'
@@ -134,52 +152,12 @@ export class CollectionService{
     });
   }
 
-  readFile(documentFile) {
-    return new Promise((resolve, reject) => {
-      var reader = new FileReader();
-      // source: https://stackoverflow.com/a/26322343
-      reader.onloadend = function () {
-        // Encode as base64 
-        let dataToBeSent = reader.result.toString().split("base64,")[1]; //TODO: CHECK SPLIT !
-
-        resolve(dataToBeSent);
-      };
-
-      reader.readAsDataURL(documentFile);
-    });
-  }
-
-  importFiles(collectionName, documents) {
-    return new Promise((resolve, reject) => {
-      // Create promises to read files
-      var promises = [];
-
-      documents.forEach(element => {
-        promises.push(this.readFile(element));
-      });
-
-      // Read the files
-      Promise.all(promises)
-        .then((files) => {
-          // Send files to the import route
-          this.http.post('api/collections/import', {
-            name: collectionName,
-            files: files
-          }).subscribe((data)=> {
-              resolve(data);
-            }, (error) => {
-              reject(error);
-            });
-        });
-    });
-  }
-
   destroy(collectionId) {
     return new Promise((resolve, reject) => {
       this.http.delete('./api/collections/' + collectionId)
         .subscribe(function (data) {
           resolve(data);
-        },(error)=> {
+        }, (error) => {
           reject(error);
         });
 
