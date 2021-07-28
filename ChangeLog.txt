@@ -1,3 +1,13 @@
+29 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/dialogs/confirm-dialog/confirm-dialog.component.html:
+ Message is placed in [innerHTML], so dialog message can now contain HTML
+ tags.
+
+ * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.html:
+ * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.ts:
+ * clarin-angular/src/css/clarin-material.scss: Implemented Document(s)
+ selection/delete in Collection Management.
+
 28 July 2021 Petasis George <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/controls/annotation-visualizer/annotation-visualizer.component.ts:
  Fixed visualisation of dates in Annotation Visualiser.

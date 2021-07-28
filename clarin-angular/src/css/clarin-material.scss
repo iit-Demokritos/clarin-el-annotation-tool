@@ -304,7 +304,41 @@ $foreground: map-get($theme, foreground);
     padding-left: 1em;
     padding-right: 1em;
   }
-  
+  .main-content {
+    .mat-column-select {
+      overflow: initial;
+    }
+    // Documents table columns
+    .mat-column-select {
+      flex: 0 0 6ch;
+      font-size: 1em;
+    }
+    .mat-column-id {
+      @extend .overflow-ellipsis;
+      flex: 0 0 8ch;
+      text-align: center;
+      font-size: 1em;
+    }
+    .mat-column-name {
+      @extend .overflow-ellipsis;
+      text-align: center;
+      font-size: 1em;
+    }
+    .mat-column-encoding {
+      @extend .overflow-ellipsis;
+      flex: 0 0 17ch;
+      text-align: center;
+      font-size: 1em;
+    }
+    .mat-column-owner,
+    .mat-column-updated_at,
+    .mat-column-updated_by {
+      @extend .overflow-ellipsis;
+      flex: 0 0 17ch;
+      text-align: center;
+      font-size: 1em;
+    }
+  }
 }
 
 /* Modals */
@@ -343,7 +377,7 @@ $foreground: map-get($theme, foreground);
   }
 }
 
-.overflow-ellipsis{
+.overflow-ellipsis {
   white-space:nowrap!important;
   overflow: hidden!important;
   text-overflow: ellipsis!important;

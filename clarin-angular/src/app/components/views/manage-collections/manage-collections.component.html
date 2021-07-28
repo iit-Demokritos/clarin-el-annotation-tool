@@ -106,31 +106,71 @@
             <i class="fa fa-tasks" aria-hidden="true"></i>
             &#09;Please select a collection from the list on the left...
           </div>
-          <table st-table="collectionDocuments" class="table" *ngIf="collectionDocuments.length>0">
-            <thead>
-              <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Collection Id</th>
-                <th>Encoding</th>
-                <th>Owner</th>
-                <th>Updated at</th>
-                <th>Updated by</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr st-select-row="row" st-select-mode="multiple" *ngFor="let row of collectionDocuments"
-                (click)="documentClick()">
-                <td>{{row.id}}</td>
-                <td>{{row.name}}</td>
-                <td>{{row.collection_id}}</td>
-                <td>{{row.encoding}}</td>
-                <td>{{row.owner_email}}</td>
-                <td>{{row.updated_at}}</td>
-                <td>{{row.updated_by}}</td>
-              </tr>
-            </tbody>
-          </table>
+          <mat-table #documentsTable mat-table [dataSource]="documentsDataSource" *ngIf="collectionDocuments.length>0">
+            <!-- Checkbox Column -->
+            <ng-container matColumnDef="select">
+              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                <mat-checkbox (change)="$event ? masterToggle() : null"
+                              [checked]="documentsSelection.hasValue() && isAllSelected()"
+                              [indeterminate]="documentsSelection.hasValue() && !isAllSelected()"
+                              [aria-label]="checkboxLabel()">
+                </mat-checkbox>
+              </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let row">
+                <mat-checkbox (click)="$event.stopPropagation()"
+                              (change)="$event ? documentsSelection.toggle(row) : null"
+                              [checked]="documentsSelection.isSelected(row)"
+                              [aria-label]="checkboxLabel(row)">
+                </mat-checkbox>
+              </mat-cell>
+            </ng-container>
+
+            <!-- Id Column -->
+            <ng-container matColumnDef="id">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> Id </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.collection_id+'/'+element.id}} </mat-cell>
+            </ng-container>
+          
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+            </ng-container>
+          
+            <!-- Collection Column -->
+            <ng-container matColumnDef="collection">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> Collection Id </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.collection_id}} </mat-cell>
+            </ng-container>
+          
+            <!-- Encoding Column -->
+            <ng-container matColumnDef="encoding">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> Encoding </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.encoding}} </mat-cell>
+            </ng-container>
+
+            <!-- Owner Column -->
+            <ng-container matColumnDef="owner">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> Owner </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.owner_email}} </mat-cell>
+            </ng-container>
+
+            <!-- Updated At Column -->
+            <ng-container matColumnDef="updated_at">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> Updated at </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.updated_at}} </mat-cell>
+            </ng-container>
+
+            <!-- Updated By Column -->
+            <ng-container matColumnDef="updated_by">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> Updated by </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.updated_by}} </mat-cell>
+            </ng-container>
+          
+            <mat-header-row *matHeaderRowDef="documentsDisplayedColumns"></mat-header-row>
+            <mat-row matRipple *matRowDef="let row; columns: documentsDisplayedColumns;"
+                (click)="documentsSelection.toggle(row)"></mat-row>
+          </mat-table>
         </mat-card-content>
       </mat-card>
     </as-split-area>

@@ -1,5 +1,5 @@
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewChild, OnInit, ViewEncapsulation } from '@angular/core';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 import { RenameDialogData } from 'src/app/models/dialogs/rename-dialog-data';
 import { SharedCollectionService } from 'src/app/services/shared-collection/shared-collection.service';
@@ -10,6 +10,20 @@ import { ImportModalComponent } from '../../dialogs/import-modal/import-modal.co
 import { RenameCollectionModalComponent } from '../../dialogs/rename-collection-modal/rename-collection-modal.component';
 import { ShareCollectionModalComponent } from '../../dialogs/share-collection-modal/share-collection-modal.component';
 import { MainComponent } from '../main/main.component';
+import { SelectionModel } from '@angular/cdk/collections';
+import { MatTable } from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table';
+
+export interface DocumentInformation {
+  id:            number;
+  name:          string;
+  collection_id: number;
+  encoding:      string;
+  owner_email:   string;
+  updated_at:    string;
+  updated_by:    string;
+  position:      number;
+}
 
 @Component({
   selector: 'manage-collections',
@@ -19,12 +33,10 @@ import { MainComponent } from '../main/main.component';
 })
 export class ManageCollectionsComponent extends MainComponent implements OnInit {
 
+  @ViewChild(MatTable, { static: true })
+  documentsTable: MatTable<any>;
+
   super() { }
-
-  ngOnInit(): void {
-    this.initializeCollections();
-  }
-
 
   btnShow = true;
   showStaticHeader = true;
@@ -40,30 +52,51 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
   dialogWidth: "550px";
   dialogHeight: "600px";
 
-  initializeCollections() {                //initialize the collections tree
+  /* Selection model for selecting collection documents (for deletion) */
+  documentsDisplayedColumns: string[] = ['select', 'id', 'name',
+   'owner', 'updated_at', 'updated_by'];
+  documentsSelection;
+  documentsDataSource =
+    new MatTableDataSource<DocumentInformation>(this.collectionDocuments);
+
+  ngOnInit(): void {
+    const initialSelection = [];
+    const allowMultiSelect = true;
+    this.documentsSelection =
+      new SelectionModel<DocumentInformation>(allowMultiSelect,
+                                              initialSelection);
+    this.initializeCollections();
+    this.documentsSelection.changed.subscribe(this.documentClick.bind(this));
+  }; /* ngOnInit */
+
+  //initialize the collections tree
+  initializeCollections() {
     this.collectionService.getAll().then((response) => {
       if (!response["success"]) {
-        this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Error during the restoring of your collections. Please refresh the page and try again.") });
+        this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData(
+         "Error",
+         "Error during the restoring of your collections. Please refresh the page and try again.") });
       } else {
-        this.dataForTheTree = response["data"]; //angular.copy(response.data); TODO: 
+        this.dataForTheTree = response["data"]; //angular.copy(response.data); TODO:
       }
     });
   }
 
 
-  initializeCollectionData() {            //refresh collection's data
+  //refresh collection's data
+  initializeCollectionData() {
     if (this.selectedCollection === undefined) {
-      this.collectionDocuments = [];
+      this.setCollectionDocuments([]);
       this.btnShow = false;
       return;
     }
     this.documentService.getAll(this.selectedCollection.id)
       .then((response) => {
         if (!response["success"]) {
-          this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Error during the restoring of your collection\'s documents. Please refresh the page and try again.") });
+          this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error",
+           "Error during the restoring of your collection\'s documents. Please refresh the page and try again.") });
         } else {
-          this.collectionDocuments = response["data"];
-          this.selectedDocuments = [];
+          this.setCollectionDocuments(response["data"]);
           this.showStaticHeader = false;
           this.btnShow = true;
         }
@@ -94,7 +127,7 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
           this.collectionService.destroy(id)
             .then((data) => {
               this.selectedCollection = undefined;
-              this.collectionDocuments = [];
+              this.setCollectionDocuments([]);
               this.initializeCollections();
               this.showStaticHeader = true;
               this.selectedCollectionIndex = null;
@@ -181,16 +214,18 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
 
     modalOptions.headerType = "warning";
     modalOptions.dialogTitle = 'Warning';
-    modalOptions.message = 'This action is going to delete the selected document(s) from your collection. Do you want to proceed?';
-    modalOptions.buttons = ['Yes', 'No'];
+    modalOptions.message = 'This action is going to delete the selected document(s) from your collection:<ol><li>' + 
+      this.selectedDocuments.map((elem) => {return elem.name;}).join("</li><li>") +
+      '</li></ol>Do you want to proceed?';
+    modalOptions.buttons = ['No', 'Yes'];
 
-    var dialogRef = this.dialog.open(ConfirmDialogComponent, { data: modalOptions, width: '550px' });
+    var dialogRef = this.dialog.open(ConfirmDialogComponent, { data: modalOptions, width: this.dialogWidth });
 
     dialogRef.afterClosed().subscribe(modalResult => {
-
       if (modalResult === "Yes") {
         var promises = [];
         this.selectedDocuments.forEach(element => {
+          // console.error("Deleting:", this.selectedCollection.id, element.id);
           promises.push(this.documentService.destroy(this.selectedCollection.id, element.id));
         });
 
@@ -199,18 +234,65 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
             this.initializeCollections();
             this.initializeCollectionData();
             this.selectedCollectionIndex = this.selectedCollectionIndexTmp;
+            this.documentsSelectionClear();
           });
       }
     });
   };
 
-  documentClick() {            //function to be called when a user clicks on table documents 
+  //function to be called when a user clicks on table documents
+  documentClick(s) {
+    // console.error("click():", s, this.documentsSelection.selected);
     this.selectedCollectionIndexTmp = this.selectedCollectionIndex;
-    this.selectedDocuments = this.collectionDocuments.filter(x => x.isSelected == true);
-    if (this.selectedDocuments.length > 0)
+    this.selectedDocuments = this.documentsSelection.selected;
+    if (this.documentsSelection.selected.length > 0)
       this.btnShow = false;
     else
       this.btnShow = true;
+  }; /* documentClick */
+
+  setCollectionDocuments(docs) {
+    this.collectionDocuments = docs;
+    // Add position
+    this.collectionDocuments.forEach(function(element, index) {
+      element.position = index;
+    });
+    this.documentsDataSource = new MatTableDataSource<DocumentInformation>(this.collectionDocuments);
+    this.documentsSelectionClear();
+    if (this.documentsTable !== undefined) {
+      this.documentsTable.renderRows();
+    }
+  }; /* setCollectionDocuments */
+
+  documentsSelectionClear() {
+    this.documentsSelection.clear();
+    this.selectedDocuments = [];
+  }; /* documentsSelectionClear */
+
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.documentsSelection.selected.length;
+    const numRows = this.documentsDataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear documentsSelection. */
+  masterToggle() {
+    if (this.isAllSelected()) {
+      this.documentsSelectionClear();
+      return;
+    }
+
+    this.documentsSelection.select(...this.documentsDataSource.data);
+    this.selectedDocuments = this.documentsSelection.selected;
+  }
+
+  /** The label for the checkbox on the passed row */
+  checkboxLabel(row?: DocumentInformation): string {
+    if (!row) {
+      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
+    }
+    return `${this.documentsSelection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
 }
