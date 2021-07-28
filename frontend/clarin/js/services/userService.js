@@ -45,7 +45,7 @@ angular.module('clarin-el').factory("User", function ($http, $q, $timeout, $loca
   var logout = function () {
     var deferred = $q.defer();
 
-    $http.get('./auth/logout')            // Make an AJAX call to check if the user is logged in
+    $http.get('./api/user/logout')            // Make an AJAX call to check if the user is logged in
       .success(function (response) {
         deferred.resolve(response);
       }).error(function (response) {

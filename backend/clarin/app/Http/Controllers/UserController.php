@@ -334,11 +334,13 @@ class UserController extends \BaseController {
      * [GET] function that logs out a user
      **/
     public function logout() {
+      // Log::info("UserController - logout() - Called");
       try {
         Sentinel::logout();
         auth()->logout();
         return Response::json(['success' => true, 'message' => 'You successfully signed out.'], 200);
       } catch (Exception $e) {
+          Log::info("UserController - logout() - Catch Exception: ".$e->getMessage());
           return Response::json(['success' => false, 'message' => $e->getMessage()], 500);
       }
     }

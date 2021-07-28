@@ -1,4 +1,9 @@
 28 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/ng-matero/core/authentication/auth.service.ts:
+ * backend/clarin/app/Http/Controllers/UserController.php:
+ * frontend/clarin/js/services/userService.js: Fixed logout in both frontends
+ to call the correct backend service.
+
  * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.html:
  * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.ts:
  Fixes in selection of Collections and errors after deleting a Collection.
