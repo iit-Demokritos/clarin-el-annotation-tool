@@ -1,4 +1,5 @@
 import { Component, ViewChild, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { formatDate } from '@angular/common';
 import { MatTable } from '@angular/material/table';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
@@ -111,6 +112,21 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
       case "document_attribute":
         return {name: "Document Attribute", value: p[1]};
         break;
+      case "created_by":
+        return {name: "Created By", value: p[1]};
+        break;
+      case "updated_by":
+        return {name: "Updated By", value: p[1]};
+        break;
+      case "created_at":
+        return {name: "Created At",
+          value: formatDate(p[1], 'd/M/YYYY, HH:mm:ss', 'en-GB')};
+        break;
+      case "updated_at":
+        return {name: "Updated At",
+          value: formatDate(p[1], 'd/M/YYYY, HH:mm:ss', 'en-GB')};
+        break;
+      case "owner_id":
       case "document_id":
       case "collection_id":
         return null;

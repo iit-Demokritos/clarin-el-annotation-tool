@@ -1,4 +1,7 @@
 28 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/controls/annotation-visualizer/annotation-visualizer.component.ts:
+ Fixed visualisation of dates in Annotation Visualiser.
+
  * backend/clarin/app/Http/Controllers/AnnotationController.php:
  * backend/clarin/app/Http/Controllers/TempAnnotationController.php:
  * backend/clarin/app/Models/TempAnnotation.php:
