@@ -1,4 +1,12 @@
 28 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * backend/clarin/app/Http/Controllers/AnnotationController.php:
+ * backend/clarin/app/Http/Controllers/TempAnnotationController.php:
+ * backend/clarin/app/Models/TempAnnotation.php:
+ * clarin-angular/src/app/components/controls/annotation-visualizer/annotation-visualizer.component.ts:
+ * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
+ * clarin-angular/src/app/services/text-widget/text-widget.service.ts: Backend
+ Annotation services now return all Annotation attributes from the MongoDB.
+
  * clarin-angular/src/app/ng-matero/core/authentication/auth.service.ts:
  * backend/clarin/app/Http/Controllers/UserController.php:
  * frontend/clarin/js/services/userService.js: Fixed logout in both frontends

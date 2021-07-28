@@ -32,7 +32,8 @@ export interface Annotation {
   styleUrls: ['./annotation-visualizer.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class AnnotationVisualizerComponent extends BaseControlComponent implements OnInit, OnDestroy {
+export class AnnotationVisualizerComponent extends BaseControlComponent
+                                           implements OnInit, OnDestroy {
 
   @ViewChild(MatTable, { static: true })
   table: MatTable<any>;
@@ -42,7 +43,8 @@ export class AnnotationVisualizerComponent extends BaseControlComponent implemen
   ngOnInit(): void {
     this.updateAnnotationList();
     //register callbacks for the annotation list and the selected annotation
-    this.TextWidgetAPI.registerAnnotationSchemaCallback(this.annotationSchemaUpdate.bind(this));
+    this.TextWidgetAPI.registerAnnotationSchemaCallback(
+      this.annotationSchemaUpdate.bind(this));
   }
 
   annotationListDisplayedColumns: string[] = ['id', 'type', 'spans'];
@@ -62,8 +64,11 @@ export class AnnotationVisualizerComponent extends BaseControlComponent implemen
 
   // function to be called when the document annotations being updated
   updateAnnotationList() {
+    // console.error("AnnotationVisualizerComponent: updateAnnotationList()");
     this.annotations = this.TextWidgetAPI.getAnnotations();
-    this.annotationsDataSource = new MatTableDataSource<Annotation>(this.annotations);
+    // console.error("updateAnnotationList():", _.cloneDeep(this.annotations));
+    this.annotationsDataSource =
+      new MatTableDataSource<Annotation>(this.annotations);
     if (this.annotations.length) this.table.renderRows();
   };
 
@@ -163,7 +168,8 @@ export class AnnotationVisualizerComponent extends BaseControlComponent implemen
 
         var currentSelection:any = this.TextWidgetAPI.getCurrentSelection();
 
-        for (var i = 0; i < serviceResponse.length; i++) { //if (!serviceResponse[i].modified_by==1) return;
+        for (var i = 0; i < serviceResponse.length; i++) {
+          //if (!serviceResponse[i].modified_by==1) return;
           if (!this.TextWidgetAPI.belongsToSchema(serviceResponse[i]))
             continue;
 
@@ -171,11 +177,13 @@ export class AnnotationVisualizerComponent extends BaseControlComponent implemen
           var currentSelectedAnnotation:any = cloneDeep(this.TextWidgetAPI.getSelectedAnnotation());
           this.TextWidgetAPI.clearSelectedAnnotation();
 
-          if (typeof (oldAnnotation) == "undefined") { //annotation does not exist
+          if (typeof (oldAnnotation) == "undefined") {
+            //annotation does not exist
             if (typeof (serviceResponse[i].deleted_at) == "undefined")
               this.TextWidgetAPI.addAnnotation(serviceResponse[i], false);
           } else { //annotation exists 
-            if (typeof (serviceResponse[i].deleted_at) != "undefined") { //if deleted_at field is defined delete annotation
+            if (typeof (serviceResponse[i].deleted_at) != "undefined") {
+              //if deleted_at field is defined delete annotation
               this.TextWidgetAPI.deleteAnnotation(serviceResponse[i]._id)
             } else if (oldAnnotation != serviceResponse[i]) {
               this.TextWidgetAPI.deleteAnnotation(serviceResponse[i]._id)

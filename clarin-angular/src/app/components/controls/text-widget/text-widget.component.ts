@@ -64,8 +64,9 @@ export class TextWidgetComponent extends BaseControlComponent
     //this.textarea = this.element.nativeElement;
 
     this.mainContent= document.getElementsByClassName("main-content")[0];
-    this.textWidget = document.getElementById("annotation-editor-text-widget");//
-    this.textWidgetOverlay = document.getElementById('annotation-editor-text-widget-overlay');
+    this.textWidget = document.getElementById("annotation-editor-text-widget");
+    this.textWidgetOverlay = 
+      document.getElementById('annotation-editor-text-widget-overlay');
     // this.editor = CodeMirror.fromTextArea(this.element.nativeElement, {
     this.editor = CodeMirror.fromTextArea(this.textWidget, {
       lineNumbers: true,

@@ -2,11 +2,17 @@
 
 class TempAnnotationController extends \BaseController
 {
+
+  public $returnProperties = ['_id', 'collection_id', 'document_id', 'owner_id',
+    'annotator_id', 'document_attribute',
+    'type', 'spans', 'attributes',
+    'created_at', 'created_by', 'updated_at', 'updated_by', 'deleted_at'];
+
   //apply filter for the shared/non-shared collections 
   public function __construct()
   {
     //$this->middleware('auth');
-    //$this->beforeFilter('collection_permissions'); 
+    //$this->beforeFilter('collection_permissions');
   }
 
   //get all the temp annotations of a document
@@ -17,7 +23,7 @@ class TempAnnotationController extends \BaseController
         'success' => true,
         'data'    => TempAnnotation::where('collection_id', (int) $collection_id)
           ->where('document_id', (int) $document_id)
-          ->get(['collection_id', 'document_id', 'annotator_id', 'document_attribute', 'type', 'spans', 'attributes', 'created_by', 'updated_by'])
+          ->get($this->returnProperties)
       ]);
     } catch (\Exception $e) {
       return Response::json(['success' => false, 'message' => $e->getMessage()]);
@@ -34,7 +40,7 @@ class TempAnnotationController extends \BaseController
           'data'    => TempAnnotation::where('collection_id', (int) $collection_id)
             ->where('document_id', (int) $document_id)
             ->where('annotator_id', $annotation_id)
-            ->get(['collection_id', 'document_id', 'annotator_id', 'document_attribute', 'type', 'spans', 'attributes', 'created_by', 'updated_by'])
+            ->get($this->returnProperties)
         ]);
       }
       return Response::json([
@@ -56,23 +62,30 @@ class TempAnnotationController extends \BaseController
       $annotation_data = Request::input('data');
 
       if ((bool)count(array_filter(array_keys($annotation_data), 'is_string'))) { //if the user send a single annotation
+        $annotation = $annotation;
         $anno = new TempAnnotation([
-          '_id' => $annotation_data['_id'],
-          'document_id' => (int)$document_id, //$annotation_data['document_id'],
-          'collection_id' => (int)$collection_id, //$annotation_data['collection_id'],
+          '_id' => $annotation['_id'],
+          'document_id' => (int)$document_id, //$annotation['document_id'],
+          'collection_id' => (int)$collection_id, //$annotation['collection_id'],
           'owner_id' => $user['id'],
-          'annotator_id' => (array_key_exists('annotator_id', $annotation_data) ? $annotation_data['annotator_id'] : null),
-          'type' => $annotation_data['type'],
-          'spans' => $annotation_data['spans'],
-          'attributes' => $annotation_data['attributes'],
-	  'created_by' => array_key_exists('created_by', $annotation_data) ?
-                          $annotation_data['updated_by'] : $user['email'],
+          'type' => $annotation['type'],
+          'spans' => $annotation['spans'],
+          'attributes' => $annotation['attributes'],
+          'created_by' => array_key_exists('created_by', $annotation) ?
+                          $annotation['updated_by'] : $user['email'],
           'updated_by' => $user['email']
         ]);
         foreach ($optional as $field) {
-          if (array_key_exists($field, $annotation_data)) {
-            $anno[$field] = $annotation_data[$field];
+          if (array_key_exists($field, $annotation)) {
+            $anno[$field] = $annotation[$field];
           }
+        }
+        // 'annotator_id' does not exist in older exports.
+        if (isset($annotation['annotator_id'])) {
+          $anno['annotator_id'] = $annotation['annotator_id'];
+        }
+        if (isset($annotation['created_at'])) {
+          $anno['created_at'] = $annotation['created_at'];
         }
 
         $document = Document::find($document_id);
@@ -80,7 +93,7 @@ class TempAnnotationController extends \BaseController
 
         OpenDocument::where('collection_id', (int) $collection_id)
           ->where('document_id', (int) $document_id)
-          ->where('annotator_type', (array_key_exists('annotator_id', $annotation_data) ? $annotation_data['annotator_id'] : null))
+          ->where('annotator_type', (array_key_exists('annotator_id', $annotation) ? $annotation['annotator_id'] : null))
           ->increment('db_interactions');
       } else {                                  //if the user send an array with annotations        
         foreach ($annotation_data as $annotation) {
@@ -92,8 +105,8 @@ class TempAnnotationController extends \BaseController
             'annotator_id' => (array_key_exists('annotator_id', $annotation) ? $annotation['annotator_id'] : null),
             'type' => $annotation['type'],
             'spans' => $annotation['spans'],
-	    'attributes' => $annotation['attributes'],
-	    'created_by' => array_key_exists('created_by', $annotation) ?
+            'attributes' => $annotation['attributes'],
+            'created_by' => array_key_exists('created_by', $annotation) ?
                             $annotation['created_by'] : $user['email'],
             'updated_by' => $user['email']
           ]);
@@ -101,6 +114,13 @@ class TempAnnotationController extends \BaseController
             if (array_key_exists($field, $annotation)) {
               $anno[$field] = $annotation[$field];
             }
+          }
+          // 'annotator_id' does not exist in older exports.
+          if (isset($annotation['annotator_id'])) {
+            $anno['annotator_id'] = $annotation['annotator_id'];
+          }
+          if (isset($annotation['created_at'])) {
+            $anno['created_at'] = $annotation['created_at'];
           }
 
           array_push($new_annotations, $anno);
@@ -181,9 +201,6 @@ class TempAnnotationController extends \BaseController
     return Response::json(['success' => true]);
   }
 
-
-
-
   /**
    * action to handle streamed response from laravel
    * @return \Symfony\Component\HttpFoundation\StreamedResponse
@@ -240,7 +257,7 @@ class TempAnnotationController extends \BaseController
               ->where('collection_id', (int) $collection_id)
               ->where('document_id',   (int) $document_id)
               ->where('updated_at', '>=', $started_time)
-              ->get(['_id', 'collection_id', 'document_id', 'annotator_id', 'document_attribute', 'type', 'spans', 'attributes', /*'updated_at', 'updated_by',*/ 'deleted_at']);
+              ->get($this->returnProperties);
           } else {
             $new_annotations = [];
           }

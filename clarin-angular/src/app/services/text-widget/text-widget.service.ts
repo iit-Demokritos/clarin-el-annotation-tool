@@ -199,6 +199,7 @@ export class TextWidgetAPI {
       "action": "add"
     });
 
+    // console.error("addAnnotation():", newAnnotation, selected);
     this.notifyObservers(this.annotationsCallbacks);
     this.notifyObservers(this.annotationsToBeAddedCallbacks);
 
@@ -228,6 +229,7 @@ export class TextWidgetAPI {
       "action": "update"
     });
 
+    // console.error("updateAnnotation():", updatedAnnotation, selected);
     this.notifyObservers(this.annotationsCallbacks);
     this.notifyObservers(this.annotationsToBeAddedCallbacks);
 
@@ -356,6 +358,7 @@ export class TextWidgetAPI {
       }
     }
 
+    // console.error("matchAnnotationsToSchema():", newAnnotations);
     this.notifyObservers(this.annotationsCallbacks);
     this.notifyObservers(this.foundInCollectionCallbacks);
     this.notifyObservers(this.annotationsToBeAddedCallbacks);

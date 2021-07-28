@@ -2,6 +2,12 @@
 
 class AnnotationController extends \BaseController
 {
+
+  public $returnProperties = ['_id', 'collection_id', 'document_id', 'owner_id',
+    'annotator_id', 'document_attribute',
+    'type', 'spans', 'attributes',
+    'created_at', 'created_by', 'updated_at', 'updated_by', 'deleted_at'];
+
   public function __construct()
   { //apply filter for the shared/non-shared collections
     //$this->beforeFilter('collection_permissions'); 
@@ -14,8 +20,7 @@ class AnnotationController extends \BaseController
         'success' => true,
         'data'      => Annotation::where('collection_id', (int) $collection_id)
           ->where('document_id', (int) $document_id)
-          ->get(['collection_id', 'document_id', 'annotator_id', 'document_attribute',
-                 'type', 'spans', 'attributes', 'created_by', 'updated_by'])
+          ->get($this->returnProperties)
       ]);
     } catch (\Exception $e) {
       return Response::json(['success' => false, 'message' => $e->getMessage()]);
@@ -31,8 +36,7 @@ class AnnotationController extends \BaseController
           'data'    => TempAnnotation::where('collection_id', (int) $collection_id)
             ->where('document_id', (int) $document_id)
             ->where('annotator_id', $annotation_id)
-            ->get(['collection_id', 'document_id', 'annotator_id', 'document_attribute',
-                   'type', 'spans', 'attributes', 'created_by', 'updated_by'])
+            ->get($this->returnProperties)
         ]);
       }
       return Response::json([
