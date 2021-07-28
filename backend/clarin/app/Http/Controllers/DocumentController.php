@@ -113,9 +113,13 @@ class DocumentController extends \BaseController
       $handler_type = NULL;
       $handler_name = NULL;
       $handler_apply = false;
+      Log::info("DocumentController - store() - handler: ".gettype($input['handler']).", ".$input['handler']);
       switch (gettype($input['handler'])) {
         case "string":
           $handler_type = $input['handler'];
+          break;
+        case "NULL":
+          $handler_type = "none";
           break;
         default:
           if (array_key_exists("value", $input['handler'])) {
@@ -129,8 +133,9 @@ class DocumentController extends \BaseController
       };
 
       $text         = "";
-      $data_text    = NULL;
-      $data_binary  = NULL;
+      $data_text    = $input['data_text'] ?? NULL;
+      $data_binary  = $input['data_binary'] ?? NULL;
+      $metadata     = $input['metadata'] ?? NULL;
       $visualisation_options = $input['visualisation_options'] ?? NULL;
       switch ($type) {
         case "tei xml":
@@ -197,6 +202,7 @@ class DocumentController extends \BaseController
         'handler' => $handler_type,
         'visualisation_options' => $visualisation_options,
         'external_name' => $document_name,
+        'metadata' => $metadata,
         'encoding' => $input['encoding'],
         'collection_id' => $input['collection_id'],
         'owner_id' => $user['id'],

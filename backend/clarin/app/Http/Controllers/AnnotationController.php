@@ -54,28 +54,38 @@ class AnnotationController extends \BaseController
       $annotator_id = "";
 
       if ((bool)count(array_filter(array_keys($annotation_data), 'is_string'))) { //if the user send a single annotation
+        $annotation = $annotation;
         // Just make sure during migration, that annotation does not exists
         try {
-          Annotation::destroy($annotation_data['_id']);
+          Annotation::destroy($annotation['_id']);
         } catch (Throwable $e) {
         }
         $anno = new Annotation([
-          '_id' => $annotation_data['_id'],
-          'document_id' => (int)$document_id, // : $annotation_data['document_id'],
-          'collection_id' => (int)$collection_id, // : $annotation_data['collection_id'],
+          '_id' => $annotation['_id'],
+          'document_id' => (int)$document_id, // : $annotation['document_id'],
+          'collection_id' => (int)$collection_id, // : $annotation['collection_id'],
           'owner_id' => $user['id'],
-          'annotator_id' => $annotation_data['annotator_id'],
-          'type' => $annotation_data['type'],
-          'spans' => $annotation_data['spans'],
-	  'attributes' => $annotation_data['attributes'],
-	  'created_by' => array_key_exists('created_by', $annotation_data) ?
-                          $annotation_data['updated_by'] : $user['email'],
-          'updated_by' => $importing ? $annotation_data['updated_by'] : $user['email']
+          'type' => $annotation['type'],
+          'spans' => $annotation['spans'],
+          'attributes' => $annotation['attributes'],
+          'created_by' => array_key_exists('created_by', $annotation) ?
+                          $annotation['created_by'] : $user['email'],
+          'updated_by' => $importing ? $annotation['updated_by'] ?? $user['email'] : $user['email']
         ]);
         foreach ($optional as $field) {
-          if (array_key_exists($field, $annotation_data)) {
-            $anno[$field] = $annotation_data[$field];
+          if (array_key_exists($field, $annotation)) {
+            $anno[$field] = $annotation[$field];
           }
+        }
+        // 'annotator_id' does not exist in older exports.
+        if (isset($annotation['annotator_id'])) {
+          $anno['annotator_id'] = $annotation['annotator_id'];
+        }
+        if (isset($annotation['created_at'])) {
+          $anno['created_at'] = $annotation['created_at'];
+        }
+        if ($importing && isset($annotation['updated_at'])) {
+          $anno['updated_at'] = $annotation['updated_at'];
         }
 
         $document = Document::find($document_id);
@@ -92,22 +102,31 @@ class AnnotationController extends \BaseController
             'document_id' => (int)$document_id, // : $annotation['document_id'],
             'collection_id' => (int)$collection_id, // : $annotation['collection_id'],
             'owner_id' => $user['id'],
-            'annotator_id' => $annotation['annotator_id'],
             'type' => $annotation['type'],
             'spans' => $annotation['spans'],
-	    'attributes' => $annotation['attributes'],
-	    'created_by' => array_key_exists('created_by', $annotation) ?
+            'attributes' => $annotation['attributes'],
+            'created_by' => array_key_exists('created_by', $annotation) ?
                             $annotation['created_by'] : $user['email'],
-            'updated_by' => $importing ? $annotation['updated_by'] : $user['email']
+            'updated_by' => $importing ? $annotation['updated_by'] ?? $user['email'] : $user['email']
           ]);
           foreach ($optional as $field) {
             if (array_key_exists($field, $annotation)) {
               $anno[$field] = $annotation[$field];
             }
           }
-
+          // 'annotator_id' does not exist in older exports.
+          if (isset($annotation['annotator_id'])) {
+            $anno['annotator_id'] = $annotation['annotator_id'];
+            $annotator_id = $annotation['annotator_id'];
+          }
+          if (isset($annotation['created_at'])) {
+            $anno['created_at'] = $annotation['created_at'];
+          }
+          if ($importing && isset($annotation['updated_at'])) {
+            $anno['updated_at'] = $annotation['updated_at'];
+          }
+        
           array_push($new_annotations, $anno);
-          $annotator_id = $annotation['annotator_id'];
         }
 
         $document = Document::find($document_id);
@@ -121,6 +140,7 @@ class AnnotationController extends \BaseController
         }
       }
     } catch (\Exception $e) {
+      Log::info("AnnotationController - store() - Catch Exception: ".$e->getMessage());
       return Response::json(['success' => false, 'message' => $e->getMessage()]);
     }
     return Response::json(['success' => true]);
