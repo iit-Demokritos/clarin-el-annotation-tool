@@ -93,9 +93,9 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
         if (modalResult === "Yes") {
           this.collectionService.destroy(id)
             .then((data) => {
-              this.initializeCollections();
               this.selectedCollection = undefined;
-              this.collectionDocuments = undefined;
+              this.collectionDocuments = [];
+              this.initializeCollections();
               this.showStaticHeader = true;
               this.selectedCollectionIndex = null;
             }, (error) => {

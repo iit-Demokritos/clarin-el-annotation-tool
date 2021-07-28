@@ -22,7 +22,8 @@
         </mat-card-header>
         <mat-card-content class="sidebar-main-content">
           <mat-selection-list #shoes [multiple]="false">
-            <mat-list-option *ngFor="let collection of dataForTheTree;let index=index" [value]="collection">
+            <mat-list-option *ngFor="let collection of dataForTheTree;let index=index" [value]="collection"
+               (click)="showSelectedCollection(collection, index)">
               <div class="center-vertically">
                 <mat-icon>folder</mat-icon><span matBadge="{{collection.document_count}}" matBadgeOverlap="false"
                   matBadgeColor="accent" matBadgeSize="small"> {{collection.name}} </span>
@@ -32,7 +33,9 @@
                 <mat-icon *ngIf="!(collection.confirmed==1 && collection.is_owner)">check_box_outline_blank</mat-icon>
                 <mat-icon *ngIf="collection.confirmed==1 && !collection.is_owner">folder_shared</mat-icon>
                 <mat-icon *ngIf="!(collection.confirmed==1 && !collection.is_owner)">check_box_outline_blank</mat-icon>
-                <button mat-icon-button (click)="deleteCollection(selectedCollection.id)" *ngIf="collection.is_owner"
+                <button mat-icon-button
+                  (click)="showSelectedCollection(collection, index); deleteCollection(selectedCollection.id)"
+                  *ngIf="collection.is_owner"
                   [matTooltip]="'Collections.Delete Collection'|translate">
                   <mat-icon>delete_forever</mat-icon>
                 </button>
@@ -99,7 +102,7 @@
           </button>
         </mat-card-header>
         <mat-card-content class="main-content">
-          <div class="text-center no-available-documents" *ngIf="collectionDocuments.length==0">
+          <div class="text-center no-available-documents" *ngIf="selectedCollection === undefined">
             <i class="fa fa-tasks" aria-hidden="true"></i>
             &#09;Please select a collection from the list on the left...
           </div>
