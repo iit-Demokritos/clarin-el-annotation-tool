@@ -1,4 +1,10 @@
 30 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * backend/clarin/app/Http/Controllers/AnnotationController.php:
+ * backend/clarin/app/Http/Controllers/TempAnnotationController.php:
+ * clarin-angular/src/app/components/controls/base-control/base-control.component.ts:
+ Fixed a bug in ObjectId() generation, and storing single annotations in
+ backend.
+
  * clarin-angular/src/app/ng-matero/theme/sidemenu/accordion.directive.ts:
  * clarin-angular/src/app/ng-matero/core/bootstrap/menu.service.ts: Fixes in
  ng-matero to respect the /app prefix in sidemenu.

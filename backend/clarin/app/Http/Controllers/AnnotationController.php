@@ -58,7 +58,7 @@ class AnnotationController extends \BaseController
       $annotator_id = "";
 
       if ((bool)count(array_filter(array_keys($annotation_data), 'is_string'))) { //if the user send a single annotation
-        $annotation = $annotation;
+        $annotation = $annotation_data;
         // Just make sure during migration, that annotation does not exists
         try {
           Annotation::destroy($annotation['_id']);

@@ -62,7 +62,7 @@ class TempAnnotationController extends \BaseController
       $annotation_data = Request::input('data');
 
       if ((bool)count(array_filter(array_keys($annotation_data), 'is_string'))) { //if the user send a single annotation
-        $annotation = $annotation;
+        $annotation = $annotation_data;
         $anno = new TempAnnotation([
           '_id' => $annotation['_id'],
           'document_id' => (int)$document_id, //$annotation['document_id'],
