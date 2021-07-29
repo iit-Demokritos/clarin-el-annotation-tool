@@ -1,3 +1,8 @@
+30 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/ng-matero/theme/sidemenu/accordion.directive.ts:
+ * clarin-angular/src/app/ng-matero/core/bootstrap/menu.service.ts: Fixes in
+ ng-matero to respect the /app prefix in sidemenu.
+
 29 July 2021 Petasis George <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/controls/toolbar-widget/toolbar-widget.component.html:
  * clarin-angular/src/app/components/controls/toolbar-widget/toolbar-widget.component.ts:

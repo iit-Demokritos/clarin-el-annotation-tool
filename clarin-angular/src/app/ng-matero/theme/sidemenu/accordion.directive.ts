@@ -43,7 +43,7 @@ export class AccordionDirective {
   checkOpenLinks() {
     this.navlinks.forEach((link: AccordionItemDirective) => {
       if (link.group) {
-        if (this.router.url.split('/').includes(link.group)) {
+        if (this.router.url.split('/').includes(link.group.split('/').pop())) {
           link.open = true;
           this.closeOtherLinks(link);
         }

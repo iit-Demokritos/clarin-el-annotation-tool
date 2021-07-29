@@ -117,7 +117,7 @@ export class MenuService {
         for (const ele of unhandledLayer) {
           const eachItem = ele.item;
           const currentNamePathList = this.deepClone(ele.parentNamePathList).concat(eachItem.name);
-          const currentRealRouteArr = this.deepClone(ele.realRouteArr).concat(eachItem.route);
+          const currentRealRouteArr = this.deepClone(ele.realRouteArr).concat(eachItem.route.split('/'));
           // Compare the full Array for expandable
           if (this.isRouteEqual(routeArr, currentRealRouteArr)) {
             tmpArr = currentNamePathList;
