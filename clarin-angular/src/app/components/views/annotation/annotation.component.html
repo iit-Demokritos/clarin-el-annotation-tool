@@ -1,13 +1,13 @@
 <div class="cover" *ngIf="documentSelection"></div>
 <div class="annotation-area">
-  <toolbar-widget></toolbar-widget>
+  <toolbar-widget (notifyParent)="handleToolbarEvent($event)"></toolbar-widget>
   <as-split direction="horizontal" style="height: 100%;">
     <as-split-area [size]="70" [minSize]="40" [maxSize]="90" class="main-content-wrapper">
       <mat-toolbar class="annotation-toolbar">
         <mat-button-toggle-group class="main-content-header" name="annotation-main-content-header"
           aria-label="Content Page" [hidden]="!layout.showEditorTabs" [(ngModel)]="maincontentSelector">
-          <mat-button-toggle value="document">Document</mat-button-toggle>
-          <mat-button-toggle value="attributes">Document Attributes</mat-button-toggle>
+          <mat-button-toggle value="document">{{'annotation.Document'|translate}}</mat-button-toggle>
+          <mat-button-toggle value="attributes">{{'annotation.Document Attributes'|translate}}</mat-button-toggle>
         </mat-button-toggle-group>
       </mat-toolbar>
       <div class="main-content">
@@ -35,8 +35,8 @@
         <mat-toolbar class="annotation-toolbar">
           <div class="side-content-header-container">
             <mat-button-toggle-group class="side-content-header" aria-label="Schema Page" [(ngModel)]="sidebarSelector">
-              <mat-button-toggle value="annotator">{{annotatorType}}</mat-button-toggle>
-              <mat-button-toggle value="annotationVisualiser">Annotation Visualiser</mat-button-toggle>
+              <mat-button-toggle value="annotator">{{annotatorType|translate}}</mat-button-toggle>
+              <mat-button-toggle value="annotationVisualiser">{{'annotation.Annotation Visualiser'|translate}}</mat-button-toggle>
             </mat-button-toggle-group>
           </div>
         </mat-toolbar>

@@ -125,6 +125,18 @@
     "Import": "Import",
     "Rename": "Rename"
   },
+  "annotation": {
+    "Collection": "Collection",
+    "Document": "Document",
+    "Document Attributes": "Document Attributes",
+    "Annotation Visualiser": "Annotation Visualiser",
+    "Previous Document": "Previous Document",
+    "Next Document": "Next Document",
+    "Auto Save": "Auto Save",
+    "Save Annotations": "Save Annotations",
+    "Delete Annotation": "Delete Annotation",
+    "Change Collection": "Change Collection"
+  },
   "validations": {
     "required": "This field is required",
     "minlength": "This value must have at least {{number}} characters",

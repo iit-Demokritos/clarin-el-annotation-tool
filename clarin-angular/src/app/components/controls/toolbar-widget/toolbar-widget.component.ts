@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Output, OnInit, EventEmitter } from '@angular/core';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 import { TextWidgetAPI } from 'src/app/services/text-widget/text-widget.service';
 import { DetectChangesModalComponent } from '../../dialogs/detect-changes-modal/detect-changes-modal.component';
@@ -23,7 +23,7 @@ export class ToolbarWidgetComponent extends BaseControlComponent implements OnIn
     this.TextWidgetAPI.registerCurrentDocumentCallback(this.updateCurrentDocument.bind(this));
   }
 
-  @Input() parent: AnnotationComponent;
+  @Output() notifyParent = new EventEmitter<string>();
 
   selectedDocument = {};
   autoSaveIndicator = false;
@@ -38,7 +38,7 @@ export class ToolbarWidgetComponent extends BaseControlComponent implements OnIn
     this.openDocumentService.get(currentDocument.id, currentDocument.annotator_id)
       .then((response: any) => {
         if (response.success && response.data.length > 0) {
-	  // search if the user has an open document
+          // search if the user has an open document
           // var documentFound = _.findWhere(response.data, { opened: 1 });
           var documentFound = response.data.find(doc => doc.opened === 1);
 

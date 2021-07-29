@@ -242,12 +242,14 @@ export class AnnotationComponent extends MainComponent implements OnInit {
           this.createDocumentSelectionModal();
         } else {
           this.dialog.open(ErrorDialogComponent, {
-            data: new ConfirmDialogData("Error", "Database error. Please refresh the page and try again.")
+            data: new ConfirmDialogData("Error",
+              "Database error. Please refresh the page and try again.")
           })
         }
       }, (error) => {
         this.dialog.open(ErrorDialogComponent, {
-          data: new ConfirmDialogData("Error", "Database error. Please refresh the page and try again.")
+          data: new ConfirmDialogData("Error",
+            "Database error. Please refresh the page and try again.")
         })
       });
   };
@@ -268,4 +270,14 @@ export class AnnotationComponent extends MainComponent implements OnInit {
     this.broadcastEvent = evt;
     this.changeDetectorRef.detectChanges(); // forces change detection to run
   }; /* getTextWidgetNotification */
+
+  handleToolbarEvent(evt) {
+    switch (evt) {
+      case 'change.collection':
+        this.openDocumentSelectionModal();
+        break;
+      default:
+        break;
+    }
+  }
 }

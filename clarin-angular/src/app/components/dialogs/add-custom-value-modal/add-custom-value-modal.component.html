@@ -32,8 +32,8 @@
       </mat-grid-list>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
-      <button type="submit" mat-raised-button color="primary" (click)="addButton()">Add</button>
-      <button type="button" mat-raised-button mat-dialog-close (click)="cancel()">Cancel</button>
+      <button type="button" mat-button mat-dialog-close (click)="cancel()">{{'Cancel'|translate}}</button>
+      <button type="submit" mat-button color="primary" (click)="addButton()">{{'Add'|translate}}</button>
     </mat-dialog-actions>
   </form>
 </div>

@@ -1,7 +1,7 @@
 <mat-toolbar class="annotation-toolbar">
-  <span>Collection:&nbsp;{{selectedCollectionName}}</span>
+  <span>{{'annotation.Collection'|translate}}:&nbsp;{{selectedCollectionName}}</span>
   <mat-divider vertical></mat-divider>
-  <span>Document:&nbsp;</span>
+  <span>{{'annotation.Document'|translate}}:&nbsp;</span>
   <mat-form-field appearance="outline">
     <mat-select [(ngModel)]="selectedDocument"
       ng-options="document as document.name for document in selectedCollectionDocuments"
@@ -12,12 +12,24 @@
   </mat-form-field>
   <mat-divider [vertical]="true"></mat-divider>
   <mat-button-toggle-group>
-    <button mat-icon-button (click)="prevDocument()" title="Previous Document"><mat-icon>navigate_before</mat-icon></button>
-    <button mat-icon-button (click)="nextDocument()" title="Next Document"><mat-icon>navigate_next</mat-icon></button>
+    <button mat-icon-button (click)="prevDocument()" title="{{'annotation.Previous Document'|translate}}">
+      <mat-icon>navigate_before</mat-icon>
+    </button>
+    <button mat-icon-button (click)="nextDocument()" title="{{'annotation.Next Document'|translate}}">
+      <mat-icon>navigate_next</mat-icon>
+    </button>
   </mat-button-toggle-group>
   <span fxflex="" ng-reflect-fx-flex="" style="flex: 1 1 0%; box-sizing: border-box;"></span>
-  <button mat-stroked-button color="delete" (click)="deleteAnnotation()"><mat-icon>delete_forever</mat-icon>Delete Annotation</button>
-  <button mat-stroked-button color="save" (click)="saveAnnotations()"><mat-icon>save</mat-icon>Save Annotations</button>
-  <button mat-stroked-button color="autosave" (click)="autoSaveIndicator=!autoSaveIndicator"><mat-icon>{{autoSaveIndicator ? 'folder_open' : 'folder'}}</mat-icon>Auto Save</button>
-  <button mat-stroked-button color="change" (click)="parent.openDocumentSelectionModal()"><mat-icon>folder_open</mat-icon>Change Collection</button>
+  <button mat-stroked-button color="delete" (click)="deleteAnnotation()">
+    <mat-icon>delete_forever</mat-icon>{{'annotation.Delete Annotation'|translate}}
+  </button>
+  <button mat-stroked-button color="save" (click)="saveAnnotations()">
+    <mat-icon>save</mat-icon>{{'annotation.Save Annotations'|translate}}
+  </button>
+  <button mat-stroked-button color="autosave" (click)="autoSaveIndicator=!autoSaveIndicator">
+    <mat-icon>{{autoSaveIndicator ? 'folder_open' : 'folder'}}</mat-icon>{{'annotation.Auto Save'|translate}}
+  </button>
+  <button mat-stroked-button color="change" (click)="notifyParent.emit('change.collection')">
+    <mat-icon>folder_open</mat-icon>{{'annotation.Change Collection'|translate}}
+  </button>
 </mat-toolbar>

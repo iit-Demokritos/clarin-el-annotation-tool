@@ -22,8 +22,8 @@
       </mat-form-field>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
-      <button type="button" mat-raised-button mat-dialog-close (click)="cancel()">{{'Cancel'|translate}}</button>
-      <button type="submit" mat-raised-button color="primary" [disabled]="renameForm.invalid"
+      <button type="button" mat-button mat-dialog-close (click)="cancel()">{{'Cancel'|translate}}</button>
+      <button type="submit" mat-button color="primary" [disabled]="renameForm.invalid"
         (click)="rename()">{{'Collections.Rename'|translate}}</button>
     </mat-dialog-actions>
   </form>
