@@ -3,6 +3,14 @@
  * clarin-angular/src/app/ng-matero/core/bootstrap/menu.service.ts: Fixes in
  ng-matero to respect the /app prefix in sidemenu.
 
+ * clarin-angular/src/app/app-routing.module.ts:
+ * clarin-angular/src/app/components/views/add-collection/add-collection.component.html:
+ * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.html:
+ * clarin-angular/src/app/ng-matero/core/bootstrap/startup.service.ts:
+ * clarin-angular/src/app/ng-matero/routes/dashboard/dashboard.component.html:
+ * clarin-angular/src/assets/i18n/el-GR.json:
+ * clarin-angular/src/assets/i18n/en-US.json: Added titles in page headers.
+
 29 July 2021 Petasis George <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/controls/toolbar-widget/toolbar-widget.component.html:
  * clarin-angular/src/app/components/controls/toolbar-widget/toolbar-widget.component.ts:

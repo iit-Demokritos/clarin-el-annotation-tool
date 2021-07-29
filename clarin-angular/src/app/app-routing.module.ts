@@ -37,6 +37,10 @@ const routes: Routes = [
       { path: 'collections/add',    component: AddCollectionComponent },
       { path: 'collections/manage', component: ManageCollectionsComponent },
       { path: "annotation",         component: AnnotationComponent },
+      {
+        path: 'profile',
+        loadChildren: () => import('./ng-matero/routes/profile/profile.module').then(m => m.ProfileModule),
+      },
     ],
   },
   {

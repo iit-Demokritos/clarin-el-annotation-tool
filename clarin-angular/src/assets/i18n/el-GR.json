@@ -207,6 +207,12 @@
   "dialog": {
 
   },
+  "pageheader": {
+    "Personal Profile": "Personal Profile",
+    "Dashboard": "Dashboard",
+    "Add New Collection": "Add New Collection",
+    "Manage Collections": "Manage Collections"
+  },
   "Yes": "Ναι",
   "No": "Όχι",
   "Warning": "Προσοχή",

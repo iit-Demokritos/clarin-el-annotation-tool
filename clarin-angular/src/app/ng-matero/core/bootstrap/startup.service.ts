@@ -17,8 +17,8 @@ export class StartupService {
     private token: TokenService,
     private menu: MenuService,
     private http: HttpClient,
-    private rolesSrv: NgxRolesService,
-    private permissonsSrv: NgxPermissionsService
+    private permissonsSrv: NgxPermissionsService,
+    private rolesSrv: NgxRolesService
   ) {}
 
   /** Load the application only after get the menu or other essential informations such as roles and permissions. */
