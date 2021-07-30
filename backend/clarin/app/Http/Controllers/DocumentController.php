@@ -113,7 +113,7 @@ class DocumentController extends \BaseController
       $handler_type = NULL;
       $handler_name = NULL;
       $handler_apply = false;
-      Log::info("DocumentController - store() - handler: ".gettype($input['handler']).", ".$input['handler']);
+      Log::info("DocumentController - store() - handler: ".gettype($input['handler']).", ".json_encode($input['handler']));
       switch (gettype($input['handler'])) {
         case "string":
           $handler_type = $input['handler'];
@@ -217,6 +217,7 @@ class DocumentController extends \BaseController
       DB::unprepared('UNLOCK TABLES');
       DB::rollback();
       Log::info("DocumentController - store() - Catch Exception: ".$e->getMessage());
+      Log::info("File: ".$e->getFile().", line: ".$e->getLine());
       return Response::json(['success' => false, 'message' => $e->getMessage()]);
     }
     return Response::json(['success' => true,

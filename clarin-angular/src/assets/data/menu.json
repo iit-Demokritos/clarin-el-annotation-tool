@@ -31,7 +31,7 @@
       "type": "link",
       "icon": "article"
     }, {
-      "route": "app/settings",
+      "route": "app/profile/settings",
       "name": "Settings",
       "type": "link",
       "icon": "settings"
