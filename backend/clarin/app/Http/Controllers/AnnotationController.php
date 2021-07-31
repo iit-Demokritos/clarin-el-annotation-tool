@@ -6,7 +6,9 @@ class AnnotationController extends \BaseController
   public $returnProperties = ['_id', 'collection_id', 'document_id', 'owner_id',
     'annotator_id', 'document_attribute',
     'type', 'spans', 'attributes',
-    'created_at', 'created_by', 'updated_at', 'updated_by', 'deleted_at'];
+    'created_at', 'created_by', 'updated_at', 'updated_by', 'deleted_at',
+    'collection_setting', 'document_setting'
+  ];
 
   public function __construct()
   { //apply filter for the shared/non-shared collections
@@ -50,7 +52,7 @@ class AnnotationController extends \BaseController
 
   public function store($collection_id, $document_id, $importing=false)
   { //store annotations
-    $optional = ["document_attribute"];
+    $optional = ['document_attribute', 'collection_setting', 'document_setting'];
     try {
       $user = Sentinel::getUser();
       $new_annotations = [];

@@ -1,3 +1,10 @@
+31 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * backend/clarin/app/Http/Controllers/AnnotationController.php:
+ * backend/clarin/app/Http/Controllers/TempAnnotationController.php:
+ * backend/clarin/app/Models/Annotation.php:
+ * backend/clarin/app/Models/TempAnnotation.php: Added new fields in
+ annotations ('collection_setting', 'document_setting').
+
 30 July 2021 Petasis George <petasis@iit.demokritos.gr>:
  * backend/clarin/app/Http/Controllers/DocumentController.php:
  * clarin-angular/src/app/components/dialogs/add-documents-dialog/add-documents-dialog.component.html:
