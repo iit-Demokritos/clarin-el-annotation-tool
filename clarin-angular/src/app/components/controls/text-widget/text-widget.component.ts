@@ -12,6 +12,12 @@ import * as _ from 'lodash';
 import * as $ from 'jquery';
 import * as joint from 'jointjs';
 //import { type } from 'node:os';
+//import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
+import canvas2pdf from 'canvas2pdf';
+import { saveAs } from 'file-saver';
+
+// var blobStream = require('blob-stream');
 
 @Component({
   selector: 'text-widget',
@@ -1032,6 +1038,22 @@ export class TextWidgetComponent extends BaseControlComponent
         });
         //$rootScope.$broadcast('sendDocumentAttribute:' +
         //  currAnnotation.annotation.document_attribute, currAnnotation.annotation);
+      } else if ("collection_setting" in currAnnotation.annotation) {
+        // This is a collection setting Annotation...
+        // Broadcast an event to our parent that a Document Attribute was found.
+        this.textWidgetEvent.emit({
+          event: "sendCollectionSetting",
+          attributeName: currAnnotation.annotation.collection_setting,
+          annotation: currAnnotation.annotation
+        });
+      } else if ("document_setting" in currAnnotation.annotation) {
+        // This is a collection setting Annotation...
+        // Broadcast an event to our parent that a Document Attribute was found.
+        this.textWidgetEvent.emit({
+          event: "sendDocumentSetting",
+          attributeName: currAnnotation.annotation.document_setting,
+          annotation: currAnnotation.annotation
+        });
       } else {
         // Normal annotation
         // Iterate through annotations spans
@@ -1341,5 +1363,32 @@ export class TextWidgetComponent extends BaseControlComponent
     //editor.setCursor(annotation.spans[0].start);
     //editor.scrollIntoView(null);
   }; /* scrollToAnnotation */
+
+  exportPDF() {
+    var codeMirror = document.getElementsByClassName("CodeMirror-scroll")[0];
+    console.error("export PDF:", codeMirror);
+
+    //Create a new PDF canvas context.
+    // var ctx = new canvas2pdf.Context(blobStream());
+
+    // html2canvas((codeMirror as HTMLElement), { canvas: ctx}).then(function(canvas) {
+    //   console.error("canvas:", canvas);
+    // });
+
+    // //convert your PDF to a Blob and save to file
+    // ctx.stream.on('finish', () =>  {
+    //   var blob = ctx.stream.toBlob('application/pdf');
+    //   saveAs(blob, 'example.pdf', true);
+    // });
+    // ctx.end();
+
+    // let doc = new jsPDF('p', 'mm', 'a4');
+    // doc.html((codeMirror as HTMLElement) /*, {
+    //   callback: (doc) => {
+    //     doc.output("dataurlnewwindow");
+    //   }
+    // }*/);
+    // doc.save('export-pdf.pdf');
+  }; /* exportPDF */
 
 }

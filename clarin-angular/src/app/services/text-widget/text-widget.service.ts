@@ -149,6 +149,18 @@ export class TextWidgetAPI {
     });
   }
 
+  getAnnotationForDocumentSetting(attribute) {
+    return _.find(this.annotations, {
+      document_setting: attribute
+    });
+  }
+
+  getAnnotationForCollectionSetting(attribute) {
+    return _.find(this.annotations, {
+      collection_setting: attribute
+    });
+  }
+
   getAnnotationAttributeValue(annotation, attribute) {
     return _.find(annotation.attributes, {
       name: attribute

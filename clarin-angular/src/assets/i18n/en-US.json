@@ -129,6 +129,12 @@
     "Collection": "Collection",
     "Document": "Document",
     "Document Attributes": "Document Attributes",
+    "Settings": "Settings",
+    "Collection Settings": "Collection Settings",
+    "Document Settings": "Document Settings",
+    "Settings affecting the Annotation Process": "Settings affecting the Annotation Process",
+    "Settings affecting the Collection (all Documents)": "Settings affecting the Collection (all Documents)",
+    "Settings affecting the current Document": "Settings affecting the current Document",
     "Annotation Visualiser": "Annotation Visualiser",
     "Previous Document": "Previous Document",
     "Next Document": "Next Document",
@@ -172,7 +178,9 @@
     "confirm_password": "Confirm Password",
     "agree": "I have read and agree to the terms of service",
     "have_an_account": "Already have an account",
-    "register": "Create account"
+    "register": "Create account",
+    "firstname": "First Name",
+    "lastname": "Last Name"
   },
   "paginator": {
     "items_per_page_label": "Items per page:",

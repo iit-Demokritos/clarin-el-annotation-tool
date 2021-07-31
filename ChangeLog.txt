@@ -1,4 +1,10 @@
 31 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/controls/annotation-visualizer/annotation-visualizer.component.ts:
+ * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
+ * clarin-angular/src/app/services/text-widget/text-widget.service.ts:
+ * clarin-angular/src/app/models/services/: Added support for
+ Collection/Document settings annotations.
+
  * backend/clarin/app/Http/Controllers/AnnotationController.php:
  * backend/clarin/app/Http/Controllers/TempAnnotationController.php:
  * backend/clarin/app/Models/Annotation.php:

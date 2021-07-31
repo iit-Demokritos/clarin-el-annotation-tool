@@ -178,6 +178,26 @@ $foreground: map-get($theme, foreground);
   .main-content-attributes {
     width: 100%;
   }
+  .main-content-settings-wrapper {
+    padding: 8px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    .main-content-settings {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      > .mat-card-content {
+        overflow: auto;
+      }
+      .main-content-settings-content {
+        box-sizing: border-box;
+        padding: 8px;
+      }
+    }
+  }
   .side-content {
     height: 100%;
     .side-content-header-container {

@@ -112,6 +112,12 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
       case "document_attribute":
         return {name: "Document Attribute", value: p[1]};
         break;
+      case "collection_setting":
+        return {name: "Collection Setting", value: p[1]};
+        break;
+      case "document_setting":
+        return {name: "Document Setting", value: p[1]};
+        break;
       case "created_by":
         return {name: "Created By", value: p[1]};
         break;
