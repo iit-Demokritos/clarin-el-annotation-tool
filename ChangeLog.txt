@@ -1,4 +1,7 @@
 31 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/dialogs/select-document-modal/select-document-modal.component.html:
+ "Cancel" button now returns the value "cancel" on dialog close.
+
  * clarin-angular/src/app/components/controls/annotation-visualizer/annotation-visualizer.component.ts:
  * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
  * clarin-angular/src/app/services/text-widget/text-widget.service.ts:
