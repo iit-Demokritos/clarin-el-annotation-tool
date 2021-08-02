@@ -147,6 +147,7 @@ class AnnotationController extends \BaseController
       }
     } catch (\Exception $e) {
       Log::info("AnnotationController - store() - Catch Exception: ".$e->getMessage());
+      Log::info("File: ".$e->getFile().", line: ".$e->getLine());
       return Response::json(['success' => false, 'message' => $e->getMessage()]);
     }
     return Response::json(['success' => true]);

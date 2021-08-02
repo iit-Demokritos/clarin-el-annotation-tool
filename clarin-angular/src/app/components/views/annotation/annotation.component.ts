@@ -1,10 +1,14 @@
-import { Component, OnInit, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 import { DetectChangesModalComponent } from '../../dialogs/detect-changes-modal/detect-changes-modal.component';
 import { DetectOpenDocModalComponent } from '../../dialogs/detect-open-doc-modal/detect-open-doc-modal.component';
 import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
 import { SelectDocumentModalComponent } from '../../dialogs/select-document-modal/select-document-modal.component';
 import { MainComponent } from '../main/main.component';
+import { TextWidgetComponent } from '../../controls/text-widget/text-widget.component';
+import { ThemePalette } from '@angular/material/core';
+import { Setting } from 'src/app/models/services/setting';
+import { User } from '@core/authentication/interface';
 
 @Component({
   selector: 'annotation',
@@ -14,17 +18,27 @@ import { MainComponent } from '../main/main.component';
 })
 export class AnnotationComponent extends MainComponent implements OnInit {
 
+  @ViewChild(TextWidgetComponent)
+  private textWidgetComponent!: TextWidgetComponent;
+
   super() { }
 
   ngOnInit(): void {
     this.TextWidgetAPI.initializeCallbacks();
     this.TextWidgetAPI.resetData();
     this.detectOpenDocument();
-    //CHECL Widgets $ocLazyLoad.load('annotationWidgets')
+    //CHECK Widgets $ocLazyLoad.load('annotationWidgets')
+    this.authService.user().subscribe(user => (this.user = user));
+    /* WARNING: annotation ids must be created the same way as in
+     * components, which inherit BaseControlComponent
+     * (app/components/controls/base-control/base-control.component.ts). */
+    this.ObjectID = require("bson-objectid");
   }
 
+  ObjectID;
   autoSaveIndicator;
   documentSelection = true;
+  documentSelected = false;
   annotatorType = "No Schema";
   annotationSchema = {};
   sidebarSelector = "annotator";
@@ -34,6 +48,29 @@ export class AnnotationComponent extends MainComponent implements OnInit {
   };
   spinnerVisible;
   broadcastEvent = {};
+
+  owners = new Set();
+  updaters = new Set();
+  ownersList = [];
+  updatersList = [];
+  collectionSettings: Setting[] = [
+    {name: "Readonly", value: "readonly", type: "checkbox",
+     checked: false, allChecked: false, color: "accent"},
+    {name: "Annotation Completed", value: "completed", type: "checkbox",
+     checked: false, allChecked: false, color: "accent"}
+  ];
+  documentSettings:   Setting[] = [
+    {name: "Readonly", value: "readonly", type: "checkbox",
+     checked: false, allChecked: false, color: "accent"},
+    {name: "Annotation Completed", value: "completed", type: "checkbox",
+     checked: false, allChecked: false, color: "accent"},
+    {name: "Show Annotations owned by:", value: "created_by", type: "checkbox",
+     checked: false, allChecked: false, color: "accent", subsettings: this.ownersList},
+    {name: "Show Annotations updated by:", value: "updated_by", type: "checkbox",
+     checked: false, allChecked: false, color: "accent", subsettings: this.updatersList}
+  ];
+  user: User;
+  skipAnnotationsUpdates = false;
 
   //TODO: CHECK STATE CHANGE EVENT SUBSC.
   /*$on('$stateChangeStart', function (event) {        //close document selection modal instance when user change page
@@ -61,10 +98,13 @@ export class AnnotationComponent extends MainComponent implements OnInit {
       this.TextWidgetAPI.resetData();
     });*/
 
-
+  ObjectId() {
+    return this.ObjectID();
+  }
 
   //open the modal in order the user to select a document to annotate
   createDocumentSelectionModal() {
+     this.documentSelected = false;
     if (!this.TextWidgetAPI.checkIsRunning())
       this.TextWidgetAPI.enableIsRunning();
     else
@@ -86,8 +126,12 @@ export class AnnotationComponent extends MainComponent implements OnInit {
           // 'selectDocumentModalCtrl', inputData, false, "document-selector"); // animated fadeIn
           //this.selectDocumentModalInstance.result.then(function (result) {
           dialogRef.afterClosed().subscribe((result) => {
-
-            if (typeof (result) != "undefined") {
+            if (result === "cancel") {
+              this.documentSelected = false;
+              setTimeout(() => { //<<<---using ()=> syntax
+                this.documentSelection = false;
+              }, 800);
+            } else if (typeof (result) != "undefined") {
               this.TextWidgetAPI.disableIsRunning();
               this.TextWidgetAPI.resetCallbacks();
 
@@ -100,7 +144,8 @@ export class AnnotationComponent extends MainComponent implements OnInit {
               this.TextWidgetAPI.setCurrentCollection(result.newCollection);
               result.newDocument.annotator_id = this.TextWidgetAPI.getAnnotatorTypeId();
               this.TextWidgetAPI.setCurrentDocument(result.newDocument);
-
+              this.documentSelected = true;
+              this.TextWidgetAPI.registerAnnotationsCallback(this.updateAnnotationList.bind(this));
 
               setTimeout(() => { //<<<---using ()=> syntax
                 this.documentSelection = false;
@@ -138,6 +183,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
                   if (response.success) {
                     this.createDocumentSelectionModal();
                     this.documentSelection = true;
+                    this.documentSelected = false;
                   } else {
                     this.dialog.open(ErrorDialogComponent, {
                       data: new ConfirmDialogData("Error",
@@ -160,6 +206,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
                 if (response.success) {
                   this.createDocumentSelectionModal();
                   this.documentSelection = true;
+                  this.documentSelected = false;
                 } else {
                   this.dialog.open(ErrorDialogComponent, {
                     data: new ConfirmDialogData("Error",
@@ -172,6 +219,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
           } else {
             this.createDocumentSelectionModal();
             this.documentSelection = true;
+            this.documentSelected = false;
           }
         }
       }, (error) => {
@@ -261,6 +309,179 @@ export class AnnotationComponent extends MainComponent implements OnInit {
     }
     this.detectUnsavedChanges();
   };
+  /*
+   * ============================================================================
+   *  Settings
+   * ============================================================================
+   */
+  updateAllChecked(setting:Setting, collectionSetting:boolean = false) {
+    // console.error("Clicked on:", setting);
+    setting.allChecked = setting.subsettings != null && setting.subsettings.every(t => t.checked);
+    this.updateAnnotation(setting, collectionSetting);
+  }
+
+  someChecked(setting:Setting, collectionSetting:boolean = false): boolean {
+    if (setting.subsettings == null) {
+      return false;
+    }
+    return setting.subsettings.filter(t => t.checked).length > 0 && !setting.allChecked;
+  }
+
+  setAll(setting:Setting, checked: boolean, collectionSetting:boolean = false) {
+    // console.error("setAll():", setting);
+    setting.allChecked = checked;
+    if (setting.subsettings == null) {
+      this.updateAnnotation(setting, collectionSetting);
+      return;
+    }
+    setting.subsettings.forEach(t => t.checked = checked);
+    this.updateAnnotation(setting, collectionSetting);
+  }
+
+  /* Store value as an annotation */
+  async updateAnnotation(s:Setting, collectionSetting:boolean = false) {
+    var newAttribute = {
+      name: s.value,
+      value: s.allChecked,
+      checked: []
+    };
+    if (s.subsettings != null) {
+      // Get the list of selected children...
+      s.subsettings.filter(t => t.checked).forEach(t => newAttribute.checked.push(t.value));
+    }
+    console.error("Setting Update:", newAttribute);
+    var ann = this.TextWidgetAPI.getAnnotationForDocumentSetting(s.value, this.user.email);
+    if (ann != undefined && Object.keys(ann).length > 0) {
+      // Annotation exists, update its value...
+      var index = ann.attributes.findIndex(attr => attr.name === s.value);
+      if (index === undefined) {
+        // The specific attribute does not exist in the annotation, add it.
+        ann.attributes.push(newAttribute);
+      } else {
+        ann.attributes[index] = newAttribute;
+      }
+      // console.error("AnnotationComponent: updateAnnotation(): existing:", s.value, ann);
+      this.skipAnnotationsUpdates = true;
+      try {
+        var response = await this.tempAnnotationService.update(ann);
+        if (response['success']) {
+          this.skipAnnotationsUpdates = false;
+          this.TextWidgetAPI.updateAnnotation(ann, false);
+        } else {
+          this.skipAnnotationsUpdates = false;
+          this.dialog.open(ErrorDialogComponent, {
+            data: new ConfirmDialogData("Error",
+              "Error in update Annotation. Please refresh the page and try again") });
+        }
+      } catch (error) {
+        console.error("AnnotationComponent: updateAnnotation():", error);
+        this.skipAnnotationsUpdates = false;
+        this.dialog.open(ErrorDialogComponent, {
+          data: new ConfirmDialogData("Error",
+            "Database error. Please refresh the page and try again.") });
+      }
+    } else {
+      // No existing Annotation, we need to create a new one...
+      var currentDocument: any = this.TextWidgetAPI.getCurrentDocument();
+      var schema = this.TextWidgetAPI.getAnnotationSchema();
+      var newAnnotation = {
+        _id: this.ObjectId().toString(),
+        document_id: currentDocument.id,
+        collection_id: currentDocument.collection_id,
+        annotator_id: currentDocument.annotator_id,
+        type: "setting annotation",
+        spans: [],
+        attributes: [newAttribute],
+        created_by: this.user.email
+      };
+      if (collectionSetting) {
+        newAnnotation['collection_setting'] = s.value;
+      } else {
+        newAnnotation['document_setting'] = s.value;
+      };
+      // console.error("AnnotationComponent: updateAnnotation(): new:", s.value, newAnnotation);
+      this.skipAnnotationsUpdates = true;
+      try {
+        var response = await this.tempAnnotationService.save(currentDocument.collection_id,
+                                                             currentDocument.id, newAnnotation);
+        if (response['success']) {
+          this.skipAnnotationsUpdates = false;
+          this.TextWidgetAPI.addAnnotation(newAnnotation, false);
+        } else {
+          this.skipAnnotationsUpdates = false;
+          this.dialog.open(ErrorDialogComponent, {
+            data: new ConfirmDialogData("Error",
+             "Error during saving your annotation. Please refresh the page and try again.") });
+        }
+      } catch (error) {
+        console.error("AnnotationComponent: updateAnnotation():", error);
+        this.skipAnnotationsUpdates = false;
+        this.dialog.open(ErrorDialogComponent, {
+          data: new ConfirmDialogData("Error",
+            "Database error. Please refresh the page and try again.") });
+      }
+    }
+  }; /* updateAnnotation */
+
+  updateAnnotationList() {
+    // console.error("updateAnnotationList():", this.TextWidgetAPI.getAnnotations());
+    if (this.skipAnnotationsUpdates) {return;}
+    var anns = this.TextWidgetAPI.getAnnotations();
+    this.owners.clear();
+    this.updaters.clear();
+    this.ownersList = [];
+    this.updatersList = [];
+    if (anns.length < 1) {return;}
+    // console.error("AUTH: user:", this.user);
+    // Identify all annotation owners...
+    anns.forEach((ann) => {
+      if ("created_by" in ann) {
+        this.owners.add(ann['created_by']);
+      }
+      if ("updated_by" in ann) {
+        this.updaters.add(ann['created_by']);
+      }
+    });
+    this.owners.forEach((owner) => {
+      this.ownersList.push({name: owner, value: owner, type: "checkbox",
+        checked: false, allChecked: false, color: "accent"});
+    });
+    this.updaters.forEach((updater) => {
+      this.updatersList.push({name: updater, value: updater, type: "checkbox",
+        checked: false, allChecked: false, color: "accent"});
+    });
+    // Update the values so that the UI can redraw itself...
+    this.documentSettings.find(element => element.value === "created_by")['subsettings'] = this.ownersList;
+    this.documentSettings.find(element => element.value === "updated_by")['subsettings'] = this.updatersList;
+    this.updateSettings();
+  }; /* updateAnnotationList */
+
+  updateSettings() {
+    // console.error("updateSettings():", this.TextWidgetAPI.getAnnotations().length);
+    this.documentSettings.every((s) => { // Use every instead of forEach, as we want to break from loop
+      var ann = this.TextWidgetAPI.getAnnotationForDocumentSetting(s.value, this.user.email);
+      // console.error(s.name, s.value, ann);
+      if (ann === undefined) {
+        if (s.value == "created_by" || s.value == "updated_by") {
+          // The following code will add or update an existing annotation,
+          // which will trigger this method to be invoked again.
+          // There is no point continuing, so return...
+          this.setAll(s, true);
+        } else {
+          this.setAll(s, false);
+        }
+        return false;
+      } else {
+        // Match the annotation
+        s.allChecked = ann.attributes[0].value;
+        if (s.subsettings != null) {
+          var checked = ann.attributes[0].checked;
+          s.subsettings.forEach(t => t.checked = checked.includes(t.value));
+        }
+      }
+      return true;
+    });
+  }; /* updateSettings */
 
   /**
    * This method gets called when the text widget child sends an event
@@ -275,6 +496,9 @@ export class AnnotationComponent extends MainComponent implements OnInit {
     switch (evt) {
       case 'change.collection':
         this.openDocumentSelectionModal();
+        break;
+      case 'export.document.pdf':
+        this.textWidgetComponent.exportPDF();
         break;
       default:
         break;

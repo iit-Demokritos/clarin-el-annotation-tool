@@ -101,7 +101,6 @@ import { AuthLayoutModComponent } from './components/views/auth-layout-mod/auth-
 import { LoginComponent }         from './components/views/login/login.component';
 import { RegisterComponent }      from './components/views/register/register.component';
 
-
 import { environment } from '@env/environment';
 import { BASE_URL } from '@core/interceptors/base-url-interceptor';
 //import { httpInterceptorProviders } from '@core/interceptors';

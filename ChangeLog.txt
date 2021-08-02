@@ -1,3 +1,30 @@
+02 August 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/views/annotation/annotation.component.html:
+ * clarin-angular/src/app/components/views/annotation/annotation.component.ts:
+ * clarin-angular/src/app/services/text-widget/text-widget.service.ts: Initial
+ support for Collection/Document settings. Right now, settings are saved as
+ setting Annotations, but are not yet applied.
+
+ * clarin-angular/src/app/components/controls/annotation-visualizer/annotation-visualizer.component.html:
+ Display setting Annotations with "Setting" type (which can be translated).
+
+ * backend/clarin/app/Http/Controllers/AnnotationController.php:
+ * backend/clarin/app/Http/Controllers/TempAnnotationController.php: Fixed a
+ bug in handling TempAnnotations that attribute modified_by is missing.
+
+ * clarin-angular/src/app/components/views/main/main.component.ts: Included
+ AuthService.
+
+ * clarin-angular/src/app/ng-matero/core/authentication/auth.service.ts:
+ * clarin-angular/src/app/ng-matero/core/authentication/interface.ts:
+ AuthService now returns first/last name (in addition to name).
+
+ * clarin-angular/src/app/services/temp-annotation-service/temp-annotation.service.ts:
+ Fix for a left-out function() declaration.
+
+ * clarin-angular/src/app/components/controls/toolbar-widget/toolbar-widget.component.html:
+ Added a button for exporting PDF.
+
 31 July 2021 Petasis George <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/dialogs/select-document-modal/select-document-modal.component.html:
  "Cancel" button now returns the value "cancel" on dialog close.

@@ -138,33 +138,27 @@ export class TextWidgetAPI {
   }
 
   getAnnotationById(annotationId) {
-    return _.find(this.annotations, {
-      _id: annotationId
-    });
+    return this.annotations.find(e => e._id == annotationId);
   }
 
   getAnnotationForDocumentAttribute(attribute) {
-    return _.find(this.annotations, {
-      document_attribute: attribute
-    });
+    return this.annotations.find(e => e.document_attribute == attribute);
   }
 
-  getAnnotationForDocumentSetting(attribute) {
-    return _.find(this.annotations, {
-      document_setting: attribute
-    });
+  getAnnotationForDocumentSetting(attribute, owner) {
+    return this.annotations.find(e => e.document_setting == attribute &&
+                                      e.created_by == owner);
   }
 
-  getAnnotationForCollectionSetting(attribute) {
-    return _.find(this.annotations, {
-      collection_setting: attribute
-    });
+  getAnnotationForCollectionSetting(attribute, owner) {
+    return this.annotations.find(e => e.collection_setting == attribute &&
+                                      e.created_by == owner);
   }
 
   getAnnotationAttributeValue(annotation, attribute) {
-    return _.find(annotation.attributes, {
-      name: attribute
-    })['value'];
+    var attr = annotation.attributes.find(e => e.name == attribute)
+    if (attr === undefined) {return attr;}
+    return attr['value'];
   }
 
   /**
@@ -172,9 +166,12 @@ export class TextWidgetAPI {
    */
   getAnnotationPresentableId(annotation) {
     if (this.annotatorType == "Button Annotator") {
-      return this.getAnnotationAttributeValue(annotation,
+      var value = this.getAnnotationAttributeValue(annotation,
                       this.annotationSchema['attribute'])
+      if (value != undefined) {return value;}
     }
+    if ('document_setting'   in annotation) {return annotation['document_setting'];}
+    if ('collection_setting' in annotation) {return annotation['collection_setting'];}
     return annotation._id;
   }; /* getAnnotationPresentableId */
   
@@ -256,9 +253,7 @@ export class TextWidgetAPI {
   }
 
   deleteAnnotation(annotationId) {
-    var deletedAnnotation = _.find(this.annotations, {
-      _id: annotationId
-    });
+    var deletedAnnotation = this.annotations.find(e => e._id == annotationId);
     if (typeof deletedAnnotation == "undefined") return false;
 
     var deletedAnnotationIndex = _.indexOf(this.annotations, deletedAnnotation);
@@ -282,6 +277,16 @@ export class TextWidgetAPI {
   isRelationAnnotationType(annotation) {
     //if (annotation.type === "argument_relation") return true;
     return this.annotationSchemaAnnotationTypes.includes(annotation.type);
+  }
+
+  belongsToSchemaAsSetting(newAnnotation, annotator_id) {
+    // Settings Annotations must always have an Annotator ID!
+    if (!("annotator_id" in newAnnotation)) {return false;}
+    if (newAnnotation["annotator_id"] != annotator_id) {return false;}
+    if (newAnnotation["type"] != "setting annotation") {return false;}
+    if (("document_setting" in newAnnotation)   ||
+	("collection_setting" in newAnnotation)) {return true;}
+    return false;
   }
 
   belongsToSchemaAsSupportiveAnnotationType(newAnnotation) {
@@ -318,7 +323,8 @@ export class TextWidgetAPI {
     for (var i = 0; i < Annotations.length; i++) {
       var annotation = Annotations[i];
       if (!(this.belongsToSchema(annotation) ||
-        this.belongsToSchemaAsSupportiveAnnotationType(annotation))) { continue }
+        this.belongsToSchemaAsSupportiveAnnotationType(annotation) ||
+	this.belongsToSchemaAsSetting(annotation, annotator_id))) { continue }
       if ("annotator_id" in annotation) {
         if (annotation["annotator_id"] != annotator_id) { continue }
       } else {
@@ -341,7 +347,9 @@ export class TextWidgetAPI {
           annotation["annotator_id"] = annotator_id;
         }
         if ((this.annotatorType == "Button Annotator") &&
-            (!("document_attribute" in annotation))) {
+            (!( ("document_attribute" in annotation) ||
+	        ("document_setting" in annotation)   ||
+	        ("collection_setting" in annotation) ))) {
           for (var j = 0; j < annotation.attributes.length; j++) {
             if (!_.includes(this.annotationSchemaOptions["values"],
                             annotation.attributes[j].value)) {
@@ -552,9 +560,7 @@ export class TextWidgetAPI {
       return false;
     }
 
-    var newSelectedAnnotation = _.find(this.annotations, {
-      _id: annotationId
-    });
+    var newSelectedAnnotation = this.annotations.find(e => e._id == annotationId);
 
     if (typeof (newSelectedAnnotation) == "undefined")
       return false;

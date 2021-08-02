@@ -23,6 +23,7 @@ import { AnnotatorsTemplateService } from 'src/app/services/annotators-template-
 import { AnnotationSchemaService } from 'src/app/services/annotation-schema-service/annotation-schema.service';
 import { TranslateService } from '@ngx-translate/core';
 import { FormBuilder } from '@angular/forms';
+import { AuthService } from '@core/authentication/auth.service';
 
 @Component({
   selector: 'main',
@@ -55,7 +56,8 @@ export class MainComponent implements OnInit {
     public _m: NgModuleRef<any>,
     public changeDetectorRef:ChangeDetectorRef,
     public translate: TranslateService,
-    public formBuilder:FormBuilder) { }
+    public formBuilder:FormBuilder,
+    public authService: AuthService) { }
 
   ngOnInit(): void {
   }

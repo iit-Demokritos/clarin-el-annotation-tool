@@ -8,6 +8,7 @@
           aria-label="Content Page" [hidden]="!layout.showEditorTabs" [(ngModel)]="maincontentSelector">
           <mat-button-toggle value="document">{{'annotation.Document'|translate}}</mat-button-toggle>
           <mat-button-toggle value="attributes">{{'annotation.Document Attributes'|translate}}</mat-button-toggle>
+          <mat-button-toggle value="settings">{{'annotation.Settings'|translate}}</mat-button-toggle>
         </mat-button-toggle-group>
       </mat-toolbar>
       <div class="main-content">
@@ -27,8 +28,85 @@
             </tr>
           </tbody>
         </table>
+        <!-- Settings -->
+        <div class="main-content-settings-wrapper" [hidden]="maincontentSelector!='settings'">
+          <mat-card class="main-content-settings">
+            <mat-card-header>
+              <div mat-card-avatar>
+                <mat-icon>settings</mat-icon>
+              </div>
+              <mat-card-title>{{'annotation.Settings'|translate}}</mat-card-title>
+              <mat-card-subtitle>{{'annotation.Settings affecting the Annotation Process'|translate}}
+              </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content class="main-content-settings-content" *ngIf="documentSelected">
+              <!--<mat-card class="main-content-settings-collection">
+                <mat-card-header>
+                  <div mat-card-avatar>
+                    <mat-icon>folder</mat-icon>
+                  </div>
+                  <mat-card-title>{{'annotation.Collection Settings'|translate}}</mat-card-title>
+                  <mat-card-subtitle>{{'annotation.Settings affecting the Collection (all Documents)'|translate}}
+                  </mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                  <section class="section-collection-setting" *ngFor="let setting of collectionSettings">
+                    <span class="section-collection-setting-list">
+                      <mat-checkbox class="section-collection-setting-margin" [checked]="setting.allChecked"
+                        [color]="setting.color" [indeterminate]="someChecked(setting, true)"
+                        (change)="setAll(setting, $event.checked, true)">
+                        {{setting.name|translate}}
+                      </mat-checkbox>
+                    </span>
+                    <span class="section-collection-setting-sublist">
+                      <ul>
+                        <li *ngFor="let subSetting of setting.subsettings">
+                          <mat-checkbox [(ngModel)]="subSetting.checked" [color]="subSetting.color"
+                            (ngModelChange)="updateAllChecked(setting, true)">
+                            {{subSetting.name|translate}}
+                          </mat-checkbox>
+                        </li>
+                      </ul>
+                    </span>
+                  </section>
+                </mat-card-content>
+              </mat-card>-->
+              <mat-card class="main-content-settings-document">
+                <mat-card-header>
+                  <div mat-card-avatar>
+                    <mat-icon>description</mat-icon>
+                  </div>
+                  <mat-card-title>{{'annotation.Document Settings'|translate}}</mat-card-title>
+                  <mat-card-subtitle>{{'annotation.Settings affecting the current Document'|translate}}
+                  </mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                  <section class="section-document-setting" *ngFor="let setting of documentSettings">
+                    <span class="section-document-setting-list">
+                      <mat-checkbox class="section-document-setting-margin" [checked]="setting.allChecked"
+                        [color]="setting.color" [indeterminate]="someChecked(setting)"
+                        (change)="setAll(setting, $event.checked)">
+                        {{setting.name|translate}}
+                      </mat-checkbox>
+                    </span>
+                    <span class="section-document-setting-sublist">
+                      <ul>
+                        <li *ngFor="let subSetting of setting.subsettings">
+                          <mat-checkbox [(ngModel)]="subSetting.checked" [color]="subSetting.color"
+                            (ngModelChange)="updateAllChecked(setting)">
+                            {{subSetting.name|translate}}
+                          </mat-checkbox>
+                        </li>
+                      </ul>
+                    </span>
+                  </section>
+                </mat-card-content>
+              </mat-card>
+            </mat-card-content>
+          </mat-card>
+        </div>
       </div>
-      <overlapping-areas></overlapping-areas>
+      <overlapping-areas [hidden]="maincontentSelector!='document'"></overlapping-areas>
     </as-split-area>
     <as-split-area [size]="30" [minSize]="10" [maxSize]="60" class="side-bar-wrapper">
       <div class="side-content">
@@ -36,13 +114,15 @@
           <div class="side-content-header-container">
             <mat-button-toggle-group class="side-content-header" aria-label="Schema Page" [(ngModel)]="sidebarSelector">
               <mat-button-toggle value="annotator">{{annotatorType|translate}}</mat-button-toggle>
-              <mat-button-toggle value="annotationVisualiser">{{'annotation.Annotation Visualiser'|translate}}</mat-button-toggle>
+              <mat-button-toggle value="annotationVisualiser">{{'annotation.Annotation Visualiser'|translate}}
+              </mat-button-toggle>
             </mat-button-toggle-group>
           </div>
         </mat-toolbar>
         <div class="side-content-container">
           <annotation-visualizer [hidden]="sidebarSelector!='annotationVisualiser'"></annotation-visualizer>
-          <annotator-widget [broadcastedEvent]="broadcastEvent" [hidden]="sidebarSelector!='annotator'"></annotator-widget>
+          <annotator-widget [broadcastedEvent]="broadcastEvent" [hidden]="sidebarSelector!='annotator'">
+          </annotator-widget>
         </div>
       </div>
     </as-split-area>

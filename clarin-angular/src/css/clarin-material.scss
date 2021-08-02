@@ -195,6 +195,18 @@ $foreground: map-get($theme, foreground);
       .main-content-settings-content {
         box-sizing: border-box;
         padding: 8px;
+        .section-collection-setting,
+        .section-document-setting {
+          margin: 12px 0;
+        }
+        .section-collection-setting-margin,
+        .section-document-setting-margin {
+          margin: 0 12px;
+        }
+        ul {
+          list-style-type: none;
+          margin-top: 4px;
+        }
       }
     }
   }

@@ -5,6 +5,8 @@ export interface User {
   name?: string;
   email?: string;
   avatar?: string;
+  first_name?: string | null
+  last_name?: string | null;
 }
 
 export interface BackendUser {

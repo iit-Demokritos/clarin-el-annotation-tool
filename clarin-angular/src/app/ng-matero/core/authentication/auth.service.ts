@@ -23,6 +23,8 @@ export class AuthService {
         return {id: data.data.id,
                 name: data.data.first_name + " " + data.data.last_name,
                 email: data.data.email,
+                first_name: data.data.first_name,
+                last_name: data.data.last_name,
                 avatar: './assets/images/avatar-default.jpg'};
       } else {
         return of(guest);

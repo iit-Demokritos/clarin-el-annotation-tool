@@ -45,7 +45,7 @@ export class TempAnnotationService {
     });
   };
 
-  save = function (collectionId, documentId, annotationData) {
+  save(collectionId, documentId, annotationData) {
     return new Promise((resolve, reject) => {
     this.http.post('./api/collections/' + collectionId + '/documents/' + documentId + '/temp_annotations',{
       data: annotationData

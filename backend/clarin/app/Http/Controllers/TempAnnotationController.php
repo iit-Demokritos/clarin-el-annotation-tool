@@ -74,7 +74,7 @@ class TempAnnotationController extends \BaseController
           'spans' => $annotation['spans'],
           'attributes' => $annotation['attributes'],
           'created_by' => array_key_exists('created_by', $annotation) ?
-                          $annotation['updated_by'] : $user['email'],
+                          $annotation['created_by'] : $user['email'],
           'updated_by' => $user['email']
         ]);
         foreach ($optional as $field) {
@@ -132,6 +132,8 @@ class TempAnnotationController extends \BaseController
         $document->temp_annotations()->saveMany($new_annotations);
       }
     } catch (\Exception $e) {
+      Log::info("TempAnnotationController - store() - Catch Exception: ".$e->getMessage());
+      Log::info("File: ".$e->getFile().", line: ".$e->getLine());
       return Response::json(['success' => false, 'message' => $e->getMessage()]);
     }
 

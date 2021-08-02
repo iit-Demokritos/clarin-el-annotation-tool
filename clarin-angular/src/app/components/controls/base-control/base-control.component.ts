@@ -36,7 +36,8 @@ export class BaseControlComponent extends ValueAccessorComponent<any> implements
 
   ObjectId() {
     /* WARNING: If this function changes, the change must be also reflected
-     * in CollectionImportService (app/services/collection-import-service) */
+     * in CollectionImportService (app/services/collection-import-service)
+     * and in AnnotationComponent (app/components/views/annotation) */
     // var n = require("bson-objectid");
 
     //if (this.n === undefined) {

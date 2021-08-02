@@ -32,4 +32,7 @@
   <button mat-stroked-button color="change" (click)="notifyParent.emit('change.collection')">
     <mat-icon>folder_open</mat-icon>{{'annotation.Change Collection'|translate}}
   </button>
+  <button mat-icon-button color="primary" (click)="notifyParent.emit('export.document.pdf')">
+    <mat-icon>picture_as_pdf</mat-icon>
+  </button>
 </mat-toolbar>
