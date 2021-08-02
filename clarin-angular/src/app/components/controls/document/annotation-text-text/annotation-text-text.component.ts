@@ -93,10 +93,10 @@ export class AnnotationTextTextComponent extends BaseControlComponent implements
   }; // getAnnotationAttribute
 
   getAnnotation() {
-    var annotation = this.TextWidgetAPI.getAnnotationForDocumentAttribute(
+    var existing_annotation = this.TextWidgetAPI.getAnnotationForDocumentAttribute(
                                           this.annotationDocumentAttribute);
-    if (typeof(annotation) != "undefined") {
-      return annotation;
+    if (typeof(existing_annotation) != "undefined") {
+      return existing_annotation;
     }
 
     // The annotation does not exists. We must add it...
