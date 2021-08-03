@@ -1,3 +1,12 @@
+03 August 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/controls/annotation-visualizer/annotation-visualizer.component.ts:
+ * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
+ * clarin-angular/src/app/components/views/annotation/annotation.component.html:
+ * clarin-angular/src/app/components/views/annotation/annotation.component.ts:
+ * clarin-angular/src/app/services/text-widget/text-widget.service.ts:
+ * frontend/clarin/templates/directives/annotation-visualizer.html: Working
+ options (at least to the filtering of Annotations part).
+
 02 August 2021 Petasis George <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/views/annotation/annotation.component.html:
  * clarin-angular/src/app/components/views/annotation/annotation.component.ts:

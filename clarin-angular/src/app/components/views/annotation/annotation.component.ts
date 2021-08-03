@@ -24,6 +24,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
   super() { }
 
   ngOnInit(): void {
+    this.TextWidgetAPI.settingsComplianceFields = ['created_by', 'updated_by'];
     this.TextWidgetAPI.initializeCallbacks();
     this.TextWidgetAPI.resetData();
     this.detectOpenDocument();
@@ -260,15 +261,18 @@ export class AnnotationComponent extends MainComponent implements OnInit {
               var dialogRef = this.dialog.open(DetectChangesModalComponent, { data: documentFound, disableClose: true });
               dialogRef.afterClosed().subscribe((response: any) => {
                 if (response.success) {
-                  if (typeof (response.resume) != "undefined" && response.resume)
+                  if (typeof (response.resume) != "undefined" && response.resume) {
+                    this.documentSelected = true;
+                    this.TextWidgetAPI.registerAnnotationsCallback(this.updateAnnotationList.bind(this));
                     //$timeout(function () { $scope.documentSelection = false; }, 800);
                     setTimeout(() => { //<<<---using ()=> syntax
                       this.documentSelection = false;
                       this.annotatorType = this.TextWidgetAPI.getAnnotatorType();
                     }, 800);
 
-                  else
+                  } else {
                     this.createDocumentSelectionModal();
+                  }
                 } else {
                   this.dialog.open(ErrorDialogComponent, {
                     data: new ConfirmDialogData("Error", "Error during the restoration of your annotations. Please refresh the page and try again.")
@@ -340,16 +344,8 @@ export class AnnotationComponent extends MainComponent implements OnInit {
 
   /* Store value as an annotation */
   async updateAnnotation(s:Setting, collectionSetting:boolean = false) {
-    var newAttribute = {
-      name: s.value,
-      value: s.allChecked,
-      checked: []
-    };
-    if (s.subsettings != null) {
-      // Get the list of selected children...
-      s.subsettings.filter(t => t.checked).forEach(t => newAttribute.checked.push(t.value));
-    }
-    console.error("Setting Update:", newAttribute);
+    var newAttribute = this.getSetting(s);
+    // console.error("Setting Update:", newAttribute);
     var ann = this.TextWidgetAPI.getAnnotationForDocumentSetting(s.value, this.user.email);
     if (ann != undefined && Object.keys(ann).length > 0) {
       // Annotation exists, update its value...
@@ -367,6 +363,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
         if (response['success']) {
           this.skipAnnotationsUpdates = false;
           this.TextWidgetAPI.updateAnnotation(ann, false);
+          this.TextWidgetAPI.setSettings(this.getSettings());
         } else {
           this.skipAnnotationsUpdates = false;
           this.dialog.open(ErrorDialogComponent, {
@@ -407,6 +404,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
         if (response['success']) {
           this.skipAnnotationsUpdates = false;
           this.TextWidgetAPI.addAnnotation(newAnnotation, false);
+          this.TextWidgetAPI.setSettings(this.getSettings());
         } else {
           this.skipAnnotationsUpdates = false;
           this.dialog.open(ErrorDialogComponent, {
@@ -458,7 +456,8 @@ export class AnnotationComponent extends MainComponent implements OnInit {
 
   updateSettings() {
     // console.error("updateSettings():", this.TextWidgetAPI.getAnnotations().length);
-    this.documentSettings.every((s) => { // Use every instead of forEach, as we want to break from loop
+    // Use every instead of forEach, as we want to break from loop
+    var all = this.documentSettings.every((s) => {
       var ann = this.TextWidgetAPI.getAnnotationForDocumentSetting(s.value, this.user.email);
       // console.error(s.name, s.value, ann);
       if (ann === undefined) {
@@ -481,7 +480,34 @@ export class AnnotationComponent extends MainComponent implements OnInit {
       }
       return true;
     });
+    if (all) {
+      // We have created all needed annotations, or needed annotations existed.
+      // Generate and store settings...
+      this.TextWidgetAPI.setSettings(this.getSettings());
+    }
   }; /* updateSettings */
+
+  getSetting(s:Setting) {
+    var setting = {
+      name: s.value,
+      value: s.allChecked,
+      checked: []
+    };
+    if (s.subsettings != null) {
+      // Get the list of selected children...
+      s.subsettings.filter(t => t.checked).forEach(t => setting.checked.push(t.value));
+    }
+    return setting;
+  }; /* getSetting */
+
+  getSettings() {
+    var settings = {};
+    this.documentSettings.forEach((s) => {
+      var obj = this.getSetting(s);
+      settings[obj.name] = obj;
+    });
+    return settings;
+  }; /* getSetting */
 
   /**
    * This method gets called when the text widget child sends an event
@@ -504,4 +530,10 @@ export class AnnotationComponent extends MainComponent implements OnInit {
         break;
     }
   }
+
+  showTab(tab) {
+    if (tab == 'document') {
+      this.textWidgetComponent.editorRefresh();
+    }
+  }; /* showTab */
 }

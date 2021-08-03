@@ -66,11 +66,19 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
   // function to be called when the document annotations being updated
   updateAnnotationList() {
     // console.error("AnnotationVisualizerComponent: updateAnnotationList()");
-    this.annotations = this.TextWidgetAPI.getAnnotations();
+    this.annotations = this.TextWidgetAPI.getAnnotations()
+      // Filter out setting annotations...  
+      .filter((ann) => (!this.TextWidgetAPI.isSettingAnnotation(ann)) &&
+                         this.TextWidgetAPI.isSettingsCompliantAnnotation(ann))
+    ;
     // console.error("updateAnnotationList():", _.cloneDeep(this.annotations));
     this.annotationsDataSource =
       new MatTableDataSource<Annotation>(this.annotations);
-    if (this.annotations.length) this.table.renderRows();
+    if (this.annotations.length) {
+      this.table.renderRows();
+    } else {
+      this.selectedAnnotationDataSource = undefined;
+    };
   };
 
   updateSelectedAnnotationDetails() {
@@ -235,6 +243,7 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
   annotationSchemaUpdate() {
     this.TextWidgetAPI.registerCurrentDocumentCallback(this.liveUpdateDocument.bind(this));
     this.TextWidgetAPI.registerAnnotationsCallback(this.updateAnnotationList.bind(this));
+    this.TextWidgetAPI.registerSettingsCallback(this.updateAnnotationList.bind(this));
     this.TextWidgetAPI.registerSelectedAnnotationCallback(this.updateSelectedAnnotationDetails.bind(this));
   };
 

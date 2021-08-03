@@ -6,7 +6,7 @@
         <div class="col-md-4 right-divider">Type</div>
         <div class="col-md-4">Spans</div>
       </div>
-      <div ng-show="annotations.length==0" class="caution-msg">This document has not annotations</div>
+      <div ng-show="annotations.length==0" class="caution-msg">This document has no annotations</div>
       <div ng-show="annotations.length>0" class="annotation-visualiser-content" ng-repeat="annotation in annotations"
         ng-click="setSelectedAnnotation(annotation, $index)" ng-class="{ active: $index == selectedIndex }">
         <div class="col-md-4 right-divider overflow-ellipsis">{{annotation._id}}</div>

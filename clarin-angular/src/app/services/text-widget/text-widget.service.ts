@@ -47,6 +47,11 @@ export class TextWidgetAPI {
   scrollIntoView = [];
   scrollIntoViewCallbacks = [];
 
+  settings = undefined;
+  settingsCallbacks = [];
+  public settingsComplianceFields = ['created_by', 'updated_by'];
+
+
   notifyObservers(observerStack: any[]) {
     observerStack.forEach((callback) => {
       callback();
@@ -55,6 +60,7 @@ export class TextWidgetAPI {
 
 
   initializeCallbacks() {
+    // console.error("initializeCallbacks()");
     this.annotationSchemaCallbacks = [];
     this.currentCollectionCallbacks = [];
     this.currentDocumentCallbacks = [];
@@ -65,9 +71,11 @@ export class TextWidgetAPI {
     this.annotationsToBeDeletedCallbacks = [];
     this.overlappingAreasCallbacks = [];
     this.scrollIntoViewCallbacks = [];
+    this.settingsCallbacks = [];
   }
 
   resetCallbacks() {
+    // console.error("resetCallbacks()");
     //this.initializeCallbacks();
     this.annotationsCallbacks = [];
     this.foundInCollectionCallbacks = [];
@@ -83,6 +91,7 @@ export class TextWidgetAPI {
     this.overlappingAreas = [];
     this.foundInCollection = [];
     this.scrollIntoView = [];
+    this.settings = undefined;
 
     this.notifyObservers(this.currentSelectionCallbacks);
     this.notifyObservers(this.selectedAnnotationCallbacks);
@@ -91,8 +100,8 @@ export class TextWidgetAPI {
     this.notifyObservers(this.annotationsToBeDeletedCallbacks);
     this.notifyObservers(this.overlappingAreasCallbacks);
     this.notifyObservers(this.foundInCollectionCallbacks);
+    this.notifyObservers(this.settingsCallbacks);
   }
-
 
   checkIsRunning() {
     return this.isRunning;
@@ -254,7 +263,7 @@ export class TextWidgetAPI {
 
   deleteAnnotation(annotationId) {
     var deletedAnnotation = this.annotations.find(e => e._id == annotationId);
-    if (typeof deletedAnnotation == "undefined") return false;
+    if (typeof deletedAnnotation == "undefined") {return false};
 
     var deletedAnnotationIndex = _.indexOf(this.annotations, deletedAnnotation);
     this.annotations.splice(deletedAnnotationIndex, 1);
@@ -263,6 +272,7 @@ export class TextWidgetAPI {
     this.selectedAnnotation = {};
 
     this.notifyObservers(this.selectedAnnotationCallbacks);
+    this.notifyObservers(this.annotationsCallbacks);
     this.notifyObservers(this.annotationsToBeDeletedCallbacks);
 
     this.clearOverlappingAreas();
@@ -279,21 +289,46 @@ export class TextWidgetAPI {
     return this.annotationSchemaAnnotationTypes.includes(annotation.type);
   }
 
+  isSettingAnnotation(annotation) {
+    return (("document_setting"   in annotation) ||
+            ("collection_setting" in annotation));
+  }; /* isSettingAnnotation */
+
+  isSettingsCompliantAnnotation(annotation) {
+    if (this.settings == undefined) {
+      // No settings, everything is compliant...
+      return true;
+    }
+    // console.error("isSettingsCompliantAnnotation:", annotation);
+    for (var k = 0; k < this.settingsComplianceFields.length; k++) {
+      var field = this.settingsComplianceFields[k];
+      if (field in this.settings) {
+        var s = this.settings[field];
+        if (!s.value && !s.checked.includes(annotation[field])) {
+          // console.error("FALSE:", field, s.value, annotation[field], s.checked);
+          return false;
+        }
+        // console.error("TRUE:", field, s.value, annotation[field], s.checked);
+      }
+    }
+    return true;
+  }; /* isSettingsCompliantAnnotation */
+
   belongsToSchemaAsSetting(newAnnotation, annotator_id) {
     // Settings Annotations must always have an Annotator ID!
     if (!("annotator_id" in newAnnotation)) {return false;}
     if (newAnnotation["annotator_id"] != annotator_id) {return false;}
     if (newAnnotation["type"] != "setting annotation") {return false;}
-    if (("document_setting" in newAnnotation)   ||
-	("collection_setting" in newAnnotation)) {return true;}
+    if (this.isSettingAnnotation(newAnnotation)) {return true;}
     return false;
-  }
+  }; /* belongsToSchemaAsSetting */
 
   belongsToSchemaAsSupportiveAnnotationType(newAnnotation) {
     // Annotation belongs to schema, but its annotation type can be different
-    // than the main annotation type (i.e. the case of relations in Button Annotator)
+    // than the main annotation type (i.e. the case of relations in Button
+    // Annotator)
     return this.annotationSchemaAnnotationTypes.includes(newAnnotation.type);
-  }
+  }; /* belongsToSchemaAsSupportiveAnnotationType */
 
   belongsToSchema(newAnnotation) {
     // Annotation belongs to the annotation schema if it has the same type
@@ -316,7 +351,7 @@ export class TextWidgetAPI {
 
         return false;
     }
-  }
+  }; /* belongsToSchema */
 
   selectAnnotationsMatchingSchema(Annotations, annotator_id) {
     var belong = [];
@@ -324,7 +359,7 @@ export class TextWidgetAPI {
       var annotation = Annotations[i];
       if (!(this.belongsToSchema(annotation) ||
         this.belongsToSchemaAsSupportiveAnnotationType(annotation) ||
-	this.belongsToSchemaAsSetting(annotation, annotator_id))) { continue }
+        this.belongsToSchemaAsSetting(annotation, annotator_id))) { continue }
       if ("annotator_id" in annotation) {
         if (annotation["annotator_id"] != annotator_id) { continue }
       } else {
@@ -333,14 +368,18 @@ export class TextWidgetAPI {
       belong.push(annotation);
     }
     return belong;
-  }
+  }; /* selectAnnotationsMatchingSchema */
 
   matchAnnotationsToSchema(newAnnotations, annotator_id) {
     // Match the document's annotations to the annotation schema
+    // console.error("TextWidgetAPI: matchAnnotationsToSchema():",
+    //               newAnnotations.length, annotator_id);
     for (var i = 0; i < newAnnotations.length; i++) {
       var annotation = newAnnotations[i];
+      // console.error(i, annotation);
 
-      if (this.belongsToSchema(annotation)) {
+      if (this.belongsToSchema(annotation) ||
+          this.belongsToSchemaAsSetting(annotation, annotator_id)) {
         // If annotation does not have the annotator_id property, add it...
         if ("annotator_id" in annotation) {
         } else {
@@ -348,8 +387,8 @@ export class TextWidgetAPI {
         }
         if ((this.annotatorType == "Button Annotator") &&
             (!( ("document_attribute" in annotation) ||
-	        ("document_setting" in annotation)   ||
-	        ("collection_setting" in annotation) ))) {
+                ("document_setting" in annotation)   ||
+                ("collection_setting" in annotation) ))) {
           for (var j = 0; j < annotation.attributes.length; j++) {
             if (!_.includes(this.annotationSchemaOptions["values"],
                             annotation.attributes[j].value)) {
@@ -382,7 +421,7 @@ export class TextWidgetAPI {
     this.notifyObservers(this.annotationsCallbacks);
     this.notifyObservers(this.foundInCollectionCallbacks);
     this.notifyObservers(this.annotationsToBeAddedCallbacks);
-  }
+  }; /* matchAnnotationsToSchema */
 
   /*** Current Collection Methods ***/
   registerCurrentCollectionCallback(callback) {
@@ -654,6 +693,26 @@ export class TextWidgetAPI {
 
   getScrollToAnnotation() {
     return this.scrollIntoView;
+  }
+
+   /*** Settings Methods ***/
+  registerSettingsCallback(callback) {
+    // console.error("registerSettingsCallback():", callback);
+    this.settingsCallbacks.push(callback);
+  }
+
+  getSettings() {
+    return this.settings;
+  }
+
+  setSettings(newSettings) {
+    this.settings = _.cloneDeep(newSettings);
+    // console.error("setSettings:", this.settingsCallbacks);
+    this.notifyObservers(this.settingsCallbacks);
+  }
+
+  clearSettings() {
+    this.settings = undefined;
   }
 
   /*

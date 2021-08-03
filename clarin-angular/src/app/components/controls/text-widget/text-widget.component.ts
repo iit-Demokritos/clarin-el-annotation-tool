@@ -65,6 +65,9 @@ export class TextWidgetComponent extends BaseControlComponent
 
   initialLoad: boolean = false;
 
+  // Settings
+  settings: any[] = [];
+
   ngOnInit() {
     //comment this
     //this.textarea = this.element.nativeElement;
@@ -189,6 +192,7 @@ export class TextWidgetComponent extends BaseControlComponent
     this.TextWidgetAPI.registerNewAnnotationsCallback(this.addNewAnnotations.bind(this));
     this.TextWidgetAPI.registerDeletedAnnotationsCallback(this.deleteAnnotations.bind(this));
     this.TextWidgetAPI.registerScrollIntoViewCallback(this.scrollToAnnotation.bind(this));
+    this.TextWidgetAPI.registerSettingsCallback(this.updateSettings.bind(this));
   }; /* ngOnInit */
 
   ngOnDestroy() {
@@ -198,6 +202,9 @@ export class TextWidgetComponent extends BaseControlComponent
     this.editor.toTextArea()
   } /* ngOnDestroy */
 
+  editorRefresh() {
+    this.editor.refresh();
+  }; /* editorRefresh */
 
 
   // When the editor is resized (by dragging the ui-layout-container line)
@@ -966,14 +973,16 @@ export class TextWidgetComponent extends BaseControlComponent
   clearDuplicateAnnotationsFromEditor(newAnnotations) {
     var editorMarks = this.editor.getAllMarks();
 
-    _.each(newAnnotations, (annotation) => {
+    newAnnotations.forEach((annotation) => {
       if (this.TextWidgetAPI.belongsToSchemaAsSupportiveAnnotationType(annotation.annotation)) {
         // Remove connected annotation
         this.removeConnectedAnnotation(annotation);
+      } else if (this.TextWidgetAPI.isSettingAnnotation(annotation.annotation)) {
+        // Do nothing on setting Annotations...
       } else {
         this.overlayMarkRemove(annotation);
         // Remove marks of regular annotation
-        _.each(editorMarks, (editorMark) => {
+        editorMarks.forEach((editorMark) => {
           // Get ID of mark
           var editorMarkClass = editorMark.className.split(" ")[0];
 
@@ -991,9 +1000,13 @@ export class TextWidgetComponent extends BaseControlComponent
    * @param annotatorType
    * @returns {boolean}
    */
-  visualizeAnnotations(newAnnotations, annotatorType) {
+  visualiseAnnotations(newAnnotations, annotatorType) {
+    // console.error("TextWidgetComponent: visualiseAnnotations():",
+    //               newAnnotations.length, newAnnotations, this.settings);
     if (typeof (newAnnotations) == "undefined" ||
-      newAnnotations.length === 0) return false;
+      newAnnotations.length === 0) {
+      return false;
+    }
 
     // if there are any borders around a specific annotation, remove them.
     this.clearDuplicateAnnotationsFromEditor(newAnnotations);
@@ -1001,6 +1014,12 @@ export class TextWidgetComponent extends BaseControlComponent
     // if there are new annotations to be visualised, add them to the editor
     for (var k = 0; k < newAnnotations.length; k++) {
       var currAnnotation = newAnnotations[k];
+      if (this.TextWidgetAPI.isSettingAnnotation(currAnnotation.annotation) ||
+          (!this.TextWidgetAPI.isSettingsCompliantAnnotation(currAnnotation.annotation))) {
+        // If settings omit this annotation, skip it...
+        continue;
+      }
+      // console.error("survived:", currAnnotation.annotation);
 
       if (this.TextWidgetAPI.isRelationAnnotationType(currAnnotation.annotation)) {
         // Argument relation, add arrow. Find IDs of start/end annotations
@@ -1182,7 +1201,7 @@ export class TextWidgetComponent extends BaseControlComponent
     this.TextWidgetAPI.clearAnnotationsToBeAdded();
     this.overlayLinksRefresh();
     //editor.refresh();
-  }; /* visualizeAnnotations */
+  }; /* visualiseAnnotations */
 
   /**
    * If the annotator type is "Coreference Annotator", add a data-type
@@ -1243,7 +1262,7 @@ export class TextWidgetComponent extends BaseControlComponent
     var annotatorType = this.TextWidgetAPI.getAnnotatorType();
 
     if (typeof (newAnnotations) != "undefined" && newAnnotations.length > 0) {
-      this.visualizeAnnotations(newAnnotations, annotatorType);
+      this.visualiseAnnotations(newAnnotations, annotatorType);
     }
 
     this.TextWidgetAPI.disableIsRunning();
@@ -1266,7 +1285,17 @@ export class TextWidgetComponent extends BaseControlComponent
       return false;
     }
 
-    _.each(annotationsToBeDeleted, (annotation) => {
+    this.removeAnnotationsFromEditor(annotationsToBeDeleted);
+
+    // Add (again) the type attributes to the markers
+    // addTypeAttributesToMarkers();
+
+    this.TextWidgetAPI.clearAnnotationsToBeDeleted();
+    this.TextWidgetAPI.disableIsRunning();
+  }; /* deleteAnnotations */
+
+  removeAnnotationsFromEditor(annotationsToBeDeleted) {
+    annotationsToBeDeleted.forEach( (annotation) => {
       if (this.TextWidgetAPI.belongsToSchemaAsSupportiveAnnotationType(annotation)) {
         // Remove relation annotation
         this.removeConnectedAnnotation({
@@ -1274,6 +1303,8 @@ export class TextWidgetComponent extends BaseControlComponent
           "selected": false,
           "action": "delete"
         });
+      } else if (this.TextWidgetAPI.isSettingAnnotation(annotation)) {
+        // Do nothing on setting Annotations...
       } else {
         var annotationId = "id-" + String(annotation._id).trim();
         this.overlayMarkRemove({
@@ -1283,20 +1314,14 @@ export class TextWidgetComponent extends BaseControlComponent
         });
         // Regular annotations, delete their marks
         var editorMarks = this.editor.getAllMarks();
-        _.each(editorMarks, (mark) => {
+        editorMarks.forEach( (mark) => {
           if (String(mark.className).trim().indexOf(annotationId) !== -1) {
             mark.clear();
           }
         });
       }
     });
-
-    // Add (again) the type attributes to the markers
-    // addTypeAttributesToMarkers();
-
-    this.TextWidgetAPI.clearAnnotationsToBeDeleted();
-    this.TextWidgetAPI.disableIsRunning();
-  }; /* deleteAnnotations */
+  }; /* removeAnnotationsFromEditor */
 
   deleteSelectedAnnotation(...e) {
     // if (evt.which != 46)           {return false;} // key, code = "Delete"
@@ -1390,5 +1415,29 @@ export class TextWidgetComponent extends BaseControlComponent
     // }*/);
     // doc.save('export-pdf.pdf');
   }; /* exportPDF */
+
+  /* This function will be called when settings are updated. */
+  updateSettings() {
+    this.settings = this.TextWidgetAPI.getSettings();
+    // console.error("updateSettings():", this.settings);
+    if (!this.TextWidgetAPI.checkIsRunning()) {
+      this.TextWidgetAPI.enableIsRunning();
+    } else {
+      return false;
+    }
+    var annotatorType = this.TextWidgetAPI.getAnnotatorType();
+    // We have annotations in editor. Get all annotations, and
+    // re-visualise them!
+    var annotations = this.TextWidgetAPI.getAnnotations()
+      .map((ann) => {return {
+        "annotation": ann,
+        "selected": false,
+        "action": "matches"
+      };});
+    if (annotations != undefined && annotations.length) {
+      this.visualiseAnnotations(annotations, annotatorType);
+    }
+    this.TextWidgetAPI.disableIsRunning();
+  }; /* updateSettings */
 
 }
