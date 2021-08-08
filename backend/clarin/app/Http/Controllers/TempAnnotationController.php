@@ -28,6 +28,8 @@ class TempAnnotationController extends \BaseController
           ->get($this->returnProperties)
       ]);
     } catch (\Exception $e) {
+      Log::info("TempAnnotationController - index() - Catch Exception: ".$e->getMessage());
+      Log::info("File: ".$e->getFile().", line: ".$e->getLine());
       return Response::json(['success' => false, 'message' => $e->getMessage()]);
     }
   }
@@ -50,6 +52,8 @@ class TempAnnotationController extends \BaseController
         'data'    => TempAnnotation::find($annotation_id)
       ]);
     } catch (\Exception $e) {
+      Log::info("TempAnnotationController - show() - Catch Exception: ".$e->getMessage());
+      Log::info("File: ".$e->getFile().", line: ".$e->getLine());
       return Response::json(['success' => false, 'message' => $e->getMessage()]);
     }
   }
@@ -58,6 +62,7 @@ class TempAnnotationController extends \BaseController
   public function store($collection_id, $document_id)
   {
     $optional = ['document_attribute', 'collection_setting', 'document_setting'];
+    $db_interactions = 0;
     try {
       $user = Sentinel::getUser();
       $new_annotations = [];
@@ -93,11 +98,14 @@ class TempAnnotationController extends \BaseController
         $document = Document::find($document_id);
         $document->temp_annotations()->save($anno);
 
-        OpenDocument::where('collection_id', (int) $collection_id)
+        $query = OpenDocument::where('collection_id', (int) $collection_id)
           ->where('document_id', (int) $document_id)
-          ->where('annotator_type', (array_key_exists('annotator_id', $annotation) ? $annotation['annotator_id'] : null))
-          ->increment('db_interactions');
-      } else {                                  //if the user send an array with annotations        
+          ->where('annotator_type', (array_key_exists('annotator_id', $annotation) ? $annotation['annotator_id'] : null));
+        $query->increment('db_interactions');
+        $db_interactions = $query->get('db_interactions')[0]['db_interactions'];
+      } else {
+        // If the user send an array with annotations        
+        $annotator_id = null;
         foreach ($annotation_data as $annotation) {
           $anno = new TempAnnotation([
             '_id' => $annotation['_id'],
@@ -120,6 +128,9 @@ class TempAnnotationController extends \BaseController
           // 'annotator_id' does not exist in older exports.
           if (isset($annotation['annotator_id'])) {
             $anno['annotator_id'] = $annotation['annotator_id'];
+            if ($annotator_id == null) {
+              $annotator_id = $annotation['annotator_id'];
+            }
           }
           if (isset($annotation['created_at'])) {
             $anno['created_at'] = $annotation['created_at'];
@@ -130,6 +141,11 @@ class TempAnnotationController extends \BaseController
 
         $document = Document::find($document_id);
         $document->temp_annotations()->saveMany($new_annotations);
+        $query = OpenDocument::where('collection_id', (int) $collection_id)
+          ->where('document_id', (int) $document_id)
+          ->where('annotator_type', $annotator_id);
+        $query->increment('db_interactions', count($new_annotations));
+        $db_interactions = $query->get('db_interactions')[0]['db_interactions'];
       }
     } catch (\Exception $e) {
       Log::info("TempAnnotationController - store() - Catch Exception: ".$e->getMessage());
@@ -137,13 +153,14 @@ class TempAnnotationController extends \BaseController
       return Response::json(['success' => false, 'message' => $e->getMessage()]);
     }
 
-    return Response::json(['success' => true]);
+    return Response::json(['success' => true, 'db_interactions' => $db_interactions]);
   }
 
   //update specific annotation
   public function update($collection_id, $document_id, $annotation_id)
   {
     $annotation = Request::input('data');
+    $db_interactions = 0;
     try {
       $user = Sentinel::getUser();
 
@@ -154,20 +171,24 @@ class TempAnnotationController extends \BaseController
       $anno->updated_by = $user['email'];
       $anno->save();
 
-      OpenDocument::where('collection_id', (int) $collection_id)
+      $query = OpenDocument::where('collection_id', (int) $collection_id)
         ->where('document_id', (int) $document_id)
-        ->where('annotator_type', $anno->annotator_id)
-        ->increment('db_interactions');
+        ->where('annotator_type', $anno->annotator_id);
+      $query->increment('db_interactions');
+      $db_interactions = $query->get('db_interactions')[0]['db_interactions'];
     } catch (\Exception $e) {
+      Log::info("TempAnnotationController - update() - Catch Exception: ".$e->getMessage());
+      Log::info("File: ".$e->getFile().", line: ".$e->getLine());
       return Response::json(['success' => false, 'message' => $e->getMessage()]);
     }
 
-    return Response::json(['success' => true]);
+    return Response::json(['success' => true, 'db_interactions' => $db_interactions]);
   }
 
   //destroy specific annotation
   public function destroy($collection_id, $document_id, $annotation_id)
   {
+    $db_interactions = 0;
     try {
       $user = Sentinel::getUser();
 
@@ -183,26 +204,30 @@ class TempAnnotationController extends \BaseController
           ->where('document_id', (int) $document_id)
           ->where('annotator_id', $annotation_id)
           ->delete();
-        OpenDocument::where('collection_id', (int) $collection_id)
+        $query = OpenDocument::where('collection_id', (int) $collection_id)
           ->where('document_id', (int) $document_id)
-          ->where('annotator_type', $annotation_id)
-          ->increment('db_interactions');
+          ->where('annotator_type', $annotation_id);
+        $query->increment('db_interactions');
+        $db_interactions = $query->get('db_interactions')[0]['db_interactions'];
       } else {
         $anno = TempAnnotation::find($annotation_id);
         $annotator_id = $anno->annotator_id;
         $anno->delete();
         //TempAnnotation::destroy($annotation_id);
 
-        OpenDocument::where('collection_id', (int) $collection_id)
+        $query =  OpenDocument::where('collection_id', (int) $collection_id)
           ->where('document_id', (int) $document_id)
-          ->where('annotator_type', $annotator_id)
-          ->increment('db_interactions');
+          ->where('annotator_type', $annotator_id);
+        $query->increment('db_interactions');
+        $db_interactions = $query->get('db_interactions')[0]['db_interactions'];
       }
     } catch (\Exception $e) {
+      Log::info("TempAnnotationController - destroy() - Catch Exception: ".$e->getMessage());
+      Log::info("File: ".$e->getFile().", line: ".$e->getLine());
       return Response::json(['success' => false, 'message' => $e->getMessage()]);
     }
 
-    return Response::json(['success' => true]);
+    return Response::json(['success' => true, 'db_interactions' => $db_interactions]);
   }
 
   /**

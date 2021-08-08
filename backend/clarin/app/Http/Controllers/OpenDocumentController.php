@@ -10,7 +10,7 @@ class OpenDocumentController extends \BaseController {
             return Response::json(['success' => true,
                                         'data'    => DB::table('open_documents')
                    ->leftJoin('shared_collections', 'open_documents.collection_id', '=', 'shared_collections.collection_id')
-                   ->select(DB::raw('open_documents.collection_id, open_documents.document_id, open_documents.annotator_type, open_documents.db_interactions, shared_collections.confirmed, IF('.$user['id']. '=open_documents.user_id, true, false) as opened'))
+                   ->select(DB::raw('open_documents.collection_id, open_documents.document_id, open_documents.annotator_type, open_documents.db_interactions, shared_collections.confirmed, open_documents.user_id, IF('.$user['id']. '=open_documents.user_id, true, false) as opened'))
                    ->get()]);
         } catch(\Exception $e){
             return Response::json(['success' => false, 'message' => "index(): ".$e->getMessage()."|\"".$user."\""]);
@@ -27,7 +27,7 @@ class OpenDocumentController extends \BaseController {
                    ->when($annotator_id, function ($query, $annotator_id) {
                           return $query->where('open_documents.annotator_type', $annotator_id);
                    })
-                   ->select(DB::raw('open_documents.collection_id, open_documents.document_id, open_documents.annotator_type, open_documents.db_interactions, shared_collections.confirmed, IF('.$user['id']. '=open_documents.user_id, true, false) as opened'))
+                   ->select(DB::raw('open_documents.collection_id, open_documents.document_id, open_documents.annotator_type, open_documents.db_interactions, shared_collections.confirmed, open_documents.user_id, IF('.$user['id']. '=open_documents.user_id, true, false) as opened'))
                    ->get()]);
         } catch(\Exception $e) {
             return Response::json(['success' => false, 'message' => "show(): ".$e->getMessage()]);
@@ -40,18 +40,26 @@ class OpenDocumentController extends \BaseController {
             $input = Request::input('data');
             $user = Sentinel::getUser();
 
-            $db_interactions = 0;
-            $open_docs = OpenDocument::where('user_id', $user['id'])            //before insert a new record empty the open document table 
-                                     ->where('collection_id', (int)$input['collection_id'])
-                                     ->where('document_id', (int)$input['document_id'])
-                                     ->first();
-
-            if (!is_null($open_docs)) {
-                $db_interactions = $open_docs['db_interactions'];
-            }
-
-            OpenDocument::where('user_id', $user['id'])            //before insert a new record empty the open document table 
-                        ->delete();
+	    $db_interactions = 0;
+	    if (array_key_exists('db_interactions', $input)) {
+              $db_interactions = $input['db_interactions'];
+	    } else { 
+              // Before inserting a new record store the db_interactions 
+              $open_docs = OpenDocument::where('user_id', $user['id'])
+                ->where('collection_id', (int)$input['collection_id'])
+                ->where('document_id', (int)$input['document_id'])
+                ->where('annotator_type', $input['annotator_type'])
+                ->first();
+              if (!is_null($open_docs)) {
+                  $db_interactions = $open_docs['db_interactions'];
+	      }
+	    }
+            // Delete the old entry...
+            OpenDocument::where('user_id', $user['id']) 
+              ->where('collection_id', (int)$input['collection_id'])
+              ->where('document_id', (int)$input['document_id'])
+              ->where('annotator_type', $input['annotator_type'])
+              ->delete();
 
             $open_document = new OpenDocument;
             $open_document->user_id = $user['id'];

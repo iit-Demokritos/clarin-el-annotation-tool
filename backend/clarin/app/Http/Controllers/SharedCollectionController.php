@@ -97,11 +97,12 @@ class SharedCollectionController extends \BaseController {
             ->where('collection_id', '=', (int) $collection_id)
             ->delete();
 
-      SharedCollection::where('from', $user['email'])                //delete sharing only if the user owns the specific collection
+      //delete sharing only if the user owns the specific collection
+      SharedCollection::where('from', $user['email'])
               ->where('collection_id', '=', (int) $collection_id)
               ->where('id', '=', (int) $share_id)
               ->delete();
-    }catch(\Exception $e){
+    } catch(\Exception $e){
         return Response::json(['success' => false, 'message' => $e->getMessage()]);
     }
 

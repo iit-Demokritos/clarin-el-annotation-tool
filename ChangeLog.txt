@@ -1,3 +1,15 @@
+08 August 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * backend/clarin/app/Http/Controllers/OpenDocumentController.php: Changes to
+ return the user id. If 'db_interactions' is specified in store(), its value
+ is set instead of the default calculated one.
+
+ * backend/clarin/app/Http/Controllers/TempAnnotationController.php: Service
+ now returns the value of 'cd_interactions'.
+
+ * clarin-angular/src/app/services/restore-annotation-service/restore-annotation.service.ts:
+ Changed service to set the db_interactions to 0 when a new Temp Document is
+ created.
+
 03 August 2021 Petasis George <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/controls/annotation-visualizer/annotation-visualizer.component.ts:
  * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:

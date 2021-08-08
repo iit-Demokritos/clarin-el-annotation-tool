@@ -36,6 +36,7 @@ export class RestoreAnnotationService {
 
   restoreFromDB(collectionId, documentId, annotatorId) {
     var annotationsResponse;
+    var reset_db_interactions = false;
     return new Promise((resolve, reject) => {
 
     this.tempAnnotationService.destroy(collectionId, documentId, null /*null*/) //clear the temp annotations of the doc
@@ -48,20 +49,42 @@ export class RestoreAnnotationService {
       })
       .then((response)=> {
         annotationsResponse = response;
-        if (response["success"] && response["data"].length > 0) {//if annotations number is greater than 0 save them to Temp
+        if (response["success"] && response["data"].length > 0) {
+          // If annotations number is greater than 0 save them to Temp
           annotationsResponse.data = this.TextWidgetAPI.selectAnnotationsMatchingSchema(response["data"], annotatorId);
+          reset_db_interactions = true;
           return this.tempAnnotationService.save(collectionId, documentId, annotationsResponse.data);
-        } else if (response["success"] && response["data"].length == 0) {//if annotations number is equals 0 save dont save nothing
+        } else if (response["success"] && response["data"].length == 0) {
+          // If annotations number is equals 0 don't save anything
           return response;
         } else if (!response["success"]) {
           reject(response);
         }
       })
       .then((response:any)=> {
-        if (!response.success)
+        if (!response.success) {
           reject(response);
-        else
+        } else {
+          if (reset_db_interactions) {
+          return this.openDocumentService.save({
+              document_id: documentId,
+              collection_id: collectionId,
+              annotator_type: annotatorId,
+              db_interactions: 0
+            });
+          } else {
+            return response;
+          }
+        }
+      }, (error)=> {
+        reject(error);
+      })
+      .then((response:any)=> {
+        if (!response.success) {
+          reject(response);
+        } else {
           resolve(annotationsResponse);
+        }
       },(error)=> {
         reject(error);
       });
@@ -82,7 +105,7 @@ export class RestoreAnnotationService {
           /*var documentFound = _.findWhere(response["data"], {
             opened: 1
           });*/
-	  var documentFound = response["data"].find(doc => doc.opened === 1);
+          var documentFound = response["data"].find(doc => doc.opened === 1);
 
           if (typeof(documentFound) != "undefined" && documentFound.db_interactions > 0) {
             var annotations = [];
