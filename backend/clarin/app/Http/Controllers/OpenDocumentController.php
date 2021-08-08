@@ -40,10 +40,10 @@ class OpenDocumentController extends \BaseController {
             $input = Request::input('data');
             $user = Sentinel::getUser();
 
-	    $db_interactions = 0;
-	    if (array_key_exists('db_interactions', $input)) {
+            $db_interactions = 0;
+            if (array_key_exists('db_interactions', $input)) {
               $db_interactions = $input['db_interactions'];
-	    } else { 
+            } else { 
               // Before inserting a new record store the db_interactions 
               $open_docs = OpenDocument::where('user_id', $user['id'])
                 ->where('collection_id', (int)$input['collection_id'])
@@ -52,8 +52,8 @@ class OpenDocumentController extends \BaseController {
                 ->first();
               if (!is_null($open_docs)) {
                   $db_interactions = $open_docs['db_interactions'];
-	      }
-	    }
+              }
+            }
             // Delete the old entry...
             OpenDocument::where('user_id', $user['id']) 
               ->where('collection_id', (int)$input['collection_id'])
