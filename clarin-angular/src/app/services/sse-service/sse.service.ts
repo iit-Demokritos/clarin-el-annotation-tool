@@ -1,6 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Observable } from 'rxjs';
-import { MainService } from '../main/main.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,11 +13,20 @@ export class SseService {
 
       const eventSource = new EventSource(url);
 
-      eventSource.onmessage = event => {
+      // Petasis, 09/08/2021: Changed from onmessage to
+      // addEventListener:
+      // https://stackoverflow.com/questions/61613457/why-angular-observable-based-sseservice-works-just-once-receives-events-but-pro
+      /*eventSource.onmessage = event => {
         this.zone.run(() => {
           observer.next(event);
         })
-      }
+      }*/
+
+      eventSource.addEventListener('message', event => {
+        this.zone.run(() => {
+          observer.next(event);
+        });
+      });
 
       eventSource.onerror = event => {
         this.zone.run(() => {
