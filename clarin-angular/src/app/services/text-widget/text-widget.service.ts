@@ -271,6 +271,7 @@ export class TextWidgetAPI {
 
     this.selectedAnnotation = {};
 
+    // console.error("deleteAnnotation():", annotationId);
     this.notifyObservers(this.selectedAnnotationCallbacks);
     this.notifyObservers(this.annotationsCallbacks);
     this.notifyObservers(this.annotationsToBeDeletedCallbacks);

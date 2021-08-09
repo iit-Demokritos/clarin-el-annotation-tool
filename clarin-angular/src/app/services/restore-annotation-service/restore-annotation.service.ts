@@ -70,7 +70,7 @@ export class RestoreAnnotationService {
               document_id: documentId,
               collection_id: collectionId,
               annotator_type: annotatorId,
-              db_interactions: 0
+              db_interactions: -1 // A value < 0 will set 0 for all users
             });
           } else {
             return response;

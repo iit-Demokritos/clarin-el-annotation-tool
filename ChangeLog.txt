@@ -1,4 +1,12 @@
 09 August 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/views/annotation/annotation.component.ts:
+ Fixes in the way open Documents are handled. Old behaviour was buggy (still
+ buggy in the AngularJS front-end).
+
+ * clarin-angular/src/app/services/restore-annotation-service/restore-annotation.service.ts:
+ * backend/clarin/app/Http/Controllers/OpenDocumentController.php: Added the
+ ability to set db_interactions for all users of the document to 0.
+
  * clarin-angular/src/app/services/sse-service/sse.service.ts: Fixed missing
  events after re-connect (by firtering events propagated to the observer as
  errors).

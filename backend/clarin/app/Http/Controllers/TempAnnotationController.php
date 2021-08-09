@@ -306,7 +306,7 @@ class TempAnnotationController extends \BaseController
           }
 
           $count += 1;
-	  echo ("id: " . uniqid() . "\n\n");
+          echo ("id: " . uniqid() . "\n\n");
           flush();
           sleep(1);
         }

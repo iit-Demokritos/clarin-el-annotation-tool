@@ -10,6 +10,8 @@ import { ThemePalette } from '@angular/material/core';
 import { Setting } from 'src/app/models/services/setting';
 import { User } from '@core/authentication/interface';
 
+import * as _ from 'lodash';
+
 @Component({
   selector: 'annotation',
   templateUrl: './annotation.component.html',
@@ -22,19 +24,6 @@ export class AnnotationComponent extends MainComponent implements OnInit {
   private textWidgetComponent!: TextWidgetComponent;
 
   super() { }
-
-  ngOnInit(): void {
-    this.TextWidgetAPI.settingsComplianceFields = ['created_by', 'updated_by'];
-    this.TextWidgetAPI.initializeCallbacks();
-    this.TextWidgetAPI.resetData();
-    this.detectOpenDocument();
-    //CHECK Widgets $ocLazyLoad.load('annotationWidgets')
-    this.authService.user().subscribe(user => (this.user = user));
-    /* WARNING: annotation ids must be created the same way as in
-     * components, which inherit BaseControlComponent
-     * (app/components/controls/base-control/base-control.component.ts). */
-    this.ObjectID = require("bson-objectid");
-  }
 
   ObjectID;
   autoSaveIndicator;
@@ -72,6 +61,19 @@ export class AnnotationComponent extends MainComponent implements OnInit {
   ];
   user: User;
   skipAnnotationsUpdates = false;
+
+  ngOnInit(): void {
+    this.TextWidgetAPI.settingsComplianceFields = ['created_by', 'updated_by'];
+    this.TextWidgetAPI.initializeCallbacks();
+    this.TextWidgetAPI.resetData();
+    this.detectOpenDocument();
+    //CHECK Widgets $ocLazyLoad.load('annotationWidgets')
+    this.authService.user().subscribe(user => (this.user = user));
+    /* WARNING: annotation ids must be created the same way as in
+     * components, which inherit BaseControlComponent
+     * (app/components/controls/base-control/base-control.component.ts). */
+    this.ObjectID = require("bson-objectid");
+  }
 
   //TODO: CHECK STATE CHANGE EVENT SUBSC.
   /*$on('$stateChangeStart', function (event) {        //close document selection modal instance when user change page
@@ -232,19 +234,26 @@ export class AnnotationComponent extends MainComponent implements OnInit {
 
   //function to detect if the user has left any document open in the database
   detectOpenDocument() {
+    console.warn("AnnotationComponent: detectOpenDocument():");
     this.openDocumentService.getAll()
       .then((response: any) => {
+        /* openDocumentService.getAll() returns a left join of the open documents
+         * table & the shared collection table, thus in the table we have information
+         * about both open documents & collections whose sharing is confirmed.
+         * In result, opened = true if the user id matches the current user. */
+        console.warn("AnnotationComponent: detectOpenDocument(): OpenDocument.getAll():", response);
         //search if the user has an open document 
         if (response.success && response.data.length > 0) {
-          // var documentFound = _.findWhere(response.data, { opened: 1 });
+          // The following variable (documentFound) contains the documents opened by the current user.
           var documentFound = response.data.find(doc => doc.opened === 1);
+          console.warn("AnnotationComponent: detectOpenDocument(): Document Found:", documentFound);
 
-          //user has left a document opened
+          // User has left at least one document opened
           if (typeof (documentFound) != "undefined") {
-            //document has been opened only from the current user & no db_interactions have occurred    
-            // if (_.where(response.data, {document_id: documentFound.document_id}).length == 1
+            // Document has been opened only from the current user & no db_interactions have occurred    
             if (response.data.filter(doc => doc.document_id === documentFound.document_id).length == 1
-                && (documentFound.db_interactions == 0 || documentFound.confirmed == 1)) {
+                && documentFound.db_interactions == 0 && !documentFound.confirmed) {
+              console.warn("Document opened by current user, no db_interactions have occurred and not shared");
               this.tempAnnotationService.destroy(documentFound.collection_id, documentFound.document_id, null)
                 .then((response) => {
                   this.createDocumentSelectionModal();
@@ -253,11 +262,16 @@ export class AnnotationComponent extends MainComponent implements OnInit {
                     data: new ConfirmDialogData("Error", "Database error. Please refresh the page and try again.")
                   })
                 });
-            } else if (!documentFound.confirmed && documentFound.db_interactions > 0) {
-              //document not shared and db_interactions > 0, open modal informing users about the work in proggress
-              //$ocLazyLoad.load('detectChangesModalCtrl').then(function () {
-              //var detectChangesModalInstance = Dialog.custom('detect-changes-modal.html', 'detectChangesModalCtrl', documentFound, true, "");
-
+            } else if (
+              // Document not shared and db_interactions > 0
+              (!documentFound.confirmed && documentFound.db_interactions > 0) ||
+              // Document is shared, but only opened by the current user and db_interactions > 0
+              (documentFound.confirmed == 1 &&
+               response.data.filter(doc => doc.document_id === documentFound.document_id).length == 1 &&
+               documentFound.db_interactions > 0)
+            ) {
+              // Document not shared and db_interactions > 0, open modal informing users about the work in progress
+              console.warn("Document opened by current user & (not shared | (shared but only opened by current user) & db_interactions > 0");
               var dialogRef = this.dialog.open(DetectChangesModalComponent, { data: documentFound, disableClose: true });
               dialogRef.afterClosed().subscribe((response: any) => {
                 if (response.success) {
@@ -284,13 +298,17 @@ export class AnnotationComponent extends MainComponent implements OnInit {
                 })
               });
               //});
-            } else
+            } else {
+              console.warn("Documents opened, which are shared and opened also by other users");
               this.createDocumentSelectionModal();
+            }
           } else {
-            //user has a document open
+            // User has no document open
+            console.warn("User has no open documents");
             this.createDocumentSelectionModal();
           }
         } else if (response.success) {
+          console.warn("getAll(): response.data.length == 0");
           this.createDocumentSelectionModal();
         } else {
           this.dialog.open(ErrorDialogComponent, {
@@ -422,14 +440,17 @@ export class AnnotationComponent extends MainComponent implements OnInit {
   }; /* updateAnnotation */
 
   updateAnnotationList() {
-    // console.error("updateAnnotationList():", this.TextWidgetAPI.getAnnotations());
+    // console.error("updateAnnotationList():", _.cloneDeep(this.TextWidgetAPI.getAnnotations()));
     if (this.skipAnnotationsUpdates) {return;}
     var anns = this.TextWidgetAPI.getAnnotations();
     this.owners.clear();
     this.updaters.clear();
     this.ownersList = [];
     this.updatersList = [];
-    if (anns.length < 1) {return;}
+    if (anns.length < 1) {
+      // console.error("updateAnnotationList(): len=0, returning"); 
+      return;
+    }
     // console.error("AUTH: user:", this.user);
     // Identify all annotation owners...
     anns.forEach((ann) => {
@@ -439,6 +460,9 @@ export class AnnotationComponent extends MainComponent implements OnInit {
       if ("updated_by" in ann) {
         this.updaters.add(ann['created_by']);
       }
+      // if (this.TextWidgetAPI.isSettingAnnotation(ann)) {
+      //   console.error("Setting Ann:", ann);
+      // }
     });
     this.owners.forEach((owner) => {
       this.ownersList.push({name: owner, value: owner, type: "checkbox",

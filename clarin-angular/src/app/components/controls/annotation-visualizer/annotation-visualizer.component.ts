@@ -172,10 +172,12 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
       + "/documents/"
       + currentDocument.id
       + "/live").subscribe((e: any) => {
-
+        // console.error("live:", e);
         var serviceResponse = JSON.parse(e.data);
+        // console.error("AnnotationVisualizerComponent: liveUpdateDocument():", serviceResponse.length, serviceResponse, e);
 
         if (typeof serviceResponse === 'string') {
+          // console.error("AnnotationVisualizerComponent: liveUpdateDocument():", serviceResponse);
           //if share is not enabled revoke access
           e.target.close();       //close live connection
           var AnnotatorTypeId = this.TextWidgetAPI.getAnnotatorTypeId();
@@ -197,6 +199,9 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
         }
 
         var currentSelection:any = this.TextWidgetAPI.getCurrentSelection();
+        // if (serviceResponse.length) {
+        //   console.error("AnnotationVisualizerComponent: liveUpdateDocument():", serviceResponse);
+        // }
 
         for (var i = 0; i < serviceResponse.length; i++) {
           //if (!serviceResponse[i].modified_by==1) return;
@@ -216,6 +221,7 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
               //if deleted_at field is defined delete annotation
               this.TextWidgetAPI.deleteAnnotation(serviceResponse[i]._id)
             } else if (oldAnnotation != serviceResponse[i]) {
+              // console.error("old != new:", oldAnnotation,serviceResponse[i], oldAnnotation != serviceResponse[i]);
               this.TextWidgetAPI.deleteAnnotation(serviceResponse[i]._id)
               this.TextWidgetAPI.addAnnotation(serviceResponse[i], false);
             }
@@ -228,6 +234,7 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
 
       }, (event: any) => {
         var txt;
+        console.error("AnnotationVisualizerComponent: liveUpdateDocument(): error", event.target.readyState, event);
         switch (event.target.readyState) {
           case EventSource.CONNECTING:              // if reconnecting
             txt = 'Reconnecting...';

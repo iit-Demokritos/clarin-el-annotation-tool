@@ -43,6 +43,13 @@ class OpenDocumentController extends \BaseController {
             $db_interactions = 0;
             if (array_key_exists('db_interactions', $input)) {
               $db_interactions = $input['db_interactions'];
+              if ($db_interactions < 0) {
+                OpenDocument::where('collection_id', (int)$input['collection_id'])
+                            ->where('document_id', (int)$input['document_id'])
+                            ->where('annotator_type', $input['annotator_type'])
+                            ->update(['db_interactions' => 0]);
+                $db_interactions = 0;
+              }
             } else { 
               // Before inserting a new record store the db_interactions 
               $open_docs = OpenDocument::where('user_id', $user['id'])

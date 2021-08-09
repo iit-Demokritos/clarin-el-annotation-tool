@@ -434,6 +434,7 @@ export class TextWidgetComponent extends BaseControlComponent
                     } else {
                       response.data = this.migrateOldSpans(response.data);
                     }
+                    // console.error("TextWidgetComponent: updateCurrentDocument(): origin: TempAnnotations");
                     this.TextWidgetAPI.matchAnnotationsToSchema(response.data,
                       this.AnnotatorTypeId);
                   });
@@ -451,6 +452,7 @@ export class TextWidgetComponent extends BaseControlComponent
                     } else {
                       response.data = this.migrateOldSpans(response.data);
                     }
+                    // console.error("TextWidgetComponent: updateCurrentDocument(): origin: Annotations");
                     this.TextWidgetAPI.matchAnnotationsToSchema(response.data,
                       this.AnnotatorTypeId);
                   });
@@ -515,8 +517,8 @@ export class TextWidgetComponent extends BaseControlComponent
   }; /* migrateOldSpans */
 
   overlayRefresh() {
-    console.warn("overlayRefresh: gutter width:", this.gutter.offsetWidth,
-      "editor width:", this.textWidgetLines["offsetWidth"]);
+    // console.warn("overlayRefresh: gutter width:", this.gutter.offsetWidth,
+    //   "editor width:", this.textWidgetLines["offsetWidth"]);
     for (const annId in this.annotationIdToGraphItem) {
       var annotation = this.TextWidgetAPI.getAnnotationById(annId);
       for (var l = 0; l < annotation.spans.length; l++) {
