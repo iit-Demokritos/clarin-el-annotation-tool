@@ -61,7 +61,7 @@ class TempAnnotationController extends \BaseController
   //store a new annotation
   public function store($collection_id, $document_id)
   {
-    $optional = ['document_attribute', 'collection_setting', 'document_setting'];
+    $optional = ['document_attribute', 'collection_setting', 'document_setting', 'updated_by', 'updated_at'];
     $db_interactions = 0;
     try {
       $user = Sentinel::getUser();
@@ -296,16 +296,17 @@ class TempAnnotationController extends \BaseController
           if (sizeof($new_annotations) > 0) {
             $started_time = $started_time_new;
             $elapsed_time = 0;
-            echo ('data: ' . json_encode($new_annotations) . "\n\n");    //send data to client
+            echo ('data: ' . json_encode($new_annotations) . "\n");    //send data to client
             flush();
           } else {
             $elapsed_time += 4;
-            echo ('data: ' . json_encode($new_annotations) . "\n\n");    //send data to client
+            echo ('data: ' . json_encode($new_annotations) . "\n");    //send data to client
             flush();
             sleep(3);
           }
 
           $count += 1;
+	  echo ("id: " . uniqid() . "\n\n");
           flush();
           sleep(1);
         }

@@ -1,7 +1,10 @@
 09 August 2021 Petasis George <petasis@iit.demokritos.gr>:
- * clarin-angular/src/app/services/sse-service/sse.service.ts: Subscribed
- through addEventListener() in SEE, as onmessage() was missing events if
- events were not printed in console.
+ * clarin-angular/src/app/services/sse-service/sse.service.ts: Fixed missing
+ events after re-connect (by firtering events propagated to the observer as
+ errors).
+
+ * backend/clarin/app/Http/Controllers/TempAnnotationController.php: Added
+ "id"s in SSE messages.
 
 08 August 2021 Petasis George <petasis@iit.demokritos.gr>:
  * backend/clarin/app/Http/Controllers/OpenDocumentController.php: Changes to
