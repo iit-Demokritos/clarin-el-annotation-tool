@@ -14,7 +14,7 @@ describe('ErrorInterceptor', () => {
   let toastr: ToastrService;
   const emptyFn = () => {};
 
-  function assertStatus(status: number, statusText) {
+  function assertStatus(status: number, statusText: string) {
     spyOn(router, 'navigateByUrl');
 
     http.get('/me').subscribe(emptyFn, emptyFn, emptyFn);
@@ -42,11 +42,13 @@ describe('ErrorInterceptor', () => {
 
   it('should handle status code 401', () => {
     spyOn(router, 'navigateByUrl');
+    spyOn(toastr, 'error');
 
     http.get('/me').subscribe(emptyFn, emptyFn, emptyFn);
 
     httpMock.expectOne('/me').flush({ success: true }, { status: 401, statusText: 'Unauthorized' });
 
+    expect(toastr.error).toHaveBeenCalledWith('401 Unauthorized');
     expect(router.navigateByUrl).toHaveBeenCalledWith('/auth/login');
   });
 

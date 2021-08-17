@@ -1,3 +1,12 @@
+18 August 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/ng-matero/core/authentication/auth.service.ts:
+ * clarin-angular/src/app/ng-matero/core/authentication/interface.ts:
+ * clarin-angular/src/app/ng-matero/core/authentication/login.service.ts:
+ Updated login methods to match updated ng-matero.
+
+ * clarin-angular/src/styles/*:
+ * clarin-angular/src/app/ng-matero/*: Update to latest ng-matero (12.1.1).
+
 17 August 2021 Petasis George <petasis@iit.demokritos.gr>:
  * clarin-angular/src/css/clarin-annschema.scss: Fixed spacing among cells.
 

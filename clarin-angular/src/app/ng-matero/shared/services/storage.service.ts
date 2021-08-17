@@ -10,7 +10,12 @@ export class LocalStorageService {
 
   set(key: string, value: any): boolean {
     localStorage.setItem(key, JSON.stringify(value));
+
     return true;
+  }
+
+  has(key: string): boolean {
+    return !!localStorage.getItem(key);
   }
 
   remove(key: string) {
@@ -23,7 +28,7 @@ export class LocalStorageService {
 }
 
 export class MemoryStorageService {
-  private store = {};
+  private store: { [k: string]: string } = {};
 
   get(key: string) {
     return JSON.parse(this.store[key] || '{}') || {};
@@ -32,6 +37,10 @@ export class MemoryStorageService {
   set(key: string, value: any): boolean {
     this.store[key] = JSON.stringify(value);
     return true;
+  }
+
+  has(key: string): boolean {
+    return !!this.store[key];
   }
 
   remove(key: string) {
