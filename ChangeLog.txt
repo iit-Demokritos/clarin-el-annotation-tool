@@ -1,3 +1,10 @@
+17 August 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/css/clarin-annschema.scss: Fixed spacing among cells.
+
+ * backend/clarin/database/migrations/2021_08_12_114251_modify_open_documents_primary_keys.php:
+ * Backend: Modified primary key in open_documents table, so as to allow
+ multiple open documents for each user.
+
 09 August 2021 Petasis George <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/views/annotation/annotation.component.ts:
  Fixes in the way open Documents are handled. Old behaviour was buggy (still

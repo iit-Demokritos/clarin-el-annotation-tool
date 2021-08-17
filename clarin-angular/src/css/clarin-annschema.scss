@@ -42,6 +42,7 @@
   table-layout: fixed;
   border-collapse: separate;
   margin-bottom: 0px;
+  border-spacing: 0;
 }
 
 .sidebar-main-content .btn-sm i {
@@ -70,8 +71,8 @@
 
 .button-widget-wrapper table button {
   /*height: 24px!important;*/
-  padding: 2px 0px;
-  margin: 2px 0 !important;
+  padding: 1px 0px;
+  margin: 1px 0 !important;
   font-size: 12px !important;
 }
 .button-widget-wrapper table td {
