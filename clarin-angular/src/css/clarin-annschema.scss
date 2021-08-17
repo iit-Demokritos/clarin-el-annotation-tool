@@ -78,6 +78,7 @@
 .button-widget-wrapper table td {
   white-space: nowrap;
   border-top: none !important;
+  border-bottom: none !important;
   padding: 0px 2px !important;
 }
 .button-widget-header {
@@ -111,19 +112,26 @@
   //text-align: left;
   white-space: pre !important;
   display: inline-block;
-  overflow: auto;
+  overflow: hidden;
   height: 100% !important;
+  width: 100%;
   position: relative;
   text-overflow: ellipsis;
 }
 .annotation-btn-span {
   @extend .annotation-btn;
-  //text-align: left;
+  text-align: left;
   float: left;
   &::before {
     color: var(--color-bg);
-    content: "\258C";
-    margin: 0 0 0 2px;
+    background: var(--color-bg);
+    // content: "\258C";
+    content: "";
+    margin: 0 2px 0 2px;
+    display: inline-block;
+    width: 4px;
+    height: 16px;
+    vertical-align: middle;
   }
 }
 

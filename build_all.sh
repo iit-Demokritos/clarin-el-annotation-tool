@@ -17,6 +17,8 @@ cd $ANGULAR2_DIR
 
 ## Build Angular project (will create dist/clarin-angular folder)
 ng build
+#        --configuration production
+#        --aot true --build-optimizer true --optimization true
 
 #rm -rf src/css/clarin.scss
 

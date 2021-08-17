@@ -52,7 +52,7 @@ export class UserService {
 
 
   // Login/logout is handled by:
-  // src/ng-matero/core/authentication/auth.service.ts (@core)
+  // src/ng-matero/core/authentication/login.service.ts (@core)
   login(credentials): Promise<any> {
     return;
     // Ensure we have a valid CSRF token...
@@ -78,7 +78,7 @@ export class UserService {
   };
 
   // Login/logout is handled by:
-  // src/ng-matero/core/authentication/auth.service.ts (@core)
+  // src/ng-matero/core/authentication/login.service.ts (@core)
   logout(): Promise<any> {
     // Ensure we have a valid CSRF token...
     this.refreshCSRFToken();

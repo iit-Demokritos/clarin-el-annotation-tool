@@ -214,6 +214,7 @@ export class AnnotatorWidgetComponent extends BaseControlComponent
 
 
   async initDynamicWithTemplate(template) {
+    // console.error("COMPILER:", this.compiler, template);
     this.compiler.clearCache();
     this.vc.clear();
     // console.error("DEV MODE:", isDevMode());
@@ -260,6 +261,8 @@ export class AnnotatorWidgetComponent extends BaseControlComponent
         this.cmpRef.instance.component = this.component;
         this.vc.insert(this.cmpRef.hostView);
         this.cmpRef.instance.broadcastEvent = this.broadcastEvent;
+      }, (error) => {
+        console.error("AnnotatorWidgetComponent: initDynamicWithTemplate()", template, error);
       });
   }
 

@@ -419,8 +419,8 @@ export class TextWidgetAPI {
     }
 
     // console.error("matchAnnotationsToSchema():", newAnnotations);
-    this.notifyObservers(this.annotationsCallbacks);
     this.notifyObservers(this.foundInCollectionCallbacks);
+    this.notifyObservers(this.annotationsCallbacks);
     this.notifyObservers(this.annotationsToBeAddedCallbacks);
   }; /* matchAnnotationsToSchema */
 

@@ -404,7 +404,6 @@ export class TextWidgetComponent extends BaseControlComponent
               this.editor.setValue("");
               this.editor.clearHistory();
               var options = JSON.parse(response.data.visualisation_options);
-              console.log(options)
               if (options !== null && "gutter" in options) {
                 this.skipLineNumber = options["gutter"];
 
@@ -1078,11 +1077,12 @@ export class TextWidgetComponent extends BaseControlComponent
       } else {
         // Normal annotation
         // Iterate through annotations spans
-        if (typeof newAnnotations[k].annotation.spans == "undefined") {
+        if (typeof currAnnotation.annotation.spans == "undefined") {
           continue;
         }
+	// console.error("Annotation:", currAnnotation, currAnnotation.annotation.spans[0].segment);
 
-        for (var l = 0; l < newAnnotations[k].annotation.spans.length; l++) {
+        for (var l = 0; l < currAnnotation.annotation.spans.length; l++) {
           var colorCombination: any = {};
           var annotationSpan = currAnnotation.annotation.spans[l];
           var annotationAttributes = currAnnotation.annotation.attributes;
@@ -1421,7 +1421,6 @@ export class TextWidgetComponent extends BaseControlComponent
   /* This function will be called when settings are updated. */
   updateSettings() {
     this.settings = this.TextWidgetAPI.getSettings();
-    // console.error("updateSettings():", this.settings);
     if (!this.TextWidgetAPI.checkIsRunning()) {
       this.TextWidgetAPI.enableIsRunning();
     } else {

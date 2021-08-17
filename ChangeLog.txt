@@ -1,4 +1,15 @@
 18 August 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/package.json:
+ * clarin-angular/angular.json:
+ * build_all.sh: Updated to latest angular, switched build to production mode,
+ updated various packages to latest versions.
+
+ * clarin-angular/src/css/clarin-annschema.scss: Various fixes for Button
+ Annotator.
+
+ * clarin-angular/src/app/services/text-widget/text-widget.service.ts: Changed
+ notification order in matchAnnotationsToSchema().
+
  * clarin-angular/src/app/ng-matero/core/authentication/auth.service.ts:
  * clarin-angular/src/app/ng-matero/core/authentication/interface.ts:
  * clarin-angular/src/app/ng-matero/core/authentication/login.service.ts:
