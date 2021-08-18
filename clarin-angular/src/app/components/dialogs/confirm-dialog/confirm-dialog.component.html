@@ -7,7 +7,7 @@
     <!--{{data?.message}}-->
   </mat-dialog-content>
   <mat-dialog-actions align="end">
-    <button mat-button (click)="cancel()" *ngIf="data?.showCalcelButton">Cancel</button>
+    <button mat-button (click)="cancel()" *ngIf="data?.showCalcelButton">{{'Cancel'|translate}}</button>
     <button mat-button *ngFor="let button of data?.buttons" (click)="confirm(button)">{{button|translate}}</button>
   </mat-dialog-actions>
 </div>
