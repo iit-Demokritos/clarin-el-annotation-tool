@@ -121,14 +121,13 @@
                 <uploader [allowedTypes]="allowedTypes" [fileTypeOptions]="typeOptions"
                   [fileEncodingOptions]="encodingOptions" [fileHandlerOptions]="handlerOptions"
                   [collectionData]="collectionData" [collectionDataUpdated]="collectionDataUpdated"
-                  [flowAttributes]="flowAttributes"
-                  (handleFileInputs)="handleFileInputs($event)"></uploader>
+                  [flowAttributes]="flowAttributes" (handleFileInputs)="handleFileInputs($event)"></uploader>
               </div>
             </div>
           </mat-card-content>
           <mat-card-actions align="end">
-            <button type="submit" mat-button [disabled]="editCollectionForm.invalid"
-               color="primary" *ngIf="showSubmitButton">
+            <button type="submit" mat-button [disabled]="editCollectionForm.invalid" color="primary"
+              *ngIf="showSubmitButton">
               {{'Collections.AddCollection' | translate}}
             </button>
           </mat-card-actions>

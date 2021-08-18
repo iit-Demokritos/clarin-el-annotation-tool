@@ -8,9 +8,9 @@ describe('CorefSpanEndComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CorefSpanEndComponent ]
+      declarations: [CorefSpanEndComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

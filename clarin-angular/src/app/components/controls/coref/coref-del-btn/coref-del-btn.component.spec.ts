@@ -8,9 +8,9 @@ describe('CorefDelBtnComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CorefDelBtnComponent ]
+      declarations: [CorefDelBtnComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

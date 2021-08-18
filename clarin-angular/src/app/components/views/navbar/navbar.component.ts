@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FlashMessagesModule } from 'flash-messages-angular';
 import { MainComponent } from '../main/main.component';
 
 @Component({

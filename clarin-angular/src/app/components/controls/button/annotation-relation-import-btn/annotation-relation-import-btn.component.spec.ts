@@ -8,9 +8,9 @@ describe('AnnotationRelationImportBtnComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AnnotationRelationImportBtnComponent ]
+      declarations: [AnnotationRelationImportBtnComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

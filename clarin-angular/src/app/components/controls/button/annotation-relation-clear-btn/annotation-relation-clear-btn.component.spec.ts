@@ -8,9 +8,9 @@ describe('AnnotationRelationClearBtnComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AnnotationRelationClearBtnComponent ]
+      declarations: [AnnotationRelationClearBtnComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

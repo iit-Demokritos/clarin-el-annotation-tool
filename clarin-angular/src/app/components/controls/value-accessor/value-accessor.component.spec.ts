@@ -8,9 +8,9 @@ describe('ValueAccessorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ValueAccessorComponent ]
+      declarations: [ValueAccessorComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

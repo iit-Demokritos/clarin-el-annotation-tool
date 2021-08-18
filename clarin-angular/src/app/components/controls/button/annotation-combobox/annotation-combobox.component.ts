@@ -1,5 +1,4 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { MainComponent } from 'src/app/components/views/main/main.component';
 import { BaseControlComponent } from '../../base-control/base-control.component';
 
 @Component({

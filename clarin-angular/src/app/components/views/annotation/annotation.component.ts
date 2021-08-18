@@ -1,16 +1,14 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { User } from '@core/authentication/interface';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
+import { Setting } from 'src/app/models/services/setting';
+import { TextWidgetComponent } from '../../controls/text-widget/text-widget.component';
 import { DetectChangesModalComponent } from '../../dialogs/detect-changes-modal/detect-changes-modal.component';
 import { DetectOpenDocModalComponent } from '../../dialogs/detect-open-doc-modal/detect-open-doc-modal.component';
 import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
 import { SelectDocumentModalComponent } from '../../dialogs/select-document-modal/select-document-modal.component';
 import { MainComponent } from '../main/main.component';
-import { TextWidgetComponent } from '../../controls/text-widget/text-widget.component';
-import { ThemePalette } from '@angular/material/core';
-import { Setting } from 'src/app/models/services/setting';
-import { User } from '@core/authentication/interface';
 
-import * as _ from 'lodash';
 
 @Component({
   selector: 'annotation',
@@ -44,20 +42,32 @@ export class AnnotationComponent extends MainComponent implements OnInit {
   ownersList = [];
   updatersList = [];
   collectionSettings: Setting[] = [
-    {name: "Readonly", value: "readonly", type: "checkbox",
-     checked: false, allChecked: false, color: "accent"},
-    {name: "Annotation Completed", value: "completed", type: "checkbox",
-     checked: false, allChecked: false, color: "accent"}
+    {
+      name: "Readonly", value: "readonly", type: "checkbox",
+      checked: false, allChecked: false, color: "accent"
+    },
+    {
+      name: "Annotation Completed", value: "completed", type: "checkbox",
+      checked: false, allChecked: false, color: "accent"
+    }
   ];
-  documentSettings:   Setting[] = [
-    {name: "Readonly", value: "readonly", type: "checkbox",
-     checked: false, allChecked: false, color: "accent"},
-    {name: "Annotation Completed", value: "completed", type: "checkbox",
-     checked: false, allChecked: false, color: "accent"},
-    {name: "Show Annotations owned by:", value: "created_by", type: "checkbox",
-     checked: false, allChecked: false, color: "accent", subsettings: this.ownersList},
-    {name: "Show Annotations updated by:", value: "updated_by", type: "checkbox",
-     checked: false, allChecked: false, color: "accent", subsettings: this.updatersList}
+  documentSettings: Setting[] = [
+    {
+      name: "Readonly", value: "readonly", type: "checkbox",
+      checked: false, allChecked: false, color: "accent"
+    },
+    {
+      name: "Annotation Completed", value: "completed", type: "checkbox",
+      checked: false, allChecked: false, color: "accent"
+    },
+    {
+      name: "Show Annotations owned by:", value: "created_by", type: "checkbox",
+      checked: false, allChecked: false, color: "accent", subsettings: this.ownersList
+    },
+    {
+      name: "Show Annotations updated by:", value: "updated_by", type: "checkbox",
+      checked: false, allChecked: false, color: "accent", subsettings: this.updatersList
+    }
   ];
   user: User;
   skipAnnotationsUpdates = false;
@@ -107,7 +117,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
 
   //open the modal in order the user to select a document to annotate
   createDocumentSelectionModal() {
-     this.documentSelected = false;
+    this.documentSelected = false;
     if (!this.TextWidgetAPI.checkIsRunning())
       this.TextWidgetAPI.enableIsRunning();
     else
@@ -196,7 +206,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
                 }, (error) => {
                   this.dialog.open(ErrorDialogComponent, {
                     data: new ConfirmDialogData("Error",
-                        "Database error. Please refresh the page and try again.")
+                      "Database error. Please refresh the page and try again.")
                   })
                 });
             } else {
@@ -213,7 +223,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
                 } else {
                   this.dialog.open(ErrorDialogComponent, {
                     data: new ConfirmDialogData("Error",
-                        "Database error. Please refresh the page and try again.")
+                      "Database error. Please refresh the page and try again.")
                   })
                 }
 
@@ -252,7 +262,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
           if (typeof (documentFound) != "undefined") {
             // Document has been opened only from the current user & no db_interactions have occurred    
             if (response.data.filter(doc => doc.document_id === documentFound.document_id).length == 1
-                && documentFound.db_interactions == 0 && !documentFound.confirmed) {
+              && documentFound.db_interactions == 0 && !documentFound.confirmed) {
               console.warn("Document opened by current user, no db_interactions have occurred and not shared");
               this.tempAnnotationService.destroy(documentFound.collection_id, documentFound.document_id, null)
                 .then((response) => {
@@ -267,8 +277,8 @@ export class AnnotationComponent extends MainComponent implements OnInit {
               (!documentFound.confirmed && documentFound.db_interactions > 0) ||
               // Document is shared, but only opened by the current user and db_interactions > 0
               (documentFound.confirmed == 1 &&
-               response.data.filter(doc => doc.document_id === documentFound.document_id).length == 1 &&
-               documentFound.db_interactions > 0)
+                response.data.filter(doc => doc.document_id === documentFound.document_id).length == 1 &&
+                documentFound.db_interactions > 0)
             ) {
               // Document not shared and db_interactions > 0, open modal informing users about the work in progress
               console.warn("Document opened by current user & (not shared | (shared but only opened by current user) & db_interactions > 0");
@@ -336,20 +346,20 @@ export class AnnotationComponent extends MainComponent implements OnInit {
    *  Settings
    * ============================================================================
    */
-  updateAllChecked(setting:Setting, collectionSetting:boolean = false) {
+  updateAllChecked(setting: Setting, collectionSetting: boolean = false) {
     // console.error("Clicked on:", setting);
     setting.allChecked = setting.subsettings != null && setting.subsettings.every(t => t.checked);
     this.updateAnnotation(setting, collectionSetting);
   }
 
-  someChecked(setting:Setting, collectionSetting:boolean = false): boolean {
+  someChecked(setting: Setting, collectionSetting: boolean = false): boolean {
     if (setting.subsettings == null) {
       return false;
     }
     return setting.subsettings.filter(t => t.checked).length > 0 && !setting.allChecked;
   }
 
-  setAll(setting:Setting, checked: boolean, collectionSetting:boolean = false) {
+  setAll(setting: Setting, checked: boolean, collectionSetting: boolean = false) {
     // console.error("setAll():", setting);
     setting.allChecked = checked;
     if (setting.subsettings == null) {
@@ -361,7 +371,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
   }
 
   /* Store value as an annotation */
-  async updateAnnotation(s:Setting, collectionSetting:boolean = false) {
+  async updateAnnotation(s: Setting, collectionSetting: boolean = false) {
     var newAttribute = this.getSetting(s);
     // console.error("Setting Update:", newAttribute);
     var ann = this.TextWidgetAPI.getAnnotationForDocumentSetting(s.value, this.user.email);
@@ -386,14 +396,16 @@ export class AnnotationComponent extends MainComponent implements OnInit {
           this.skipAnnotationsUpdates = false;
           this.dialog.open(ErrorDialogComponent, {
             data: new ConfirmDialogData("Error",
-              "Error in update Annotation. Please refresh the page and try again") });
+              "Error in update Annotation. Please refresh the page and try again")
+          });
         }
       } catch (error) {
         console.error("AnnotationComponent: updateAnnotation():", error);
         this.skipAnnotationsUpdates = false;
         this.dialog.open(ErrorDialogComponent, {
           data: new ConfirmDialogData("Error",
-            "Database error. Please refresh the page and try again.") });
+            "Database error. Please refresh the page and try again.")
+        });
       }
     } else {
       // No existing Annotation, we need to create a new one...
@@ -418,7 +430,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
       this.skipAnnotationsUpdates = true;
       try {
         var response = await this.tempAnnotationService.save(currentDocument.collection_id,
-                                                             currentDocument.id, newAnnotation);
+          currentDocument.id, newAnnotation);
         if (response['success']) {
           this.skipAnnotationsUpdates = false;
           this.TextWidgetAPI.addAnnotation(newAnnotation, false);
@@ -427,21 +439,23 @@ export class AnnotationComponent extends MainComponent implements OnInit {
           this.skipAnnotationsUpdates = false;
           this.dialog.open(ErrorDialogComponent, {
             data: new ConfirmDialogData("Error",
-             "Error during saving your annotation. Please refresh the page and try again.") });
+              "Error during saving your annotation. Please refresh the page and try again.")
+          });
         }
       } catch (error) {
         console.error("AnnotationComponent: updateAnnotation():", error);
         this.skipAnnotationsUpdates = false;
         this.dialog.open(ErrorDialogComponent, {
           data: new ConfirmDialogData("Error",
-            "Database error. Please refresh the page and try again.") });
+            "Database error. Please refresh the page and try again.")
+        });
       }
     }
   }; /* updateAnnotation */
 
   updateAnnotationList() {
     // console.error("updateAnnotationList():", _.cloneDeep(this.TextWidgetAPI.getAnnotations()));
-    if (this.skipAnnotationsUpdates) {return;}
+    if (this.skipAnnotationsUpdates) { return; }
     var anns = this.TextWidgetAPI.getAnnotations();
     this.owners.clear();
     this.updaters.clear();
@@ -465,12 +479,16 @@ export class AnnotationComponent extends MainComponent implements OnInit {
       // }
     });
     this.owners.forEach((owner) => {
-      this.ownersList.push({name: owner, value: owner, type: "checkbox",
-        checked: false, allChecked: false, color: "accent"});
+      this.ownersList.push({
+        name: owner, value: owner, type: "checkbox",
+        checked: false, allChecked: false, color: "accent"
+      });
     });
     this.updaters.forEach((updater) => {
-      this.updatersList.push({name: updater, value: updater, type: "checkbox",
-        checked: false, allChecked: false, color: "accent"});
+      this.updatersList.push({
+        name: updater, value: updater, type: "checkbox",
+        checked: false, allChecked: false, color: "accent"
+      });
     });
     // Update the values so that the UI can redraw itself...
     this.documentSettings.find(element => element.value === "created_by")['subsettings'] = this.ownersList;
@@ -511,7 +529,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
     }
   }; /* updateSettings */
 
-  getSetting(s:Setting) {
+  getSetting(s: Setting) {
     var setting = {
       name: s.value,
       value: s.allChecked,

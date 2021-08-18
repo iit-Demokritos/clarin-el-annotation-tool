@@ -1,13 +1,9 @@
-import { Component, Input, Output, EventEmitter, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 import { ConfirmDialogComponent } from '../../dialogs/confirm-dialog/confirm-dialog.component';
 import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
 import { MainComponent } from '../main/main.component';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatDialogRef } from '@angular/material/dialog';
-import { MatDialog } from '@angular/material/dialog';
-import { MatDialogModule } from '@angular/material/dialog';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'add-collection',
@@ -29,18 +25,18 @@ export class AddCollectionComponent extends MainComponent implements OnInit {
   public breakpoint: number; // Breakpoint observer code
   public editCollectionForm: FormGroup;
   // sidebarSelector = "myCollections";
-  allowedTypes    = ["text/plain", "text/xml"];
-  typeOptions     = ["Text", "TEI XML"];
+  allowedTypes = ["text/plain", "text/xml"];
+  typeOptions = ["Text", "TEI XML"];
   encodingOptions = ["UTF-8", "Unicode"];
-  handlerOptions  = [
-    {name: 'No Handler',     value: 'none'},
-    {name: 'TEI XML Import', value: 'tei'},
+  handlerOptions = [
+    { name: 'No Handler', value: 'none' },
+    { name: 'TEI XML Import', value: 'tei' },
   ];
   dataForTheTree: any = [];
   collectionData: any = {};
   collectionDataUpdated: boolean;
   filterFiles = true;
-  flowAttributes = {accept: this.allowedTypes};
+  flowAttributes = { accept: this.allowedTypes };
 
   super() { };
 
@@ -61,7 +57,7 @@ export class AddCollectionComponent extends MainComponent implements OnInit {
     this.collectionData = {};
     this.collectionData.name = "";
     this.collectionData.encoding = this.encodingOptions[0];
-    this.collectionData.handler  = this.handlerOptions[0];
+    this.collectionData.handler = this.handlerOptions[0];
     this.collectionData.type = "text";
     this.collectionData.visualisation_options = "";
     this.encodingChange();
@@ -195,7 +191,7 @@ export class AddCollectionComponent extends MainComponent implements OnInit {
     this.collectionDataUpdated = !this.collectionDataUpdated;
   }
   handleFileInputs(event) {
-    event.files.forEach(file => {this.userFiles.push(file);});
+    event.files.forEach(file => { this.userFiles.push(file); });
     if (event.message != "") {
       this.dialog.open(ErrorDialogComponent, {
         data: new ConfirmDialogData("Error", event.message)

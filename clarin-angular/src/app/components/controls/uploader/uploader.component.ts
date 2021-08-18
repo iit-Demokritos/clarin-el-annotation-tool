@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FlowDirective, Transfer } from '@flowjs/ngx-flow';
 import { Subscription } from 'rxjs';
 import { BaseControlComponent } from '../base-control/base-control.component';
@@ -28,7 +28,7 @@ export class UploaderComponent extends BaseControlComponent implements OnInit, O
   defaultTypeIndex = 0;
   @Input() collectionData;
   @Input() collectionDataUpdated;
-  @Input() flowAttributes:any = {accept: this.allowedTypes};
+  @Input() flowAttributes: any = { accept: this.allowedTypes };
 
   @Output() handleFileInputs = new EventEmitter<any>();
 
@@ -108,11 +108,11 @@ export class UploaderComponent extends BaseControlComponent implements OnInit, O
         let fileObj = [];
         this.userFiles.forEach(element => {
           fileObj.push({
-            'file':     element["file"],
-            'name':     element["name"],
-            'type':     element["ftype"],
+            'file': element["file"],
+            'name': element["name"],
+            'type': element["ftype"],
             'encoding': element["encoding"],
-            'handler':  element["handler"]
+            'handler': element["handler"]
           });
         })
         this.files = fileObj;

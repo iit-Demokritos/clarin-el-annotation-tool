@@ -8,9 +8,9 @@ describe('AddCustomValueModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AddCustomValueModalComponent ]
+      declarations: [AddCustomValueModalComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

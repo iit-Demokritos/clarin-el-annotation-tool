@@ -13,7 +13,7 @@ export class ErrorDialogComponent extends MainDialogComponent implements OnInit 
   ngOnInit(): void {
   }
 
-  cancel(){
+  cancel() {
     this.dialogRef.close();
   }
 

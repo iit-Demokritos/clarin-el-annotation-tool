@@ -1,21 +1,12 @@
 import {
-  Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation,
-  Output, EventEmitter
+  Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewEncapsulation
 } from '@angular/core';
 import * as CodeMirror from 'codemirror';
-import { BaseControlComponent } from '../base-control/base-control.component';
-import { cloneDeep, indexOf, has, filter, without, find } from "lodash";
-import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
-import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
-import * as _ from 'lodash';
-//import * as $ from 'backbone';
-import * as $ from 'jquery';
 import * as joint from 'jointjs';
-//import { type } from 'node:os';
-//import { jsPDF } from 'jspdf';
-import html2canvas from 'html2canvas';
-import canvas2pdf from 'canvas2pdf';
-import { saveAs } from 'file-saver';
+import * as _ from 'lodash';
+import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
+import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
+import { BaseControlComponent } from '../base-control/base-control.component';
 
 // var blobStream = require('blob-stream');
 
@@ -72,9 +63,9 @@ export class TextWidgetComponent extends BaseControlComponent
     //comment this
     //this.textarea = this.element.nativeElement;
 
-    this.mainContent= document.getElementsByClassName("main-content")[0];
+    this.mainContent = document.getElementsByClassName("main-content")[0];
     this.textWidget = document.getElementById("annotation-editor-text-widget");
-    this.textWidgetOverlay = 
+    this.textWidgetOverlay =
       document.getElementById('annotation-editor-text-widget-overlay');
     // this.editor = CodeMirror.fromTextArea(this.element.nativeElement, {
     this.editor = CodeMirror.fromTextArea(this.textWidget, {
@@ -142,11 +133,11 @@ export class TextWidgetComponent extends BaseControlComponent
     
     */
 
-    CodeMirror.on(this.mainContent, "mouseup",   (...e) => { this.mouseUpHandler(e) });
+    CodeMirror.on(this.mainContent, "mouseup", (...e) => { this.mouseUpHandler(e) });
     CodeMirror.on(this.mainContent, "mousedown", (...e) => { this.mouseDownUpHandler(e) });
     this.editor.setOption("extraKeys", {
-      Delete: (...e) => {this.deleteSelectedAnnotation(e);},
-      Space:  (...e) => {this.editor.refresh();},
+      Delete: (...e) => { this.deleteSelectedAnnotation(e); },
+      Space: (...e) => { this.editor.refresh(); },
     });
     this.editor.on("refresh", () => {
       this.overlayRefresh();
@@ -299,7 +290,7 @@ export class TextWidgetComponent extends BaseControlComponent
           if (availableAnnotationsLength > 0) {
             // Petasis, 14/07/2021: Find the annotation with the smallest segment...
             var availableAnnotationsOnCursor = availableMarksOnCursor.map((a) => this.getAnnotationFromMark(a));
-            var smallestAnn = availableAnnotationsOnCursor.reduce((a, b) => 
+            var smallestAnn = availableAnnotationsOnCursor.reduce((a, b) =>
               a.spans[0].segment.length <= b.spans[0].segment.length ? a : b
             );
             // console.error("small:", smallestAnn);
@@ -656,7 +647,7 @@ export class TextWidgetComponent extends BaseControlComponent
       item.position(startCoords.left + this.gutter.offsetWidth - 4, startCoords.top + 3);
       // sets the dimensions of the element (width, height)
       item.resize(endCoords.right - startCoords.left - 4,
-                  endCoords.bottom - startCoords.top - 6);
+        endCoords.bottom - startCoords.top - 6);
       item.attr('body/refPoints', "0,0 1,0 1,1 0,1");
     } else {
       var points = [];
@@ -1016,7 +1007,7 @@ export class TextWidgetComponent extends BaseControlComponent
     for (var k = 0; k < newAnnotations.length; k++) {
       var currAnnotation = newAnnotations[k];
       if (this.TextWidgetAPI.isSettingAnnotation(currAnnotation.annotation) ||
-          (!this.TextWidgetAPI.isSettingsCompliantAnnotation(currAnnotation.annotation))) {
+        (!this.TextWidgetAPI.isSettingsCompliantAnnotation(currAnnotation.annotation))) {
         // If settings omit this annotation, skip it...
         continue;
       }
@@ -1080,7 +1071,7 @@ export class TextWidgetComponent extends BaseControlComponent
         if (typeof currAnnotation.annotation.spans == "undefined") {
           continue;
         }
-	// console.error("Annotation:", currAnnotation, currAnnotation.annotation.spans[0].segment);
+        // console.error("Annotation:", currAnnotation, currAnnotation.annotation.spans[0].segment);
 
         for (var l = 0; l < currAnnotation.annotation.spans.length; l++) {
           var colorCombination: any = {};
@@ -1097,7 +1088,7 @@ export class TextWidgetComponent extends BaseControlComponent
               for (var m = 0; m < annotationAttributes.length; m++) {
                 colorCombination =
                   this.buttonColorService.getColorCombination(annotationAttributes[m].value);
-                  // console.error("colorCombination:", annotationAttributes[m].value, colorCombination);
+                // console.error("colorCombination:", annotationAttributes[m].value, colorCombination);
                 if (typeof (colorCombination) != "undefined")
                   break;
               }
@@ -1297,7 +1288,7 @@ export class TextWidgetComponent extends BaseControlComponent
   }; /* deleteAnnotations */
 
   removeAnnotationsFromEditor(annotationsToBeDeleted) {
-    annotationsToBeDeleted.forEach( (annotation) => {
+    annotationsToBeDeleted.forEach((annotation) => {
       if (this.TextWidgetAPI.belongsToSchemaAsSupportiveAnnotationType(annotation)) {
         // Remove relation annotation
         this.removeConnectedAnnotation({
@@ -1316,7 +1307,7 @@ export class TextWidgetComponent extends BaseControlComponent
         });
         // Regular annotations, delete their marks
         var editorMarks = this.editor.getAllMarks();
-        editorMarks.forEach( (mark) => {
+        editorMarks.forEach((mark) => {
           if (String(mark.className).trim().indexOf(annotationId) !== -1) {
             mark.clear();
           }
@@ -1366,7 +1357,7 @@ export class TextWidgetComponent extends BaseControlComponent
       });
     } else {
       var sel = this.computeSelectionFromOffsets(parseInt(currentSel.startOffset),
-                                                 parseInt(currentSel.endOffset));
+        parseInt(currentSel.endOffset));
       this.editor.setSelection(sel.start, sel.end, {
         scroll: false
       });
@@ -1430,11 +1421,13 @@ export class TextWidgetComponent extends BaseControlComponent
     // We have annotations in editor. Get all annotations, and
     // re-visualise them!
     var annotations = this.TextWidgetAPI.getAnnotations()
-      .map((ann) => {return {
-        "annotation": ann,
-        "selected": false,
-        "action": "matches"
-      };});
+      .map((ann) => {
+        return {
+          "annotation": ann,
+          "selected": false,
+          "action": "matches"
+        };
+      });
     if (annotations != undefined && annotations.length) {
       this.visualiseAnnotations(annotations, annotatorType);
     }

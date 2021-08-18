@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { BaseControlComponent } from '../../base-control/base-control.component';
 import * as _ from 'lodash';
+import { BaseControlComponent } from '../../base-control/base-control.component';
 
 @Component({
   selector: 'annotation-relation-combobox',
@@ -18,7 +18,7 @@ export class AnnotationRelationComboboxComponent extends BaseControlComponent im
   }
 
   @Input() annotationArgumentValues;
-  
+
   annotations = [];
   selectedAnnotationId = '';
 

@@ -6,8 +6,8 @@
       <mat-toolbar class="annotation-toolbar">
         <mat-button-toggle-group class="main-content-header" name="annotation-main-content-header"
           aria-label="Content Page" [hidden]="!layout.showEditorTabs" [(ngModel)]="maincontentSelector">
-          <mat-button-toggle (click)="showTab('document');"
-            value="document">{{'annotation.Document'|translate}}</mat-button-toggle>
+          <mat-button-toggle (click)="showTab('document');" value="document">{{'annotation.Document'|translate}}
+          </mat-button-toggle>
           <mat-button-toggle value="attributes">{{'annotation.Document Attributes'|translate}}</mat-button-toggle>
           <mat-button-toggle value="settings">{{'annotation.Settings'|translate}}</mat-button-toggle>
         </mat-button-toggle-group>

@@ -1,10 +1,8 @@
+import { FlatTreeControl } from '@angular/cdk/tree';
 import { Component, OnInit } from '@angular/core';
-import { MainComponent } from '../../views/main/main.component';
-import { MainDialogComponent } from '../main-dialog/main-dialog.component';
+import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import * as _ from 'lodash';
-import { FlatTreeControl, NestedTreeControl } from '@angular/cdk/tree';
-import { MatTree, MatTreeFlatDataSource, MatTreeFlattener, MatTreeNestedDataSource } from '@angular/material/tree';
-
+import { MainDialogComponent } from '../main-dialog/main-dialog.component';
 
 interface ExampleFlatNode {
   expandable: boolean;
@@ -48,7 +46,7 @@ export class SelectDocumentModalComponent extends MainDialogComponent implements
     this.initializeLanguages();
   }
 
-  nodeSelected(node){
+  nodeSelected(node) {
   }
 
   subheader = "Button Annotator";
@@ -186,21 +184,21 @@ export class SelectDocumentModalComponent extends MainDialogComponent implements
 
             this.groups = _.cloneDeep(data.groups);
 
-            this.groups.forEach((value)=> {
+            this.groups.forEach((value) => {
               this.annotationSchemaOptions.values = this.annotationSchemaOptions.values.concat(value.values);
             });
           });
         break;
       case "Coreference Annotator":
         this.coreferenceAnnotatorService.getValues(this.annotationSchema.language,
-        this.annotationSchema.annotation_type,
-        this.annotationSchema.alternative)
+          this.annotationSchema.annotation_type,
+          this.annotationSchema.alternative)
           .then((data: any) => {
             this.emptyValuesArrays();
 
             this.attrs = _.cloneDeep(data.attributes);
 
-            data.attributes.forEach((value)=> {
+            data.attributes.forEach((value) => {
               this.annotationSchemaOptions.attributes.push(value.attribute);
             });
           });
@@ -208,7 +206,7 @@ export class SelectDocumentModalComponent extends MainDialogComponent implements
     }
   };
 
-  compareFn( optionOne, optionTwo ) : boolean {
+  compareFn(optionOne, optionTwo): boolean {
     return optionOne === optionTwo;
   }
 

@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class OpenDocumentService {
 
-  constructor(public http:HttpClient) {}
+  constructor(public http: HttpClient) { }
 
   getAll() {
     return new Promise((resolve, reject) => {

@@ -1,11 +1,9 @@
-import { Compiler, Directive, Component, OnInit, TemplateRef, ElementRef, ViewContainerRef, NgModule, Injector, NgModuleRef } from '@angular/core';
-import { CoreferenceAnnotatorService } from 'src/app/services/coreference-annotator-service/coreference-annotator.service';
-import { CoreferenceColorDataService } from 'src/app/services/coreference-color-data-service/coreference-color-data.service';
-import { CoreferenceColorService } from 'src/app/services/coreference-color-service/coreference-color.service';
-import { TextWidgetAPI } from 'src/app/services/text-widget/text-widget.service';
+import { CommonModule } from '@angular/common';
+import { Compiler, Component, Directive, ElementRef, Injector, NgModule, NgModuleRef, OnInit, ViewContainerRef } from '@angular/core';
 import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { AppModule } from 'src/app/app.module';
-import { CommonModule } from '@angular/common';
+import { CoreferenceColorService } from 'src/app/services/coreference-color-service/coreference-color.service';
+import { TextWidgetAPI } from 'src/app/services/text-widget/text-widget.service';
 
 @Directive({
   selector: '[found-in-collection]'
@@ -23,7 +21,7 @@ export class FoundInCollectionDirective implements OnInit {
     private _m: NgModuleRef<any>,
     private vc: ViewContainerRef,
     private element: ElementRef
-  ) {};
+  ) { };
 
   /*
   constructor(    private view: ViewContainerRef,
@@ -36,31 +34,31 @@ export class FoundInCollectionDirective implements OnInit {
   }
 
   updateFoundInCollection() {
-    var annotationSchema:any = this.TextWidgetAPI.getAnnotationSchema();
+    var annotationSchema: any = this.TextWidgetAPI.getAnnotationSchema();
     var foundInCollection = this.TextWidgetAPI.getFoundInCollection();
     // console.error("FoundInCollectionDirective: updateFoundInCollection():", foundInCollection);
     if (!foundInCollection.length) return;
     var template = "";
     // console.error(this.vc, this.element);
     var colsNumber = this.element.nativeElement.rows[0].cells[0].colSpan;
-    for (var i=0; i<foundInCollection.length; i++) {
+    for (var i = 0; i < foundInCollection.length; i++) {
       // Add button only if not already added...
       if (foundInCollection[i].attributes[0].value in this.foundInCollectionValues) {
         continue;
       }
-      var colorCombo:any = this.coreferenceColorService.getColorCombination(undefined);
+      var colorCombo: any = this.coreferenceColorService.getColorCombination(undefined);
       if (this.foundInCollectionItems % colsNumber == 0) {
         template += "<tr>";
       }
       console.error("foundInCollectionItems:", this.foundInCollectionItems, "colsNumber:", colsNumber);
 
-      template += "<td><annotation-button id=\"x_button_fic_"+this.foundInCollectionItems.toString()+
+      template += "<td><annotation-button id=\"x_button_fic_" + this.foundInCollectionItems.toString() +
         "\" [annotationType]=\"'" + annotationSchema.annotation_type +
         "'\" [annotationAttribute]=\"'" + annotationSchema.attribute +
         "'\" [annotationValue]=\"'" + foundInCollection[i].attributes[0].value +
         "'\" [label]=\"'" + ((typeof foundInCollection[i].attributes[0]['label'] != "undefined") ?
-              foundInCollection[i].attributes[0].label :
-              foundInCollection[i].attributes[0].value) +
+          foundInCollection[i].attributes[0].label :
+          foundInCollection[i].attributes[0].value) +
         "'\" [customAttribute]=\"'" + foundInCollection[i].attributes[0]['label'] +
         "'\" [bgColor]=\"'" + colorCombo["background-colour"] +
         "'\" [fgColor]=\"'" + colorCombo["font-color"] +
@@ -74,7 +72,7 @@ export class FoundInCollectionDirective implements OnInit {
 
       // change condition to put buttons horizontally
       if (this.foundInCollectionItems == foundInCollection.length - 1 ||
-          (this.foundInCollectionItems != 0 && (this.foundInCollectionItems + 1) % colsNumber == 0)) {
+        (this.foundInCollectionItems != 0 && (this.foundInCollectionItems + 1) % colsNumber == 0)) {
         template += "</tr>";
       }
     }
@@ -91,7 +89,7 @@ export class FoundInCollectionDirective implements OnInit {
   initDynamicWithTemplate(template) {
     this.compiler.clearCache();
 
-    const tmpCmp = Component({ template: template, styles:[] })(class {
+    const tmpCmp = Component({ template: template, styles: [] })(class {
     });
 
     const tmpModule = NgModule({

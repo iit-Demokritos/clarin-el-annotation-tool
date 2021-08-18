@@ -2,7 +2,6 @@ import { Component, Inject, Injector, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FlashMessagesService } from 'flash-messages-angular';
 import { DocumentService } from 'src/app/services/document-service/document.service';
-import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 
 @Component({
   selector: 'add-documents-dialog',

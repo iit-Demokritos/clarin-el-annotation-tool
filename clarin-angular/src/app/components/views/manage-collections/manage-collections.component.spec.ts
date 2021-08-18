@@ -8,9 +8,9 @@ describe('ManageCollectionsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ManageCollectionsComponent ]
+      declarations: [ManageCollectionsComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

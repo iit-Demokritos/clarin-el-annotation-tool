@@ -1,22 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable, NgZone } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Injectable } from '@angular/core';
 import { CLARIN_CONSTANTS } from 'src/app/helpers/constants';
-import { AnnotationService } from '../annotation-service/annotation.service';
-import { ButtonAnnotatorService } from '../button-annotator-service/button-annotator.service';
-import { CollectionService } from '../collection-service/collection-service.service';
-import { CoreferenceColorDataService } from '../coreference-color-data-service/coreference-color-data.service';
-import { MainService } from '../main/main.service';
-import { OpenDocumentService } from '../open-document/open-document.service';
-import { TempAnnotationService } from '../temp-annotation-service/temp-annotation.service';
-import { TextWidgetAPI } from '../text-widget/text-widget.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CoreferenceAnnotatorService {
 
-  constructor(public http:HttpClient) {}
+  constructor(public http: HttpClient) { }
 
   checkForSavedSchema() {
     return new Promise((resolve, reject) => {
@@ -65,10 +56,10 @@ export class CoreferenceAnnotatorService {
       this.http.get(CLARIN_CONSTANTS.ELLOGON_SERVICES
         + '/annotation_scheme_multi.tcl/'
         + encodeURIComponent(language)).subscribe((data) => {   // Asynchronous Service calling
-        resolve(data);
-      }, (error) => {
-        reject();
-      });
+          resolve(data);
+        }, (error) => {
+          reject();
+        });
 
     });
   };
@@ -79,10 +70,10 @@ export class CoreferenceAnnotatorService {
         + '/annotation_scheme_multi.tcl/'
         + encodeURIComponent(language) + '/'
         + encodeURIComponent(annotationType)).subscribe(function (data) {   // Asynchronous Service calling
-        resolve(data);
-      }, (error) => {
-        reject();
-      });
+          resolve(data);
+        }, (error) => {
+          reject();
+        });
 
     });
   };
@@ -94,10 +85,10 @@ export class CoreferenceAnnotatorService {
         + encodeURIComponent(language) + '/'
         + encodeURIComponent(annotationType) + '/'
         + encodeURIComponent(attributeAlternative)).subscribe((data) => {   // Asynchronous Service calling
-        resolve(data);
-      }, (error) => {
-        reject();
-      });
+          resolve(data);
+        }, (error) => {
+          reject();
+        });
 
     });
   };

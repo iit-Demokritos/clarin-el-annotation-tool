@@ -8,9 +8,9 @@ describe('TextWidgetComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TextWidgetComponent ]
+      declarations: [TextWidgetComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

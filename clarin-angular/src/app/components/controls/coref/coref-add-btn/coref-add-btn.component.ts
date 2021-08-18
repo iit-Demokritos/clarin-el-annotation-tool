@@ -8,7 +8,7 @@ import { BaseControlComponent } from '../../base-control/base-control.component'
 })
 export class CorefAddBtnComponent extends BaseControlComponent implements OnInit {
 
-  @ViewChild("input") element:ElementRef;
+  @ViewChild("input") element: ElementRef;
 
   super() { }
 
@@ -16,9 +16,9 @@ export class CorefAddBtnComponent extends BaseControlComponent implements OnInit
   }
 
   addAttribute(annotationType, annotationAttribute) {
-    var currentSelection:any = this.TextWidgetAPI.getCurrentSelection();
+    var currentSelection: any = this.TextWidgetAPI.getCurrentSelection();
 
-    if(Object.keys(currentSelection).length > 0) {
+    if (Object.keys(currentSelection).length > 0) {
       this.element.nativeElement.parent().closest("tr").find(".coref-span-start").text(currentSelection.startOffset);
       this.element.nativeElement.parent().closest("tr").find(".coref-span-end").text(currentSelection.endOffset);
 

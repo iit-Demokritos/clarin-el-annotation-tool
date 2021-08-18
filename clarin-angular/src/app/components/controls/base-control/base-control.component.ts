@@ -1,6 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Guid } from 'src/app/models/guid';
-import { MainComponent } from '../../views/main/main.component';
 import { ValueAccessorComponent } from '../value-accessor/value-accessor.component';
 
 @Component({

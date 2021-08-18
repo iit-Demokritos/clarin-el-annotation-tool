@@ -8,9 +8,9 @@ describe('AnnotationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ AnnotationComponent ]
+      declarations: [AnnotationComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

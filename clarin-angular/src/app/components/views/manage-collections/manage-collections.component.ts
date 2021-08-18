@@ -1,8 +1,8 @@
-// import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { Component, ViewChild, OnInit, ViewEncapsulation } from '@angular/core';
+import { SelectionModel } from '@angular/cdk/collections';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 import { RenameDialogData } from 'src/app/models/dialogs/rename-dialog-data';
-import { SharedCollectionService } from 'src/app/services/shared-collection/shared-collection.service';
 import { AddDocumentsDialogComponent } from '../../dialogs/add-documents-dialog/add-documents-dialog.component';
 import { ConfirmDialogComponent } from '../../dialogs/confirm-dialog/confirm-dialog.component';
 import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
@@ -10,19 +10,16 @@ import { ImportModalComponent } from '../../dialogs/import-modal/import-modal.co
 import { RenameCollectionModalComponent } from '../../dialogs/rename-collection-modal/rename-collection-modal.component';
 import { ShareCollectionModalComponent } from '../../dialogs/share-collection-modal/share-collection-modal.component';
 import { MainComponent } from '../main/main.component';
-import { SelectionModel } from '@angular/cdk/collections';
-import { MatTable } from '@angular/material/table';
-import { MatTableDataSource } from '@angular/material/table';
 
 export interface DocumentInformation {
-  id:            number;
-  name:          string;
+  id: number;
+  name: string;
   collection_id: number;
-  encoding:      string;
-  owner_email:   string;
-  updated_at:    string;
-  updated_by:    string;
-  position:      number;
+  encoding: string;
+  owner_email: string;
+  updated_at: string;
+  updated_by: string;
+  position: number;
 }
 
 @Component({
@@ -54,7 +51,7 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
 
   /* Selection model for selecting collection documents (for deletion) */
   documentsDisplayedColumns: string[] = ['select', 'id', 'name',
-   'owner', 'updated_at', 'updated_by'];
+    'owner', 'updated_at', 'updated_by'];
   documentsSelection;
   documentsDataSource =
     new MatTableDataSource<DocumentInformation>(this.collectionDocuments);
@@ -64,7 +61,7 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
     const allowMultiSelect = true;
     this.documentsSelection =
       new SelectionModel<DocumentInformation>(allowMultiSelect,
-                                              initialSelection);
+        initialSelection);
     this.initializeCollections();
     this.documentsSelection.changed.subscribe(this.documentClick.bind(this));
   }; /* ngOnInit */
@@ -73,9 +70,11 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
   initializeCollections() {
     this.collectionService.getAll().then((response) => {
       if (!response["success"]) {
-        this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData(
-         "Error",
-         "Error during the restoring of your collections. Please refresh the page and try again.") });
+        this.dialog.open(ErrorDialogComponent, {
+          data: new ConfirmDialogData(
+            "Error",
+            "Error during the restoring of your collections. Please refresh the page and try again.")
+        });
       } else {
         this.dataForTheTree = response["data"]; //angular.copy(response.data); TODO:
       }
@@ -93,8 +92,10 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
     this.documentService.getAll(this.selectedCollection.id)
       .then((response) => {
         if (!response["success"]) {
-          this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error",
-           "Error during the restoring of your collection\'s documents. Please refresh the page and try again.") });
+          this.dialog.open(ErrorDialogComponent, {
+            data: new ConfirmDialogData("Error",
+              "Error during the restoring of your collection\'s documents. Please refresh the page and try again.")
+          });
         } else {
           this.setCollectionDocuments(response["data"]);
           this.showStaticHeader = false;
@@ -117,7 +118,7 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
 
       modalOptions.headerType = "warning";
       modalOptions.dialogTitle = 'Warning';
-      modalOptions.message = this.translate.instant('Collections.This action is going to delete the entire Collection. Do you want to proceed?', {name: this.selectedCollection.name});
+      modalOptions.message = this.translate.instant('Collections.This action is going to delete the entire Collection. Do you want to proceed?', { name: this.selectedCollection.name });
       modalOptions.buttons = ['No', 'Yes'];
 
       var dialogRef = this.dialog.open(ConfirmDialogComponent, { data: modalOptions, width: this.dialogWidth });
@@ -134,7 +135,8 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
             }, (error) => {
               this.dialog.open(ConfirmDialogComponent, {
                 data: new ConfirmDialogData("Error",
-                this.translate.instant("Collections.Error in delete Collection. Please refresh the page and try again.")), width: this.dialogWidth });
+                  this.translate.instant("Collections.Error in delete Collection. Please refresh the page and try again.")), width: this.dialogWidth
+              });
             });
         }
       });
@@ -153,7 +155,8 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
     modalOptions.data = data;
 
     var dialogRef = this.dialog.open(AddDocumentsDialogComponent, {
-       data: modalOptions, width: this.dialogWidth });
+      data: modalOptions, width: this.dialogWidth
+    });
     dialogRef.afterClosed().subscribe(modalResult => {
       this.initializeCollections();
       this.initializeCollectionData();
@@ -165,7 +168,7 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
    */
   importDocuments() {
     var dialogRef = this.dialog.open(ImportModalComponent,
-    { width: this.dialogWidth });
+      { width: this.dialogWidth });
     dialogRef.afterClosed().subscribe(modalResult => {
       this.initializeCollections();
       this.initializeCollectionData();
@@ -214,8 +217,8 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
 
     modalOptions.headerType = "warning";
     modalOptions.dialogTitle = 'Warning';
-    modalOptions.message = 'This action is going to delete the selected document(s) from your collection:<ol><li>' + 
-      this.selectedDocuments.map((elem) => {return elem.name;}).join("</li><li>") +
+    modalOptions.message = 'This action is going to delete the selected document(s) from your collection:<ol><li>' +
+      this.selectedDocuments.map((elem) => { return elem.name; }).join("</li><li>") +
       '</li></ol>Do you want to proceed?';
     modalOptions.buttons = ['No', 'Yes'];
 
@@ -254,7 +257,7 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
   setCollectionDocuments(docs) {
     this.collectionDocuments = docs;
     // Add position
-    this.collectionDocuments.forEach(function(element, index) {
+    this.collectionDocuments.forEach(function (element, index) {
       element.position = index;
     });
     this.documentsDataSource = new MatTableDataSource<DocumentInformation>(this.collectionDocuments);

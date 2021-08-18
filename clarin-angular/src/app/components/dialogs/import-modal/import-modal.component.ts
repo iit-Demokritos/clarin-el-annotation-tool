@@ -1,12 +1,11 @@
-import { Component, Inject, Injector, Input, OnInit } from '@angular/core';
+import { Component, Inject, Injector, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FlashMessagesService } from 'flash-messages-angular';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
+import { CollectionImportService } from 'src/app/services/collection-import-service/collection-import-service.service';
 import { ConfirmDialogComponent } from '../../dialogs/confirm-dialog/confirm-dialog.component';
 import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
-import { MainDialogComponent } from '../main-dialog/main-dialog.component';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { CollectionImportService } from 'src/app/services/collection-import-service/collection-import-service.service';
 
 @Component({
   selector: 'import-modal',
@@ -19,7 +18,7 @@ export class ImportModalComponent implements OnInit {
   userFiles: any[] = [];
   collectionName: any = "";
   allowedTypes = ["application/json"];
-  flowAttributes = {accept: this.allowedTypes};
+  flowAttributes = { accept: this.allowedTypes };
 
   constructor(
     public injector: Injector,
@@ -57,11 +56,11 @@ export class ImportModalComponent implements OnInit {
           var collectionId = response["data"][0]["id"];
           // collection already exists
           var modalOptions = new ConfirmDialogData();
-              modalOptions.headerType = "warning";
-              modalOptions.dialogTitle = 'Warning';
-              modalOptions.message = 'The collection "' + this.collectionName +
-                '" already exists. What do you want to do?';
-              modalOptions.buttons = ['Cancel', 'Overwrite'];
+          modalOptions.headerType = "warning";
+          modalOptions.dialogTitle = 'Warning';
+          modalOptions.message = 'The collection "' + this.collectionName +
+            '" already exists. What do you want to do?';
+          modalOptions.buttons = ['Cancel', 'Overwrite'];
           var dialogRef = this.dialog.open(ConfirmDialogComponent, { data: modalOptions, width: '550px' });
           dialogRef.afterClosed().subscribe(modalResult => {
             if (modalResult === "Cancel") {
@@ -75,12 +74,12 @@ export class ImportModalComponent implements OnInit {
         }
       }, (error) => {
         console.error("ImportModalComponent: import() Error:", error);
-        this.flashMessage.show("Error occured while importing: "+error.message,
+        this.flashMessage.show("Error occured while importing: " + error.message,
           { cssClass: 'alert alert-danger', timeout: 6000 });
       });
   }; /* import */
 
-  doImport(overwrite:boolean = false, collectionId = undefined) {
+  doImport(overwrite: boolean = false, collectionId = undefined) {
     // Import files
     this.collectionImportService.importFiles(this.collectionName,
       this.userFiles, overwrite, collectionId)
@@ -97,7 +96,7 @@ export class ImportModalComponent implements OnInit {
           if (response["success"]) {
           } else {
             // console.error("ImportModalComponent: doImport(): response:", response);
-            this.flashMessage.show("Error occured while importing: "+response['message'],
+            this.flashMessage.show("Error occured while importing: " + response['message'],
               { cssClass: 'alert alert-danger', timeout: 8000 });
             all_ok = false;
           }
@@ -107,7 +106,7 @@ export class ImportModalComponent implements OnInit {
         }
       }, (error) => {
         console.error("ImportModalComponent: doImport() Error:", error);
-        this.flashMessage.show("Error occured while importing: "+error.message,
+        this.flashMessage.show("Error occured while importing: " + error.message,
           { cssClass: 'alert alert-danger', timeout: 8000 });
       });
   }; /* doImport */

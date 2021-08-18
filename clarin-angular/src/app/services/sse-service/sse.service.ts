@@ -7,9 +7,9 @@ import { Observable } from 'rxjs';
 export class SseService {
   private eventSource: EventSource;
 
-  constructor(public zone:NgZone) { }
+  constructor(public zone: NgZone) { }
 
-  getSSEvent(url: string):Observable<any> {
+  getSSEvent(url: string): Observable<any> {
     return Observable.create(observer => {
 
       // const eventSource = new EventSource(url);
@@ -28,7 +28,7 @@ export class SseService {
       });*/
 
       eventSource.onopen = (event) => {
-       // console.error('Connection to server opened.', event);
+        // console.error('Connection to server opened.', event);
       }
 
       eventSource.onerror = event => {

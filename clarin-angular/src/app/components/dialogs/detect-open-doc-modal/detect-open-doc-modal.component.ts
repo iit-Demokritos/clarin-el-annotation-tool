@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { MainDialogComponent } from '../main-dialog/main-dialog.component';
 import * as _ from 'lodash';
+import { MainDialogComponent } from '../main-dialog/main-dialog.component';
 
 @Component({
   selector: 'detect-open-doc-modal',
@@ -15,7 +15,7 @@ export class DetectOpenDocModalComponent extends MainDialogComponent implements 
   }
 
   currentDocument = _.cloneDeep(this.data);
-  flash:string = "";
+  flash: string = "";
 
   saveChanges() {
     var AnnotatorTypeId = this.TextWidgetAPI.getAnnotatorTypeId();

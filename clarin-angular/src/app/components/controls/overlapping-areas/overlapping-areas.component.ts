@@ -44,8 +44,8 @@ export class OverlappingAreasComponent extends BaseControlComponent implements O
   updateSelectedAnnotation(selectedAnnotation) {
     if (selectedAnnotation)
       this.clearOverlappingAreasIgnore = true;
-      this.TextWidgetAPI.setSelectedAnnotation(selectedAnnotation);
-      this.clearOverlappingAreasIgnore = false;
+    this.TextWidgetAPI.setSelectedAnnotation(selectedAnnotation);
+    this.clearOverlappingAreasIgnore = false;
   }
 
 }

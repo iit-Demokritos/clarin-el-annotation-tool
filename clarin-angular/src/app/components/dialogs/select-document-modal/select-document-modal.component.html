@@ -22,13 +22,14 @@
           <mat-icon class="mat-icon-rtl-mirror">
             {{treeControl.isExpanded(node) ? 'folder_open' : 'folder'}}
           </mat-icon>
-	  {{node.name}} ({{node.element.document_count}} {{(node.name ? 'Documents' : "Collections")|translate}})
+          {{node.name}} ({{node.element.document_count}} {{(node.name ? 'Documents' : "Collections")|translate}})
         </button>
       </mat-tree-node>
     </mat-tree>
     <div *ngIf="!showSelectDocument" class="annotation-schema">
       <div class="text-center">
-        <mat-button-toggle-group name="annotatorType" aria-label="Annotator Type" class="text-center" [value]="subheader">
+        <mat-button-toggle-group name="annotatorType" aria-label="Annotator Type" class="text-center"
+          [value]="subheader">
           <mat-button-toggle color="primary"
             (click)="updateSubheader('Button Annotator'); annotationSchema.language=''; annotationSchema.annotation_type=''; annotationSchema.attribute=''; annotationSchema.alternative='';"
             value="Button Annotator">Button Annotator</mat-button-toggle>
@@ -125,15 +126,17 @@
     </div>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
-      <button mat-button *ngIf="!annotationSchemaExists && showSelectDocument"
-	      mat-dialog-close="cancel">{{'Cancel'|translate}}</button>
-      <button mat-button *ngIf="!annotationSchemaExists && showSelectDocument"
-	      (click)="selectDocument()">{{'Select'|translate}}</button>
-      <button mat-button *ngIf="!annotationSchemaExists && !showSelectDocument" (click)="back()">Back</button>
-      <button mat-button *ngIf="!annotationSchemaExists && !showSelectDocument"
-	      (click)="closeWithNewSchema()">{{'Ok'|translate}}</button>
+    <button mat-button *ngIf="!annotationSchemaExists && showSelectDocument"
+      mat-dialog-close="cancel">{{'Cancel'|translate}}</button>
+    <button mat-button *ngIf="!annotationSchemaExists && showSelectDocument"
+      (click)="selectDocument()">{{'Select'|translate}}</button>
+    <button mat-button *ngIf="!annotationSchemaExists && !showSelectDocument" (click)="back()">Back</button>
+    <button mat-button *ngIf="!annotationSchemaExists && !showSelectDocument"
+      (click)="closeWithNewSchema()">{{'Ok'|translate}}</button>
 
-      <button mat-button *ngIf="annotationSchemaExists" (click)="resetSchema()">{{'Reset Annotation Schema'|translate}}</button>
-      <button mat-stroked-button *ngIf="annotationSchemaExists" (click)="closeWithSameSchema()">{{'Select'|translate}}</button>
-    </mat-dialog-actions>
+    <button mat-button *ngIf="annotationSchemaExists" (click)="resetSchema()">{{'Reset Annotation
+      Schema'|translate}}</button>
+    <button mat-stroked-button *ngIf="annotationSchemaExists"
+      (click)="closeWithSameSchema()">{{'Select'|translate}}</button>
+  </mat-dialog-actions>
 </div>

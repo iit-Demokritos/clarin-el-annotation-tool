@@ -1,9 +1,7 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable, NgZone, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { AnnotationService } from '../annotation-service/annotation.service';
+import { Injectable, OnInit } from '@angular/core';
 import { CollectionService } from 'src/app/services/collection-service/collection-service.service';
 import { DocumentService } from 'src/app/services/document-service/document.service';
+import { AnnotationService } from '../annotation-service/annotation.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,13 +9,13 @@ import { DocumentService } from 'src/app/services/document-service/document.serv
 export class CollectionImportService implements OnInit {
 
   ObjectID;
-  collectionData: any  = {};
+  collectionData: any = {};
   collectionKeys = ['encoding', 'handler', 'created_at', 'updated_at'];
-  documentKeys   = [/*'annotations',*/ 'created_at',
-                    'data_binary', 'data_text', 'encoding', 'external_name',
-                    'handler', 'metadata', 'name', 'text', 'type',
-                    'updated_by', 'updated_at', 'version',
-                    'visualisation_options'];
+  documentKeys = [/*'annotations',*/ 'created_at',
+    'data_binary', 'data_text', 'encoding', 'external_name',
+    'handler', 'metadata', 'name', 'text', 'type',
+    'updated_by', 'updated_at', 'version',
+    'visualisation_options'];
 
   constructor(
     public collectionService: CollectionService,
@@ -38,7 +36,7 @@ export class CollectionImportService implements OnInit {
     this.collectionData = {};
     this.collectionData.name = "";
     this.collectionData.encoding = "";
-    this.collectionData.handler  = "";
+    this.collectionData.handler = "";
   }
 
   // Read file contents from disk. Expects ..
@@ -58,7 +56,7 @@ export class CollectionImportService implements OnInit {
   }; /* exists */
 
   importFiles(collectionName, documents,
-              overwrite:boolean = false, collectionId = undefined) {
+    overwrite: boolean = false, collectionId = undefined) {
     return new Promise((resolve, reject) => {
       // Create promises to read files
       var promises = [];
@@ -92,7 +90,7 @@ export class CollectionImportService implements OnInit {
     });
   }
 
-  importJSON(name, files:string[], overwrite:boolean = false, collectionId = undefined) {
+  importJSON(name, files: string[], overwrite: boolean = false, collectionId = undefined) {
     this.collectionData.name = name;
     this.collectionData.overwrite = overwrite;
     if (overwrite && collectionId != undefined) {
@@ -134,23 +132,23 @@ export class CollectionImportService implements OnInit {
     // console.error(collectionData, documents);
     return new Promise((resolve, reject) => {
       this.collectionService.save(this.collectionData)
-      .then((response) => {
-        if (response["success"]) {
-          var collectionId = response['collection_id'];
-          // console.error("CollectionImportService: saveCollection():", collectionId, response);
-          this.saveDocuments(collectionId, documents)
-          .then((data) => {
-            resolve(data);
-          }, (error) => {
-            reject(error);
-          });
-        } else {
-          // TODO: return an error message
-          reject(response);
-        }
-      }, (error) => {
-        reject(error);
-      }); /* then */
+        .then((response) => {
+          if (response["success"]) {
+            var collectionId = response['collection_id'];
+            // console.error("CollectionImportService: saveCollection():", collectionId, response);
+            this.saveDocuments(collectionId, documents)
+              .then((data) => {
+                resolve(data);
+              }, (error) => {
+                reject(error);
+              });
+          } else {
+            // TODO: return an error message
+            reject(response);
+          }
+        }, (error) => {
+          reject(error);
+        }); /* then */
     }); /* new Promise */
   }; /* saveCollection */
 
@@ -159,28 +157,28 @@ export class CollectionImportService implements OnInit {
     docs.forEach(doc => {
       promises.push(new Promise<any>((resolve, reject) => {
         this.documentService.saveDocument(collectionId, doc)
-        .then((response) => {
-          //console.error("CollectionImportService: saveDocument():", response);
-          if (response["success"]) {
-            var documentId = response['document_id'];
-            this.saveAnnotations(collectionId, documentId, doc.annotations)
-            .then((response) => {
-               if (response["success"]) {
-                 resolve(response);
-               } else {
-                 reject(response);
-               }
-            }, (error) => {
-              reject(error);
-            });
-            // resolve(response);
-          } else {
-            reject(response);
-          }
-        }, (error) => {
-          console.error("CollectionImportService: saveDocuments(): Error:", error);
-          reject(error);
-        });
+          .then((response) => {
+            //console.error("CollectionImportService: saveDocument():", response);
+            if (response["success"]) {
+              var documentId = response['document_id'];
+              this.saveAnnotations(collectionId, documentId, doc.annotations)
+                .then((response) => {
+                  if (response["success"]) {
+                    resolve(response);
+                  } else {
+                    reject(response);
+                  }
+                }, (error) => {
+                  reject(error);
+                });
+              // resolve(response);
+            } else {
+              reject(response);
+            }
+          }, (error) => {
+            console.error("CollectionImportService: saveDocuments(): Error:", error);
+            reject(error);
+          });
       }));
     });
     return Promise.all(promises);

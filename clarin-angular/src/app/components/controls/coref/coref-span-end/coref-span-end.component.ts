@@ -18,7 +18,7 @@ export class CorefSpanEndComponent extends BaseControlComponent implements OnIni
   }
 
   updateCorefSpanEnd() {
-    var selectedAnnotation:any = this.TextWidgetAPI.getSelectedAnnotation();
+    var selectedAnnotation: any = this.TextWidgetAPI.getSelectedAnnotation();
 
     if (Object.keys(selectedAnnotation).length > 0) { //is selected annotation is not empty 
       //search for the specific attribute of the annotation

@@ -8,9 +8,9 @@ describe('AnnotationRelationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AnnotationRelationComponent ]
+      declarations: [AnnotationRelationComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

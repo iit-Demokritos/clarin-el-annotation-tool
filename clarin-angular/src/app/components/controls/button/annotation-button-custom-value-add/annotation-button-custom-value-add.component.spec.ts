@@ -8,9 +8,9 @@ describe('AnnotationButtonCustomValueAddComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AnnotationButtonCustomValueAddComponent ]
+      declarations: [AnnotationButtonCustomValueAddComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

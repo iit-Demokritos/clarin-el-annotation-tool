@@ -8,9 +8,9 @@ describe('DetectChangesModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DetectChangesModalComponent ]
+      declarations: [DetectChangesModalComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -8,9 +8,9 @@ describe('DetectOpenDocModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DetectOpenDocModalComponent ]
+      declarations: [DetectOpenDocModalComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

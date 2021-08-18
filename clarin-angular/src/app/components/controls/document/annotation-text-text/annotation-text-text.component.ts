@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { BaseControlComponent } from '../../base-control/base-control.component';
 import * as _ from 'lodash';
 import { ErrorDialogComponent } from 'src/app/components/dialogs/error-dialog/error-dialog.component';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
+import { BaseControlComponent } from '../../base-control/base-control.component';
 
 @Component({
   selector: 'annotation-text-text',
@@ -31,11 +31,11 @@ export class AnnotationTextTextComponent extends BaseControlComponent implements
     if (!changes.hasOwnProperty("broadcastedEvent")) {
       return;
     }
-    if (changes.broadcastedEvent.currentValue.event!="sendDocumentAttribute") {
+    if (changes.broadcastedEvent.currentValue.event != "sendDocumentAttribute") {
       return;
     }
     if (changes.broadcastedEvent.currentValue.attributeName ==
-        this.annotationDocumentAttribute) {
+      this.annotationDocumentAttribute) {
       this.setElementValue(this.getAnnotationValue());
     }
   }; /* ngOnChanges */
@@ -68,19 +68,20 @@ export class AnnotationTextTextComponent extends BaseControlComponent implements
     if (annotation.attributes[index].value == value) return;
     annotation.attributes[index].value = _.cloneDeep(value);
     this.tempAnnotationService.update(annotation)
-      .then((data)=> {
+      .then((data) => {
         this.TextWidgetAPI.updateAnnotation(annotation, false);
-      }, function(error) {
+      }, function (error) {
         this.dialog.open(ErrorDialogComponent, {
           data: new ConfirmDialogData("Error",
-         "Error in update Annotation. Please refresh the page and try again")});
+            "Error in update Annotation. Please refresh the page and try again")
+        });
       });
   }; // setAnnotationValue
 
   getAnnotationAttributeIndex() {
     var annotation = this.getAnnotation();
     // var attribute  = _.where(annotation.attributes, {name: this.annotationDocumentAttribute})[0];
-    var attribute  = annotation.attributes.find(attr =>
+    var attribute = annotation.attributes.find(attr =>
       attr.name === this.annotationDocumentAttribute);
     return annotation.attributes.indexOf(attribute);
   }; // getAnnotationAttributeIndex
@@ -94,8 +95,8 @@ export class AnnotationTextTextComponent extends BaseControlComponent implements
 
   getAnnotation() {
     var existing_annotation = this.TextWidgetAPI.getAnnotationForDocumentAttribute(
-                                          this.annotationDocumentAttribute);
-    if (typeof(existing_annotation) != "undefined") {
+      this.annotationDocumentAttribute);
+    if (typeof (existing_annotation) != "undefined") {
       return existing_annotation;
     }
 
@@ -106,40 +107,40 @@ export class AnnotationTextTextComponent extends BaseControlComponent implements
       return null;
     }
     var annotation = {
-      _id:                this.ObjectId().toString(),
-      document_id:        currentDocument["id"],
-      collection_id:      currentDocument["collection_id"],
-      annotator_id:       currentDocument["annotator_id"],
+      _id: this.ObjectId().toString(),
+      document_id: currentDocument["id"],
+      collection_id: currentDocument["collection_id"],
+      annotator_id: currentDocument["annotator_id"],
       document_attribute: this.annotationDocumentAttribute,
-      type:               this.annotationType,
-      spans:              [],
-      attributes:         [{
-        name:  this.annotationAttribute,
+      type: this.annotationType,
+      spans: [],
+      attributes: [{
+        name: this.annotationAttribute,
         value: this.annotationValue
-      },{
-        name:  this.annotationDocumentAttribute,
+      }, {
+        name: this.annotationDocumentAttribute,
         value: ""
       }]
     };
     // Save annotation to temp & our model...
     this.tempAnnotationService.save(currentDocument["collection_id"],
-                             currentDocument["id"], annotation)
-      .then((response: any) => { 
-        if (response.success) { 
+      currentDocument["id"], annotation)
+      .then((response: any) => {
+        if (response.success) {
           return annotation;
         } else {
           this.dialog.open(ErrorDialogComponent, {
             data: new ConfirmDialogData("Error",
-            "Error during saving your annotation. Please refresh the page and try again.")
+              "Error during saving your annotation. Please refresh the page and try again.")
           })
         }
       }, (error) => {
         this.dialog.open(ErrorDialogComponent, {
-            data: new ConfirmDialogData("Error",
+          data: new ConfirmDialogData("Error",
             "Database error. Please refresh the page and try again.")
-          })
+        })
       }
-    );
+      );
     this.TextWidgetAPI.addAnnotation(annotation, false);
     return annotation;
   }; // getAnnotation

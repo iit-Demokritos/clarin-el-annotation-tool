@@ -8,9 +8,9 @@ describe('ShareCollectionModalComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ShareCollectionModalComponent ]
+      declarations: [ShareCollectionModalComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

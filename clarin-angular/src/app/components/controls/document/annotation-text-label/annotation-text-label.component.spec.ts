@@ -8,9 +8,9 @@ describe('AnnotationTextLabelComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AnnotationTextLabelComponent ]
+      declarations: [AnnotationTextLabelComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

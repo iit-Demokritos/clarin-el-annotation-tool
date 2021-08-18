@@ -3,9 +3,10 @@
   <mat-form-field appearance="outline" class="overlapping-areas-select">
     <mat-label class="overlapping-areas-select-label">Please select an overlapping area...</mat-label>
     <mat-select [disabled]="!overlaps.length" [(ngModel)]="selectedOverlappingAnnotation"
-        (selectionChange)="updateSelectedAnnotation(selectedOverlappingAnnotation)">
+      (selectionChange)="updateSelectedAnnotation(selectedOverlappingAnnotation)">
       <!-- TODO: Update ngFor for overlaps -->
-      <mat-option *ngFor="let overlap of overlaps" [value]="overlap">{{"("+getAnnotationPresentableId(overlap) + "): " + overlap.spans[0].segment}}</mat-option>
+      <mat-option *ngFor="let overlap of overlaps" [value]="overlap">{{"("+getAnnotationPresentableId(overlap) + "): " +
+        overlap.spans[0].segment}}</mat-option>
     </mat-select>
   </mat-form-field>
 </mat-toolbar>

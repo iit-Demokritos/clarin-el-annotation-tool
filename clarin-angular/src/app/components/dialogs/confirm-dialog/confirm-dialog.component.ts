@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MainDialogComponent } from '../main-dialog/main-dialog.component';
 
 @Component({
@@ -8,17 +8,17 @@ import { MainDialogComponent } from '../main-dialog/main-dialog.component';
 })
 export class ConfirmDialogComponent extends MainDialogComponent implements OnInit {
 
-  super(){
+  super() {
   }
 
-  ngOnInit(): void{
+  ngOnInit(): void {
   }
 
-  cancel(){
+  cancel() {
     this.dialogRef.close();
   }
 
-  confirm(result:any){
+  confirm(result: any) {
     this.dialogRef.close(result);
   }
 

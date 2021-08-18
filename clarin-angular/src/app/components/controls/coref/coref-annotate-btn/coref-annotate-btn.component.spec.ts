@@ -8,9 +8,9 @@ describe('CorefAnnotateBtnComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CorefAnnotateBtnComponent ]
+      declarations: [CorefAnnotateBtnComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

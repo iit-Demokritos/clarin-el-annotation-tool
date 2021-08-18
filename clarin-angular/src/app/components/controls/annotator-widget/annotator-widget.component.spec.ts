@@ -8,9 +8,9 @@ describe('AnnotatorWidgetComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AnnotatorWidgetComponent ]
+      declarations: [AnnotatorWidgetComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

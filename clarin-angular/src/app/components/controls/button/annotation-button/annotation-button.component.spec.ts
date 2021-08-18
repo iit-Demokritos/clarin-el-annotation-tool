@@ -8,9 +8,9 @@ describe('AnnotationButtonComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AnnotationButtonComponent ]
+      declarations: [AnnotationButtonComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

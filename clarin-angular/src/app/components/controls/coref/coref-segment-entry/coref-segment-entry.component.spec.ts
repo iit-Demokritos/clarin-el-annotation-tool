@@ -8,9 +8,9 @@ describe('CorefSegmentEntryComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CorefSegmentEntryComponent ]
+      declarations: [CorefSegmentEntryComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

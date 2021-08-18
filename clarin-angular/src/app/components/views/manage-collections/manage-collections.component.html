@@ -23,7 +23,7 @@
         <mat-card-content class="sidebar-main-content">
           <mat-selection-list #shoes [multiple]="false">
             <mat-list-option *ngFor="let collection of dataForTheTree;let index=index" [value]="collection"
-               (click)="showSelectedCollection(collection, index)">
+              (click)="showSelectedCollection(collection, index)">
               <div class="center-vertically">
                 <mat-icon>folder</mat-icon><span matBadge="{{collection.document_count}}" matBadgeOverlap="false"
                   matBadgeColor="accent" matBadgeSize="small"> {{collection.name}} </span>
@@ -35,8 +35,7 @@
                 <mat-icon *ngIf="!(collection.confirmed==1 && !collection.is_owner)">check_box_outline_blank</mat-icon>
                 <button mat-icon-button
                   (click)="showSelectedCollection(collection, index); deleteCollection(selectedCollection.id)"
-                  *ngIf="collection.is_owner"
-                  [matTooltip]="'Collections.Delete Collection'|translate">
+                  *ngIf="collection.is_owner" [matTooltip]="'Collections.Delete Collection'|translate">
                   <mat-icon>delete_forever</mat-icon>
                 </button>
               </div>
@@ -72,13 +71,11 @@
           <mat-card-title>Collection: <i>{{selectedCollection.name}}</i></mat-card-title>
           <div fxFlex></div>
 
-          <button mat-icon-button color="primary" (click)="addDocuments()"
-            [disabled]="!selectedCollection.is_owner"
+          <button mat-icon-button color="primary" (click)="addDocuments()" [disabled]="!selectedCollection.is_owner"
             [matTooltip]="'Collections.Add Documents'|translate">
             <mat-icon>note_add</mat-icon>
           </button>
-          <button mat-icon-button color="primary" (click)="shareCollection()"
-            [disabled]="!selectedCollection.is_owner"
+          <button mat-icon-button color="primary" (click)="shareCollection()" [disabled]="!selectedCollection.is_owner"
             [matTooltip]="'Collections.Share Collection'|translate">
             <mat-icon>share</mat-icon>
           </button>
@@ -86,18 +83,16 @@
             target="_blank" [matTooltip]="'Collections.Export Collection'|translate">
             <mat-icon>file_download</mat-icon>
           </a>
-          <button mat-icon-button color="primary" (click)="renameCollection()"
-            [disabled]="!selectedCollection.is_owner"
+          <button mat-icon-button color="primary" (click)="renameCollection()" [disabled]="!selectedCollection.is_owner"
             [matTooltip]="'Collections.Rename Collection'|translate">
             <mat-icon>drive_file_rename_outline</mat-icon>
           </button>
           <button mat-icon-button color="warn" (click)="deleteCollection(selectedCollection.id)"
-            [disabled]="!selectedCollection.is_owner"
-            [matTooltip]="'Collections.Delete Collection'|translate">
+            [disabled]="!selectedCollection.is_owner" [matTooltip]="'Collections.Delete Collection'|translate">
             <mat-icon>delete_forever</mat-icon>
           </button>
           <button mat-icon-button color="warn" (click)="deleteDocuments()" [disabled]="btnShow"
-           [matTooltip]="'Collections.Delete Documents'|translate">
+            [matTooltip]="'Collections.Delete Documents'|translate">
             <mat-icon>delete_forever</mat-icon>
           </button>
         </mat-card-header>
@@ -111,16 +106,14 @@
             <ng-container matColumnDef="select">
               <mat-header-cell mat-header-cell *matHeaderCellDef>
                 <mat-checkbox (change)="$event ? masterToggle() : null"
-                              [checked]="documentsSelection.hasValue() && isAllSelected()"
-                              [indeterminate]="documentsSelection.hasValue() && !isAllSelected()"
-                              [aria-label]="checkboxLabel()">
+                  [checked]="documentsSelection.hasValue() && isAllSelected()"
+                  [indeterminate]="documentsSelection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
                 </mat-checkbox>
               </mat-header-cell>
               <mat-cell mat-cell *matCellDef="let row">
                 <mat-checkbox (click)="$event.stopPropagation()"
-                              (change)="$event ? documentsSelection.toggle(row) : null"
-                              [checked]="documentsSelection.isSelected(row)"
-                              [aria-label]="checkboxLabel(row)">
+                  (change)="$event ? documentsSelection.toggle(row) : null"
+                  [checked]="documentsSelection.isSelected(row)" [aria-label]="checkboxLabel(row)">
                 </mat-checkbox>
               </mat-cell>
             </ng-container>
@@ -130,19 +123,19 @@
               <mat-header-cell mat-header-cell *matHeaderCellDef> Id </mat-header-cell>
               <mat-cell mat-cell *matCellDef="let element"> {{element.collection_id+'/'+element.id}} </mat-cell>
             </ng-container>
-          
+
             <!-- Name Column -->
             <ng-container matColumnDef="name">
               <mat-header-cell mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
               <mat-cell mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
             </ng-container>
-          
+
             <!-- Collection Column -->
             <ng-container matColumnDef="collection">
               <mat-header-cell mat-header-cell *matHeaderCellDef> Collection Id </mat-header-cell>
               <mat-cell mat-cell *matCellDef="let element"> {{element.collection_id}} </mat-cell>
             </ng-container>
-          
+
             <!-- Encoding Column -->
             <ng-container matColumnDef="encoding">
               <mat-header-cell mat-header-cell *matHeaderCellDef> Encoding </mat-header-cell>
@@ -166,10 +159,10 @@
               <mat-header-cell mat-header-cell *matHeaderCellDef> Updated by </mat-header-cell>
               <mat-cell mat-cell *matCellDef="let element"> {{element.updated_by}} </mat-cell>
             </ng-container>
-          
+
             <mat-header-row *matHeaderRowDef="documentsDisplayedColumns"></mat-header-row>
             <mat-row matRipple *matRowDef="let row; columns: documentsDisplayedColumns;"
-                (click)="documentsSelection.toggle(row)"></mat-row>
+              (click)="documentsSelection.toggle(row)"></mat-row>
           </mat-table>
         </mat-card-content>
       </mat-card>

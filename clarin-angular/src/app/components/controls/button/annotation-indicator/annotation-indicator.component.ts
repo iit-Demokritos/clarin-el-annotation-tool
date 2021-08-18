@@ -8,17 +8,17 @@ import { BaseControlComponent } from '../../base-control/base-control.component'
 })
 export class AnnotationIndicatorComponent extends BaseControlComponent implements OnInit {
 
-  @ViewChild("annIndicator") element:ElementRef;
+  @ViewChild("annIndicator") element: ElementRef;
 
   super() { }
 
   ngOnInit(): void {
-      //register callbacks for the annotation list and the selected annotation
-      this.TextWidgetAPI.registerSelectedAnnotationCallback(this.updateAnnotationIndicator);
+    //register callbacks for the annotation list and the selected annotation
+    this.TextWidgetAPI.registerSelectedAnnotationCallback(this.updateAnnotationIndicator);
   }
 
   updateAnnotationIndicator() {
-    var selectedAnnotation:any = this.TextWidgetAPI.getSelectedAnnotation();
+    var selectedAnnotation: any = this.TextWidgetAPI.getSelectedAnnotation();
 
     if (Object.keys(selectedAnnotation).length == 0) {
       if (this.element.nativeElement.css('background-color') != "rgb(255, 255, 255)" || this.element.nativeElement.css('color') != "rgb(255, 255, 255)") {
@@ -26,7 +26,7 @@ export class AnnotationIndicatorComponent extends BaseControlComponent implement
         this.element.nativeElement.css('background-color', '#fff');
       }
     } else {
-      var colorCombo:any = this.coreferenceColorService.getColorCombination(selectedAnnotation._id);
+      var colorCombo: any = this.coreferenceColorService.getColorCombination(selectedAnnotation._id);
 
       if (Object.keys(colorCombo).length > 0) {
         if (this.TextWidgetAPI.getAnnotatorType() == "Button Annotator") {

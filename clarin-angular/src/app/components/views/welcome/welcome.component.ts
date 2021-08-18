@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MainComponent } from '../main/main.component';
-import { ViewEncapsulation } from '@angular/core'
-//import { faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'welcome',

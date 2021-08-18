@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { FlashMessagesService } from 'flash-messages-angular';
 import { UserService } from 'src/app/services/user-service/user.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -12,18 +12,18 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
 
   constructor(private fb: FormBuilder,
-              private user: UserService,
-              private router: Router,
-              private flashMessage: FlashMessagesService) {}
+    private user: UserService,
+    private router: Router,
+    private flashMessage: FlashMessagesService) { }
 
   ngOnInit() {
     this.registerForm = this.fb.group({
-      firstname:       ['', [Validators.required]],
-      lastname:        ['', [Validators.required]],
-      username:        ['', [Validators.required]],
-      password:        ['', [Validators.required]],
+      firstname: ['', [Validators.required]],
+      lastname: ['', [Validators.required]],
+      username: ['', [Validators.required]],
+      password: ['', [Validators.required]],
       confirmPassword: ['', [this.confirmValidator]],
-      agree:           [true, [this.termsFormControl]],
+      agree: [true, [this.termsFormControl]],
     });
   }
 
@@ -51,7 +51,7 @@ export class RegisterComponent implements OnInit {
     return this.registerForm.get("agree");
   }
 
-  termsFormControl = (control: FormControl) => {    
+  termsFormControl = (control: FormControl) => {
     return !control.value ? { 'required': true } : null;
   };
 
@@ -70,18 +70,18 @@ export class RegisterComponent implements OnInit {
          this.password.value, this.confirmPassword.value,
          this.agree.value); */
     var regInfo = {
-      name:       this.firstname.value+' '+this.lastname.value,
+      name: this.firstname.value + ' ' + this.lastname.value,
       first_name: this.firstname.value,
-      last_name:  this.lastname.value,
-      email:      this.username.value,
-      password:   this.password.value,
+      last_name: this.lastname.value,
+      email: this.username.value,
+      password: this.password.value,
     }
     this.user.register(regInfo)
       .then((response) => {
         this.flashMessage.show(response.message,
           { cssClass: 'alert alert-warning', timeout: 10000 });
-         this.router.navigateByUrl('/auth/login');
-      },(error) => {
+        this.router.navigateByUrl('/auth/login');
+      }, (error) => {
         this.flashMessage.show(error.message,
           { cssClass: 'alert alert-warning', timeout: 10000 });
       });

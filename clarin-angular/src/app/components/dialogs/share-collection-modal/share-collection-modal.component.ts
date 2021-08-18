@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { MainDialogComponent } from '../main-dialog/main-dialog.component';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'share-collection-modal',
@@ -29,13 +29,13 @@ export class ShareCollectionModalComponent extends MainDialogComponent implement
   initializeSharingData() {
     //initialize the collections tree
     this.sharedCollectionService.getAll(this.data.collectionId)
-    .then((response) => {
-      if (!response["success"]) {
-        this.flashMessage.show("Error during the restoring of your collections. Please refresh the page and try again.", { cssClass: 'alert alert-danger', timeout: 2000 });
-      } else {
-        this.invitations = response["data"];
-      }
-    })
+      .then((response) => {
+        if (!response["success"]) {
+          this.flashMessage.show("Error during the restoring of your collections. Please refresh the page and try again.", { cssClass: 'alert alert-danger', timeout: 2000 });
+        } else {
+          this.invitations = response["data"];
+        }
+      })
   }
 
   share() {

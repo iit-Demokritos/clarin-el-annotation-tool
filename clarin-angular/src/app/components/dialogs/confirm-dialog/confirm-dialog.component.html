@@ -2,7 +2,10 @@
   <div class="confirm-dialog-{{data?.headerType}}-modal-header">
     <h1 mat-dialog-title>{{data?.dialogTitle|translate}}</h1>
   </div>
-  <mat-dialog-content><p [innerHTML]="data?.message"></p><!--{{data?.message}}--></mat-dialog-content>
+  <mat-dialog-content>
+    <p [innerHTML]="data?.message"></p>
+    <!--{{data?.message}}-->
+  </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-button (click)="cancel()" *ngIf="data?.showCalcelButton">Cancel</button>
     <button mat-button *ngFor="let button of data?.buttons" (click)="confirm(button)">{{button|translate}}</button>

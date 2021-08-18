@@ -21,7 +21,7 @@ export abstract class ValueAccessorComponent<T> extends MainComponent implements
   private changed = new Array<(value: T) => void>();
   private touched = new Array<() => void>();
 
-  ngOnInit(){
+  ngOnInit() {
   }
 
 

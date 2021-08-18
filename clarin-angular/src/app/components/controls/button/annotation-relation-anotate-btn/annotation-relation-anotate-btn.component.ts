@@ -1,8 +1,8 @@
-import { Component, Input, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { BaseControlComponent } from '../../base-control/base-control.component';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import * as _ from 'lodash';
-import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 import { ErrorDialogComponent } from 'src/app/components/dialogs/error-dialog/error-dialog.component';
+import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
+import { BaseControlComponent } from '../../base-control/base-control.component';
 
 @Component({
   selector: 'annotation-relation-anotate-btn',
@@ -22,7 +22,6 @@ export class AnnotationRelationAnotateBtnComponent extends BaseControlComponent 
   ngOnInit(): void {
 
     this.viewChildren.forEach(element => {
-
       if (element.annotationRelationWidgetId == this.annotationRelationWidgetId) {
         this.relElement = element;
       }

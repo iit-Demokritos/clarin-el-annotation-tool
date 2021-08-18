@@ -15,7 +15,7 @@ export class AnnotationRelationClearBtnComponent extends BaseControlComponent im
   ngOnInit(): void {
   }
 
-  resetInputFields(){
+  resetInputFields() {
     //TODO: Find function
   }
 

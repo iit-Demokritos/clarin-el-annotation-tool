@@ -1,4 +1,9 @@
 18 August 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/*: Removed unused imports & reformatted code.
+
+ * clarin-angular/tsconfig.json: Tests with partial AOT compilation.
+
+17 August 2021 Petasis George <petasis@iit.demokritos.gr>:
  * clarin-angular/package.json:
  * clarin-angular/angular.json:
  * build_all.sh: Updated to latest angular, switched build to production mode,

@@ -6,4 +6,4 @@ import { Component, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./auth-layout-mod.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class AuthLayoutModComponent {}
+export class AuthLayoutModComponent { }

@@ -18,7 +18,7 @@ export class CorefSegmentEntryComponent extends BaseControlComponent implements 
   }
 
   updateCorefSegmentEntry() {
-    var selectedAnnotation:any = this.TextWidgetAPI.getSelectedAnnotation();
+    var selectedAnnotation: any = this.TextWidgetAPI.getSelectedAnnotation();
 
     if (Object.keys(selectedAnnotation).length > 0) { //is selected annotation is not empty 
       //search for the specific attribute of the annotation
@@ -36,7 +36,7 @@ export class CorefSegmentEntryComponent extends BaseControlComponent implements 
         if (span.length == 2) {
           // var selSpan = _.findWhere(selectedAnnotation.spans, { start: parseInt(span[0]), end: parseInt(span[1]) });
           var selSpan = selectedAnnotation.spans.find(span =>
-              span.start === parseInt(span[0]) && span.end === parseInt(span[1]));
+            span.start === parseInt(span[0]) && span.end === parseInt(span[1]));
           if (typeof (selSpan.segment) != "undefined" && selSpan.segment != this.element.innerHTML) {
             this.element.innerHTML = (selSpan.segment);
             this.element.setAttribute('title', selSpan.segment);

@@ -6,8 +6,6 @@ import { ButtonAnnotatorService } from '../button-annotator-service/button-annot
 import { CollectionService } from '../collection-service/collection-service.service';
 import { CoreferenceAnnotatorService } from '../coreference-annotator-service/coreference-annotator.service';
 import { CoreferenceColorDataService } from '../coreference-color-data-service/coreference-color-data.service';
-import { MainService } from '../main/main.service';
-import { OpenDocumentService } from '../open-document/open-document.service';
 import { TempAnnotationService } from '../temp-annotation-service/temp-annotation.service';
 import { TextWidgetAPI } from '../text-widget/text-widget.service';
 

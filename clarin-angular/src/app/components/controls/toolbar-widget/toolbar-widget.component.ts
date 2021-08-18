@@ -1,13 +1,9 @@
-import { Component, Output, OnInit, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import * as _ from 'lodash';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
-import { TextWidgetAPI } from 'src/app/services/text-widget/text-widget.service';
-import { DetectChangesModalComponent } from '../../dialogs/detect-changes-modal/detect-changes-modal.component';
 import { DetectOpenDocModalComponent } from '../../dialogs/detect-open-doc-modal/detect-open-doc-modal.component';
 import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
-import { MainComponent } from '../../views/main/main.component';
-import * as _ from 'lodash';
 import { BaseControlComponent } from '../base-control/base-control.component';
-import { AnnotationComponent } from '../../views/annotation/annotation.component';
 
 @Component({
   selector: 'toolbar-widget',
@@ -53,7 +49,7 @@ export class ToolbarWidgetComponent extends BaseControlComponent implements OnIn
                   } else {
                     this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Error during the save annotations. Please refresh the page and try again.") })
                   }
-                }, (error)=> {
+                }, (error) => {
                   this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Database error. Please refresh the page and try again.") })
                 });
             } else {
@@ -77,7 +73,7 @@ export class ToolbarWidgetComponent extends BaseControlComponent implements OnIn
             this.TextWidgetAPI.setCurrentDocument(newDocument);
           }
         }
-      }, (error)=> {
+      }, (error) => {
         this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Database error. Please refresh the page and try again.") })
       });
   };
@@ -109,7 +105,7 @@ export class ToolbarWidgetComponent extends BaseControlComponent implements OnIn
     if (this.TextWidgetAPI.checkIsRunning())
       return false;
 
-    var annotationToBeDeleted:any = this.TextWidgetAPI.getSelectedAnnotation();
+    var annotationToBeDeleted: any = this.TextWidgetAPI.getSelectedAnnotation();
 
     if (Object.keys(annotationToBeDeleted).length == 0 && !this.deleteAnnotationModalInstance) {   //no annotation has been selected open error modal
 

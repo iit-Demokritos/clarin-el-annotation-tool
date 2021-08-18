@@ -8,9 +8,9 @@ describe('AnnotationRelationComboboxComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AnnotationRelationComboboxComponent ]
+      declarations: [AnnotationRelationComboboxComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

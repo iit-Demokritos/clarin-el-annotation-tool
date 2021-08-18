@@ -36,7 +36,7 @@ export class CorefMultiEntryComponent extends BaseControlComponent implements On
         if (span.length == 2) {
           // var selSpan = _.findWhere(selectedAnnotation.spans, { start: parseInt(span[0]), end: parseInt(span[1]) });
           var selSpan = selectedAnnotation.spans.find(span =>
-              span.start === parseInt(span[0]) && span.end === parseInt(span[1]));
+            span.start === parseInt(span[0]) && span.end === parseInt(span[1]));
           if (typeof (selSpan.segment) != "undefined" && selSpan.segment != this.element.innerHTML) {
             this.element.innerHTML = (selSpan.segment);
             this.element.setAttribute('title', selSpan.segment);
@@ -48,5 +48,5 @@ export class CorefMultiEntryComponent extends BaseControlComponent implements On
       this.element.setAttribute('title', '');
     }
   }
-  
+
 }

@@ -8,9 +8,9 @@ describe('CorefComboboxComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CorefComboboxComponent ]
+      declarations: [CorefComboboxComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

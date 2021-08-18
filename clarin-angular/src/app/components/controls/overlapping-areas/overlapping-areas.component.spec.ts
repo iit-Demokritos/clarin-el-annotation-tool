@@ -8,9 +8,9 @@ describe('OverlappingAreasComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ OverlappingAreasComponent ]
+      declarations: [OverlappingAreasComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

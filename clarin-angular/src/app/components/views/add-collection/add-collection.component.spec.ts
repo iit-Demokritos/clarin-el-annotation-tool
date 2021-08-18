@@ -8,9 +8,9 @@ describe('AddCollectionComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddCollectionComponent ]
+      declarations: [AddCollectionComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -8,9 +8,9 @@ describe('RenameCollectionModalComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ RenameCollectionModalComponent ]
+      declarations: [RenameCollectionModalComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

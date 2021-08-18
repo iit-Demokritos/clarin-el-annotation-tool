@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BaseControlComponent } from '../../base-control/base-control.component';
 
 @Component({
@@ -11,9 +11,8 @@ export class CorefClearBtnComponent extends BaseControlComponent implements OnIn
   super() { }
 
   ngOnInit(): void {
-    
-      			//register callbacks for the selected annotation
-            this.TextWidgetAPI.registerSelectedAnnotationCallback(this.annotationSelectionUpdate);
+    //register callbacks for the selected annotation
+    this.TextWidgetAPI.registerSelectedAnnotationCallback(this.annotationSelectionUpdate);
   }
 
   showClearBtn = true;
@@ -25,9 +24,9 @@ export class CorefClearBtnComponent extends BaseControlComponent implements OnIn
     document.querySelector('.coref-segment-entry').innerHTML = ('');
     document.querySelector('.coref-span-end').innerHTML = ('');
     document.querySelector('.coref-span-start').innerHTML = ('');
-    (document.querySelector('.coref-checkbox input')as HTMLInputElement).checked = false;
-    document.querySelector('.coref-btn.active').setAttribute("style","color:#333");
-    document.querySelector('.coref-btn.active').setAttribute("style","background:#fff");
+    (document.querySelector('.coref-checkbox input') as HTMLInputElement).checked = false;
+    document.querySelector('.coref-btn.active').setAttribute("style", "color:#333");
+    document.querySelector('.coref-btn.active').setAttribute("style", "background:#fff");
     document.querySelector('.coref-btn.active').classList.remove('active');
   }
 

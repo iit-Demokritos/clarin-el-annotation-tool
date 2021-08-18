@@ -1,10 +1,10 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@core/authentication/auth.service';
-import { HttpErrorResponse } from '@angular/common/http';
-import { filter } from 'rxjs/operators';
 import { FlashMessagesService } from 'flash-messages-angular';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -14,8 +14,8 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
 
   constructor(private fb: FormBuilder, private router: Router,
-              private auth: AuthService,
-              private flashMessage: FlashMessagesService) {}
+    private auth: AuthService,
+    private flashMessage: FlashMessagesService) { }
 
   ngOnInit() {
     this.loginForm = this.fb.group({

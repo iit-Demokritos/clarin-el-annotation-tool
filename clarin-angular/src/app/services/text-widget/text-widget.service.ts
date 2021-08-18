@@ -156,17 +156,17 @@ export class TextWidgetAPI {
 
   getAnnotationForDocumentSetting(attribute, owner) {
     return this.annotations.find(e => e.document_setting == attribute &&
-                                      e.created_by == owner);
+      e.created_by == owner);
   }
 
   getAnnotationForCollectionSetting(attribute, owner) {
     return this.annotations.find(e => e.collection_setting == attribute &&
-                                      e.created_by == owner);
+      e.created_by == owner);
   }
 
   getAnnotationAttributeValue(annotation, attribute) {
     var attr = annotation.attributes.find(e => e.name == attribute)
-    if (attr === undefined) {return attr;}
+    if (attr === undefined) { return attr; }
     return attr['value'];
   }
 
@@ -176,29 +176,29 @@ export class TextWidgetAPI {
   getAnnotationPresentableId(annotation) {
     if (this.annotatorType == "Button Annotator") {
       var value = this.getAnnotationAttributeValue(annotation,
-                      this.annotationSchema['attribute'])
-      if (value != undefined) {return value;}
+        this.annotationSchema['attribute'])
+      if (value != undefined) { return value; }
     }
-    if ('document_setting'   in annotation) {return annotation['document_setting'];}
-    if ('collection_setting' in annotation) {return annotation['collection_setting'];}
+    if ('document_setting' in annotation) { return annotation['document_setting']; }
+    if ('collection_setting' in annotation) { return annotation['collection_setting']; }
     return annotation._id;
   }; /* getAnnotationPresentableId */
-  
+
   selectAnnotations(type, attribute, attributeValues) {
-    var anns = this.annotations.filter((ann)=> {
+    var anns = this.annotations.filter((ann) => {
       return ann.type === type;
     });
     if (typeof attribute != "undefined") {
       if (typeof attributeValues != "undefined") {
         anns = anns.filter((ann) => {
-          return ann.attributes.some((attr)=> {
+          return ann.attributes.some((attr) => {
             return (attr.name === attribute &&
               attributeValues.includes(attr.value));
           });
         });
       } else {
         anns = anns.filter((ann) => {
-          return ann.attributes.some((attr)=> {
+          return ann.attributes.some((attr) => {
             return attr.name === attribute;
           });
         });
@@ -263,7 +263,7 @@ export class TextWidgetAPI {
 
   deleteAnnotation(annotationId) {
     var deletedAnnotation = this.annotations.find(e => e._id == annotationId);
-    if (typeof deletedAnnotation == "undefined") {return false};
+    if (typeof deletedAnnotation == "undefined") { return false };
 
     var deletedAnnotationIndex = _.indexOf(this.annotations, deletedAnnotation);
     this.annotations.splice(deletedAnnotationIndex, 1);
@@ -291,8 +291,8 @@ export class TextWidgetAPI {
   }
 
   isSettingAnnotation(annotation) {
-    return (("document_setting"   in annotation) ||
-            ("collection_setting" in annotation));
+    return (("document_setting" in annotation) ||
+      ("collection_setting" in annotation));
   }; /* isSettingAnnotation */
 
   isSettingsCompliantAnnotation(annotation) {
@@ -317,10 +317,10 @@ export class TextWidgetAPI {
 
   belongsToSchemaAsSetting(newAnnotation, annotator_id) {
     // Settings Annotations must always have an Annotator ID!
-    if (!("annotator_id" in newAnnotation)) {return false;}
-    if (newAnnotation["annotator_id"] != annotator_id) {return false;}
-    if (newAnnotation["type"] != "setting annotation") {return false;}
-    if (this.isSettingAnnotation(newAnnotation)) {return true;}
+    if (!("annotator_id" in newAnnotation)) { return false; }
+    if (newAnnotation["annotator_id"] != annotator_id) { return false; }
+    if (newAnnotation["type"] != "setting annotation") { return false; }
+    if (this.isSettingAnnotation(newAnnotation)) { return true; }
     return false;
   }; /* belongsToSchemaAsSetting */
 
@@ -341,7 +341,7 @@ export class TextWidgetAPI {
       case "Button Annotator":
         // if (_.where(newAnnotation.attributes, {
         if (newAnnotation.attributes.filter(attr =>
-              attr.name === this.annotationSchema["attribute"]).length > 0) return true;
+          attr.name === this.annotationSchema["attribute"]).length > 0) return true;
 
         return false;
       case "Coreference Annotator":
@@ -380,19 +380,19 @@ export class TextWidgetAPI {
       // console.error(i, annotation);
 
       if (this.belongsToSchema(annotation) ||
-          this.belongsToSchemaAsSetting(annotation, annotator_id)) {
+        this.belongsToSchemaAsSetting(annotation, annotator_id)) {
         // If annotation does not have the annotator_id property, add it...
         if ("annotator_id" in annotation) {
         } else {
           annotation["annotator_id"] = annotator_id;
         }
         if ((this.annotatorType == "Button Annotator") &&
-            (!( ("document_attribute" in annotation) ||
-                ("document_setting" in annotation)   ||
-                ("collection_setting" in annotation) ))) {
+          (!(("document_attribute" in annotation) ||
+            ("document_setting" in annotation) ||
+            ("collection_setting" in annotation)))) {
           for (var j = 0; j < annotation.attributes.length; j++) {
             if (!_.includes(this.annotationSchemaOptions["values"],
-                            annotation.attributes[j].value)) {
+              annotation.attributes[j].value)) {
               //check if the annotation belongs to the "found in collection"
               this.foundInCollection.push(annotation);
               // console.error("FoundInCollection:", annotation);
@@ -478,8 +478,8 @@ export class TextWidgetAPI {
     return this.annotatorType;
   }
 
-  
-  setAnnotatorType(newAnnotatorType:string) {
+
+  setAnnotatorType(newAnnotatorType: string) {
     if (newAnnotatorType.startsWith("Button_Annotator_")) {
       this.annotatorType = "Button Annotator";
     } else if (newAnnotatorType.startsWith("Coreference_Annotator_")) {
@@ -546,7 +546,7 @@ export class TextWidgetAPI {
   getAnnotationSchemaAnnotationTypes() {
     return this.annotationSchemaAnnotationTypes;
   }
-  
+
   setAnnotationSchemaAnnotationTypes(newAnnotationSchemaAnnotationTypes) {
     // Ensure that the annotationSchema.annotation_type is not included...
     this.annotationSchemaAnnotationTypes = _.cloneDeep(newAnnotationSchemaAnnotationTypes)
@@ -570,7 +570,7 @@ export class TextWidgetAPI {
 
   setSelectedAnnotation(newSelectedAnnotation) {
     if (typeof newSelectedAnnotation == "undefined" ||
-               newSelectedAnnotation == {}) {
+      newSelectedAnnotation == {}) {
       return false;
     }
 
@@ -696,7 +696,7 @@ export class TextWidgetAPI {
     return this.scrollIntoView;
   }
 
-   /*** Settings Methods ***/
+  /*** Settings Methods ***/
   registerSettingsCallback(callback) {
     // console.error("registerSettingsCallback():", callback);
     this.settingsCallbacks.push(callback);
@@ -723,7 +723,7 @@ export class TextWidgetAPI {
   findWhere(array, criteria) {
     return array.find(item => Object.keys(criteria).every(key => item[key] === criteria[key]))
   } /* findWhere */
-  
+
   /*
    * Replacement for "_.where()", which exists in underscore,
    * but got removed from lodash 4.x.

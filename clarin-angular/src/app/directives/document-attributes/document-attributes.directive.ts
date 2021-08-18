@@ -6,7 +6,7 @@ import * as $ from 'jquery';
 })
 export class DocumentAttributesDirective implements OnDestroy {
   el;
-  
+
   constructor(el: ElementRef) {
     this.el = el;
     var moveTo = $('#main-content-annotate-document-attributes > tbody > tr:last > td[class~="main-content-attributes-cell"]:last');

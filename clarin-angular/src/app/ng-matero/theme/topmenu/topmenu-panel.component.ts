@@ -12,7 +12,7 @@ import { NavigationEnd, Router, RouterLinkActive } from '@angular/router';
 import { MenuChildrenItem, MenuService } from '@core';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { TopmenuState } from './topmenu.component';
+// import { TopmenuState } from './topmenu.component';
 
 @Component({
   selector: 'app-topmenu-panel',
@@ -26,7 +26,7 @@ export class TopmenuPanelComponent implements OnInit, OnDestroy {
   @Input() level = 1;
   @Output() routeChange = new EventEmitter<any>();
 
-  menuStates: TopmenuState[] = [];
+  menuStates/*: TopmenuState[]*/ = [];
 
   buildRoute = this.menu.buildRoute;
 

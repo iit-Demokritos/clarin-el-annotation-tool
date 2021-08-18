@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { BaseControlComponent } from '../../base-control/base-control.component';
-import * as _ from 'lodash';
 
 @Component({
   selector: 'coref-combobox',

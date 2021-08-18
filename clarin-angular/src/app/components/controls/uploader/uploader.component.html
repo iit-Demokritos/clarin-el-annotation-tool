@@ -1,7 +1,5 @@
 <ng-container #flowAdvanced="flow" [flowConfig]="{target: '/'}"></ng-container>
-<div class="drop-area" id="drag" flow-drop
-  flow-drag-enter="class='alert-success'"
-  flow-drag-leave="class=''"
+<div class="drop-area" id="drag" flow-drop flow-drag-enter="class='alert-success'" flow-drag-leave="class=''"
   ng-class="class" flowDrop [flow]="flowAdvanced.flowJs">
   <div class="btn-toolbar">
     <label for="upload">
@@ -10,9 +8,10 @@
         style="display:none">
     </label>
     <label for="upload-dir">
-      <a flowButton flowDirectory type="button" class="btn btn-default" aria-hidden="true">{{'Upload Folder'|translate}}</a>
-      <input flowButton [flowAttributes]="flowAttributes" [flow]="flowAdvanced.flowJs" type="file"
-        id="upload-dir" style="display:none" webkitdirectory mozdirectory>
+      <a flowButton flowDirectory type="button" class="btn btn-default" aria-hidden="true">{{'Upload
+        Folder'|translate}}</a>
+      <input flowButton [flowAttributes]="flowAttributes" [flow]="flowAdvanced.flowJs" type="file" id="upload-dir"
+        style="display:none" webkitdirectory mozdirectory>
     </label>
     <strong>{{'OR'|translate}}</strong>&nbsp;{{'Drag And Drop your file(s) here'|translate}}
   </div>

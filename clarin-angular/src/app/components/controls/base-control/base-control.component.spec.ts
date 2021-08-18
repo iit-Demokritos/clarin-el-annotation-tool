@@ -8,9 +8,9 @@ describe('BaseControlComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BaseControlComponent ]
+      declarations: [BaseControlComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

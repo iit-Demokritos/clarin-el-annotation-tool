@@ -1,7 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, Validators } from '@angular/forms';
 import { MainDialogComponent } from '../main-dialog/main-dialog.component';
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 
 @Component({
   selector: 'add-custom-value-modal',
@@ -12,8 +11,8 @@ export class AddCustomValueModalComponent extends MainDialogComponent implements
 
   public breakpoint: number; // Breakpoint observer code
   public addCustomValueForm: FormGroup;
-  public value:string = "";
-  public label:string = "";
+  public value: string = "";
+  public label: string = "";
 
   ngOnInit(): void {
     this.addCustomValueForm = this.formBuilder.group({
@@ -29,9 +28,11 @@ export class AddCustomValueModalComponent extends MainDialogComponent implements
       this.markAsDirty(this.addCustomValueForm);
       return;
     }
-    var customvalue = [{ attributes:[
-      {label: this.label, value: this.value}
-    ]}];
+    var customvalue = [{
+      attributes: [
+        { label: this.label, value: this.value }
+      ]
+    }];
     this.TextWidgetAPI.setFoundInCollection(customvalue);
 
     this.dialogRef.close();

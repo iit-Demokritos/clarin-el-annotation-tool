@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import * as _ from 'lodash';
 import { ErrorDialogComponent } from 'src/app/components/dialogs/error-dialog/error-dialog.component';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 import { BaseControlComponent } from '../../base-control/base-control.component';
-import * as _ from 'lodash';
 
 @Component({
   selector: 'coref-annotate-btn',
@@ -14,32 +14,31 @@ export class CorefAnnotateBtnComponent extends BaseControlComponent implements O
   super() { }
 
   ngOnInit(): void {
-    
-      //register callbacks for the selected annotation
-      this.TextWidgetAPI.registerSelectedAnnotationCallback(this.annotationSelectionUpdate);
+    //register callbacks for the selected annotation
+    this.TextWidgetAPI.registerSelectedAnnotationCallback(this.annotationSelectionUpdate);
   }
 
   addAnnotation() { //save the annotation to the db
-    var currentDocument:any = this.TextWidgetAPI.getCurrentDocument();
-    var validationResult:any = this.validateAnnotation();
+    var currentDocument: any = this.TextWidgetAPI.getCurrentDocument();
+    var validationResult: any = this.validateAnnotation();
 
     if (validationResult.valid) { //if the annotation is valid save it
       this.tempAnnotationService.save(currentDocument.collection_id, currentDocument.id, validationResult.annotation)
-        .then((response:any)=> {
+        .then((response: any) => {
           if (response.success)
             this.TextWidgetAPI.addAnnotation(validationResult.annotation, false);
           else {
             this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Error during saving your annotation. Please refresh the page and try again.") })
           }
-        }, function(error) {
+        }, function (error) {
           this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Database error. Please refresh the page and try again.") })
         });
     }
   };
 
-  updateAnnotation(){ //update current annotation
-    var validationResult =  this.validateAnnotation();
-    var selectedAnnotation:any = (this.TextWidgetAPI.getSelectedAnnotation());
+  updateAnnotation() { //update current annotation
+    var validationResult = this.validateAnnotation();
+    var selectedAnnotation: any = (this.TextWidgetAPI.getSelectedAnnotation());
 
     if (Object.keys(selectedAnnotation).length > 0 && validationResult.valid) { //if the user has already selected an annotation, update it
       selectedAnnotation.type = this.annotationType;
@@ -52,9 +51,9 @@ export class CorefAnnotateBtnComponent extends BaseControlComponent implements O
           name: validationResult.annotation.attributes[i].name
         })[0];*/
         var selectedAnnotationAttribute = selectedAnnotation.attributes.find(attr =>
-            attr.name === validationResult.annotation.attributes[i].name);
+          attr.name === validationResult.annotation.attributes[i].name);
 
-        if (typeof(selectedAnnotationAttribute) != "undefined") //the specific attribute does not exist in the current annotation, so add it 
+        if (typeof (selectedAnnotationAttribute) != "undefined") //the specific attribute does not exist in the current annotation, so add it 
           selectedAnnotation.attributes.push(validationResult.annotation.attributes[i]);
         else { //the specific attribute exists in the current annotation, so update it 
           var index = selectedAnnotation.attributes.indexOf(selectedAnnotationAttribute);
@@ -63,9 +62,9 @@ export class CorefAnnotateBtnComponent extends BaseControlComponent implements O
       }
 
       this.tempAnnotationService.update(selectedAnnotation)
-        .then((data)=> {
-            this.TextWidgetAPI.updateAnnotation(selectedAnnotation, false);
-        },(error)=> {
+        .then((data) => {
+          this.TextWidgetAPI.updateAnnotation(selectedAnnotation, false);
+        }, (error) => {
           this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Error in update Annotation. Please refresh the page and try again") })
         });
     }
@@ -74,164 +73,164 @@ export class CorefAnnotateBtnComponent extends BaseControlComponent implements O
   showAnnotateBtn = true;
 
   validateAnnotation() {
-        var result:any = {
-          valid: true,
-          annotation: {}
-        };
+    var result: any = {
+      valid: true,
+      annotation: {}
+    };
 
-        var tableRows = document.querySelectorAll('.button-widget-wrapper table tr'); //;$('.button-widget-wrapper table tr');
-        var annotationType = document.querySelectorAll('.button-widget-wrapper table tr * [annotation-type]')[0].getAttribute("annotation-type");//.eq(0).attr("annotation-type");
-        var selectedAnnotation:any = this.TextWidgetAPI.getSelectedAnnotation();
+    var tableRows = document.querySelectorAll('.button-widget-wrapper table tr'); //;$('.button-widget-wrapper table tr');
+    var annotationType = document.querySelectorAll('.button-widget-wrapper table tr * [annotation-type]')[0].getAttribute("annotation-type");//.eq(0).attr("annotation-type");
+    var selectedAnnotation: any = this.TextWidgetAPI.getSelectedAnnotation();
 
-        if (Object.keys(selectedAnnotation).length == 0) {
-          var currentDocument:any = this.TextWidgetAPI.getCurrentDocument();
-          result.annotation = {
-            _id: this.ObjectId().toString(),
-            document_id: currentDocument.id,
-            collection_id: currentDocument.collection_id,
-            annotator_id: currentDocument.annotator_id,
-            type: annotationType,
-            spans: [],
-            attributes: []
+    if (Object.keys(selectedAnnotation).length == 0) {
+      var currentDocument: any = this.TextWidgetAPI.getCurrentDocument();
+      result.annotation = {
+        _id: this.ObjectId().toString(),
+        document_id: currentDocument.id,
+        collection_id: currentDocument.collection_id,
+        annotator_id: currentDocument.annotator_id,
+        type: annotationType,
+        spans: [],
+        attributes: []
+      };
+    } else {
+      result.annotation = _.cloneDeep(selectedAnnotation);
+      result.annotation["spans"] = [];
+      result.annotation["attributes"] = [];
+    }
+
+    tableRows.forEach(value => {
+      if (value.querySelectorAll('.coref-segment-entry').length > 0) { //if row contains coreference annotation segment entry
+        var startOffset = -1,
+          endOffset = -1;
+        var corefSegmentElement = value.querySelector('.coref-segment-entry');
+        var elementIdNumber = corefSegmentElement.getAttribute('id').match(/\d+/)[0];
+        var segment = corefSegmentElement.innerHTML;
+
+        if (segment.length > 0 && document.querySelectorAll("#x_s" + elementIdNumber).length && document.querySelectorAll("#x_e" + elementIdNumber).length) { //if segment has segment, startOffset and endOffset
+          startOffset = parseInt(document.querySelector("#x_s" + elementIdNumber).innerHTML.trim());
+          endOffset = parseInt(document.querySelector("#x_e" + elementIdNumber).innerHTML.trim());
+
+          var annotationSpan = {
+            segment: segment,
+            start: startOffset,
+            end: endOffset
           };
-        } else {
-          result.annotation = _.cloneDeep(selectedAnnotation);
-          result.annotation["spans"] = [];
-          result.annotation["attributes"] = [];
+
+          result.annotation.spans.push(annotationSpan);
+          result.annotation.attributes.push({
+            name: corefSegmentElement.getAttribute('annotation-attribute'),
+            value: annotationSpan.start + " " + annotationSpan.end
+          });
+        } else { //validation section 
+          //result.valid = false;
+          result.annotation.attributes.push({
+            name: corefSegmentElement.getAttribute('annotation-attribute'),
+            value: ""
+          });
         }
+      } else if (value.querySelectorAll('.coref-multi-entry').length > 0) { //if row contains coreference annotation segment entry
+        var startOffset = -1,
+          endOffset = -1;
+        var corefMultiElement = value.querySelector('.coref-multi-entry');
+        var elementIdNumber = corefMultiElement.getAttribute('id').match(/\d+/)[0];
+        var segment = corefMultiElement.innerHTML;
 
-        tableRows.forEach(value=>{
-          if (value.querySelectorAll('.coref-segment-entry').length > 0) { //if row contains coreference annotation segment entry
-            var startOffset = -1,
-              endOffset = -1;
-            var corefSegmentElement = value.querySelector('.coref-segment-entry');
-            var elementIdNumber = corefSegmentElement.getAttribute('id').match(/\d+/)[0];
-            var segment = corefSegmentElement.innerHTML;
+        if (segment.length > 0 && document.querySelectorAll("#x_s" + elementIdNumber).length && document.querySelectorAll("#x_e" + elementIdNumber).length) { //if segment has segment, startOffset and endOffset
+          startOffset = parseInt(document.querySelector("#x_s" + elementIdNumber).innerHTML.trim());
+          endOffset = parseInt(document.querySelector("#x_e" + elementIdNumber).innerHTML.trim());
 
-            if (segment.length > 0 && document.querySelectorAll("#x_s" + elementIdNumber).length && document.querySelectorAll("#x_e" + elementIdNumber).length) { //if segment has segment, startOffset and endOffset
-              startOffset = parseInt(document.querySelector("#x_s" + elementIdNumber).innerHTML.trim());
-              endOffset = parseInt(document.querySelector("#x_e" + elementIdNumber).innerHTML.trim());
+          var annotationSpan = {
+            segment: segment,
+            start: startOffset,
+            end: endOffset
+          };
 
-              var annotationSpan = {
-                segment: segment,
-                start: startOffset,
-                end: endOffset
-              };
+          result.annotation.spans.push(annotationSpan);
+          result.annotation.attributes.push({
+            name: corefMultiElement.getAttribute('annotation-attribute'),
+            value: annotationSpan.start + " " + annotationSpan.end
+          });
+        } else { //validation section 
+          //result.valid = false;
+          result.annotation.attributes.push({
+            name: corefMultiElement.getAttribute('annotation-attribute'),
+            value: ""
+          });
+        }
+      } else if (value.querySelectorAll('.coref-entry').length > 0) { //if row contains coreference text entry
+        var corefEntryElement = value.querySelector('.coref-entry');
+        var segment = corefEntryElement.innerHTML;
 
-              result.annotation.spans.push(annotationSpan);
-              result.annotation.attributes.push({
-                name: corefSegmentElement.getAttribute('annotation-attribute'),
-                value: annotationSpan.start + " " + annotationSpan.end
-              });
-            } else { //validation section 
-              //result.valid = false;
-              result.annotation.attributes.push({
-                name: corefSegmentElement.getAttribute('annotation-attribute'),
-                value: ""
-              });
-            }
-          } else if (value.querySelectorAll('.coref-multi-entry').length > 0) { //if row contains coreference annotation segment entry
-            var startOffset = -1,
-              endOffset = -1;
-            var corefMultiElement = value.querySelector('.coref-multi-entry');
-            var elementIdNumber = corefMultiElement.getAttribute('id').match(/\d+/)[0];
-            var segment = corefMultiElement.innerHTML;
+        if (segment.length > 0) {
+          result.annotation.attributes.push({
+            name: corefEntryElement.getAttribute('annotation-attribute'),
+            value: segment
+          });
+        } else { //validation section
+          //result.valid = false; 
+          result.annotation.attributes.push({
+            name: corefEntryElement.getAttribute('annotation-attribute'),
+            value: ""
+          });
+        }
+      } else if (value.querySelectorAll('.coref-combobox').length > 0) { //if row contains coreference combobox
+        var corefComboboxElement = document.querySelector('.coref-combobox');
+        var comboboxValue = corefComboboxElement.querySelector('option:selected').innerHTML;
 
-            if (segment.length > 0 && document.querySelectorAll("#x_s" + elementIdNumber).length && document.querySelectorAll("#x_e" + elementIdNumber).length) { //if segment has segment, startOffset and endOffset
-              startOffset = parseInt(document.querySelector("#x_s" + elementIdNumber).innerHTML.trim());
-              endOffset = parseInt(document.querySelector("#x_e" + elementIdNumber).innerHTML.trim());
+        if (comboboxValue != "") {
+          result.annotation.attributes.push({
+            name: corefComboboxElement.getAttribute('annotation-attribute'),
+            value: comboboxValue
+          });
+        } else { //validation section 
+          //result.valid = false; 
+          result.annotation.attributes.push({
+            name: corefComboboxElement.getAttribute('annotation-attribute'),
+            value: ""
+          });
+        }
+      } else if (value.querySelectorAll('.coref-checkbox').length > 0) { //if row contains coreference checkbox 
+        var corefCheckboxElement = value.querySelector('.coref-checkbox');
+        var corefCheckboxInputElement = corefCheckboxElement.querySelector('input');
 
-              var annotationSpan = {
-                segment: segment,
-                start: startOffset,
-                end: endOffset
-              };
-
-              result.annotation.spans.push(annotationSpan);
-              result.annotation.attributes.push({
-                name: corefMultiElement.getAttribute('annotation-attribute'),
-                value: annotationSpan.start + " " + annotationSpan.end
-              });
-            } else { //validation section 
-              //result.valid = false;
-              result.annotation.attributes.push({
-                name: corefMultiElement.getAttribute('annotation-attribute'),
-                value: ""
-              });
-            }
-          } else if (value.querySelectorAll('.coref-entry').length > 0) { //if row contains coreference text entry
-            var corefEntryElement = value.querySelector('.coref-entry');
-            var segment = corefEntryElement.innerHTML;
-
-            if (segment.length > 0) {
-              result.annotation.attributes.push({
-                name: corefEntryElement.getAttribute('annotation-attribute'),
-                value: segment
-              });
-            } else { //validation section
-              //result.valid = false; 
-              result.annotation.attributes.push({
-                name: corefEntryElement.getAttribute('annotation-attribute'),
-                value: ""
-              });
-            }
-          } else if (value.querySelectorAll('.coref-combobox').length > 0) { //if row contains coreference combobox
-            var corefComboboxElement = document.querySelector('.coref-combobox');
-            var comboboxValue = corefComboboxElement.querySelector('option:selected').innerHTML;
-
-            if (comboboxValue != "") {
-              result.annotation.attributes.push({
-                name: corefComboboxElement.getAttribute('annotation-attribute'),
-                value: comboboxValue
-              });
-            } else { //validation section 
-              //result.valid = false; 
-              result.annotation.attributes.push({
-                name: corefComboboxElement.getAttribute('annotation-attribute'),
-                value: ""
-              });
-            }
-          } else if (value.querySelectorAll('.coref-checkbox').length > 0) { //if row contains coreference checkbox 
-            var corefCheckboxElement = value.querySelector('.coref-checkbox');
-            var corefCheckboxInputElement = corefCheckboxElement.querySelector('input');
-
-            if (corefCheckboxInputElement.checked) {
-              result.annotation.attributes.push({
-                name: corefCheckboxElement.getAttribute('annotation-attribute'),
-                value: 1
-              });
-            } else {
-              result.annotation.attributes.push({
-                name: corefCheckboxElement.getAttribute('annotation-attribute'),
-                value: 0
-              });
-            }
-          } else if (value.querySelectorAll('.coref-btn.active').length > 0) { //if row contains coreference checkbox
-            var corefBtnElement = value.querySelector('.coref-btn.active');
-            result.annotation.attributes.push({
-              name: corefBtnElement.getAttribute('annotation-attribute'),
-              value: corefBtnElement.getAttribute('annotation-value')
-            });
-
-            corefBtnElement.classList.remove('active');
-            corefBtnElement.setAttribute("style","color:#333");
-            corefBtnElement.setAttribute("style","background:#fff");
-          }
+        if (corefCheckboxInputElement.checked) {
+          result.annotation.attributes.push({
+            name: corefCheckboxElement.getAttribute('annotation-attribute'),
+            value: 1
+          });
+        } else {
+          result.annotation.attributes.push({
+            name: corefCheckboxElement.getAttribute('annotation-attribute'),
+            value: 0
+          });
+        }
+      } else if (value.querySelectorAll('.coref-btn.active').length > 0) { //if row contains coreference checkbox
+        var corefBtnElement = value.querySelector('.coref-btn.active');
+        result.annotation.attributes.push({
+          name: corefBtnElement.getAttribute('annotation-attribute'),
+          value: corefBtnElement.getAttribute('annotation-value')
         });
 
-        if (result.annotation.spans.length == 0)
-          result.valid = false;
-        
-        return result;
-      };
-
-      annotationSelectionUpdate() {
-        var selectedAnnotation = this.TextWidgetAPI.getSelectedAnnotation();
-
-        if (Object.keys(selectedAnnotation).length == 0) //selected annotation exists
-          this.showAnnotateBtn = true;
-        else //selected annotation not empty
-          this.showAnnotateBtn = false;
+        corefBtnElement.classList.remove('active');
+        corefBtnElement.setAttribute("style", "color:#333");
+        corefBtnElement.setAttribute("style", "background:#fff");
       }
+    });
+
+    if (result.annotation.spans.length == 0)
+      result.valid = false;
+
+    return result;
+  };
+
+  annotationSelectionUpdate() {
+    var selectedAnnotation = this.TextWidgetAPI.getSelectedAnnotation();
+
+    if (Object.keys(selectedAnnotation).length == 0) //selected annotation exists
+      this.showAnnotateBtn = true;
+    else //selected annotation not empty
+      this.showAnnotateBtn = false;
+  }
 
 }

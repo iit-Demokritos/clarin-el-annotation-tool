@@ -8,9 +8,9 @@ describe('AnnotationVisualizerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AnnotationVisualizerComponent ]
+      declarations: [AnnotationVisualizerComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

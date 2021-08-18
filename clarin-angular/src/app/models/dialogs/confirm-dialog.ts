@@ -1,5 +1,5 @@
-import { DialogData } from "./dialog-data";
 import { MatDialogConfig } from '@angular/material/dialog';
+import { DialogData } from "./dialog-data";
 
 export class ConfirmDialogData extends MatDialogConfig<any> implements DialogData {
   dialogTitle: any;

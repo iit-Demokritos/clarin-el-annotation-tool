@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { MainDialogComponent } from '../main-dialog/main-dialog.component';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'rename-collection-modal',

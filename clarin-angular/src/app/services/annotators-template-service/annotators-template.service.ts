@@ -7,9 +7,9 @@ import { CLARIN_CONSTANTS } from 'src/app/helpers/constants';
 })
 export class AnnotatorsTemplateService {
 
-  constructor(public http:HttpClient) {}
+  constructor(public http: HttpClient) { }
 
-  getTemplate(annotatorType:string, annotationSchema:any) {
+  getTemplate(annotatorType: string, annotationSchema: any) {
     if (annotatorType.startsWith("Button_Annotator_")) {
       annotatorType = "Button Annotator";
     } else if (annotatorType.startsWith("Coreference_Annotator_")) {
@@ -53,6 +53,6 @@ export class AnnotatorsTemplateService {
         });
       });
     }
-    return Promise.reject("unknown annotatorType: \""+annotatorType+"\"");
+    return Promise.reject("unknown annotatorType: \"" + annotatorType + "\"");
   }; /* getTemplate */
 }

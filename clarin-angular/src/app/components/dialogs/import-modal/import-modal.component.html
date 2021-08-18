@@ -7,8 +7,7 @@
       <mat-form-field appearance="outline">
         <mat-label>{{'Collections.CollectionName' | translate}}</mat-label>
         <input matInput type="text" formControlName="collectionName"
-          placeholder="{{'Collections.Enter a new Collection name' | translate}}"
-          [(ngModel)]="collectionName" required
+          placeholder="{{'Collections.Enter a new Collection name' | translate}}" [(ngModel)]="collectionName" required
           minlength="4" pattern="[a-zA-Z0-9]+([a-zA-Z0-9_ -]+)*">
         <mat-error *ngIf="importForm.get('collectionName').hasError('required')">
           {{'validations.required' | translate}}
