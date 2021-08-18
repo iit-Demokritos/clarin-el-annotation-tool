@@ -135,13 +135,15 @@
     "Settings affecting the Annotation Process": "Settings affecting the Annotation Process",
     "Settings affecting the Collection (all Documents)": "Settings affecting the Collection (all Documents)",
     "Settings affecting the current Document": "Settings affecting the current Document",
-    "Annotation Visualiser": "Annotation Visualiser",
-    "Previous Document": "Previous Document",
-    "Next Document": "Next Document",
-    "Auto Save": "Auto Save",
-    "Save Annotations": "Save Annotations",
-    "Delete Annotation": "Delete Annotation",
-    "Change Collection": "Change Collection"
+    "Annotation Visualiser": "Οπτικοποιηση Επισημειώσεων",
+    "Previous Document": "Προηγούμενο Εγγραφο",
+    "Next Document": "Επομενο Εγγραφο",
+    "Auto Save": "Αυτοματη Αποθήκευση",
+    "Save Annotations": "Αποθήκευση Επισημειώσεων",
+    "Delete Annotation": "Διαγραφή Συλλογής",
+    "Change Collection": "Αλλαγή Συλλογής",
+    "Filter Annotations": "Φιλτράρισμα Επισημειώσεω",
+    "FilterAnnotationsPlaceholder": "Π.χ. μια τιμή χαρακτηριστικού"
   },
   "validations": {
     "required": "This field is required",

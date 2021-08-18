@@ -141,7 +141,9 @@
     "Auto Save": "Auto Save",
     "Save Annotations": "Save Annotations",
     "Delete Annotation": "Delete Annotation",
-    "Change Collection": "Change Collection"
+    "Change Collection": "Change Collection",
+    "Filter Annotations": "Filter Annotations",
+    "FilterAnnotationsPlaceholder": "Ex. an attribute value"
   },
   "validations": {
     "required": "This field is required",

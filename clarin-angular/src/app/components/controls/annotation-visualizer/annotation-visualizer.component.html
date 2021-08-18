@@ -1,5 +1,15 @@
 <div class="annotation-visualiser">
   <as-split direction="vertical" style="height: 100%;">
+    <mat-form-field class="annotation-visualiser-filter-field" appearance="standard">
+      <mat-label>{{'annotation.Filter Annotations'|translate}}</mat-label>
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput class="annotation-visualiser-filter-input" (keyup)="applyFilter($event)"
+        placeholder="{{'annotation.FilterAnnotationsPlaceholder'|translate}}" #input [(ngModel)]="filter">
+      <button mat-button *ngIf="filter" matSuffix mat-icon-button aria-label="Clear"
+        (click)="filter=''; applyFilter($event)">
+        <mat-icon>backspace</mat-icon>
+      </button>
+    </mat-form-field>
     <as-split-area [size]="50" [minSize]="10" [maxSize]="90" class="annotation-list">
       <table #annvisannlist mat-table [dataSource]="annotationsDataSource" ngClass="annotation-visualiser-container">
         <ng-container matColumnDef="id">
@@ -22,7 +32,7 @@
         <tr mat-row (click)="setSelectedAnnotation(row)" [ngClass]="{ selected: row._id == selectedIndex }"
           *matRowDef="let row; columns: annotationListDisplayedColumns;" class="annotation-row"></tr>
         <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell">No data matching the filter</td>
+          <td class="mat-cell" colspan="3">No data matching the filter</td>
         </tr>
       </table>
     </as-split-area>

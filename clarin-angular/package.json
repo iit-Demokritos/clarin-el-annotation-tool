@@ -48,6 +48,7 @@
     "jquery": "^3.6.0",
     "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",
+    "minimatch": "^3.0.4",
     "moment": "^2.29.1",
     "ng-matero": "^12.1.1",
     "ngx-permissions": "^8.1.1",

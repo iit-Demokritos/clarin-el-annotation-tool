@@ -261,6 +261,11 @@ $foreground: map-get($theme, foreground);
   overflow: auto;
   width: 100%;
   height: 100%;
+  .annotation-visualiser-filter-field {
+    font-size: 0.9em;
+    width: 100%;
+    padding: 0 12px 0 12px;
+  }
   .annotation-list, .annotation-info {
      overflow-x: auto !important;
      overflow-y: auto !important;

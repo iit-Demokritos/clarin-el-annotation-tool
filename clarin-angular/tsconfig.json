@@ -36,6 +36,7 @@
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true,
-    "compilationMode": "partial"
+    "annotationsAs": "decorators",
+    "compilationMode": "full"
   }
 }

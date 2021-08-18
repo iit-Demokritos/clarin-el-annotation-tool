@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
 import { BaseControlComponent } from '../base-control/base-control.component';
+import { Minimatch } from "minimatch";
 
 export interface Span {
   start: number;
@@ -35,15 +36,6 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
   @ViewChild(MatTable, { static: true })
   table: MatTable<any>;
 
-  super() { }
-
-  ngOnInit(): void {
-    this.updateAnnotationList();
-    //register callbacks for the annotation list and the selected annotation
-    this.TextWidgetAPI.registerAnnotationSchemaCallback(
-      this.annotationSchemaUpdate.bind(this));
-  }
-
   annotationListDisplayedColumns: string[] = ['id', 'type', 'spans'];
   selectedAannotationDisplayedColumns: string[] = ['name', 'value'];
   annotations = [];
@@ -52,6 +44,19 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
   selectedIndex;
   selectedAnnotationDataSource;
   sseEventSubscription: Subscription;
+  filter: string = "";
+  minimatchOptions = { nocase: true, nocomment: true };
+  mm: any; // Minimatch object
+
+  super() { }
+
+  ngOnInit(): void {
+    this.updateAnnotationList();
+    //register callbacks for the annotation list and the selected annotation
+    this.TextWidgetAPI.registerAnnotationSchemaCallback(
+      this.annotationSchemaUpdate.bind(this));
+    this.annotationsDataSource.filterPredicate = this.filterAnnotations.bind(this);
+  }
 
   ngOnDestroy() {
     if (this.sseEventSubscription) {
@@ -59,7 +64,27 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
     }
   }
 
-  // function to be called when the document annotations being updated
+  filterAnnotations(ann: Annotation, filter: string) {
+    // console.error("AnnotationVisualizerComponent: filterAnnotations():", ann, filter, this.mm);
+    if (this.mm.empty) { return true; }
+    return ann.attributes.some((attr) => {
+      // console.error("attr:", attr, attr.value, this.mm.match(attr.value));
+      if (attr.value.indexOf(filter) !== -1) { return true; }
+      return this.mm.match(attr.value)
+    });
+  }; /* filterAnnotations */
+
+  // This method is called each time the user releases a key in
+  // the "Filter Annotations" serach field.
+  applyFilter(event: Event) {
+    // const filterValue = (event.target as HTMLInputElement).value;
+    this.mm = new Minimatch(this.filter.trim(), this.minimatchOptions);
+    // console.error("AnnotationVisualizerComponent: applyFilter():",
+    //   this.mm, this.mm.pattern);
+    this.annotationsDataSource.filter = this.mm.pattern;
+  }; /* applyFilter */
+
+  // Function to be called when the document annotations being updated
   updateAnnotationList() {
     // console.error("AnnotationVisualizerComponent: updateAnnotationList()");
     this.annotations = this.TextWidgetAPI.getAnnotations()
@@ -68,8 +93,7 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
         this.TextWidgetAPI.isSettingsCompliantAnnotation(ann))
       ;
     // console.error("updateAnnotationList():", _.cloneDeep(this.annotations));
-    this.annotationsDataSource =
-      new MatTableDataSource<Annotation>(this.annotations);
+    this.annotationsDataSource.data = this.annotations;
     if (this.annotations.length) {
       this.table.renderRows();
     } else {
