@@ -72,8 +72,8 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
       if (!response["success"]) {
         this.dialog.open(ErrorDialogComponent, {
           data: new ConfirmDialogData(
-            "Error",
-            "Error during the restoring of your collections. Please refresh the page and try again.")
+            this.translate.instant("Error"),
+            this.translate.instant("Collections.Error during the restoring of your collections. Please refresh the page and try again."))
         });
       } else {
         this.dataForTheTree = response["data"]; //angular.copy(response.data); TODO:
@@ -117,7 +117,7 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
       var modalOptions = new ConfirmDialogData();
 
       modalOptions.headerType = "warning";
-      modalOptions.dialogTitle = 'Warning';
+      modalOptions.dialogTitle = this.translate.instant('Warning');
       modalOptions.message = this.translate.instant('Collections.This action is going to delete the entire Collection. Do you want to proceed?', { name: this.selectedCollection.name });
       modalOptions.buttons = ['No', 'Yes'];
 
@@ -134,7 +134,7 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
               this.selectedCollectionIndex = null;
             }, (error) => {
               this.dialog.open(ConfirmDialogComponent, {
-                data: new ConfirmDialogData("Error",
+                data: new ConfirmDialogData(this.translate.instant("Error"),
                   this.translate.instant("Collections.Error in delete Collection. Please refresh the page and try again.")), width: this.dialogWidth
               });
             });

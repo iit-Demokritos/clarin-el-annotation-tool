@@ -108,6 +108,11 @@ import { appInitializerProviders } from '@core/initializers';
 // import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 /* Petasis, 20/06/2021 */
 import { AngularSplitModule } from 'angular-split';
+import { InspectDocumentComponent } from './components/views/inspect-document/inspect-document.component';
+import { CompareAnnotationsComponent } from './components/views/compare-annotations/compare-annotations.component';
+import { CompareDocumentsComponent } from './components/views/compare-documents/compare-documents.component';
+import { CompareCollectionsComponent } from './components/views/compare-collections/compare-collections.component';
+import { ToolbarSelectDocumentComponent } from './components/controls/toolbar-select-document/toolbar-select-document.component';
 
 // Required for AOT compilation
 export function TranslateHttpLoaderFactory(http: HttpClient) {
@@ -177,7 +182,12 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
     AnnotationTextComponent,
     AuthLayoutModComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    InspectDocumentComponent,
+    CompareAnnotationsComponent,
+    CompareDocumentsComponent,
+    CompareCollectionsComponent,
+    ToolbarSelectDocumentComponent
   ],
   imports: [
     BrowserModule,

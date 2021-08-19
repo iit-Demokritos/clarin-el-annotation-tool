@@ -1,5 +1,6 @@
 {
-  "menu": [{
+  "menu": [
+    {
       "route": "app/dashboard",
       "name": "dashboard",
       "type": "link",
@@ -8,39 +9,82 @@
         "color": "red-500",
         "value": "0"
       }
-    }, {
+    },
+    {
       "route": "app/collections",
       "name": "Collections",
       "type": "sub",
       "icon": "folder",
-      "children": [{
+      "children": [
+        {
           "route": "add",
           "name": "Add New Collection",
           "type": "link",
           "icon": "create_new_folder"
-        },{
+        },
+        {
           "route": "manage",
           "name": "Manage Collections",
           "type": "link",
           "icon": "settings_applications"
         }
       ]
-    }, {
+    },
+    {
       "route": "app/annotation",
       "name": "Annotation",
       "type": "link",
       "icon": "article"
-    }, {
+    },
+    {
+      "route": "app/inspection",
+      "name": "Inspection",
+      "type": "sub",
+      "icon": "fact_check",
+      "label": {
+        "color": "indigo-500",
+        "value": "new"
+      },
+      "children": [
+        {
+          "route": "document",
+          "name": "Inspect Document",
+          "type": "link",
+          "icon": "find_in_page"
+        },
+        {
+          "route": "compareannotations",
+          "name": "Compare Annotations",
+          "type": "link",
+          "icon": "biotech"
+        },
+        {
+          "route": "comparedocuments",
+          "name": "Compare Documents",
+          "type": "link",
+          "icon": "compare"
+        },
+        {
+          "route": "comparecollections",
+          "name": "Compare Collections",
+          "type": "link",
+          "icon": "compare_arrows"
+        }
+      ]
+    },
+    {
       "route": "app/profile/settings",
       "name": "Settings",
       "type": "link",
       "icon": "settings"
-    }, {
+    },
+    {
       "route": "app/sendfeedback",
       "name": "Send Feedback",
       "type": "link",
       "icon": "feedback"
-    }, {
+    },
+    {
       "route": "app/help",
       "name": "Help",
       "type": "link",

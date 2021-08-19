@@ -2,27 +2,12 @@ import { formatDate } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { cloneDeep } from "lodash";
+import { Minimatch } from "minimatch";
 import { Subscription } from 'rxjs';
+import { Annotation } from 'src/app/models/annotation';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
 import { BaseControlComponent } from '../base-control/base-control.component';
-import { Minimatch } from "minimatch";
-
-export interface Span {
-  start: number;
-  end: number;
-  segment: string;
-}
-export interface Attribute {
-  name: string;
-  value: any;
-}
-export interface Annotation {
-  _id: string;
-  type: string;
-  spans: Span[];
-  attributes: Attribute[];
-}
 
 @Component({
   selector: 'annotation-visualizer',

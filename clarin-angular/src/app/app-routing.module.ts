@@ -17,6 +17,12 @@ import { LoginComponent }         from './components/views/login/login.component
 import { RegisterComponent }      from './components/views/register/register.component';
 import { AuthGuard }              from '@core';
 
+import { InspectDocumentComponent }    from './components/views/inspect-document/inspect-document.component';
+import { CompareAnnotationsComponent } from './components/views/compare-annotations/compare-annotations.component';
+import { CompareDocumentsComponent }   from './components/views/compare-documents/compare-documents.component';
+import { CompareCollectionsComponent } from './components/views/compare-collections/compare-collections.component';
+
+
 const COMPONENTS = [];
 const COMPONENTS_DYNAMIC = [];
 
@@ -37,6 +43,10 @@ const routes: Routes = [
       { path: 'collections/add',    component: AddCollectionComponent },
       { path: 'collections/manage', component: ManageCollectionsComponent },
       { path: "annotation",         component: AnnotationComponent },
+      { path: "inspection/document",           component: InspectDocumentComponent },
+      { path: "inspection/compareannotations", component: CompareAnnotationsComponent },
+      { path: "inspection/comparedocuments",   component: CompareDocumentsComponent },
+      { path: "inspection/comparecollections", component: CompareCollectionsComponent },
       {
         path: 'profile',
         loadChildren: () => import('./ng-matero/routes/profile/profile.module').then(m => m.ProfileModule),

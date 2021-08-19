@@ -1,3 +1,27 @@
+19 August 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/models/annotation.ts:
+ * clarin-angular/src/app/models/attribute.ts:
+ * clarin-angular/src/app/models/collection.ts:
+ * clarin-angular/src/app/models/document.ts:
+ * clarin-angular/src/app/models/span.ts: Added some simple interfaces.
+
+ * clarin-angular/src/app/models/dialogs/error-dialog.ts: Simplified error
+ dialog data.
+
+ * clarin-angular/src/app/components/dialogs/error-dialog/error-dialog.component.html:
+ Added the ability to show simple HTML.
+
+ * clarin-angular/src/app/app-routing.module.ts:
+ * clarin-angular/src/app/app.module.ts:
+ * clarin-angular/src/assets/data/menu.json:
+ * clarin-angular/src/app/components/controls/toolbar-select-document/*:
+ * clarin-angular/src/app/components/views/compare-annotations/*:
+ * clarin-angular/src/app/components/views/compare-collections/*:
+ * clarin-angular/src/app/components/views/compare-documents/*:
+ * clarin-angular/src/app/components/views/inspect-document/*: Added new
+ routes, with 4 new dummy components. Implemented a toolbar component for
+ selecting collections/documents.
+
 18 August 2021 Petasis George <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/controls/annotation-visualizer/annotation-visualizer.component.html:
  * clarin-angular/src/app/components/controls/annotation-visualizer/annotation-visualizer.component.ts:

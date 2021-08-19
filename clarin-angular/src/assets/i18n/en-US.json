@@ -79,6 +79,11 @@
     "Collections.Add New Collection": "Add New Collection",
     "Collections.Manage Collections": "Manage Collections",
     "Annotation": "Annotation",
+    "Inspection": "Inspection",
+    "Inspection.Inspect Document": "Inspect Document",
+    "Inspection.Compare Annotations": "Compare Annotations",
+    "Inspection.Compare Documents": "Compare Documents",
+    "Inspection.Compare Collections": "Compare Collections",
     "Settings": "Settings",
     "Send Feedback": "Send Feedback",
     "Help": "Help"
@@ -95,7 +100,7 @@
     "DefaultEncoding": "Default Encoding",
     "DefaultHandler": "Default Handler",
     "NameIsRequired.": "Name is required.",
-    "NameMustBeAtLeast4CharactersLlong.": "Name must be at least 4 characters long.",
+    "NameMustBeAtLeast4CharactersLong.": "Name must be at least 4 characters long.",
     "FilesToBeAddedToTheCollection": "Files to be added to the Collection",
     "PleaseEnterTheNameOfTheCollection...": "Please enter the name of the collection...",
     "Recipient's e-mail": "Recipient's e-mail",
@@ -221,7 +226,13 @@
     "Personal Profile": "Personal Profile",
     "Dashboard": "Dashboard",
     "Add New Collection": "Add New Collection",
-    "Manage Collections": "Manage Collections"
+    "Manage Collections": "Manage Collections",
+    "Inspect Document": "Inspect Document"
+  },
+  "ErrorMessage": {
+    "Error": "Error",
+    "ErrorDuringRetrievingCollections": "Error during the retrieval of your Collections.<br>Please refresh the page and try again.",
+    "ErrorDuringRetrievingCollectionDocuments": "Error during the retrieval of the Collection's Documents.<br>Please refresh the page and try again."
   },
   "Yes": "Yes",
   "No": "No",

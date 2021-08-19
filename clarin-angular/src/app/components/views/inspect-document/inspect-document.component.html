@@ -1,0 +1,8 @@
+<page-header title="{{'pageheader.Inspect Document'|translate}}" *ngIf="showPageHeader"></page-header>
+<toolbar-select-document *ngIf="showDocumentSelectionToolbar" (selectedCollections)="onCollectionsChange($event)"
+    (selectedDocuments)="onDocumentsChange($event)" [allowMultipleCollections]="allowMultipleCollections"
+    [allowMultipleDocuments]="allowMultipleDocuments">
+</toolbar-select-document>
+<div class="inspection-inspect-document">
+    <p>inspect-document works!</p>
+</div>

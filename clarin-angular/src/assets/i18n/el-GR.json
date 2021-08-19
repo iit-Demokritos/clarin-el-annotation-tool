@@ -79,6 +79,11 @@
     "Collections.Add New Collection": "Νέα Συλλογή",
     "Collections.Manage Collections": "Διαχείριση Συλλογών",
     "Annotation": "Επισημείωση",
+    "Inspection": "Επισκόπηση",
+    "Inspection.Inspect Document": "Inspect Document",
+    "Inspection.Compare Annotations": "Compare Annotations",
+    "Inspection.Compare Documents": "Compare Documents",
+    "Inspection.Compare Collections": "Compare Collections",
     "Settings": "Ρυθμίσεις",
     "Send Feedback": "Αποστολή Σχολίων",
     "Help": "Βοήθεια"
@@ -95,7 +100,7 @@
     "DefaultEncoding": "Προκαθορισμένη Κωδικοποίηση",
     "DefaultHandler": "Default Handler",
     "NameIsRequired.": "Name is required.",
-    "NameMustBeAtLeast4CharactersLlong.": "Το όνομα πρέπει να περιέχει τουλάχιστον 4 χαρακτήρες.",
+    "NameMustBeAtLeast4CharactersLong.": "Το όνομα πρέπει να περιέχει τουλάχιστον 4 χαρακτήρες.",
     "FilesToBeAddedToTheCollection": "Αρχεία που θα προστεθούν στην Συλλογή",
     "PleaseEnterTheNameOfTheCollection...": "Παρακαλώ εισάγετε το όνομα της Συλλογής...",
     "Recipient's e-mail": "Recipient's e-mail",
@@ -126,8 +131,8 @@
     "Rename": "Μετονομασια"
   },
   "annotation": {
-    "Collection": "Collection",
-    "Document": "Document",
+    "Collection": "Συλλογή",
+    "Document": "Εγγραφο",
     "Document Attributes": "Document Attributes",
     "Settings": "Settings",
     "Collection Settings": "Collection Settings",
@@ -221,7 +226,13 @@
     "Personal Profile": "Personal Profile",
     "Dashboard": "Dashboard",
     "Add New Collection": "Add New Collection",
-    "Manage Collections": "Manage Collections"
+    "Manage Collections": "Manage Collections",
+    "Inspect Document": "Inspect Document"
+  },
+  "ErrorMessage": {
+    "Error": "Σφάλμα",
+    "ErrorDuringRetrievingCollections": "Error during the retrieval of your Collections.<br>Please refresh the page and try again.",
+    "ErrorDuringRetrievingCollectionDocuments": "Error during the retrieval of the Collection's Documents.<br>Please refresh the page and try again."
   },
   "Yes": "Ναι",
   "No": "Όχι",

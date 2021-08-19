@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
+import { ErrorDialogData } from 'src/app/models/dialogs/error-dialog';
 import { ConfirmDialogComponent } from '../../dialogs/confirm-dialog/confirm-dialog.component';
 import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
 import { MainComponent } from '../main/main.component';
@@ -70,14 +71,10 @@ export class AddCollectionComponent extends MainComponent implements OnInit {
     this.collectionService.getAll()
       .then((response) => {
         if (!response["success"]) {
-          /*var modalOptions = { body: 'Error during the restoring of your collections. Please refresh the page and try again.' };
-          Dialog.error(modalOptions);*/
-          //this.flashMessage.show("Error during the restoring of your collections. Please refresh the page and try again.", { cssClass: 'alert alert-danger', timeout: 2000 });
-          var dialogRef = this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Error during the restoring of your collections. Please refresh the page and try again.", "error") });
+          var dialogRef = this.dialog.open(ErrorDialogComponent, { data: new ErrorDialogData(this.translate,
+            "ErrorDuringRetrievingCollections") });
         } else {
-          /*$scope.collections = response.data;
-        $scope.dataForTheTree = $scope.collections;*/
-          this.dataForTheTree = response["data"]; //angular.copy(response.data); TODO: Copy data
+          this.dataForTheTree = response["data"];
         }
       });
   };
@@ -86,9 +83,9 @@ export class AddCollectionComponent extends MainComponent implements OnInit {
     return new Promise((resolve, reject) => {
       if (this.collectionData.name.length < 4) {
         this.dialog.open(ErrorDialogComponent, {
-          data: new ConfirmDialogData("Error", 'Collections.NameMustBeAtLeast4CharactersLlong.')
+          data: new ConfirmDialogData("Error", 'Collections.NameMustBeAtLeast4CharactersLong.')
         });
-        reject('Collections.NameMustBeAtLeast4CharactersLlong.');
+        reject('Collections.NameMustBeAtLeast4CharactersLong.');
       } else if (this.userFiles.length === 0) {
 
         var modalOptions = new ConfirmDialogData();
@@ -131,7 +128,7 @@ export class AddCollectionComponent extends MainComponent implements OnInit {
               modalOptions.message = 'The collection "' + this.collectionData.name + '" already exists. What do you want to do?';
               modalOptions.buttons = ['Rename', 'Overwrite'];
 
-              var dialogRef = this.dialog.open(ConfirmDialogComponent, { data: modalOptions, width: '550px' });
+              var dialogRef = this.dialog.open(ConfirmDialogComponent, { data: modalOptions, width: '550px', disableClose: true });
 
               dialogRef.afterClosed().subscribe(modalResult => {
                 //var modalInstance = Dialog.confirm(modalOptions);

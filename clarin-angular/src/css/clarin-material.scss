@@ -65,6 +65,8 @@ $foreground: map-get($theme, foreground);
 }
 
 /* Annotation Toolbar */
+.select-document-toolbar,
+.app-toolbar,
 .annotation-toolbar {
   padding: 0px;
   //margin: -16px -16px 16px;
@@ -89,10 +91,12 @@ $foreground: map-get($theme, foreground);
       }
     }
   }
+
   mat-divider {
     height: 24px;
     margin: 6px;
   }
+
   .mat-icon-button {
     height: 24px;
     width: 24px;
