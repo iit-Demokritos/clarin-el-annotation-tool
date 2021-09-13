@@ -29,9 +29,18 @@ export class AuthService {
   }
 
   login(email: string, password: string, rememberMe = false) {
+    this.token.clear();
     return this.loginService.login(email, password, rememberMe).pipe(
       tap(token => this.token.set(token)),
       map(() => this.check())
+    );
+  }
+  
+  reset(email: string,) {
+    this.token.clear();
+    return this.loginService.reset(email).pipe(
+      tap(() => this.token.clear()),
+      map(() => !this.check())
     );
   }
 

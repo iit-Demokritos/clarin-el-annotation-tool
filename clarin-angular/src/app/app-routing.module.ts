@@ -15,6 +15,7 @@ import { DashboardComponent }     from './ng-matero/routes/dashboard/dashboard.c
 import { AuthLayoutModComponent } from './components/views/auth-layout-mod/auth-layout-mod.component';
 import { LoginComponent }         from './components/views/login/login.component';
 import { RegisterComponent }      from './components/views/register/register.component';
+import { ResetPasswordComponent } from './components/views/reset-password/reset-password.component';
 import { AuthGuard }              from '@core';
 
 import { InspectDocumentComponent }    from './components/views/inspect-document/inspect-document.component';
@@ -59,6 +60,7 @@ const routes: Routes = [
     children: [
       { path: 'login',    component: LoginComponent },
       { path: 'register', component: RegisterComponent },
+      { path: 'reset',    component: ResetPasswordComponent },
     ],
   },
   { path: 'profile/overview', redirectTo: 'app/profile/overview' },

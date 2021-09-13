@@ -288,11 +288,22 @@ class UserController extends \BaseController {
      **/
     public function reset() {
         try {
-            $user_email = Request::json('email');
+	    $credentials = [
+              'email' => Request::json('email')
+             ];
 
       //find the user from the supplied email and get a password reset code
       // todo: sentinel does not have such method?
-            $user = Sentinel::findUserByLogin($user_email);
+            $user = Sentinel::findByCredentials($credentials);
+	    if (!$user) {
+              return Response::json([
+                'success' => false,
+		'message' => 'User was not found!',
+		'errors'   => [
+                   'email' => ['User was not found!']
+		]
+	      ], 422);
+	    }
             $reset_code = $user->getResetPasswordCode();
 
             // Check if the reset password code is valid
@@ -317,7 +328,7 @@ class UserController extends \BaseController {
                     });
 
                     return Response::json([
-                        'success' => false,
+                        'success' => true,
                         'message' => 'Your password reset was successful. An email with your new password will arrive shortly.'], 200);
                 } else {
                     return Response::json(['success' => false, 'message' => 'An error was occured. Please try again.'], 500);

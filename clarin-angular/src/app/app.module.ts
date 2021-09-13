@@ -100,6 +100,7 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 import { AuthLayoutModComponent } from './components/views/auth-layout-mod/auth-layout-mod.component';
 import { LoginComponent }         from './components/views/login/login.component';
 import { RegisterComponent }      from './components/views/register/register.component';
+import { ResetPasswordComponent }      from './components/views/reset-password/reset-password.component';
 
 import { environment } from '@env/environment';
 import { BASE_URL } from '@core/interceptors/base-url-interceptor';
@@ -183,6 +184,7 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
     AuthLayoutModComponent,
     LoginComponent,
     RegisterComponent,
+    ResetPasswordComponent,
     InspectDocumentComponent,
     CompareAnnotationsComponent,
     CompareDocumentsComponent,

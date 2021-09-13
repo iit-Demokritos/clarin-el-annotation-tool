@@ -31,6 +31,14 @@ export class LoginService {
     );
   }; /* login */
 
+  reset(email: string) {
+    // Ensure we have a valid CSRF token...
+    this.refreshCSRFToken();
+    return this.http.post('/api/auth/reset', {
+      email
+    });
+  }; /* reset */
+
   refresh() {
     // return this.http.post<TokenResponse | any>('/auth/refresh', {});
     return this.http.post<TokenResponse | any>('/api/user/refresh-token', {});

@@ -177,7 +177,11 @@
     "create_one": "Click here to create one!",
     "please_enter": "Please enter",
     "please_enter_username": "Please enter your user name (e-mail)",
-    "please_enter_password": "Please enter your password"
+    "please_enter_password": "Please enter your password",
+    "please_enter_email": "Please enter your user name (e-mail)",
+    "Reset Password": "Reset Password",
+    "Forgot your password?": "Forgot your password?",
+    "reset_password": "Click here to reset your password!"
   },
   "register": {
     "welcome": "Welcome",

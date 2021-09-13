@@ -1,3 +1,5 @@
+13 September 2021 Petasis George <petasis@iit.demokritos.gr>:
+
 19 August 2021 Petasis George <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/models/annotation.ts:
  * clarin-angular/src/app/models/attribute.ts:
