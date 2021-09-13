@@ -1,4 +1,14 @@
 13 September 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/views/reset-password/:
+ * backend/clarin/app/Http/Controllers/UserController.php:
+ * clarin-angular/src/app/app-routing.module.ts:
+ * clarin-angular/src/app/app.module.ts:
+ * clarin-angular/src/app/components/views/login/login.component.html:
+ * clarin-angular/src/app/ng-matero/core/authentication/auth.service.ts:
+ * clarin-angular/src/app/ng-matero/core/authentication/login.service.ts:
+ * clarin-angular/src/assets/i18n/el-GR.json:
+ * clarin-angular/src/assets/i18n/en-US.json: Added support for resetting
+ password in the login screen.
 
 19 August 2021 Petasis George <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/models/annotation.ts:
