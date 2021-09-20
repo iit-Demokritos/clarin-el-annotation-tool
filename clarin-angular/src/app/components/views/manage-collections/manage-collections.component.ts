@@ -50,8 +50,8 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
   dialogHeight: "600px";
 
   /* Selection model for selecting collection documents (for deletion) */
-  documentsDisplayedColumns: string[] = ['select', 'id', 'name',
-    'owner', 'updated_at', 'updated_by'];
+  documentsDisplayedColumns: string[] = ['select', 'id', 'name'/*,
+    'owner', 'updated_at', 'updated_by'*/];
   documentsSelection;
   documentsDataSource =
     new MatTableDataSource<DocumentInformation>(this.collectionDocuments);
@@ -256,15 +256,30 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
 
   setCollectionDocuments(docs) {
     this.collectionDocuments = docs;
+    var promises = [];
+
     // Add position
-    this.collectionDocuments.forEach(function (element, index) {
+    this.collectionDocuments.forEach((element, index) => {
       element.position = index;
+      element.annotations_len = 0;
+      element.annotations_temp_len = 0;
+      promises.push(this.annotationService.getAll(element.collection_id, element.id)
+        .then((response) => {
+          element.annotations_len = response['data'].length;
+        }));
+      promises.push(this.tempAnnotationService.getAll(element.collection_id, element.id)
+        .then((response) => {
+          element.annotations_temp_len = response['data'].length;
+        }));
     });
-    this.documentsDataSource = new MatTableDataSource<DocumentInformation>(this.collectionDocuments);
-    this.documentsSelectionClear();
-    if (this.documentsTable !== undefined) {
-      this.documentsTable.renderRows();
-    }
+    Promise.all(promises)
+    .then((data) => {
+      this.documentsDataSource = new MatTableDataSource<DocumentInformation>(this.collectionDocuments);
+      this.documentsSelectionClear();
+      if (this.documentsTable !== undefined) {
+        this.documentsTable.renderRows();
+      }
+    });
   }; /* setCollectionDocuments */
 
   documentsSelectionClear() {

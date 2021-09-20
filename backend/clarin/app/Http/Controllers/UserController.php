@@ -288,6 +288,7 @@ class UserController extends \BaseController {
      **/
     public function reset() {
         try {
+            Reminder::removeExpired();
 	    $credentials = [
               'email' => Request::json('email')
              ];
