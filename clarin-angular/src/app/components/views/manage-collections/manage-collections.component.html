@@ -87,6 +87,10 @@
             [disabled]="!selectedCollection.is_owner" [matTooltip]="'Collections.Delete Collection'|translate">
             <mat-icon>delete_forever</mat-icon>
           </button>
+	  <button mat-icon-button color="primary" (click)="importDocumentsFromExport()" [disabled]="btnShow"
+            [matTooltip]="'Collections.Import Documents from Export'|translate">
+            <mat-icon>file_upload</mat-icon>
+          </button>
           <button mat-icon-button color="warn" (click)="deleteDocuments()" [disabled]="btnShow"
             [matTooltip]="'Collections.Delete Documents'|translate">
             <mat-icon>delete_forever</mat-icon>

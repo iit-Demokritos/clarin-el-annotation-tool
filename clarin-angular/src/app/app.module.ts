@@ -18,6 +18,7 @@ import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/conf
 import { MainDialogComponent } from './components/dialogs/main-dialog/main-dialog.component';
 import { AddDocumentsDialogComponent } from './components/dialogs/add-documents-dialog/add-documents-dialog.component';
 import { ImportModalComponent } from './components/dialogs/import-modal/import-modal.component';
+import { ImportDocumentsFromExportModalComponent } from './components/dialogs/import-documents-from-export-modal/import-documents-from-export-modal.component';
 import { RenameCollectionModalComponent } from './components/dialogs/rename-collection-modal/rename-collection-modal.component';
 import { ShareCollectionModalComponent } from './components/dialogs/share-collection-modal/share-collection-modal.component';
 import { AddCollectionComponent } from './components/views/add-collection/add-collection.component';
@@ -133,6 +134,7 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
     MainDialogComponent,
     AddDocumentsDialogComponent,
     ImportModalComponent,
+    ImportDocumentsFromExportModalComponent,
     RenameCollectionModalComponent,
     ShareCollectionModalComponent,
     AddCollectionComponent,
@@ -243,6 +245,7 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
     MainDialogComponent,
     AddDocumentsDialogComponent,
     ImportModalComponent,
+    ImportDocumentsFromExportModalComponent,
     RenameCollectionModalComponent,
     ShareCollectionModalComponent,
     AddCollectionComponent,

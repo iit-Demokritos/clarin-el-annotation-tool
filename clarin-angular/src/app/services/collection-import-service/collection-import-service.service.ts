@@ -51,6 +51,35 @@ export class CollectionImportService implements OnInit {
     });
   }; /* readFile */
 
+  readFiles(documentFiles) {
+    return new Promise((resolve, reject) => {
+      var promises = [];
+      documentFiles.forEach(element => {
+        promises.push(this.readFile(element));
+      });
+      Promise.all(promises)
+      .then((files) => {
+        resolve(files);
+      }, (error) => {
+        reject(error);
+      });
+    });
+  }; /* readFiles */
+
+  readJSONFiles(documentFiles) {
+    return new Promise((resolve, reject) => {
+      this.readFiles(documentFiles).then((files: string[]) => {
+        var filesJSON = []
+        files.forEach((file) => {
+          filesJSON.push(JSON.parse(file));
+        });
+        resolve(filesJSON);
+      }, (error) => {
+        reject(error);
+      });
+    });
+  }; /* readJSONFiles */
+
   exists(collectionName) {
     return this.collectionService.exists(collectionName);
   }; /* exists */

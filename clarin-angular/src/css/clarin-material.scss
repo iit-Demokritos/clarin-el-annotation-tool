@@ -422,6 +422,7 @@ $foreground: map-get($theme, foreground);
   }
 }
 .import-collection-modal,
+.import-documents-from-export-modal,
 .rename-collection-modal {
   mat-form-field {
     width: 100%;

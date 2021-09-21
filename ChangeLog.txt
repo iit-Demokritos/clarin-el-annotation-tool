@@ -1,3 +1,19 @@
+21 September 2021 Petasis George <petasis@iit.demokritos.gr>, Anna Gradou <agradou@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
+ * clarin-angular/src/app/app.module.ts:
+ * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.html:
+ * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.ts:
+ * clarin-angular/src/app/services/collection-import-service/collection-import-service.service.ts:
+ * clarin-angular/src/assets/i18n/el-GR.json:
+ * clarin-angular/src/assets/i18n/en-US.json:
+ * clarin-angular/src/css/clarin-material.scss: New facility for importing
+ Documents from exported Collections.
+ 
+ 20 September 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.html:
+ * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.ts:
+ Reworked how Collection Management is shown (now multiple rows are used for
+ each Document, containing information that includes the annotations).
+
 13 September 2021 Petasis George <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/views/reset-password/:
  * backend/clarin/app/Http/Controllers/UserController.php:

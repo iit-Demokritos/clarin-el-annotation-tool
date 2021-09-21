@@ -7,6 +7,7 @@ import { AddDocumentsDialogComponent } from '../../dialogs/add-documents-dialog/
 import { ConfirmDialogComponent } from '../../dialogs/confirm-dialog/confirm-dialog.component';
 import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
 import { ImportModalComponent } from '../../dialogs/import-modal/import-modal.component';
+import { ImportDocumentsFromExportModalComponent } from '../../dialogs/import-documents-from-export-modal/import-documents-from-export-modal.component';
 import { RenameCollectionModalComponent } from '../../dialogs/rename-collection-modal/rename-collection-modal.component';
 import { ShareCollectionModalComponent } from '../../dialogs/share-collection-modal/share-collection-modal.component';
 import { MainComponent } from '../main/main.component';
@@ -242,6 +243,15 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
       }
     });
   };
+
+  importDocumentsFromExport() {
+    var dialogRef = this.dialog.open(ImportDocumentsFromExportModalComponent,
+      { width: this.dialogWidth, data: {collection: this.selectedCollection, documents: this.selectedDocuments}});
+    dialogRef.afterClosed().subscribe(modalResult => {
+      // this.initializeCollections();
+      // this.initializeCollectionData();
+    });
+  }; /* importDocumentsFromExport */
 
   //function to be called when a user clicks on table documents
   documentClick(s) {
