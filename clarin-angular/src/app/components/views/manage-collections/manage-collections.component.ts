@@ -246,10 +246,11 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
 
   importDocumentsFromExport() {
     var dialogRef = this.dialog.open(ImportDocumentsFromExportModalComponent,
-      { width: this.dialogWidth, data: {collection: this.selectedCollection, documents: this.selectedDocuments}});
+      { width: this.dialogWidth,
+        data: {collection: this.selectedCollection, documents: this.selectedDocuments}});
     dialogRef.afterClosed().subscribe(modalResult => {
-      // this.initializeCollections();
-      // this.initializeCollectionData();
+      this.initializeCollections();
+      this.initializeCollectionData();
     });
   }; /* importDocumentsFromExport */
 
