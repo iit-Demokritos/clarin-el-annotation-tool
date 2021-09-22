@@ -87,7 +87,7 @@
             [disabled]="!selectedCollection.is_owner" [matTooltip]="'Collections.Delete Collection'|translate">
             <mat-icon>delete_forever</mat-icon>
           </button>
-	  <button mat-icon-button color="primary" (click)="importDocumentsFromExport()" [disabled]="btnShow"
+          <button mat-icon-button color="primary" (click)="importDocumentsFromExport()" [disabled]="btnShow"
             [matTooltip]="'Collections.Import Documents from Export'|translate">
             <mat-icon>file_upload</mat-icon>
           </button>
@@ -132,8 +132,14 @@
                   <div mat-line> {{element.name}} </div>
                   <div mat-line> {{"Updated by"|translate}}: {{element.updated_by}} </div>
                   <div mat-line> {{"Updated at"|translate}}: {{element.updated_at}} </div>
-                  <div mat-line> {{"Annotations"|translate}}: {{element.annotations_len}},
-                                 {{"Temporary Annotations"|translate}}: {{element.annotations_temp_len}} </div>
+                  <div mat-line> {{"Saved Annotations"|translate}}: {{element.annotations_len}},
+                                 {{"Attributes"|translate}}: {{element.annotations_attributes_len}},
+                                 {{"Settings"|translate}}: {{element.annotations_settings_len}} ({{element.annotations_total_len}})
+                  </div>
+                  <div mat-line> {{"Temporary Annotations"|translate}}: {{element.annotations_temp_len}},
+                                 {{"Attributes"|translate}}: {{element.annotations_temp_attributes_len}},
+                                 {{"Settings"|translate}}: {{element.annotations_temp_settings_len}} ({{element.annotations_temp_total_len}})
+                  </div>
                 </div>
               </mat-cell>
             </ng-container>

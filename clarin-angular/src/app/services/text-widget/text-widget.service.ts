@@ -295,6 +295,11 @@ export class TextWidgetAPI {
       ("collection_setting" in annotation));
   }; /* isSettingAnnotation */
 
+  isAttributeAnnotation(annotation) {
+    return (("document_attribute" in annotation) ||
+      ("collection_attribute" in annotation));
+  }; /* isAttributeAnnotation */
+
   isSettingsCompliantAnnotation(annotation) {
     if (this.settings == undefined) {
       // No settings, everything is compliant...

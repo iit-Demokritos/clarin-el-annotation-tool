@@ -273,14 +273,32 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
     this.collectionDocuments.forEach((element, index) => {
       element.position = index;
       element.annotations_len = 0;
+      element.annotations_attributes_len = 0;
+      element.annotations_settings_len = 0;
+      element.annotations_total_len = 0;
       element.annotations_temp_len = 0;
+      element.annotations_temp_attributes_len = 0;
+      element.annotations_temp_settings_len = 0;
+      element.annotations_temp_total_len = 0;
       promises.push(this.annotationService.getAll(element.collection_id, element.id)
         .then((response) => {
-          element.annotations_len = response['data'].length;
+          element.annotations_total_len = response['data'].length;
+          element.annotations_settings_len =
+            response['data'].filter(ann => this.TextWidgetAPI.isSettingAnnotation(ann)).length;
+          element.annotations_attributes_len =
+            response['data'].filter(ann => this.TextWidgetAPI.isAttributeAnnotation(ann)).length;
+          element.annotations_len = element.annotations_total_len -
+            element.annotations_attributes_len - element.annotations_settings_len;
         }));
       promises.push(this.tempAnnotationService.getAll(element.collection_id, element.id)
         .then((response) => {
-          element.annotations_temp_len = response['data'].length;
+          element.annotations_temp_total_len = response['data'].length;
+          element.annotations_temp_settings_len =
+            response['data'].filter(ann => this.TextWidgetAPI.isSettingAnnotation(ann)).length;
+          element.annotations_temp_attributes_len =
+            response['data'].filter(ann => this.TextWidgetAPI.isAttributeAnnotation(ann)).length;
+          element.annotations_temp_len = element.annotations_temp_total_len -
+            element.annotations_temp_attributes_len - element.annotations_temp_settings_len;
         }));
     });
     Promise.all(promises)

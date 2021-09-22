@@ -1,4 +1,10 @@
 22 September 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.html:
+ * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.ts:
+ * clarin-angular/src/app/services/text-widget/text-widget.service.ts: More
+ details (per annotation type) when showing Documents in Collection
+ Management.
+
  * backend/clarin/app/Http/Controllers/CollectionController.php: Fixed a bug
  in backend's '/api/collection_data', where duplicate document entries were
  returned for shared Documents whose some invitations were not yet accepted.
