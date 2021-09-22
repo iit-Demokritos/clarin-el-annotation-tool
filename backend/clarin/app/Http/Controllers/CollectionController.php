@@ -46,15 +46,12 @@ class CollectionController extends \BaseController {
           ->leftJoin('documents', 'collections.id', '=', 'documents.collection_id')
           ->leftJoin('shared_collections', 'collections.id', '=', 'shared_collections.collection_id')   // addition
           ->where('collections.owner_id', '=', $user['id'])
-          ->where(function ($query) {
-               $query->whereNull('shared_collections.confirmed')
-                     ->orWhere('shared_collections.confirmed', '<>', 0);
-          })
           ->orWhere(function($query) use ($user) {
             $query->where('shared_collections.to', '=', $user['email'])
                   ->where('shared_collections.confirmed', '=', 1);
           })
-          ->select('documents.id', 'documents.name', 'documents.collection_id', 'collections.name as collection_name', 'collections.owner_id','shared_collections.confirmed', DB::raw('IF(' . $user['id'] . '=collections.owner_id, true, false) as is_owner'))
+          ->select('documents.id', 'documents.name', 'documents.collection_id', 'collections.name as collection_name', 'collections.owner_id', DB::raw('MAX(shared_collections.confirmed) confirmed'), DB::raw('IF(' . $user['id'] . '=collections.owner_id, true, false) as is_owner'))
+          ->groupBy('id')
           ->distinct()
           ->orderBy('collection_name', 'asc')
           ->orderBy('name', 'asc')
