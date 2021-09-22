@@ -1,3 +1,8 @@
+22 September 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * backend/clarin/app/Http/Controllers/CollectionController.php: Fixed a bug
+ in backend's '/api/collection_data', where duplicate document entries were
+ returned for shared Documents whose some invitations were not yet accepted.
+
 21 September 2021 Petasis George <petasis@iit.demokritos.gr>, Anna Gradou <agradou@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
  * clarin-angular/src/app/app.module.ts:
  * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.html:
