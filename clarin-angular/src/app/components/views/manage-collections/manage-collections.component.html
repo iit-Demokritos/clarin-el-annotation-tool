@@ -21,7 +21,7 @@
             <mat-icon>delete_forever</mat-icon>
           </button>-->
         </mat-card-header>
-        <mat-card-content class="sidebar-main-content">
+        <mat-card-content class="sidebar-main-content mat-card-fill-parent">
           <!-- SIDEBAR COLLECTION LIST -->
           <mat-selection-list #collections [multiple]="false">
             <mat-list-option *ngFor="let collection of dataForTheTree;let index=index" [value]="collection"
@@ -130,8 +130,7 @@
               <mat-cell mat-cell *matCellDef="let element">
                 <div>
                   <div mat-line> {{element.name}} </div>
-                  <div mat-line> {{"Updated by"|translate}}: {{element.updated_by}} </div>
-                  <div mat-line> {{"Updated at"|translate}}: {{element.updated_at}} </div>
+                  <div mat-line> {{"Updated by"|translate}}: {{element.updated_by}}, {{"Updated at"|translate}}: {{element.updated_at}} </div>
                   <div mat-line> {{"Saved Annotations"|translate}}: {{element.annotations_len}},
                                  {{"Attributes"|translate}}: {{element.annotations_attributes_len}},
                                  {{"Settings"|translate}}: {{element.annotations_settings_len}} ({{element.annotations_total_len}})
@@ -139,6 +138,16 @@
                   <div mat-line> {{"Temporary Annotations"|translate}}: {{element.annotations_temp_len}},
                                  {{"Attributes"|translate}}: {{element.annotations_temp_attributes_len}},
                                  {{"Settings"|translate}}: {{element.annotations_temp_settings_len}} ({{element.annotations_temp_total_len}})
+                  </div>
+                  <div mat-line *ngIf="element.opened_by.length">
+                    <mat-chip-list *ngFor="let open of element.opened_by">
+                      {{"Opened by"|translate}}:
+                      <mat-chip [selected]="open.owner == 1" selectable="false" [matTooltip]="open.annotator">
+                        {{open.first_name ? open.first_name : ""}} {{open.last_name ? open.last_name : ""}} ({{open.email}}),
+                        {{"DB Interactions"|translate}}: {{open.db_interactions}}
+                        <mat-icon matChipRemove *ngIf="open.owner" (click)="closeDocument(element, open)">cancel</mat-icon>
+                      </mat-chip>
+                    </mat-chip-list>
                   </div>
                 </div>
               </mat-cell>
@@ -174,7 +183,7 @@
               <mat-cell mat-cell *matCellDef="let element"> {{element.updated_by}} </mat-cell>
             </ng-container>
 
-            <mat-header-row *matHeaderRowDef="documentsDisplayedColumns"></mat-header-row>
+            <mat-header-row *matHeaderRowDef="documentsDisplayedColumns; sticky: true"></mat-header-row>
             <mat-row matRipple *matRowDef="let row; columns: documentsDisplayedColumns;"
               (click)="documentsSelection.toggle(row)"></mat-row>
           </mat-table>

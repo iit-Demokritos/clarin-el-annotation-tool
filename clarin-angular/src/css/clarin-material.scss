@@ -324,6 +324,14 @@ $foreground: map-get($theme, foreground);
     //height: calc(100% - 4px);
     //box-sizing: border-box;
     //margin-bottom: 4px;
+    display: flex;
+    flex-direction: column;
+     > .mat-card-title-group {
+       display: block;
+     }
+     > .mat-card-content {
+       overflow: auto;
+     }
   }
   .sidebar-main-content {
     .mat-badge-small.mat-badge-above .mat-badge-content {
@@ -353,6 +361,17 @@ $foreground: map-get($theme, foreground);
     padding-right: 1em;
   }
   .main-content {
+    .mat-chip-list-wrapper {
+      margin: 0;
+      > .mat-chip {
+        margin:0;
+        padding-top: 4px;
+        padding-bottom: 4px;
+      }
+      > .mat-standard-chip {
+        min-height: 1.3em;
+      }
+    }
     .mat-column-select {
       overflow: initial;
     }
@@ -363,13 +382,14 @@ $foreground: map-get($theme, foreground);
     }
     .mat-column-id {
       @extend .overflow-ellipsis;
-      flex: 0 0 8ch;
+      flex: 0 0 12ch;
       text-align: center;
       font-size: 1em;
     }
     .mat-column-name {
       @extend .overflow-ellipsis;
-      text-align: center;
+      padding-left: 16px;
+      text-align: left;
       font-size: 1em;
     }
     .mat-column-encoding {

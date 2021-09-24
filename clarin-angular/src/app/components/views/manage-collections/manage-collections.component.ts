@@ -271,7 +271,12 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
 
     // Add position
     this.collectionDocuments.forEach((element, index) => {
+      delete element.text;
+      delete element.data_binary;
       element.position = index;
+      delete element.data_text;
+      delete element.metadata;
+      delete element.visualisation_options;
       element.annotations_len = 0;
       element.annotations_attributes_len = 0;
       element.annotations_settings_len = 0;
@@ -280,6 +285,7 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
       element.annotations_temp_attributes_len = 0;
       element.annotations_temp_settings_len = 0;
       element.annotations_temp_total_len = 0;
+      // Collecti information about annotations...
       promises.push(this.annotationService.getAll(element.collection_id, element.id)
         .then((response) => {
           element.annotations_total_len = response['data'].length;
@@ -290,6 +296,7 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
           element.annotations_len = element.annotations_total_len -
             element.annotations_attributes_len - element.annotations_settings_len;
         }));
+      // Collecti information about temporary annotations...
       promises.push(this.tempAnnotationService.getAll(element.collection_id, element.id)
         .then((response) => {
           element.annotations_temp_total_len = response['data'].length;
@@ -300,6 +307,26 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
           element.annotations_temp_len = element.annotations_temp_total_len -
             element.annotations_temp_attributes_len - element.annotations_temp_settings_len;
         }));
+      // Get information about users that have opened the document...
+      element.opened_by = [];
+      this.openDocumentService.get(element.id, null).then((response: any) => {
+        if (response.success && response.data.length > 0) {
+          response.data.forEach((opendoc) => {
+            element.opened_by.push({
+              email: opendoc.email,
+              first_name: opendoc.first_name,
+              last_name: opendoc.last_name,
+              owner: opendoc.opened,
+              annotator: opendoc.annotator_type,
+              db_interactions: opendoc.db_interactions
+            });
+          });
+        }
+      }, (error) => {
+        this.dialog.open(ErrorDialogComponent, {
+          data: new ConfirmDialogData("Error", "Database error. Please refresh the page and try again.")
+        });
+      });
     });
     Promise.all(promises)
     .then((data) => {
@@ -341,5 +368,34 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
     }
     return `${this.documentsSelection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
+
+  /** Close an open document */
+  closeDocument(document, open) {
+    var modalOptions = new ConfirmDialogData();
+    modalOptions.headerType = "warning";
+    modalOptions.dialogTitle = this.translate.instant('Warning');
+    modalOptions.message = this.translate.instant('Collections.This action is going to close this Document. Do you want to proceed?', { name: document.name });
+    modalOptions.buttons = ['No', 'Yes'];
+
+    var dialogRef = this.dialog.open(ConfirmDialogComponent, { data: modalOptions, width: this.dialogWidth });
+
+    dialogRef.afterClosed().subscribe(modalResult => {
+      if (modalResult === "Yes") {
+        this.openDocumentService.destroy(document.id, open.annotator)
+          .then((data) => {
+            this.selectedCollection = undefined;
+            this.setCollectionDocuments([]);
+            this.initializeCollections();
+            this.showStaticHeader = true;
+            this.selectedCollectionIndex = null;
+          }, (error) => {
+            this.dialog.open(ConfirmDialogComponent, {
+              data: new ConfirmDialogData(this.translate.instant("Error"),
+                this.translate.instant("Collections.Error in closing Document.")), width: this.dialogWidth
+            });
+          });
+      }
+    });
+  }; /* closeDocument */
 
 }

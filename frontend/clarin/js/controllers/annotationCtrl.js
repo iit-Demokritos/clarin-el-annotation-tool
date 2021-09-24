@@ -173,13 +173,13 @@ angular.module('clarin-el').controller('AnnotationCtrl', ['$scope', '$rootScope'
                   (documentFound.db_interactions == 0 || documentFound.confirmed == 1)) {
                 // Document has been opened only from the current user & no db_interactions have occurred
                 console.warn("Document opened by current user & no db_interactions have occurred");
-                TempAnnotation.destroy(documentFound.collection_id, documentFound.document_id, null)
-                  .then(function (response) {
-                    createDocumentSelectionModal();
-                  }, function (error) {
-                    var modalOptions = { body: 'Database error. Please refresh the page and try again.' };
-                    Dialog.error(modalOptions);
-                  });
+                // TempAnnotation.destroy(documentFound.collection_id, documentFound.document_id, null)
+                //   .then(function (response) {
+                //     createDocumentSelectionModal();
+                //   }, function (error) {
+                //     var modalOptions = { body: 'Database error. Please refresh the page and try again.' };
+                //     Dialog.error(modalOptions);
+                //   });
               } else if (!documentFound.confirmed && documentFound.db_interactions > 0) {
                 // Document not shared and db_interactions > 0, open modal informing users about the work in progress
                 console.warn("Document opened by current user & not shared & db_interactions > 0");

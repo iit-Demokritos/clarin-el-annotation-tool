@@ -21,7 +21,7 @@ export class OpenDocumentService {
 
   get(documentId, annotatorId) {
     return new Promise((resolve, reject) => {
-      this.http.get('./api/open_documents/' + documentId + '/' + annotatorId)
+      this.http.get('./api/open_documents/' + documentId + ((annotatorId != null) ? '/' + annotatorId : ''))
         .subscribe((data) => {
           resolve(data);
         }, (error) => {
