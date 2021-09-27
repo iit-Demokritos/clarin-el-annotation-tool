@@ -130,8 +130,8 @@ class CollectionController extends \BaseController {
       $user = Sentinel::getUser();
       return Response::json([
         'success' => true,
-        'data'    => Collection::where('owner_id', $user['id'])
-          ->where('id', $collection_id)
+        'data'    => Collection::where('id', $collection_id)
+          // ->where('owner_id', $user['id'])
           ->get()]);
     } catch(\Exception $e) {
       Log::info("CollectionController - show() - Catch Exception: ".$e->getMessage());

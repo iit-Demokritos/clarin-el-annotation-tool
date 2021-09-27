@@ -14,7 +14,7 @@ class OpenDocumentController extends \BaseController
         'data'    => DB::table('open_documents')
           ->leftJoin('shared_collections', 'open_documents.collection_id', '=', 'shared_collections.collection_id')
           ->select(DB::raw('open_documents.collection_id, open_documents.document_id, open_documents.annotator_type, open_documents.db_interactions, MAX(shared_collections.confirmed) confirmed, open_documents.user_id, IF(' . $user['id'] . '=open_documents.user_id, true, false) as opened'))
-          ->groupBy('document_id')
+          ->groupByRaw('document_id, user_id')
           ->distinct()
           ->get()
       ]);
@@ -36,8 +36,9 @@ class OpenDocumentController extends \BaseController
             return $query->where('open_documents.annotator_type', $annotator_id);
           })
           ->leftJoin('users', 'open_documents.user_id', '=', 'users.id')
-          ->select(DB::raw('open_documents.collection_id, open_documents.document_id, open_documents.annotator_type, open_documents.db_interactions, MAX(shared_collections.confirmed) confirmed, open_documents.user_id, IF(' . $user['id'] . '=open_documents.user_id, true, false) as opened, users.email, users.first_name, users.last_name'))
-          ->groupBy('document_id')
+          ->select(DB::raw('open_documents.collection_id, open_documents.document_id, open_documents.annotator_type, open_documents.db_interactions, MAX(shared_collections.confirmed) confirmed, open_documents.user_id, IF(' . $user['id'] . '=open_documents.user_id, true, false) as opened, IF( users.email = shared_collections.from, true, false) as owner, users.email, users.first_name, users.last_name'))
+          ->groupByRaw('document_id, user_id')
+          ->distinct()
           ->get()
       ]);
     } catch (\Exception $e) {

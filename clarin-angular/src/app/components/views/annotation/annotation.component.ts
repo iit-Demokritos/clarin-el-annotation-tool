@@ -9,6 +9,36 @@ import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.co
 import { SelectDocumentModalComponent } from '../../dialogs/select-document-modal/select-document-modal.component';
 import { MainComponent } from '../main/main.component';
 
+/*
+ * How Documents are opened:
+ *
+ * 1) The first step is to call AnnotationComponent.detectOpenDocument().
+ * 2) AnnotationComponent.detectOpenDocument() calls this.openDocumentService.getAll().
+ *    openDocumentService.getAll() returns a left join of the open documents
+ *    table & the shared collection table, thus in the table we have information
+ *    about both open documents & collections whose sharing is confirmed.
+ *    In result, opened = true if the user id matches the current user.
+ * 3) It recognises ? cases:
+ *    case 1): Document opened by current user, no db_interactions have occurred and is not shared.
+ *    actions 1): a) Temp annotations are deleted; b) Document is closed; c) Proceed to Document Selection.
+ *
+ *    case 2): Document opened by current user, no db_interactions have occurred and is shared.
+ *    actions 2): a) Document is closed; b) Proceed to Document Selection.
+ *
+ *    case 3): Document opened by current user & (not shared | shared but only opened by current user) & db_interactions > 0
+ *    actions 3): a) The user is asked what to do: discard temp annotations, save temp annotations, continue annotation.
+ *                b) In case of discard, Temp annotations are deleted; Document is closed (RestoreAnnotationService.discard()); Proceed to Document Selection.
+ *                c) In case of save, annotations are deleted, temp annotations are saved as annotations, temp annotations are deleted, document is closed (RestoreAnnotationService.autoSave()); Proceed to Document Selection.
+ *                d) In case of continue, the document gets opened for annotation, based on the temp annotations.
+ *
+ *    case 4): Document opened by current user, which is shared and opened also by other users.
+ *    actions 4):
+ *
+ *
+ * ?) The user is reirected to AnnotationComponent.createDocumentSelectionModal(),
+ *    to select a Document & an Annotation schema to open.
+ *
+ */
 
 @Component({
   selector: 'annotation',
@@ -71,6 +101,9 @@ export class AnnotationComponent extends MainComponent implements OnInit {
   ];
   user: User;
   skipAnnotationsUpdates = false;
+
+  dialogWidth:  "550px";
+  dialogHeight: "600px";
 
   ngOnInit(): void {
     this.TextWidgetAPI.settingsComplianceFields = ['created_by', 'updated_by'];
@@ -242,91 +275,122 @@ export class AnnotationComponent extends MainComponent implements OnInit {
       });
   }
 
-  //function to detect if the user has left any document open in the database
+  askUserOnOpenedDocument(openedDocument) {
+    const dialogRef = this.dialog.open(DetectChangesModalComponent, {
+      data: openedDocument, disableClose: true, width: this.dialogWidth
+    });
+    return dialogRef.afterClosed()
+      .toPromise() // here you have a Promise instead an Observable
+      .then(result => {
+        console.log("The dialog was closed " + result);
+        return Promise.resolve(result); // will return a Promise here
+      });
+  }; /* askUserOnOpenedDocument */
+
+  // Function to detect if the user has left any document open in the database
   detectOpenDocument() {
     console.warn("AnnotationComponent: detectOpenDocument():");
     this.openDocumentService.getAll()
-      .then((response: any) => {
+      .then(async (response: any) => {
+        var showDocumentSelectionModal = 0;
         /* openDocumentService.getAll() returns a left join of the open documents
          * table & the shared collection table, thus in the table we have information
          * about both open documents & collections whose sharing is confirmed.
          * In result, opened = true if the user id matches the current user. */
-        console.warn("AnnotationComponent: detectOpenDocument(): OpenDocument.getAll():", response);
-        //search if the user has an open document 
+        console.warn("AnnotationComponent: detectOpenDocument(): OpenDocument.getAll(): (", response.data.length, " items),",  response);
+        // Search if the user has an open document 
         if (response.success && response.data.length > 0) {
-          // The following variable (documentFound) contains the documents opened by the current user.
-          var documentFound = response.data.find(doc => doc.opened === 1);
-          console.warn("AnnotationComponent: detectOpenDocument(): Document Found:", documentFound);
+          var askUser = false;
+          var openedDocumentsByUser = response.data.filter(doc => doc.opened == 1);
+          console.warn("AnnotationComponent: detectOpenDocument(): Documents opened by user:", openedDocumentsByUser);
+          // Iterate over all user's opened Documents, and prompt the user to save changes,
+          // discard changes, or continue editing them...
+          for (const openedDocument of openedDocumentsByUser) {
+            console.warn("AnnotationComponent: detectOpenDocument(): Opened Document:", openedDocument);
+            console.warn("  DB interactions for user:", openedDocument.db_interactions);
+            console.warn("  Document is shared with other users:", openedDocument.confirmed);
+            var openedDocumentByAllUsers = response.data.filter(doc => doc.document_id == openedDocument.document_id);
+            console.warn("  Users that have opened this Document: (", openedDocumentByAllUsers.length, ")", openedDocumentByAllUsers);
+            openedDocument.enableDiscard = false;
+            askUser = false;
 
-          // User has left at least one document opened
-          if (typeof (documentFound) != "undefined") {
             // Document has been opened only from the current user & no db_interactions have occurred    
-            if (response.data.filter(doc => doc.document_id === documentFound.document_id).length == 1
-              && documentFound.db_interactions == 0 && !documentFound.confirmed) {
-              console.warn("Document opened by current user, no db_interactions have occurred and not shared");
-              this.tempAnnotationService.destroy(documentFound.collection_id, documentFound.document_id, null)
+            if (openedDocumentByAllUsers.length == 1 &&
+                openedDocument.db_interactions == 0 &&
+                !openedDocument.confirmed) {
+              console.warn("  Document opened by current user, no db_interactions have occurred and is not shared");
+              console.warn("    -> Erasing Temp annotations for annotator:", openedDocument.annotator_type);
+              this.tempAnnotationService.destroy(openedDocument.collection_id, openedDocument.document_id, openedDocument.annotator_type)
                 .then((response) => {
-                  this.createDocumentSelectionModal();
+                  console.warn("    -> Closing Document for annotator:", openedDocument.annotator_type);
+                  this.openDocumentService.destroy(openedDocument.document_id, openedDocument.annotator_type);
+                  showDocumentSelectionModal++; // this.createDocumentSelectionModal();
                 }, (error) => {
                   this.dialog.open(ErrorDialogComponent, {
                     data: new ConfirmDialogData("Error", "Database error. Please refresh the page and try again.")
                   })
                 });
+            } else if (openedDocument.db_interactions == 0) {
+              console.warn("  Document opened by current user, no db_interactions have occurred and is shared:", openedDocumentByAllUsers);
+              console.warn("    -> Closing Document for annotator:", openedDocument.annotator_type);
+              this.openDocumentService.destroy(openedDocument.document_id, openedDocument.annotator_type);
             } else if (
               // Document not shared and db_interactions > 0
-              (!documentFound.confirmed && documentFound.db_interactions > 0) ||
+              (!openedDocument.confirmed && openedDocument.db_interactions > 0) ||
               // Document is shared, but only opened by the current user and db_interactions > 0
-              (documentFound.confirmed == 1 &&
-                response.data.filter(doc => doc.document_id === documentFound.document_id).length == 1 &&
-                documentFound.db_interactions > 0)
+              (openedDocument.confirmed == 1 &&
+                response.data.filter(doc => doc.document_id === openedDocument.document_id).length == 1 &&
+                openedDocument.db_interactions > 0)
             ) {
               // Document not shared and db_interactions > 0, open modal informing users about the work in progress
-              console.warn("Document opened by current user & (not shared | (shared but only opened by current user) & db_interactions > 0");
-              var dialogRef = this.dialog.open(DetectChangesModalComponent, { data: documentFound, disableClose: true });
-              dialogRef.afterClosed().subscribe((response: any) => {
-                if (response.success) {
-                  if (typeof (response.resume) != "undefined" && response.resume) {
-                    this.documentSelected = true;
-                    this.TextWidgetAPI.registerAnnotationsCallback(this.updateAnnotationList.bind(this));
-                    //$timeout(function () { $scope.documentSelection = false; }, 800);
-                    setTimeout(() => { //<<<---using ()=> syntax
-                      this.documentSelection = false;
-                      this.annotatorType = this.TextWidgetAPI.getAnnotatorType();
-                    }, 800);
-
-                  } else {
-                    this.createDocumentSelectionModal();
-                  }
-                } else {
-                  this.dialog.open(ErrorDialogComponent, {
-                    data: new ConfirmDialogData("Error", "Error during the restoration of your annotations. Please refresh the page and try again.")
-                  })
-                }
-              }, (error) => {
-                this.dialog.open(ErrorDialogComponent, {
-                  data: new ConfirmDialogData("Error", "Database error. Please refresh the page and try again.")
-                })
-              });
-              //});
+              console.warn("  Document opened by current user & (not shared | shared but only opened by current user) & db_interactions > 0");
+              // Allow the user to discard temp annotations...
+              openedDocument.enableDiscard = true;
+              // Ask the user what to do...
+              askUser = true;
             } else {
-              console.warn("Documents opened, which are shared and opened also by other users");
-              this.createDocumentSelectionModal();
+              console.warn("  Document opened by current user, which is shared and opened also by other users");
+              // Ask the user what to do...
+              askUser = true;
             }
-          } else {
-            // User has no document open
-            console.warn("User has no open documents");
-            this.createDocumentSelectionModal();
-          }
-        } else if (response.success) {
+            if (askUser) {
+              const response = await this.askUserOnOpenedDocument(openedDocument);
+              console.warn("    User Response:", response.userSelection, response);
+              if (response.success) {
+                if (typeof (response.resume) != "undefined" && response.resume) {
+                  // The document is already in the annotator!
+                  this.documentSelected = true;
+                  this.TextWidgetAPI.registerAnnotationsCallback(this.updateAnnotationList.bind(this));
+                  setTimeout(() => { //<<<---using ()=> syntax
+                    this.documentSelection = false;
+                    this.annotatorType = this.TextWidgetAPI.getAnnotatorType();
+                  }, 800);
+                  showDocumentSelectionModal = 0;
+                  break; // The document has been set for editing, break the loop and do not show the document selector.
+                } else {
+                  showDocumentSelectionModal++; // this.createDocumentSelectionModal();
+                }
+              } else { // if (response.success)
+                this.dialog.open(ErrorDialogComponent, {
+                  data: new ConfirmDialogData("Error", "Error during the restoration of your annotations. Please refresh the page and try again.")
+                })
+              }; // if (response.success)
+            }; /* if (askUser) */
+          }; // for (const openedDocument of openedDocumentsByUser)
+        } else if (response.success) { // else for: if (response.success && response.data.length > 0)
           console.warn("getAll(): response.data.length == 0");
-          this.createDocumentSelectionModal();
-        } else {
+          showDocumentSelectionModal++; // this.createDocumentSelectionModal();
+        } else { // else for: if (response.success && response.data.length > 0)
           this.dialog.open(ErrorDialogComponent, {
             data: new ConfirmDialogData("Error",
               "Database error. Please refresh the page and try again.")
           })
+        }; // if (response.success && response.data.length > 0)
+
+        if (showDocumentSelectionModal > 0) {
+          this.createDocumentSelectionModal();
         }
-      }, (error) => {
+      }, (error) => { // error handling in then() for this.openDocumentService.getAll()
         this.dialog.open(ErrorDialogComponent, {
           data: new ConfirmDialogData("Error",
             "Database error. Please refresh the page and try again.")

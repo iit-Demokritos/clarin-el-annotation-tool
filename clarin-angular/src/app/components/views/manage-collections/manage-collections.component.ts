@@ -285,7 +285,7 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
       element.annotations_temp_attributes_len = 0;
       element.annotations_temp_settings_len = 0;
       element.annotations_temp_total_len = 0;
-      // Collecti information about annotations...
+      // Collect information about annotations...
       promises.push(this.annotationService.getAll(element.collection_id, element.id)
         .then((response) => {
           element.annotations_total_len = response['data'].length;
@@ -296,7 +296,7 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
           element.annotations_len = element.annotations_total_len -
             element.annotations_attributes_len - element.annotations_settings_len;
         }));
-      // Collecti information about temporary annotations...
+      // Collect information about temporary annotations...
       promises.push(this.tempAnnotationService.getAll(element.collection_id, element.id)
         .then((response) => {
           element.annotations_temp_total_len = response['data'].length;
@@ -309,7 +309,7 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
         }));
       // Get information about users that have opened the document...
       element.opened_by = [];
-      this.openDocumentService.get(element.id, null).then((response: any) => {
+      promises.push(this.openDocumentService.get(element.id, null).then((response: any) => {
         if (response.success && response.data.length > 0) {
           response.data.forEach((opendoc) => {
             element.opened_by.push({
@@ -326,7 +326,7 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
         this.dialog.open(ErrorDialogComponent, {
           data: new ConfirmDialogData("Error", "Database error. Please refresh the page and try again.")
         });
-      });
+      }));
     });
     Promise.all(promises)
     .then((data) => {

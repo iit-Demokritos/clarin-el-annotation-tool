@@ -1,3 +1,20 @@
+27 September 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/views/annotation/annotation.component.ts:
+ Reworked the section dealing with closing open Documents.
+
+ * clarin-angular/src/app/components/dialogs/detect-changes-modal/detect-changes-modal.component.html:
+ * clarin-angular/src/app/components/dialogs/detect-changes-modal/detect-changes-modal.component.ts:
+ Completely reworked the dialog, to provide much more information and
+ guidance.
+
+ * backend/clarin/app/Http/Controllers/CollectionController.php: Removed
+ restriction that only Collections owned by the user can be retrieved.
+ Returned collections must include also Collections shared with the user (Fix
+ pending: TODO).
+
+ * backend/clarin/app/Http/Controllers/OpenDocumentController.php: Fixed
+ problems caused by the grouping only with documents (collapsing users).
+
 24 September 2021 Petasis George <petasis@iit.demokritos.gr>:
  * backend/clarin/app/Http/Controllers/OpenDocumentController.php: Modified
  the returned open documents to include user details.

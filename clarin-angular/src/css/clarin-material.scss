@@ -436,6 +436,7 @@ $foreground: map-get($theme, foreground);
 .share-collection-modal,
 .rename-collection-modal,
 .add-collection-documents-modal,
+.detect-changes-dialog-model,
 .confirm-dialog-modal {
   .mat-button {
     text-transform: uppercase;

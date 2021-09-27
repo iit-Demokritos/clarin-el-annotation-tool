@@ -140,8 +140,8 @@
                                  {{"Settings"|translate}}: {{element.annotations_temp_settings_len}} ({{element.annotations_temp_total_len}})
                   </div>
                   <div mat-line *ngIf="element.opened_by.length">
+                   {{"Opened by"|translate}}:
                     <mat-chip-list *ngFor="let open of element.opened_by">
-                      {{"Opened by"|translate}}:
                       <mat-chip [selected]="open.owner == 1" selectable="false" [matTooltip]="open.annotator">
                         {{open.first_name ? open.first_name : ""}} {{open.last_name ? open.last_name : ""}} ({{open.email}}),
                         {{"DB Interactions"|translate}}: {{open.db_interactions}}
