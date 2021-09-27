@@ -302,6 +302,9 @@ export class AnnotationComponent extends MainComponent implements OnInit {
         if (response.success && response.data.length > 0) {
           var askUser = false;
           var openedDocumentsByUser = response.data.filter(doc => doc.opened == 1);
+          if (!openedDocumentsByUser.length) {
+            showDocumentSelectionModal = 1;
+          }
           console.warn("AnnotationComponent: detectOpenDocument(): Documents opened by user:", openedDocumentsByUser);
           // Iterate over all user's opened Documents, and prompt the user to save changes,
           // discard changes, or continue editing them...
@@ -334,6 +337,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
               console.warn("  Document opened by current user, no db_interactions have occurred and is shared:", openedDocumentByAllUsers);
               console.warn("    -> Closing Document for annotator:", openedDocument.annotator_type);
               this.openDocumentService.destroy(openedDocument.document_id, openedDocument.annotator_type);
+              showDocumentSelectionModal++;
             } else if (
               // Document not shared and db_interactions > 0
               (!openedDocument.confirmed && openedDocument.db_interactions > 0) ||

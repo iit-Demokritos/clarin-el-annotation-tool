@@ -1,5 +1,9 @@
 27 September 2021 Petasis George <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/views/annotation/annotation.component.ts:
+ Fixed a bug where no Document selection was displayed, if the user has no
+ open Documents. Bug reported by Francesco Barreca.
+
+ * clarin-angular/src/app/components/views/annotation/annotation.component.ts:
  Reworked the section dealing with closing open Documents.
 
  * clarin-angular/src/app/components/dialogs/detect-changes-modal/detect-changes-modal.component.html:
