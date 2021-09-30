@@ -130,14 +130,18 @@
               <mat-cell mat-cell *matCellDef="let element">
                 <div>
                   <div mat-line> {{element.name}} </div>
-                  <div mat-line> {{"Updated by"|translate}}: {{element.updated_by}}, {{"Updated at"|translate}}: {{element.updated_at}} </div>
+                  <!--<div mat-line> {{"Updated by"|translate}}: {{element.updated_by}}, {{"Updated at"|translate}}: {{element.updated_at}} </div>-->
                   <div mat-line> {{"Saved Annotations"|translate}}: {{element.annotations_len}},
                                  {{"Attributes"|translate}}: {{element.annotations_attributes_len}},
-                                 {{"Settings"|translate}}: {{element.annotations_settings_len}} ({{element.annotations_total_len}})
+                                 {{"Settings"|translate}}: {{element.annotations_settings_len}}
+                                 ({{element.annotations_total_len}}),
+                                 {{"Updated at"|translate}}: {{element.annotations_updated_at}}
                   </div>
                   <div mat-line> {{"Temporary Annotations"|translate}}: {{element.annotations_temp_len}},
                                  {{"Attributes"|translate}}: {{element.annotations_temp_attributes_len}},
-                                 {{"Settings"|translate}}: {{element.annotations_temp_settings_len}} ({{element.annotations_temp_total_len}})
+                                 {{"Settings"|translate}}: {{element.annotations_temp_settings_len}}
+                                 ({{element.annotations_temp_total_len}}),
+                                 {{"Updated at"|translate}}: {{element.annotations_temp_updated_at}}
                   </div>
                   <div mat-line *ngIf="element.opened_by.length">
                    {{"Opened by"|translate}}:

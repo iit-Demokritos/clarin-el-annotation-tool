@@ -288,6 +288,7 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
       // Collect information about annotations...
       promises.push(this.annotationService.getAll(element.collection_id, element.id)
         .then((response) => {
+          element.annotations_updated_at = new Date(Math.max(... response['data'].map(e => new Date(e.updated_at))));
           element.annotations_total_len = response['data'].length;
           element.annotations_settings_len =
             response['data'].filter(ann => this.TextWidgetAPI.isSettingAnnotation(ann)).length;
@@ -299,6 +300,7 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
       // Collect information about temporary annotations...
       promises.push(this.tempAnnotationService.getAll(element.collection_id, element.id)
         .then((response) => {
+          element.annotations_temp_updated_at = new Date(Math.max(... response['data'].map(e => new Date(e.updated_at))));
           element.annotations_temp_total_len = response['data'].length;
           element.annotations_temp_settings_len =
             response['data'].filter(ann => this.TextWidgetAPI.isSettingAnnotation(ann)).length;

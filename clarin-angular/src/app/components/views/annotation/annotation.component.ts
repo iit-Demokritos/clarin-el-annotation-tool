@@ -292,7 +292,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
     console.warn("AnnotationComponent: detectOpenDocument():");
     this.openDocumentService.getAll()
       .then(async (response: any) => {
-        var showDocumentSelectionModal = 0;
+        var showDocumentSelectionModal = 1;
         /* openDocumentService.getAll() returns a left join of the open documents
          * table & the shared collection table, thus in the table we have information
          * about both open documents & collections whose sharing is confirmed.
@@ -302,9 +302,6 @@ export class AnnotationComponent extends MainComponent implements OnInit {
         if (response.success && response.data.length > 0) {
           var askUser = false;
           var openedDocumentsByUser = response.data.filter(doc => doc.opened == 1);
-          if (!openedDocumentsByUser.length) {
-            showDocumentSelectionModal = 1;
-          }
           console.warn("AnnotationComponent: detectOpenDocument(): Documents opened by user:", openedDocumentsByUser);
           // Iterate over all user's opened Documents, and prompt the user to save changes,
           // discard changes, or continue editing them...

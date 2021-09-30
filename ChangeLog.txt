@@ -1,3 +1,9 @@
+30 September 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * larin-angular/src/app/components/views/manage-collections/manage-collections.component.html:
+ * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.ts:
+ Added modification date for Annotations & Temp Annotations display in
+ Collection management.
+
 27 September 2021 Petasis George <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/views/annotation/annotation.component.ts:
  Fixed a bug where no Document selection was displayed, if the user has no
