@@ -33,7 +33,7 @@ export class AddDocumentsDialogComponent implements OnInit {
   add() {
     if (typeof this.collectionData.collectionId == "undefined") {
       this.flashMessage.show("Unknown Collection",
-        { cssClass: 'alert alert-danger', timeout: 4000 });
+        { cssClass: 'alert alert-danger', timeout: 12000 });
       return
     }
     if (typeof this.userFiles != "undefined") {
@@ -42,18 +42,24 @@ export class AddDocumentsDialogComponent implements OnInit {
           this.collectionData.collectionId,
           this.userFiles)
           .then((data) => {
-            this.dialogRef.close();
+            if (data.every((item) => item['success'])) {
+              this.dialogRef.close()
+            } else {
+              this.flashMessage.show(data.find((item) => !item['success'])['message'],
+                { cssClass: 'alert alert-danger', timeout: 12000 });
+            };
+          }, (error) => {
+            console.error("AddDocumentsDialogComponent: add():", error);
           });
-      }
-      else {
+      } else {
         this.flashMessage.show(
           "Please add at least one document",
-          { cssClass: 'alert alert-danger', timeout: 2000 });
+          { cssClass: 'alert alert-danger', timeout: 12000 });
       }
     } else {
       this.flashMessage.show(
         "Please add at least one document",
-        { cssClass: 'alert alert-danger', timeout: 2000 });
+        { cssClass: 'alert alert-danger', timeout: 12000 });
     }
   }
 

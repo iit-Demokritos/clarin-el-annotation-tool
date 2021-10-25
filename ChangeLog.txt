@@ -1,8 +1,27 @@
+25 October 2021 Petasis George <petasis@iit.demokritos.gr>, Anna Gradou <agradou@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/dialogs/select-document-modal/select-document-modal.component.ts:
+ Fix for the case the languages are not shown, if the user has never loaded a
+ schema before.
+
+07 October 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/views/annotation/annotation.component.ts:
+ * clarin-angular/src/app/components/dialogs/detect-changes-modal/detect-changes-modal.component.ts:
+ Fix in correctly determining the document owner.
+
+04 October 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/dialogs/add-documents-dialog/add-documents-dialog.component.ts:
+ Added feedback when a handler fails in adding a document.
+
 30 September 2021 Petasis George <petasis@iit.demokritos.gr>:
  * larin-angular/src/app/components/views/manage-collections/manage-collections.component.html:
  * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.ts:
  Added modification date for Annotations & Temp Annotations display in
  Collection management.
+
+ 28 September 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * frontend/clarin/js/controllers/annotationCtrl.js: Fixed a bug where the
+ Document selection modal was not shown if the last opened document was automatically
+ closed by the tool.
 
 27 September 2021 Petasis George <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/views/annotation/annotation.component.ts:

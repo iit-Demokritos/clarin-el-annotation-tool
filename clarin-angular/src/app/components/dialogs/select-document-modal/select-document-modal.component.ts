@@ -92,9 +92,11 @@ export class SelectDocumentModalComponent extends MainDialogComponent implements
         this.annotationSchema = _.cloneDeep(response.savedAnnotationSchema);
         this.changeAttributeAlternative(this.annotationSchema.alternative);
       }, (languages: any) => {
+        console.error(languages);
         if (typeof (languages) != "undefined") {
           this.flash = "";
-          this.annotationSchemaOptions.languages = languages;
+          console.error(languages);
+          this.annotationSchemaOptions.languages = languages.annotationSchemaOptions.languages;
         } else
           this.flashMessage.show("An error occured. Please refresh the page and try again", { cssClass: 'alert alert-warning', timeout: 2000 });
       });

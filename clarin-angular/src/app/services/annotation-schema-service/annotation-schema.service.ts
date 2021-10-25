@@ -8,7 +8,9 @@ import { CoreferenceAnnotatorService } from '../coreference-annotator-service/co
 })
 export class AnnotationSchemaService {
 
-  constructor(public http: HttpClient, public buttonAnnotator: ButtonAnnotatorService, public coreferenceAnnotatorService: CoreferenceAnnotatorService) { }
+  constructor(public http: HttpClient,
+    public buttonAnnotator: ButtonAnnotatorService,
+    public coreferenceAnnotatorService: CoreferenceAnnotatorService) { }
 
   restore(annotatorType) {
     return new Promise((resolve, reject) => {
@@ -66,7 +68,6 @@ export class AnnotationSchemaService {
               return this.buttonAnnotator.getValues(responseData.savedAnnotationSchema.language, responseData.savedAnnotationSchema.annotation_type, responseData.savedAnnotationSchema.attribute, responseData.savedAnnotationSchema.alternative);
             })
             .then((response: any) => {
-
               response.groups.forEach(function (value) {
                 responseData.annotationSchemaOptions.values = responseData.annotationSchemaOptions.values.concat(value.values);
               });

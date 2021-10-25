@@ -173,6 +173,7 @@ angular.module('clarin-el').controller('AnnotationCtrl', ['$scope', '$rootScope'
                   (documentFound.db_interactions == 0 || documentFound.confirmed == 1)) {
                 // Document has been opened only from the current user & no db_interactions have occurred
                 console.warn("Document opened by current user & no db_interactions have occurred");
+		createDocumentSelectionModal();
                 // TempAnnotation.destroy(documentFound.collection_id, documentFound.document_id, null)
                 //   .then(function (response) {
                 //     createDocumentSelectionModal();

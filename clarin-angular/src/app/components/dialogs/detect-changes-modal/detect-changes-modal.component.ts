@@ -47,10 +47,15 @@ export class DetectChangesModalComponent extends MainDialogComponent implements 
       //console.error("DetectChangesModalComponent(): Document:", response);
       if (response.success) {
         this.document = {
-          name: response.data.name,
+          name:       response.data.name,
+	  owner_id:   response.data.owner_id,
           updated_by: response.data.updated_by,
           updated_at: response.data.updated_at
         };
+	if (this.document.owner_id == this.openedDocument.ui_user.id) {
+          // User id in UI matches the Document owner...
+          this.owner = true;
+	}
       }
     }, (error) => {
     });

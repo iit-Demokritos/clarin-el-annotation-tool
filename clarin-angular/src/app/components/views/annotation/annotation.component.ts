@@ -276,6 +276,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
   }
 
   askUserOnOpenedDocument(openedDocument) {
+    openedDocument['ui_user'] = this.user;
     const dialogRef = this.dialog.open(DetectChangesModalComponent, {
       data: openedDocument, disableClose: true, width: this.dialogWidth
     });
