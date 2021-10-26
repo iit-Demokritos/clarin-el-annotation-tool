@@ -1,3 +1,6 @@
+26 October 2021 Petasis George <petasis@iit.demokritos.gr>, Anna Gradou <agradou@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
+ * backend-django/*: Imported a new backend, based on Django (Python).
+
 25 October 2021 Petasis George <petasis@iit.demokritos.gr>, Anna Gradou <agradou@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/dialogs/select-document-modal/select-document-modal.component.ts:
  Fix for the case the languages are not shown, if the user has never loaded a
