@@ -12,3 +12,10 @@ frontend/clarin.zip
 frontend/clarin2/
 frontend/webpack-demo/
 backend/clarin_old/
+backend-django/DjangoClarin/.env
+backend-django/DjangoClarin/.settings.py.swp
+backend-django/DjangoClarin/__pycache__/
+backend-django/clarin_backend/migrations/
+backend-django/clarin_backend/__pycache__/
+backend-django/clarin_backend/static/
+backend-django/static/

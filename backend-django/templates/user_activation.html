@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <!--{{ request.scheme }}://{{ request.get_host }}-->
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+   <link rel="stylesheet" href="{{ baseurl }}{% static 'frontend/style.css' %}">
+   <title>Account Activation for User: {{user}}</title>
+</head>
+<body style="max-width:450px;margin:0 auto 20px">
+   {% csrf_token %}
+ <img data-imagetype="External"  blockedimage="" src='https://vast.ellogon.org/images/logo.jpg' alt="Ellogon Logo!"  style="margin:0 auto;width:170px;display:block"/>
+  <br/>
+  <br/>
+  <p>Hello {{user}},</p>
+
+  <p>To finish signing up for your {{ EMAIL_APP_NAME }} account, you must click the link below to confirm your email address.</p>
+  <div style="padding: 19px; border: 1px solid #e3e3e3; background-color: #f5f5f5; max-width: 400px">
+     <a href="{{ link }}" style="color: #fff; background-color: #337ab7; border-color: #2e6da4; display: block; padding: 10px 16px; font-size: 18px; line-height: 1.3333333; border-radius: 4px; text-decoration: none; text-align: center" target="_blank" rel="noreferrer">Activate Account</a>
+  </div>
+  <br/>
+  <br/>
+  <p>After that, you will be able to sign in to {{ EMAIL_APP_NAME }} and explore its awesome features.</p>
+  <br/>
+  <p>Thank you,</p>
+  <p>The {{ EMAIL_APP_NAME }} Team</p>
+</body>
+</html>
