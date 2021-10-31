@@ -1,5 +1,5 @@
 import simplejwt as simplejwt
-from django.urls import path
+from django.urls import path, re_path
 from rest_framework_simplejwt import views as jwt_views
 from .views import GetCsrfToken, OpenDocumentRetrieve, ResetPassword, ChangePassword, ManageProfileView, ShareCollectionView, SharedCollectionDelete, \
     AcceptCollectionView, OpenDocumentView, CollectionDataView, ButtonAnnotatorView, CoreferenceAnnotatorView, \
@@ -330,6 +330,6 @@ path('api/collections/<collection_id>/documents/<document_id>/annotations/<Butto
 
 path('api/collections/<collection_id>/documents/<document_id>/annotations', DocumenAnnotationView.as_view(), name='document_annotations'),
     path('main/',                          MainView.as_view(),                     name='main'),
-    path('', InitApp.as_view(), name='login_auth'),
+    re_path('.*', InitApp.as_view(), name='any_path_index_view'),
 
 ]

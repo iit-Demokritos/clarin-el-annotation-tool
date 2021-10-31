@@ -38,6 +38,7 @@ rm -rf $DJANGO_STATIC_DIR/assets $DJANGO_STATIC_DIR/*es2015*.js \
        $DJANGO_STATIC_DIR/*-es5.*.js $DJANGO_STATIC_DIR/favicon.ico \
        $DJANGO_STATIC_DIR/index.html $DJANGO_STATIC_DIR/scripts.*.js \
        $DJANGO_STATIC_DIR/styles.*.css
+mkdir -p $DJANGO_TEMPLATES_DIR
 cp --force -r dist/$ANGULAR2_PROJECT_NAME/* \
               $DJANGO_STATIC_DIR
 cp --force dist/$ANGULAR2_PROJECT_NAME/index.html $DJANGO_TEMPLATES_DIR/index.html
