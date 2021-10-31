@@ -49,7 +49,7 @@ ALLOWED_HOSTS = env('ALLOWED_HOSTS')
 # Application definition
 
 INSTALLED_APPS = [
-   'django.contrib.admin',
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -57,13 +57,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework', # add rest_framework
     'rest_framework_simplejwt.token_blacklist',
-    'clarin_backend',
-    #'clarinangular'
-   
+    'clarin_backend'
 ]
 
 MIDDLEWARE = [
-
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -71,14 +68,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
 ]
-
-
-#
-
-
-
 
 ROOT_URLCONF = 'DjangoClarin.urls'
 TEMPLATES = [
@@ -98,24 +88,13 @@ TEMPLATES = [
     },
 ]
 
-print(BASE_DIR)
-print(TEMPLATES[0]["DIRS"])
 WSGI_APPLICATION = 'DjangoClarin.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
-
 DATABASES = {
-    
-     
     'default': env.db()
-     
-   
 }
-
-#print(env.db())
 
 # REST
 # https://www.django-rest-framework.org/
@@ -138,14 +117,16 @@ SIMPLE_JWT = {
     'ALGORITHM':                'HS256',
     'SIGNING_KEY':              SECRET_KEY,
     'VERIFYING_KEY':            None,
-    'AUTH_HEADER_TYPES':        ('JWT',),
+    'AUTH_HEADER_TYPES':        ('Bearer', 'JWT'),
     'USER_ID_FIELD':            'id',
     'USER_ID_CLAIM':            'user_id',
     'AUTH_TOKEN_CLASSES':      ('rest_framework_simplejwt.tokens.AccessToken',),
     'TOKEN_TYPE_CLAIM':         'token_type',
 }
+
+# CSRF Protection
 CSRF_USE_SESSIONS = False
-CSRF_COOKIE_HTTPONLY = False  # this is the default, and should be kept this way
+CSRF_COOKIE_HTTPONLY = True
 CSRF_COOKIE_NAME = 'XSRF-TOKEN'
 CSRF_HEADER_NAME = 'X-XSRF-TOKEN'
 CSRF_COOKIE_SECURE = True
@@ -172,15 +153,10 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
 LANGUAGE_CODE = env('LANGUAGE_CODE')
-
 TIME_ZONE = env('TIME_ZONE')
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/

@@ -105,7 +105,7 @@ import { ResetPasswordComponent }      from './components/views/reset-password/r
 
 import { environment } from '@env/environment';
 import { BASE_URL } from '@core/interceptors/base-url-interceptor';
-//import { httpInterceptorProviders } from '@core/interceptors';
+import { httpInterceptorProviders } from '@core/interceptors';
 import { appInitializerProviders } from '@core/initializers';
 // import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 /* Petasis, 20/06/2021 */
@@ -302,7 +302,7 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
     },
     /* ng-matero */
     { provide: BASE_URL, useValue: environment.baseUrl },
-    //httpInterceptorProviders,
+    httpInterceptorProviders,
     appInitializerProviders,
   ],
   bootstrap: [AppComponent]

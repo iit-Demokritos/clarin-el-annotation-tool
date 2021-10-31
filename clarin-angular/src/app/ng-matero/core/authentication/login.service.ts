@@ -7,6 +7,8 @@ import { map, tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class LoginService {
+  private token_refresh: string | null = null;
+
   constructor(protected http: HttpClient) {}
 
   async getToken() {
@@ -17,6 +19,20 @@ export class LoginService {
     return this.getToken();
   }
 
+  getAccessToken(token) {
+    if (typeof token === 'string' || token instanceof String) {
+      this.token_refresh = null;
+      return token;
+    } else {
+      this.token_refresh = token['refresh'];
+      return token['access'];
+    }
+  }; /* getAccessToken */
+
+  getRefreshToken() {
+    return this.token_refresh;
+  }; /* getRefreshToken */
+
   login(email: string, password: string, rememberMe: boolean = false) {
     // Ensure we have a valid CSRF token...
     this.refreshCSRFToken();
@@ -26,8 +42,11 @@ export class LoginService {
       remember_me: rememberMe,
     }).pipe(
       // Caller expects a <TokenResponse>
-      map(loginData => {return {token: loginData.data.jwtToken,
-                                token_type: 'bearer'}})
+      map(loginData => {
+        return {access_token:  this.getAccessToken(loginData['data']['jwtToken']),
+                refresh_token: this.getRefreshToken(),
+                token_type:    'bearer'}
+      }).bind(this)
     );
   }; /* login */
 
@@ -41,7 +60,16 @@ export class LoginService {
 
   refresh() {
     // return this.http.post<TokenResponse | any>('/auth/refresh', {});
-    return this.http.post<TokenResponse | any>('/api/user/refresh-token', {});
+    return this.http.post<TokenResponse | any>('/api/user/refresh-token', {
+      refresh: this.token_refresh
+    }).pipe(
+      // Caller expects a <TokenResponse>
+      map(loginData => {
+        return {access_token:  this.getAccessToken(loginData),
+                refresh_token: this.getRefreshToken(),
+                token_type:    'bearer'}
+      }).bind(this)
+    );
   }; /* refresh */
 
   logout() {

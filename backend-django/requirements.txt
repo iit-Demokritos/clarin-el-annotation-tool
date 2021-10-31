@@ -1,0 +1,17 @@
+django
+django-environ
+#django-filter
+djangorestframework
+djangorestframework-simplejwt
+#django-webpack-loader
+#markdown
+mysqlclient
+#requests
+simplejwt
+six
+lxml
+beautifulsoup4
+dataclasses_json
+pymongo
+mysql-connector-python
+bcrypt

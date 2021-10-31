@@ -1,3 +1,11 @@
+31 October 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * backend-django/clarin_backend/urls.py: Cosmetic changes and addition of the 
+ 'api/user/refresh-token' endpoint.
+
+ * clarin-angular/src/app/app.module.ts:
+ * clarin-angular/src/app/ng-matero/core/authentication/login.service.ts:
+ Fixed JWT login with Django.
+
 26 October 2021 Petasis George <petasis@iit.demokritos.gr>, Anna Gradou <agradou@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
  * backend-django/*: Imported a new backend, based on Django (Python).
 

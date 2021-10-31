@@ -6,9 +6,15 @@ ANGULAR2_DIR=$SCRIPT_DIR/$ANGULAR2_PROJECT_NAME
 
 LARAVEL_DIR=$SCRIPT_DIR/backend/clarin
 
-DJANGO_DIR=/home/clarinel/ellogon-annotation-tool/DjangoClarin
+DJANGO_DIR=/home/clarinel/clarin-el-annotation-tool/backend-django
 DJANGO_STATIC_DIR=$DJANGO_DIR/clarin_backend/static
 DJANGO_TEMPLATES_DIR=$DJANGO_DIR/clarin_backend/templates
+
+DJANGO_VENV=$DJANGO_DIR/apache_venv
+
+## Set the correct SELinux context.
+#  sudo setsebool -P httpd_enable_homedirs on
+chcon -R -t httpd_user_content_t $DJANGO_VENV
 
 ## Angular 2 UI
 cd $ANGULAR2_DIR

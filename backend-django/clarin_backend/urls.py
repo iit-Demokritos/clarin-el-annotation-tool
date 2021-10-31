@@ -7,38 +7,33 @@ from .views import GetCsrfToken, OpenDocumentRetrieve, ResetPassword, ChangePass
     ExportCollectionView, ReturnStatistics, HandleCollection, HandleCollections, HandleDocuments, HandleDocument, \
     InitPasswords, Me, ExistCollection, ImportAnnotationsView,OpenDocumentRetrieve
 from .views import ObtainTokenPairView, \
-        CustomUserCreate, \
-        MainView, \
-        LogoutAndBlacklistRefreshTokenForUserView, \
-        ActivationView,InitApp,HandlerApply
+    CustomUserCreate, \
+    MainView, \
+    LogoutAndBlacklistRefreshTokenForUserView, \
+    ActivationView,InitApp,HandlerApply
 
 from django.contrib.staticfiles.views import serve
 
 urlpatterns = [
-    path('', InitApp.as_view(), name='login_auth'),
-    path('api/auth/gettoken',GetCsrfToken.as_view(),name='csrf_token_get'),
-    path('auth/login',InitApp.as_view(),name='login_auth'),
-    path('api/auth/register',                   CustomUserCreate.as_view(),             name="auth_register"),
+    path('auth/activate/<uidb64>/<token>', ActivationView.as_view(),                            name='user_activate'),
+    path('auth/login',                     InitApp.as_view(),                                   name='login_auth'),
+    path('auth/reset_all',                 InitPasswords.as_view(),                             name="auth_reset_all"),
+    path('auth/token/obtain',              ObtainTokenPairView.as_view(),                       name='auth_token_obtain'),
+    path('auth/token/refresh',             jwt_views.TokenRefreshView.as_view(),                name='auth_token_refresh'),
 
-    path('auth/activate/<uidb64>/<token>', ActivationView.as_view(),               name='user_activate'),
-    path('api/auth/login',                    ObtainTokenPairView.as_view(),                    name="auth_login"),
-    path('user/profile_manage',           ManageProfileView.as_view(),            name='user_profile'),
-    path('api/auth/reset',                    ResetPassword.as_view(),                name='auth_reset'),
-    path('api/user/update',                ChangePassword.as_view(),               name='api_user_update'),
-    path('api/user/logout',                   LogoutAndBlacklistRefreshTokenForUserView.as_view(), name='auth_logout'),
-    path('auth/token/obtain',             ObtainTokenPairView.as_view(),          name='auth_token_obtain'),
-    path('auth/token/refresh',            jwt_views.TokenRefreshView.as_view(),   name='auth_token_refresh'),
-    path('auth/reset_all',InitPasswords.as_view(),name="auth_reset_all"),
+    path('user/profile_manage',            ManageProfileView.as_view(),                         name='user_profile'),
+
+    path('api/auth/register',              CustomUserCreate.as_view(),                          name="auth_register"),
+    path('api/auth/gettoken',              GetCsrfToken.as_view(),                              name='csrf_token_get'),
+    path('api/auth/login',                 ObtainTokenPairView.as_view(),                       name="auth_login"),
+    path('api/auth/reset',                 ResetPassword.as_view(),                             name='auth_reset'),
 
 
-
-    path('main/',                          MainView.as_view(),                     name='main'),
-    #1)return statistics: {"success":true,"data":{"collections":1,"documents":4,"annotations":11}} } - pass param user_name
-    path('api/user/me', Me.as_view(), name='api_user_me'),
-    path('api/user',                            ReturnStatistics.as_view(),                     name='api_user'),
-
-
-
+    path('api/user/logout',                LogoutAndBlacklistRefreshTokenForUserView.as_view(), name='api_user_logout'),
+    path('api/user/me',                    Me.as_view(),                                        name='api_user_me'),
+    path('api/user/refresh-token',         jwt_views.TokenRefreshView.as_view(),                name='api_user_token_refresh'),
+    path('api/user/update',                ChangePassword.as_view(),                            name='api_user_update'),
+    path('api/user',                       ReturnStatistics.as_view(),                          name='api_user'),
 
     #export collections with their documents and their annotations
     #get
@@ -334,5 +329,7 @@ path('api/collections/<collection_id>/documents/<document_id>/annotations/<Butto
 
 
 path('api/collections/<collection_id>/documents/<document_id>/annotations', DocumenAnnotationView.as_view(), name='document_annotations'),
+    path('main/',                          MainView.as_view(),                     name='main'),
+    path('', InitApp.as_view(), name='login_auth'),
 
 ]

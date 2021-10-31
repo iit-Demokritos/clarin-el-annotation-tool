@@ -46,13 +46,10 @@ from django.middleware.csrf import get_token
 from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, OutstandingToken
 from bson.objectid import ObjectId
 import json 
+
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class ObtainTokenPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
-
-
-
-
 
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')
