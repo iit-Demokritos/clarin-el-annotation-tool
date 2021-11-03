@@ -2,6 +2,7 @@
   "/api": {
     "target": {
         "host": "vast.ellogon.org",
+        "host": "annotation.ellogon.org",
         "protocol": "https:",
         "port": 443
     },

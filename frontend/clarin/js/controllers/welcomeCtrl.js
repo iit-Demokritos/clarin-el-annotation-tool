@@ -66,7 +66,6 @@ angular.module('clarin-el').controller("WelcomeCtrl", ['$scope', '$state', 'User
       .then(function (response) {
         if (response.success) {
           sessionStorage.authenticated = true;
-
           Flash.clear();
           initializeUserInfo();
           $state.go('profile');

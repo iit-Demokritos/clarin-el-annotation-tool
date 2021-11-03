@@ -1,9 +1,25 @@
-01 November 2021 Petasis George <petasis@iit.demokritos.gr>, Anna Gradou <agradou@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
-  * backend-django/clarin_backend/urls.py
-  * backend-django/clarin_backend/views.py
-	* backend-django/templates/activateview.html
-  get temp annotations bug fix, fix  activationlink in activationview
+03 November 2021 Petasis George <petasis@iit.demokritos.gr>, Anna Gradou <agradou@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
+ * backend-django/clarin_backend/urls.py: Fixed "auth/login".
 
+ * backend-django/DjangoClarin/urls.py: Added an alias for "/assets" in
+ Django, for "python manage.py runserver" dev server.
+
+ * frontend/clarin/js/services/userService.js: Implemented JWT refresh for the
+ AngulerJS tool.
+
+ * frontend/clarin/js/app.js: Added an HTTP interceptor for handling JWT token
+ Authorization.
+
+ * clarin-angular/src/proxy.conf.json: Move proxy from Laravel to Django.
+
+ * backend/clarin/public/.htaccess:
+ * frontend/clarin/.htaccess: Commented out contents.
+
+01 November 2021 Petasis George <petasis@iit.demokritos.gr>, Anna Gradou <agradou@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
+  * backend-django/clarin_backend/urls.py:
+  * backend-django/clarin_backend/views.py:
+  * backend-django/templates/activateview.html:
+  Get Temp Annotations API bug fix, fix  activationlink in activationview.
 
 31 October 2021 Petasis George <petasis@iit.demokritos.gr>:
  * backend-django/clarin_backend/urls.py: Cosmetic changes and addition of the 

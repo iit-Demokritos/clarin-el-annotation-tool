@@ -16,7 +16,7 @@ from django.contrib.staticfiles.views import serve
 
 urlpatterns = [
     path('auth/activate/<uidb64>/<token>', ActivationView.as_view(),                            name='user_activate'),
-    path('auth/login',                     InitApp.as_view(),                                   name='login_auth'),
+    path('auth/login',                     ObtainTokenPairView.as_view(),                       name='login_auth'),
     path('auth/reset_all',                 InitPasswords.as_view(),                             name="auth_reset_all"),
     path('auth/token/obtain',              ObtainTokenPairView.as_view(),                       name='auth_token_obtain'),
     path('auth/token/refresh',             jwt_views.TokenRefreshView.as_view(),                name='auth_token_refresh'),
@@ -52,5 +52,4 @@ urlpatterns = [
     path('api/collections/<collection_id>/documents/<document_id>/annotations', DocumenAnnotationView.as_view(), name='document_annotations'),
     path('main/',                          MainView.as_view(),                     name='main'),
     re_path('.*', InitApp.as_view(), name='any_path_index_view'),
-
 ]

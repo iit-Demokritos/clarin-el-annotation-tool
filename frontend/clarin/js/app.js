@@ -131,4 +131,16 @@ app.config(function($httpProvider) {
   };
 
   $httpProvider.interceptors.push(logsOutUserOn401);
+  // Django JWT Interceptor...
+  $httpProvider.interceptors.push(function($q) {
+    return {
+     'request': function(config) {
+        var token = sessionStorage.getItem("Django-TOKEN-ACCESS");
+        if (token) {
+          config.headers['Authorization'] = 'Bearer ' + token;
+        }
+        return config;
+      }
+    };
+  });
 });
