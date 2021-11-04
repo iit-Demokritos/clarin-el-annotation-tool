@@ -52,7 +52,7 @@ def get_clarindb():
         clarindb = mongoclient["clarin"]
         #mongoclient = MongoClient(host=hostname, port=port_number,username=user,password=password,
       #  authSource=db_name)#?
-        mongoclient.server_info()
+       # mongoclient.server_info()
     except Exception as ex:
             print(ex)
 

@@ -93,9 +93,9 @@ class CustomUserCreate(APIView):
                     return Response(json, status=status.HTTP_200_OK)
                 except Exception as e:
                     user.delete()
-                   # print(e)
+                    print("CustomUserCreate error:"+str(e))
                     return Response({"success": False, "message": "Registration Error: "+str(e)}, status=status.HTTP_400_BAD_REQUEST)
-        #print(serializer.errors)
+        print("CustomUserCreate error:"+str(serializer.errors))
         return Response({"success": False, "message": "Registration Error: "+str(serializer.errors)}, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -112,6 +112,7 @@ class LogoutAndBlacklistRefreshTokenForUserView(APIView):
                 t, _ = BlacklistedToken.objects.get_or_create(token=token)
             return Response({"success": True, "message": "You successfully signed out."}, status=status.HTTP_200_OK)
         except Exception as e:
+            print("LogoutAndBlacklistRefreshTokenForUserView get error:"+str(e))
             return Response({"success": True, "message": "Logout error:"+str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
     def post(self, request):
@@ -122,6 +123,7 @@ class LogoutAndBlacklistRefreshTokenForUserView(APIView):
             token.blacklist()
             return Response({"success": True, "message": "You successfully signed out."}, status=status.HTTP_205_RESET_CONTENT)
         except Exception as e:
+            print("LogoutAndBlacklistRefreshTokenForUserView post error:"+str(e))
             return Response({"success": True, "message": "Logout error:"+str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -135,11 +137,12 @@ class ActivationView(View):
 
         id = force_text(urlsafe_base64_decode(uidb64))
         user = Users.objects.get(pk=id)
-        baseurl = request.build_absolute_uri('/')
-        if "http://127.0.0.1:8000/" in baseurl:
+        baseurl=request.get_host()
+        #baseurl = request.build_absolute_uri('/')
+        if "127.0.0.1:8000" in baseurl:
             baseurl = "https://localhost:4200/"
         message = {"message": "Your account is activated successfully",
-                   "base_url": baseurl+"auth/login"}
+                   "base_url": baseurl}
        
         if ((not account_activation_token.check_token(user, token)) or user.is_active):
             message = {"message": "Your account has been already activated",
@@ -154,7 +157,12 @@ class ActivationView(View):
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class InitApp(View):
     def get(self, request):
-        return render(request, 'index.html')
+        host  = request.get_host()
+        index = 'index.html'
+        if host == 'annotation-compat.ellogon.org':
+            index = 'anjularjs_index.html'
+        # print("InitApp:", host, index);
+        return render(request, index)
 
 
 class GetCsrfToken(APIView):
@@ -187,6 +195,7 @@ class ChangePassword(APIView):
                 return Response(data={"success": False, "message": "Your current password does not match"},
                                 status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
+            print("ChangePassword error:"+str(e))
             return Response(data={"success": False, "message": "Update password error:"+str(e)},
                             status=status.HTTP_400_BAD_REQUEST)
 
@@ -239,6 +248,7 @@ class ResetPassword(APIView):
                 "success": True,
                 "message": "Your password reset was successful. An email with your new password will arrive shortly."}, status=status.HTTP_200_OK)
         except Exception as e:
+            print("ResetPassword error:"+str(e))
             return Response(data={"success": False, "message": "Reset password error:"+str(e)},
                             status=status.HTTP_400_BAD_REQUEST)
 
@@ -258,6 +268,7 @@ class Me(APIView):
                                                             }},
                             status=status.HTTP_200_OK)
         except Exception as e:
+            print("Me error:"+str(e))
             return Response(data={"success": False, "message": "User info error:"+str(e)},
                             status=status.HTTP_200_OK)
 
@@ -279,7 +290,7 @@ class ReturnStatistics(APIView):
             documents_counter = documents.count()
 
         except Exception as ex:
-            print(ex)
+            print("ReturnStatistics (get):" + str(ex))
             return Response(data={"success": False, "data": {"collections": collections_counter, "documents": documents_counter,
                                   "annotations": annotations_counter}},
                             status=status.HTTP_200_OK)
@@ -308,14 +319,14 @@ class HandleCollection(APIView):
                 }]
                 return Response(data={"success": True, "data": data}, status=status.HTTP_200_OK)
         except Exception as ex:
-            print("HandleCollection (delete):" + str(ex))
+            print("HandleCollection (get):" + str(ex))
             return Response(data={"success": False}, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, collection_id):  
         try:
             collection = Collections.objects.filter(id=collection_id)
             if not collection.exists():
-                print("HandleCollection (delete): Wrong collection id")
+               # print("HandleCollection (delete): Wrong collection id")
                 return Response(data={"success": False}, status=status.HTTP_400_BAD_REQUEST)
             annotations = get_collection_handle(db_handle, "annotations")
             annotations_temp = get_collection_handle(
@@ -338,7 +349,7 @@ class HandleCollection(APIView):
                 return Response(data={"success": False, "exists": False, "flash": "An error occured"}, status=status.HTTP_400_BAD_REQUEST)
 
         except Exception as ex:
-            print("HandleCollection (delete):" + str(ex))
+            print("HandleCollection (patch1):" + str(ex))
             return Response(data={"success": False, "exists": False, "flash": "An error occured"}, status=status.HTTP_400_BAD_REQUEST)
         try:
             user = Users.objects.get(email=request.user)
@@ -356,7 +367,7 @@ class HandleCollection(APIView):
                 project = serializer.save()
                 return Response(data={"success": True, "exists": False}, status=status.HTTP_200_OK)
         except Exception as ex:
-            print("HandleCollection (delete1):" + str(ex))
+            print("HandleCollection (patch2):" + str(ex))
             return Response(data={"success": True, "exists": True, "flash": "An error occured"}, status=status.HTTP_200_OK)
 
 
@@ -482,6 +493,7 @@ class ExistCollection(APIView):
             else:
                 return Response(data={"success": True, "exists": False})
         except Exception as ex:
+            print("ExistCollection:"+str(ex))
             return Response(data={"success": False, "message": str(ex)}, status=status.HTTP_200_OK)
 
 
@@ -500,6 +512,7 @@ class HandleDocuments(APIView):
                              "encoding": item.encoding, "version": item.version, "owner_id": (item.owner_id).pk, "collection_id": (item.collection_id).pk, "updated_by": item.updated_by, "created_at": item.created_at,
                              "updated_at": item.updated_at})
         except Exception as ex:
+            print("HandleDocuments(get)"+str(ex))
             return Response(data={"HandleDocuments :" + str(ex)}, status=status.HTTP_404_NOT_FOUND)
         return Response(data={"success": True, "data": docs}, status=status.HTTP_200_OK)
 
@@ -618,7 +631,7 @@ class HandleDocument(APIView):
                 doc_record["is_opened"] = True
 
         except Exception as ex:
-            return Response(data={"HandleDocument :" + str(ex)}, status=status.HTTP_404_NOT_FOUND)
+            return Response(data={"HandleDocument(get) :" + str(ex)}, status=status.HTTP_404_NOT_FOUND)
         return Response(data={"success": True, "data": doc_record}, status=status.HTTP_200_OK)
 
 
@@ -632,14 +645,16 @@ class HandlerApply(APIView):
             binary_file = data.get("binary_file")
             type = data.get("type")
         except Exception as e:
+            print("HandlerApply:"+"field_not_exist")
             return Response({"error": "field_not_exist"}, status=status.HTTP_400_BAD_REQUEST)
-        print(data)
+        #print(data)
 
         if (type == "tei"):
             handler = HandlerClass(binary_file, type)
             json = handler.apply()
             return Response(json, status=status.HTTP_200_OK)
         else:
+            print("HandlerApply:"+"handler_not_exist")
             return Response({"error": "handler_not_exist"}, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -655,6 +670,7 @@ class ShareCollectionView(APIView):
             sharecollection = SharedCollections.objects.filter(
                 collection_id=collection, fromfield=fromuser, tofield=touser)
         except Exception as e:
+            print("ShareCollectionView(post):"+str(e))
             return Response(data={"success": False, "message": "An error occured:"+str(e)+"Invitation email has not been sent"},
                             status=status.HTTP_200_OK)
         if fromuser.pk == touser.pk:
@@ -689,7 +705,7 @@ class ShareCollectionView(APIView):
                 touser.email, touser.first_name, content)
             invitation_alert.send_sharecollection_email()
             return Response(data={"success": True}, status=status.HTTP_200_OK)
-        print(serializer.errors)
+        print("ShareCollectionView(post):"+str(serializer.errors))
         return Response(data={"success": False, "message": "An error occured. Invitation email has not been sent."},
                         status=status.HTTP_200_OK)
 
@@ -732,6 +748,7 @@ class AcceptCollectionView(View):
             shared_collection = (
                 SharedCollections.objects.filter(collection_id=collection, fromfield=owner, tofield=shared_user)).get()
         except Exception as e:
+            print("AcceptCollectionView(get)"+str(e))
             message = {"message": "The requested invitation does not exist!","base_url": baseurl+"auth/login"}
             template = loader.get_template('activateview.html')
             return HttpResponse(template.render(message, request))
@@ -784,6 +801,7 @@ class OpenDocumentView(APIView):
                                 "user_id": (opendocument.user_id).pk
                                 })
         except Exception as e:
+            print("OpenDocumentView (get):"+str(e))
             return Response(data={"success": False, "data": []}, status=status.HTTP_200_OK)
         return Response(data={"success": True, "data": records}, status=status.HTTP_200_OK)
 
@@ -808,8 +826,8 @@ class OpenDocumentView(APIView):
 
             return Response(data={"success": True, "data": {"annotator_type": data["annotator_type"], "collection_id": collection.pk, "document_id": document.pk}})
 
-        except Exception as e:
-            print(e)
+        except Exception as ex:
+            print("OpenDocumentView (post):" + str(ex))
             return Response(data={"success": False, "message": "An error occured."},
                             status=status.HTTP_200_OK)
 
@@ -856,8 +874,8 @@ class CollectionDataView(APIView):
                                         "collection_name": collection.name,
                                         "owner_id": (document.owner_id).pk,
                                         "confirmed": 1, "is_owner": 0})
-        except Exception as e:
-            print(e)
+        except Exception as ex:
+            print("CollectionDataView (get):" + str(ex))
             return Response(data={"success": False, "message": "An error occured here."},
                             status=status.HTTP_200_OK)
         return Response(data={"success": True, "data": doc_records}, status=status.HTTP_200_OK)
@@ -873,7 +891,8 @@ class ButtonAnnotatorView(APIView):
                 ButtonAnnotators.objects.filter(user_id=user)).get()
             btn_data = {"language": button_annotator.language, "annotation_type": button_annotator.annotation_type,
                         "attribute": button_annotator.attribute, "alternative": button_annotator.alternative}
-        except Exception as e:
+        except Exception as ex:
+            print("ButtonAnnotatorView (get):" + str(ex))
             return Response(data={"success": True, "data": None},
                             status=status.HTTP_200_OK)
         return Response(data={"success": True, "data": btn_data}, status=status.HTTP_200_OK)
@@ -898,8 +917,8 @@ class ButtonAnnotatorView(APIView):
 
             return Response(data={"success": True})
 
-        except Exception as e:
-            print(e)
+        except Exception as ex:
+            print("ButtonAnnotatorView (post):" + str(ex))
             return Response(data={"success": False, "message": "An error occured."},
                             status=status.HTTP_200_OK)
 
@@ -915,7 +934,8 @@ class CoreferenceAnnotatorView(APIView):
             coref_data = {"language": coreference_annotator.language,
                           "annotation_type": coreference_annotator.annotation_type,
                           "alternative": coreference_annotator.alternative}
-        except Exception as e:
+        except Exception as ex:
+            print("CoreferenceAnnotatorView (get):" + str(ex))
             return Response(data={"success": False, "message": "An error occured." + str(e)},
                             status=status.HTTP_200_OK)
         return Response(data={"success": True, "data": coref_data}, status=status.HTTP_200_OK)
@@ -938,6 +958,7 @@ class CoreferenceAnnotatorView(APIView):
                     coreference_annotator.get(), data=data, partial=True)
             return Response(data={"success": True})
         except Exception as e:
+            print("CoreferenceAnnotatorView (post):" + str(ex))
             return Response(data={"success": False, "message": "An error occured." + str(e)},
                             status=status.HTTP_200_OK)
 
@@ -963,13 +984,11 @@ class SaveTempAnnotationView(APIView):
                     item["_id"] = str(item["_id"])
                     annotations.insert_one(item)
                     records.append(item)
-        except Exception as e:
-            print(e)
+        except Exception as ex:
+            print("SaveTempAnnotationView (get):" + str(ex))
             return Response(data={"success": True, "data": records},
-
                             status=status.HTTP_200_OK)
 
-       
         return Response(data={"success": True, "data": records},
 
                         status=status.HTTP_200_OK)
@@ -981,12 +1000,12 @@ class SaveTempAnnotationView(APIView):
             collection = Collections.objects.get(pk=collection_id)
             document = Documents.objects.get(pk=document_id)
             user = Users.objects.get(email=request.user)
-        except Exception as e:
+        except Exception as ex:
+            print("SaveTempAnnotationView (post):" + str(ex))
             return Response(data={"success": False, "message": "An error occured." + str(e)}, status=status.HTTP_200_OK)
-
         annotations_temp = get_collection_handle(db_handle, "annotations_temp")
 
-        if type(request.data["data"]) == list:  # giati?
+        if type(request.data["data"]) == list:  
             for item in request.data["data"]:
                 getquery = annotations_temp.find({"_id": item["_id"]})
                 if(getquery.count() == 0):
@@ -1016,11 +1035,13 @@ class HandleTempAnnotationView(APIView):
     def delete(self, request, collection_id, document_id, param):
         try:
             collection = Collections.objects.get(pk=collection_id)
-        except Exception as e:
+        except Exception as ex:
+            print("HandleTempAnnotationView (delete1):" + str(ex))
             return Response(data={"success": False, "message": "An error occured." + str(e)}, status=status.HTTP_200_OK)
         try:
             document = Documents.objects.get(pk=document_id)
-        except Exception as e:
+        except Exception as ex:
+            print("HandleTempAnnotationView (delete2):" + str(ex))
             return Response(data={"success": False, "message": "An error occured." + str(e)}, status=status.HTTP_200_OK)
         try:
             annotations_temp = get_collection_handle(
@@ -1037,8 +1058,8 @@ class HandleTempAnnotationView(APIView):
             if ty == "id":
                 r = annotations_temp.find({"_id": ObjectId(param)})
                 for r1 in r:
-                    print(r1)
-                annotations_temp.delete_one({"_id": ObjectId(param)})
+                   # print(r1)
+                    annotations_temp.delete_one({"_id": ObjectId(param)})
             else:
                 annotations_temp.delete_many(
                     {"collection_id": cid, "document_id": did, "annotator_id": param})
@@ -1048,7 +1069,8 @@ class HandleTempAnnotationView(APIView):
             for od in opendocument:
                 od.db_interactions = od.db_interactions+1
                 od.save()
-        except Exception as e:
+        except Exception as ex:
+            print("HandleTempAnnotationView (delete3):" + str(ex))
             return Response(data={"success": False, "message": "An error occured." + str(e)},
                             status=status.HTTP_200_OK)
         return Response(data={"success": True})
@@ -1058,7 +1080,8 @@ class HandleTempAnnotationView(APIView):
             collection = Collections.objects.get(pk=collection_id)
             document = Documents.objects.get(pk=document_id)
             user = Users.objects.get(email=request.user)
-        except Exception as e:
+        except Exception as ex:
+            print("HandleTempAnnotationView (put1):" + str(ex))
             return Response(data={"success": False, "message": "An error occured." + str(e)}, status=status.HTTP_200_OK)
         try:
             annotations_temp = get_collection_handle(
@@ -1078,6 +1101,7 @@ class HandleTempAnnotationView(APIView):
             opendocument.db_interactions = opendocument.db_interactions + 1
             opendocument.save()
         except Exception as e:
+            print("HandleTempAnnotationView (put2):" + str(ex))
             return Response(data={"success": False, "message": "An error occured." + str(e)},
                             status=status.HTTP_200_OK)
         return Response(data={"success": True})
@@ -1104,7 +1128,8 @@ class HandleTempAnnotationView(APIView):
                     item['_id'] = str(item['_id'])
                     records.append(item)
 
-        except Exception as e:
+        except Exception as ex:
+            print("HandleTempAnnotationView (get):" + str(ex))
             return Response(data={"success": False, "message": "An error occured." + str(e)},
                             status=status.HTTP_200_OK)
         return Response(data={"success": True, "data": records},
@@ -1141,8 +1166,8 @@ class OpenDocumentRetrieve(APIView):
                         break
                 data.append(record)
 
-        except Exception as e:
-            print(e)
+        except Exception as ex:
+            print("OpenDocumentRetrieve (get):" + str(ex))
             return Response(data={"success": True, "data": data}, status=status.HTTP_200_OK)
         return Response(data={"success": True, "data": data}, status=status.HTTP_200_OK)
 
@@ -1179,8 +1204,8 @@ class OpenDocumentUpdate(APIView):
             opendocument.db_interactions = 0
             opendocument.updated_at = datetime.now()
             opendocument.save()
-        except Exception as e:
-            print(e)
+        except Exception as ex:
+            print("OpenDocumentUpdate (get):" + str(ex))
             return Response(data={"success": True, "data": data},
                             status=status.HTTP_200_OK)
         return Response(data={"success": True, "data": data},
@@ -1195,8 +1220,8 @@ class OpenDocumentUpdate(APIView):
             opendocument = opendocument_queryset.get()
             opendocument.delete()
             return Response(data={"success": True, "message": "open document deleted"}, status=status.HTTP_200_OK)
-        except Exception as e:
-            print(e)
+        except Exception as ex:
+            print("OpenDocumentUpdate (delete):" + str(ex))
             return Response(data={"success": False, "message": "An error occured"},
                             status=status.HTTP_200_OK)
 
@@ -1215,6 +1240,7 @@ class DeleteSavedAnnotations(APIView):
             for item in getquery:
                 annotations.delete_one(item)
         except Exception as e:
+            print("DeleteSavedAnnotations (delete):" + str(ex))
             return Response(data={"success": False, "message": "An error occured." + str(e)},
                             status=status.HTTP_200_OK)
         return Response(data={"success": True})
@@ -1234,12 +1260,12 @@ class DocumenAnnotationView(APIView):
             for item in getquery:
                 item["_id"] = str(item["_id"])
                 records.append(item)
-        except Exception as e:
-            print(e)
+        except Exception as ex:
+            print("DocumenAnnotationView (get):" + str(ex))
             return Response(data={"success": True, "data": records},
 
                             status=status.HTTP_200_OK)
-        print(records)
+       # print(records)
         return Response(data={"success": True, "data": records},
 
                         status=status.HTTP_200_OK)
@@ -1257,6 +1283,7 @@ class DocumenAnnotationView(APIView):
                 item["updated_at"] = transformdate(item["updated_at"])
                 annotations.insert_one(item)
         except Exception as e:
+            print("DocumenAnnotationView (post):" + str(ex))
             return Response(data={"success": False, "message": "An error occured." + str(e)},
                             status=status.HTTP_200_OK)
         return Response(data={"success": True})
@@ -1295,7 +1322,7 @@ class ImportAnnotationsView(APIView):
                     list(ann.keys())) - set(exclude_keys)}
                 new_ann['created_at'] = transformdate(new_ann["created_at"])
                 new_ann["updated_at"] = transformdate(new_ann["updated_at"])
-                print(new_ann)
+                #print(new_ann)
                 if (new_ann["type"] != "setting annotation"):
                     col_annotations.insert_one(new_ann)
                     col_annotations_temp.insert_one(new_ann)
@@ -1337,7 +1364,8 @@ class ExportCollectionView(APIView):
                 document_annotations = []
                 doc_record = {}
             data["documents"] = doc_records
-        except Exception as e:
+        except Exception as ex:
+            print("ExportCollectionView (get):" + str(ex))
             return JsonResponse(data={"success": True, "message": "An error occured." + str(e)},
                                 status=status.HTTP_200_OK)
         return JsonResponse(data={"success": True, "message": "ok", "data": data},
@@ -1397,7 +1425,7 @@ class MainView(APIView):
       # connect clarin_annotations db
         cnx = mysql.connector.connect(user='clarinel', password='FaRXgxC2mpVYhmqj',
                                       port=3306, host='127.0.0.1', database='clarin_annotations')
-        print(cnx)
+        #print(cnx)
         if (cnx.is_connected()):
             print("Connected")
         else:

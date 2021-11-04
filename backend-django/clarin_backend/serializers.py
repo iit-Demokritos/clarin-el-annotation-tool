@@ -28,7 +28,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         cstf_token_val=get_token(request)
         self.context['request'].META["X-XSRF-TOKEN"]=cstf_token_val
        # print(self.context['request'].META)
-        print(type(self.context["request"]))
+        #print(type(self.context["request"]))
         try:
             data = super().validate(attrs)
         except Exception as e:
@@ -97,7 +97,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         data["data"]["updated_at"] = self.user.updated_at
         data["data"]["permissions"] = self.user.permissions
         data["data"]['last_login'] = self.user.last_login
-        print("b")
+        #print("b")
         return data
 
 
