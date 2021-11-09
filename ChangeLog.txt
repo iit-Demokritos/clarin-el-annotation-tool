@@ -1,6 +1,17 @@
 09 November 2021 Petasis George <petasis@iit.demokritos.gr>, Anna Gradou <agradou@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
  * *: Switch from laravel to django!
 
+ * clarin-angular/src/app/components/controls/toolbar-select-document/toolbar-select-document.component.ts:
+ Fix a bug where the selected Document is not emitted when changed with the
+ selection buttons.
+
+ * clarin-angular/src/app/ng-matero/core/authentication/auth.service.ts:
+ * clarin-angular/src/app/ng-matero/core/authentication/interface.ts:
+ * clarin-angular/src/app/ng-matero/core/authentication/login.service.ts:
+ * clarin-angular/src/app/ng-matero/core/authentication/token.service.ts:
+ * clarin-angular/src/app/ng-matero/core/authentication/token.ts: Changes to
+ support JWT's refresh token in addition to access token.
+
  * backend-django/DjangoClarin/authentication.py:
  * backend-django/DjangoClarin/middleware.py:
  * backend-django/clarin_backend/uniqid.py:

@@ -46,11 +46,13 @@ export class ToolbarSelectDocumentComponent extends MainComponent implements OnI
     if (this.documents == undefined || !this.documents.length) {return;}
     if (this.selected_documents == undefined) {
       this.selected_documents = this.documents[0];
+      this.onDocumentSelectionChange()
       return;
     }
     var index = this.documents.indexOf(this.selected_documents);
     if (index < this.documents.length - 1) {
       this.selected_documents = this.documents[index + 1];
+      this.onDocumentSelectionChange()
     }
   }; /* nextDocument */
 
@@ -59,11 +61,13 @@ export class ToolbarSelectDocumentComponent extends MainComponent implements OnI
     if (this.documents == undefined || !this.documents.length) {return;}
     if (this.selected_documents == undefined) {
       this.selected_documents = this.documents[this.documents.length - 1];
+      this.onDocumentSelectionChange()
       return;
     }
     var index = this.documents.indexOf(this.selected_documents);
     if (index > 0) {
       this.selected_documents = this.documents[index - 1];
+      this.onDocumentSelectionChange()
     }
   };
 

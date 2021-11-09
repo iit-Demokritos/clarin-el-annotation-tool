@@ -18,12 +18,14 @@ export interface TokenResponse {
 
 export interface TokenAttribute {
   accessToken: string;
+  refreshToken: string;
   tokenType: string;
   exp: number;
 }
 
 export interface Token {
   accessToken: () => string;
+  refreshToken: () => string;
   tokenType: () => string;
   exp: () => number;
   valid: () => boolean;

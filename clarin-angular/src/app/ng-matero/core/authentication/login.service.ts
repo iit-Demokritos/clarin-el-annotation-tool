@@ -58,10 +58,10 @@ export class LoginService {
     });
   }; /* reset */
 
-  refresh() {
+  refresh(token_refresh: string) {
     // return this.http.post<TokenResponse | any>('/auth/refresh', {});
     return this.http.post<TokenResponse | any>('/api/user/refresh-token', {
-      refresh: this.token_refresh
+      refresh: token_refresh
     }).pipe(
       // Caller expects a <TokenResponse>
       map(loginData => {

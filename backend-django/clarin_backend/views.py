@@ -27,6 +27,8 @@ from .handlers import HandlerClass
 from .send_email import EmailAlert
 from django.contrib.sites.shortcuts import get_current_site
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
+from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, OutstandingToken
 from .serializers import MyTokenObtainPairSerializer, CustomUserSerializer, SharedCollectionsSerializer, \
     OpenDocumentsSerializer, ButtonAnnotatorsSerializer, CoreferenceAnnotatorsSerializer, CollectionsSerializer, \
     DocumentsSerializer
@@ -47,7 +49,6 @@ from django.contrib.auth.hashers import check_password
 from django.http import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.middleware.csrf import get_token
-from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, OutstandingToken
 from bson.objectid import ObjectId
 import json
 

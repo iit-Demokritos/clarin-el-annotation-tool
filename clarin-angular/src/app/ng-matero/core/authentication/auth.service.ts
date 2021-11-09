@@ -45,7 +45,7 @@ export class AuthService {
   }
 
   refresh() {
-    return this.loginService.refresh().pipe(
+    return this.loginService.refresh(this.token.refreshTokenValue()).pipe(
       tap(token => this.token.refresh(token)),
       map(() => this.check())
     );

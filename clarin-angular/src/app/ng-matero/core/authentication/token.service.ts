@@ -56,6 +56,10 @@ export class TokenService {
     return this.getToken()?.headerValue();
   }
 
+  refreshTokenValue() {
+    return this.getToken()?.refreshToken();
+  }
+
   private getToken(): Token | null {
     if (!this.hasToken()) {
       return null;
@@ -71,11 +75,12 @@ export class TokenService {
   private setToken(token: any, changed = false) {
     this._token = null;
     const accessToken = token.access_token || token.token || '';
+    const refreshToken = token.refresh_token || '';
     const tokenType = token.token_type || 'bearer';
     const expiresIn = token.expires_in || 0;
     const exp = expiresIn <= 0 ? 0 : now() + expiresIn * 1000;
 
-    this.store.set(this.key, Object.assign({}, token, { accessToken, tokenType, exp }));
+    this.store.set(this.key, Object.assign({}, token, { accessToken, refreshToken, tokenType, exp }));
     this.change$.next(changed);
   }
 
