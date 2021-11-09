@@ -1,3 +1,22 @@
+09 November 2021 Petasis George <petasis@iit.demokritos.gr>, Anna Gradou <agradou@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
+ * *: Switch from laravel to django!
+
+ * backend-django/DjangoClarin/authentication.py:
+ * backend-django/DjangoClarin/middleware.py:
+ * backend-django/clarin_backend/uniqid.py:
+ * backend-django/DjangoClarin/renderers.py: New features related to the
+ deployment of Django backend.
+
+ * backend-django/DjangoClarin/settings.py:
+ * backend-django/clarin_backend/tests.py:
+ * backend-django/clarin_backend/serializers.py:
+ * backend-django/clarin_backend/urls.py:
+ * backend-django/clarin_backend/views.py: Various modifications for the
+ Django backend.
+
+ * frontend/clarin/js/services/text-widget-api.js: Fix to the initialiser of
+ annotationSchemaAnnotationTypes.
+
 03 November 2021 Petasis George <petasis@iit.demokritos.gr>, Anna Gradou <agradou@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
  * backend-django/clarin_backend/urls.py: Fixed "auth/login".
 

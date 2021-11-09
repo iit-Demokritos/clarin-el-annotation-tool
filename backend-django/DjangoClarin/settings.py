@@ -68,6 +68,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'DjangoClarin.middleware.XPoweredByMiddleware',
 ]
 
 ROOT_URLCONF = 'DjangoClarin.urls'
@@ -103,14 +104,20 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'DjangoClarin.authentication.CustomAuthentication',
+        #'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+        'DjangoClarin.renderers.TextEventStreamAPIRenderer',
+    ],
 }
 
 # REST Simple JWT
 # https://github.com/SimpleJWT/django-rest-framework-simplejwt
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME':    timedelta(minutes=20), #minutes=20
+    'ACCESS_TOKEN_LIFETIME':    timedelta(minutes=2), #minutes=20
     'REFRESH_TOKEN_LIFETIME':   timedelta(days=14), #days=14
     'ROTATE_REFRESH_TOKENS':    True,
     'BLACKLIST_AFTER_ROTATION': True,
@@ -122,6 +129,16 @@ SIMPLE_JWT = {
     'USER_ID_CLAIM':            'user_id',
     'AUTH_TOKEN_CLASSES':      ('rest_framework_simplejwt.tokens.AccessToken',),
     'TOKEN_TYPE_CLAIM':         'token_type',
+
+    # Custom settings from:
+    # https://stackoverflow.com/questions/66247988/how-to-store-jwt-tokens-in-httponly-cookies-with-drf-djangorestframework-simplej
+    'AUTH_COOKIE': 'access_token',  # Cookie name. Enables cookies if value is set.
+    'AUTH_COOKIE_DOMAIN': None,     # A string like "example.com", or None for standard domain cookie.
+    'AUTH_COOKIE_SECURE': False,    # Whether the auth cookies should be secure (https:// only).
+    'AUTH_COOKIE_HTTP_ONLY' : True, # Http only cookie flag.It's not fetch by javascript.
+    'AUTH_COOKIE_PATH': '/',        # The path of the auth cookie.
+    'AUTH_COOKIE_SAMESITE': 'Lax',  # Whether to set the flag restricting cookie leaks on cross-site requests.
+                                    # This can be 'Lax', 'Strict', or None to disable the flag.
 }
 
 # CSRF Protection

@@ -10,28 +10,34 @@ from .views import ObtainTokenPairView, \
     CustomUserCreate, \
     MainView, \
     LogoutAndBlacklistRefreshTokenForUserView, \
-    ActivationView,InitApp,HandlerApply
+    ActivationView,InitApp,HandlerApply, \
+    DocumentLiveUpdate,RefreshTokenView
 
 from django.contrib.staticfiles.views import serve
 
 urlpatterns = [
     path('auth/activate/<uidb64>/<token>', ActivationView.as_view(),                            name='user_activate'),
     path('auth/login',                     ObtainTokenPairView.as_view(),                       name='login_auth'),
+    path('auth/register',                  CustomUserCreate.as_view(),                          name="auth_register"),
+    path('auth/reset',                     ResetPassword.as_view(),                             name='auth_reset'),
     path('auth/reset_all',                 InitPasswords.as_view(),                             name="auth_reset_all"),
     path('auth/token/obtain',              ObtainTokenPairView.as_view(),                       name='auth_token_obtain'),
-    path('auth/token/refresh',             jwt_views.TokenRefreshView.as_view(),                name='auth_token_refresh'),
+    path('auth/token/refresh',             RefreshTokenView.as_view(),                       name='auth_token_obtain'),
+  #  path('auth/token/refresh',             jwt_views.TokenRefreshView.as_view(),                name='auth_token_refresh'),
     path('api/auth/register',              CustomUserCreate.as_view(),                          name="auth_register"),
     path('api/auth/gettoken',              GetCsrfToken.as_view(),                              name='csrf_token_get'),
     path('api/auth/login',                 ObtainTokenPairView.as_view(),                       name="auth_login"),
     path('api/auth/reset',                 ResetPassword.as_view(),                             name='auth_reset'),
     path('api/user/logout',                LogoutAndBlacklistRefreshTokenForUserView.as_view(), name='api_user_logout'),
     path('api/user/me',                    Me.as_view(),                                        name='api_user_me'),
-    path('api/user/refresh-token',         jwt_views.TokenRefreshView.as_view(),                name='api_user_token_refresh'),
+    path('api/user/refresh-token',         RefreshTokenView.as_view(),                name='api_user_token_refresh'),
+   # path('api/user/refresh-token',         jwt_views.TokenRefreshView.as_view(),                name='api_user_token_refresh'),
     path('api/user/update',                ChangePassword.as_view(),                            name='api_user_update'),
     path('api/user',                       ReturnStatistics.as_view(),                          name='api_user'),
     path('api/collections/<collection_id>/export', ExportCollectionView.as_view(), name='api_collection_export'),
     path('api/collections/exists/<collection_name>', ExistCollection.as_view(), name='api_collection_exist'),
     path('api/collections/<collection_id>/documents/<document_id>/annotations/import', ImportAnnotationsView.as_view(), name='api_collection_import_annotations'),
+    path('api/collections/<collection_id>/documents/<document_id>/live',DocumentLiveUpdate.as_view(), name='document_live_update'),
     path('api/collections/<collection_id>',HandleCollection.as_view(), name='api_collection_rename'),
     path('api/collections', HandleCollections.as_view(), name='api_collections'),
     path('api/collections/<collection_id>/documents',HandleDocuments.as_view(), name='api_collection_documents'),

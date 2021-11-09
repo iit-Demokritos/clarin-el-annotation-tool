@@ -5,7 +5,7 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
   var annotationSchemaOptions = {}; //the available options of the annotation schema
 
   var annotationSchema = {}; //the annotation schema that user selected for the current document
-  var annotationSchemaAnnotationTypes = {}; // A list of annotation types for the schema
+  var annotationSchemaAnnotationTypes = []; // A list of annotation types for the schema
   var annotationSchemaCallbacks = []; //registered callbacks for the current annotation schema
 
   var currentCollection = {}; //the collection that the document belongs
@@ -412,12 +412,12 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
     },
     setAnnotationSchema: function(newAnnotationSchema) {
       annotationSchema = angular.copy(newAnnotationSchema);
-      annotationSchemaAnnotationTypes = {};
+      annotationSchemaAnnotationTypes = [];
       notifyObservers(annotationSchemaCallbacks);
     },
     clearAnnotationSchema: function() {
       annotationSchema = {};
-      annotationSchemaAnnotationTypes = {};
+      annotationSchemaAnnotationTypes = [];
     },
     getAnnotationSchemaAnnotationTypes: function () {
       return annotationSchemaAnnotationTypes;
@@ -430,7 +430,7 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
       });
     },
     clearAnnotationSchemaAnnotationTypes: function() {
-      annotationSchemaAnnotationTypes = {};
+      annotationSchemaAnnotationTypes = [];
     },
 
     /*** Selected Annotation Methods ***/

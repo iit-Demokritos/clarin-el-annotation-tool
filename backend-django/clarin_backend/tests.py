@@ -43,11 +43,40 @@ x = transformdate(datetime_str)
 
 print(x)
 
+from django.conf import settings
+def get_clarindb():
+    #hostname = settings.MONGO_DB_HOST
+    #port_number=settings.MONGO_DB_PORT
+    #user=settings.MONGO_USERNAME
+    #password=settings.MONGO_PASSWORD
+    #d3b_name=settings.MONGO_DATABASE
+    clarindb=None
+    mongoclient=None
+    try:
+       # print(hostname)
+        #print(port_number)
+        #print(user)
+        #print(password)
+        #print(db_name)
+       # mongo_con="mongodb://"+user+":"+password+"@"+hostname+":"+str(port_number)
+       # print(mongo_con)
+        mongo_con="mongodb://clarinel:CeimUgyediaskibwawEijWir@localhost:27017"
+        mongoclient = MongoClient(mongo_con)
+        clarindb = mongoclient["clarin"]
+        #mongoclient = MongoClient(host=hostname, port=port_number,username=user,password=password,
+      #  authSource=db_name)#?
+       # mongoclient.server_info()
+    except Exception as ex:
+            print(ex)
 
 
+    #print(mongoclient
+    clarindb = mongoclient["clarin"]
+    print(clarindb)
+    return clarindb, mongoclient
+#started_time_new = datetime.now()
+db_handle, mongo_client = get_clarindb()
 
-
-# #
 # # @override_settings(EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend')
 # # class EmailTestCase(TestCase):
 # #     def setUp(self):

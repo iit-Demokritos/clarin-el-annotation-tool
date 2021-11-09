@@ -1,10 +1,12 @@
 import mysql.connector
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 from re import I
-from time import time
+import time
+
 from django.utils import encoding
 from django.utils.decorators import method_decorator
+from django.conf import settings
 
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -15,10 +17,11 @@ from django.views import View
 from pymongo import collection
 from rest_framework.exceptions import ValidationError
 
-from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.views import TokenObtainPairView,TokenRefreshView
+from rest_framework_simplejwt.serializers import TokenRefreshSerializer
 from rest_framework import status, permissions
 from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework.views import APIView, View
 
 from .handlers import HandlerClass
 from .send_email import EmailAlert
@@ -48,11 +51,58 @@ from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, Ou
 from bson.objectid import ObjectId
 import json
 
-
+from DjangoClarin import authentication
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class ObtainTokenPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
+    #refresh homepage in https://annotation.ellogon.org/
 
+    # Angular UI seems to user the same url for logging in, and
+    # for loading the login page. Thus, this function must have
+    # both a GET & POST methods, doing different things (returning
+    # the main HTML page & logining in).
+    def get(self, request):
+        host  = request.get_host()
+        index = 'index.html'
+        if host in ['clarin.ellogon.org', 'www.ellogon.org', 'annotation-compat.ellogon.org']:
+            index = 'anjularjs_index.html'
+        # print("InitApp:", host, index);
+        return render(request, index)
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+
+        try:
+            serializer.is_valid(raise_exception=True)
+        except TokenError as e:
+            raise InvalidToken(e.args[0])
+
+        response = Response(serializer.validated_data, status=status.HTTP_200_OK)
+        return authentication.setJWTCookie(response, serializer.validated_data['access'])
+
+@method_decorator(ensure_csrf_cookie, name='dispatch')
+class InitApp(View):
+    def get(self, request):
+        host  = request.get_host()
+        index = 'index.html'
+        if host in ['clarin.ellogon.org', 'www.ellogon.org', 'annotation-compat.ellogon.org']:
+            index = 'anjularjs_index.html'
+        # print("InitApp:", host, index);
+        return render(request, index)
+
+@method_decorator(ensure_csrf_cookie, name='dispatch')
+class RefreshTokenView(TokenRefreshView):
+    serializer_class=TokenRefreshSerializer
+    def post(self, request, *args, **kwargs): 
+        serializer = self.get_serializer(data=request.data)
+
+        try:
+            serializer.is_valid(raise_exception=True)
+        except TokenError as e:
+            raise InvalidToken(e.args[0])
+
+        response = Response(serializer.validated_data, status=status.HTTP_200_OK)
+        return authentication.setJWTCookie(response, serializer.validated_data['access'])
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class CustomUserCreate(APIView):
@@ -61,7 +111,6 @@ class CustomUserCreate(APIView):
 
     def post(self, request, format='json'):
         # TODO: protect on error!
-       
 
         data = {"email": request.data['email'], "first_name": request.data["first_name"], "last_name": request.data["last_name"],
                 "password": request.data["password"], "username": request.data["first_name"]+"_"+request.data["last_name"]}
@@ -154,17 +203,6 @@ class ActivationView(View):
         return HttpResponse(template.render(message, request))
 
 
-@method_decorator(ensure_csrf_cookie, name='dispatch')
-class InitApp(View):
-    def get(self, request):
-        host  = request.get_host()
-        index = 'index.html'
-        if host == 'annotation-compat.ellogon.org':
-            index = 'anjularjs_index.html'
-        # print("InitApp:", host, index);
-        return render(request, index)
-
-
 class GetCsrfToken(APIView):
     permission_classes = (permissions.AllowAny,)
     authentication_classes = ()
@@ -251,9 +289,6 @@ class ResetPassword(APIView):
             print("ResetPassword error:"+str(e))
             return Response(data={"success": False, "message": "Reset password error:"+str(e)},
                             status=status.HTTP_400_BAD_REQUEST)
-
-
-
 
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')
@@ -634,6 +669,88 @@ class HandleDocument(APIView):
             return Response(data={"HandleDocument(get) :" + str(ex)}, status=status.HTTP_404_NOT_FOUND)
         return Response(data={"success": True, "data": doc_record}, status=status.HTTP_200_OK)
 
+from django.http import StreamingHttpResponse
+from .uniqid import uniqid
+from django.db import connection
+
+def DocumentLiveUpdate_event_stream(request, collection_id, document_id):
+    elapsed_time = 0
+    started_time = datetime.now() - timedelta(seconds=7)
+    new_annotations = []
+    cid = int(collection_id)
+    did = int(document_id)
+    # Get a Collection object (model)
+    collection  = Collections.objects.get(pk=cid)
+    annotations = get_collection_handle(db_handle, "annotations_temp")
+    #is_shared_query = SharedCollections.objects.filter(collection_id_id=cid,tofield_id=request.user.email)
+    is_owner   = True if collection.owner_id.id == request.user.id else False
+    is_shared  = False
+    # request.user holds the current user!
+    count = 0
+    while True:
+        # If connection aborted, break!
+        if elapsed_time > 20:
+            return
+          
+        if (is_owner == False):
+            start_time = time.process_time()
+            #is_shared = (is_shared_query).exists()
+            with connection.cursor() as cursor:
+              is_shared = cursor.execute("SELECT COUNT(*) FROM `shared_collections` WHERE collection_id_id = %s AND tofield_id = %s", [cid, request.user.email])
+            #print("SharedCollections.objects.filter:", 1000 * (time.process_time() - start_time))
+            #print(q.explain())
+            #print("Q:", q.query)
+            #start_time = time.process_time()
+            #is_shared=(q).exists()
+            print("SharedCollections.objects.filter.exists():", 1000 * (time.process_time() - start_time))
+        print(f"status: {is_owner} | {is_shared}")
+        
+
+        yield "event: message\n"
+        started_time_new = datetime.now()
+        if is_owner or is_shared:
+            # Get Annotations from TEMP where('updated_at', '>=', started_time)
+            new_annotations = []
+            getfilter = {"collection_id": cid, "document_id": did,'updated_at': {'$gte': started_time}}
+            start_time = time.process_time()
+            getquery = annotations.find(getfilter)
+            print("annotations.find:", 1000 * (time.process_time() - start_time))
+            # Get Annotations from TEMP where('updated_at', '>=', started_time)
+        
+            for item in getquery:
+                item["_id"] = str(item["_id"])
+              #      print(item["updated_at"])
+               #     print(started_time)
+                new_annotations.append(item)
+        else:
+            new_annotations = []
+        print(f"SENDING: {request.user.email} {count} ({elapsed_time}) => {len(new_annotations)}")
+        if len(new_annotations):
+            started_time = started_time_new
+            elapsed_time = 0
+            yield "data: " + json.dumps((new_annotations),default = defaultconverter) + "\n"
+        else:
+            elapsed_time += 4
+            yield "data: " + json.dumps(new_annotations) + "\n"
+            time.sleep(3)
+        count += 1
+        yield f"id: {uniqid()}\n\n"
+        time.sleep(1)
+ 
+       
+#@condition(etag_func=None)
+@method_decorator(ensure_csrf_cookie, name='dispatch')
+class DocumentLiveUpdate(APIView):
+    def get(self, request, collection_id, document_id):
+        # print("DocumentLiveUpdate:", request, collection_id, document_id, request.user.is_authenticated)
+        # print("User:", request.user, dir(request.user));
+        if not request.user.is_authenticated:
+            return Response("", status=403)
+        response = StreamingHttpResponse(DocumentLiveUpdate_event_stream(request, collection_id, document_id),
+            status=200, content_type='text/event-stream')
+        response['Cache-Control'] = 'no-cache'
+        response['connection'] = 'keep-alive'
+        return response
 
 class HandlerApply(APIView):
     authentication_classes = []
@@ -936,7 +1053,7 @@ class CoreferenceAnnotatorView(APIView):
                           "alternative": coreference_annotator.alternative}
         except Exception as ex:
             print("CoreferenceAnnotatorView (get):" + str(ex))
-            return Response(data={"success": False, "message": "An error occured." + str(e)},
+            return Response(data={"success": False, "message": "An error occured." + str(ex)},
                             status=status.HTTP_200_OK)
         return Response(data={"success": True, "data": coref_data}, status=status.HTTP_200_OK)
 
@@ -1056,13 +1173,20 @@ class HandleTempAnnotationView(APIView):
             if "_" in param:
                 ty = "type"
             if ty == "id":
+                #fake delete
                 r = annotations_temp.find({"_id": ObjectId(param)})
                 for r1 in r:
+                     filter = {"_id": ObjectId(param)}
+                     newvalues = {"$set": {"updated_at":datetime.now(),"deleted_at":datetime.now()}}
+                     annotations_temp.update_one(filter, newvalues)
                    # print(r1)
-                    annotations_temp.delete_one({"_id": ObjectId(param)})
+                   # annotations_temp.delete_one({"_id": ObjectId(param)})
             else:
-                annotations_temp.delete_many(
-                    {"collection_id": cid, "document_id": did, "annotator_id": param})
+                filter =  {"collection_id": cid, "document_id": did, "annotator_id": param}
+                newvalues = {"$set": {"updated_at":datetime.now(),"deleted_at":datetime.now()}}
+                annotations_temp.update_many(filter, newvalues)
+                #annotations_temp.delete_many(
+                #    {"collection_id": cid, "document_id": did, "annotator_id": param})
 
             opendocument = (OpenDocuments.objects.filter(
                 collection_id=collection, document_id=document))
@@ -1119,7 +1243,7 @@ class HandleTempAnnotationView(APIView):
             for item in getquery:
                 item['_id'] = str(item['_id'])
                 records.append(item)
-            if (len(records) == 0):
+            if (len(records) == 0): #useful after discard changes
                 stored_annotations = get_collection_handle(
                     db_handle, "annotations")
                 getquery = stored_annotations.find(getfilter)
@@ -1127,10 +1251,11 @@ class HandleTempAnnotationView(APIView):
                     annotations_temp.insert_one(item)
                     item['_id'] = str(item['_id'])
                     records.append(item)
-
+            else:
+                records[:] = [d for d in records if (not  ("deleted_at" in d.keys()))]
         except Exception as ex:
             print("HandleTempAnnotationView (get):" + str(ex))
-            return Response(data={"success": False, "message": "An error occured." + str(e)},
+            return Response(data={"success": False, "message": "An error occured." + str(ex)},
                             status=status.HTTP_200_OK)
         return Response(data={"success": True, "data": records},
                         status=status.HTTP_200_OK)
@@ -1372,7 +1497,9 @@ class ExportCollectionView(APIView):
                             status=status.HTTP_200_OK)
 
 
-
+def defaultconverter(o):
+  if isinstance(o,datetime):
+      return o.__str__()
 
 def str2date(strdate):
     try:

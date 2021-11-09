@@ -25,10 +25,6 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         message="Authentication failed:"
         #print(self.context['request'].build_absolute_uri("/")[:-1])
         request=self.context['request']
-        cstf_token_val=get_token(request)
-        self.context['request'].META["X-XSRF-TOKEN"]=cstf_token_val
-       # print(self.context['request'].META)
-        #print(type(self.context["request"]))
         try:
             data = super().validate(attrs)
         except Exception as e:
@@ -78,15 +74,15 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
             return {"success":False,"message":message}
 
 
-        refresh = self.get_token(self.user)
+        #refresh = self.get_token(self.user)
         self.user.last_login=datetime.now()
         self.user.save()
 
         data["success"] = True
         data["data"] = {}
         data["data"]["jwtToken"]={}
-        data["data"]["jwtToken"]['refresh'] = str(refresh)
-        data["data"]["jwtToken"]['access'] = str(refresh.access_token)
+        data["data"]["jwtToken"]['refresh'] = data['refresh'];#str(refresh)
+        data["data"]["jwtToken"]['access']  = data['access'];#str(refresh.access_token)
 
         # Add extra responses here
         data["data"]['id'] = self.user.pk
