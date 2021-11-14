@@ -1,0 +1,16 @@
+<mat-toolbar class="select-annotator-toolbar app-toolbar">
+  <span>{{'annotation.Annotator'|translate}}:&nbsp;</span>
+  <mat-form-field class="annotator-select" appearance="outline" [ngClass]="{'w-full' : fillWidth}">
+    <mat-select [(ngModel)]="selected_annotators" [multiple]="allowMultipleAnnotators"
+      ng-options="annotator as annotator.name for annotator in annotators"
+      (selectionChange)="onAnnotatorSelectionChange();">
+      <mat-option *ngFor="let annotator of annotators" [value]="annotator">
+        {{annotator.name}} ({{annotator.count}} {{"Annotations"|translate}})</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-divider [vertical]="true" *ngIf="showApplyButton"></mat-divider>
+  <button mat-raised-button color="primary" *ngIf="showApplyButton"
+    (click)="onApply.emit(ApplyButtonLabel)"
+    [disabled]="!selected_annotators.length">{{ApplyButtonLabel|translate}}</button>
+  <!--<span fxflex="" ng-reflect-fx-flex="" style="flex: 1 1 0%; box-sizing: border-box;"></span>-->
+</mat-toolbar>

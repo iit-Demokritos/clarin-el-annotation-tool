@@ -24,6 +24,10 @@ export class ToolbarSelectDocumentComponent extends MainComponent implements OnI
   @Input() allowMultipleDocuments: boolean = false;
   @Output() selectedDocuments = new EventEmitter<Document | Document[]>();
 
+  @Input() showApplyButton: boolean = false;
+  @Input() ApplyButtonLabel: string = "Apply";
+  @Output() onApply = new EventEmitter<String>();
+
   super() { }
 
   ngOnInit(): void {
@@ -40,6 +44,10 @@ export class ToolbarSelectDocumentComponent extends MainComponent implements OnI
   onDocumentSelectionChange() {
     this.selectedDocuments.emit(this.selected_documents);
   }; /* onDocumentSelectionChange */
+
+  onDocumentGroupClick(group) {
+	  console.error("Click:", group, this.selected_documents);
+  }; /* onDocumentGroupClick */
 
   nextDocument() {
     // console.error("nextDocument:", this.documents, this.selected_documents);
@@ -102,7 +110,7 @@ export class ToolbarSelectDocumentComponent extends MainComponent implements OnI
           if (addGroup) {
             this.documents.push({
               name: collection.name, count: collection.document_count,
-              documents: response["data"], disabled: false
+              documents: response["data"], disabled: false, selected: false
             });
           } else {
             this.documents = response["data"];

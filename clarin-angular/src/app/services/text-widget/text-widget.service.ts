@@ -50,6 +50,9 @@ export class TextWidgetAPI {
   settings = undefined;
   settingsCallbacks = [];
   public settingsComplianceFields = ['created_by', 'updated_by'];
+  public annotatorTypeIdToAnnotationSchema = {
+    Button_Annotator_neutral_VAST_value_type_Generic: {language: "neutral", annotation_type: "VAST_value", attribute: "type", alternative: "Generic"}
+  }
 
 
   notifyObservers(observerStack: any[]) {
@@ -285,6 +288,11 @@ export class TextWidgetAPI {
   }
 
   /*** Batch Annotation Methods ***/
+
+  isDeletedAnnotation(annotation) {
+    return ("deleted_at" in annotation);
+  }
+
   isRelationAnnotationType(annotation) {
     //if (annotation.type === "argument_relation") return true;
     return this.annotationSchemaAnnotationTypes.includes(annotation.type);
@@ -483,6 +491,15 @@ export class TextWidgetAPI {
     return this.annotatorType;
   }
 
+  getAnnotatorTypeFromAnnotatorTypeId(newAnnotatorType: string) {
+    if (newAnnotatorType.startsWith("Button_Annotator_")) {
+      return "Button Annotator";
+    } else if (newAnnotatorType.startsWith("Coreference_Annotator_")) {
+      return "Coreference Annotator";
+    } else {
+      return newAnnotatorType;
+    }
+  }
 
   setAnnotatorType(newAnnotatorType: string) {
     if (newAnnotatorType.startsWith("Button_Annotator_")) {
@@ -513,6 +530,13 @@ export class TextWidgetAPI {
       ann_id = ann_id + "_" + this.annotationSchema["alternative"];
     }
     return ann_id.split(' ').join('_');
+  }
+
+  getAnnotationSchemaFromAnnotatorTypeId(ann_id) {
+    if (ann_id in this.annotatorTypeIdToAnnotationSchema) {
+      return this.annotatorTypeIdToAnnotationSchema[ann_id];
+    }
+    throw new Error('TextWidgetAPI: getAnnotationSchemaFromAnnotatorTypeId(): '+ann_id);
   }
 
   /*** Annotator Schema Options Methods ***/

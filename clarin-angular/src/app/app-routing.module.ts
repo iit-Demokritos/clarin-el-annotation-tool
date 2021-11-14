@@ -23,6 +23,8 @@ import { CompareAnnotationsComponent } from './components/views/compare-annotati
 import { CompareDocumentsComponent }   from './components/views/compare-documents/compare-documents.component';
 import { CompareCollectionsComponent } from './components/views/compare-collections/compare-collections.component';
 
+import { AnalyticsAnnotationValuesComponent } from './components/views/analytics-annotation-values/analytics-annotation-values.component';
+
 
 const COMPONENTS = [];
 const COMPONENTS_DYNAMIC = [];
@@ -48,6 +50,7 @@ const routes: Routes = [
       { path: "inspection/compareannotations", component: CompareAnnotationsComponent },
       { path: "inspection/comparedocuments",   component: CompareDocumentsComponent },
       { path: "inspection/comparecollections", component: CompareCollectionsComponent },
+      { path: "analytics/annotationvalues",    component: AnalyticsAnnotationValuesComponent },
       {
         path: 'profile',
         loadChildren: () => import('./ng-matero/routes/profile/profile.module').then(m => m.ProfileModule),

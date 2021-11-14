@@ -9,6 +9,7 @@ import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 import { AnnotationSchemaService } from 'src/app/services/annotation-schema-service/annotation-schema.service';
 import { AnnotationService } from 'src/app/services/annotation-service/annotation.service';
 import { AnnotatorsTemplateService } from 'src/app/services/annotators-template-service/annotators-template.service';
+import { ButtonAnnotatorService } from 'src/app/services/button-annotator-service/button-annotator.service';
 import { ButtonColorService } from 'src/app/services/button-color-service/button-color.service';
 import { CollectionService } from 'src/app/services/collection-service/collection-service.service';
 import { CoreferenceAnnotatorService } from 'src/app/services/coreference-annotator-service/coreference-annotator.service';
@@ -21,6 +22,7 @@ import { TempAnnotationService } from 'src/app/services/temp-annotation-service/
 import { TextWidgetAPI } from 'src/app/services/text-widget/text-widget.service';
 import { UserService } from 'src/app/services/user-service/user.service';
 import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
+import { AnalyticsService } from 'src/app/services/analytics-service/analytics.service';
 
 @Component({
   selector: 'main',
@@ -43,6 +45,7 @@ export class MainComponent implements OnInit {
     public annotationService: AnnotationService,
     public tempAnnotationService: TempAnnotationService,
     public sseService: SseService,
+    public buttonAnnotatorService: ButtonAnnotatorService,
     public buttonColorService: ButtonColorService,
     public coreferenceAnnotatorService: CoreferenceAnnotatorService,
     public coreferenceColorService: CoreferenceColorService,
@@ -54,7 +57,8 @@ export class MainComponent implements OnInit {
     public changeDetectorRef: ChangeDetectorRef,
     public translate: TranslateService,
     public formBuilder: FormBuilder,
-    public authService: AuthService) { }
+    public authService: AuthService,
+    public analyticsService: AnalyticsService) { }
 
   ngOnInit(): void {
   }

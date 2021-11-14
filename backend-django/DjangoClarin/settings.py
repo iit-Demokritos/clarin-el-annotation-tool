@@ -57,7 +57,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework', # add rest_framework
     'rest_framework_simplejwt.token_blacklist',
-    'clarin_backend'
+    'clarin_backend',
+    'analytics'
 ]
 
 MIDDLEWARE = [
@@ -117,7 +118,7 @@ REST_FRAMEWORK = {
 # REST Simple JWT
 # https://github.com/SimpleJWT/django-rest-framework-simplejwt
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME':    timedelta(minutes=2), #minutes=20
+    'ACCESS_TOKEN_LIFETIME':    timedelta(minutes=20), #minutes=20
     'REFRESH_TOKEN_LIFETIME':   timedelta(days=14), #days=14
     'ROTATE_REFRESH_TOKENS':    True,
     'BLACKLIST_AFTER_ROTATION': True,

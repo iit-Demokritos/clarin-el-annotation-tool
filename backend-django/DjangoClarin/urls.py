@@ -20,7 +20,8 @@ from django.views import static
 from django.conf import settings
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/',     admin.site.urls),
+    path('analytics/', include('analytics.urls')),
     re_path('^assets/(?P<path>.*)$', static.serve, {'document_root': settings.BASE_DIR / "static" / "assets"}),
-    path('', include('clarin_backend.urls')) #change clarin to /?
+    path('',           include('clarin_backend.urls')) #change clarin to /?
 ]

@@ -13,7 +13,7 @@
   <mat-form-field *ngIf="allowDocumentSelection" appearance="outline" class="document-select w-full">
     <mat-select *ngIf="allowMultipleDocuments" [(ngModel)]="selected_documents" [multiple]="allowMultipleDocuments"
       ng-options="document as document.name for document in documents" (selectionChange)="onDocumentSelectionChange();">
-      <mat-optgroup *ngFor="let group of documents" [label]="group.name" [disabled]="group.disabled">
+      <mat-optgroup *ngFor="let group of documents" [label]="group.name" [disabled]="group.disabled" (click)="onDocumentGroupClick(group)">
         <mat-option *ngFor="let document of group.documents" [value]="document">
           {{document.name}}
         </mat-option>
@@ -34,5 +34,7 @@
       <mat-icon>navigate_next</mat-icon>
     </button>
   </mat-button-toggle-group>
+  <mat-divider [vertical]="true" *ngIf="showApplyButton"></mat-divider>
+  <button mat-raised-button color="primary" *ngIf="showApplyButton" (click)="onApply.emit(ApplyButtonLabel)">{{ApplyButtonLabel|translate}}</button>
   <!--<span fxflex="" ng-reflect-fx-flex="" style="flex: 1 1 0%; box-sizing: border-box;"></span>-->
 </mat-toolbar>

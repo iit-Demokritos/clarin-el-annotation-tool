@@ -13,6 +13,8 @@ export class WelcomeComponent extends MainComponent implements OnInit {
   super() { }
 
   ngOnInit(): void {
+    
+
   }
 
   flash = "";

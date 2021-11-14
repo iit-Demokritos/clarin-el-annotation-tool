@@ -282,6 +282,7 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
       element.annotations_settings_len = 0;
       element.annotations_total_len = 0;
       element.annotations_temp_len = 0;
+      element.annotations_temp_deleted_len = 0;
       element.annotations_temp_attributes_len = 0;
       element.annotations_temp_settings_len = 0;
       element.annotations_temp_total_len = 0;
@@ -303,11 +304,17 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
           element.annotations_temp_updated_at = new Date(Math.max(... response['data'].map(e => new Date(e.updated_at))));
           element.annotations_temp_total_len = response['data'].length;
           element.annotations_temp_settings_len =
-            response['data'].filter(ann => this.TextWidgetAPI.isSettingAnnotation(ann)).length;
+            response['data'].filter(ann => this.TextWidgetAPI.isSettingAnnotation(ann) &&
+              !this.TextWidgetAPI.isDeletedAnnotation(ann)).length;
           element.annotations_temp_attributes_len =
-            response['data'].filter(ann => this.TextWidgetAPI.isAttributeAnnotation(ann)).length;
+            response['data'].filter(ann => this.TextWidgetAPI.isAttributeAnnotation(ann) &&
+              !this.TextWidgetAPI.isDeletedAnnotation(ann)).length;
+	  element.annotations_temp_deleted_len =
+            response['data'].filter(ann => this.TextWidgetAPI.isDeletedAnnotation(ann)).length;
           element.annotations_temp_len = element.annotations_temp_total_len -
-            element.annotations_temp_attributes_len - element.annotations_temp_settings_len;
+            element.annotations_temp_attributes_len -
+	    element.annotations_temp_settings_len -
+	    element.annotations_temp_deleted_len;
         }));
       // Get information about users that have opened the document...
       element.opened_by = [];

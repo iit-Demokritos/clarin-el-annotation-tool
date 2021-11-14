@@ -106,6 +106,22 @@ export class UserService {
 
   };
 
+ updateProfile(data): Promise<any> {
+  // Ensure we have a valid CSRF token...
+  this.refreshCSRFToken();
+  //var deferred = $q.defer();
+  //var sanCredentials = sanitizeObj(credentials);
+
+  return new Promise((resolve, reject) => {
+    this.http.post('./api/user/me', data)
+      .subscribe((data) => {
+        resolve(data);
+      }, (error) => {
+        reject(error);
+      });
+
+  });
+};
 
   updatePassword(credentials): Promise<any> {
     // Ensure we have a valid CSRF token...

@@ -73,6 +73,24 @@
       ]
     },
     {
+      "route": "app/analytics",
+      "name": "Analytics",
+      "type": "sub",
+      "icon": "analytics",
+      "label": {
+        "color": "indigo-500",
+        "value": "new"
+      },
+      "children": [
+        {
+          "route": "annotationvalues",
+          "name": "Annotation Values",
+          "type": "link",
+          "icon": "find_in_page"
+        }
+      ]
+    },
+    {
       "route": "app/profile/settings",
       "name": "Settings",
       "type": "link",

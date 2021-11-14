@@ -304,6 +304,45 @@ $foreground: map-get($theme, foreground);
   }
 }
 
+/* Analytics Routes */
+.analytics-annotation-values {
+  height: calc(100% - 64px - 16px);
+  .mat-card-header-text {
+    width: 100%;
+    margin: 0;
+  }
+  .mat-tab-group,
+  .mat-card-content {
+    height: 100%;
+  }
+  .mat-tab-body-content {
+    display: flex;
+    flex-direction:column;
+  }
+  .mat-card-fill-parent {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: auto;
+    //height: calc(100% - 4px);
+    //box-sizing: border-box;
+    //margin-bottom: 4px;
+    display: flex;
+    flex-direction: column;
+     > .mat-card-title-group {
+       display: block;
+     }
+     > .mat-card-content {
+       overflow: auto;
+     }
+  }
+  .mat-tab-body-wrapper {
+    flex-grow: 1;
+  }
+  .mat-toolbar {
+    background-color: inherit;
+  }
+}
 /* Collection Routes */
 .manage-collections-wrapper,
 .collection-add-wrapper {
@@ -451,6 +490,11 @@ $foreground: map-get($theme, foreground);
   .mat-button {
     text-transform: uppercase;
   }
+}
+
+highcharts-chart {
+  display: block;
+  //height: 100%;
 }
 
 .overflow-ellipsis {

@@ -84,6 +84,8 @@
     "Inspection.Compare Annotations": "Compare Annotations",
     "Inspection.Compare Documents": "Compare Documents",
     "Inspection.Compare Collections": "Compare Collections",
+    "Analytics": "Analytics",
+    "Analytics.Annotation Values": "Annotation Values",
     "Settings": "Ρυθμίσεις",
     "Send Feedback": "Αποστολή Σχολίων",
     "Help": "Βοήθεια"
@@ -151,7 +153,8 @@
     "Delete Annotation": "Διαγραφή Συλλογής",
     "Change Collection": "Αλλαγή Συλλογής",
     "Filter Annotations": "Φιλτράρισμα Επισημειώσεω",
-    "FilterAnnotationsPlaceholder": "Π.χ. μια τιμή χαρακτηριστικού"
+    "FilterAnnotationsPlaceholder": "Π.χ. μια τιμή χαρακτηριστικού",
+    "Annotator": "Annotator"
   },
   "validations": {
     "required": "This field is required",
@@ -234,7 +237,13 @@
     "Dashboard": "Dashboard",
     "Add New Collection": "Add New Collection",
     "Manage Collections": "Manage Collections",
-    "Inspect Document": "Inspect Document"
+    "Inspect Document": "Inspect Document",
+    "Annotation Values": "Annotation Values"
+  },
+  "Analytics": {
+    "Charts": "Charts",
+    "Bar Charts": "Bar Charts",
+    "Pie Charts": "Pie Charts"
   },
   "ErrorMessage": {
     "Error": "Σφάλμα",

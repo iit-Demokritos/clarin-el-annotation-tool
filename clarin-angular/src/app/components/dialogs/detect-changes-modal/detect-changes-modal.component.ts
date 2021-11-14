@@ -17,17 +17,18 @@ export class DetectChangesModalComponent extends MainDialogComponent implements 
   collection: any = {};
   document: any = {};
   annotations: any = {
-    annotations_len : 0,
-    annotations_attributes_len : 0,
-    annotations_settings_len : 0,
-    annotations_total_len : 0,
-    annotations_temp_len : 0,
-    annotations_temp_attributes_len : 0,
-    annotations_temp_settings_len : 0,
-    annotations_temp_total_len : 0
+    annotations_len: 0,
+    annotations_attributes_len: 0,
+    annotations_settings_len: 0,
+    annotations_total_len: 0,
+    annotations_temp_len: 0,
+    annotations_temp_deleted_len: 0,
+    annotations_temp_attributes_len: 0,
+    annotations_temp_settings_len: 0,
+    annotations_temp_total_len: 0
   };
   enableDiscard = false;
-  owner         = false;
+  owner = false;
 
   ngOnInit(): void {
     this.openedDocument = _.cloneDeep(this.data);
@@ -47,15 +48,15 @@ export class DetectChangesModalComponent extends MainDialogComponent implements 
       //console.error("DetectChangesModalComponent(): Document:", response);
       if (response.success) {
         this.document = {
-          name:       response.data.name,
-	  owner_id:   response.data.owner_id,
+          name: response.data.name,
+          owner_id: response.data.owner_id,
           updated_by: response.data.updated_by,
           updated_at: response.data.updated_at
         };
-	if (this.document.owner_id == this.openedDocument.ui_user.id) {
+        if (this.document.owner_id == this.openedDocument.ui_user.id) {
           // User id in UI matches the Document owner...
           this.owner = true;
-	}
+        }
       }
     }, (error) => {
     });
@@ -75,11 +76,18 @@ export class DetectChangesModalComponent extends MainDialogComponent implements 
       .then((response) => {
         this.annotations.annotations_temp_total_len = response['data'].length;
         this.annotations.annotations_temp_settings_len =
-          response['data'].filter(ann => this.TextWidgetAPI.isSettingAnnotation(ann)).length;
+          response['data'].filter(ann => this.TextWidgetAPI.isSettingAnnotation(ann) &&
+            !this.TextWidgetAPI.isDeletedAnnotation(ann)).length;
         this.annotations.annotations_temp_attributes_len =
-          response['data'].filter(ann => this.TextWidgetAPI.isAttributeAnnotation(ann)).length;
+          response['data'].filter(ann => this.TextWidgetAPI.isAttributeAnnotation(ann) &&
+            !this.TextWidgetAPI.isDeletedAnnotation(ann)).length;
+        this.annotations.annotations_temp_deleted_len =
+          response['data'].filter(ann => this.TextWidgetAPI.isDeletedAnnotation(ann)).length;
+
         this.annotations.annotations_temp_len = this.annotations.annotations_temp_total_len -
-          this.annotations.annotations_temp_attributes_len - this.annotations.annotations_temp_settings_len;
+          this.annotations.annotations_temp_attributes_len -
+          this.annotations.annotations_temp_settings_len -
+          this.annotations.annotations_temp_deleted_len;
       });
     // Get information about the users who have opened this document...
     this.openDocumentService.get(this.openedDocument.document_id, null).then((response: any) => {
