@@ -1,3 +1,54 @@
+14 November 2021 Petasis George <petasis@iit.demokritos.gr>, Anna Gradou <agradou@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
+
+ * clarin-angular/src/app/components/dialogs/import-documents-from-export-modal/:
+ Dialog for importing exported Collections.
+
+ * clarin-angular/src/css/clarin-material.scss:
+ * clarin-angular/src/app/app-routing.module.ts:
+ * clarin-angular/src/app/app.component.ts:
+ * clarin-angular/src/app/components/views/analytics-annotation-values/: Added
+ a new page, for Annotation Value analytics.
+
+ * clarin-angular/src/assets/data/menu.json: Added a new section, for
+ Analytics.
+
+ * clarin-angular/src/app/components/controls/toolbar-select-annotator/:
+ A toolbar for selecting an Annotator.
+
+ * clarin-angular/src/app/ng-matero/routes/profile/:
+ * clarin-angular/src/app/services/user-service/user.service.ts: Added support
+ for updating user profile data.
+
+ * clarin-angular/src/app/components/dialogs/detect-changes-modal/detect-changes-modal.component.html:
+ * clarin-angular/src/app/components/dialogs/detect-changes-modal/detect-changes-modal.component.ts:
+ * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.html:
+ * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.ts:
+ Added support for the "trashed" annotation in TempAnnotations mongodb.
+
+ * clarin-angular/src/app/components/controls/toolbar-select-document/toolbar-select-document.component.html:
+ * clarin-angular/src/app/components/controls/toolbar-select-document/toolbar-select-document.component.ts:
+ Added support for an optional apply button.
+
+ * clarin-angular/src/app/components/controls/annotation-visualizer/annotation-visualizer.component.ts:
+ * clarin-angular/src/app/helpers/annotation.ts: Moved Annotation formated for
+ users, out of Annotation visualiser.
+
+ * clarin-angular/src/app/services/text-widget/text-widget.service.ts: Added
+ support for getting Annotation Schema details from AnnotatorID (getAnnotatorTypeFromAnnotatorTypeId(),
+ getAnnotationSchemaFromAnnotatorTypeId()),
+ detection of trashed Annotations (isDeletedAnnotation()).
+
+ * clarin-angular/src/app/components/views/main/main.component.ts:
+ * clarin-angular/src/app/services/analytics-service/: A new service for
+ supporting find/aggregate from the mongodb database.
+
+ * clarin-angular/package.json: Added packages related to highcharts in the
+ project.
+
+ * backend-django/DjangoClarin/urls.py:
+ * backend-django/DjangoClarin/settings.py:
+ * backend-django/analytics/: A new app for supporting mongodb find/aggregate.
+
 09 November 2021 Petasis George <petasis@iit.demokritos.gr>, Anna Gradou <agradou@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
  * *: Switch from laravel to django!
 
