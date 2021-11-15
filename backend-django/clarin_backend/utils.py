@@ -2,6 +2,111 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from six import text_type
 from pymongo import MongoClient
 from django.conf import settings
+from rest_framework.views import APIView
+
+####################################################
+## ErrorLoggingAPIView
+####################################################
+from rest_framework.response import Response
+from rest_framework import status
+from inspect import signature
+
+class ErrorLoggingAPIView(APIView):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        ## Get the number of arguments of the list & retrieve methods...
+        sig_list     = signature(self.list)
+        sig_retrieve = signature(self.retrieve)
+        self.arguments_list     = list(sig_list.parameters.keys())[1:] # drop 'request'
+        self.arguments_retrieve = list(sig_retrieve.parameters.keys())[1:] # drop 'request'
+        # print("##############", self.arguments_list, self.arguments_retrieve)
+
+    def get(self, request, *args, **kwargs):
+        try:
+            ## Are the arguments of retrieve satisfiled?
+            if all(param in kwargs for param in self.arguments_retrieve):
+                data = self.retrieve(request, *args, **kwargs)
+            elif all(param in kwargs for param in self.arguments_list):
+                data = self.list(request, *args, **kwargs)
+            else:
+                raise "Cannot decide over list() or retrieve()!"
+            return Response(data={"success": True, "data": data},
+                            status=status.HTTP_200_OK)
+        except Exception as ex:
+            print(self.__class__.__name__, "- list/retrieve() - Catch Exception:", ex)
+            return Response(data={
+                "success": False,
+                "message": "An error occured: " + str(ex)
+                }, status=status.HTTP_200_OK)
+
+    def post(self, request, *args, **kwargs):
+        try:
+            data = self.create(request, *args, **kwargs)
+            return Response(data={"success": True, "data": data},
+                            status=status.HTTP_200_OK)
+        except Exception as ex:
+            print(self.__class__.__name__, "- create() - Catch Exception:", ex)
+            return Response(data={
+                "success": False,
+                "message": "An error occured: " + str(ex)
+                }, status=status.HTTP_200_OK)
+
+    def put(self, request, *args, **kwargs):
+        try:
+            data = self.update(request, *args, **kwargs)
+            return Response(data={"success": True, "data": data},
+                            status=status.HTTP_200_OK)
+        except Exception as ex:
+            print(self.__class__.__name__, "- update() - Catch Exception:", ex)
+            return Response(data={
+                "success": False,
+                "message": "An error occured: " + str(ex)
+                }, status=status.HTTP_200_OK)
+
+    def patch(self, request, *args, **kwargs):
+        try:
+            data = self.partial_update(request, *args, **kwargs)
+            return Response(data={"success": True, "data": data},
+                            status=status.HTTP_200_OK)
+        except Exception as ex:
+            print(self.__class__.__name__, "- partial_update() - Catch Exception:", ex)
+            return Response(data={
+                "success": False,
+                "message": "An error occured: " + str(ex)
+                }, status=status.HTTP_200_OK)
+
+    def delete(self, request, *args, **kwargs):
+        try:
+            data = self.destroy(request, *args, **kwargs)
+            return Response(data={"success": True, "data": data},
+                            status=status.HTTP_200_OK)
+        except Exception as ex:
+            print(self.__class__.__name__, "- destroy() - Catch Exception:", ex)
+            return Response(data={
+                "success": False,
+                "message": "An error occured: " + str(ex)
+                }, status=status.HTTP_200_OK)
+
+    # From: https://github.com/encode/django-rest-framework/blob/master/rest_framework/mixins.py
+
+    # List all instances.
+    def list(self, request):
+        pass
+    # Retrieve a single instance.
+    def retrieve(self, request, pk):
+        pass
+    # Create a new instance.
+    def create(self, request):
+        pass
+    # Update an existing instance.
+    def update(self, request, pk):
+        pass
+    # Partially update an existing instance.
+    def partial_update(self, request, pk):
+        pass
+    # Destroy an existing instance.
+    def delete(self, request, pk):
+        pass
 
 class AppTokenGenerator(PasswordResetTokenGenerator):
 

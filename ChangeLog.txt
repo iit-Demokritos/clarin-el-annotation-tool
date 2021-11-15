@@ -1,5 +1,10 @@
 14 November 2021 Petasis George <petasis@iit.demokritos.gr>, Anna Gradou <agradou@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
 
+ * backend-django/clarin_backend/mongodb_views.py:
+ * backend-django/clarin_backend/utils.py:
+ * backend-django/clarin_backend/urls.py: New implementation of MongoDB
+ controllers.
+
  * clarin-angular/src/app/components/dialogs/import-documents-from-export-modal/:
  Dialog for importing exported Collections.
 
