@@ -10,6 +10,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from inspect import signature
+import sys, os
 
 class ErrorLoggingAPIView(APIView):
     def __init__(self, *args, **kwargs):
@@ -20,6 +21,17 @@ class ErrorLoggingAPIView(APIView):
         self.arguments_list     = list(sig_list.parameters.keys())[1:] # drop 'request'
         self.arguments_retrieve = list(sig_retrieve.parameters.keys())[1:] # drop 'request'
         # print("##############", self.arguments_list, self.arguments_retrieve)
+
+    def logException(self, ex, method):
+        print(self.__class__.__name__, "-", method+"() - Catch Exception:", ex)
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+        return Response(data={
+            "success": False,
+            "message": "An error occured: " + str(ex)
+            }, status=status.HTTP_200_OK)
+
 
     def get(self, request, *args, **kwargs):
         try:
@@ -33,11 +45,7 @@ class ErrorLoggingAPIView(APIView):
             return Response(data={"success": True, "data": data},
                             status=status.HTTP_200_OK)
         except Exception as ex:
-            print(self.__class__.__name__, "- list/retrieve() - Catch Exception:", ex)
-            return Response(data={
-                "success": False,
-                "message": "An error occured: " + str(ex)
-                }, status=status.HTTP_200_OK)
+            return self.logException(ex, "list/retrieve")
 
     def post(self, request, *args, **kwargs):
         try:
@@ -45,11 +53,7 @@ class ErrorLoggingAPIView(APIView):
             return Response(data={"success": True, "data": data},
                             status=status.HTTP_200_OK)
         except Exception as ex:
-            print(self.__class__.__name__, "- create() - Catch Exception:", ex)
-            return Response(data={
-                "success": False,
-                "message": "An error occured: " + str(ex)
-                }, status=status.HTTP_200_OK)
+            return self.logException(ex, "create")
 
     def put(self, request, *args, **kwargs):
         try:
@@ -57,11 +61,7 @@ class ErrorLoggingAPIView(APIView):
             return Response(data={"success": True, "data": data},
                             status=status.HTTP_200_OK)
         except Exception as ex:
-            print(self.__class__.__name__, "- update() - Catch Exception:", ex)
-            return Response(data={
-                "success": False,
-                "message": "An error occured: " + str(ex)
-                }, status=status.HTTP_200_OK)
+            return self.logException(ex, "update")
 
     def patch(self, request, *args, **kwargs):
         try:
@@ -69,11 +69,7 @@ class ErrorLoggingAPIView(APIView):
             return Response(data={"success": True, "data": data},
                             status=status.HTTP_200_OK)
         except Exception as ex:
-            print(self.__class__.__name__, "- partial_update() - Catch Exception:", ex)
-            return Response(data={
-                "success": False,
-                "message": "An error occured: " + str(ex)
-                }, status=status.HTTP_200_OK)
+            return self.logException(ex, "partial_update")
 
     def delete(self, request, *args, **kwargs):
         try:
@@ -81,11 +77,7 @@ class ErrorLoggingAPIView(APIView):
             return Response(data={"success": True, "data": data},
                             status=status.HTTP_200_OK)
         except Exception as ex:
-            print(self.__class__.__name__, "- destroy() - Catch Exception:", ex)
-            return Response(data={
-                "success": False,
-                "message": "An error occured: " + str(ex)
-                }, status=status.HTTP_200_OK)
+            return self.logException(ex, "destroy")
 
     # From: https://github.com/encode/django-rest-framework/blob/master/rest_framework/mixins.py
 
@@ -105,7 +97,7 @@ class ErrorLoggingAPIView(APIView):
     def partial_update(self, request, pk):
         pass
     # Destroy an existing instance.
-    def delete(self, request, pk):
+    def destroy(self, request, pk):
         pass
 
 class AppTokenGenerator(PasswordResetTokenGenerator):
@@ -169,7 +161,7 @@ def get_clarindb():
 
 
 def get_collection_handle(db_handle, collection_name):
-    print(db_handle[collection_name])
+    # print(db_handle[collection_name])
     return db_handle[collection_name]
 
 

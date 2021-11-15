@@ -115,6 +115,11 @@ import { CompareAnnotationsComponent } from './components/views/compare-annotati
 import { CompareDocumentsComponent } from './components/views/compare-documents/compare-documents.component';
 import { CompareCollectionsComponent } from './components/views/compare-collections/compare-collections.component';
 import { ToolbarSelectDocumentComponent } from './components/controls/toolbar-select-document/toolbar-select-document.component';
+import { ToolbarSelectAnnotatorComponent } from './components/controls/toolbar-select-annotator/toolbar-select-annotator.component';
+import { AnalyticsAnnotationValuesComponent } from './components/views/analytics-annotation-values/analytics-annotation-values.component';
+import { AnnotationSetInspectorComponent } from './components/controls/annotation-set-inspector/annotation-set-inspector.component';
+import { HighchartsChartModule } from 'highcharts-angular';
+import { MatTableExporterModule } from 'mat-table-exporter';
 
 // Required for AOT compilation
 export function TranslateHttpLoaderFactory(http: HttpClient) {
@@ -191,7 +196,10 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
     CompareAnnotationsComponent,
     CompareDocumentsComponent,
     CompareCollectionsComponent,
-    ToolbarSelectDocumentComponent
+    AnalyticsAnnotationValuesComponent,
+    ToolbarSelectDocumentComponent,
+    ToolbarSelectAnnotatorComponent,
+    AnnotationSetInspectorComponent
   ],
   imports: [
     BrowserModule,
@@ -232,6 +240,8 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
       },
     }),
     AngularSplitModule,
+    HighchartsChartModule, // HighCharts
+    MatTableExporterModule
   ],
   exports:[
     ButtonAnnotatorValueListDirective,

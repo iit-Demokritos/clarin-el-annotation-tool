@@ -72,13 +72,16 @@ class MongoDBAPIView(ErrorLoggingAPIView):
     def mongodb_find_one(self, query, projection=returnProperties):
         return self.mongodb_doc_fix_id(self.db.find_one(self.mongodb_doc_add_id(query), projection))
 
-    def mongodb_insert_one(ann):
-        return self.db.insert_one(self.mongodb_doc_add_id({'_id': ann['_id']}), self.add_timestamps(ann))
+    def mongodb_insert_one(self, ann):
+        return self.db.insert_one(self.add_timestamps(ann))
 
-    def mongodb_update_one(ann):
-        return self.db.update_one(self.mongodb_doc_add_id({'_id': ann['_id']}), self.add_timestamps(ann))
+    def mongodb_update_one(self, ann):
+        id = ann['_id']
+        del ann['_id']
+        return self.db.update_one(self.mongodb_doc_add_id({'_id': id}),
+                                  {"$set": self.add_timestamps(ann)})
 
-    def remove_deleted(docs):
+    def remove_deleted(self, docs):
         return filter(self.mongodb_doc_is_not_deleted, docs)
 
 
@@ -153,10 +156,10 @@ class AnnotationsView(MongoDBAPIView):
             if importing and 'updated_at' in annotation:
                 new_ann['updated_at'] = annotation['updated_at']
             self.mongodb_insert_one(new_ann)
-        opendocuments = (OpenDocuments.objects.filter(
+        opendocuments = OpenDocuments.objects.filter(
             collection_id  = collection,
             document_id    = document,
-            annotator_type = annotator_id)).get()
+            annotator_type = annotator_id)
         for od in opendocuments:
             od.db_interactions = 0
             od.save()
@@ -171,7 +174,7 @@ class AnnotationsView(MongoDBAPIView):
         raise "Unsupported()!"
 
     # Destroy an existing instance. (DELETE)
-    def delete(self, request, collection_id, document_id, Button_Annotator_name):
+    def destroy(self, request, collection_id, document_id, Button_Annotator_name):
         collection = Collections.objects.get(pk=collection_id)
         document   = Documents.objects.get(pk=document_id)
         user       = Users.objects.get(email=request.user.email)
@@ -191,6 +194,7 @@ class AnnotationsView(MongoDBAPIView):
         else:
             # We have an annotation id, delete a single annotation...
             self.db.delete_one({'_id': ObjectId(param)})
+        return {'db_interactions': 0}
 
 
 ##############################################
@@ -234,7 +238,7 @@ class TempAnnotationsView(MongoDBAPIView):
         if type(request.data['data']) is list:
             annotations = request.data['data']
         else:
-            annotations = list(request.data['data'])
+            annotations=[request.data['data']]
         for annotation in annotations:
             new_ann = {
                 '_id':           ObjectId(annotation['_id']),
@@ -257,6 +261,7 @@ class TempAnnotationsView(MongoDBAPIView):
                 if annotator_id is None:
                     annotator_id = annotation['annotator_id'];
             self.mongodb_insert_one(new_ann)
+
         opendocument = (OpenDocuments.objects.filter(
             collection_id = collection,
             document_id   = document,
@@ -290,39 +295,49 @@ class TempAnnotationsView(MongoDBAPIView):
         return self.update(request, param)
 
     # Destroy an existing instance. (DELETE)
-    def delete(self, request, collection_id, document_id, param):
+    # We do not delete annotations, instead we add 'deleted_at', because they need to
+    # appear in LIVE, for updating tool when annotations get deleted.
+    def destroy(self, request, collection_id, document_id, param):
         collection = Collections.objects.get(pk=collection_id)
         document   = Documents.objects.get(pk=document_id)
         user       = Users.objects.get(email=request.user.email)
 
-        increment    = 1
-        annotator_id = None
+        increment       = 1
+        annotator_id    = None
+        db_interactions = None
         if (not param) or (param == 'null'):
             # Remove everything!
-            self.db.delete_many({'collection_id': collection_id,
+            status = self.db.delete_many({'collection_id': collection_id,
                                  'document_id':   document_id})
-            increment = 0
+            increment = status.deleted_count
         elif '_' in param:
             # We have an annotator id...
             annotator_id = param
-            self.db.delete_many({'collection_id': collection_id,
+            status = self.db.delete_many({'collection_id': collection_id,
                                  'document_id':   document_id,
                                  'annotator_id':  annotator_id})
+            increment = status.deleted_count
         else:
             # We have an annotation id, delete a single annotation...
-            self.db.update_one({'_id': ObjectId(param)}, {
+            status = self.db.update_one({'_id': ObjectId(param)}, {
                 '$set': {'deleted_by': request.user.email,
                          'deleted_at': datetime.datetime.now()}
             })
             ann = self.mongodb_find_one({'_id': ObjectId(param)})
             annotator_id = ann.get('annotator_id', None)
 
-        if increment and annotator_id:
-            opendocuments = (OpenDocuments.objects.filter(
-                collection_id = collection,
-                document_id   = document,
-                annotator_id  = annotator_id)).get()
+        if annotator_id:
+            opendocuments = OpenDocuments.objects.filter(
+                collection_id  = collection,
+                document_id    = document,
+                annotator_type = annotator_id)
             for od in opendocuments:
-                od.db_interactions += increment
-                od.save()
+                if increment:
+                    od.db_interactions += increment
+                    od.save()
+                if not db_interactions:
+                    db_interactions = od.db_interactions
+        if not db_interactions:
+            db_interactions = 0
+        return {'db_interactions': db_interactions}
 

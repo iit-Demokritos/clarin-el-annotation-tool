@@ -49,8 +49,12 @@ import { MatMomentDatetimeModule } from '@mat-datetimepicker/moment';
 
 import { materialProviders } from './material-config';
 
+//new libraries
+import { FlashMessagesModule } from 'flash-messages-angular';
+
 @NgModule({
   exports: [
+    FlashMessagesModule,
     A11yModule,
     DragDropModule,
     PortalModule,
