@@ -5,11 +5,11 @@ import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 import { BaseControlComponent } from '../../base-control/base-control.component';
 
 @Component({
-  selector: 'annotation-relation-anotate-btn',
-  templateUrl: './annotation-relation-anotate-btn.component.html',
-  styleUrls: ['./annotation-relation-anotate-btn.component.scss']
+  selector: 'annotation-relation-annotate-btn',
+  templateUrl: './annotation-relation-annotate-btn.component.html',
+  styleUrls: ['./annotation-relation-annotate-btn.component.scss']
 })
-export class AnnotationRelationAnotateBtnComponent extends BaseControlComponent implements OnInit {
+export class AnnotationRelationAnnotateBtnComponent extends BaseControlComponent implements OnInit {
 
   textvariable;
   comboboxIds: [];
