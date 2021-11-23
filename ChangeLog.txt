@@ -1,6 +1,7 @@
 23 November 2021 Petasis George <petasis@iit.demokritos.gr>:
  * backend-django/clarin_backend/utils.py:
  * backend-django/clarin_backend/urls.py:
+ * backend-django/clarin_backend/sql_views.py:
  * backend-django/clarin_backend/mongodb_views.py: Various fixes.
 
  * clarin-angular/src/app/components/views/annotation/annotation.component.html:
