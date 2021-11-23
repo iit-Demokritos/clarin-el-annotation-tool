@@ -42,7 +42,7 @@ import { AnnotationComboboxComponent } from './components/controls/button/annota
 import { AnnotationDateentryComponent } from './components/controls/button/annotation-dateentry/annotation-dateentry.component';
 import { AnnotationEntryComponent } from './components/controls/button/annotation-entry/annotation-entry.component';
 import { AnnotationIndicatorComponent } from './components/controls/button/annotation-indicator/annotation-indicator.component';
-import { AnnotationRelationAnotateBtnComponent } from './components/controls/button/annotation-relation-anotate-btn/annotation-relation-anotate-btn.component';
+import { AnnotationRelationAnnotateBtnComponent } from './components/controls/button/annotation-relation-annotate-btn/annotation-relation-annotate-btn.component';
 import { AnnotationRelationClearBtnComponent } from './components/controls/button/annotation-relation-clear-btn/annotation-relation-clear-btn.component';
 import { AnnotationRelationComboboxComponent } from './components/controls/button/annotation-relation-combobox/annotation-relation-combobox.component';
 import { AnnotationRelationDelBtnComponent } from './components/controls/button/annotation-relation-del-btn/annotation-relation-del-btn.component';
@@ -160,7 +160,7 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
     AnnotationDateentryComponent,
     AnnotationEntryComponent,
     AnnotationIndicatorComponent,
-    AnnotationRelationAnotateBtnComponent,
+    AnnotationRelationAnnotateBtnComponent,
     AnnotationRelationClearBtnComponent,
     AnnotationRelationComboboxComponent,
     AnnotationRelationDelBtnComponent,
@@ -276,7 +276,7 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
     AnnotationDateentryComponent,
     AnnotationEntryComponent,
     AnnotationIndicatorComponent,
-    AnnotationRelationAnotateBtnComponent,
+    AnnotationRelationAnnotateBtnComponent,
     AnnotationRelationClearBtnComponent,
     AnnotationRelationComboboxComponent,
     AnnotationRelationDelBtnComponent,
