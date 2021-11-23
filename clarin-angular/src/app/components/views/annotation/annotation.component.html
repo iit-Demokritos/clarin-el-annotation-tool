@@ -5,12 +5,22 @@
     <as-split-area [size]="70" [minSize]="40" [maxSize]="90" class="main-content-wrapper">
       <mat-toolbar class="annotation-toolbar">
         <mat-button-toggle-group class="main-content-header" name="annotation-main-content-header"
-          aria-label="Content Page" [hidden]="!layout.showEditorTabs" [(ngModel)]="maincontentSelector">
-          <mat-button-toggle (click)="showTab('document');" value="document">{{'annotation.Document'|translate}}
+          aria-label="Content Page" *ngIf="layout.showEditorTabs" [(ngModel)]="maincontentSelector">
+          <mat-button-toggle (click)="showTab('document');" value="document" *ngIf="layout.showDocument">{{'annotation.Document'|translate}}
           </mat-button-toggle>
-          <mat-button-toggle value="attributes">{{'annotation.Document Attributes'|translate}}</mat-button-toggle>
-          <mat-button-toggle value="settings">{{'annotation.Settings'|translate}}</mat-button-toggle>
+          <mat-button-toggle value="attributes" *ngIf="layout.showDocumentAttributes">{{'annotation.Document Attributes'|translate}}</mat-button-toggle>
+          <mat-button-toggle value="settings" *ngIf="layout.showSettings">{{'annotation.Settings'|translate}}</mat-button-toggle>
         </mat-button-toggle-group>
+	<mat-divider [vertical]="true" *ngIf="layout.showLinkRouterSelector"></mat-divider>
+	<div *ngIf="layout.showLinkRouterSelector">{{'Link Router'|translate}}:&nbsp;</div>
+	<mat-form-field *ngIf="layout.showLinkRouterSelector" class="router-select" appearance="outline" [ngClass]="{'w-full' : fillWidth}">
+	  <mat-select [(ngModel)]="layout.routerName" (selectionChange)="updateLinkRouter(layout.routerName);">
+	    <mat-option value="direct">{{'Direct'|translate}}</mat-option>
+            <mat-option value="smooth">{{'Smooth'|translate}}</mat-option>
+            <mat-option value="manhattan">{{'Manhattan'|translate}}</mat-option>
+            <mat-option value="metro">{{'Metro'|translate}}</mat-option>
+          </mat-select>
+        </mat-form-field>
       </mat-toolbar>
       <div class="main-content">
         <!--div class='spinner-border' role='status'><span class='sr-only'>Loading...</span></div>

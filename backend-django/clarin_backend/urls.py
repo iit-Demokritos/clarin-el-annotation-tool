@@ -3,17 +3,19 @@ from django.urls import path, re_path
 from rest_framework_simplejwt import views as jwt_views
 from .views import GetCsrfToken, OpenDocumentRetrieve, ResetPassword, ChangePassword, ShareCollectionView, SharedCollectionDelete, \
     AcceptCollectionView, OpenDocumentView, CollectionDataView, ButtonAnnotatorView, CoreferenceAnnotatorView, \
-    SaveTempAnnotationView, OpenDocumentUpdate, HandleTempAnnotationView, DocumenAnnotationView, DeleteSavedAnnotations, \
-    ExportCollectionView, ReturnStatistics, HandleCollection, HandleCollections, HandleDocuments, HandleDocument, \
+    OpenDocumentUpdate, \
+    ExportCollectionView, ReturnStatistics, HandleCollection, HandleCollections,  \
     InitPasswords, Me, ExistCollection, ImportAnnotationsView,OpenDocumentRetrieve
 from .views import ObtainTokenPairView, \
     CustomUserCreate, \
     MainView, \
     LogoutAndBlacklistRefreshTokenForUserView, \
     ActivationView,InitApp,HandlerApply, \
-    DocumentLiveUpdate,RefreshTokenView,ImportView
+    DocumentLiveUpdate,RefreshTokenView,ImportView, \
+    TestEmailSendView
 
 from .mongodb_views import *
+from .sql_views import *
 
 from django.contrib.staticfiles.views import serve
 
@@ -43,8 +45,9 @@ urlpatterns = [
     path('api/collections/<collection_id>/documents/<document_id>/live',                                DocumentLiveUpdate.as_view(),                        name='document_live_update'),
     path('api/collections/<collection_id>',                                                             HandleCollection.as_view(),                          name='api_collection_rename'),
     path('api/collections',                                                                             HandleCollections.as_view(),                         name='api_collections'),
-    path('api/collections/<collection_id>/documents',                                                   HandleDocuments.as_view(),                           name='api_collection_documents'),
-    path('api/collections/<collection_id>/documents/<document_id>',                                     HandleDocument.as_view(),                            name='current_document'),
+    #path('api/collections/<collection_id>/documents',                                                   HandleDocuments.as_view(),                           name='api_collection_documents'),
+    path('api/collections/<int:cid>/documents',                                                         DocumentsView.as_view(),                             name='api_collection_documents'),
+    path('api/collections/<int:cid>/documents/<int:did>',                                               DocumentsView.as_view(),                             name='current_document'),
     path('api/fileoperation/handler/apply/',                                                            HandlerApply.as_view(),                              name='apply_tei_handler'),
     path('api/collections/<collection_id>/share',                                                       ShareCollectionView.as_view(),                       name='api_collection_share'),
     path('api/collections/<collection_id>/share/<share_id>',                                            SharedCollectionDelete.as_view(),                    name='api_collection_share_cancel'),
@@ -61,11 +64,14 @@ urlpatterns = [
     # path('api/collections/<collection_id>/documents/<document_id>/annotations/<Button_Annotator_name>', DeleteSavedAnnotations.as_view(),                    name='del_annotations'),
     # path('api/collections/<collection_id>/documents/<document_id>/annotations',                         DocumenAnnotationView.as_view(),                     name='document_annotations'),
     ## Test New MongoDB API...
-    path('api/collections/<int:collection_id>/documents/<int:document_id>/annotations/<Button_Annotator_name>', AnnotationsView.as_view(),              name='del_annotations'),
-    path('api/collections/<int:collection_id>/documents/<int:document_id>/annotations',                         AnnotationsView.as_view(),              name='document_annotations'),
+    path('api/collections/<int:cid>/documents/<int:did>/annotations/<Button_Annotator_name>', AnnotationsView.as_view(),              name='del_annotations'),
+    path('api/collections/<int:cid>/documents/<int:did>/annotations',                         AnnotationsView.as_view(),              name='document_annotations'),
+    path('api/collections/<int:cid>/documents/<int:did>/temp_annotations/<param>',            TempAnnotationsView.as_view(),          name='handle_annotation'),
+    path('api/collections/<int:cid>/documents/<int:did>/temp_annotations',                    TempAnnotationsView.as_view(),          name='temp_annotation'),
 
-    path('api/collections/<int:collection_id>/documents/<int:document_id>/temp_annotations/<param>',            TempAnnotationsView.as_view(),          name='handle_annotation'),
-    path('api/collections/<int:collection_id>/documents/<int:document_id>/temp_annotations',                    TempAnnotationsView.as_view(),          name='temp_annotation'),
+    path('api/test/collections/<int:cid>/documents',                                                    DocumentsView.as_view(),                             name='api_collection_documents'),
+    path('api/test/collections/<int:cid>/documents/<int:did>',                                          DocumentsView.as_view(),                             name='current_document'),
+    path('api/test/email/send',                                                                         TestEmailSendView.as_view(),                         name='test_email_send'),
 
     path('main/',                                                                                       MainView.as_view(),                                  name='main'),
     re_path('.*',                                                                                       InitApp.as_view(),                                   name='any_path_index_view'),

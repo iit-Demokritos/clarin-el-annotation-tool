@@ -63,6 +63,11 @@ export class AnnotationComponent extends MainComponent implements OnInit {
   maincontentSelector = "document";
   layout = {
     showEditorTabs: true,
+    showDocument: true,
+    showDocumentAttributes: true,
+    showSettings: true,
+    showLinkRouterSelector: false,
+    routerName: "direct"
   };
   spinnerVisible;
   broadcastEvent = {};
@@ -167,7 +172,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
           };
 
           var dialogRef = this.dialog.open(SelectDocumentModalComponent, { data: inputData, disableClose: true });
-
+         
           //this.selectDocumentModalInstance = Dialog.custom('select-document-modal.html',
           // 'selectDocumentModalCtrl', inputData, false, "document-selector"); // animated fadeIn
           //this.selectDocumentModalInstance.result.then(function (result) {
@@ -180,18 +185,24 @@ export class AnnotationComponent extends MainComponent implements OnInit {
             } else if (typeof (result) != "undefined") {
               this.TextWidgetAPI.disableIsRunning();
               this.TextWidgetAPI.resetCallbacks();
-
               this.TextWidgetAPI.setAnnotatorType(result.newAnnotator);
               this.TextWidgetAPI.setAnnotationSchemaOptions(result.newAnnotationSchemaOptions);
               this.TextWidgetAPI.setAnnotationSchema(result.newAnnotationSchema);
-
-              this.annotatorType = result.newAnnotator;
-
               this.TextWidgetAPI.setCurrentCollection(result.newCollection);
+              console.log(result.newCollection)
+              this.annotatorType = result.newAnnotator;
+              console.log(result)
+              console.log(this.TextWidgetAPI.getAnnotatorTypeId())
               result.newDocument.annotator_id = this.TextWidgetAPI.getAnnotatorTypeId();
+              console.log(result.newDocument)
+	      // This is where the document loading happens. The text-widget component
+	      // has registered a callback to react to document changes. When a new Document
+	      // is set by TextWidgetAPI.setCurrentDocument(), the
+	      // TextWidgetComponent.updateCurrentDocument() will be called, which will decide
+	      // to either load Annotations from DB, or TempDB.
               this.TextWidgetAPI.setCurrentDocument(result.newDocument);
               this.documentSelected = true;
-              this.TextWidgetAPI.registerAnnotationsCallback(this.updateAnnotationList.bind(this));
+              //this.TextWidgetAPI.registerAnnotationsCallback(this.updateAnnotationList.bind(this));
 
               setTimeout(() => { //<<<---using ()=> syntax
                 this.documentSelection = false;
@@ -622,6 +633,9 @@ export class AnnotationComponent extends MainComponent implements OnInit {
    * through EventEmitter.emit().
    */
   getTextWidgetNotification(evt) {
+    if (evt.event == "showLinkRouterSelector") {
+      this.layout.showLinkRouterSelector = evt.value;
+    }
     this.broadcastEvent = evt;
     this.changeDetectorRef.detectChanges(); // forces change detection to run
   }; /* getTextWidgetNotification */
@@ -644,4 +658,8 @@ export class AnnotationComponent extends MainComponent implements OnInit {
       this.textWidgetComponent.editorRefresh();
     }
   }; /* showTab */
+
+  updateLinkRouter(routerName) {
+    this.textWidgetComponent.updateLinkRouter(routerName)
+  }; /* updateLinkRouter */
 }

@@ -1,3 +1,17 @@
+23 November 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * backend-django/clarin_backend/utils.py:
+ * backend-django/clarin_backend/urls.py:
+ * backend-django/clarin_backend/mongodb_views.py: Various fixes.
+
+ * clarin-angular/src/app/components/views/annotation/annotation.component.html:
+ * clarin-angular/src/app/components/views/annotation/annotation.component.ts:
+ Added support for link routers.
+
+ * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
+ Fixed link drawing.
+
+ * clarin-angular/package.json: Updated Join.js to version 3.4.4.
+
 15 November 2021 Petasis George <petasis@iit.demokritos.gr>, Anna Gradou <agradou@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
  * backend-django/clarin_backend/mongodb_views.py:
  * backend-django/clarin_backend/utils.py:

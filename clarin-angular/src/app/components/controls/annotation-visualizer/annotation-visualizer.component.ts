@@ -80,6 +80,7 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
     // console.error("updateAnnotationList():", _.cloneDeep(this.annotations));
     this.annotationsDataSource.data = this.annotations;
     if (this.annotations.length) {
+      // console.log(this.annotations)
       this.table.renderRows();
     } else {
       this.selectedAnnotationDataSource = undefined;
@@ -102,8 +103,10 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
   };
 
   setSelectedAnnotation(selectedAnnotation) {
+    // console.log("setSelectedAnnotation:", selectedAnnotation)
     // function to visualize the annotation that the user selected from
     // the annotation list
+    // console.log(this.TextWidgetAPI.getAnnotationPresentableId(selectedAnnotation))
     this.selectedIndex = selectedAnnotation._id;
     this.selectedAnnotation = cloneDeep(selectedAnnotation);
     this.selectedAnnotationDataSource = Object.entries(selectedAnnotation)

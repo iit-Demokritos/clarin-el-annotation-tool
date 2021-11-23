@@ -19,3 +19,4 @@ backend-django/clarin_backend/migrations/
 backend-django/clarin_backend/__pycache__/
 backend-django/clarin_backend/static/
 backend-django/static/
+backend-django/clarin_backend/templates/index.html

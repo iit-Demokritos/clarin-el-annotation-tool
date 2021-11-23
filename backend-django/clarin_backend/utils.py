@@ -11,8 +11,14 @@ from rest_framework.response import Response
 from rest_framework import status
 from inspect import signature
 import sys, os
+from .models import Users, Collections, SharedCollections
+from django.db.models import Q
 
 class ErrorLoggingAPIView(APIView):
+    status_exception_default  = status.HTTP_400_BAD_REQUEST
+    status_exception          = status.HTTP_400_BAD_REQUEST
+    data_exception            = {}
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         ## Get the number of arguments of the list & retrieve methods...
@@ -22,83 +28,108 @@ class ErrorLoggingAPIView(APIView):
         self.arguments_retrieve = list(sig_retrieve.parameters.keys())[1:] # drop 'request'
         # print("##############", self.arguments_list, self.arguments_retrieve)
 
+    @staticmethod
+    def userHasAccessToCollection(user, collection):
+        # collection = Collections.objects.get(id=cid)
+        if collection.owner_id_id == user.id:
+            return True
+        if SharedCollections.objects \
+            .filter((Q(tofield   = user) & Q(confirmed = 1)),
+                    collection_id = collection) \
+            .count():
+            return True
+        raise Exception("User does not have access to this Collection!")
+
+    @staticmethod
+    def getCollection(user, cid):
+        collection = Collections.objects.get(pk=cid)
+        ErrorLoggingAPIView.userHasAccessToCollection(user, collection)
+        return collection
+
     def logException(self, ex, method):
         print(self.__class__.__name__, "-", method+"() - Catch Exception:", ex)
         exc_type, exc_obj, exc_tb = sys.exc_info()
         fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
         print(exc_type, fname, exc_tb.tb_lineno)
-        return Response(data={
+        response = Response(data={
             "success": False,
-            "message": "An error occured: " + str(ex)
-            }, status=status.HTTP_200_OK)
+            "message": str(ex),
+            "data": self.data_exception
+            }, status=self.status_exception)
+        self.status_exception = self.status_exception_default
+        self.data_exception   = {}
+        return response
 
+    def returnResponse(self, data, method):
+        if type(data) is tuple:
+            # Expects two elements, data & status
+            return Response(data=data[0], status=data[1])
+        return Response(data={"success": True, "data": data},
+                            status=status.HTTP_200_OK)
 
     def get(self, request, *args, **kwargs):
         try:
             ## Are the arguments of retrieve satisfiled?
             if all(param in kwargs for param in self.arguments_retrieve):
                 data = self.retrieve(request, *args, **kwargs)
+                method = 'retrieve'
             elif all(param in kwargs for param in self.arguments_list):
                 data = self.list(request, *args, **kwargs)
+                method = 'list'
             else:
                 raise "Cannot decide over list() or retrieve()!"
-            return Response(data={"success": True, "data": data},
-                            status=status.HTTP_200_OK)
+            return self.returnResponse(data, method)
         except Exception as ex:
             return self.logException(ex, "list/retrieve")
 
     def post(self, request, *args, **kwargs):
         try:
             data = self.create(request, *args, **kwargs)
-            return Response(data={"success": True, "data": data},
-                            status=status.HTTP_200_OK)
+            return self.returnResponse(data, "create")
         except Exception as ex:
             return self.logException(ex, "create")
 
     def put(self, request, *args, **kwargs):
         try:
             data = self.update(request, *args, **kwargs)
-            return Response(data={"success": True, "data": data},
-                            status=status.HTTP_200_OK)
+            return self.returnResponse(data, "update")
         except Exception as ex:
             return self.logException(ex, "update")
 
     def patch(self, request, *args, **kwargs):
         try:
             data = self.partial_update(request, *args, **kwargs)
-            return Response(data={"success": True, "data": data},
-                            status=status.HTTP_200_OK)
+            return self.returnResponse(data, "partial_update")
         except Exception as ex:
             return self.logException(ex, "partial_update")
 
     def delete(self, request, *args, **kwargs):
         try:
             data = self.destroy(request, *args, **kwargs)
-            return Response(data={"success": True, "data": data},
-                            status=status.HTTP_200_OK)
+            return self.returnResponse(data, "destroy")
         except Exception as ex:
             return self.logException(ex, "destroy")
 
     # From: https://github.com/encode/django-rest-framework/blob/master/rest_framework/mixins.py
 
-    # List all instances.
+    # List all instances. (GET)
     def list(self, request):
-        pass
-    # Retrieve a single instance.
-    def retrieve(self, request, pk):
-        pass
-    # Create a new instance.
+        raise NotImplementedError
+    # Retrieve a single instance. (GET)
+    def retrieve(self, request, detail):
+        raise NotImplementedError
+    # Create a new instance. (POST)
     def create(self, request):
-        pass
-    # Update an existing instance.
-    def update(self, request, pk):
-        pass
-    # Partially update an existing instance.
-    def partial_update(self, request, pk):
-        pass
-    # Destroy an existing instance.
-    def destroy(self, request, pk):
-        pass
+        raise NotImplementedError
+    # Update an existing instance. (PUT)
+    def update(self, request, detail):
+        raise NotImplementedError
+    # Partially update an existing instance. (PATCH)
+    def partial_update(self, request, detail):
+        raise NotImplementedError
+    # Destroy an existing instance. (DELETE)
+    def destroy(self, request, detail):
+        raise NotImplementedError
 
 class AppTokenGenerator(PasswordResetTokenGenerator):
 

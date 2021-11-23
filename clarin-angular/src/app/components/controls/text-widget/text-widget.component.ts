@@ -28,7 +28,25 @@ export class TextWidgetComponent extends BaseControlComponent
   textWidgetOverlay: any;
   skipLineNumber = {};
   paper;
-  routerName;
+
+  routerName = "direct";
+  routerOptions = {
+    direct: { step: 20 },
+    smooth: { step: 20 },
+    manhattan: {
+      step: 20,
+      //excludeTypes: ['joint.shapes.standard.Polygon'],
+      startDirections: ['top'],
+      endDirections: ['bottom']
+    },
+    metro: {
+      step: 20,
+      //excludeTypes: ['joint.shapes.standard.Polygon'],
+      startDirections: ['top'],
+      endDirections: ['bottom']
+    }
+  };
+  routerGAP = 60;
 
   graph = new joint.dia.Graph;
 
@@ -54,7 +72,7 @@ export class TextWidgetComponent extends BaseControlComponent
   // Resize observer for refreshing overlay when codemirror changes...
   resizeObserver: any;
 
-  initialLoad: boolean = false;
+  // initialLoad: boolean = false;
 
   // Settings
   settings: any[] = [];
@@ -112,14 +130,15 @@ export class TextWidgetComponent extends BaseControlComponent
       var currentElement = elementView.model;
       if (!("annotation_id" in currentElement)) return;
       var annotation = this.TextWidgetAPI.getAnnotationById(currentElement.annotation_id);
-      if (typeof (annotation) != "undefined") return;
+      if (typeof (annotation) == "undefined") return;
       // Set this annotation as the selected one
-      this.TextWidgetAPI.setSelectedAnnotation(annotation);//
+      this.TextWidgetAPI.setSelectedAnnotation(annotation);
       this.TextWidgetAPI.clearOverlappingAreas(); // not sure if required...
     });
 
     /* this segment exist in text-widget.js- transformation needed
-    // When the editor is resized (by dragging the ui-layout-container line)
+     * TODO: FIX
+        // When the editor is resized (by dragging the ui-layout-container line)
         // refresh the editor so that text selection works normally.
         scope.$on('ui.layout.resize', function (e, beforeContainer, afterContainer) {
           console.warn("text-widget: ui.layout.resize");
@@ -150,34 +169,6 @@ export class TextWidgetComponent extends BaseControlComponent
     });
     var codeMirror = document.querySelector("div.CodeMirror.CodeMirror-wrap");
     this.resizeObserver.observe(codeMirror);
-
-    /*scope.$watch('maincontentSelector', function (newVal, oldVal) {
-      console.warn("maincontentSelector:", newVal);
-    });
-    
-    //implemented without scope?
-    scope.updateLinkRouter = function (routerName) {
-      var router, connector = "rounded";
-      switch (routerName) {
-        case "direct":
-          break;
-        case "smooth":
-          connector = routerName;
-          break;
-        default:
-          router = routerName;
-          break;
-      }
-      console.warn("updateLinkRouter:", routerName, router);
-      _.each(this.connectedAnnotations, (annotation) => {
-        if (router) {
-          annotation.instance.router(router, scope.layout.routerOptions[routerName]);
-        } else {
-          annotation.instance.unset("router");
-        }
-        annotation.instance.set('connector', { name: connector });
-      });
-    };*/
     this.TextWidgetAPI.registerCurrentDocumentCallback(this.updateCurrentDocument.bind(this));
     this.TextWidgetAPI.registerCurrentSelectionCallback(this.updateCurrentSelection.bind(this));
     this.TextWidgetAPI.registerNewAnnotationsCallback(this.addNewAnnotations.bind(this));
@@ -221,7 +212,7 @@ export class TextWidgetComponent extends BaseControlComponent
 
     // var totalDocLines        = editor.lineCount();
     var editorSelectionStart = this.editor.getCursor("from");
-    var editorSelectionEnd = this.editor.getCursor("to");
+    var editorSelectionEnd   = this.editor.getCursor("to");
     // var editorSegment        = editor.getSelection();
 
     if (typeof (editorSelectionStart) != "undefined" &&
@@ -263,9 +254,9 @@ export class TextWidgetComponent extends BaseControlComponent
   mouseUpHandler(args) {
     var e = args[0];
     // console.error("mouseUpHandler:", e);
-    if (!this.initialLoad) {
-      this.initialLoad = true;
-    }
+    // if (!this.initialLoad) {
+    //   this.initialLoad = true;
+    // }
 
     // left button click
     if (e.button === 0) {
@@ -408,6 +399,10 @@ export class TextWidgetComponent extends BaseControlComponent
               this.connectedAnnotations = [];
               this.editor.refresh();
               this.showLinkRouterSelector = false;
+	      this.textWidgetEvent.emit({
+                event: "showLinkRouterSelector",
+                value: this.showLinkRouterSelector
+              });
               this.visualiseVisualisationOptions(options);
 
               if (response.data.is_opened) {
@@ -498,7 +493,6 @@ export class TextWidgetComponent extends BaseControlComponent
         }
       }
       if (modified) {
-        //TODO: Update service
         this.restoreAnnotationService.updateToTemp(ann);
       }
       annotations.push(ann);
@@ -526,7 +520,7 @@ export class TextWidgetComponent extends BaseControlComponent
   }; /* overlayRefresh */
 
   overlayLinksRefresh() {
-    _.each(this.connectedAnnotations, (annotation) => {
+    this.connectedAnnotations.forEach((annotation) => {
       try {
         this.overlayLinkAdjustVertices(annotation.instance);
       } catch (err) {
@@ -708,11 +702,14 @@ export class TextWidgetComponent extends BaseControlComponent
       return;
     }
 
-    /*TODO: FIX */
     if (!(startId in this.annotationIdToGraphItem)) return;
     if (!(endId in this.annotationIdToGraphItem)) return;
     if (!this.showLinkRouterSelector) {
       this.showLinkRouterSelector = true;
+      this.textWidgetEvent.emit({
+        event: "showLinkRouterSelector",
+        value: this.showLinkRouterSelector
+      });
     }
 
     // Do we have already a line?
@@ -721,7 +718,7 @@ export class TextWidgetComponent extends BaseControlComponent
     });
     if (typeof (connectedAnnotation) != "undefined") {
       if (annotation.action == "select" ||
-        annotation.action == "deselect") {
+          annotation.action == "deselect") {
         // This is a request to add the item, because it will be
         // re-added as selected/deselected. Do not remove it...
         this.overlayHighlight(annotation);
@@ -787,9 +784,7 @@ export class TextWidgetComponent extends BaseControlComponent
     link.source(this.annotationIdToGraphItem[startId][0]);
     link.target(this.annotationIdToGraphItem[endId][0]);
     link.attr('root/pointer-events', 'visiblePainted');
-
-    //TODO: FIX Link router
-    //link.router(router, this.routerOptions[this.routerName]);
+    link.router(router, this.routerOptions[this.routerName]);
     link.addTo(this.graph);
     // Add the annotation id to the link...
     link["annotation_id"] = annotation.annotation._id;
@@ -797,7 +792,7 @@ export class TextWidgetComponent extends BaseControlComponent
   }; /* overlayLinkAdd */
 
   overlayLinksRouterSet(routername) {
-    _.each(this.connectedAnnotations, (annotation) => {
+    this.connectedAnnotations.forEach((annotation) => {
       try {
         this.overlayLinkAdjustVertices(annotation.instance);
       } catch (err) {
@@ -884,15 +879,13 @@ export class TextWidgetComponent extends BaseControlComponent
         // find the middle point of the link
         var sourceCenter = this.graph.getCell(sourceId).getBBox().center();
         var targetCenter = this.graph.getCell(targetId).getBBox().center();
-        var midPoint = 0;//TODO: FIX g reference ! g.Line(sourceCenter, targetCenter).midpoint();
+        var midPoint = (new joint.g.Line(sourceCenter, targetCenter)).midpoint();
         // find the angle of the link
         var theta = sourceCenter.theta(targetCenter);
 
         // constant
         // the maximum distance between two sibling links
-        //TODO FIX GAP
-        //scope.layout problem
-        var GAP = 0;//scope.layout.routerGAP;
+        var GAP = this.routerGAP;
 
         _.each(siblings, (sibling, index) => {
 
@@ -921,8 +914,8 @@ export class TextWidgetComponent extends BaseControlComponent
           var reverse = ((theta < 180) ? 1 : -1);
 
           // we found the vertex
-          var angle = 0;//TODO: FIX g reference ! g.toRad(theta + (sign * reverse * 90));
-          var vertex = 0;//TODO: FIX g reference ! g.Point.fromPolar(offset, angle, midPoint).toJSON();
+          var angle =  joint.g.toRad(theta + (sign * reverse * 90));
+          var vertex = joint.g.Point.fromPolar(offset, angle, midPoint).toJSON();
 
           // replace vertices array with `vertex`
           sibling.vertices([vertex]);
@@ -930,6 +923,31 @@ export class TextWidgetComponent extends BaseControlComponent
       }
     }
   }; /* overlayLinkAdjustVertices */
+
+  updateLinkRouter(routerName) {
+    var router, connector = "rounded";
+    switch (routerName) {
+      case "direct":
+        break;
+      case "smooth":
+        connector = "smooth";
+        break;
+      default:
+        router = routerName;
+        break;
+    }
+    // console.error("updateLinkRouter:", routerName, router);
+    this.connectedAnnotations.forEach((annotation) => {
+      if (router) {
+	// annotation.instance.set("router", { name: router });
+        annotation.instance.router(router, this.routerOptions[routerName]);
+      } else {
+	annotation.instance.unset("router");
+      }
+      //annotation.instance.set('connector', { name: connector });
+      annotation.instance.connector(connector);
+    });
+  }; /* updateLinkRouter */
 
   /**
    * Remove a connection annotation's leader line instance as well as
