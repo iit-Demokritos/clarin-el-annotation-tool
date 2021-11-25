@@ -610,16 +610,18 @@ export class TextWidgetAPI {
         "selected": false,
         "action": "deselect"
       });
-
+    //console.log(this.selectedAnnotation)
     this.selectedAnnotation = _.cloneDeep(newSelectedAnnotation);
     this.annotationsToBeAdded.push({
       "annotation": newSelectedAnnotation,
       "selected": true,
       "action": "select"
     });
+    //console.log(this.annotationsToBeAdded)
     this.currentSelection = {};
     this.clearOverlappingAreas();
-
+    //console.log(this.annotationsToBeAddedCallbacks)
+    //console.log(this.annotationsToBeAddedCallbacks)
     this.notifyObservers(this.annotationsToBeAddedCallbacks);
     this.notifyObservers(this.selectedAnnotationCallbacks);
   }

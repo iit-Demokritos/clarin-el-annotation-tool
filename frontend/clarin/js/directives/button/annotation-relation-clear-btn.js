@@ -1,4 +1,4 @@
-angular.module('clarin-el').directive('relationClearBtn', function() {
+angular.module('clarin-el').directive('annotationRelationClearBtn', function() {
 	return {
 		restrict: 'E',
     templateUrl: 'templates/directives/button/annotation-relation-clear-btn.html',

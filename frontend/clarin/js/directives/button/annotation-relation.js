@@ -1,18 +1,21 @@
 angular.module('clarin-el').directive('annotationRelation',
   function() {
-	  return {
-		  restrict: 'E',
-		  transclude: true,
+          return {
+                  restrict: 'E',
+                  transclude: true,
       templateUrl: 'templates/directives/button/annotation-relation.html',
-		  scope: {
+                  scope: {
         title: '@',
+        annotationType: '@',
         annotationAttribute: '@',
-        annotationValue: '@'
-		  },
-		  link: function(scope, elem, attrs) {
+        annotationValue: '@',
+        annotationArgumentNumber: '@',
+        annotationWidgetIds: '@'
+                  },
+                  link: function(scope, elem, attrs) {
         
-		  }
-	  }
+                  }
+          }
   }
 );
 

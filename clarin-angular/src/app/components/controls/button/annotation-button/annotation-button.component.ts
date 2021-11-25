@@ -18,6 +18,7 @@ export class AnnotationButtonComponent extends BaseControlComponent implements O
   @Input() buttonTooltip;
   @Input() label;
   @Input() customAttribute;
+  disabled = false;
 
   super() { }
 
@@ -47,6 +48,14 @@ export class AnnotationButtonComponent extends BaseControlComponent implements O
         name: this.annotationAttribute,
         value: this.annotationValue
       })[0]; */
+      // Check if the selected annotation has the same type as this button...
+      if (selectedAnnotation.type !== this.annotationType) {
+        // We cannot handle this annotation!
+        if (!this.disabled) {this.disabled = true;}
+        return;
+      }
+      if (this.disabled) {this.disabled = false;}
+
       var selectedAnnotationAttribute = selectedAnnotation.attributes.find(attr =>
         attr.name === this.annotationAttribute &&
         attr.value === this.annotationValue
@@ -68,11 +77,14 @@ export class AnnotationButtonComponent extends BaseControlComponent implements O
         this.element.setAttribute("style", "color:#333");
         this.element.setAttribute("style", "background:#fff");
       }
-    } else if (Object.keys(selectedAnnotation).length == 0 && this.element.classList.contains('active')) {
-      //if selected annotation is empty and the specific element is active
-      this.element.classList.remove('active');
-      this.element.setAttribute("style", "color:#333");
-      this.element.setAttribute("style", "background:#fff");
+    } else if (Object.keys(selectedAnnotation).length == 0) {
+      if (this.disabled) {this.disabled = false;}
+      if (this.element.classList.contains('active')) {
+        //if selected annotation is empty and the specific element is active
+        this.element.classList.remove('active');
+        this.element.setAttribute("style", "color:#333");
+        this.element.setAttribute("style", "background:#fff");
+      }
     }
   }
 

@@ -11,13 +11,19 @@ export class ButtonColorService {
 
   /*** Button Annotator Color Combinations Service ***/
   addColorCombination(colorCombination) {
-    // console.error("addColorCombination:", colorCombination);
+   // console.error("addColorCombination:", colorCombination);
     this.colorCombinations.push(colorCombination);
   }; /* addColorCombination */
 
   clearColorCombinations() { this.colorCombinations = []; };
 
+  getColorCombinations(){
+    return this.colorCombinations
+  }
+
+
   getColorCombination(annotationValue) {
+    // console.log(this.colorCombinations)
     // var colorCombo = _.where(this.colorCombinations, { value: annotationValue });
     var colorCombo = this.colorCombinations.filter(col => col.value === annotationValue);
 

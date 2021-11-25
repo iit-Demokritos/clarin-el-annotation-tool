@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import * as _ from 'lodash';
 import { BaseControlComponent } from '../../base-control/base-control.component';
+import { Message } from 'src/app/models/services/message';
+import { MessageService } from 'src/app/services/message-service/message.service';
 
 @Component({
   selector: 'annotation-relation-combobox',
@@ -15,71 +16,78 @@ export class AnnotationRelationComboboxComponent extends BaseControlComponent im
     this.TextWidgetAPI.registerAnnotationSchemaCallback(this.schemaCallback.bind(this));
     // Make sure we register the callbacks when the component loads
     this.schemaCallback();
+    // We want to receive messages, from AnnotationRelationImportBtnComponent components...
+    this.messagesSubscribe();
   }
 
-  @Input() annotationArgumentValues;
-
   annotations = [];
-  selectedAnnotationId = '';
-
-  // Create object used to filter selected annotations
-  selAnnotationFilter = {
-    name: this.annotationRelationAttribute
-  };
+  selectionOrigin = '';
+  allowedValues = [];
 
   /**
    * Get new annotations to show.
    */
   updateAnnotationList() {
-
     // Get annotations
     var annotations = this.TextWidgetAPI.getAnnotations();
 
-    // Filter annotations
-    var allowedValues = this.annotationArgumentValues.split(' ');
-
-    this.annotations = _.filter(annotations, function (annotation) {
+    this.annotations = annotations.filter((annotation) => {
       // Check if the type is in the allowedValues
-      // var type = _.findWhere(annotation.attributes, { name: 'type' }).value;
-      var type = annotation.attributes.find(attr => attr.name === 'type').value;
-
-      return allowedValues.indexOf(type) !== -1;
+      return this.allowedValues.indexOf(this.TextWidgetAPI.getAnnotationAttributeValue(annotation, this.annotationArgumentAttribute)) !== -1;
     });
-
   }
 
   annotationSelected() {
     // Get the selected annotation
     var annotation: any = this.TextWidgetAPI.getSelectedAnnotation();
+    // console.error("AnnotationRelationComboboxComponent: annotationSelected():", annotation);
 
     // Check if the selected annotation has the same type as this combobox
     if (annotation.type !== this.annotationType) {
-      this.selectedAnnotationId = '';
+      if (this.selectionOrigin != 'm') {
+        this.value = '';
+      }
       return;
     }
+    this.selectionOrigin = '';
 
     // Check if this annotation concerns this combobox (same relation attribute value)
-    // var relationAttributeValue = _.findWhere(annotation.attributes, this.selAnnotationFilter).value;
-    var relationAttributeValue = this.TextWidgetAPI.findWhere(annotation.attributes, this.selAnnotationFilter).value;
+    var relationAttributeValue = this.TextWidgetAPI.getAnnotationAttributeValue(annotation, this.annotationRelationAttribute);
 
     if (relationAttributeValue !== this.annotationRelationValue) {
-
-      this.selectedAnnotationId = '';
+      this.value = '';
       return;
     }
 
     // Get the selected annotation ID from the attributes of the arrow annotation
-    // var id = _.findWhere(annotation.attributes, { name: this.annotationAttribute }).value;
-    var id = annotation.attributes.find(attr => attr.name === this.annotationAttribute).value;
-
-    // Find the annotation with this ID in the list of annotations and select it
-    this.selectedAnnotationId = id;
+    this.value = this.TextWidgetAPI.getAnnotationAttributeValue(annotation, this.annotationAttribute);
   }
 
   // Register callback for annotation updates
   schemaCallback() {
+    this.allowedValues = this.annotationArgumentValues.split(' ');
     this.TextWidgetAPI.registerAnnotationsCallback(this.updateAnnotationList.bind(this));
     this.TextWidgetAPI.registerSelectedAnnotationCallback(this.annotationSelected.bind(this));
+  }
+
+  // Callback for messages...
+  onMessageAdded(message: Message) {
+    switch(message.name) {
+      case MessageService.ANNOTATION_RELATION_COMBOBOX_SELECT_ANNOTATION: {
+        if (message.value.element_id == this.id) {
+          // console.error("AnnotationRelationComboboxComponent: onMessageAdded()", message, this);
+          this.value = message.value.annotation_id;
+          if (this.value != '') {
+            this.selectionOrigin = 'm';
+          }
+        }
+        break;
+      }
+    }
+  }
+
+  valueModified() {
+    this.messageService.annotationRelationComboboxSet(this.id, this.value, this.annotationAttribute);
   }
 
 }

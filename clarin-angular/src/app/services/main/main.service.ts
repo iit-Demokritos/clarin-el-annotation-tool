@@ -15,7 +15,15 @@ import { TextWidgetAPI } from '../text-widget/text-widget.service';
 })
 export abstract class MainService {
 
-  constructor(public http: HttpClient, public dialog: MatDialog, public openDocumentService: OpenDocumentService, public TextWidgetAPI: TextWidgetAPI, public annotationService: AnnotationService, public tempAnnotationService: TempAnnotationService, public buttonAnnotator: ButtonAnnotatorService, public coreferenceAnnotatorService: CoreferenceAnnotatorService,
+  constructor(
+    public http: HttpClient,
+    public dialog: MatDialog,
+    public openDocumentService: OpenDocumentService,
+    public TextWidgetAPI: TextWidgetAPI,
+    public annotationService: AnnotationService,
+    public tempAnnotationService: TempAnnotationService,
+    public buttonAnnotator: ButtonAnnotatorService,
+    public coreferenceAnnotatorService: CoreferenceAnnotatorService,
     public collectionService: CollectionService,
     public zone: NgZone,
     public coreferenceColorDataService: CoreferenceColorDataService) { }

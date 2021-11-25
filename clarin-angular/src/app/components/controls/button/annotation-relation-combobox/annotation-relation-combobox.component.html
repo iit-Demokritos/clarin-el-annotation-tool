@@ -1,10 +1,8 @@
-<div>
-    <select [(ngModel)]="selectedAnnotationId" class="selectpicker" data-container="body" selectpicker=""
-        select-collection="annotations">
-        <option value="">--- Select annotation ---</option>
-        <!--data-content="<span class='annotation-relation-list-item'>{{annotation.spans[0].segment}}</span>"-->
-        <option *ngFor="let annotation in annotations" value="{{annotation._id}}">
-            {{annotation._id}}
-        </option>
-    </select>
-</div>
+<mat-form-field class="annotation-relation-select" appearance="outline">
+  <mat-select [(ngModel)]="value">
+    <mat-option value="">--- {{'Select Annotation'|translate}} ---</mat-option>
+    <mat-option *ngFor="let annotation of annotations" [value]="annotation._id">
+      {{annotation.spans[0].segment}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

@@ -1,4 +1,4 @@
-angular.module('clarin-el').directive('relationImportBtn', function() {
+angular.module('clarin-el').directive('annotationRelationImportBtn', function() {
 	return {
 		restrict: 'E',
     templateUrl: 'templates/directives/button/annotation-relation-import-btn.html',

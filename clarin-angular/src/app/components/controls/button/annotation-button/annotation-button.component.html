@@ -1,4 +1,4 @@
 <button #btn type="button" title="{{buttonTooltip}}" class="btn btn-default btn-sm btn-block annotation-btn"
-  (click)="addAnnotation(annotationType, annotationAttribute, annotationValue)">
+  (click)="addAnnotation(annotationType, annotationAttribute, annotationValue)" [disabled]="disabled">
   <span class="annotation-btn-span" style="--color-bg: {{bgColor}};" [attr.bgcolor]="bgColor">{{label}}</span>
 </button>

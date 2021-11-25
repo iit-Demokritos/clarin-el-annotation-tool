@@ -1,4 +1,4 @@
-angular.module('clarin-el').directive('relationCombobox', ['$timeout', 'TextWidgetAPI',
+angular.module('clarin-el').directive('annotationRelationCombobox', ['$timeout', 'TextWidgetAPI',
   function ($timeout, TextWidgetAPI) {
     return {
       restrict: 'E',
@@ -9,6 +9,7 @@ angular.module('clarin-el').directive('relationCombobox', ['$timeout', 'TextWidg
         annotationArgumentAnnotation: '@',
         annotationArgumentAttribute: '@',
         annotationArgumentValues: '@',
+	annotationRelationType: '@',
         annotationRelationAttribute: '@',
         annotationRelationValue: '@'
       },

@@ -23,6 +23,7 @@ import { TextWidgetAPI } from 'src/app/services/text-widget/text-widget.service'
 import { UserService } from 'src/app/services/user-service/user.service';
 import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
 import { AnalyticsService } from 'src/app/services/analytics-service/analytics.service';
+import { MessageService } from 'src/app/services/message-service/message.service';
 
 @Component({
   selector: 'main',
@@ -58,7 +59,8 @@ export class MainComponent implements OnInit {
     public translate: TranslateService,
     public formBuilder: FormBuilder,
     public authService: AuthService,
-    public analyticsService: AnalyticsService) { }
+    public analyticsService: AnalyticsService,
+    public messageService: MessageService) { }
 
   ngOnInit(): void {
   }

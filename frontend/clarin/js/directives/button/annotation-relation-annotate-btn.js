@@ -1,4 +1,4 @@
-angular.module('clarin-el').directive('relationAnnotateBtn', ['TextWidgetAPI', 'TempAnnotation', 'Dialog',
+angular.module('clarin-el').directive('annotationRelationAnnotateBtn', ['TextWidgetAPI', 'TempAnnotation', 'Dialog',
   function(TextWidgetAPI, TempAnnotation, Dialog) {
     return {
       restrict: 'E',

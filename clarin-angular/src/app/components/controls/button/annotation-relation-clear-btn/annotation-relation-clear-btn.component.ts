@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { BaseControlComponent } from '../../base-control/base-control.component';
 
 @Component({
@@ -9,14 +9,18 @@ import { BaseControlComponent } from '../../base-control/base-control.component'
 export class AnnotationRelationClearBtnComponent extends BaseControlComponent implements OnInit {
 
   showClearBtn = true;
+  inputFields;
 
   super() { }
 
   ngOnInit(): void {
+    this.inputFields = this.annotationWidgetIds.split(' ');
   }
 
   resetInputFields() {
-    //TODO: Find function
+    this.inputFields.forEach(field =>
+      this.messageService.annotationRelationComboboxSelectAnnotation(field, ''));
+    this.TextWidgetAPI.clearSelectedAnnotation();
   }
 
 }

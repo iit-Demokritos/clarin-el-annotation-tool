@@ -27,7 +27,6 @@ export abstract class ValueAccessorComponent<T> extends MainComponent implements
 
   get value(): T {
     try {
-
       return this.innerValue;
     } catch (e) { console.log(e); }
   }

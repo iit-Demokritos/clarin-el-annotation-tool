@@ -1,3 +1,39 @@
+25 November 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * frontend/clarin/js/directives/button/annotation-relation-annotate-btn.js:
+ * frontend/clarin/js/directives/button/annotation-relation-clear-btn.js:
+ * frontend/clarin/js/directives/button/annotation-relation-combobox.js:
+ * frontend/clarin/js/directives/button/annotation-relation-import-btn.js:
+ * frontend/clarin/js/directives/button/annotation-relation.js: Updated the
+ directive names to match the new Annotation Schema from Ellogon.
+
+ * clarin-angular/src/app/components/controls/button/annotation-relation-annotate-btn/annotation-relation-annotate-btn.component.html:
+ * clarin-angular/src/app/components/controls/button/annotation-relation-annotate-btn/annotation-relation-annotate-btn.component.ts:
+ * clarin-angular/src/app/components/controls/button/annotation-relation-clear-btn/annotation-relation-clear-btn.component.html:
+ * clarin-angular/src/app/components/controls/button/annotation-relation-clear-btn/annotation-relation-clear-btn.component.ts:
+ * clarin-angular/src/app/components/controls/button/annotation-relation-combobox/annotation-relation-combobox.component.html:
+ * clarin-angular/src/app/components/controls/button/annotation-relation-combobox/annotation-relation-combobox.component.ts
+ * clarin-angular/src/app/components/controls/button/annotation-relation-import-btn/annotation-relation-import-btn.component.html:
+ * clarin-angular/src/app/components/controls/button/annotation-relation-import-btn/annotation-relation-import-btn.component.ts:
+ * clarin-angular/src/app/components/controls/button/annotation-relation/annotation-relation.component.html:
+ * clarin-angular/src/app/components/controls/button/annotation-relation/annotation-relation.component.ts:
+ * clarin-angular/src/css/clarin-annschema.scss: Implemented relation annotation within Button Annotator.
+
+ * clarin-angular/src/app/components/controls/button/annotation-button/annotation-button.component.html:
+ * clarin-angular/src/app/components/controls/button/annotation-button/annotation-button.component.ts:
+ Added some logic to disable the button, if the selected annotation type
+ cannot be handled by the button (as in the case that a relation is selected
+ instead of a segment).
+
+ * clarin-angular/src/app/components/controls/base-control/base-control.component.ts:
+ * clarin-angular/src/app/components/controls/value-accessor/value-accessor.component.ts:
+ Changes for supporting the message service.
+
+ * clarin-angular/src/app/components/views/main/main.component.ts:
+ * clarin-angular/src/app/models/services/message.ts:
+ * clarin-angular/src/app/services/message-service/: Added a new service for
+ passing messages across components, and for keeping shared variables across
+ components.
+
 23 November 2021 Petasis George <petasis@iit.demokritos.gr>:
  * backend-django/clarin_backend/utils.py:
  * backend-django/clarin_backend/urls.py:

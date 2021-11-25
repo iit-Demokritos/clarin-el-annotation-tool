@@ -148,6 +148,82 @@
     border-color: #adadad;
   }
 }
+
+.annotation-relation-select {
+  padding: 0px;
+  font-size: 13px;
+  .mat-form-field-wrapper {
+    padding: 0;
+    .mat-form-field-flex {
+      padding: 0px 4px 0px 4px;
+      .mat-form-field-infix {
+        padding: 0px 0px 4px 0px;
+        .mat-form-field-label-wrapper {
+          .mat-form-field-label.mat-form-field-empty {
+            top: 0.98em;
+          }
+        }
+      }
+    }
+  }
+}
+
+.button-widget-relation {
+  table {
+    height: 1px;
+    border-collapse: separate;
+    margin-bottom: 0px;
+    border-spacing: 0;
+    width: 100%;
+    max-width: 100%;
+    font-size: 12px !important;
+    table-layout: auto;
+  }
+}
+
+.button-widget-relation-header {
+  font-size: 12px !important;
+}
+
+.annotation-relation-select {
+  width: 100%;
+}
+
+annotation-relation-import-btn {
+  height: 28px;
+  line-height: 28px;
+  width: 28px;
+  // The follwoing two lines center the element...
+  margin: 0 auto;
+  display: block;
+  button,
+  .annotation-relation-import-btn,
+  .mat-button-focus-overlay,
+  .mat-ripple {
+    height: 24px;
+    line-height: 24px;
+    width: 24px;
+  }
+}
+
+.annotation-relation-annotate-btn,
+.annotation-relation-clear-btn {
+  button {
+    padding: 1px 0px;
+    margin: 1px 0px !important;
+    font-size: 12px !important;
+    line-height: 20px;
+      //text-align: left;
+    white-space: pre !important;
+    display: inline-block;
+    overflow: hidden;
+    height: 100% !important;
+    width: 100%;
+    position: relative;
+    text-overflow: ellipsis;
+    min-width: 0;
+  }
+}
 /*** end of button annotator widget ***/
 
 /* TEI XML tags */

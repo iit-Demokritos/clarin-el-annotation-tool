@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { BaseControlComponent } from '../../base-control/base-control.component';
 
 @Component({
@@ -7,6 +7,9 @@ import { BaseControlComponent } from '../../base-control/base-control.component'
   styleUrls: ['./annotation-relation.component.scss']
 })
 export class AnnotationRelationComponent extends BaseControlComponent implements OnInit {
+
+  @Input() title;
+  @Input() annotationArgumentNumber;
 
   super() { }
 
