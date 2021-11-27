@@ -1,3 +1,7 @@
+26 November 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
+ Fix in how annotations are fixed in migrateOldSpans().
+
 25 November 2021 Petasis George <petasis@iit.demokritos.gr>:
  * frontend/clarin/js/directives/button/annotation-relation-annotate-btn.js:
  * frontend/clarin/js/directives/button/annotation-relation-clear-btn.js:

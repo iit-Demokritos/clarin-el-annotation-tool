@@ -24,7 +24,7 @@ import { ShareCollectionModalComponent } from './components/dialogs/share-collec
 import { AddCollectionComponent } from './components/views/add-collection/add-collection.component';
 
 import { NgxFlowModule, FlowInjectionToken } from '@flowjs/ngx-flow';
-import Flow from '@flowjs/flow.js';
+import { Flow } from '@flowjs/flow.js';
 import { AnnotationComponent } from './components/views/annotation/annotation.component';
 import { ErrorDialogComponent } from './components/dialogs/error-dialog/error-dialog.component';
 import { UploaderComponent } from './components/controls/uploader/uploader.component';
@@ -120,6 +120,7 @@ import { AnalyticsAnnotationValuesComponent } from './components/views/analytics
 import { AnnotationSetInspectorComponent } from './components/controls/annotation-set-inspector/annotation-set-inspector.component';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { MatTableExporterModule } from 'mat-table-exporter';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 // Required for AOT compilation
 export function TranslateHttpLoaderFactory(http: HttpClient) {
@@ -241,7 +242,8 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
     }),
     AngularSplitModule,
     HighchartsChartModule, // HighCharts
-    MatTableExporterModule
+    MatTableExporterModule,
+    DragDropModule
   ],
   exports:[
     ButtonAnnotatorValueListDirective,

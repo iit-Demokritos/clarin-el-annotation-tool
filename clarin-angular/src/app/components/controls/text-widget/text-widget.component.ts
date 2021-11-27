@@ -152,8 +152,10 @@ export class TextWidgetComponent extends BaseControlComponent
     
     */
 
+    console.error("TextWidgetComponent: ngOnInit(): Setting CodeMirror mouse events on:", this.mainContent);
     CodeMirror.on(this.mainContent, "mouseup", (...e) => { this.mouseUpHandler(e) });
     CodeMirror.on(this.mainContent, "mousedown", (...e) => { this.mouseDownUpHandler(e) });
+    console.error("TextWidgetComponent: ngOnInit(): Setting CodeMirror extra keys on:", this.editor);
     this.editor.setOption("extraKeys", {
       Delete: (...e) => { this.deleteSelectedAnnotation(e); },
       Space: (...e) => { this.editor.refresh(); },
@@ -399,7 +401,7 @@ export class TextWidgetComponent extends BaseControlComponent
               this.connectedAnnotations = [];
               this.editor.refresh();
               this.showLinkRouterSelector = false;
-	      this.textWidgetEvent.emit({
+              this.textWidgetEvent.emit({
                 event: "showLinkRouterSelector",
                 value: this.showLinkRouterSelector
               });
@@ -479,14 +481,33 @@ export class TextWidgetComponent extends BaseControlComponent
         var selection = this.computeSelectionFromOffsets(span.start, span.end);
         var fragment = this.editor.getRange(selection.start, selection.end);
         if (span.segment !== fragment) {
+          var startp, endp, startn, endn, start, end;
           var cursor = this.editor.getSearchCursor(span.segment, selection.start);
-          var found = cursor.findNext();
-          if (!found) {
-            found = cursor.findPrevious();
+          var foundp  = cursor.findPrevious();
+          if (foundp) {
+            startp = this.editor.indexFromPos(cursor.from());
+            endp   = this.editor.indexFromPos(cursor.to());
           }
-          if (found) {
-            span.start = this.editor.indexFromPos(cursor.from());
-            span.end = this.editor.indexFromPos(cursor.to());
+          var foundn  = cursor.findNext();
+          if (foundn) {
+            startn = this.editor.indexFromPos(cursor.from());
+            endn   = this.editor.indexFromPos(cursor.to());
+          }
+          // Identify which segment is closest...
+          if (foundn && foundp) {
+            if (Math.abs(startn - span.start) < Math.abs(startp - span.start)) {
+              start = startn; end = endn;
+            } else {
+              start = startp; end = endp;
+            }
+          } else if (foundp) {
+            start = startp; end = endp;
+          } else {
+            start = startn; end = endn;
+          }
+          if (foundn || foundp) {
+            span.start   = start;
+            span.end     = end;
             ann.spans[j] = span;
             modified = true;
           }
@@ -939,10 +960,10 @@ export class TextWidgetComponent extends BaseControlComponent
     // console.error("updateLinkRouter:", routerName, router);
     this.connectedAnnotations.forEach((annotation) => {
       if (router) {
-	// annotation.instance.set("router", { name: router });
+        // annotation.instance.set("router", { name: router });
         annotation.instance.router(router, this.routerOptions[routerName]);
       } else {
-	annotation.instance.unset("router");
+        annotation.instance.unset("router");
       }
       //annotation.instance.set('connector', { name: connector });
       annotation.instance.connector(connector);

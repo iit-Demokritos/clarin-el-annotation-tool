@@ -101,7 +101,7 @@
             <i class="fa fa-tasks" aria-hidden="true"></i>
             &#09;Please select a collection from the list on the left...
           </div>
-          <mat-table #documentsTable mat-table [dataSource]="documentsDataSource" *ngIf="collectionDocuments.length>0">
+          <mat-table #documentsTable mat-table [dataSource]="documentsDataSource" *ngIf="collectionDocuments.length>0" class="mat-elevation-z8">
             <!-- Checkbox Column -->
             <ng-container matColumnDef="select">
               <mat-header-cell mat-header-cell *matHeaderCellDef>
@@ -190,7 +190,7 @@
 
             <mat-header-row *matHeaderRowDef="documentsDisplayedColumns; sticky: true"></mat-header-row>
             <mat-row matRipple *matRowDef="let row; columns: documentsDisplayedColumns;"
-              (click)="documentsSelection.toggle(row)"></mat-row>
+              (click)="documentsSelection.toggle(row)" [cdkDragData]="row" cdkDrag></mat-row>
           </mat-table>
         </mat-card-content>
       </mat-card>
