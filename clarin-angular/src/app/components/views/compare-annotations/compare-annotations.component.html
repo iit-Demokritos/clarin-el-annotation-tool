@@ -1,1 +1,29 @@
-<p>compare-annotations works!</p>
+<page-header title="{{'Compare Annotations'|translate}}" *ngIf="showPageHeader"></page-header>
+<div class="compare-annotations">
+    <mat-card class="mat-card-fill-parent">
+        <mat-card-header>
+            <mat-card-subtitle>
+              <toolbar-select-document *ngIf="showDocumentSelectionToolbar"
+                (selectedCollections)="onCollectionsChange($event)" (selectedDocuments)="onDocumentsChange($event)"
+                [allowMultipleCollections]="allowMultipleCollections" [allowMultipleDocuments]="allowMultipleDocuments">
+              </toolbar-select-document>
+              <toolbar-select-annotator *ngIf="showAnnotatorSelectionToolbar"
+                (selectedAnnotators)="onAnnotatorsChange($event)" [allowMultipleAnnotators]="true" [annotators]="annotators"
+                [showApplyButton]="true" (onApply)="onApply($event)">
+              </toolbar-select-annotator>
+              <p>Selected Collections: {{selectedCollection.name}}, Selected Documents: {{selectedDocument.name}}</p>
+            </mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content class="main-content">
+            <annotation-set-inspector [collection]="selectedCollection" [document]="selectedDocument" [apply]="apply" [result]="result" [annotations]="annotations" ></annotation-set-inspector>
+            </mat-card-content>
+
+  </mat-card>
+
+
+
+
+
+
+
+</div>
