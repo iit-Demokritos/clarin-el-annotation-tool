@@ -11,6 +11,7 @@ import { ImportDocumentsFromExportModalComponent } from '../../dialogs/import-do
 import { RenameCollectionModalComponent } from '../../dialogs/rename-collection-modal/rename-collection-modal.component';
 import { ShareCollectionModalComponent } from '../../dialogs/share-collection-modal/share-collection-modal.component';
 import { MainComponent } from '../main/main.component';
+import {CdkDragDrop, CdkDrag} from '@angular/cdk/drag-drop';
 
 export interface DocumentInformation {
   id: number;
@@ -50,6 +51,12 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
   dialogWidth: "550px";
   dialogHeight: "600px";
 
+  disableCollectionDragging = true;
+  disableCollectionDraggingAutoscroll = false;
+  disableDocumentDragging   = false;
+  dropTargetCollection = -1;
+  dropTargetCollectionAllow = true;
+
   /* Selection model for selecting collection documents (for deletion) */
   documentsDisplayedColumns: string[] = ['select', 'id', 'name'/*,
     'owner', 'updated_at', 'updated_by'*/];
@@ -78,6 +85,7 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
         });
       } else {
         this.dataForTheTree = response["data"]; //angular.copy(response.data); TODO:
+        // this.dataForTheTree.forEach((row, index) => {row.row_number = index;});
       }
     });
   }
@@ -107,6 +115,7 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
 
   //function to be called when a user selects a collection from the sidebar tree
   showSelectedCollection(collection, index) {
+          console.error(collection, index);
     this.selectedCollectionIndex = index;
     this.selectedCollection = collection;
     this.initializeCollectionData();
@@ -206,6 +215,55 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
       this.initializeCollectionData();
     });
   }; /* shareCollection */
+
+  // Function to be called when the drag is over a collection with a document to be dropped..
+  onCollectionDropOver = (index: number, drag: CdkDrag<number>, drop) => {
+    // console.error("ManageCollectionsComponent: onCollectionDropEnter():", index);
+    if (this.dropTargetCollection == undefined ||
+        this.dataForTheTree == undefined ||
+        index >= this.dataForTheTree.length) {
+      // We have the wrong this...
+      return false;
+    }
+    this.dropTargetCollection = index;
+    let col = this.dataForTheTree[index]
+    // Ensure the collection of the dragged document is not the indexed one...
+    if (drag.data['collection_id'] == col.id ||
+       !col.is_owner) {
+      this.dropTargetCollectionAllow = false;
+    } else {
+      this.dropTargetCollectionAllow = true;
+    }
+    this.changeDetectorRef.detectChanges();
+    return true;
+  }; /* onCollectionDropEnter */
+
+  onCollectionDropExit(event=undefined) {
+    this.dropTargetCollection = -1;
+    this.changeDetectorRef.detectChanges();
+  }
+
+  onCollectionDropEnd(event=undefined) {
+    this.dropTargetCollection = -1;
+    this.changeDetectorRef.detectChanges();
+  }
+
+  // Function to be called when the user drops a file on a collection...
+  onCollectionDrop(event: CdkDragDrop<unknown>) {
+    let doc = event.item.data
+    let col = this.dataForTheTree[event.currentIndex]
+    // If the drag and the drop containers are the same, ignore the drop
+    if (!event.isPointerOverContainer ||
+        event.previousContainer == event.container ||
+        doc['collection_id'] == col.id ||
+        !col.is_owner) {
+      // console.error("ManageCollectionsComponent: onCollectionDrop(): Invalid drop!");
+      return;
+    }
+
+
+    console.error("ManageCollectionsComponent: onCollectionDrop():", doc, col);
+  }; /* onCollectionDrop */
 
   //function to be called when a user wants to delete selected documents
   deleteDocuments() {
@@ -309,12 +367,12 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
           element.annotations_temp_attributes_len =
             response['data'].filter(ann => this.TextWidgetAPI.isAttributeAnnotation(ann) &&
               !this.TextWidgetAPI.isDeletedAnnotation(ann)).length;
-	  element.annotations_temp_deleted_len =
+          element.annotations_temp_deleted_len =
             response['data'].filter(ann => this.TextWidgetAPI.isDeletedAnnotation(ann)).length;
           element.annotations_temp_len = element.annotations_temp_total_len -
             element.annotations_temp_attributes_len -
-	    element.annotations_temp_settings_len -
-	    element.annotations_temp_deleted_len;
+            element.annotations_temp_settings_len -
+            element.annotations_temp_deleted_len;
         }));
       // Get information about users that have opened the document...
       element.opened_by = [];

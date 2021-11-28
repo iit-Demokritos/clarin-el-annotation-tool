@@ -1,5 +1,5 @@
 <page-header title="{{'pageheader.Manage Collections'|translate}}"></page-header>
-<div class="manage-collections-wrapper">
+<div class="manage-collections-wrapper" >
   <as-split direction="horizontal">
     <as-split-area [size]="30" [minSize]="10" [maxSize]="60" class="side-bar-wrapper">
       <mat-card class="mat-card-fill-parent">
@@ -23,9 +23,17 @@
         </mat-card-header>
         <mat-card-content class="sidebar-main-content mat-card-fill-parent">
           <!-- SIDEBAR COLLECTION LIST -->
-          <mat-selection-list #collections [multiple]="false">
-            <mat-list-option *ngFor="let collection of dataForTheTree;let index=index" [value]="collection"
-              (click)="showSelectedCollection(collection, index)">
+          <mat-selection-list #collections="cdkDropList" [multiple]="false"
+            cdkDropList (cdkDropListDropped)="onCollectionDrop($event)"
+            [cdkDropListSortPredicate]="onCollectionDropOver"
+            [cdkDropListAutoScrollDisabled]="disableCollectionDraggingAutoscroll"
+          >
+            <mat-list-option *ngFor="let collection of dataForTheTree;let index=index"
+              [value]="collection"
+              (click)="showSelectedCollection(collection, index)"
+              cdkDrag [cdkDragDisabled]="disableCollectionDragging"
+              [ngClass]="{'drop-target-allow': dropTargetCollection == index && dropTargetCollectionAllow, 'drop-target-deny': dropTargetCollection == index && !dropTargetCollectionAllow}"
+            >
                 <mat-icon *ngIf="collection.confirmed!=1" mat-list-icon matBadge="{{collection.document_count}}" matBadgeOverlap="true" matBadgeSize="small" matBadgeColor="accent" matBadgePosition="before">folder</mat-icon>
                 <mat-icon *ngIf="collection.confirmed==1 && collection.is_owner" mat-list-icon matBadge="{{collection.document_count}}" matBadgeOverlap="true" matBadgeSize="small" matBadgeColor="accent" matBadgePosition="before">folder_shared</mat-icon>
                 <mat-icon *ngIf="collection.confirmed==1 && !collection.is_owner" mat-list-icon matBadge="{{collection.document_count}}" matBadgeOverlap="true" matBadgeSize="small" matBadgeColor="accent" matBadgePosition="before">snippet_folder</mat-icon>
@@ -101,7 +109,11 @@
             <i class="fa fa-tasks" aria-hidden="true"></i>
             &#09;Please select a collection from the list on the left...
           </div>
-          <mat-table #documentsTable mat-table [dataSource]="documentsDataSource" *ngIf="collectionDocuments.length>0" class="mat-elevation-z8">
+          <mat-table #documentsTable="cdkDropList" mat-table [dataSource]="documentsDataSource"
+            *ngIf="collectionDocuments.length>0"
+            cdkDropList cdkDropListSortingDisabled [cdkDropListConnectedTo]="[collections]"
+            [cdkDropListAutoScrollDisabled]="disableCollectionDraggingAutoscroll"
+          >
             <!-- Checkbox Column -->
             <ng-container matColumnDef="select">
               <mat-header-cell mat-header-cell *matHeaderCellDef>
@@ -190,7 +202,14 @@
 
             <mat-header-row *matHeaderRowDef="documentsDisplayedColumns; sticky: true"></mat-header-row>
             <mat-row matRipple *matRowDef="let row; columns: documentsDisplayedColumns;"
-              (click)="documentsSelection.toggle(row)" [cdkDragData]="row" cdkDrag></mat-row>
+              (click)="documentsSelection.toggle(row)" [cdkDragData]="row"
+              cdkDrag [cdkDragDisabled]="disableDocumentDragging"
+              (cdkDragExited)="onCollectionDropExit($event)"
+              (cdkDragEnded)="onCollectionDropEnd($event)"
+            >
+              <div class="example-custom-placeholder" *cdkDragPreview>{{row.name}}</div>
+              <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+            </mat-row>
           </mat-table>
         </mat-card-content>
       </mat-card>

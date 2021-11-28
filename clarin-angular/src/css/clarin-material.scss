@@ -512,3 +512,14 @@ highcharts-chart {
   display:flex;
   align-items: center;
 }
+
+/* Ng-matero has defined all theme colors in classes */
+.drop-target-allow {
+  @extend .bg-green-100;
+}
+.drop-target-deny {
+  @extend .bg-orange-100;
+}
+/*mat-list-option[aria-selected="true"] {
+  background: rgba(0, 139, 139, 0.7);
+}*/
