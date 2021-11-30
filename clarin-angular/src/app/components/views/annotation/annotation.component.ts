@@ -189,17 +189,13 @@ export class AnnotationComponent extends MainComponent implements OnInit {
               this.TextWidgetAPI.setAnnotationSchemaOptions(result.newAnnotationSchemaOptions);
               this.TextWidgetAPI.setAnnotationSchema(result.newAnnotationSchema);
               this.TextWidgetAPI.setCurrentCollection(result.newCollection);
-              console.log(result.newCollection)
               this.annotatorType = result.newAnnotator;
-              console.log(result)
-              console.log(this.TextWidgetAPI.getAnnotatorTypeId())
               result.newDocument.annotator_id = this.TextWidgetAPI.getAnnotatorTypeId();
-              console.log(result.newDocument)
-	      // This is where the document loading happens. The text-widget component
-	      // has registered a callback to react to document changes. When a new Document
-	      // is set by TextWidgetAPI.setCurrentDocument(), the
-	      // TextWidgetComponent.updateCurrentDocument() will be called, which will decide
-	      // to either load Annotations from DB, or TempDB.
+              // This is where the document loading happens. The text-widget component
+              // has registered a callback to react to document changes. When a new Document
+              // is set by TextWidgetAPI.setCurrentDocument(), the
+              // TextWidgetComponent.updateCurrentDocument() will be called, which will decide
+              // to either load Annotations from DB, or TempDB.
               this.TextWidgetAPI.setCurrentDocument(result.newDocument);
               this.documentSelected = true;
               //this.TextWidgetAPI.registerAnnotationsCallback(this.updateAnnotationList.bind(this));
@@ -294,7 +290,6 @@ export class AnnotationComponent extends MainComponent implements OnInit {
     return dialogRef.afterClosed()
       .toPromise() // here you have a Promise instead an Observable
       .then(result => {
-        console.log("The dialog was closed " + result);
         return Promise.resolve(result); // will return a Promise here
       });
   }; /* askUserOnOpenedDocument */
