@@ -9,13 +9,13 @@ import { MainDialogComponent } from '../main-dialog/main-dialog.component';
 })
 export class DetectOpenDocModalComponent extends MainDialogComponent implements OnInit {
 
+  currentDocument;
+
   super() { }
 
   ngOnInit(): void {
+    this.currentDocument = _.cloneDeep(this.data);
   }
-
-  currentDocument = _.cloneDeep(this.data);
-  flash: string = "";
 
   saveChanges() {
     var AnnotatorTypeId = this.TextWidgetAPI.getAnnotatorTypeId();

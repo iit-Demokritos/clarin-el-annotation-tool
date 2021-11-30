@@ -64,6 +64,7 @@ import { CorefSpanEndComponent } from './components/controls/coref/coref-span-en
 import { CorefSpanStartComponent } from './components/controls/coref/coref-span-start/coref-span-start.component';
 import { FoundInCollectionDirective } from './directives/found-in-collection/found-in-collection.directive';
 import { TextWidgetComponent } from './components/controls/text-widget/text-widget.component';
+import { TextWidgetIsolatedComponent } from './components/controls/text-widget-isolated/text-widget-isolated.component';
 // import { DomHelpersDirective } from './directives/dom-helpers/dom-helpers.directive';
 import { DocumentAttributesDirective } from './directives/document-attributes/document-attributes.directive';
 import { AnnotatorWidgetComponent } from './components/controls/annotator-widget/annotator-widget.component';
@@ -183,6 +184,7 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
     CorefSpanStartComponent,
     FoundInCollectionDirective,
     TextWidgetComponent,
+    TextWidgetIsolatedComponent,
     // DomHelpersDirective,
     DocumentAttributesDirective,
     AnnotatorWidgetComponent,

@@ -51,7 +51,9 @@ export class TextWidgetAPI {
   settingsCallbacks = [];
   public settingsComplianceFields = ['created_by', 'updated_by'];
   public annotatorTypeIdToAnnotationSchema = {
-    Button_Annotator_neutral_VAST_value_type_Generic: {language: "neutral", annotation_type: "VAST_value", attribute: "type", alternative: "Generic"}
+    Button_Annotator_neutral_VAST_value_type_Generic: {language: "neutral", annotation_type: "VAST_value", attribute: "type", alternative: "Generic"},
+    Button_Annotator_neutral_argument_type_Generic: {language: "neutral", annotation_type: "argument", attribute: "type", alternative: "Generic"},
+    Button_Annotator_neutral_argument_type_Mixed_Argument_Stance_Relations: {language: "neutral", annotation_type: "argument", attribute: "type", alternative: "Mixed Argument-Stance Relations"}
   }
 
 
@@ -300,12 +302,12 @@ export class TextWidgetAPI {
 
   isSettingAnnotation(annotation) {
     return (("document_setting" in annotation) ||
-      ("collection_setting" in annotation));
+            ("collection_setting" in annotation));
   }; /* isSettingAnnotation */
 
   isAttributeAnnotation(annotation) {
     return (("document_attribute" in annotation) ||
-      ("collection_attribute" in annotation));
+            ("collection_attribute" in annotation));
   }; /* isAttributeAnnotation */
 
   isSettingsCompliantAnnotation(annotation) {

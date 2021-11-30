@@ -171,8 +171,8 @@ $foreground: map-get($theme, foreground);
         height: 100%;
         width: 100%;
         position: relative;
-        #annotation-editor-text-widget,
-        #annotation-editor-text-widget-overlay {
+        .annotation-editor-text-widget,
+        .annotation-editor-text-widget-overlay {
           display: block;
           width: 100%;
           height: 100%;
@@ -246,6 +246,26 @@ $foreground: map-get($theme, foreground);
   }
 }
 
+/* Generic text-widget */
+text-widget {
+  .annotation-editor-text-widget-container {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    .annotation-editor-text-widget,
+    .annotation-editor-text-widget-overlay {
+      display: block;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      pointer-events: none; /* auto=visiblePainted */
+      z-index: 10;
+    }
+  }
+}
+
 /* CodeMirror */
 .CodeMirror {
   height: auto;
@@ -304,9 +324,43 @@ $foreground: map-get($theme, foreground);
   }
 }
 
+/* Add this class to any component that has a page-header */
+.has-page-header {
+  height: calc(100% - 68px - 24px);
+  width: 100%;
+}
+
+.no-page-header {
+  height: 100%;
+  width: 100%;
+}
+
+.mat-card-fill-parent {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: auto;
+  display: flex !important;
+  flex-direction: column;
+   > .mat-card-title-group {
+     display: block;
+   }
+   > .mat-card-content {
+     overflow: auto;
+     flex: 1 1 auto;
+     //display: flex;
+     //flex-direction:row;
+     //align-items: stretch;
+   }
+  .mat-card-header-text {
+    width: 100%;
+    margin: 0;
+  }
+}
+
 /* Analytics Routes */
 .analytics-annotation-values {
-  height: calc(100% - 64px - 16px);
+  height: calc(100% - 68px - 24px);
   .mat-card-header-text {
     width: 100%;
     margin: 0;
@@ -346,7 +400,7 @@ $foreground: map-get($theme, foreground);
 /* Collection Routes */
 .manage-collections-wrapper,
 .collection-add-wrapper {
-  height: calc(100% - 64px - 16px);
+  height: calc(100% - 68px - 24px);
   .as-split-area:not(.as-hidden) {
     padding: 4px;
   }

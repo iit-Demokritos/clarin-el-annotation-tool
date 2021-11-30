@@ -3,7 +3,7 @@ import { ErrorDialogComponent } from 'src/app/components/dialogs/error-dialog/er
 import { MainComponent } from 'src/app/components/views/main/main.component';
 import { ErrorDialogData } from 'src/app/models/dialogs/error-dialog';
 import { Collection } from 'src/app/models/collection';
-import { Document } from 'src/app/models/document';
+import { Document, DocumentGroup } from 'src/app/models/document';
 
 @Component({
   selector: 'toolbar-select-document',
@@ -19,10 +19,10 @@ export class ToolbarSelectDocumentComponent extends MainComponent implements OnI
   @Output() selectedCollections = new EventEmitter<Collection | Collection[]>();
 
   @Input() allowDocumentSelection: boolean = true;
-  documents: Document[];
-  selected_documents: Document | Document[];
+  documents: any;
+  selected_documents: any;
   @Input() allowMultipleDocuments: boolean = false;
-  @Output() selectedDocuments = new EventEmitter<Document | Document[]>();
+  @Output() selectedDocuments = new EventEmitter<any>();
 
   @Input() showApplyButton: boolean = false;
   @Input() ApplyButtonLabel: string = "Apply";
@@ -46,7 +46,7 @@ export class ToolbarSelectDocumentComponent extends MainComponent implements OnI
   }; /* onDocumentSelectionChange */
 
   onDocumentGroupClick(group) {
-	  console.error("Click:", group, this.selected_documents);
+    console.error("Click:", group, this.selected_documents);
   }; /* onDocumentGroupClick */
 
   nextDocument() {

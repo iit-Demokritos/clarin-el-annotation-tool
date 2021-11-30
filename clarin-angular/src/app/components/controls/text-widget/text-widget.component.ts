@@ -1,5 +1,6 @@
 import {
-  Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewEncapsulation
+  Component, ViewChild, ElementRef, EventEmitter,
+  OnDestroy, OnInit, AfterViewInit, Output, ViewEncapsulation
 } from '@angular/core';
 import * as CodeMirror from 'codemirror';
 import * as joint from 'jointjs';
@@ -17,15 +18,19 @@ import { BaseControlComponent } from '../base-control/base-control.component';
   encapsulation: ViewEncapsulation.None
 })
 export class TextWidgetComponent extends BaseControlComponent
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy, AfterViewInit {
+
+  /* References to DOM elements... */
+  @ViewChild("annotationeditortextwidgetcontainer")
+  mainContent: ElementRef;
+  @ViewChild("annotationeditortextwidget")
+  textWidget: ElementRef;
+  @ViewChild("annotationeditortextwidgetoverlay")
+  textWidgetOverlay: ElementRef;
 
   /* @ViewChild("annotationeditortextwidget", { static: true }) */
   @Output() textWidgetEvent: EventEmitter<any> = new EventEmitter();
-  element: ElementRef<HTMLTextAreaElement>;
-  mainContent;
   editor: CodeMirror.EditorFromTextArea;
-  textWidget: any;
-  textWidgetOverlay: any;
   skipLineNumber = {};
   paper;
 
@@ -78,15 +83,19 @@ export class TextWidgetComponent extends BaseControlComponent
   settings: any[] = [];
 
   ngOnInit() {
+
+  }
+
+  ngAfterViewInit() {
     //comment this
     //this.textarea = this.element.nativeElement;
 
-    this.mainContent = document.getElementsByClassName("main-content")[0];
-    this.textWidget = document.getElementById("annotation-editor-text-widget");
-    this.textWidgetOverlay =
-      document.getElementById('annotation-editor-text-widget-overlay');
+    // this.mainContent = document.getElementsByClassName("main-content")[0];
+    // this.textWidget = document.getElementById("annotation-editor-text-widget");
+    // this.textWidgetOverlay =
+    //  document.getElementById('annotation-editor-text-widget-overlay');
     // this.editor = CodeMirror.fromTextArea(this.element.nativeElement, {
-    this.editor = CodeMirror.fromTextArea(this.textWidget, {
+    this.editor = CodeMirror.fromTextArea(this.textWidget.nativeElement, {
       lineNumbers: true,
       firstLineNumber: 1,
       dragDrop: false,
@@ -106,7 +115,7 @@ export class TextWidgetComponent extends BaseControlComponent
     this.gutter = this.editor.getGutterElement();
 
     this.paper = new joint.dia.Paper({
-      el: this.textWidgetOverlay,
+      el: this.textWidgetOverlay.nativeElement,
       model: this.graph,
       width: "100%",
       height: "100%",
@@ -152,13 +161,13 @@ export class TextWidgetComponent extends BaseControlComponent
     
     */
 
-    console.error("TextWidgetComponent: ngOnInit(): Setting CodeMirror mouse events on:", this.mainContent);
-    CodeMirror.on(this.mainContent, "mouseup", (...e) => { this.mouseUpHandler(e) });
-    CodeMirror.on(this.mainContent, "mousedown", (...e) => { this.mouseDownUpHandler(e) });
-    console.error("TextWidgetComponent: ngOnInit(): Setting CodeMirror extra keys on:", this.editor);
+    // console.error("TextWidgetComponent: ngOnInit(): Setting CodeMirror mouse events on:", this.mainContent);
+    CodeMirror.on(this.mainContent.nativeElement, "mouseup", (...e) => { this.mouseUpHandler(e) });
+    CodeMirror.on(this.mainContent.nativeElement, "mousedown", (...e) => { this.mouseDownUpHandler(e) });
+    // console.error("TextWidgetComponent: ngOnInit(): Setting CodeMirror extra keys on:", this.editor);
     this.editor.setOption("extraKeys", {
       Delete: (...e) => { this.deleteSelectedAnnotation(e); },
-      Space: (...e) => { this.editor.refresh(); },
+      Space:  (...e) => { this.editor.refresh(); },
     });
     this.editor.on("refresh", () => {
       this.overlayRefresh();
@@ -263,7 +272,7 @@ export class TextWidgetComponent extends BaseControlComponent
     // left button click
     if (e.button === 0) {
       var selection = this.getSelectionInfo();
-      // console.warn("MOUSE 1:", selection, e);
+      console.warn("MOUSE 1:", selection, e);
 
       if (Object.keys(selection).length > 0) {
         this.TextWidgetAPI.setCurrentSelection(selection, false);
@@ -287,7 +296,7 @@ export class TextWidgetComponent extends BaseControlComponent
               a.spans[0].segment.length <= b.spans[0].segment.length ? a : b
             );
             // console.error("small:", smallestAnn);
-            annotationId = smallestAnn['_id'];
+            if (smallestAnn) {annotationId = smallestAnn['_id'];}
             // // Get first part of the annotation's class name, which should be the ID
             // annotationId =
             //   availableMarksOnCursor[availableAnnotationsLength - 1].className;
@@ -384,29 +393,8 @@ export class TextWidgetComponent extends BaseControlComponent
               })
             } else {
               this.spinnerVisible = true;
-              this.TextWidgetAPI.resetData();
-              this.editor.setValue("");
-              this.editor.clearHistory();
               var options = JSON.parse(response.data.visualisation_options);
-              if (options !== null && "gutter" in options) {
-                this.skipLineNumber = options["gutter"];
-
-              } else {
-                this.skipLineNumber = {};
-              }
-              this.editor.setValue(response.data.text);
-
-              this.graph.clear();
-              this.annotationIdToGraphItem = {};
-              this.connectedAnnotations = [];
-              this.editor.refresh();
-              this.showLinkRouterSelector = false;
-              this.textWidgetEvent.emit({
-                event: "showLinkRouterSelector",
-                value: this.showLinkRouterSelector
-              });
-              this.visualiseVisualisationOptions(options);
-
+              this.initialiseEditor(response.data.text, options);
               if (response.data.is_opened) {
                 this.restoreAnnotationService.restoreFromTemp(newDocument.collection_id,
                   newDocument.id, this.AnnotatorTypeId)
@@ -457,6 +445,33 @@ export class TextWidgetComponent extends BaseControlComponent
       }
     });
   } /* updateCurrentDocument */
+
+  initialiseEditor(text, visualisationOptions: any) {
+    this.TextWidgetAPI.resetData();
+    this.editor.setValue("");
+    this.editor.clearHistory();
+    if (visualisationOptions !== null && "gutter" in visualisationOptions) {
+      this.skipLineNumber = visualisationOptions["gutter"];
+    
+    } else {
+      this.skipLineNumber = {};
+    }
+    this.editor.setValue(text);
+    
+    this.graph.clear();
+    this.annotationIdToGraphItem = {};
+    this.connectedAnnotations = [];
+    this.editor.refresh();
+    this.showLinkRouterSelector = false;
+    this.textWidgetEvent.emit({
+      event: "showLinkRouterSelector",
+      value: this.showLinkRouterSelector
+    });
+    this.visualiseVisualisationOptions(visualisationOptions);
+    // console.error("CM size:", this.editor.getScrollInfo());
+    // console.error("OVERLAY:", this.textWidgetOverlay.nativeElement.style.height);
+    this.textWidgetOverlay.nativeElement.style.height = this.editor.getScrollInfo().height.toString()+'px';
+  }; /* initialiseEditor */
 
   visualiseVisualisationOptions(options) {
     if (options == null || (!("marks" in options))) {
@@ -526,6 +541,7 @@ export class TextWidgetComponent extends BaseControlComponent
     //   "editor width:", this.textWidgetLines["offsetWidth"]);
     for (const annId in this.annotationIdToGraphItem) {
       var annotation = this.TextWidgetAPI.getAnnotationById(annId);
+      if (!annotation) {continue;}
       for (var l = 0; l < annotation.spans.length; l++) {
         var annotationSpan = annotation.spans[l];
         var selection = this.computeSelectionFromOffsets(
@@ -562,7 +578,7 @@ export class TextWidgetComponent extends BaseControlComponent
       }
     }
     var mark = elem.getBoundingClientRect();
-    var over = this.textWidgetOverlay.getBoundingClientRect();
+    var over = this.textWidgetOverlay.nativeElement.getBoundingClientRect();
     return {
       x: mark.x - over.x,
       y: mark.y - over.y,
@@ -1025,6 +1041,160 @@ export class TextWidgetComponent extends BaseControlComponent
     });
   }; /* clearDuplicateAnnotationsFromEditor */
 
+  addVisualsForRelationAnnotation(annotation, annotatorType=undefined) {
+    // Argument relation, add arrow. Find IDs of start/end annotations
+    var startId = annotation.annotation.attributes.find(attr =>
+      attr.name === 'arg1'
+    ).value;
+    var endId = annotation.annotation.attributes.find(attr =>
+      attr.name === 'arg2'
+    ).value;
+
+    var label = annotation.annotation.attributes.find(attr =>
+      attr.name === 'type'
+    ).value;
+
+    // Create the line
+    var line = this.overlayLinkAdd(startId, endId, label, annotation);
+
+    // Add relation annotation to the list
+    if (!_.isUndefined(line)) {
+      this.connectedAnnotations.push({
+        instance: line,
+        startId: startId,
+        endId: endId,
+        label: label,
+        data: annotation.annotation
+      });
+    }
+  }; /* addVisualsForRelationAnnotation */
+
+  addVisualsForPlainAnnotation(visAnnotation, annotatorType=undefined) {
+    if (typeof visAnnotation.annotation.spans == "undefined") {
+      return false;
+    }
+    // console.error("Annotation:", visAnnotation, visAnnotation.annotation.spans[0].segment);
+
+    // Iterate through annotations spans
+    for (var l = 0; l < visAnnotation.annotation.spans.length; l++) {
+      var colorCombination: any = {};
+      var annotationSpan = visAnnotation.annotation.spans[l];
+      var annotationAttributes = visAnnotation.annotation.attributes;
+
+      // create the selection in the editor and annotate it
+      var selection = this.computeSelectionFromOffsets(
+        parseInt(annotationSpan.start), parseInt(annotationSpan.end));
+      var count = 0;
+      switch (annotatorType) {
+        case "Button Annotator":
+          // If it is Button Annotator get the required color combination
+          for (var m = 0; m < annotationAttributes.length; m++) {
+            colorCombination =
+              this.buttonColorService.getColorCombination(annotationAttributes[m].value);
+            // console.error("colorCombination:", annotationAttributes[m].value, colorCombination);
+            if (typeof (colorCombination) != "undefined")
+              break;
+          }
+          var markClassName = "id-" +
+            String(visAnnotation.annotation._id).trim() + this.markedTextClass;
+
+          if (typeof (visAnnotation.selected) != "undefined" &&
+            visAnnotation.selected) {
+            // Selected marker
+            this.editor.markText(selection.start, selection.end, {
+              className: markClassName,
+              css: "color:" + colorCombination.colour_font + "; " +
+                "background: " + colorCombination.colour_selected_background + "; " +
+                "border-color:" + colorCombination.colour_border + ";" +
+                "border-top: 4px solid " + colorCombination.colour_border + "; " +
+                "border-bottom: 4px solid " + colorCombination.colour_border + "; "
+            });
+          } else {
+            // Normal marker
+            this.editor.markText(selection.start, selection.end, {
+              className: markClassName,
+              css: "color:" + colorCombination.colour_font + ";" +
+                "background:" + colorCombination.colour_background + ";" +
+                "border-color:" + colorCombination.colour_border + ";"
+            });
+          }
+          this.overlayMarkAdd(l, selection.start, selection.end,
+            visAnnotation);
+
+          break;
+        case "Coreference Annotator":
+          // If it is Coreference Annotator get the required color combination
+          var colourCom =
+            this.coreferenceColorService.getColorCombination(visAnnotation.annotation._id);
+          var mark = null;
+          var markerId = "mrkr_" + Math.floor(Math.random() * 1000000);
+          // Find type
+          var value = annotationSpan.start + " " + annotationSpan.end;
+          var typeAttribute = annotationAttributes.find(attr =>
+            attr.value === value
+          ).name;
+          var markAttributes = {
+            markerId: markerId
+          }
+          markAttributes["data-type"] = typeAttribute
+
+          // Create class for adding background color to the type pseudo-element
+          var colorClass = " mark_color_" +
+            colourCom["border-color"].replace("#", "").toUpperCase();
+          var markClassName = "id-" + String(visAnnotation.annotation._id).trim() + " " +
+            markerId + this.markedTextClass + colorClass;
+
+          if (typeof (visAnnotation.selected) != "undefined" &&
+            visAnnotation.selected) {
+            // Selected marker
+            mark = this.editor.markText(selection.start, selection.end, {
+              className: markClassName,
+              attributes: markAttributes,
+              css: "color:" + colourCom["font-color"] + "; " +
+                "background:" + colourCom["selected-background-colour"] + "; " +
+                "border-color:" + colourCom["border-color"] + "; " +
+                "border-top:" + "4px solid " + colourCom["border-color"] + "; " +
+                "border-bottom:" + "4px solid " + colourCom["border-color"] + "; "
+            });
+          } else {
+            // Normal marker
+            mark = this.editor.markText(selection.start, selection.end, {
+              className: markClassName,
+              attributes: markAttributes,
+              css: "color:" + colourCom["font-color"] + ";" +
+                "background:" + colourCom["background-colour"] + ";" +
+                "border-color:" + colourCom["border-color"] + ";"
+            });
+          }
+          this.overlayMarkAdd(l, selection.start, selection.end, visAnnotation);
+          // Used only in addTypeAttributesToMarkers
+          // mark.markerId = markerId;
+          // Never used!
+          // mark.annotationId = visAnnotation.annotation._id;
+          break;
+      }
+    }
+    // (Re)generate the SPAN elements that show the marker types
+    // Petasis, 20/03/2021: non needed anymore! addTypeAttributesToMarkers();
+    return true;
+  }; /* addVisualsForPlainAnnotation */
+
+  addVisualsForAnnotation(visAnnotation, annotatorType=undefined) {
+    if (this.TextWidgetAPI.isRelationAnnotationType(visAnnotation.annotation)) {
+      return this.addVisualsForRelationAnnotation(visAnnotation, annotatorType);
+    } else if ("document_attribute" in visAnnotation.annotation) {
+      // This is a document Annotation...
+    } else if ("collection_setting" in visAnnotation.annotation) {
+      // This is a collection setting Annotation...
+    } else if ("document_setting" in visAnnotation.annotation) {
+      // This is a collection setting Annotation...
+    } else {
+      // Normal annotation
+      return this.addVisualsForPlainAnnotation(visAnnotation, annotatorType);
+    }
+    return false;
+  }; /* addVisualsForAnnotation */
+
   /**
    * Visualize the annotations to the text widget
    * @param newAnnotations
@@ -1053,31 +1223,7 @@ export class TextWidgetComponent extends BaseControlComponent
       // console.error("survived:", currAnnotation.annotation);
 
       if (this.TextWidgetAPI.isRelationAnnotationType(currAnnotation.annotation)) {
-        // Argument relation, add arrow. Find IDs of start/end annotations
-        var startId = currAnnotation.annotation.attributes.find(attr =>
-          attr.name === 'arg1'
-        ).value;
-        var endId = currAnnotation.annotation.attributes.find(attr =>
-          attr.name === 'arg2'
-        ).value;
-
-        var label = currAnnotation.annotation.attributes.find(attr =>
-          attr.name === 'type'
-        ).value;
-
-        // Create the line
-        var line = this.overlayLinkAdd(startId, endId, label, currAnnotation);
-
-        // Add relation annotation to the list
-        if (!_.isUndefined(line)) {
-          this.connectedAnnotations.push({
-            instance: line,
-            startId: startId,
-            endId: endId,
-            label: label,
-            data: currAnnotation.annotation
-          });
-        }
+        this.addVisualsForRelationAnnotation(currAnnotation, annotatorType);
       } else if ("document_attribute" in currAnnotation.annotation) {
         // This is a document Annotation...
         // Broadcast an event to our parent that a Document Attribute was found.
@@ -1106,128 +1252,8 @@ export class TextWidgetComponent extends BaseControlComponent
         });
       } else {
         // Normal annotation
-        // Iterate through annotations spans
-        if (typeof currAnnotation.annotation.spans == "undefined") {
-          continue;
-        }
-        // console.error("Annotation:", currAnnotation, currAnnotation.annotation.spans[0].segment);
-
-        for (var l = 0; l < currAnnotation.annotation.spans.length; l++) {
-          var colorCombination: any = {};
-          var annotationSpan = currAnnotation.annotation.spans[l];
-          var annotationAttributes = currAnnotation.annotation.attributes;
-
-          // create the selection in the editor and annotate it
-          var selection = this.computeSelectionFromOffsets(
-            parseInt(annotationSpan.start), parseInt(annotationSpan.end));
-          var count = 0;
-          switch (annotatorType) {
-            case "Button Annotator":
-              // If it is Button Annotator get the required color combination
-              for (var m = 0; m < annotationAttributes.length; m++) {
-                colorCombination =
-                  this.buttonColorService.getColorCombination(annotationAttributes[m].value);
-                // console.error("colorCombination:", annotationAttributes[m].value, colorCombination);
-                if (typeof (colorCombination) != "undefined")
-                  break;
-              }
-              var markClassName = "id-" +
-                String(currAnnotation.annotation._id).trim() + this.markedTextClass;
-
-              if (typeof (currAnnotation.selected) != "undefined" &&
-                currAnnotation.selected) {
-                // Selected marker
-                // var borderColor = ColorLuminance(colorCombination.bg_color, 100);
-
-                // editor.markText(selection.start, selection.end, {
-                //   className: markClassName,
-                //   css: "color:" + colorCombination.fg_color + "; " +
-                //     "background:" + colorCombination.bg_color + "; " +
-                //     "border: 2px ridge " + borderColor + ";"
-                // });
-                this.editor.markText(selection.start, selection.end, {
-                  className: markClassName,
-                  css: "color:" + colorCombination.colour_font + "; " +
-                    "background: " + colorCombination.colour_selected_background + "; " +
-                    "border-color:" + colorCombination.colour_border + ";" +
-                    "border-top: 4px solid " + colorCombination.colour_border + "; " +
-                    "border-bottom: 4px solid " + colorCombination.colour_border + "; "
-                });
-              } else {
-                // Normal marker
-                // editor.markText(selection.start, selection.end, {
-                //   className: currAnnotation.annotation._id,
-                //   css: "color:" + colorCombination.fg_color + ";" +
-                //     "background:" + colorCombination.bg_color + ";"
-                // });
-                this.editor.markText(selection.start, selection.end, {
-                  className: markClassName,
-                  css: "color:" + colorCombination.colour_font + ";" +
-                    "background:" + colorCombination.colour_background + ";" +
-                    "border-color:" + colorCombination.colour_border + ";"
-                });
-              }
-              this.overlayMarkAdd(l, selection.start, selection.end,
-                currAnnotation);
-
-              break;
-            case "Coreference Annotator":
-              // If it is Coreference Annotator get the required color combination
-              var colourCom =
-                this.coreferenceColorService.getColorCombination(currAnnotation.annotation._id);
-              var mark = null;
-              var markerId = "mrkr_" + Math.floor(Math.random() * 1000000);
-              // Find type
-              var value = annotationSpan.start + " " + annotationSpan.end;
-              var typeAttribute = annotationAttributes.find(attr =>
-                attr.value === value
-              ).name;
-              var markAttributes = {
-                markerId: markerId
-              }
-              markAttributes["data-type"] = typeAttribute
-
-              // Create class for adding background color to the type pseudo-element
-              var colorClass = " mark_color_" +
-                colourCom["border-color"].replace("#", "").toUpperCase();
-              var markClassName = "id-" + String(currAnnotation.annotation._id).trim() + " " +
-                markerId + this.markedTextClass + colorClass;
-
-              if (typeof (currAnnotation.selected) != "undefined" &&
-                currAnnotation.selected) {
-                // Selected marker
-                mark = this.editor.markText(selection.start, selection.end, {
-                  className: markClassName,
-                  attributes: markAttributes,
-                  css: "color:" + colourCom["font-color"] + "; " +
-                    "background:" + colourCom["selected-background-colour"] + "; " +
-                    "border-color:" + colourCom["border-color"] + "; " +
-                    "border-top:" + "4px solid " + colourCom["border-color"] + "; " +
-                    "border-bottom:" + "4px solid " + colourCom["border-color"] + "; "
-                });
-              } else {
-                // Normal marker
-                mark = this.editor.markText(selection.start, selection.end, {
-                  className: markClassName,
-                  attributes: markAttributes,
-                  css: "color:" + colourCom["font-color"] + ";" +
-                    "background:" + colourCom["background-colour"] + ";" +
-                    "border-color:" + colourCom["border-color"] + ";"
-                });
-              }
-              this.overlayMarkAdd(l, selection.start, selection.end,
-                currAnnotation);
-              // Used only in addTypeAttributesToMarkers
-              // mark.markerId = markerId;
-              // Never used!
-              // mark.annotationId = currAnnotation.annotation._id;
-              break;
-          }
-        }
+        this.addVisualsForPlainAnnotation(currAnnotation, annotatorType);
       }
-
-      // (Re)generate the SPAN elements that show the marker types
-      // Petasis, 20/03/2021: non needed anymore! addTypeAttributesToMarkers();
     }
 
     this.TextWidgetAPI.clearAnnotationsToBeAdded();
@@ -1403,8 +1429,10 @@ export class TextWidgetComponent extends BaseControlComponent
     }
   }; /* updateCurrentSelection */
 
-  scrollToAnnotation() {
-    var annotation: any = this.TextWidgetAPI.getScrollToAnnotation();
+  scrollToAnnotation(annotation=undefined) {
+    if (!annotation) {
+      annotation = this.TextWidgetAPI.getScrollToAnnotation();
+    }
     if (typeof (annotation) == "undefined" || Object.keys(annotation).length == 0) {
       return false;
     }

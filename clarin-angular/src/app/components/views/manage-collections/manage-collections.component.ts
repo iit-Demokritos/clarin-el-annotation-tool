@@ -115,7 +115,6 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
 
   //function to be called when a user selects a collection from the sidebar tree
   showSelectedCollection(collection, index) {
-          console.error(collection, index);
     this.selectedCollectionIndex = index;
     this.selectedCollection = collection;
     this.initializeCollectionData();

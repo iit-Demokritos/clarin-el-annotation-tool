@@ -57,7 +57,7 @@ export class ToolbarWidgetComponent extends BaseControlComponent implements OnIn
 
               //$ocLazyLoad.load('detectOpenDocModalCtrl').then(function () {
               //var detectOpenDocModalInstance = Dialog.custom('detect-open-doc-modal.html', 'detectOpenDocModalCtrl', currentDocument, true, "");
-              let dialogRef = this.dialog.open(DetectOpenDocModalComponent, currentDocument);
+              let dialogRef = this.dialog.open(DetectOpenDocModalComponent, { data: currentDocument, disableClose: true });
               dialogRef.afterClosed().subscribe((response) => {
                 if (response.success) {
                   newDocument.annotator_id = this.TextWidgetAPI.getAnnotatorTypeId();

@@ -1,3 +1,48 @@
+30 November 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/views/inspect-document/inspect-document.component.html:
+ * clarin-angular/src/app/components/views/inspect-document/inspect-document.component.ts:
+ * clarin-angular/src/app/components/controls/annotation-set-inspector/:
+ * clarin-angular/src/css/clarin-material.scss:
+ * clarin-angular/src/css/clarin-matero.scss: New view for inspecting
+ Annotations.
+
+ * clarin-angular/src/app/components/controls/toolbar-select-annotator/toolbar-select-annotator.component.html:
+ * clarin-angular/src/app/components/controls/toolbar-select-annotator/toolbar-select-annotator.component.ts:
+ Fixes for supporting both single & multiple selections.
+
+ * clarin-angular/src/app/components/controls/text-widget/text-widget.component.html:
+ * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
+ Reworked some internals, to be easily embeddable in other components.
+
+ * clarin-angular/src/app/app.module.ts:
+ * clarin-angular/src/app/components/controls/text-widget-isolated/: A new
+ Annotator editor, that does not use the shared TextWidgetAPI.
+
+ * clarin-angular/src/app/ng-matero/theme/admin-layout/admin-layout.component.html:
+ Added class "matero-header-hidden", when the top header is hidden.
+
+ * clarin-angular/src/app/components/controls/toolbar-select-document/toolbar-select-document.component.ts:
+ * clarin-angular/src/app/models/document.ts: Added definition of this model.
+
+ * clarin-angular/src/app/services/button-color-service/button-color.service.ts:
+ The service now does not return an empty color specification, if the value
+ has not been defined.
+
+ * backend-django/clarin_backend/mongodb_views.py: Fixed a bug when retireving
+ annotations for an annotator.
+
+ * clarin-angular/src/app/components/controls/toolbar-widget/toolbar-widget.component.ts:
+ * clarin-angular/src/app/components/dialogs/detect-open-doc-modal/detect-open-doc-modal.component.html:
+ * clarin-angular/src/app/components/dialogs/detect-open-doc-modal/detect-open-doc-modal.component.ts:
+ Fixed a bug, where the dialog for saving unsaved changes was not warking.
+
+28 November 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.html:
+ * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.ts:
+ * clarin-angular/src/css/clarin-material.scss: Added support from draging
+ Documents onto Collections in Collection management UI. Backend not yet
+ implemented.
+
 26 November 2021 Petasis George <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
  Fix in how annotations are fixed in migrateOldSpans().

@@ -3,8 +3,32 @@
   background-image: none;
 }
 
-.matero-content {
-  padding: 0;
-  height: calc(100% - 64px - 16px); // Minus the toolbar & 16px padding
+.matero-content  {
+  height: calc(100% - 64px); // Minus the toolbar
+  width: 100%;
+  // display: flex;
+  // align-items: stretch;
+  // flex-direction: column;
+}
+
+.matero-header-above .matero-content {
+  height: 100%;
   width: 100%;
 }
+
+.matero-navbar-top .matero-content  {
+  height: calc(100% - 64px - 53px); // Minus the toolbar & menu bar
+  width: 100%;
+}
+
+.matero-header-hidden .matero-content {
+  height: 100%;
+  width: 100%;
+}
+
+//add-collection,
+//manage-collections,
+//analytics-annotation-values,
+//inspect-document {
+//  flex: 1;
+//}

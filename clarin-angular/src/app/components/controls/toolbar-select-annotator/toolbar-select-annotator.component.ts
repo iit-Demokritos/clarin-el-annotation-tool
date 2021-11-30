@@ -13,14 +13,15 @@ import { Document } from 'src/app/models/document';
 })
 export class ToolbarSelectAnnotatorComponent extends MainComponent implements OnInit {
   @Input() fillWidth: boolean = true;
-  @Input() annotators: String[] = [];
-  selected_annotators: String | String[] = [];
+  @Input() annotators: any[];
+  selected_annotators: any | any[];
   @Input() allowMultipleAnnotators: boolean = false;
   @Output() selectedAnnotators = new EventEmitter<String | String[]>();
 
   @Input() showApplyButton: boolean = false;
   @Input() ApplyButtonLabel: string = "Apply";
   @Output() onApply = new EventEmitter<String>();
+  applyDisabled = true;
 
   super() { }
 
@@ -28,6 +29,11 @@ export class ToolbarSelectAnnotatorComponent extends MainComponent implements On
   }
 
   onAnnotatorSelectionChange() {
+    if (this.allowMultipleAnnotators) {
+      this.applyDisabled = !this.selected_annotators.length;
+    } else {
+      this.applyDisabled = this.selected_annotators == undefined;
+    }
     this.selectedAnnotators.emit(this.selected_annotators);
   }; /* onCollectionSelectionChange */
 

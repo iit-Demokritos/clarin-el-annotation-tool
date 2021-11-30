@@ -110,7 +110,7 @@ class AnnotationsView(MongoDBAPIView):
     # Retrieve a single instance. (GET)
     def retrieve(self, request, cid, did, Button_Annotator_name):
         collection = self.getCollection(request.user, cid)
-        if '_' in param:
+        if '_' in Button_Annotator_name:
             return self.mongodb_find({'collection_id': cid,
                                       'document_id':   did,
                                       'annotator_id':  Button_Annotator_name})

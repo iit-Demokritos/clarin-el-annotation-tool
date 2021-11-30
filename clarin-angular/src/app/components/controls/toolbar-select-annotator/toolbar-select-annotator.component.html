@@ -11,6 +11,6 @@
   <mat-divider [vertical]="true" *ngIf="showApplyButton"></mat-divider>
   <button mat-raised-button color="primary" *ngIf="showApplyButton"
     (click)="onApply.emit(ApplyButtonLabel)"
-    [disabled]="!selected_annotators.length">{{ApplyButtonLabel|translate}}</button>
+    [disabled]="applyDisabled">{{ApplyButtonLabel|translate}}</button>
   <!--<span fxflex="" ng-reflect-fx-flex="" style="flex: 1 1 0%; box-sizing: border-box;"></span>-->
 </mat-toolbar>
