@@ -557,6 +557,7 @@ export class TextWidgetComponent extends BaseControlComponent
   }; /* overlayRefresh */
 
   overlayLinksRefresh() {
+    // console.error("TextWidgetComponent: overlayLinksRefresh()");
     this.connectedAnnotations.forEach((annotation) => {
       try {
         this.overlayLinkAdjustVertices(annotation.instance);
@@ -1066,7 +1067,9 @@ export class TextWidgetComponent extends BaseControlComponent
         label: label,
         data: annotation.annotation
       });
+      return true;
     }
+    return false;
   }; /* addVisualsForRelationAnnotation */
 
   addVisualsForPlainAnnotation(visAnnotation, annotatorType=undefined) {
@@ -1212,9 +1215,14 @@ export class TextWidgetComponent extends BaseControlComponent
     // if there are any borders around a specific annotation, remove them.
     this.clearDuplicateAnnotationsFromEditor(newAnnotations);
 
+    let added = 0;
     // if there are new annotations to be visualised, add them to the editor
     for (var k = 0; k < newAnnotations.length; k++) {
       var currAnnotation = newAnnotations[k];
+      if (!('annotation' in currAnnotation)) {
+        // This object does not contain an annotation...
+	continue;
+      }
       if (this.TextWidgetAPI.isSettingAnnotation(currAnnotation.annotation) ||
         (!this.TextWidgetAPI.isSettingsCompliantAnnotation(currAnnotation.annotation))) {
         // If settings omit this annotation, skip it...
@@ -1223,7 +1231,9 @@ export class TextWidgetComponent extends BaseControlComponent
       // console.error("survived:", currAnnotation.annotation);
 
       if (this.TextWidgetAPI.isRelationAnnotationType(currAnnotation.annotation)) {
-        this.addVisualsForRelationAnnotation(currAnnotation, annotatorType);
+        if (this.addVisualsForRelationAnnotation(currAnnotation, annotatorType)) {
+	  added++;
+	}
       } else if ("document_attribute" in currAnnotation.annotation) {
         // This is a document Annotation...
         // Broadcast an event to our parent that a Document Attribute was found.
@@ -1252,12 +1262,17 @@ export class TextWidgetComponent extends BaseControlComponent
         });
       } else {
         // Normal annotation
-        this.addVisualsForPlainAnnotation(currAnnotation, annotatorType);
+        if (this.addVisualsForPlainAnnotation(currAnnotation, annotatorType)) {
+          added++;
+	}
       }
     }
 
     this.TextWidgetAPI.clearAnnotationsToBeAdded();
-    this.overlayLinksRefresh();
+    if (added) {
+      // console.error("TextWidgetComponent: visualiseAnnotations() -> overlayLinksRefresh()");
+      this.overlayLinksRefresh();
+    }
     //editor.refresh();
   }; /* visualiseAnnotations */
 
@@ -1311,13 +1326,15 @@ export class TextWidgetComponent extends BaseControlComponent
    * @returns {boolean}
    */
   addNewAnnotations() {
-    if (!this.TextWidgetAPI.checkIsRunning())
+    // console.error("TextWidgetComponent: addNewAnnotations()");
+    if (!this.TextWidgetAPI.checkIsRunning()) {
       this.TextWidgetAPI.enableIsRunning();
-    else
+    } else {
       return false;
+    }
 
     var newAnnotations = this.TextWidgetAPI.getAnnotationsToBeAdded();
-    var annotatorType = this.TextWidgetAPI.getAnnotatorType();
+    var annotatorType  = this.TextWidgetAPI.getAnnotatorType();
 
     if (typeof (newAnnotations) != "undefined" && newAnnotations.length > 0) {
       this.visualiseAnnotations(newAnnotations, annotatorType);
@@ -1478,6 +1495,7 @@ export class TextWidgetComponent extends BaseControlComponent
 
   /* This function will be called when settings are updated. */
   updateSettings() {
+    // console.error("TextWidgetComponent: updateSettings()");
     this.settings = this.TextWidgetAPI.getSettings();
     if (!this.TextWidgetAPI.checkIsRunning()) {
       this.TextWidgetAPI.enableIsRunning();

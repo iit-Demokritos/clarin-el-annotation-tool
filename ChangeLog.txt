@@ -1,4 +1,7 @@
 01 December 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
+ Minor fixes.
+
  * backend-django/clarin_backend/mongodb_views.py: Fixed
  TempAnnotationsView.create() to not modify in any way annotations when
  importing a set of Annotations (i.e. when transferring Annotations from DB to
