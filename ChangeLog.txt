@@ -1,4 +1,28 @@
+02 December 2021 Petasis George <petasis@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
+ * backend-django/clarin_backend/sql_views.py:
+ * backend-django/clarin_backend/views.py:
+ * clarin-angular/src/app/app.module.ts:
+ * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.html:
+ * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.ts:
+ * clarin-angular/src/app/services/document-service/document.service.ts:
+ * clarin-angular/src/assets/i18n/el-GR.json:
+ * clarin-angular/src/assets/i18n/en-US.json:
+ * clarin-angular/src/css/clarin-material.scss: Added the ability to rename
+ Documents, and to annotate Documents from the Collection manager.
+
 01 December 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/views/annotation/annotation.component.ts:
+ * clarin-angular/src/app/components/dialogs/select-document-modal/select-document-modal.component.ts:
+ Added the ability to annotate a requested Document, through the
+ messageService.
+
+ * clarin-angular/src/app/services/message-service/message.service.ts: Added a
+ new shared variable, requestToAnnotateDocument, which holds a Document, with
+ a request to annotate it.
+
+ * clarin-angular/src/app/components/dialogs/main-dialog/main-dialog.component.ts:
+ Added the messageService to dialogs.
+
  * clarin-angular/src/app/components/views/analytics-annotation-values/analytics-annotation-values.component.html:
  * clarin-angular/src/app/components/views/analytics-annotation-values/analytics-annotation-values.component.ts:
  * clarin-angular/src/app/components/views/inspect-document/inspect-document.component.html:

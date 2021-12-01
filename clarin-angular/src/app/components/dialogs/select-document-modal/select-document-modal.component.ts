@@ -44,6 +44,12 @@ export class SelectDocumentModalComponent extends MainDialogComponent implements
     }
     this.dataForTheTree.data = this.data.collectionsData;
     this.initializeLanguages();
+    // Is there a request to annotated a specific document?
+    if (this.messageService.requestToAnnotateDocument) {
+      this.selectedDocument = this.messageService.requestToAnnotateDocument;
+      this.messageService.requestToAnnotateDocument = undefined;
+      this.selectDocument();
+    }
   }
 
   nodeSelected(node) {

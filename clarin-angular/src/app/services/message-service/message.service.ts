@@ -13,6 +13,11 @@ export class MessageService {
 
   /* Variables that are shared among components... */
 
+  /*
+   * Request for annotating a document...
+   */
+  public requestToAnnotateDocument;
+
   /* 
    * annotationRelationComboboxStatus:
    * Used by Button Annotator, if schema contains relations.

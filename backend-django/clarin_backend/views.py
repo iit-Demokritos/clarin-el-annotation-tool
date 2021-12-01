@@ -433,7 +433,7 @@ class HandleCollection(APIView):
                                 status=status.HTTP_200_OK)
 
             serializer = CollectionsSerializer(
-                collection.get(), data={"name": request.data["data"]["name"]}, partial=True)
+                collection.get(), data={"name": request.data["data"]["name"],"updated_at":datetime.now()}, partial=True)
             if serializer.is_valid():
                 project = serializer.save()
                 return Response(data={"success": True, "exists": False}, status=status.HTTP_200_OK)

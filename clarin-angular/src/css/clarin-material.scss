@@ -358,6 +358,13 @@ text-widget {
   }
 }
 
+/* Inspection Routes */
+.inspect-document-wrapper {
+  .mat-toolbar {
+    background-color: inherit;
+  }
+}
+
 /* Analytics Routes */
 .analytics-annotation-values {
   height: calc(100% - 68px - 24px);
@@ -469,6 +476,22 @@ text-widget {
       overflow: initial;
     }
     // Documents table columns
+    .documents_table {
+      .mat-icon {
+        height: 20px !important;
+        width: 20px !important;
+        font-size: 20px !important;
+        line-height: inherit;
+        vertical-align: top;
+      }
+      .mat-icon-button {
+        font-size: 20px;
+        line-height: 20px;
+        vertical-align: top;
+        height: auto;
+        width: auto;
+      }
+    }
     .mat-column-select {
       flex: 0 0 6ch;
       font-size: 1em;

@@ -12,6 +12,7 @@ import { RenameCollectionModalComponent } from '../../dialogs/rename-collection-
 import { ShareCollectionModalComponent } from '../../dialogs/share-collection-modal/share-collection-modal.component';
 import { MainComponent } from '../main/main.component';
 import {CdkDragDrop, CdkDrag} from '@angular/cdk/drag-drop';
+import { RenameDocumentModalComponent } from '@components/dialogs/rename-document-modal/rename-document-modal.component';
 
 export interface DocumentInformation {
   id: number;
@@ -98,6 +99,12 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
       this.btnShow = false;
       return;
     }
+    this.documentsDataSource.data = [];
+    this.documentsSelectionClear();
+    if (this.documentsTable !== undefined) {
+      this.documentsTable.renderRows();
+    }
+
     this.documentService.getAll(this.selectedCollection.id)
       .then((response) => {
         if (!response["success"]) {
@@ -184,6 +191,28 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
     });
   }; /* importDocuments */
 
+  //function to be called when a user wants to rename a document
+  renameDocument(){
+    console.log(this.selectedDocuments)
+    if (this.selectedDocuments.length===1){
+      var data={
+        collectionId: this.selectedCollection.id,
+        documentId:this.selectedDocuments[0].id,
+        documentName:this.selectedDocuments[0].name,
+        documentType:this.selectedDocuments[0].type
+      }
+      var dialogData = new RenameDialogData(data);
+      var dialogRef = this.dialog.open(RenameDocumentModalComponent, {
+        data: dialogData, width: this.dialogWidth
+      });
+      dialogRef.afterClosed().subscribe(modalResult => {
+        this.initializeCollections();
+        this.initializeCollectionData();
+      });
+    }
+  }/*renameDocument*/
+
+
   // function to be called when a user wants to rename a collection
   renameCollection() {
     var data = {
@@ -259,9 +288,7 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
       // console.error("ManageCollectionsComponent: onCollectionDrop(): Invalid drop!");
       return;
     }
-
-
-    console.error("ManageCollectionsComponent: onCollectionDrop():", doc, col);
+    // console.error("ManageCollectionsComponent: onCollectionDrop():", doc, col);
   }; /* onCollectionDrop */
 
   //function to be called when a user wants to delete selected documents
@@ -396,7 +423,8 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
     });
     Promise.all(promises)
     .then((data) => {
-      this.documentsDataSource = new MatTableDataSource<DocumentInformation>(this.collectionDocuments);
+      // this.documentsDataSource = new MatTableDataSource<DocumentInformation>(this.collectionDocuments);
+      this.documentsDataSource.data = this.collectionDocuments;
       this.documentsSelectionClear();
       if (this.documentsTable !== undefined) {
         this.documentsTable.renderRows();
@@ -463,5 +491,12 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
       }
     });
   }; /* closeDocument */
+
+  /** Annotate Document... */
+  annotateDocument(document) {
+    this.messageService.requestToAnnotateDocument = document;
+    this.router.navigateByUrl('/app/annotation');
+    // console.error("ManageCollectionsComponent: annotateDocument():", document);
+  }; /* annotateDocument */
 
 }

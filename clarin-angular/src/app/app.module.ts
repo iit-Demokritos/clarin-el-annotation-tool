@@ -20,6 +20,7 @@ import { AddDocumentsDialogComponent } from './components/dialogs/add-documents-
 import { ImportModalComponent } from './components/dialogs/import-modal/import-modal.component';
 import { ImportDocumentsFromExportModalComponent } from './components/dialogs/import-documents-from-export-modal/import-documents-from-export-modal.component';
 import { RenameCollectionModalComponent } from './components/dialogs/rename-collection-modal/rename-collection-modal.component';
+import { RenameDocumentModalComponent } from '@components/dialogs/rename-document-modal/rename-document-modal.component';
 import { ShareCollectionModalComponent } from './components/dialogs/share-collection-modal/share-collection-modal.component';
 import { AddCollectionComponent } from './components/views/add-collection/add-collection.component';
 
@@ -143,6 +144,7 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
     ImportModalComponent,
     ImportDocumentsFromExportModalComponent,
     RenameCollectionModalComponent,
+    RenameDocumentModalComponent,
     ShareCollectionModalComponent,
     AddCollectionComponent,
     AnnotationComponent,
@@ -261,6 +263,7 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
     ImportModalComponent,
     ImportDocumentsFromExportModalComponent,
     RenameCollectionModalComponent,
+    RenameDocumentModalComponent,
     ShareCollectionModalComponent,
     AddCollectionComponent,
     AnnotationComponent,

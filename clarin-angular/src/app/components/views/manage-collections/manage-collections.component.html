@@ -99,6 +99,10 @@
             [matTooltip]="'Collections.Import Documents from Export'|translate">
             <mat-icon>file_upload</mat-icon>
           </button>
+          <button mat-icon-button color="primary" (click)="renameDocument()" [disabled]="selectedDocuments.length!==1"
+            [matTooltip]="'Collections.Rename Document'|translate">
+            <mat-icon>drive_file_rename_outline</mat-icon>
+          </button>
           <button mat-icon-button color="warn" (click)="deleteDocuments()" [disabled]="btnShow"
             [matTooltip]="'Collections.Delete Documents'|translate">
             <mat-icon>delete_forever</mat-icon>
@@ -109,7 +113,7 @@
             <i class="fa fa-tasks" aria-hidden="true"></i>
             &#09;Please select a collection from the list on the left...
           </div>
-          <mat-table #documentsTable="cdkDropList" mat-table [dataSource]="documentsDataSource"
+          <mat-table #documentsTable="cdkDropList" mat-table class="documents_table" [dataSource]="documentsDataSource"
             *ngIf="collectionDocuments.length>0"
             cdkDropList cdkDropListSortingDisabled [cdkDropListConnectedTo]="[collections]"
             [cdkDropListAutoScrollDisabled]="disableCollectionDraggingAutoscroll"
@@ -141,7 +145,7 @@
               <mat-header-cell mat-header-cell *matHeaderCellDef> {{"Name"|translate}} </mat-header-cell>
               <mat-cell mat-cell *matCellDef="let element">
                 <div>
-                  <div mat-line> {{element.name}} </div>
+                  <div mat-line><button mat-icon-button color="primary" (click)="annotateDocument(element)" [matTooltip]="'Collections.Annotate Document'|translate"><mat-icon>file_open</mat-icon></button> {{element.name}} </div>
                   <!--<div mat-line> {{"Updated by"|translate}}: {{element.updated_by}}, {{"Updated at"|translate}}: {{element.updated_at}} </div>-->
                   <div mat-line> {{"Saved Annotations"|translate}}: {{element.annotations_len}},
                                  {{"Attributes"|translate}}: {{element.annotations_attributes_len}},

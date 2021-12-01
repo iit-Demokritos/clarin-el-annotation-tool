@@ -99,6 +99,7 @@
     "SharedByMe": "Shared By Me",
     "SharedWithMe": "Shared With Me",
     "Documents": "Έγγραφα",
+    "DocumentName":"Document Name",
     "DefaultEncoding": "Προκαθορισμένη Κωδικοποίηση",
     "DefaultHandler": "Default Handler",
     "NameIsRequired.": "Name is required.",
@@ -131,9 +132,12 @@
     "Add Documents to Collection": "Add Documents to Collection",
     "Export Collection": "Export Collection",
     "Rename Collection": "Rename Collection",
+    "Rename Document": "Rename Document",
     "Enter a new Collection name": "Enter a new Collection name",
+    "Enter a new Document name":"Enter a new Document name",
     "Import": "Εισαγωγή",
-    "Rename": "Μετονομασια"
+    "Rename": "Μετονομασια",
+    "Annotate Document": "Annotate Document"
   },
   "annotation": {
     "Collection": "Συλλογή",

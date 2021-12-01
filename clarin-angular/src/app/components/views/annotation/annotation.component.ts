@@ -114,7 +114,13 @@ export class AnnotationComponent extends MainComponent implements OnInit {
     this.TextWidgetAPI.settingsComplianceFields = ['created_by', 'updated_by'];
     this.TextWidgetAPI.initializeCallbacks();
     this.TextWidgetAPI.resetData();
-    this.detectOpenDocument();
+    this.TextWidgetAPI.disableIsRunning();
+    // Is there a request to annotated a specific document?
+    if (this.messageService.requestToAnnotateDocument) {
+      this.createDocumentSelectionModal();
+    } else {
+      this.detectOpenDocument();
+    }
     //CHECK Widgets $ocLazyLoad.load('annotationWidgets')
     this.authService.user().subscribe(user => (this.user = user));
     /* WARNING: annotation ids must be created the same way as in
@@ -130,10 +136,11 @@ export class AnnotationComponent extends MainComponent implements OnInit {
   //open the modal in order the user to select a document to annotate
   createDocumentSelectionModal() {
     this.documentSelected = false;
-    if (!this.TextWidgetAPI.checkIsRunning())
+    if (!this.TextWidgetAPI.checkIsRunning()) {
       this.TextWidgetAPI.enableIsRunning();
-    else
+    } else {
       return false;
+    }
 
     this.collectionService.getData()
       .then((response) => {
@@ -177,6 +184,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
 
                 setTimeout(() => { //<<<---using ()=> syntax
                   this.documentSelection = false;
+                  this.TextWidgetAPI.disableIsRunning();
                 }, 800);
               });
             }

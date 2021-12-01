@@ -14,6 +14,7 @@ import { SharedCollectionService } from 'src/app/services/shared-collection/shar
 import { TextWidgetAPI } from 'src/app/services/text-widget/text-widget.service';
 import { AnnotationService } from 'src/app/services/annotation-service/annotation.service';
 import { TempAnnotationService } from 'src/app/services/temp-annotation-service/temp-annotation.service';
+import { MessageService } from 'src/app/services/message-service/message.service';
 
 @Component({
   selector: 'main-dialog',
@@ -38,6 +39,7 @@ export class MainDialogComponent implements OnInit {
     public restoreAnnotationService: RestoreAnnotationService,
     public annotationService: AnnotationService,
     public tempAnnotationService: TempAnnotationService,
+    public messageService: MessageService,
     public formBuilder: FormBuilder) {
   }
 

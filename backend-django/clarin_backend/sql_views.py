@@ -167,6 +167,24 @@ class DocumentsView(SQLDBAPIView):
     # def update(self, request, _id):
     # # Partially update an existing instance. (PATCH)
     # def partial_update(self, request, _id):
+    def partial_update(self,request,cid,did):
+        collection = self.getCollection(request.user, cid)
+        document   = Documents.objects.filter(id=did)
+        if not document.exists():
+                return{"success": False, "exists": False, "flash": "An error occured"}, status.HTTP_400_BAD_REQUEST
+        document_queryset = Documents.objects.filter(name=request.data["data"]["name"],collection_id=collection)
+        
+        print(document_queryset)
+        if(document_queryset.exists()):
+                return {"success": True, "exists": True, "flash": "The name you selected already exists. Please select a new name"},status.HTTP_200_OK
+        serializer = DocumentsSerializer(document.get(), data={"name": request.data["data"]["name"],"external_name":request.data["data"]["name"],"updated_at":datetime.now()}, partial=True)
+        if serializer.is_valid():
+                d = serializer.save()
+                return {"success": True, "exists": False}, status.HTTP_200_OK
+        else:
+            return{"success": False, "exists": False, "flash": "An error occured"}, status.HTTP_400_BAD_REQUEST
+
+        
     # # Destroy an existing instance. (DELETE)
     def destroy(self, request, cid, did):
         collection = self.getCollection(request.user, cid)
