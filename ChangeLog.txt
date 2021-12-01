@@ -1,4 +1,5 @@
 02 December 2021 Petasis George <petasis@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/dialogs/rename-document-modal/:
  * backend-django/clarin_backend/sql_views.py:
  * backend-django/clarin_backend/views.py:
  * clarin-angular/src/app/app.module.ts:
