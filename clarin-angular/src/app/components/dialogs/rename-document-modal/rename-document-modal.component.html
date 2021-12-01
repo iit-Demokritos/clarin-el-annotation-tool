@@ -1,0 +1,30 @@
+<div class="rename-collection-modal">
+  <h1 mat-dialog-title>{{'Collections.Rename Document'|translate}}:
+    "{{data.data.documentName}}"</h1>
+  <form [formGroup]="renameForm">
+    <mat-dialog-content>
+      <flash-messages></flash-messages>
+      <mat-form-field appearance="outline">
+        <mat-label>{{'Collections.DocumentName' | translate}}</mat-label>
+        <input matInput type="text" formControlName="documentName"
+          placeholder="{{'Collections.Enter a new Document name' | translate}}"
+          [(ngModel)]="documentData.documentName" required minlength="4" pattern="[a-zA-Z0-9]+([a-zA-Z0-9_ -]+)*">
+        <mat-error *ngIf="renameForm.get('documentName').hasError('required')">
+          {{'validations.required' | translate}}
+        </mat-error>
+        <mat-error *ngIf="renameForm.get('documentName').hasError('pattern')">
+          {{'validations.pattern' | translate}}
+        </mat-error>
+        <mat-error translate [translateParams]="{number:'4'}"
+          *ngIf="renameForm.get('documentName').hasError('minlength')">
+          validations.minlength
+        </mat-error>
+      </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button type="button" mat-button mat-dialog-close (click)="cancel()">{{'Cancel'|translate}}</button>
+      <button type="submit" mat-button color="primary" [disabled]="renameForm.invalid"
+        (click)="rename()">{{'Collections.Rename'|translate}}</button>
+    </mat-dialog-actions>
+  </form>
+</div>
