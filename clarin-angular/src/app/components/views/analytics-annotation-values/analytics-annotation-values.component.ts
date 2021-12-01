@@ -151,7 +151,10 @@ export class AnalyticsAnnotationValuesComponent extends MainComponent implements
     this.selectedDocuments     = event;
     this.selectedDocumentIds   = this.selectedDocuments.map(obj => obj.id);
     this.match.document_id.$in = this.selectedDocumentIds;
-    this.getAnnotatorSchemas();
+    this.analyticsService.getAnnotatorSchemas(this.selectedDocumentIds)
+    .then((annotators: any[]) => {
+      this.annotators = annotators;
+    });
   }
 
   onAnnotatorsChange(event) {
@@ -163,34 +166,6 @@ export class AnalyticsAnnotationValuesComponent extends MainComponent implements
       delete this.match['annotator_id'];
     }
     this.getAnnotatorSchemaValues();
-  }
-
-  getAnnotatorSchemas() {
-    if (!this.selectedDocumentIds.length) {
-      this.annotators = [];
-      return;
-    }
-    var group = {
-      _id:  "$annotator_id",
-      count: {$sum : 1}
-    };
-    this.analyticsService.aggregate([
-      { $match:   this.match },
-      { $group:   group },
-      { $sort : { count : -1, _id: 1 } }
-    ])
-    .then((response) => {
-      if (response["success"]) {
-        this.annotators = response['data'].map((obj) => {
-          obj['name'] = obj['_id'];
-          return obj;
-        });
-      } else {
-        this.annotators= [];
-      }
-    }, (error) => {
-      this.annotators = [];
-    });
   }
 
   getAnnotatorSchemaValues() {
@@ -206,6 +181,7 @@ export class AnalyticsAnnotationValuesComponent extends MainComponent implements
              var values = g['values'];
              var labels = g['labels'];
              var descrs = g['descriptions'];
+             // var opts   = g['value_options'];
              for (var i = 0; i < values.length; i++) {
                this.schemaValues[values[i]] = {
                  group: g['group'],
@@ -229,6 +205,7 @@ export class AnalyticsAnnotationValuesComponent extends MainComponent implements
     this.analyticsService.aggregate([
       { $match:   this.match },
       { $unwind: "$attributes" },
+      { $match: { "attributes.name": { $nin: ["arg1", "arg2"] } } }, 
       { $group:   group },
       { $sort : { count : -1, _id: 1 } }
     ]).then((response) => {

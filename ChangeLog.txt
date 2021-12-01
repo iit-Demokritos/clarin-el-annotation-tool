@@ -1,4 +1,11 @@
 01 December 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/views/analytics-annotation-values/analytics-annotation-values.component.html:
+ * clarin-angular/src/app/components/views/analytics-annotation-values/analytics-annotation-values.component.ts:
+ * clarin-angular/src/app/components/views/inspect-document/inspect-document.component.html:
+ * clarin-angular/src/app/components/views/inspect-document/inspect-document.component.ts:
+ * clarin-angular/src/app/services/analytics-service/analytics.service.ts:
+ Moved repettive code into the analytics service.
+
  * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
  * clarin-angular/src/css/clarin-annschema.scss:
  New method (resizeOverlay()), added Attribute value in Marks.

@@ -28,15 +28,6 @@ export class InspectDocumentComponent extends MainComponent implements OnInit {
   selectedDocumentId: number = 0;
   annotators                 = [];
 
-  match = {
-    document_id:          this.selectedDocumentId,
-    type:                 { $nin: ["setting annotation"] },
-    document_setting:     { $exists: false },
-    collection_setting:   { $exists: false },
-    document_attribute:   { $exists: false },
-    collection_attribute: { $exists: false }
-  };
-
   super() { }
  
   ngOnInit(): void {
@@ -51,35 +42,9 @@ export class InspectDocumentComponent extends MainComponent implements OnInit {
   onDocumentsChange(event) {
     this.selectedDocument   = event;
     this.selectedDocumentId = event.id
-    this.match.document_id  = this.selectedDocumentId;
-    this.getAnnotatorSchemas();
-  }
-
-  getAnnotatorSchemas() {
-    if (this.selectedDocumentId==0) {
-      this.annotators = [];
-      return;
-    }
-    var group = {
-      _id:  "$annotator_id",
-      count: {$sum : 1}
-    };
-    this.analyticsService.aggregate([
-      { $match:   this.match },
-      { $group:   group },
-      { $sort : { count : -1, _id: 1 } }
-    ])
-    .then((response) => {
-      if (response["success"]) {
-        this.annotators = response['data'].map((obj) => {
-          obj['name'] = obj['_id'];
-          return obj;
-        });
-      } else {
-        this.annotators= [];
-      }
-    }, (error) => {
-      this.annotators = [];
+    this.analyticsService.getAnnotatorSchemas(this.selectedDocumentId)
+    .then((annotators: any[]) => {
+      this.annotators = annotators;
     });
   }
 
@@ -89,12 +54,16 @@ export class InspectDocumentComponent extends MainComponent implements OnInit {
 
   filterAnnotations(annotations) {
     return annotations.filter((ann) => 
-      !(this.TextWidgetAPI.isSettingAnnotation(ann) || this.TextWidgetAPI.isAttributeAnnotation(ann))
+      !(this.TextWidgetAPI.isSettingAnnotation(ann) ||
+        this.TextWidgetAPI.isAttributeAnnotation(ann))
     );
   }; /* filterAnnotations */
 
   onApply(event) {
-    this.annotationService.get(this.selectedCollection['id'],this.selectedDocument['id'],this.selectedAnnotator['name']).then((response) => {
+    this.annotationService.get(this.selectedCollection['id'],
+                               this.selectedDocument['id'],
+                               this.selectedAnnotator['name'])
+    .then((response) => {
       if (response["success"]) {
         this.annotations = this.filterAnnotations(response["data"])
         this.changeDetectorRef.detectChanges(); // forces change detection to run

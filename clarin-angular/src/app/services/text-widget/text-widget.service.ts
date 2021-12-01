@@ -561,6 +561,8 @@ export class TextWidgetAPI {
   getAnnotationSchemaFromAnnotatorTypeId(ann_id) {
     if (ann_id in this.annotatorTypeIdToAnnotationSchema) {
       return this.annotatorTypeIdToAnnotationSchema[ann_id];
+    } else if (ann_id.replace(/-/g, '_') in this.annotatorTypeIdToAnnotationSchema) {
+      return this.annotatorTypeIdToAnnotationSchema[ann_id.replace(/-/g, '_')];
     }
     throw new Error('TextWidgetAPI: getAnnotationSchemaFromAnnotatorTypeId(): '+ann_id);
   }
