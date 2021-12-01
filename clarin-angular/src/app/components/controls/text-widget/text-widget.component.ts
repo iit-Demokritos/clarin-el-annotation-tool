@@ -272,7 +272,7 @@ export class TextWidgetComponent extends BaseControlComponent
     // left button click
     if (e.button === 0) {
       var selection = this.getSelectionInfo();
-      console.warn("MOUSE 1:", selection, e);
+      // console.warn("MOUSE 1:", selection, e);
 
       if (Object.keys(selection).length > 0) {
         this.TextWidgetAPI.setCurrentSelection(selection, false);
