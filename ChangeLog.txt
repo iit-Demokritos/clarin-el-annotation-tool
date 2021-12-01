@@ -1,3 +1,9 @@
+01 December 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * backend-django/clarin_backend/mongodb_views.py: Fixed
+ TempAnnotationsView.create() to not modify in any way annotations when
+ importing a set of Annotations (i.e. when transferring Annotations from DB to
+ Temp).
+
 30 November 2021 Petasis George <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/views/inspect-document/inspect-document.component.html:
  * clarin-angular/src/app/components/views/inspect-document/inspect-document.component.ts:

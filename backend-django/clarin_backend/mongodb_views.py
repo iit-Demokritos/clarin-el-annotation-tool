@@ -211,6 +211,10 @@ class TempAnnotationsView(MongoDBAPIView):
         'document_setting',
         'created_at'
     ]
+    timestamps = [
+      'updated_by',
+      'updated_at'
+    ]
 
     # List all instances. (GET)
     def list(self, request, cid, did):
@@ -237,12 +241,14 @@ class TempAnnotationsView(MongoDBAPIView):
         document   = Documents.objects.get(pk=did)
         user       = Users.objects.get(email=request.user.email)
 
-        annotator_id = None;
+        annotator_id  = None;
         # Have we received a single annotation?
         if type(request.data['data']) is list:
             annotations = request.data['data']
+            importing_set = True;
         else:
             annotations=[request.data['data']]
+            importing_set = False;
         for annotation in annotations:
             new_ann = {
                 '_id':           ObjectId(annotation['_id']),
@@ -264,6 +270,13 @@ class TempAnnotationsView(MongoDBAPIView):
                 new_ann['annotator_id'] = annotation['annotator_id'];
                 if annotator_id is None:
                     annotator_id = annotation['annotator_id'];
+            ## Important: The only siituation where we are importing a set,
+            ## is when the Annotation Tool initialises temp Annotations
+            ## from the saved Annotations. KEEP TIMESTAMPS!
+            if importing_set:
+               for field in self.timestamps:
+                   if field in annotation:
+                       new_ann[field] = annotation[field]
             self.mongodb_insert_one(new_ann)
 
         opendocument = (OpenDocuments.objects.filter(
