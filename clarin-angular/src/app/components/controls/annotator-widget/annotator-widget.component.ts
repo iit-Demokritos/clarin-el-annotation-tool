@@ -110,104 +110,108 @@ export class AnnotatorWidgetComponent extends BaseControlComponent
   }; /* updateFoundInCollection */
 
   updateAnnotatorTemplate() {
-    this.annotatorType = this.TextWidgetAPI.getAnnotatorType();
-    this.annotationSchema = this.TextWidgetAPI.getAnnotationSchema();
-    if (this.annotatorType.length == 0) return;
-    // console.error("updateAnnotatorTemplate(): calling getTemplate():", this.annotatorType, this.annotationSchema);
-    this.annotatorsTemplateService.getTemplate(
-      this.annotatorType, this.annotationSchema)
-      .then(async (annotatorsTemplate: string) => {
-        this.buttonColorService.clearColorCombinations();
-        this.coreferenceColorService.clearColorCombinations();
-        //console.error("annotatorsTemplate:", annotatorsTemplate);
+    return new Promise((resolve, reject) => {
+      this.annotatorType    = this.TextWidgetAPI.getAnnotatorType();
+      this.annotationSchema = this.TextWidgetAPI.getAnnotationSchema();
+      if (this.annotatorType.length == 0) return;
+      // console.error("updateAnnotatorTemplate(): calling getTemplate():", this.annotatorType, this.annotationSchema);
+      this.annotatorsTemplateService.getTemplate(
+        this.annotatorType, this.annotationSchema)
+        .then(async (annotatorsTemplate: string) => {
+          this.buttonColorService.clearColorCombinations();
+          this.coreferenceColorService.clearColorCombinations();
+          //console.error("annotatorsTemplate:", annotatorsTemplate);
 
-        //if (this.annotatorType == "Button Annotator") {
-        //  var foundInCollectionPosition = annotatorsTemplate.indexOf("<table") + 6;
+          //if (this.annotatorType == "Button Annotator") {
+          //  var foundInCollectionPosition = annotatorsTemplate.indexOf("<table") + 6;
 
-        //  annotatorsTemplate = annotatorsTemplate.slice(0, foundInCollectionPosition)
-        //    + " found-in-collection"
-        //    + annotatorsTemplate.slice(foundInCollectionPosition);
-        //}
-        // console.warn("Template:", annotatorsTemplate);
+          //  annotatorsTemplate = annotatorsTemplate.slice(0, foundInCollectionPosition)
+          //    + " found-in-collection"
+          //    + annotatorsTemplate.slice(foundInCollectionPosition);
+          //}
+          // console.warn("Template:", annotatorsTemplate);
 
-        // Try to see how many annotation types this schema involves...
-        var types = annotatorsTemplate.match(/\[annotationType\]=\"[^\"]+"/ig);
-        // console.warn("types:", types);
-        types = types.map(value => value.substr(17).replace(/['"]+/g, ''));
-        // console.warn("types:", types);
-        var types_unique = types.filter((value, index, self) => { return self.indexOf(value) === index; });
-        // console.warn(types_unique);
-        this.TextWidgetAPI.setAnnotationSchemaAnnotationTypes(types_unique);
-        // Replace "\n" with <br/>...
-        annotatorsTemplate = annotatorsTemplate.replaceAll("\\n", "\n");
-        // Add the event listeners to all <annotation-text-text>
-        annotatorsTemplate = annotatorsTemplate.replaceAll("<annotation-text-text ",
-          "<annotation-text-text [broadcastedEvent]=\"broadcastEvent\" ");
+          // Try to see how many annotation types this schema involves...
+          var types = annotatorsTemplate.match(/\[annotationType\]=\"[^\"]+"/ig);
+          // console.warn("types:", types);
+          types = types.map(value => value.substr(17).replace(/['"]+/g, ''));
+          // console.warn("types:", types);
+          var types_unique = types.filter((value, index, self) => { return self.indexOf(value) === index; });
+          // console.warn(types_unique);
+          this.TextWidgetAPI.setAnnotationSchemaAnnotationTypes(types_unique);
+          // Replace "\n" with <br/>...
+          annotatorsTemplate = annotatorsTemplate.replaceAll("\\n", "\n");
+          // Add the event listeners to all <annotation-text-text>
+          annotatorsTemplate = annotatorsTemplate.replaceAll("<annotation-text-text ",
+            "<annotation-text-text [broadcastedEvent]=\"broadcastEvent\" ");
 
-        if (this.annotatorType == "Button Annotator") {
-          // Get how many columns the table has...
-          this.colspan = parseInt(annotatorsTemplate.match(/colspan=\"(\d+)\"/i)[1]);
+          if (this.annotatorType == "Button Annotator") {
+            // Get how many columns the table has...
+            this.colspan = parseInt(annotatorsTemplate.match(/colspan=\"(\d+)\"/i)[1]);
 
-          // Find the last </tbody> and place a special "row"...
-          var lastTBody = annotatorsTemplate.lastIndexOf("</tbody>")
-          annotatorsTemplate = annotatorsTemplate.slice(0, lastTBody)
-            + '<tr *ngFor="let row of foundInCollection"><td *ngFor="let cell of row">'
-            + '<annotation-button [annotationType]="cell.annotationType"'
-            + '[annotationAttribute]="cell.annotationAttribute"'
-            + '[annotationValue]="cell.annotationValue"'
-            + '[label]="cell.label"'
-            + '[customAttribute]="cell.customAttribute"'
-            + '[bgColor]="cell.bgColor"'
-            + '[fgColor]="cell.fgColor"'
-            + '[colourBackground]="cell.colourBackground"'
-            + '[colourBorder]="cell.colourBorder"'
-            + '[colourFont]="cell.colourFont"'
-            + '[colourSelectedBackground]="cell.colourSelectedBackground"'
-            + '></annotation-button>'
-            + '</td></tr>'
-            + annotatorsTemplate.slice(lastTBody);
-        }
+            // Find the last </tbody> and place a special "row"...
+            var lastTBody = annotatorsTemplate.lastIndexOf("</tbody>")
+            annotatorsTemplate = annotatorsTemplate.slice(0, lastTBody)
+              + '<tr *ngFor="let row of foundInCollection"><td *ngFor="let cell of row">'
+              + '<annotation-button [annotationType]="cell.annotationType"'
+              + '[annotationAttribute]="cell.annotationAttribute"'
+              + '[annotationValue]="cell.annotationValue"'
+              + '[label]="cell.label"'
+              + '[customAttribute]="cell.customAttribute"'
+              + '[bgColor]="cell.bgColor"'
+              + '[fgColor]="cell.fgColor"'
+              + '[colourBackground]="cell.colourBackground"'
+              + '[colourBorder]="cell.colourBorder"'
+              + '[colourFont]="cell.colourFont"'
+              + '[colourSelectedBackground]="cell.colourSelectedBackground"'
+              + '></annotation-button>'
+              + '</td></tr>'
+              + annotatorsTemplate.slice(lastTBody);
+          }
 
-        this.annotatorsInnerTemplate = (
-          '<div autoslimscroll scroll-subtraction-height="145">' + annotatorsTemplate + '</div>');
-        // console.error("annotatorsTemplate:", annotatorsTemplate);
-        //TODO:Check dynamic compile $compile(elem.contents())(scope);
-        // Does the template include Document Attributes?
+          this.annotatorsInnerTemplate = (
+            '<div autoslimscroll scroll-subtraction-height="145">' + annotatorsTemplate + '</div>');
+          // console.error("annotatorsTemplate:", annotatorsTemplate);
+          //TODO:Check dynamic compile $compile(elem.contents())(scope);
+          // Does the template include Document Attributes?
 
-        try {
-          await this.initDynamicWithTemplate(this.annotatorsInnerTemplate);
-        }
-        catch (error) {
-          console.error("compile:", error);
-        }
-        // console.error("compiled:", this.cmpRef)
+          try {
+            await this.initDynamicWithTemplate(this.annotatorsInnerTemplate);
+          }
+          catch (error) {
+            console.error("compile:", error);
+          }
+          // console.error("compiled:", this.cmpRef)
 
-        if (annotatorsTemplate.indexOf("group-type=\"document_attributes\"") != -1) {
-          this.layout.showEditorTabs = true;
-        } else {
-          this.layout.showEditorTabs = false;
-        }
+          if (annotatorsTemplate.indexOf("group-type=\"document_attributes\"") != -1) {
+            this.layout.showEditorTabs = true;
+          } else {
+            this.layout.showEditorTabs = false;
+          }
 
-        this.foundInCollection = [[]];
-        this.foundInCollectionItems = 0;
-        this.foundInCollectionValues = {};
-        this.TextWidgetAPI.registerFoundInCollectionCallback(this.updateFoundInCollection.bind(this));
+          this.foundInCollection = [[]];
+          this.foundInCollectionItems = 0;
+          this.foundInCollectionValues = {};
+          this.TextWidgetAPI.registerFoundInCollectionCallback(this.updateFoundInCollection.bind(this));
 
-        this.annotationSchemaService.update(this.annotationSchema, this.annotatorType)
-          .then((response: any) => {
-            if (!response.success) {
+          this.annotationSchemaService.update(this.annotationSchema, this.annotatorType)
+            .then((response: any) => {
+              if (!response.success) {
+                this.dialog.open(ErrorDialogComponent, {
+                  data: new ConfirmDialogData("Error",
+                    "Error during the save annotations. Please refresh the page and try again.")
+                })
+              }
+            }, (error) => {
               this.dialog.open(ErrorDialogComponent, {
                 data: new ConfirmDialogData("Error",
-                  "Error during the save annotations. Please refresh the page and try again.")
-              })
-            }
-          }, (error) => {
-            this.dialog.open(ErrorDialogComponent, {
-              data: new ConfirmDialogData("Error",
-                "Database error. Please refresh the page and try again.")
-            })
-          });
-      });
+                  "Database error. Please refresh the page and try again.")
+              });
+              reject(false);
+            });
+          resolve(true);
+        });
+    });
   };
 
 

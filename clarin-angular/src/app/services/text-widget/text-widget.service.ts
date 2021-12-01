@@ -58,9 +58,15 @@ export class TextWidgetAPI {
 
 
   notifyObservers(observerStack: any[]) {
+    let promises = [];
+    let possiblePromise;
     observerStack.forEach((callback) => {
-      callback();
+      possiblePromise = callback();
+      if (possiblePromise instanceof Promise) {
+        promises.push(possiblePromise);
+      }
     });
+    return promises;
   }; //function to trigger the callbacks of observers
 
 
@@ -98,14 +104,16 @@ export class TextWidgetAPI {
     this.scrollIntoView = [];
     this.settings = undefined;
 
-    this.notifyObservers(this.currentSelectionCallbacks);
-    this.notifyObservers(this.selectedAnnotationCallbacks);
-    this.notifyObservers(this.annotationsCallbacks);
-    this.notifyObservers(this.annotationsToBeAddedCallbacks);
-    this.notifyObservers(this.annotationsToBeDeletedCallbacks);
-    this.notifyObservers(this.overlappingAreasCallbacks);
-    this.notifyObservers(this.foundInCollectionCallbacks);
-    this.notifyObservers(this.settingsCallbacks);
+    return [
+      ... this.notifyObservers(this.currentSelectionCallbacks),
+      ... this.notifyObservers(this.selectedAnnotationCallbacks),
+      ... this.notifyObservers(this.annotationsCallbacks),
+      ... this.notifyObservers(this.annotationsToBeAddedCallbacks),
+      ... this.notifyObservers(this.annotationsToBeDeletedCallbacks),
+      ... this.notifyObservers(this.overlappingAreasCallbacks),
+      ... this.notifyObservers(this.foundInCollectionCallbacks),
+      ... this.notifyObservers(this.settingsCallbacks)
+    ];
   }
 
   checkIsRunning() {
@@ -223,17 +231,22 @@ export class TextWidgetAPI {
     });
 
     // console.error("addAnnotation():", newAnnotation, selected);
-    this.notifyObservers(this.annotationsCallbacks);
-    this.notifyObservers(this.annotationsToBeAddedCallbacks);
+    let promises = [
+      ... this.notifyObservers(this.annotationsCallbacks),
+      ... this.notifyObservers(this.annotationsToBeAddedCallbacks)
+    ];
 
     if (selected)
       this.selectedAnnotation = _.cloneDeep(newAnnotation);
     else
       this.selectedAnnotation = {};
 
-    this.notifyObservers(this.selectedAnnotationCallbacks);
+    promises = promises.concat(
+      this.notifyObservers(this.selectedAnnotationCallbacks)
+    );
     this.clearOverlappingAreas();
     this.clearSelection();
+    return promises;
   }
 
   updateAnnotation(updatedAnnotation, selected) {
@@ -253,8 +266,10 @@ export class TextWidgetAPI {
     });
 
     // console.error("updateAnnotation():", updatedAnnotation, selected);
-    this.notifyObservers(this.annotationsCallbacks);
-    this.notifyObservers(this.annotationsToBeAddedCallbacks);
+    let promises = [
+      ... this.notifyObservers(this.annotationsCallbacks),
+      ... this.notifyObservers(this.annotationsToBeAddedCallbacks)
+    ];
 
     if (selected)
       this.selectedAnnotation = _.cloneDeep(updatedAnnotation);
@@ -262,8 +277,11 @@ export class TextWidgetAPI {
       this.selectedAnnotation = {};
 
     this.currentSelection = {};
-    this.notifyObservers(this.selectedAnnotationCallbacks);
+    promises = promises.concat(
+      this.notifyObservers(this.selectedAnnotationCallbacks)
+    );
     this.clearOverlappingAreas();
+    return promises;
   }
 
   deleteAnnotation(annotationId) {
@@ -277,12 +295,15 @@ export class TextWidgetAPI {
     this.selectedAnnotation = {};
 
     // console.error("deleteAnnotation():", annotationId);
-    this.notifyObservers(this.selectedAnnotationCallbacks);
-    this.notifyObservers(this.annotationsCallbacks);
-    this.notifyObservers(this.annotationsToBeDeletedCallbacks);
+    let promises = [
+      ... this.notifyObservers(this.selectedAnnotationCallbacks),
+      ... this.notifyObservers(this.annotationsCallbacks),
+      ... this.notifyObservers(this.annotationsToBeDeletedCallbacks)
+    ];
 
     this.clearOverlappingAreas();
     this.clearSelection();
+    return promises;
   }
 
   registerAnnotationsCallback(callback) {
@@ -434,9 +455,11 @@ export class TextWidgetAPI {
     }
 
     // console.error("matchAnnotationsToSchema():", newAnnotations);
-    this.notifyObservers(this.foundInCollectionCallbacks);
-    this.notifyObservers(this.annotationsCallbacks);
-    this.notifyObservers(this.annotationsToBeAddedCallbacks);
+    return [
+      ... this.notifyObservers(this.foundInCollectionCallbacks),
+      ... this.notifyObservers(this.annotationsCallbacks),
+      ... this.notifyObservers(this.annotationsToBeAddedCallbacks)
+    ];
   }; /* matchAnnotationsToSchema */
 
   /*** Current Collection Methods ***/
@@ -450,7 +473,7 @@ export class TextWidgetAPI {
 
   setCurrentCollection(newCurrentCollection) {
     this.currentCollection = _.cloneDeep(newCurrentCollection);
-    this.notifyObservers(this.currentCollectionCallbacks);
+    return this.notifyObservers(this.currentCollectionCallbacks);
   }
 
   /*** Current Document Methods ***/
@@ -464,7 +487,7 @@ export class TextWidgetAPI {
 
   setCurrentDocument(newDocument) {
     this.currentDocument = _.cloneDeep(newDocument);
-    this.notifyObservers(this.currentDocumentCallbacks);
+    return this.notifyObservers(this.currentDocumentCallbacks);
   }
 
   /*** Current Selection Methods ***/
@@ -479,13 +502,14 @@ export class TextWidgetAPI {
   setCurrentSelection(newCurrentSelection, notify) {
     this.currentSelection = _.cloneDeep(newCurrentSelection);
 
-    if (notify)
-      this.notifyObservers(this.currentSelectionCallbacks);
+    if (notify) {
+      return this.notifyObservers(this.currentSelectionCallbacks);
+    }
   }
 
   clearSelection() {
     this.currentSelection = {};
-    this.notifyObservers(this.currentSelectionCallbacks);
+    return this.notifyObservers(this.currentSelectionCallbacks);
   }
 
   /*** Annotator Type Methods ***/
@@ -566,7 +590,7 @@ export class TextWidgetAPI {
   setAnnotationSchema(newAnnotationSchema) {
     this.annotationSchema = _.cloneDeep(newAnnotationSchema);
     this.annotationSchemaAnnotationTypes = [];
-    this.notifyObservers(this.annotationSchemaCallbacks);
+    return this.notifyObservers(this.annotationSchemaCallbacks);
   }
 
   clearAnnotationSchema() {
@@ -624,8 +648,10 @@ export class TextWidgetAPI {
     this.clearOverlappingAreas();
     //console.log(this.annotationsToBeAddedCallbacks)
     //console.log(this.annotationsToBeAddedCallbacks)
-    this.notifyObservers(this.annotationsToBeAddedCallbacks);
-    this.notifyObservers(this.selectedAnnotationCallbacks);
+    return [
+      ... this.notifyObservers(this.annotationsToBeAddedCallbacks),
+      ... this.notifyObservers(this.selectedAnnotationCallbacks)
+    ];
   }
 
   setSelectedAnnotationById(annotationId) {
@@ -647,8 +673,10 @@ export class TextWidgetAPI {
     this.currentSelection = {};
     this.clearOverlappingAreas();
 
-    this.notifyObservers(this.annotationsToBeAddedCallbacks);
-    this.notifyObservers(this.selectedAnnotationCallbacks);
+    return [
+      ... this.notifyObservers(this.annotationsToBeAddedCallbacks),
+      ... this.notifyObservers(this.selectedAnnotationCallbacks)
+    ];
   }
 
   clearSelectedAnnotation() {
@@ -660,9 +688,12 @@ export class TextWidgetAPI {
       });
       this.selectedAnnotation = {};
 
-      this.notifyObservers(this.annotationsToBeAddedCallbacks);
-      this.notifyObservers(this.selectedAnnotationCallbacks);
+      let promises = [
+        ... this.notifyObservers(this.annotationsToBeAddedCallbacks),
+        ... this.notifyObservers(this.selectedAnnotationCallbacks)
+      ];
       this.clearOverlappingAreas();
+      return promises;
     }
   }
 
@@ -677,7 +708,7 @@ export class TextWidgetAPI {
 
   clearOverlappingAreas() {
     this.overlappingAreas = [];
-    this.notifyObservers(this.overlappingAreasCallbacks);
+    return this.notifyObservers(this.overlappingAreasCallbacks);
   }
 
   computeOverlappingAreas(offset) {
@@ -693,7 +724,7 @@ export class TextWidgetAPI {
       }
     }
     this.overlappingAreas = newOverlaps;
-    this.notifyObservers(this.overlappingAreasCallbacks);
+    return this.notifyObservers(this.overlappingAreasCallbacks);
   }
 
   /*** Annotations Found In Collection Methods ***/
@@ -707,7 +738,7 @@ export class TextWidgetAPI {
 
   setFoundInCollection(newFoundInCollection) {
     this.foundInCollection = _.cloneDeep(newFoundInCollection);
-    this.notifyObservers(this.foundInCollectionCallbacks);
+    return this.notifyObservers(this.foundInCollectionCallbacks);
   }
 
   clearFoundInCollection() {
@@ -721,8 +752,9 @@ export class TextWidgetAPI {
 
   scrollToAnnotation(annotation) {
     this.scrollIntoView = _.cloneDeep(annotation);
-    this.notifyObservers(this.scrollIntoViewCallbacks);
+    let promises = this.notifyObservers(this.scrollIntoViewCallbacks);
     this.scrollIntoView = [];
+    return promises;
   }
 
   getScrollToAnnotation() {
@@ -742,7 +774,7 @@ export class TextWidgetAPI {
   setSettings(newSettings) {
     this.settings = _.cloneDeep(newSettings);
     // console.error("setSettings:", this.settingsCallbacks);
-    this.notifyObservers(this.settingsCallbacks);
+    return this.notifyObservers(this.settingsCallbacks);
   }
 
   clearSettings() {

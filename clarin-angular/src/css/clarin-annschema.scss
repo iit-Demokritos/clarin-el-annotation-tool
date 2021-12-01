@@ -19,7 +19,7 @@
 }
 
 .annotated-text:after {
-  content: attr(data-type);
+  content: attr(dataType);
   box-sizing: border-box;
   font-size: 0.7em;
   line-height: 1;

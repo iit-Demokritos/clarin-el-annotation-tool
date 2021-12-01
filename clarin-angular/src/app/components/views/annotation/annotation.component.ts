@@ -123,32 +123,6 @@ export class AnnotationComponent extends MainComponent implements OnInit {
     this.ObjectID = require("bson-objectid");
   }
 
-  //TODO: CHECK STATE CHANGE EVENT SUBSC.
-  /*$on('$stateChangeStart', function (event) {        //close document selection modal instance when user change page
-      console.log('closing modal');
-      //$scope.documentSelection = true;
-      //detectUnsavedChanges();
-      //event.preventDefault();
-
-      if (typeof($scope.selectDocumentModalInstance) == "undefined" && this.selectDocumentModalInstance.opened) {
-        $scope.selectDocumentModalInstance.close();
-        this.TextWidgetAPI.disableIsRunning();
-        //detectUnsavedChanges();
-      }
-    });
-
-    $scope.$on("$destroy", function () {
-      if (!angular.isUndefined($scope.selectDocumentModalInstance) && $scope.selectDocumentModalInstance.opened) {
-        $scope.selectDocumentModalInstance.close();
-        this.TextWidgetAPI.disableIsRunning();
-      }
-    });
-    $scope.$on('selectDocument', function(event) {
-      $scope.documentSelection = true;
-      createDocumentSelectionModal();
-      this.TextWidgetAPI.resetData();
-    });*/
-
   ObjectId() {
     return this.ObjectID();
   }
@@ -187,22 +161,24 @@ export class AnnotationComponent extends MainComponent implements OnInit {
               this.TextWidgetAPI.resetCallbacks();
               this.TextWidgetAPI.setAnnotatorType(result.newAnnotator);
               this.TextWidgetAPI.setAnnotationSchemaOptions(result.newAnnotationSchemaOptions);
-              this.TextWidgetAPI.setAnnotationSchema(result.newAnnotationSchema);
-              this.TextWidgetAPI.setCurrentCollection(result.newCollection);
-              this.annotatorType = result.newAnnotator;
-              result.newDocument.annotator_id = this.TextWidgetAPI.getAnnotatorTypeId();
-              // This is where the document loading happens. The text-widget component
-              // has registered a callback to react to document changes. When a new Document
-              // is set by TextWidgetAPI.setCurrentDocument(), the
-              // TextWidgetComponent.updateCurrentDocument() will be called, which will decide
-              // to either load Annotations from DB, or TempDB.
-              this.TextWidgetAPI.setCurrentDocument(result.newDocument);
-              this.documentSelected = true;
-              //this.TextWidgetAPI.registerAnnotationsCallback(this.updateAnnotationList.bind(this));
+              let promises = this.TextWidgetAPI.setAnnotationSchema(result.newAnnotationSchema);
+              Promise.all(promises).then((data) => {
+                this.TextWidgetAPI.setCurrentCollection(result.newCollection);
+                this.annotatorType = result.newAnnotator;
+                result.newDocument.annotator_id = this.TextWidgetAPI.getAnnotatorTypeId();
+                // This is where the document loading happens. The text-widget component
+                // has registered a callback to react to document changes. When a new Document
+                // is set by TextWidgetAPI.setCurrentDocument(), the
+                // TextWidgetComponent.updateCurrentDocument() will be called, which will decide
+                // to either load Annotations from DB, or TempDB.
+                this.TextWidgetAPI.setCurrentDocument(result.newDocument);
+                this.documentSelected = true;
+                //this.TextWidgetAPI.registerAnnotationsCallback(this.updateAnnotationList.bind(this));
 
-              setTimeout(() => { //<<<---using ()=> syntax
-                this.documentSelection = false;
-              }, 800);
+                setTimeout(() => { //<<<---using ()=> syntax
+                  this.documentSelection = false;
+                }, 800);
+              });
             }
           });
         } else {

@@ -470,8 +470,11 @@ export class TextWidgetComponent extends BaseControlComponent
     this.visualiseVisualisationOptions(visualisationOptions);
     // console.error("CM size:", this.editor.getScrollInfo());
     // console.error("OVERLAY:", this.textWidgetOverlay.nativeElement.style.height);
-    this.textWidgetOverlay.nativeElement.style.height = this.editor.getScrollInfo().height.toString()+'px';
   }; /* initialiseEditor */
+
+  resizeOverlay() {
+    this.textWidgetOverlay.nativeElement.style.height = this.editor.getScrollInfo().height.toString()+'px';
+  }; /* resizeOverlay */
 
   visualiseVisualisationOptions(options) {
     if (options == null || (!("marks" in options))) {
@@ -539,6 +542,7 @@ export class TextWidgetComponent extends BaseControlComponent
   overlayRefresh() {
     // console.warn("overlayRefresh: gutter width:", this.gutter.offsetWidth,
     //   "editor width:", this.textWidgetLines["offsetWidth"]);
+    this.resizeOverlay();
     for (const annId in this.annotationIdToGraphItem) {
       var annotation = this.TextWidgetAPI.getAnnotationById(annId);
       if (!annotation) {continue;}
@@ -1110,7 +1114,8 @@ export class TextWidgetComponent extends BaseControlComponent
                 "background: " + colorCombination.colour_selected_background + "; " +
                 "border-color:" + colorCombination.colour_border + ";" +
                 "border-top: 4px solid " + colorCombination.colour_border + "; " +
-                "border-bottom: 4px solid " + colorCombination.colour_border + "; "
+                "border-bottom: 4px solid " + colorCombination.colour_border + "; ",
+              attributes: {dataType: annotationAttributes[m].value}
             });
           } else {
             // Normal marker
@@ -1118,7 +1123,8 @@ export class TextWidgetComponent extends BaseControlComponent
               className: markClassName,
               css: "color:" + colorCombination.colour_font + ";" +
                 "background:" + colorCombination.colour_background + ";" +
-                "border-color:" + colorCombination.colour_border + ";"
+                "border-color:" + colorCombination.colour_border + ";",
+              attributes: {dataType: annotationAttributes[m].value}
             });
           }
           this.overlayMarkAdd(l, selection.start, selection.end,
@@ -1221,7 +1227,7 @@ export class TextWidgetComponent extends BaseControlComponent
       var currAnnotation = newAnnotations[k];
       if (!('annotation' in currAnnotation)) {
         // This object does not contain an annotation...
-	continue;
+        continue;
       }
       if (this.TextWidgetAPI.isSettingAnnotation(currAnnotation.annotation) ||
         (!this.TextWidgetAPI.isSettingsCompliantAnnotation(currAnnotation.annotation))) {
@@ -1232,8 +1238,8 @@ export class TextWidgetComponent extends BaseControlComponent
 
       if (this.TextWidgetAPI.isRelationAnnotationType(currAnnotation.annotation)) {
         if (this.addVisualsForRelationAnnotation(currAnnotation, annotatorType)) {
-	  added++;
-	}
+          added++;
+        }
       } else if ("document_attribute" in currAnnotation.annotation) {
         // This is a document Annotation...
         // Broadcast an event to our parent that a Document Attribute was found.
@@ -1264,7 +1270,7 @@ export class TextWidgetComponent extends BaseControlComponent
         // Normal annotation
         if (this.addVisualsForPlainAnnotation(currAnnotation, annotatorType)) {
           added++;
-	}
+        }
       }
     }
 

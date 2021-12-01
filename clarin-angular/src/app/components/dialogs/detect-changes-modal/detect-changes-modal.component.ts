@@ -132,14 +132,16 @@ export class DetectChangesModalComponent extends MainDialogComponent implements 
 
                 this.TextWidgetAPI.setAnnotatorType(this.openedDocument.annotator_type);
                 this.TextWidgetAPI.setAnnotationSchemaOptions(response.annotationSchemaOptions);
-                this.TextWidgetAPI.setAnnotationSchema(response.savedAnnotationSchema);
+                let promises = this.TextWidgetAPI.setAnnotationSchema(response.savedAnnotationSchema);
 
-                this.TextWidgetAPI.setCurrentCollection(openCollection);
-                openDocument.annotator_id = this.TextWidgetAPI.getAnnotatorTypeId();
-                this.TextWidgetAPI.setCurrentDocument(openDocument);
+                Promise.all(promises).then((data) => {
+                  this.TextWidgetAPI.setCurrentCollection(openCollection);
+                  openDocument.annotator_id = this.TextWidgetAPI.getAnnotatorTypeId();
+                  this.TextWidgetAPI.setCurrentDocument(openDocument);
 
-                var modalResponse = { success: true, resume: true, userSelection: "resume" };
-                this.dialogRef.close(modalResponse);
+                  var modalResponse = { success: true, resume: true, userSelection: "resume" };
+                  this.dialogRef.close(modalResponse);
+                });
               } else {
                 response.userSelection = "resume";
                 this.dialogRef.close(response);
