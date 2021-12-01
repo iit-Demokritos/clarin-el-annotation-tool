@@ -46,7 +46,7 @@ export class ToolbarSelectDocumentComponent extends MainComponent implements OnI
   }; /* onDocumentSelectionChange */
 
   onDocumentGroupClick(group) {
-    console.error("Click:", group, this.selected_documents);
+    // console.error("Click:", group, this.selected_documents);
   }; /* onDocumentGroupClick */
 
   nextDocument() {
