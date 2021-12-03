@@ -1,25 +1,40 @@
 <page-header title="{{'pageheader.Inspect Document'|translate}}" *ngIf="showPageHeader"></page-header>
-<div class="inspect-document-wrapper" [ngClass]="{'has-page-header': showPageHeader, 'no-page-header': !showPageHeader}">
-    <mat-card class="mat-card-fill-parent">
-        <mat-card-header>
-            <mat-card-subtitle>
-              <toolbar-select-document *ngIf="showDocumentSelectionToolbar"
-                (selectedCollections)="onCollectionsChange($event)" (selectedDocuments)="onDocumentsChange($event)"
-                [allowMultipleCollections]="allowMultipleCollections" [allowMultipleDocuments]="allowMultipleDocuments">
-              </toolbar-select-document>
-              <toolbar-select-annotator *ngIf="showAnnotatorSelectionToolbar"
-                (selectedAnnotators)="onAnnotatorsChange($event)" [allowMultipleAnnotators]="allowMultipleAnnotators" [annotators]="annotators"
-                [showApplyButton]="true" (onApply)="onApply($event)">
-              </toolbar-select-annotator>
-            </mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content class="main-content">
-            <annotation-set-inspector
-              [collection]="selectedCollection"
-              [document]="selectedDocument"
-              [annotator]="selectedAnnotator"
-              [annotations]="annotations"
-            ></annotation-set-inspector>
-            </mat-card-content>
+<div class="inspect-document" [ngClass]="{'has-page-header': showPageHeader, 'no-page-header': !showPageHeader}">
+  <mat-card class="mat-card-fill-parent">
+    <mat-card-header>
+      <mat-card-subtitle>
+        <toolbar-select-document *ngIf="showDocumentSelectionToolbar"
+          [allowMultipleCollections]="allowMultipleCollections"
+          [allowMultipleDocuments]="allowMultipleDocuments"
+          (selectedCollections)="onCollectionsChange($event)"
+          (selectedDocuments)="onDocumentsChange($event)"
+        >
+        </toolbar-select-document>
+        <toolbar-select-annotator *ngIf="showAnnotatorSelectionToolbar"
+          [allowMultipleAnnotators]="allowMultipleAnnotators"
+          [annotators]="annotators"
+          [showApplyButton]="true"
+          (selectedAnnotators)="onAnnotatorsChange($event)"
+          (onApply)="onApply($event)"
+        >
+        </toolbar-select-annotator>
+        <annotation-set-filter *ngIf="showAnnotationSetFilter"
+          [showApplyButton]="true"
+          [collections]="selectedCollection"
+          [documents]="selectedDocument"
+          (onApply)="onApplyFilter($event)"
+        >
+        </annotation-set-filter>
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="main-content">
+      <annotation-set-inspector
+        [collection]="selectedCollection"
+        [document]="selectedDocument"
+        [annotator]="selectedAnnotator"
+        [annotations]="annotations"
+      >
+      </annotation-set-inspector>
+    </mat-card-content>
   </mat-card>
 </div>

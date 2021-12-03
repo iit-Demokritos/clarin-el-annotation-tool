@@ -1,3 +1,47 @@
+03 December 2021 Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.html:
+ * clarin-angular/src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:
+ Fixed annotation highlighting for selected annotations.
+
+ * clarin-angular/src/app/components/controls/annotation-visualizer/annotation-visualizer.component.ts:
+ Sorted annotations based on spans.
+
+ * clarin-angular/src/app/helpers/annotation.ts: Added a function for sorting
+ annotations based on spans.
+
+03 December 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/css/clarin-material.scss:
+ * clarin-angular/src/app/components/views/inspect-document/inspect-document.component.html:
+ * clarin-angular/src/app/components/views/inspect-document/inspect-document.component.ts:
+ Added annotation filtering through a Query Builder, and sort of annotations.
+
+ * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.ts:
+ * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
+ * clarin-angular/src/app/components/views/annotation/annotation.component.ts:
+ Added some progress info through the progress bar, when loading Collection
+ Documents, or loading a Document for annotation.
+
+ * clarin-angular/src/app/services/message-service/message.service.ts: Added
+ support for accessing the progress bar at the top of the window.
+
+ * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.html:
+ Now shows the number of selected Documents.
+
+ * clarin-angular/src/app/components/controls/annotation-set-filter/*: A new
+ component that adds some filters (through a query builder) to filter
+ annotations.
+
+ * clarin-angular/src/app/services/annotators-template-service/annotators-template.service.ts:
+ Fixed a bug, where returned data were assumed to be JSON, resulting in a
+ parse error exception from HttpClient.
+
+ * clarin-angular/package.json:
+ * clarin-angular/src/app/app.module.ts:
+ Added package "angular2-query-builder".
+
+ * clarin-angular/src/app/services/analytics-service/analytics.service.ts:
+ Added several helper methods, for returning information about annotations.
+
 02 December 2021 Petasis George <petasis@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/dialogs/rename-document-modal/:
  * backend-django/clarin_backend/sql_views.py:
@@ -45,7 +89,7 @@
  be notified when the annotation schema has been loaded, and compiled.
 
  * clarin-angular/src/app/services/text-widget/text-widget.service.ts: Now
- some methods return a list of Promises, if callbacks reeturn a promise.
+ some methods return a list of Promises, if callbacks return a promise.
 
  * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
  Minor fixes.
@@ -197,7 +241,7 @@
  Added support for an optional apply button.
 
  * clarin-angular/src/app/components/controls/annotation-visualizer/annotation-visualizer.component.ts:
- * clarin-angular/src/app/helpers/annotation.ts: Moved Annotation formated for
+ * clarin-angular/src/app/helpers/annotation.ts: Moved Annotation formatted for
  users, out of Annotation visualiser.
 
  * clarin-angular/src/app/services/text-widget/text-widget.service.ts: Added

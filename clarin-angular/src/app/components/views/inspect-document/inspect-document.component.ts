@@ -2,6 +2,7 @@ import { AfterViewInit, Component, Input, OnInit, Output, ViewEncapsulation, Vie
 import { MainComponent } from '../main/main.component';
 import { AnnotationSetInspectorComponent } from 'src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component';
 import { Collection } from 'backbone';
+import { sortAnnotationSet } from 'src/app/helpers/annotation';
 
 @Component({
   selector: 'inspect-document',
@@ -16,14 +17,15 @@ export class InspectDocumentComponent extends MainComponent implements OnInit {
   @Input() allowMultipleCollections: boolean = false;
   @Input() allowMultipleDocuments: boolean = false;
   @Input() allowMultipleAnnotators: boolean = false;
-  @Input() showAnnotatorSelectionToolbar: boolean = true;
+  @Input() showAnnotatorSelectionToolbar: boolean = false;
+  @Input() showAnnotationSetFilter: boolean = true;
 
   @ViewChild(AnnotationSetInspectorComponent)
   private annotationSetInspectorComponent!: AnnotationSetInspectorComponent;
 
   selectedCollection         = {};
   selectedDocument           = {};
-  selectedAnnotator          = '';
+  selectedAnnotator          = {};
   annotations: any[]         = [];
   selectedDocumentId: number = 0;
   annotators                 = [];
@@ -66,6 +68,7 @@ export class InspectDocumentComponent extends MainComponent implements OnInit {
     .then((response) => {
       if (response["success"]) {
         this.annotations = this.filterAnnotations(response["data"])
+        this.annotations = sortAnnotationSet(this.annotations);
         this.changeDetectorRef.detectChanges(); // forces change detection to run
         this.annotationSetInspectorComponent.onApply(event);
       } else {
@@ -74,6 +77,29 @@ export class InspectDocumentComponent extends MainComponent implements OnInit {
     },
     (error) => {
       this.annotators = [];
+    });
+  }
+
+  onApplyFilter(event) {
+    // console.error("InspectDocumentComponent: onApplyFilter()", event);
+    this.analyticsService.find(event)
+    .then((response) => {
+      if (response["success"]) {
+        this.annotations = this.filterAnnotations(response["data"])
+        let ann = this.annotations.find(obj => 'annotator_id' in obj)
+        if (ann) {
+          this.selectedAnnotator = {
+            _id: ann['annotator_id']
+          }
+        }
+        
+        this.annotations = this.filterAnnotations(response["data"]);
+        this.annotations = sortAnnotationSet(this.annotations);
+        this.changeDetectorRef.detectChanges(); // forces change detection to run
+        this.annotationSetInspectorComponent.onApply(event);
+      } else {
+      }
+    }, (error) => {
     });
   }
  

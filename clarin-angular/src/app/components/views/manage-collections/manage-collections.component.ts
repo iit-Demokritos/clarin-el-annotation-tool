@@ -11,8 +11,9 @@ import { ImportDocumentsFromExportModalComponent } from '../../dialogs/import-do
 import { RenameCollectionModalComponent } from '../../dialogs/rename-collection-modal/rename-collection-modal.component';
 import { ShareCollectionModalComponent } from '../../dialogs/share-collection-modal/share-collection-modal.component';
 import { MainComponent } from '../main/main.component';
-import {CdkDragDrop, CdkDrag} from '@angular/cdk/drag-drop';
+import { CdkDragDrop, CdkDrag } from '@angular/cdk/drag-drop';
 import { RenameDocumentModalComponent } from '@components/dialogs/rename-document-modal/rename-document-modal.component';
+import { NgProgressRef } from 'ngx-progressbar';
 
 export interface DocumentInformation {
   id: number;
@@ -350,6 +351,8 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
   }; /* documentClick */
 
   setCollectionDocuments(docs) {
+    let progressRef: NgProgressRef = this.messageService.progressRef();
+    progressRef.start();
     this.collectionDocuments = docs;
     var promises = [];
 
@@ -429,6 +432,7 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
       if (this.documentsTable !== undefined) {
         this.documentsTable.renderRows();
       }
+      progressRef.complete();
     });
   }; /* setCollectionDocuments */
 

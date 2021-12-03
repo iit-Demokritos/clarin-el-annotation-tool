@@ -19,11 +19,12 @@ export class AnnotationSetInspectorComponent extends MainComponent implements On
   @Input() document:   Document;
   @Input() annotator:  any;
   @Input() annotations: any[];
-  annotatorType: string;
+  // annotatorType: string;
 
   @Output() selectedAnnotations = new EventEmitter<Annotation | Annotation[]>();
   selectedAnnotation: Annotation;
-
+  selectedIndex;
+  selectedAnnotationDataSource;
   @ViewChild(TextWidgetIsolatedComponent)
   private textWidgetComponent!: TextWidgetIsolatedComponent;
   
@@ -42,7 +43,7 @@ export class AnnotationSetInspectorComponent extends MainComponent implements On
     this.TextWidgetAPI.resetData();
     this.TextWidgetAPI.matchAnnotationsToSchema(this.annotations, this.annotator._id);
 
-    this.annotatorType = this.TextWidgetAPI.getAnnotatorTypeFromAnnotatorTypeId(this.annotator._id);
+    // this.annotatorType = this.TextWidgetAPI.getAnnotatorTypeFromAnnotatorTypeId(this.annotator._id);
     this.annotationsDataSource.data = this.annotations;
     this.table.renderRows();
     this.textWidgetComponent.initialiseEditor(this.document.text,
@@ -58,12 +59,14 @@ export class AnnotationSetInspectorComponent extends MainComponent implements On
     // console.error("AnnotationSetInspectorComponent: setSelectedAnnotation()",
     //               selectedAnnotation, this.annotator._id);
     this.clearAnnotations();
+    this.selectedIndex = selectedAnnotation._id;
     this.textWidgetComponent.addVisualsForAnnotation({
       "annotation": selectedAnnotation,
       "selected":   true,
       "action":     "add"
-    }, this.annotatorType);
+    }, this.TextWidgetAPI.getAnnotatorTypeFromAnnotatorTypeId(selectedAnnotation.annotator_id) /*this.annotatorType*/ );
     this.textWidgetComponent.scrollToAnnotation(selectedAnnotation);
+   
   }
 
 }

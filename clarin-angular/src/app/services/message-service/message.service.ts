@@ -1,11 +1,22 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Message, AnnotationRelationComboboxStatusEntry, AnnotationRelationComboboxStatus } from 'src/app/models/services/message';
+import { NgProgress, NgProgressRef } from 'ngx-progressbar';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MessageService {
+  private _progressRef: NgProgressRef;
+
+  constructor(private progress: NgProgress) {
+    this._progressRef = this.progress.ref();
+  };
+
+  destructor() {
+    this._progressRef.destroy();
+  };
+
   public static readonly ANNOTATION_RELATION_COMBOBOX_SELECT_ANNOTATION =
    "annotation-relation-combobox-select-annotation";
 
@@ -60,4 +71,9 @@ export class MessageService {
       value: {annotation_id: ann_id, element_id: elem_id}
     });
   }
+
+  /* Progress Ref... */
+  public progressRef(): NgProgressRef {
+    return this._progressRef;
+  }; /* progressRef */
 }

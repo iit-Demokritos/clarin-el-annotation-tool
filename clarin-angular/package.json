@@ -38,6 +38,7 @@
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
     "angular-split": "^5.0.0",
+    "angular2-query-builder": "^0.6.2",
     "backbone": "^1.4.0",
     "bootstrap": "^5.1.0",
     "bson-objectid": "^2.0.1",

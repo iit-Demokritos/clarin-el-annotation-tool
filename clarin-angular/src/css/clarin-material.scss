@@ -247,6 +247,7 @@ $foreground: map-get($theme, foreground);
 }
 
 /* Generic text-widget */
+text-widget-isolated,
 text-widget {
   .annotation-editor-text-widget-container {
     height: 100%;
@@ -280,6 +281,38 @@ text-widget {
   background-color: transparent; /* The little square between H and V scrollbars */
 }
 
+.annotation-visualiser-table {
+  .selected {
+    background-color: mat-color($accent, default);
+    .mat-cell {
+      color: mat-color($accent, default-contrast);
+      // font-weight: bold;
+    }
+  }
+  .preformated {
+    white-space: pre;
+  }
+  .annotation-row {
+    &:not(.selected):hover {
+      background-color: mat-color($background, hover); //whitesmoke;
+    }
+  }
+  .mat-header-row {
+    height: 33px;
+    .mat-header-cell {
+      text-align: center;
+      font-weight: bold;
+      font-size:   13px;
+      line-height: 13px;
+    }
+  }
+  .mat-cell {
+    text-align: center;
+  }
+}
+
+/* Annotator Set Inspectors... */
+.annotation-set-inspector,
 /* Annotation Visualiser */
 .annotation-visualiser {
   overflow: auto;
@@ -295,31 +328,8 @@ text-widget {
      overflow-y: auto !important;
     .annotation-visualiser-container,
     .annotation-visualiser-info-container {
+      @extend .annotation-visualiser-table;
       width: 100%;
-      .selected {
-        background-color: mat-color($accent, default);
-        .mat-cell {
-          color: mat-color($accent, default-contrast);
-          // font-weight: bold;
-        }
-      }
-      .preformated {
-        white-space: pre;
-      }
-      .annotation-row {
-        &:not(.selected):hover {
-          background-color: mat-color($background, hover); //whitesmoke;
-        }
-      }
-      .mat-header-row {
-        height: 33px;
-        .mat-header-cell {
-          text-align: center;
-          font-weight: bold;
-          font-size:   13px;
-          line-height: 13px;
-        }
-      }
     }
   }
 }
@@ -358,8 +368,62 @@ text-widget {
   }
 }
 
+/* Annotation Set Filter */
+.annotation-set-filter {
+  padding: 0 16px;
+  display: flex;
+  .annotation-set-filter-builder {
+    font-size: 13px;
+    .q-arrow-icon-button,
+    .mat-icon-button {
+      height: 24px;
+      width: 24px;
+      line-height: 24px;
+      margin: 0 !important;
+    }
+    .mat-radio-button {
+      padding: 0px 10px;
+    }
+
+    .q-row {
+      padding: 0px 8px !important;
+      margin-top: 4px;
+      font-size: 13px;
+      line-height: 20px;
+      mat-form-field {
+        //width: 200px;
+        .mat-form-field-wrapper {
+          padding: 0;
+          .mat-form-field-flex {
+            padding: 0px 4px 0px 4px;
+            .mat-form-field-infix {
+              padding: 0px 0px 4px 0px;
+              .mat-form-field-label-wrapper {
+                .mat-form-field-label.mat-form-field-empty {
+                  top: 0.98em;
+                }
+              }
+            }
+          }
+        }
+      }
+      // .q-button-group {
+      //    position: absolute;
+      //    top: 50%; right: 8px;
+      //    transform: translate(0,-50%);
+      // }
+    }
+  }
+  align-items: flex-end;
+  .mat-divider {
+    margin: 6px;
+    align-self: stretch;
+    //height: 90%;
+  }
+}
+
 /* Inspection Routes */
-.inspect-document-wrapper {
+.inspect-document {
   .mat-toolbar {
     background-color: inherit;
   }

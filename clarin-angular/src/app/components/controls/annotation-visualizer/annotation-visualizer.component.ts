@@ -8,6 +8,7 @@ import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
 import { BaseControlComponent } from '../base-control/base-control.component';
 import { AnnotationPropertyToDisplayObject } from 'src/app/helpers/annotation';
+import { sortAnnotationSet } from 'src/app/helpers/annotation';
 
 @Component({
   selector: 'annotation-visualizer',
@@ -75,8 +76,8 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
     this.annotations = this.TextWidgetAPI.getAnnotations()
       // Filter out setting annotations...  
       .filter((ann) => (!this.TextWidgetAPI.isSettingAnnotation(ann)) &&
-        this.TextWidgetAPI.isSettingsCompliantAnnotation(ann))
-      ;
+        this.TextWidgetAPI.isSettingsCompliantAnnotation(ann));
+    this.annotations = sortAnnotationSet(this.annotations);
     // console.error("updateAnnotationList():", _.cloneDeep(this.annotations));
     this.annotationsDataSource.data = this.annotations;
     if (this.annotations.length) {

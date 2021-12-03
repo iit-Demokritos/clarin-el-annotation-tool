@@ -24,11 +24,16 @@ export class AnnotatorsTemplateService {
           + 'language=' + encodeURIComponent(annotationSchema.language)
           + '&annotation=' + encodeURIComponent(annotationSchema.annotation_type)
           + '&alternative=' + encodeURIComponent(annotationSchema.alternative)
-          + '&framework=angular'
+          + '&framework=angular', {
+          responseType: 'text',
+          headers: new HttpHeaders({
+            'Accept': 'text/html'
+          })
+        }
         ).subscribe((data) => {
           resolve(data);
         }, (error) => {
-          reject();
+          reject(error);
         });
 
       });
@@ -42,14 +47,15 @@ export class AnnotatorsTemplateService {
           + '&attribute=' + encodeURIComponent(annotationSchema.attribute)
           + '&alternative=' + encodeURIComponent(annotationSchema.alternative)
           + '&framework=angular', {
+          responseType: 'text',
           headers: new HttpHeaders({
             'Accept': 'text/html'
           })
         }).subscribe((data) => {
           resolve(data);
         }, (error) => {
-          //reject();
-          resolve(error.error.text);
+          reject(error);
+          //resolve(error.error.text);
         });
       });
     }

@@ -8,6 +8,7 @@ import { DetectOpenDocModalComponent } from '../../dialogs/detect-open-doc-modal
 import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
 import { SelectDocumentModalComponent } from '../../dialogs/select-document-modal/select-document-modal.component';
 import { MainComponent } from '../main/main.component';
+import { NgProgressRef } from 'ngx-progressbar';
 
 /*
  * How Documents are opened:
@@ -164,6 +165,9 @@ export class AnnotationComponent extends MainComponent implements OnInit {
                 this.documentSelection = false;
               }, 800);
             } else if (typeof (result) != "undefined") {
+              let progressRef: NgProgressRef = this.messageService.progressRef();
+              progressRef.start();
+
               this.TextWidgetAPI.disableIsRunning();
               this.TextWidgetAPI.resetCallbacks();
               this.TextWidgetAPI.setAnnotatorType(result.newAnnotator);
@@ -178,14 +182,17 @@ export class AnnotationComponent extends MainComponent implements OnInit {
                 // is set by TextWidgetAPI.setCurrentDocument(), the
                 // TextWidgetComponent.updateCurrentDocument() will be called, which will decide
                 // to either load Annotations from DB, or TempDB.
-                this.TextWidgetAPI.setCurrentDocument(result.newDocument);
-                this.documentSelected = true;
-                //this.TextWidgetAPI.registerAnnotationsCallback(this.updateAnnotationList.bind(this));
+                Promise.all(this.TextWidgetAPI.setCurrentDocument(result.newDocument))
+                .then((data) => {
+                  this.documentSelected = true;
+                  progressRef.complete();
+                  //this.TextWidgetAPI.registerAnnotationsCallback(this.updateAnnotationList.bind(this));
 
-                setTimeout(() => { //<<<---using ()=> syntax
-                  this.documentSelection = false;
-                  this.TextWidgetAPI.disableIsRunning();
-                }, 800);
+                  setTimeout(() => { //<<<---using ()=> syntax
+                    this.documentSelection = false;
+                    this.TextWidgetAPI.disableIsRunning();
+                  }, 800);
+                });
               });
             }
           });

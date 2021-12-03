@@ -56,7 +56,7 @@ export class TextWidgetComponent extends BaseControlComponent
   graph = new joint.dia.Graph;
 
   // Variable controlling whether the spinner is visible...
-  spinnerVisible = false;
+  //spinnerVisible = false;
 
   // Annotator Type Id (class + values)
   AnnotatorTypeId = "";
@@ -378,11 +378,12 @@ export class TextWidgetComponent extends BaseControlComponent
 
         this.openDocumentService.save(documentData)
           .then((response: any) => {
-            if (response.success)
+            if (response.success) {
               // get document's data
               return this.documentService.get(newDocument.collection_id, newDocument.id);
-            else
-              return reject();
+            } else {
+              return reject(response);
+            }
           })
           .then((response: any) => {
             if (!response.success) {
@@ -390,9 +391,10 @@ export class TextWidgetComponent extends BaseControlComponent
               this.dialog.open(ErrorDialogComponent, {
                 data: new ConfirmDialogData("Error",
                   "Error during the restore of your document. Please refresh the page and try again.")
-              })
+              });
+              return reject(response);
             } else {
-              this.spinnerVisible = true;
+              // this.spinnerVisible = true;
               var options = JSON.parse(response.data.visualisation_options);
               this.initialiseEditor(response.data.text, options);
               if (response.data.is_opened) {
@@ -405,13 +407,14 @@ export class TextWidgetComponent extends BaseControlComponent
                       this.dialog.open(ErrorDialogComponent, {
                         data: new ConfirmDialogData("Error",
                           "Error during the restore of your annotations. Please refresh the page and try again.")
-                      })
+                      });
+                      return reject(response);
                     } else {
                       response.data = this.migrateOldSpans(response.data);
                     }
                     // console.error("TextWidgetComponent: updateCurrentDocument(): origin: TempAnnotations");
-                    this.TextWidgetAPI.matchAnnotationsToSchema(response.data,
-                      this.AnnotatorTypeId);
+                    resolve(this.TextWidgetAPI.matchAnnotationsToSchema(response.data,
+                            this.AnnotatorTypeId));
                   });
               } else {
                 this.restoreAnnotationService.restoreFromDB(newDocument.collection_id,
@@ -423,13 +426,14 @@ export class TextWidgetComponent extends BaseControlComponent
                       this.dialog.open(ErrorDialogComponent, {
                         data: new ConfirmDialogData("Error",
                           "Error during the restore of your annotations. Please refresh the page and try again.")
-                      })
+                      });
+                      return reject(response);
                     } else {
                       response.data = this.migrateOldSpans(response.data);
                     }
                     // console.error("TextWidgetComponent: updateCurrentDocument(): origin: Annotations");
-                    this.TextWidgetAPI.matchAnnotationsToSchema(response.data,
-                      this.AnnotatorTypeId);
+                    resolve(this.TextWidgetAPI.matchAnnotationsToSchema(response.data,
+                            this.AnnotatorTypeId));
                   });
               }
             }
@@ -438,10 +442,12 @@ export class TextWidgetComponent extends BaseControlComponent
             this.dialog.open(ErrorDialogComponent, {
               data: new ConfirmDialogData("Error",
                 "Database error. Please refresh the page and try again.")
-            })
+            });
+            return reject(error);
           });
       } else {
         this.TextWidgetAPI.disableIsRunning();
+        return reject("The Document is empty!");
       }
     });
   } /* updateCurrentDocument */

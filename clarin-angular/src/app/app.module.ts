@@ -120,9 +120,11 @@ import { ToolbarSelectDocumentComponent } from './components/controls/toolbar-se
 import { ToolbarSelectAnnotatorComponent } from './components/controls/toolbar-select-annotator/toolbar-select-annotator.component';
 import { AnalyticsAnnotationValuesComponent } from './components/views/analytics-annotation-values/analytics-annotation-values.component';
 import { AnnotationSetInspectorComponent } from './components/controls/annotation-set-inspector/annotation-set-inspector.component';
+import { AnnotationSetFilterComponent } from './components/controls/annotation-set-filter/annotation-set-filter.component';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { QueryBuilderModule } from "angular2-query-builder";
 
 // Required for AOT compilation
 export function TranslateHttpLoaderFactory(http: HttpClient) {
@@ -204,7 +206,8 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
     AnalyticsAnnotationValuesComponent,
     ToolbarSelectDocumentComponent,
     ToolbarSelectAnnotatorComponent,
-    AnnotationSetInspectorComponent
+    AnnotationSetInspectorComponent,
+    AnnotationSetFilterComponent
   ],
   imports: [
     BrowserModule,
@@ -247,7 +250,8 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
     AngularSplitModule,
     HighchartsChartModule, // HighCharts
     MatTableExporterModule,
-    DragDropModule
+    DragDropModule,
+    QueryBuilderModule
   ],
   exports:[
     ButtonAnnotatorValueListDirective,

@@ -136,7 +136,7 @@
 
             <!-- Id Column -->
             <ng-container matColumnDef="id">
-              <mat-header-cell mat-header-cell *matHeaderCellDef> {{"Id"|translate}} </mat-header-cell>
+              <mat-header-cell mat-header-cell *matHeaderCellDef> {{"Id"|translate}} ({{selectedDocuments.length}})</mat-header-cell>
               <mat-cell mat-cell *matCellDef="let element"> {{element.collection_id+'/'+element.id}} </mat-cell>
             </ng-container>
 
