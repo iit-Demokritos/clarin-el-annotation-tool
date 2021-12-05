@@ -13,7 +13,7 @@ import { sortAnnotationSet } from 'src/app/helpers/annotation';
 
 export class CompareAnnotationsComponent extends MainComponent {
 
-  @Input() showPageHeader: boolean = true;
+  @Input() showPageHeader: boolean = false;
   @Input() showDocumentSelectionToolbar: boolean = true;
   @Input() allowMultipleCollections: boolean = false;
   @Input() allowMultipleDocuments: boolean = false;
