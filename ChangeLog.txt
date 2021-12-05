@@ -1,3 +1,29 @@
+05 December 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/views/compare-annotations/compare-annotations.component.html:
+ * clarin-angular/src/app/components/views/compare-annotations/compare-annotations.component.scss:
+ * clarin-angular/src/app/components/views/compare-annotations/compare-annotations.component.ts:
+ * clarin-angular/src/css/clarin-material.scss:
+ Implemented annotation sets comparison (within the same Document).
+
+ * clarin-angular/src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:
+ * clarin-angular/src/app/services/text-widget/text-widget.service.ts:
+ Fixes regarding the visaulisation of relations.
+
+ * clarin-angular/src/app/components/controls/annotation-visualizer/annotation-visualizer.component.html:
+ * clarin-angular/src/app/components/views/inspect-document/inspect-document.component.ts:
+ * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
+ Uses the annotation span format pipe.
+
+04 December 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.html:
+ Updated annotation set inspector to use the new pipe.
+
+ * clarin-angular/src/app/app.module.ts:
+ * clarin-angular/src/app/pipes/*: Added a new category, with pipes. The first
+ pipe, formats annotation spans!
+
+ * clarin-angular/src/app/helpers/annotation.ts: Fixes in annotation sorting.
+
 03 December 2021 Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.html:
  * clarin-angular/src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:

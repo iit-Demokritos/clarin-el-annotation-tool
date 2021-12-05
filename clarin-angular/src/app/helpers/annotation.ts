@@ -1,5 +1,7 @@
 import { formatDate } from '@angular/common';
 import { Annotation } from '../models/annotation';
+import { Span } from '../models/span';
+
 
 export function AnnotationPropertyToDisplayObject(p) {
   switch (p[0]) {
@@ -64,108 +66,94 @@ export function AnnotationPropertyToDisplayObject(p) {
   }
 }; /* AnnotationPropertyToDisplayObject */
 
+interface AnnotationSpansIndexer {
+  index: number;
+  spans: Span[];
+}
+
 export function sortAnnotationSet(annotations: Annotation[]): Annotation[] {
-  var annotations_set=annotations;
-  for (var i = 0; i < annotations_set.length; i++) {
-    var spans = annotations_set[i].spans;
-    if (spans.length == 0) {
-      var ann_attributes = annotations_set[i].attributes;
-      var args = ann_attributes.filter(attr => {
-        if (attr["name"] == "arg1" || attr["name"] == "arg2") {
-          return attr["value"];
-        } else {
-          return null;
-        }
-      });
-      if (args.length > 0) {
-        var arg1 = args[0].value;
-        var arg2 = args[1].value;
-        var argann1 = annotations_set.find(ann => ann._id === arg1);
-        var argann2 = annotations_set.find(ann => ann._id === arg2);
-        annotations_set[i].spans.push(argann1.spans[0]);
-        annotations_set[i].spans.push(argann2.spans[0]);
+  // Create a list of indexes, spans, adding spans if missing...
+  var indexes = annotations.map((ann, index) => {
+    if (ann.spans.length) {
+      // A normal annotation...
+      return {index: index, spans: ann.spans};
+    } else {
+      // The annotation does not have any spans. Check if we can find some related annotations...
+      let relation_args = ann.attributes.filter(attr => attr["name"] == "arg1" || attr["name"] == "arg2");
+      if (relation_args.length) {
+        let spans = relation_args.reduce((accumulator, attr) => {
+          let _ann = annotations.find(a => a._id == attr.value);
+          if (_ann) {return accumulator.concat(_ann.spans);}
+          return accumulator;
+        }, []);
+        return {
+          index: index,
+          spans: spans
+        };
+      } else {
+        // There is nothing more we can do.
+        return {index: index, spans: ann.spans};
       }
     }
-  }
-  return annotations_set.sort((ann1, ann2) => compareAnnotations(ann1, ann2));
+  });
+  // Sort the list of indexes...
+  indexes.sort((ann1, ann2) => compareAnnotations(ann1, ann2));
+  // Map indexes to annotations...
+  return indexes.map(i => annotations[i.index]);
 }; /* sortAnnotationSet */
 
-export function compareAnnotations(ann1:Annotation, ann2:Annotation):number {
-  var minstart1 = -1;
-  var minend1   = -1;
-  var minstart2 = -1;
-  var minend2   = -1;
-  var spans     = ann1.spans;
-  var spanset1  = null;
-  if (spans.length != 0) {
-    spanset1 = spans.map(element => { return {"start":element.start,"end":element.end};});
-    // spans.forEach(element =>
-    //   {spanset1.push({"start":element.start,"end":element.end})
-    // });
-  } else {
-    spanset1 = null;
+export function compareAnnotations(ann1:AnnotationSpansIndexer, ann2:AnnotationSpansIndexer):number {
+  var items1 = ann1.spans.length;
+  var items2 = ann2.spans.length;
+  // Check existence of spans...
+  if (items1 == 0) {
+    if (items2 == 0) return 0; // They are equal
+    return 1; // Set ann1 as "greater", at the end
+  } else if (items2 == 0) {
+    return -1; // Set ann2 as "greater", at the end
   }
-  if (spanset1 == null) {
-    return 30;
+  // Both annotations have spans...
+  var minstart1 = Math.min(...ann1.spans.map(span => span.start));
+  var minstart2 = Math.min(...ann2.spans.map(span => span.start));
+  // console.error("mins:", minstart1, minstart2);
+  if (minstart1  > minstart2) {
+    return  1;
   }
-
-  var spans = ann2.spans;
-  var spanset2 = null;
-  if (spans.length != 0) {
-    spanset2 = spans.map(element => { return {"start":element.start,"end":element.end};});
-    // spans.forEach(element =>
-    //   {spanset2.push({"start":element.start,"end":element.end})
-    // })
-  } else {
-    spanset2 = null;
-  }
-  if (spanset2 == null) {
-    return 40;
-  }
-  var items1 = spanset1.length;
-  var items2 = spanset2.length;
-  for (var i = 0; i < items1 && i < items2; i++) {
-    var start = spanset1[i].start;
-    var end   = spanset1[i].end;
-    if (minstart1 < 0 || minstart1 > start) {
-        minstart1 = start;
-    }
-    if (minend1 < 0   || minend1 > end) {
-        minend1   = end;
-    }
-    var start = spanset2[i].start;
-    var end   = spanset2[i].end;
-    if (minstart2 < 0 || minstart2 > start) {
-        minstart2 = start;
-    }
-    if (minend2 < 0   || minend2 > end) {
-        minend2   = end;
-    }
-  }
-  if (minstart1  > minstart2){
-     return  1;
-  }
-  if (minstart1  < minstart2){
-     return -1;
+  if (minstart1  < minstart2) {
+    return -1;
   }
   if (minstart1 == minstart2) {
+    var minend1   = Math.min(...ann1.spans.map(span => span.end));
+    var minend2   = Math.min(...ann2.spans.map(span => span.end));
+    // console.error("mine:", minend1, minend2);
     /* We consider the Annotation having the longest span as greater... */
     if (minend1  > minend2) {
       return  1;
     }
-    if (minend1  < minend2){
+    if (minend1  < minend2) {
       return -1;
     }
     if (minend1 == minend2) {
-      /* We consider the Annotation having the more spans as greater... */
-      if (items1 == items2) {
-        return  0; /* Missing. Bug reported by Sigletos */
-      }
-      if (items1 >  items2) {
+      var maxend1 = Math.max(...ann1.spans.map(span => span.end));
+      var maxend2 = Math.max(...ann2.spans.map(span => span.end));
+      // console.error("maxe:", maxend1, maxend2);
+      if (maxend1  > maxend2) {
         return  1;
       }
-      if (items1 <  items2) {
+      if (maxend1  < maxend2) {
         return -1;
+      }
+      if (maxend1 == maxend2) {
+        /* We consider the Annotation having the more spans as greater... */
+        if (items1 == items2) {
+          return  0; /* Missing. Bug reported by Sigletos */
+        }
+        if (items1 >  items2) {
+          return  1;
+        }
+        if (items1 <  items2) {
+          return -1;
+        }
       }
     }
   }

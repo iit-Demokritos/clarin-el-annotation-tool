@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, AfterViewInit, Output, ViewEncapsulation, ViewChild } from '@angular/core';
 import { MainComponent } from 'src/app/components/views/main/main.component';
 import { Collection } from 'src/app/models/collection';
 import { Document } from 'src/app/models/document';
@@ -13,7 +13,7 @@ import { AnnotationPropertyToDisplayObject } from 'src/app/helpers/annotation';
   styleUrls: ['./annotation-set-inspector.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class AnnotationSetInspectorComponent extends MainComponent implements OnInit  {
+export class AnnotationSetInspectorComponent extends MainComponent implements AfterViewInit  {
 
   @Input() collection: Collection;
   @Input() document:   Document;
@@ -27,28 +27,33 @@ export class AnnotationSetInspectorComponent extends MainComponent implements On
   selectedAnnotationDataSource;
   @ViewChild(TextWidgetIsolatedComponent)
   private textWidgetComponent!: TextWidgetIsolatedComponent;
+  /* Variable for isolated TextWidgetAPI of textWidgetComponent */
+  private TWA;
   
   @ViewChild(MatTable)
   table: MatTable<any>;
 
   annotationsDataSource = new MatTableDataSource<Annotation>();
-  annotationListDisplayedColumns: string[] = ['id','value', 'type', 'spans'];
+  annotationListDisplayedColumns: string[] = ['id', 'type', 'value', 'spans'];
 
   super() { }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
+    this.TWA = this.textWidgetComponent.TextWidgetAPI;
   }
 
   onApply(event) {
-    this.TextWidgetAPI.resetData();
-    this.TextWidgetAPI.matchAnnotationsToSchema(this.annotations, this.annotator._id);
-
-    // this.annotatorType = this.TextWidgetAPI.getAnnotatorTypeFromAnnotatorTypeId(this.annotator._id);
-    this.annotationsDataSource.data = this.annotations;
-    this.table.renderRows();
+    // console.error("AnnotationSetInspectorComponent: onApply():", this.annotator._id);
     this.textWidgetComponent.initialiseEditor(this.document.text,
                                               this.document.visualisation_options);
-    return;
+
+    // console.error("AnnotationSetInspectorComponent: onApply(): annotaions", this.annotations);
+    // this.TWA.addAnnotations(this.annotations /*, this.annotator._id*/);
+    // console.error("AnnotationSetInspectorComponent: onApply(): after match:", this.TWA.getAnnotations());
+
+    // this.annotatorType = this.TWA.getAnnotatorTypeFromAnnotatorTypeId(this.annotator._id);
+    this.annotationsDataSource.data = this.annotations;
+    this.table.renderRows();
   }; /* onApply */
 
   clearAnnotations() {
@@ -60,13 +65,17 @@ export class AnnotationSetInspectorComponent extends MainComponent implements On
     //               selectedAnnotation, this.annotator._id);
     this.clearAnnotations();
     this.selectedIndex = selectedAnnotation._id;
-    this.textWidgetComponent.addVisualsForAnnotation({
-      "annotation": selectedAnnotation,
-      "selected":   true,
-      "action":     "add"
-    }, this.TextWidgetAPI.getAnnotatorTypeFromAnnotatorTypeId(selectedAnnotation.annotator_id) /*this.annotatorType*/ );
+    // Are there any arguments in attributes?
+    let relation_args = this.TWA.getAnnotationRelationLinks(selectedAnnotation);
+    if (relation_args.length) {
+      this.TWA.setAnnotationSchemaAnnotationTypes([selectedAnnotation.type]);
+    }
+    relation_args.forEach((attr) => {
+      this.TWA.addAnnotation(this.annotations.find(e => e._id == attr.value), false);
+    });
+    this.TWA.addAnnotation(selectedAnnotation, false);
+    this.TWA.setSelectedAnnotation(selectedAnnotation);
     this.textWidgetComponent.scrollToAnnotation(selectedAnnotation);
-   
   }
 
 }

@@ -220,6 +220,25 @@ export class TextWidgetAPI {
     return anns;
   }
 
+  addAnnotations(newAnnotations) {
+    // console.error("TextWidgetAPI: addAnnotations():",
+    //               newAnnotations.length);
+    newAnnotations.forEach(annotation => {
+      this.annotations.push(annotation);
+      this.annotationsToBeAdded.push({
+        "annotation": annotation,
+        "selected": false,
+        "action": "matches"
+      });
+    });
+
+    return [
+      ... this.notifyObservers(this.foundInCollectionCallbacks),
+      ... this.notifyObservers(this.annotationsCallbacks),
+      ... this.notifyObservers(this.annotationsToBeAddedCallbacks)
+    ];
+  }; /* addAnnotations */
+
   addAnnotation(newAnnotation, selected) {
     if (typeof newAnnotation._id == "undefined") return false;
 
@@ -311,6 +330,10 @@ export class TextWidgetAPI {
   }
 
   /*** Batch Annotation Methods ***/
+  getAnnotationRelationLinks(annotation) {
+    return annotation.attributes.filter(attr => attr["name"] == "arg1" ||
+                                                attr["name"] == "arg2");
+  }
 
   isDeletedAnnotation(annotation) {
     return ("deleted_at" in annotation);
@@ -413,10 +436,9 @@ export class TextWidgetAPI {
     //               newAnnotations.length, annotator_id);
     for (var i = 0; i < newAnnotations.length; i++) {
       var annotation = newAnnotations[i];
-      // console.error(i, annotation);
 
       if (this.belongsToSchema(annotation) ||
-        this.belongsToSchemaAsSetting(annotation, annotator_id)) {
+          this.belongsToSchemaAsSetting(annotation, annotator_id)) {
         // If annotation does not have the annotator_id property, add it...
         if ("annotator_id" in annotation) {
         } else {

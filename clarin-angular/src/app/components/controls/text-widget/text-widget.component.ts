@@ -250,6 +250,7 @@ export class TextWidgetComponent extends BaseControlComponent
   getAnnotationFromMark(mark) {
     var annotationId = mark.className;
     annotationId = annotationId.split(" ")[0].substr(3); // remove "id-" prefix...
+    // console.error("TextWidgetComponent: getAnnotationFromMark():", mark, annotationId, this.TextWidgetAPI.getAnnotationById(annotationId));
     // Get the selected annotation from its ID
     return this.TextWidgetAPI.getAnnotationById(annotationId);
   }; /* getAnnotationFromMark */
@@ -272,7 +273,7 @@ export class TextWidgetComponent extends BaseControlComponent
     // left button click
     if (e.button === 0) {
       var selection = this.getSelectionInfo();
-      // console.warn("MOUSE 1:", selection, e);
+      // console.error("TextWidgetComponent: mouseUpHandler(): MOUSE 1:", selection, e);
 
       if (Object.keys(selection).length > 0) {
         this.TextWidgetAPI.setCurrentSelection(selection, false);
@@ -302,8 +303,10 @@ export class TextWidgetComponent extends BaseControlComponent
             //   availableMarksOnCursor[availableAnnotationsLength - 1].className;
             // annotationId = annotationId.split(" ")[0].substr(3); // remove "id-" prefix...
           }
+          // console.error("TextWidgetComponent: mouseUpHandler(): availableMarksOnCursor:",
+          //               availableAnnotationsLength, availableMarksOnCursor, annotationId);
 
-          if (!_.isNull(annotationId)) {
+          if (annotationId != null) {
             // Get the selected annotation from its ID and the previous selected annotation
             var selectedAnnotation = this.TextWidgetAPI.getAnnotationById(annotationId);
             var prevAnnotationId = this.TextWidgetAPI.getSelectedAnnotation()["_id"];
@@ -652,6 +655,7 @@ export class TextWidgetComponent extends BaseControlComponent
   }; /* overlayHighlight */
 
   overlayMarkAdd(spanIndex, startPos, endPos, annotation) {
+    // console.error("TextWidgetComponent: overlayMarkAdd():", spanIndex, startPos, endPos, annotation);
     var item;
     // if (annotation.action != "matches") {
     //   console.warn("++ overlayMarkAdd:", annotation.annotation._id, annotation);
@@ -671,8 +675,8 @@ export class TextWidgetComponent extends BaseControlComponent
     }
     // This method creates a polygon from codemirror coordinates (line, pos)
     var startCoords = this.editor.charCoords(startPos, "local"),
-      endCoords = this.editor.charCoords(endPos, "local");
-    // console.warn(startCoords, endCoords);
+        endCoords = this.editor.charCoords(endPos, "local");
+    // console.error("TextWidgetComponent: overlayMarkAdd():", startCoords, endCoords);
     // Calculate points...
     if (typeof (item) == "undefined") {
       item = new joint.shapes.standard.Polygon();
@@ -713,6 +717,7 @@ export class TextWidgetComponent extends BaseControlComponent
     /* DEBUG: Uncomment the following line to make boxes drawn on overlay visible */
     // item.attr('body/stroke', 'green');
     item.attr('root/pointer-events', 'none');
+    // console.error("TextWidgetComponent: overlayMarkAdd():", item);
     return item;
   }; /* overlayMarkAdd */
 
@@ -1086,6 +1091,10 @@ export class TextWidgetComponent extends BaseControlComponent
     if (typeof visAnnotation.annotation.spans == "undefined") {
       return false;
     }
+    // If annotatorType is undefined, get one from annotation...
+    if (!annotatorType && 'annotator_id' in visAnnotation.annotation) {
+      annotatorType = this.TextWidgetAPI.getAnnotatorTypeFromAnnotatorTypeId(visAnnotation.annotation['annotator_id']);
+    }
     // console.error("Annotation:", visAnnotation, visAnnotation.annotation.spans[0].segment);
 
     // Iterate through annotations spans
@@ -1347,6 +1356,8 @@ export class TextWidgetComponent extends BaseControlComponent
 
     var newAnnotations = this.TextWidgetAPI.getAnnotationsToBeAdded();
     var annotatorType  = this.TextWidgetAPI.getAnnotatorType();
+    // console.error("TextWidgetComponent: addNewAnnotations():", annotatorType, newAnnotations);
+
 
     if (typeof (newAnnotations) != "undefined" && newAnnotations.length > 0) {
       this.visualiseAnnotations(newAnnotations, annotatorType);
@@ -1480,7 +1491,7 @@ export class TextWidgetComponent extends BaseControlComponent
 
   exportPDF() {
     var codeMirror = document.getElementsByClassName("CodeMirror-scroll")[0];
-    console.error("export PDF:", codeMirror);
+    // console.error("export PDF:", codeMirror);
 
     //Create a new PDF canvas context.
     // var ctx = new canvas2pdf.Context(blobStream());

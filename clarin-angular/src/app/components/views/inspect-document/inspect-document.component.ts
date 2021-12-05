@@ -82,6 +82,7 @@ export class InspectDocumentComponent extends MainComponent implements OnInit {
 
   onApplyFilter(event) {
     // console.error("InspectDocumentComponent: onApplyFilter()", event);
+    if (!event) {return};
     this.analyticsService.find(event)
     .then((response) => {
       if (response["success"]) {

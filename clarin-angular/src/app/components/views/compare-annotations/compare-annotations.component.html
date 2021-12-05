@@ -1,29 +1,68 @@
 <page-header title="{{'Compare Annotations'|translate}}" *ngIf="showPageHeader"></page-header>
-<div class="compare-annotations">
-    <mat-card class="mat-card-fill-parent">
-        <mat-card-header>
-            <mat-card-subtitle>
-              <toolbar-select-document *ngIf="showDocumentSelectionToolbar"
-                (selectedCollections)="onCollectionsChange($event)" (selectedDocuments)="onDocumentsChange($event)"
-                [allowMultipleCollections]="allowMultipleCollections" [allowMultipleDocuments]="allowMultipleDocuments">
-              </toolbar-select-document>
-              <toolbar-select-annotator *ngIf="showAnnotatorSelectionToolbar"
-                (selectedAnnotators)="onAnnotatorsChange($event)" [allowMultipleAnnotators]="true" [annotators]="annotators"
-                [showApplyButton]="true" (onApply)="onApply($event)">
-              </toolbar-select-annotator>
-              <p>Selected Collections: {{selectedCollection.name}}, Selected Documents: {{selectedDocument.name}}</p>
-            </mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content class="main-content">
-            <annotation-set-inspector [collection]="selectedCollection" [document]="selectedDocument" [apply]="apply" [result]="result" [annotations]="annotations" ></annotation-set-inspector>
-            </mat-card-content>
-
+<div class="compare-annotations" [ngClass]="{'has-page-header': showPageHeader, 'no-page-header': !showPageHeader}">
+  <mat-card class="mat-card-fill-parent">
+    <mat-card-header>
+      <mat-card-subtitle>
+        <toolbar-select-document *ngIf="showDocumentSelectionToolbar"
+          [allowMultipleCollections]="allowMultipleCollections"
+          [allowMultipleDocuments]="allowMultipleDocuments"
+          (selectedCollections)="onCollectionsChange($event)"
+          (selectedDocuments)="onDocumentsChange($event)"
+        >
+        </toolbar-select-document>
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="main-content">
+      <as-split direction="horizontal">
+        <as-split-area [size]="50" [minSize]="10" [maxSize]="90" class="mat-card-fill-parent">
+          <toolbar-select-annotator *ngIf="showAnnotatorSelectionToolbar"
+            [allowMultipleAnnotators]="allowMultipleAnnotators"
+            [annotators]="annotators"
+            [showApplyButton]="true"
+            (selectedAnnotators)="onAnnotatorsChange(0, $event)"
+            (onApply)="onApply(0, $event)"
+          >
+          </toolbar-select-annotator>
+          <annotation-set-filter *ngIf="showAnnotationSetFilter"
+            [showApplyButton]="true"
+            [collections]="selectedCollection"
+            [documents]="selectedDocument"
+            (onApply)="onApplyFilter(0, $event)"
+          >
+          </annotation-set-filter>
+          <annotation-set-inspector class="fill-space overflow-auto"
+            [collection]="selectedCollection"
+            [document]="selectedDocument"
+            [annotator]="selectedAnnotator[0]"
+            [annotations]="annotations[0]"
+          >
+          </annotation-set-inspector>
+        </as-split-area>
+        <as-split-area [size]="50" [minSize]="10" [maxSize]="90" class="mat-card-fill-parent">
+          <toolbar-select-annotator *ngIf="showAnnotatorSelectionToolbar"
+            [allowMultipleAnnotators]="allowMultipleAnnotators"
+            [annotators]="annotators"
+            [showApplyButton]="true"
+            (selectedAnnotators)="onAnnotatorsChange(1, $event)"
+            (onApply)="onApply(1, $event)"
+          >
+          </toolbar-select-annotator>
+          <annotation-set-filter *ngIf="showAnnotationSetFilter"
+            [showApplyButton]="true"
+            [collections]="selectedCollection"
+            [documents]="selectedDocument"
+            (onApply)="onApplyFilter(1, $event)"
+          >
+          </annotation-set-filter>
+          <annotation-set-inspector class="fill-space overflow-auto"
+            [collection]="selectedCollection"
+            [document]="selectedDocument"
+            [annotator]="selectedAnnotator[1]"
+            [annotations]="annotations[1]"
+          >
+          </annotation-set-inspector>
+        </as-split-area>
+        </as-split>
+    </mat-card-content>
   </mat-card>
-
-
-
-
-
-
-
 </div>

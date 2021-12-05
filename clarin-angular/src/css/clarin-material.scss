@@ -298,16 +298,23 @@ text-widget {
     }
   }
   .mat-header-row {
-    height: 33px;
+    height: 26px;
     .mat-header-cell {
-      text-align: center;
+      text-align:  left;
       font-weight: bold;
-      font-size:   13px;
-      line-height: 13px;
+      font-size:   14px;
+      line-height: 14px;
     }
   }
+  .mat-row {
+    height: 24px;
+    font-size:   14px;
+    line-height: 14px;
+  }
   .mat-cell {
-    text-align: center;
+    text-align: left;
+    font-size:   14px;
+    line-height: 14px;
   }
 }
 
@@ -323,7 +330,8 @@ text-widget {
     width: 100%;
     padding: 0 12px 0 12px;
   }
-  .annotation-list, .annotation-info {
+  .annotation-list,
+  .annotation-info {
      overflow-x: auto !important;
      overflow-y: auto !important;
     .annotation-visualiser-container,
@@ -423,10 +431,21 @@ text-widget {
 }
 
 /* Inspection Routes */
-.inspect-document {
+.inspect-document,
+.compare-annotations {
   .mat-toolbar {
     background-color: inherit;
   }
+}
+.compare-annotations {
+//  .main-content {
+//    height: calc(100% - 62px); // Minus the mat-card-header
+//  }
+//  .main-content {
+//    as-split {
+//      height: calc(100% - 62px); // Minus the mat-card-header
+//    }
+//  }
 }
 
 /* Analytics Routes */
@@ -642,6 +661,10 @@ highcharts-chart {
   white-space:nowrap!important;
   overflow: hidden!important;
   text-overflow: ellipsis!important;
+}
+
+.overflow-auto {
+  overflow: auto;
 }
 
 /* Special class for filling empty space, used to right-align buttons */

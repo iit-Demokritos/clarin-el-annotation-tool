@@ -11,7 +11,8 @@
       </button>
     </mat-form-field>
     <as-split-area [size]="50" [minSize]="10" [maxSize]="90" class="annotation-list">
-      <table #annvisannlist mat-table [dataSource]="annotationsDataSource" ngClass="annotation-visualiser-container">
+      <table #annvisannlist mat-table [dataSource]="annotationsDataSource"
+        class="annotation-visualiser-container">
         <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef>ID</th>
           <td mat-cell *matCellDef="let annotation" class="overflow-ellipsis">
@@ -25,8 +26,7 @@
         <ng-container matColumnDef="spans">
           <th mat-header-cell *matHeaderCellDef>Spans</th>
           <td mat-cell *matCellDef="let annotation" class="overflow-ellipsis">
-            {{(annotation.spans.length > 0) ?
-            annotation.spans[0].start.toString()+':'+annotation.spans[0].end.toString() : ""}}</td>
+            {{annotation|annotationSpans: this.annotations}}
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="annotationListDisplayedColumns; sticky: true"></tr>
         <tr mat-row (click)="setSelectedAnnotation(row)" [ngClass]="{ selected: row._id == selectedIndex }"
@@ -38,7 +38,7 @@
     </as-split-area>
     <as-split-area [size]="50" [minSize]="10" [maxSize]="90" class="annotation-info">
       <table #annvisselann mat-table [dataSource]="selectedAnnotationDataSource"
-        ngClass="annotation-visualiser-info-container">
+        class="annotation-visualiser-info-container">
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef>Name</th>
           <td mat-cell *matCellDef="let property" class="overflow-ellipsis">{{property.name}}</td>

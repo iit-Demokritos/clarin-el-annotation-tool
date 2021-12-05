@@ -20,8 +20,8 @@
         <ng-container matColumnDef="spans">
           <th mat-header-cell *matHeaderCellDef>Spans</th>
           <td mat-cell *matCellDef="let annotation" class="overflow-ellipsis">
-            {{(annotation.spans.length > 0) ?
-            annotation.spans[0].start.toString()+':'+annotation.spans[0].end.toString() : ""}}</td>
+           {{annotation|annotationSpans: this.annotations}}
+          </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="annotationListDisplayedColumns; sticky: true"></tr>
         <tr mat-row (click)="setSelectedAnnotation(row)" [ngClass]="{ selected: row._id == selectedIndex }"

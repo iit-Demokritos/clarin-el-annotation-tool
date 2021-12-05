@@ -125,6 +125,7 @@ import { HighchartsChartModule } from 'highcharts-angular';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { QueryBuilderModule } from "angular2-query-builder";
+import { AnnotationSpansPipe } from './pipes/annotation-spans.pipe';
 
 // Required for AOT compilation
 export function TranslateHttpLoaderFactory(http: HttpClient) {
@@ -207,7 +208,8 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
     ToolbarSelectDocumentComponent,
     ToolbarSelectAnnotatorComponent,
     AnnotationSetInspectorComponent,
-    AnnotationSetFilterComponent
+    AnnotationSetFilterComponent,
+    AnnotationSpansPipe
   ],
   imports: [
     BrowserModule,
