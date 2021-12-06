@@ -6,6 +6,7 @@ import { Annotation } from 'src/app/models/annotation';
 import { TextWidgetIsolatedComponent } from '../text-widget-isolated/text-widget-isolated.component';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { AnnotationPropertyToDisplayObject } from 'src/app/helpers/annotation';
+import ObjectID from "bson-objectid";
 
 @Component({
   selector: 'annotation-set-inspector',
@@ -36,6 +37,8 @@ export class AnnotationSetInspectorComponent extends MainComponent implements Af
   annotationsDataSource = new MatTableDataSource<Annotation>();
   annotationListDisplayedColumns: string[] = ['id', 'type', 'value', 'spans'];
 
+  annotationsInEditor = [];
+
   super() { }
 
   ngAfterViewInit(): void {
@@ -57,7 +60,26 @@ export class AnnotationSetInspectorComponent extends MainComponent implements Af
   }; /* onApply */
 
   clearAnnotations() {
-    this.textWidgetComponent.removeAnnotationsFromEditor(this.annotations);
+    this.textWidgetComponent.removeAnnotationsFromEditor(this.annotationsInEditor);
+    this.annotationsInEditor = [];
+  }
+
+  getAndAddAnnotation(id) {
+    let ann = this.annotations.find(e => e._id == id);
+    if (ann) {
+      this.TWA.addAnnotation(ann, false);
+      this.annotationsInEditor.push(ann);
+      return ann;
+    }
+    return new Promise((resolve, reject) => {
+      this.analyticsService.findById(id)
+      .then((response) => {
+        ann = response['data'][0];
+	this.TWA.addAnnotation(ann, false);
+	this.annotationsInEditor.push(ann);
+        resolve(ann);
+      }, (error) => reject(error));
+    });
   }
 
   setSelectedAnnotation(selectedAnnotation) {
@@ -67,15 +89,20 @@ export class AnnotationSetInspectorComponent extends MainComponent implements Af
     this.selectedIndex = selectedAnnotation._id;
     // Are there any arguments in attributes?
     let relation_args = this.TWA.getAnnotationRelationLinks(selectedAnnotation);
+    let promises = [];
     if (relation_args.length) {
       this.TWA.setAnnotationSchemaAnnotationTypes([selectedAnnotation.type]);
+      relation_args.forEach((attr) => {
+        let p = this.getAndAddAnnotation(attr.value);
+	if (p instanceof Promise) {promises.push(p);}
+      });
     }
-    relation_args.forEach((attr) => {
-      this.TWA.addAnnotation(this.annotations.find(e => e._id == attr.value), false);
+    Promise.all(promises).then((data) => {
+      this.TWA.addAnnotation(selectedAnnotation, false);
+      this.annotationsInEditor.push(selectedAnnotation);
+      this.TWA.setSelectedAnnotation(selectedAnnotation);
+      this.textWidgetComponent.scrollToAnnotation(selectedAnnotation);
     });
-    this.TWA.addAnnotation(selectedAnnotation, false);
-    this.TWA.setSelectedAnnotation(selectedAnnotation);
-    this.textWidgetComponent.scrollToAnnotation(selectedAnnotation);
   }
 
 }

@@ -28,11 +28,34 @@ export class AnalyticsService {
     document_setting:   1
   }
 
-  constructor(public http: HttpClient) { }
+  ObjectID;
+
+  constructor(public http: HttpClient) {
+    this.ObjectID = require("bson-objectid");
+  }
+
+  ObjectId(id) {
+    return this.ObjectID(id);
+  }
 
   find(query = null, projection = null) {
     return new Promise((resolve, reject) => {
       this.http.post('./analytics/find', { q: query, p: projection }, {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+        })
+      })
+        .subscribe(function (data) {
+          resolve(data);
+        }, (error) => {
+          reject();
+        });
+    });
+  };
+
+  findById(id) {
+    return new Promise((resolve, reject) => {
+      this.http.post('./analytics/findById', { id: id}, {
         headers: new HttpHeaders({
           'Content-Type': 'application/json'
         })
