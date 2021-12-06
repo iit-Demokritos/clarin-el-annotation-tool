@@ -1,3 +1,11 @@
+06 December 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * backend-django/analytics/urls.py:
+ * backend-django/analytics/views.py:
+ * clarin-angular/src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:
+ * clarin-angular/src/app/services/analytics-service/analytics.service.ts:
+ Added ability to retrieve annotations from the Annotation store, if a
+ relation annotation is not in the annotation set.
+
 05 December 2021 Petasis George <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/views/compare-annotations/compare-annotations.component.html:
  * clarin-angular/src/app/components/views/compare-annotations/compare-annotations.component.scss:
