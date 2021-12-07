@@ -1,3 +1,28 @@
+08 December 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.ts:
+ Added support for drag and drop, by calling the back-end services.
+
+ * clarin-angular/src/app/components/views/main/main.component.ts:
+ * clarin-angular/src/app/services/drag-and-drop-service/*: Front-end support
+ for drag and drop back-end.
+
+ * clarin-angular/src/proxy.conf.json:
+ * backend-django/DjangoClarin/settings.py:
+ * backend-django/DjangoClarin/urls.py:
+ * backend-django/clarin_backend/sql_views.py:
+ * backend-django/clarin_backend/utils.py:
+ * backend-django/clarin_backend/views.py:
+ * backend-django/drag_and_drop/*: Added back-end for drag and drop.
+
+07 December 2021 Petasis George <petasis@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
+ * clarin-angular/src/app/app.module.ts:
+ * clarin-angular/src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.html:
+ * clarin-angular/src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:
+ * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
+ * clarin-angular/src/app/components/controls/annotation-detail/*:
+ * clarin-angular/src/css/clarin-material.scss: Added a footer panel in
+ Codemirror editor, and annotation details in annotation list.
+
 06 December 2021 Petasis George <petasis@iit.demokritos.gr>:
  * backend-django/analytics/urls.py:
  * backend-django/analytics/views.py:

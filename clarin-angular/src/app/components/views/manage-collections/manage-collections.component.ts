@@ -290,6 +290,8 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
       return;
     }
     // console.error("ManageCollectionsComponent: onCollectionDrop():", doc, col);
+    this.dragAndDropService.copy(doc.id, col.id);
+    // TODO: Handle errors...
   }; /* onCollectionDrop */
 
   //function to be called when a user wants to delete selected documents

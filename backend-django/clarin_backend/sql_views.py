@@ -80,7 +80,7 @@ class DocumentsView(SQLDBAPIView):
         #        status.HTTP_200_OK
         return doc_record
 
-    # # Create a new instance. (POST)
+    # Create a new instance. (POST)
     def create(self, request, cid):
         collection = self.getCollection(request.user, cid)
         duplicateCounter = -1;
@@ -161,7 +161,7 @@ class DocumentsView(SQLDBAPIView):
             instancedoc = serializer.save()  
             return {"success": True, "collection_id": cid, "document_id": instancedoc.pk}
         else:
-            return {"success": False},status.HTTP_400_BAD_REQUEST         
+            return {"success": False}, status.HTTP_400_BAD_REQUEST         
 
     # # Update an existing instance. (PUT)
     # def update(self, request, _id):

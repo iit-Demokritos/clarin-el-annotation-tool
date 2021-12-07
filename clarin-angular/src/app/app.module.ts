@@ -126,6 +126,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { QueryBuilderModule } from "angular2-query-builder";
 import { AnnotationSpansPipe } from './pipes/annotation-spans.pipe';
+import { AnnotationDetailComponent } from './components/controls/annotation-detail/annotation-detail.component';
 
 // Required for AOT compilation
 export function TranslateHttpLoaderFactory(http: HttpClient) {
@@ -209,7 +210,8 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
     ToolbarSelectAnnotatorComponent,
     AnnotationSetInspectorComponent,
     AnnotationSetFilterComponent,
-    AnnotationSpansPipe
+    AnnotationDetailComponent,
+    AnnotationSpansPipe,
   ],
   imports: [
     BrowserModule,

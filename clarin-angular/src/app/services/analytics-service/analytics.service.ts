@@ -28,15 +28,15 @@ export class AnalyticsService {
     document_setting:   1
   }
 
-  ObjectID;
+  // ObjectID;
 
   constructor(public http: HttpClient) {
-    this.ObjectID = require("bson-objectid");
+    // this.ObjectID = require("bson-objectid");
   }
 
-  ObjectId(id) {
-    return this.ObjectID(id);
-  }
+  // ObjectId(id) {
+  //   return this.ObjectID(id);
+  // }
 
   find(query = null, projection = null) {
     return new Promise((resolve, reject) => {

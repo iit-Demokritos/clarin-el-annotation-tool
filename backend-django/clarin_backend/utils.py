@@ -48,9 +48,18 @@ class ErrorLoggingAPIView(APIView):
 
     def logException(self, ex, method):
         print(self.__class__.__name__, "-", method+"() - Catch Exception:", ex)
-        exc_type, exc_obj, exc_tb = sys.exc_info()
-        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-        print(exc_type, fname, exc_tb.tb_lineno)
+        tb = ex.__traceback__
+        # Skip the outer layer...
+        if tb is not None:
+            tb = tb.tb_next
+        if tb is not None:
+            print("filename:", tb.tb_frame.f_code.co_filename,
+                  "name:", tb.tb_frame.f_code.co_name,
+                  "lineno:", tb.tb_lineno)
+        else:
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            print(exc_type, fname, exc_tb.tb_lineno)
         response = Response(data={
             "success": False,
             "message": str(ex),

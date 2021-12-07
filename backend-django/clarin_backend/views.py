@@ -984,9 +984,9 @@ class CoreferenceAnnotatorView(APIView):
                 serializer = CoreferenceAnnotatorsSerializer(
                     coreference_annotator.get(), data=data, partial=True)
             return Response(data={"success": True})
-        except Exception as e:
+        except Exception as ex:
             print("CoreferenceAnnotatorView (post):" + str(ex))
-            return Response(data={"success": False, "message": "An error occured." + str(e)},
+            return Response(data={"success": False, "message": "An error occured." + str(ex)},
                             status=status.HTTP_200_OK)
 
 

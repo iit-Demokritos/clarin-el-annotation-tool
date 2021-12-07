@@ -280,6 +280,30 @@ text-widget {
 .CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler {
   background-color: transparent; /* The little square between H and V scrollbars */
 }
+// Codemirror panel add-on...
+.remove-panel {
+  cursor: pointer;
+  float: right;
+}
+.panel {
+  background: #f7f7f7;
+  padding: 0px 7px;
+  height: 20px;
+  font-size: 13px;
+  line-height: 18px;
+}
+.panel.top, .panel.after-top {
+  border-bottom: 1px solid #ddd;
+}
+.panel.bottom, .panel.before-bottom {
+  border-top: 1px solid #ddd;
+}
+.panel.caret {
+  float: right;
+}
+.h-full-minus-editor-panel {
+  height: calc(100% - 21px) !important; // Minus bottom panel!
+}
 
 .annotation-visualiser-table {
   .selected {
@@ -687,3 +711,11 @@ highcharts-chart {
 /*mat-list-option[aria-selected="true"] {
   background: rgba(0, 139, 139, 0.7);
 }*/
+.annotation-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.hidden {
+  display: none;
+}

@@ -8,7 +8,8 @@ import * as _ from 'lodash';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
 import { BaseControlComponent } from '../base-control/base-control.component';
-
+//import 'codemirror/addon/display/panel.js';
+//import { addPanel } from 'codemirror/addon/display/panel' // <- Does not work!
 // var blobStream = require('blob-stream');
 
 @Component({
@@ -76,6 +77,10 @@ export class TextWidgetComponent extends BaseControlComponent
 
   // Resize observer for refreshing overlay when codemirror changes...
   resizeObserver: any;
+
+  // Keeps the list of panels in the editor...
+  // panels    = {};
+  // numPanels = 0;
 
   // initialLoad: boolean = false;
 
@@ -194,6 +199,37 @@ export class TextWidgetComponent extends BaseControlComponent
     this.editor.off('refresh', this.overlayRefresh);
     this.editor.toTextArea()
   } /* ngOnDestroy */
+
+  /* Codemirror panels unused...
+  makePanel(where) {
+    var node = document.createElement("div");
+    var id = ++this.numPanels;
+    var widget, close, label;
+
+    node.id = "panel-" + id;
+    node.className = "panel " + where;
+    close = node.appendChild(document.createElement("a"));
+    close.setAttribute("title", "Remove me!");
+    close.setAttribute("class", "remove-panel");
+    close.textContent = "✖";
+    CodeMirror.on(close, "mousedown", (e) => {
+      e.preventDefault()
+      this.panels[node.id].clear();
+    });
+    label = node.appendChild(document.createElement("span"));
+    label.textContent = "Panel n° " + id;
+    return node;
+  }
+
+  addPanel(where) {
+    var node = this.makePanel(where);
+    this.panels[node.id] = this.editor.addPanel(node, {position: where, stable: true});
+  }
+
+  initPanels() {
+    // Add a panel...
+    this.addPanel("bottom");
+  }; /* initPanels */
 
   editorRefresh() {
     this.editor.refresh();
@@ -466,6 +502,8 @@ export class TextWidgetComponent extends BaseControlComponent
       this.skipLineNumber = {};
     }
     this.editor.setValue(text);
+
+    // this.initPanels();
     
     this.graph.clear();
     this.annotationIdToGraphItem = {};
@@ -477,6 +515,7 @@ export class TextWidgetComponent extends BaseControlComponent
       value: this.showLinkRouterSelector
     });
     this.visualiseVisualisationOptions(visualisationOptions);
+    this.editor.refresh();
     // console.error("CM size:", this.editor.getScrollInfo());
     // console.error("OVERLAY:", this.textWidgetOverlay.nativeElement.style.height);
   }; /* initialiseEditor */
@@ -1290,10 +1329,11 @@ export class TextWidgetComponent extends BaseControlComponent
     }
 
     this.TextWidgetAPI.clearAnnotationsToBeAdded();
-    if (added) {
-      // console.error("TextWidgetComponent: visualiseAnnotations() -> overlayLinksRefresh()");
-      this.overlayLinksRefresh();
-    }
+    // if (added) {
+    //   // console.error("TextWidgetComponent: visualiseAnnotations() -> overlayLinksRefresh()");
+    //   this.overlayLinksRefresh();
+    // }
+    this.overlayRefresh();
     //editor.refresh();
   }; /* visualiseAnnotations */
 

@@ -58,7 +58,8 @@ INSTALLED_APPS = [
     'rest_framework', # add rest_framework
     'rest_framework_simplejwt.token_blacklist',
     'clarin_backend',
-    'analytics'
+    'analytics',
+    'drag_and_drop'
 ]
 
 MIDDLEWARE = [
