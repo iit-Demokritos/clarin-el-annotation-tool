@@ -193,15 +193,14 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
   }; /* importDocuments */
 
   //function to be called when a user wants to rename a document
-  renameDocument(){
-    console.log(this.selectedDocuments)
-    if (this.selectedDocuments.length===1){
-      var data={
+  renameDocument() {
+    if (this.selectedDocuments.length === 1) {
+      var data = {
         collectionId: this.selectedCollection.id,
-        documentId:this.selectedDocuments[0].id,
-        documentName:this.selectedDocuments[0].name,
-        documentType:this.selectedDocuments[0].type
-      }
+        documentId:   this.selectedDocuments[0].id,
+        documentName: this.selectedDocuments[0].name,
+        documentType: this.selectedDocuments[0].type
+      };
       var dialogData = new RenameDialogData(data);
       var dialogRef = this.dialog.open(RenameDocumentModalComponent, {
         data: dialogData, width: this.dialogWidth
@@ -211,8 +210,7 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
         this.initializeCollectionData();
       });
     }
-  }/*renameDocument*/
-
+  } /* renameDocument */
 
   // function to be called when a user wants to rename a collection
   renameCollection() {
@@ -386,6 +384,8 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
             response['data'].filter(ann => this.TextWidgetAPI.isAttributeAnnotation(ann)).length;
           element.annotations_len = element.annotations_total_len -
             element.annotations_attributes_len - element.annotations_settings_len;
+        }, (error) => {
+          // There was an error getting the annotations. Do nothing...
         }));
       // Collect information about temporary annotations...
       promises.push(this.tempAnnotationService.getAll(element.collection_id, element.id)
@@ -404,6 +404,8 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
             element.annotations_temp_attributes_len -
             element.annotations_temp_settings_len -
             element.annotations_temp_deleted_len;
+        }, (error) => {
+          // There was an error getting the annotations. Do nothing...
         }));
       // Get information about users that have opened the document...
       element.opened_by = [];

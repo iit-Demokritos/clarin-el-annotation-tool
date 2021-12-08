@@ -1,4 +1,14 @@
 08 December 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/views/annotation/annotation.component.ts:
+ Fix for the empty settings when a Document is loaded from the Annotations
+ store.
+
+ * clarin-angular/src/app/ng-matero/core/interceptors/index.ts: Removed the
+ error interceptor.
+
+ * backend-django/drag_and_drop/views.py: Fixed a bug when transfering
+ attributes whose value is annotation ids.
+
  * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.ts:
  Added support for drag and drop, by calling the back-end services.
 

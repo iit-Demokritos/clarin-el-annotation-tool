@@ -53,10 +53,9 @@ export class AnnotationSetInspectorComponent extends MainComponent implements Af
   footer_caret_column    = "";
   footer_caret_offset    = "";
   footer_caret_selection = "[]";
- 
+
   super() { }
-  
-  
+
   getCaret() {
     if (this.textWidgetComponent) {
       let cursor    = this.textWidgetComponent.editor.getCursor();
@@ -73,30 +72,29 @@ export class AnnotationSetInspectorComponent extends MainComponent implements Af
     }
   }
 
-  collapseInit(index){
-    var length=this.annotations.length;
-    var temp=0
-    if(index>=0){
-      temp=this.collapsed_status[index]
+  collapseInit(index) {
+    var length = this.annotations.length;
+    var temp   = 0;
+    if (index >= 0) {
+      temp = this.collapsed_status[index];
     }
-    this.collapsed_status=[]
-    for(let i=0;i<length;i++){
-      if (index==i){
-        continue
+    this.collapsed_status = [];
+    for (let i = 0; i <length ; i++) {
+      if (index == i) {
+        continue;
       }
-      this.collapsed_status.push(0)
+      this.collapsed_status.push(0);
     }
-   return temp
+    return temp;
   }
-
 
   ngAfterViewInit(): void {
     this.TWA = this.textWidgetComponent.TextWidgetAPI;
     this.textWidgetComponent.editor.on("cursorActivity", () => {
       this.getCaret();
-    })
+    });
   }
-  
+
   onApply(event) {
    //  console.error("AnnotationSetInspectorComponent: onApply():", this.annotator._id);
     this.textWidgetComponent.initialiseEditor(this.document.text,
@@ -107,7 +105,7 @@ export class AnnotationSetInspectorComponent extends MainComponent implements Af
     // console.error("AnnotationSetInspectorComponent: onApply(): after match:", this.TWA.getAnnotations());
 
     // this.annotatorType = this.TWA.getAnnotatorTypeFromAnnotatorTypeId(this.annotator._id);
-    var s =this.collapseInit(-1)  
+    var s = this.collapseInit(-1);
     this.annotationsDataSource.data = this.annotations;
     this.table.renderRows();
   }; /* onApply */
@@ -139,27 +137,26 @@ export class AnnotationSetInspectorComponent extends MainComponent implements Af
     // console.error("AnnotationSetInspectorComponent: setSelectedAnnotation()",
     //               selectedAnnotation, this.annotator._id);
     this.clearAnnotations();
-    var previndex=this.annotations.findIndex(item => item._id ===this.selectedIndex);
-    var index=this.annotations.findIndex(item => item._id === selectedAnnotation._id);
-    var status=this.collapseInit(index)
-    if(status>2){
-      this.collapsed_status[index]=0
-    }else{
-      this.collapsed_status[index]=status
+    var previndex = this.annotations.findIndex(item => item._id === this.selectedIndex);
+    var index     = this.annotations.findIndex(item => item._id === selectedAnnotation._id);
+    var status    = this.collapseInit(index);
+    if (status > 2) {
+      this.collapsed_status[index] = 0;
+    } else {
+      this.collapsed_status[index] = status;
     }
-    if (this.selectedIndex==selectedAnnotation._id){
+    if (this.selectedIndex == selectedAnnotation._id) {
       this.collapsed_status[index]++;
     }
     //fixed bug: close other annotations when select other
-    if (previndex!=index){
-      this.collapsed_status[previndex]=0
+    if (previndex != index) {
+      this.collapsed_status[previndex] = 0;
     }
-    console.log(this.collapsed_status)
     this.selectedIndex = selectedAnnotation._id;
     this.selectedAnnotationDataSource = Object.entries(selectedAnnotation)
         .map(AnnotationPropertyToDisplayObject)
         .filter(e => e != null);
-  
+
     // Are there any arguments in attributes?
     let relation_args = this.TWA.getAnnotationRelationLinks(selectedAnnotation);
     let promises = [];
@@ -176,11 +173,10 @@ export class AnnotationSetInspectorComponent extends MainComponent implements Af
       this.TWA.setSelectedAnnotation(selectedAnnotation);
       this.textWidgetComponent.scrollToAnnotation(selectedAnnotation);
     });
-    if (this.collapsed_status[index]<1){
-      return null
+    if (this.collapsed_status[index] < 1) {
+      return null;
     }
-   // return null
-    return this.selectedAnnotation = this.selectedAnnotation === selectedAnnotation ? null : selectedAnnotation
+    return this.selectedAnnotation = this.selectedAnnotation === selectedAnnotation ? null : selectedAnnotation;
   }
-  
+
 }

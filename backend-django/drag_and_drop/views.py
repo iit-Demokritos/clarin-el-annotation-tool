@@ -54,20 +54,19 @@ class DocumentCopyView(MongoDBAPIView):
         # Create a new list, with new ids. Keep a map from old -> new id...
         old2new = {}
         for ann in origin_annotations:
-            new_id = ObjectId()
-            old2new[ann['_id']] = new_id
+            old2new[str(ann['_id'])] = ObjectId()
         # Iterate again over annotation, mapping id & values to new ids...
         target_annotations = []
         for ann in origin_annotations:
             # print("->", ann);
-            new_id               = old2new[ann['_id']]
+            new_id               = old2new[str(ann['_id'])]
             ann['_id']           = new_id
             ann['collection_id'] = cid
             ann['document_id']   = document.pk
             # Iterate over attribute values, and map annotation ids...
             for attr in ann['attributes']:
                 if attr['value'] in old2new:
-                    attr['value'] = old2new[attr['value']]
+                    attr['value'] = str(old2new[attr['value']])
             # print("  ", ann);
             target_annotations.append(ann)
 

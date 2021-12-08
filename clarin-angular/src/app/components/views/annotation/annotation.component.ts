@@ -177,6 +177,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
                 this.TextWidgetAPI.setCurrentCollection(result.newCollection);
                 this.annotatorType = result.newAnnotator;
                 result.newDocument.annotator_id = this.TextWidgetAPI.getAnnotatorTypeId();
+                this.TextWidgetAPI.registerAnnotationsCallback(this.updateAnnotationList.bind(this));
                 // This is where the document loading happens. The text-widget component
                 // has registered a callback to react to document changes. When a new Document
                 // is set by TextWidgetAPI.setCurrentDocument(), the
@@ -517,7 +518,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
   }; /* updateAnnotation */
 
   updateAnnotationList() {
-    // console.error("updateAnnotationList():", _.cloneDeep(this.TextWidgetAPI.getAnnotations()));
+    // console.error("updateAnnotationList():", this.TextWidgetAPI.getAnnotations());
     if (this.skipAnnotationsUpdates) { return; }
     var anns = this.TextWidgetAPI.getAnnotations();
     this.owners.clear();
