@@ -68,7 +68,8 @@ export class AnnotationComponent extends MainComponent implements OnInit {
     showDocumentAttributes: true,
     showSettings: true,
     showLinkRouterSelector: false,
-    routerName: "direct"
+    routerName: "direct",
+    hideLinks: false
   };
   spinnerVisible;
   broadcastEvent = {};
@@ -649,4 +650,8 @@ export class AnnotationComponent extends MainComponent implements OnInit {
   updateLinkRouter(routerName) {
     this.textWidgetComponent.updateLinkRouter(routerName)
   }; /* updateLinkRouter */
+
+  updateLinkVisibility(status) {
+    this.textWidgetComponent.updateLinkVisibility(status.checked);
+  }; /* updateLinkVisibility */
 }

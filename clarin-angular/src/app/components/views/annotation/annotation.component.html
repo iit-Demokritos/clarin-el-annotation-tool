@@ -21,6 +21,8 @@
             <mat-option value="metro">{{'Metro'|translate}}</mat-option>
           </mat-select>
         </mat-form-field>
+        <mat-slide-toggle class="toolbar-slide-toggle" *ngIf="layout.showLinkRouterSelector"
+          [(ngModel)]="layout.hideLinks" (change)="updateLinkVisibility($event)">{{'Hide Links'|translate}}</mat-slide-toggle>
       </mat-toolbar>
       <div class="main-content">
         <!--div class='spinner-border' role='status'><span class='sr-only'>Loading...</span></div>

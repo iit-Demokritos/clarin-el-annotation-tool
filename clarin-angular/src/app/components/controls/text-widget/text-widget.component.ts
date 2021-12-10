@@ -36,6 +36,7 @@ export class TextWidgetComponent extends BaseControlComponent
   paper;
 
   routerName = "direct";
+  connector  = "rounded";
   routerOptions = {
     direct: { step: 20 },
     smooth: { step: 20 },
@@ -69,6 +70,7 @@ export class TextWidgetComponent extends BaseControlComponent
   connectedAnnotations = [];
   annotationIdToGraphItem = {};
   showLinkRouterSelector = false;
+  linkVisibility = 'visible';
 
   // Get the local coordinates of the first character in the editor...
   textWidgetLines: any;
@@ -817,12 +819,13 @@ export class TextWidgetComponent extends BaseControlComponent
         return;
       }
     }
-    var router, connector = "rounded";
+    var router;
+    this.connector = "rounded";
     switch (this.routerName) {
       case "direct":
         break;
       case "smooth":
-        connector = this.routerName;
+        this.connector = "smooth";
         break;
       default:
         router = this.routerName;
@@ -830,7 +833,7 @@ export class TextWidgetComponent extends BaseControlComponent
     }
     // Create a new line...
     var link = new joint.shapes.standard.Link({
-      connector: { name: connector },
+      connector: { name: this.connector },
       attrs: {
         line: {
           stroke: '#808080',
@@ -876,6 +879,7 @@ export class TextWidgetComponent extends BaseControlComponent
     link.source(this.annotationIdToGraphItem[startId][0]);
     link.target(this.annotationIdToGraphItem[endId][0]);
     link.attr('root/pointer-events', 'visiblePainted');
+    link.attr('./visibility', this.linkVisibility);
     link.router(router, this.routerOptions[this.routerName]);
     link.addTo(this.graph);
     // Add the annotation id to the link...
@@ -1017,12 +1021,14 @@ export class TextWidgetComponent extends BaseControlComponent
   }; /* overlayLinkAdjustVertices */
 
   updateLinkRouter(routerName) {
-    var router, connector = "rounded";
-    switch (routerName) {
+    this.routerName = routerName;
+    this.connector  = "rounded";
+    var router;
+    switch (this.routerName) {
       case "direct":
         break;
       case "smooth":
-        connector = "smooth";
+        this.connector = "smooth";
         break;
       default:
         router = routerName;
@@ -1037,9 +1043,16 @@ export class TextWidgetComponent extends BaseControlComponent
         annotation.instance.unset("router");
       }
       //annotation.instance.set('connector', { name: connector });
-      annotation.instance.connector(connector);
+      annotation.instance.connector(this.connector);
     });
   }; /* updateLinkRouter */
+
+  updateLinkVisibility(hide) {
+    this.linkVisibility = (hide ? 'hidden' : 'visible');
+    this.connectedAnnotations.forEach((annotation) => {
+      annotation.instance.attr('./visibility', this.linkVisibility);
+    });
+  }; /* updateLinkVisibility */
 
   /**
    * Remove a connection annotation's leader line instance as well as

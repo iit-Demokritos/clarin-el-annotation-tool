@@ -1,3 +1,9 @@
+10 December 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
+ * clarin-angular/src/app/components/views/annotation/annotation.component.html:
+ * clarin-angular/src/app/components/views/annotation/annotation.component.ts:
+ Added the ability to toggle the visibility of links.
+
 08 December 2021 Petasis George <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/views/annotation/annotation.component.ts:
  Fix for the empty settings when a Document is loaded from the Annotations
