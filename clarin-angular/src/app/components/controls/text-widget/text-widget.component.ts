@@ -360,6 +360,8 @@ export class TextWidgetComponent extends BaseControlComponent
     } else if (e.button === 1) {
       //middle button click
       e.preventDefault();
+      // Added on 10/12/2021; Request by N. Pittaras.
+      this.TextWidgetAPI.clearSelectedAnnotation();
       var updatedSelection: any = {};
       var savedSelection: any = this.TextWidgetAPI.getCurrentSelection();
 
@@ -495,6 +497,7 @@ export class TextWidgetComponent extends BaseControlComponent
 
   initialiseEditor(text, visualisationOptions: any) {
     this.TextWidgetAPI.resetData();
+    this.TextWidgetAPI.registerAnnotationCanBeDeletedCallback(this.annotationCanBeDeleted.bind(this));
     this.editor.setValue("");
     this.editor.clearHistory();
     if (visualisationOptions !== null && "gutter" in visualisationOptions) {
@@ -1479,6 +1482,11 @@ export class TextWidgetComponent extends BaseControlComponent
     if (this.TextWidgetAPI.checkIsRunning()) { return false; }
     var annotationToBeDeleted: any = this.TextWidgetAPI.getSelectedAnnotation();
     if (Object.keys(annotationToBeDeleted).length == 0) { return false; }
+    if (!this.TextWidgetAPI.annotationCanBeDeleted(annotationToBeDeleted)) {
+      this.toastrService.error(this.TextWidgetAPI.annotationCanBeDeletedMessage);
+      // console.error("TextWidgetComponent: deleteSelectedAnnotation(): Annotation cannot be deleted:", this.TextWidgetAPI.annotationCanBeDeletedMessage, annotationToBeDeleted);
+      return false;
+    }
     this.tempAnnotationService.destroy(annotationToBeDeleted.collection_id,
       annotationToBeDeleted.document_id, annotationToBeDeleted._id)
       .then((response: any) => {
@@ -1594,5 +1602,11 @@ export class TextWidgetComponent extends BaseControlComponent
     }
     this.TextWidgetAPI.disableIsRunning();
   }; /* updateSettings */
+
+  annotationCanBeDeleted(ann) {
+    this.TextWidgetAPI.annotationCanBeDeletedMessage = 'Annotation cannot be deleted, as it is a relation source/target!';
+    // Make sure that the annotation to be deleted is not a relation argument...
+    return this.connectedAnnotations.every((item) => ann._id != item.startId && ann._id != item.endId );
+  }; /* annotationCanBeDeleted */
 
 }

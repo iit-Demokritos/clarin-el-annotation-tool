@@ -26,7 +26,7 @@ export class ToolbarWidgetComponent extends BaseControlComponent implements OnIn
   selectedCollectionDocuments;
   selectedCollection;
   selectedCollectionName;
-  deleteAnnotationModalInstance;
+  // deleteAnnotationModalInstance;
 
   detectUnsavedChanges(newDocument) {
     var currentDocument: any = this.TextWidgetAPI.getCurrentDocument();
@@ -107,8 +107,11 @@ export class ToolbarWidgetComponent extends BaseControlComponent implements OnIn
 
     var annotationToBeDeleted: any = this.TextWidgetAPI.getSelectedAnnotation();
 
-    if (Object.keys(annotationToBeDeleted).length == 0 && !this.deleteAnnotationModalInstance) {   //no annotation has been selected open error modal
+    if (Object.keys(annotationToBeDeleted).length == 0 /*&& !this.deleteAnnotationModalInstance */) {   //no annotation has been selected open error modal
+      this.toastrService.error("No annotation has been selected.");
+      return;
 
+      /*
       let dialogRef = this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "No annotation has been selected.") })
 
       dialogRef.afterClosed().subscribe((modalResult) => {
@@ -117,6 +120,12 @@ export class ToolbarWidgetComponent extends BaseControlComponent implements OnIn
 
       return false;
     } else if (this.deleteAnnotationModalInstance) {         //modal already open, return false
+      return false; */
+    }
+
+    if (!this.TextWidgetAPI.annotationCanBeDeleted(annotationToBeDeleted)) {
+      this.toastrService.error(this.TextWidgetAPI.annotationCanBeDeletedMessage);
+      // console.error("ToolbarWidgetComponent: deleteAnnotation(): Annotation cannot be deleted:", this.TextWidgetAPI.annotationCanBeDeletedMessage, annotationToBeDeleted);
       return false;
     }
 

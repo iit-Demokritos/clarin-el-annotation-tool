@@ -25,6 +25,7 @@ import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.co
 import { AnalyticsService } from 'src/app/services/analytics-service/analytics.service';
 import { MessageService } from 'src/app/services/message-service/message.service';
 import { DragAndDropService } from 'src/app/services/drag-and-drop-service/drag-and-drop.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'main',
@@ -62,7 +63,8 @@ export class MainComponent implements OnInit {
     public authService: AuthService,
     public analyticsService: AnalyticsService,
     public dragAndDropService: DragAndDropService,
-    public messageService: MessageService) { }
+    public messageService: MessageService,
+    public toastrService: ToastrService) { }
 
   ngOnInit(): void {
   }

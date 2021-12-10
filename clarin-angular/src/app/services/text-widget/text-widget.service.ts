@@ -47,6 +47,9 @@ export class TextWidgetAPI {
   scrollIntoView = [];
   scrollIntoViewCallbacks = [];
 
+  public annotationCanBeDeletedMessage = '';
+  annotationCanBeDeletedCallbacks = []; 
+
   settings = undefined;
   settingsCallbacks = [];
   public settingsComplianceFields = ['created_by', 'updated_by'];
@@ -83,6 +86,7 @@ export class TextWidgetAPI {
     this.overlappingAreasCallbacks = [];
     this.scrollIntoViewCallbacks = [];
     this.settingsCallbacks = [];
+    this.annotationCanBeDeletedCallbacks = [];
   }
 
   resetCallbacks() {
@@ -91,6 +95,7 @@ export class TextWidgetAPI {
     this.annotationsCallbacks = [];
     this.foundInCollectionCallbacks = [];
     this.selectedAnnotationCallbacks = [];
+    this.annotationCanBeDeletedCallbacks = [];
   }
 
   resetData() {
@@ -780,6 +785,28 @@ export class TextWidgetAPI {
     this.scrollIntoView = [];
     return promises;
   }
+
+  /*** Request Callbacks ***/
+  registerAnnotationCanBeDeletedCallback(callback) {
+    this.annotationCanBeDeletedCallbacks.push(callback);
+  } /* registerAnnotationCanBeDeletedCallback */
+
+  annotationCanBeDeleted(ann) {
+    this.annotationCanBeDeletedMessage = '';
+    return this.annotationCanBeDeletedCallbacks.some((callback) => {
+      var possiblePromise = callback(ann);
+      if (possiblePromise instanceof Promise) {
+        possiblePromise.then((data) => {
+          console.error("Data from promise:", data);
+	});
+      } else {
+	if (possiblePromise === true) {
+          return true;
+	}
+      }
+      return false;
+    });
+  }; /* annotationCanBeDeleted */
 
   getScrollToAnnotation() {
     return this.scrollIntoView;
