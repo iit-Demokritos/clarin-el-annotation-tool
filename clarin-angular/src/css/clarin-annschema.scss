@@ -168,6 +168,17 @@
   }
 }
 
+.annotation-relation {
+  font-weight: bold;
+  @extend .p-x-8;
+  @extend .r-4;
+}
+
+.annotation-relation-selected {
+  @extend .bg-green-900;
+  @extend .text-white;
+}
+
 .button-widget-relation {
   table {
     height: 1px;
