@@ -1,5 +1,6 @@
 11 December 2021 Petasis George <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/app.module.ts:
+ * clarin-angular/src/app/components/controls/button/annotation-relation-set-btn/*:
  * clarin-angular/src/app/components/controls/annotation-visualizer/annotation-visualizer.component.ts:
  * clarin-angular/src/app/components/controls/button/annotation-relation-combobox/annotation-relation-combobox.component.html:
  * clarin-angular/src/app/components/controls/button/annotation-relation-combobox/annotation-relation-combobox.component.ts:
