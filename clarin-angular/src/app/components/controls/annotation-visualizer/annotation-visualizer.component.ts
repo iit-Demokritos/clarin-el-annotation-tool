@@ -161,6 +161,7 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
           //if (!serviceResponse[i].modified_by==1) return;
           if (!this.TextWidgetAPI.belongsToSchema(serviceResponse[i]))
             continue;
+          // console.error("AnnotationVisualizerComponent: getSSEvent():", serviceResponse[i]);
 
           var oldAnnotation = this.TextWidgetAPI.getAnnotationById(serviceResponse[i]._id);
           var currentSelectedAnnotation: any = cloneDeep(this.TextWidgetAPI.getSelectedAnnotation());

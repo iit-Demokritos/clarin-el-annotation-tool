@@ -129,6 +129,8 @@ export class ToolbarWidgetComponent extends BaseControlComponent implements OnIn
       return false;
     }
 
+    this.TextWidgetAPI.clearSelectedAnnotation();
+
     this.tempAnnotationService.destroy(annotationToBeDeleted.collection_id, annotationToBeDeleted.document_id, annotationToBeDeleted._id)
       .then((response: any) => {
         if (!response.success) {

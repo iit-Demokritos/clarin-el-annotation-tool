@@ -36,10 +36,10 @@
             ],
             "scripts": [
               "./node_modules/jquery/dist/jquery.min.js",
-	      "./node_modules/lodash/lodash.min.js",
+              "./node_modules/lodash/lodash.min.js",
               "./node_modules/backbone/backbone-min.js",
               "./node_modules/jointjs/dist/joint.min.js"
-	    ],
+            ],
             "vendorChunk": true,
             "extractLicenses": false,
             "buildOptimizer": false,
@@ -70,7 +70,7 @@
               "outputHashing": "all",
               "optimization": true,
               "buildOptimizer": false,
-	      "aot": false,
+              "aot": false,
               "sourceMap": false,
               "namedChunks": false,
               "extractLicenses": true,
@@ -79,7 +79,7 @@
             "development": {
               "optimization": false,
               "buildOptimizer": false,
-	      "aot": false,
+              "aot": false,
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
@@ -92,14 +92,14 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "clarin-angular:build",
-	    "proxyConfig": "src/proxy.conf.json",
-	    "ssl": true
+            "proxyConfig": "src/proxy.conf.json",
+            "ssl": true
           },
           "configurations": {
             "production": {
               "browserTarget": "clarin-angular:build:production"
             },
-	    "development": {
+            "development": {
               "browserTarget": "clarin-angular:build:development"
             },
             "hmr": {
@@ -135,11 +135,11 @@
               "src/styles.scss"
             ],
             "scripts": [
-	      "./node_modules/jquery/dist/jquery.min.js",
-	      "./node_modules/lodash/lodash.min.js",
+              "./node_modules/jquery/dist/jquery.min.js",
+              "./node_modules/lodash/lodash.min.js",
               "./node_modules/backbone/backbone-min.js",
               "./node_modules/jointjs/dist/joint.min.js"
-	    ]
+            ]
           }
         },
         "lint": {

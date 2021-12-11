@@ -2,6 +2,17 @@ import { Component, Input, OnInit } from '@angular/core';
 import { BaseControlComponent } from '../../base-control/base-control.component';
 import { Message } from 'src/app/models/services/message';
 import { MessageService } from 'src/app/services/message-service/message.service';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+
+/** Error when invalid control is dirty, touched, or submitted. */
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  public errorState = false;
+
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    return this.errorState;
+  }
+}
 
 @Component({
   selector: 'annotation-relation-combobox',
@@ -21,8 +32,11 @@ export class AnnotationRelationComboboxComponent extends BaseControlComponent im
   }
 
   annotations = [];
+  annotationsInvalid = [];
   selectionOrigin = '';
   allowedValues = [];
+
+  matcher = new MyErrorStateMatcher();
 
   /**
    * Get new annotations to show.
@@ -40,6 +54,10 @@ export class AnnotationRelationComboboxComponent extends BaseControlComponent im
   annotationSelected() {
     // Get the selected annotation
     var annotation: any = this.TextWidgetAPI.getSelectedAnnotation();
+    this.matcher.errorState = false;
+    if (this.annotationsInvalid.length) {
+      this.annotationsInvalid = [];
+    }
     // console.error("AnnotationRelationComboboxComponent: annotationSelected():", annotation);
 
     // Check if the selected annotation has the same type as this combobox
@@ -61,6 +79,12 @@ export class AnnotationRelationComboboxComponent extends BaseControlComponent im
 
     // Get the selected annotation ID from the attributes of the arrow annotation
     this.value = this.TextWidgetAPI.getAnnotationAttributeValue(annotation, this.annotationAttribute);
+    // Is the value in the list of annotations?
+    if (this.annotations.some((ann) => ann._id == this.value)) {
+    } else {
+      this.matcher.errorState = true;
+      this.annotationsInvalid = [this.TextWidgetAPI.getAnnotationById(this.value)];
+    }
   }
 
   // Register callback for annotation updates
@@ -68,6 +92,17 @@ export class AnnotationRelationComboboxComponent extends BaseControlComponent im
     this.allowedValues = this.annotationArgumentValues.split(' ');
     this.TextWidgetAPI.registerAnnotationsCallback(this.updateAnnotationList.bind(this));
     this.TextWidgetAPI.registerSelectedAnnotationCallback(this.annotationSelected.bind(this));
+    this.TextWidgetAPI.declareSchemaRelationValue(this.annotationType, this.annotationRelationAttribute,
+                                                  this.annotationRelationValue, this.annotationAttribute, {
+      annotationType: this.annotationType,
+      annotationAttribute: this.annotationAttribute,
+      annotationArgumentAnnotation: this.annotationArgumentAnnotation,
+      annotationArgumentAttribute: this.annotationArgumentAttribute,
+      annotationArgumentValues: this.allowedValues,
+      annotationRelationType: this.annotationRelationType,
+      annotationRelationAttribute: this.annotationRelationAttribute,
+      annotationRelationValue: this.annotationRelationValue
+    });
   }
 
   // Callback for messages...
@@ -87,7 +122,16 @@ export class AnnotationRelationComboboxComponent extends BaseControlComponent im
   }
 
   valueModified() {
-    this.messageService.annotationRelationComboboxSet(this.id, this.value, this.annotationAttribute);
+    this.messageService.annotationRelationComboboxSet(this.id, this.value, this.annotationAttribute /* , {
+      annotationType: this.annotationType,
+      annotationAttribute: this.annotationAttribute,
+      annotationArgumentAnnotation: this.annotationArgumentAnnotation,
+      annotationArgumentAttribute: this.annotationArgumentAttribute,
+      annotationArgumentValues: this.allowedValues,
+      annotationRelationType: this.annotationRelationType,
+      annotationRelationAttribute: this.annotationRelationAttribute,
+      annotationRelationValue: this.annotationRelationValue
+    } */);
   }
 
 }

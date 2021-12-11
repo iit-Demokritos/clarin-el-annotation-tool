@@ -50,6 +50,8 @@ export class TextWidgetAPI {
   public annotationCanBeDeletedMessage = '';
   annotationCanBeDeletedCallbacks = []; 
 
+  schemaRelationValue = {};
+
   settings = undefined;
   settingsCallbacks = [];
   public settingsComplianceFields = ['created_by', 'updated_by'];
@@ -334,7 +336,36 @@ export class TextWidgetAPI {
     this.annotationsCallbacks.push(callback);
   }
 
+  /*** Relation Annotation Methods ***/
+  declareSchemaRelationValue(type: string, attribute: string, value: string, arg: string, options: any) {
+    if (!(type in this.schemaRelationValue)) {this.schemaRelationValue[type] = {};}
+    if (!(attribute in this.schemaRelationValue[type])) {this.schemaRelationValue[type][attribute] = {};}
+    if (!(value in this.schemaRelationValue[type][attribute])) {this.schemaRelationValue[type][attribute][value] = {};}
+    this.schemaRelationValue[type][attribute][value][arg] = options;
+  }; /* declareSchemaRelation */
+
+  isValidRelationAnnotation(annotation) {
+    if (!(annotation["type"] in this.schemaRelationValue)) {
+      return false;
+    }
+    var value = this.getAnnotationRelationValue(annotation)[0];
+    var links = this.getAnnotationRelationLinks(annotation);
+    var options = this.schemaRelationValue[annotation["type"]][value["name"]][value["value"]];
+    return links.every((attr) => {
+      // Get Annotation...
+      var ann = this.getAnnotationById(attr["value"]);
+      if (!ann) {return false;}
+      return options[attr["name"]]["annotationArgumentValues"].includes(
+        this.getAnnotationAttributeValue(ann, this.annotationSchema["attribute"])
+      );
+    });
+  }; /* isValidRelationAnnotation */
+
   /*** Batch Annotation Methods ***/
+  getAnnotationRelationValue(annotation) {
+    return annotation.attributes.filter(attr => attr["name"] in this.schemaRelationValue[annotation["type"]]);
+  }
+
   getAnnotationRelationLinks(annotation) {
     return annotation.attributes.filter(attr => attr["name"] == "arg1" ||
                                                 attr["name"] == "arg2");
@@ -798,11 +829,11 @@ export class TextWidgetAPI {
       if (possiblePromise instanceof Promise) {
         possiblePromise.then((data) => {
           console.error("Data from promise:", data);
-	});
+        });
       } else {
-	if (possiblePromise === true) {
+        if (possiblePromise === true) {
           return true;
-	}
+        }
       }
       return false;
     });
@@ -823,8 +854,13 @@ export class TextWidgetAPI {
   }
 
   setSettings(newSettings) {
+    // console.error("TextWidgetComponent: setSettings():", _.isEqual(this.settings, newSettings), newSettings, "->", this.settings);
+    // Try to check if objects are equal...
+    if (_.isEqual(this.settings, newSettings)) {
+      // console.error("TextWidgetComponent: setSettings(): settings are equal!");
+      return;
+    }
     this.settings = _.cloneDeep(newSettings);
-    // console.error("setSettings:", this.settingsCallbacks);
     return this.notifyObservers(this.settingsCallbacks);
   }
 

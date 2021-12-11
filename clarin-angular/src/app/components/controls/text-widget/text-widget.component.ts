@@ -526,7 +526,7 @@ export class TextWidgetComponent extends BaseControlComponent
   }; /* initialiseEditor */
 
   resizeOverlay() {
-    this.textWidgetOverlay.nativeElement.style.height = this.editor.getScrollInfo().height.toString()+'px';
+    this.textWidgetOverlay.nativeElement.style.height = (this.editor.getScrollInfo().height + 2).toString()+'px';
   }; /* resizeOverlay */
 
   visualiseVisualisationOptions(options) {
@@ -822,6 +822,14 @@ export class TextWidgetComponent extends BaseControlComponent
         return;
       }
     }
+    var valid = this.TextWidgetAPI.isValidRelationAnnotation(annotation.annotation);
+    var colour;
+    if (valid) {
+      colour = '#808080';
+    } else {
+      colour = "red";
+    }
+
     var router;
     this.connector = "rounded";
     switch (this.routerName) {
@@ -839,7 +847,7 @@ export class TextWidgetComponent extends BaseControlComponent
       connector: { name: this.connector },
       attrs: {
         line: {
-          stroke: '#808080',
+          stroke: colour /*'#808080'*/,
           strokeWidth: 2
         }
       },
@@ -1112,6 +1120,24 @@ export class TextWidgetComponent extends BaseControlComponent
     });
   }; /* clearDuplicateAnnotationsFromEditor */
 
+  getLinksForAnnotation(annotation) {
+    return this.connectedAnnotations.filter((link) =>
+      annotation._id == link['startId'] || annotation._id == link['endId']
+    );
+  }; /* getLinksForAnnotation */
+
+  getSourceLinksForAnnotation(annotation) {
+    return this.connectedAnnotations.filter((link) =>
+      annotation._id == link['startId']
+    );
+  }; /* getSourceLinksForAnnotation */
+
+  getTargetLinksForAnnotation(annotation) {
+    return this.connectedAnnotations.filter((link) =>
+      annotation._id == link['endId']
+    );
+  }; /* getTargetLinksForAnnotation */
+
   addVisualsForRelationAnnotation(annotation, annotatorType=undefined) {
     // Argument relation, add arrow. Find IDs of start/end annotations
     var startId = annotation.annotation.attributes.find(attr =>
@@ -1253,6 +1279,17 @@ export class TextWidgetComponent extends BaseControlComponent
           break;
       }
     }
+    // Get links that involve this annotation...
+    this.getLinksForAnnotation(visAnnotation.annotation).forEach((link) => {
+      if (visAnnotation.annotation._id == link["startId"]) {
+        link.instance.source(this.annotationIdToGraphItem[link["startId"]][0]);
+      }
+      if (visAnnotation.annotation._id == link["endId"]) {
+        link.instance.target(this.annotationIdToGraphItem[link["endId"]][0]);
+      }
+      var valid = this.TextWidgetAPI.isValidRelationAnnotation(link.data);
+      link.instance.attr('line/stroke', (valid ? '#808080' : "red"));
+    });
     // (Re)generate the SPAN elements that show the marker types
     // Petasis, 20/03/2021: non needed anymore! addTypeAttributesToMarkers();
     return true;
@@ -1287,6 +1324,10 @@ export class TextWidgetComponent extends BaseControlComponent
       newAnnotations.length === 0) {
       return false;
     }
+    // if (newAnnotations.length == 1) {
+    //   console.error("TextWidgetComponent: visualiseAnnotations():",
+    //                 newAnnotations[0]['selected'], newAnnotations[0]['action']);
+    // }
 
     // if there are any borders around a specific annotation, remove them.
     this.clearDuplicateAnnotationsFromEditor(newAnnotations);
@@ -1479,6 +1520,7 @@ export class TextWidgetComponent extends BaseControlComponent
 
   deleteSelectedAnnotation(...e) {
     // if (evt.which != 46)           {return false;} // key, code = "Delete"
+    console.error("TextWidgetComponent: deleteSelectedAnnotation():", e);
     if (this.TextWidgetAPI.checkIsRunning()) { return false; }
     var annotationToBeDeleted: any = this.TextWidgetAPI.getSelectedAnnotation();
     if (Object.keys(annotationToBeDeleted).length == 0) { return false; }
@@ -1487,6 +1529,7 @@ export class TextWidgetComponent extends BaseControlComponent
       // console.error("TextWidgetComponent: deleteSelectedAnnotation(): Annotation cannot be deleted:", this.TextWidgetAPI.annotationCanBeDeletedMessage, annotationToBeDeleted);
       return false;
     }
+    this.TextWidgetAPI.clearSelectedAnnotation();
     this.tempAnnotationService.destroy(annotationToBeDeleted.collection_id,
       annotationToBeDeleted.document_id, annotationToBeDeleted._id)
       .then((response: any) => {

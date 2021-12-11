@@ -43,8 +43,8 @@ export class MessageService {
   public annotationRelationComboboxStatus: AnnotationRelationComboboxStatus = {};
   private annotationRelationComboboxSource = new BehaviorSubject(this.annotationRelationComboboxStatus);
   currentAnnotationRelationComboboxStatus = this.annotationRelationComboboxSource.asObservable();
-  public annotationRelationComboboxSet(element_id: string, annotation_id: string, annotation_attribute: string) {
-    this.annotationRelationComboboxStatus[element_id] = {annotation_id: annotation_id, annotation_attribute: annotation_attribute};
+  public annotationRelationComboboxSet(element_id: string, annotation_id: string, annotation_attribute: string, options: any = undefined) {
+    this.annotationRelationComboboxStatus[element_id] = {annotation_id: annotation_id, annotation_attribute: annotation_attribute, options: options};
     this.annotationRelationComboboxSource.next(this.annotationRelationComboboxStatus);
     // console.error("MessageService: annotationRelationComboboxSet():", this.annotationRelationComboboxStatus);
   }

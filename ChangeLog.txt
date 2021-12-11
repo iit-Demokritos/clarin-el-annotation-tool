@@ -1,4 +1,16 @@
 11 December 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/app.module.ts:
+ * clarin-angular/src/app/components/controls/annotation-visualizer/annotation-visualizer.component.ts:
+ * clarin-angular/src/app/components/controls/button/annotation-relation-combobox/annotation-relation-combobox.component.html:
+ * clarin-angular/src/app/components/controls/button/annotation-relation-combobox/annotation-relation-combobox.component.ts:
+ * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
+ * clarin-angular/src/app/components/controls/toolbar-widget/toolbar-widget.component.ts:
+ * clarin-angular/src/app/models/services/message.ts:
+ * clarin-angular/src/app/services/message-service/message.service.ts:
+ * clarin-angular/src/app/services/text-widget/text-widget.service.ts:
+ * clarin-angular/src/css/clarin-annschema.scss: Various fixes regarding
+ relation annotation in Button Annotator.
+
  * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
  * clarin-angular/src/app/components/controls/toolbar-widget/toolbar-widget.component.ts:
  * clarin-angular/src/app/services/text-widget/text-widget.service.ts: Added a

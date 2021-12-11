@@ -183,20 +183,25 @@
 
 .button-widget-relation-header {
   font-size: 12px !important;
+  vertical-align: middle;
+  height: 28px;
+  line-height: 28px;
 }
 
 .annotation-relation-select {
   width: 100%;
 }
 
+annotation-relation-set-btn,
 annotation-relation-import-btn {
   height: 28px;
   line-height: 28px;
   width: 28px;
-  // The follwoing two lines center the element...
+  // The following two lines center the element...
   margin: 0 auto;
   display: block;
   button,
+  .annotation-relation-set-btn,
   .annotation-relation-import-btn,
   .mat-button-focus-overlay,
   .mat-ripple {

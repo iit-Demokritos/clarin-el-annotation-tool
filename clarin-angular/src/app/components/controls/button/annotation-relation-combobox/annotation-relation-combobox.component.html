@@ -1,8 +1,11 @@
 <mat-form-field class="annotation-relation-select" appearance="outline">
-  <mat-select [(ngModel)]="value">
+  <mat-select [(ngModel)]="value" [errorStateMatcher]="matcher">
     <mat-option value="">--- {{'Select Annotation'|translate}} ---</mat-option>
     <mat-option *ngFor="let annotation of annotations" [value]="annotation._id">
       {{annotation.spans[0].segment}}
+    </mat-option>
+    <mat-option *ngFor="let annotationInvalid of annotationsInvalid" [value]="annotationInvalid._id">
+      {{annotationInvalid.spans[0].segment}}
     </mat-option>
   </mat-select>
 </mat-form-field>

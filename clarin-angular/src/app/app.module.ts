@@ -48,6 +48,7 @@ import { AnnotationRelationClearBtnComponent } from './components/controls/butto
 import { AnnotationRelationComboboxComponent } from './components/controls/button/annotation-relation-combobox/annotation-relation-combobox.component';
 import { AnnotationRelationDelBtnComponent } from './components/controls/button/annotation-relation-del-btn/annotation-relation-del-btn.component';
 import { AnnotationRelationImportBtnComponent } from './components/controls/button/annotation-relation-import-btn/annotation-relation-import-btn.component';
+import { AnnotationRelationSetBtnComponent } from './components/controls/button/annotation-relation-set-btn/annotation-relation-set-btn.component';
 import { AnnotationRelationComponent } from './components/controls/button/annotation-relation/annotation-relation.component';
 import { CorefAddBtnComponent } from './components/controls/coref/coref-add-btn/coref-add-btn.component';
 import { CorefAnnotateBtnComponent } from './components/controls/coref/coref-annotate-btn/coref-annotate-btn.component';
@@ -173,6 +174,7 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
     AnnotationRelationComboboxComponent,
     AnnotationRelationDelBtnComponent,
     AnnotationRelationImportBtnComponent,
+    AnnotationRelationSetBtnComponent,
     AnnotationRelationComponent,
     CorefAddBtnComponent,
     CorefAnnotateBtnComponent,
@@ -296,6 +298,7 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
     AnnotationRelationComboboxComponent,
     AnnotationRelationDelBtnComponent,
     AnnotationRelationImportBtnComponent,
+    AnnotationRelationSetBtnComponent,
     AnnotationRelationComponent,
     CorefAddBtnComponent,
     CorefAnnotateBtnComponent,
