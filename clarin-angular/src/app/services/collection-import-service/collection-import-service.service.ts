@@ -189,7 +189,7 @@ export class CollectionImportService implements OnInit {
           .then((response) => {
             //console.error("CollectionImportService: saveDocument():", response);
             if (response["success"]) {
-              var documentId = response['document_id'];
+              var documentId = response['data']['document_id'];
               this.saveAnnotations(collectionId, documentId, doc.annotations)
                 .then((response) => {
                   if (response["success"]) {

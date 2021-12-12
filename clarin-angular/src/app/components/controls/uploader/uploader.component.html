@@ -1,6 +1,6 @@
 <ng-container #flowAdvanced="flow" [flowConfig]="{target: '/'}"></ng-container>
-<div class="drop-area" id="drag" flow-drop flow-drag-enter="class='alert-success'" flow-drag-leave="class=''"
-  ng-class="class" flowDrop [flow]="flowAdvanced.flowJs">
+<div class="drop-area" id="drag" flowDrop flowDragEnter="class='alert-success'" flowDragLeave="class=''"
+  [ngClass]="class" [flow]="flowAdvanced.flowJs">
   <div class="btn-toolbar">
     <label for="upload">
       <a flowButton type="button" class="btn btn-default" aria-hidden="true">{{'Upload File(s)'|translate}}</a>

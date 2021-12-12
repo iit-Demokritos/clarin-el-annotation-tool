@@ -134,6 +134,14 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
+/*
+ * This seems unneeded.
+// From: https://github.com/flowjs/ngx-flow/issues/24
+export function MyFlowFactory() {
+  return Flow;
+}
+*/
+
 @NgModule({
   declarations: [
     ButtonAnnotatorValueListDirective,
@@ -324,10 +332,12 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
     AnnotationTextComponent,
   ],
   providers: [
+    /* Petasis, 12/12/2021: It does not work with the following enabled...
     {
       provide: FlowInjectionToken,
-      useValue: Flow,
-    },
+      // useFactory: MyFlowFactory,
+      useValue: Flow
+    },*/
     /* ng-matero */
     { provide: BASE_URL, useValue: environment.baseUrl },
     httpInterceptorProviders,
