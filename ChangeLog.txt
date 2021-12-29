@@ -1,3 +1,41 @@
+29 December 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.html:
+ * clarin-angular/src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:
+ Various fixes.
+ 
+ * clarin-angular/src/app/components/views/compare-annotations/compare-annotations.component.html:
+ * clarin-angular/src/app/components/views/compare-annotations/compare-annotations.component.ts:
+ * clarin-angular/src/app/components/views/compare-documents/compare-documents.component.html:
+ * clarin-angular/src/app/components/views/compare-documents/compare-documents.component.ts:
+ Modified components to use the new AnnotatorSetComparator component.
+
+ * clarin-angular/src/app/helpers/annotation.ts: Added functions for aligning
+ Annotations when comparing.
+
+ * clarin-angular/src/app/app.module.ts:
+ * clarin-angular/src/app/components/controls/annotation-set-comparator/*:
+ Collected the comparison code into a new component.
+
+ * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts: 
+ Fixes regarding the identification of various elements of CodeMirror.
+
+27 December 2021 Petasis George <petasis@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
+ * clarin-angular/src/app/helpers/annotation.ts:
+ * clarin-angular/src/app/helpers/globalFunctions.ts:
+ * clarin-angular/src/app/helpers/attribute.ts:
+ * clarin-angular/src/app/helpers/span.ts:
+ * clarin-angular/src/app/components/views/compare-annotations/compare-annotations.component.ts:
+ Added support for calculating Cohen kappa.
+
+27 December 2021 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
+ Added calls to editor.operation( in various places, to speed up codemirror
+ operations.
+
+ * clarin-angular/src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:
+ Fixed a bug where visualisation options was passed as a JSON string, and not as a
+ parsed object.
+
 12 December 2021 Petasis George <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/app.module.ts:
  * clarin-angular/src/app/components/controls/uploader/uploader.component.html:

@@ -7,8 +7,8 @@ import { TextWidgetIsolatedComponent } from '../text-widget-isolated/text-widget
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { AnnotationPropertyToDisplayObject } from 'src/app/helpers/annotation';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import ObjectID from "bson-objectid";
 import { AnnotationDetailComponent } from '../annotation-detail/annotation-detail.component';
+import ObjectID from "bson-objectid";
 
 @Component({
   selector: 'annotation-set-inspector',
@@ -22,13 +22,12 @@ import { AnnotationDetailComponent } from '../annotation-detail/annotation-detai
     ]),
   ],
   encapsulation: ViewEncapsulation.None,
-  
 })
 export class AnnotationSetInspectorComponent extends MainComponent implements AfterViewInit  {
 
-  @Input() collection: Collection;
-  @Input() document:   Document;
-  @Input() annotator:  any;
+  @Input() collections: Collection|Collection[];
+  @Input() documents:   Document|Document[];
+  // @Input() annotator:  any;
   @Input() annotations: any[];
   // annotatorType: string;
 
@@ -47,6 +46,7 @@ export class AnnotationSetInspectorComponent extends MainComponent implements Af
   annotationListDisplayedColumns: string[] = ['id', 'type', 'value', 'spans'];
 
   annotationsInEditor = [];
+  documentInEditor: Document;
 
   footer_caret_show      = false;
   footer_caret_line      = "";
@@ -95,19 +95,42 @@ export class AnnotationSetInspectorComponent extends MainComponent implements Af
     });
   }
 
-  onApply(event) {
-   //  console.error("AnnotationSetInspectorComponent: onApply():", this.annotator._id);
-    this.textWidgetComponent.initialiseEditor(this.document.text,
-                                              this.document.visualisation_options);
+  onClear() {
+    this.annotations = [];
+    this.documentInEditor = undefined;
+    this.onUpdate();
+  }; /* onClear */
+
+  onUpdate() {
+    if (this.documentInEditor) {
+      if (typeof this.documentInEditor.visualisation_options == "string") {
+        this.documentInEditor.visualisation_options = JSON.parse(this.documentInEditor.visualisation_options);
+      }
+      this.textWidgetComponent.initialiseEditor(this.documentInEditor.text,
+                                                this.documentInEditor.visualisation_options);
+    } else {
+      this.textWidgetComponent.initialiseEditor("", {});
+    }
 
     // console.error("AnnotationSetInspectorComponent: onApply(): annotaions", this.annotations);
     // this.TWA.addAnnotations(this.annotations /*, this.annotator._id*/);
     // console.error("AnnotationSetInspectorComponent: onApply(): after match:", this.TWA.getAnnotations());
 
     // this.annotatorType = this.TWA.getAnnotatorTypeFromAnnotatorTypeId(this.annotator._id);
-    var s = this.collapseInit(-1);
     this.annotationsDataSource.data = this.annotations;
     this.table.renderRows();
+  }; /* onUpdate */
+
+  onApply(event = undefined) {
+    //  console.error("AnnotationSetInspectorComponent: onApply():", this.annotator._id);
+
+    // Is there a single document, or many?
+    if (Array.isArray(this.documents)) {
+      this.documentInEditor = this.documents[0];
+    } else {
+      this.documentInEditor = this.documents;
+    }
+    this.onUpdate();
   }; /* onApply */
 
   clearAnnotations() {

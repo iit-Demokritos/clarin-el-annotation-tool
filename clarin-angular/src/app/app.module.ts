@@ -128,6 +128,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { QueryBuilderModule } from "angular2-query-builder";
 import { AnnotationSpansPipe } from './pipes/annotation-spans.pipe';
 import { AnnotationDetailComponent } from './components/controls/annotation-detail/annotation-detail.component';
+import { AnnotationSetComparatorComponent } from './components/controls/annotation-set-comparator/annotation-set-comparator.component';
 
 // Required for AOT compilation
 export function TranslateHttpLoaderFactory(http: HttpClient) {
@@ -222,6 +223,7 @@ export function MyFlowFactory() {
     AnnotationSetFilterComponent,
     AnnotationDetailComponent,
     AnnotationSpansPipe,
+    AnnotationSetComparatorComponent,
   ],
   imports: [
     BrowserModule,

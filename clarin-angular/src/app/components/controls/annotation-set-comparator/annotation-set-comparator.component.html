@@ -1,0 +1,53 @@
+<mat-tab-group class="annotation-set-comparator">
+  <mat-tab label="{{'Annotations'|translate}}">
+    <as-split direction="horizontal">
+      <as-split-area [size]="this.comparatorAreaSize"
+        [minSize]="10" [maxSize]="90" class="mat-card-fill-parent"
+        *ngFor="let item of numberOfComparatorsArray; let i = index">
+        <toolbar-select-annotator *ngIf="showAnnotatorSelectionToolbar"
+          [allowMultipleAnnotators]="allowMultipleAnnotators"
+          [annotators]="annotators"
+          [showApplyButton]="true"
+          (selectedAnnotators)="onAnnotatorsChange(i, $event)"
+          (onApply)="onApply(i, $event)"
+        >
+        </toolbar-select-annotator>
+        <annotation-set-filter *ngIf="showAnnotationSetFilter"
+          [showApplyButton]="true"
+          [collections]="collections"
+          [documents]="documents"
+          (onApply)="onApplyFilter(i, $event)"
+        >
+        </annotation-set-filter>
+        <annotation-set-inspector class="fill-space overflow-auto"
+          [annotations]="annotations[i]"
+          [collections]="collections"
+          [documents]="documents"
+        >
+        </annotation-set-inspector>
+      </as-split-area>
+    </as-split>
+  </mat-tab>
+  <mat-tab label="{{'Diff'|translate}}" [disabled]="!showTabDiff">
+  </mat-tab>
+  <mat-tab label="{{'Inter-rater Reliability'|translate}}" [disabled]="!showTabIAA">
+    <mat-tab-group>
+      <mat-tab label="{{'Cohen\'s kappa'|translate}}">
+        <h1>Cohen's kappa coefficient (κ): {{kappaCohen}}</h1>
+      </mat-tab>
+      <mat-tab label="{{'Fleiss\' kappa'|translate}}">
+        <h1>Fleiss' kappa (κ): {{kappaFleiss}}</h1>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-tab>
+  <mat-tab disabled>
+    <ng-template mat-tab-label>
+      <button color="primary" mat-icon-button (click)="addComparator()">
+        <mat-icon>add</mat-icon>
+      </button>
+      <button color="warn" mat-icon-button (click)="removeComparator()">
+        <mat-icon>remove</mat-icon>
+      </button>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>

@@ -7,6 +7,7 @@ import { Annotation } from 'src/app/models/annotation';
 export class AnnotationSpansPipe implements PipeTransform {
 
   transform(ann: Annotation, anns: Annotation[] = undefined, ...args: unknown[]): string {
+    if (!ann.spans) {return "";}
     // If we have spans, transform the spans...
     if (ann.spans.length) {
       return ann.spans.map((s) => 

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-compare-documents',
@@ -6,11 +6,24 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./compare-documents.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class CompareDocumentsComponent implements OnInit {
+export class CompareDocumentsComponent {
 
-  constructor() { }
+  @Input() showPageHeader: boolean = false;
+  @Input() showDocumentSelectionToolbar: boolean = true;
+  @Input() allowMultipleCollections: boolean = false;
+  @Input() allowMultipleDocuments: boolean = false;
+  clearOnDocumentsChange = false;
 
-  ngOnInit(): void {
+  selectedCollection         = {};
+  selectedDocument           = {};
+
+  onCollectionsChange(event) {
+    this.selectedCollection = event;
+    this.selectedDocument   = {}
+  }
+
+  onDocumentsChange(event) {
+    this.selectedDocument   = event;
   }
 
 }

@@ -1,1 +1,24 @@
-<p>compare-documents works!</p>
+<page-header title="{{'Compare Documents'|translate}}" *ngIf="showPageHeader"></page-header>
+<div class="compare-documents" [ngClass]="{'has-page-header': showPageHeader, 'no-page-header': !showPageHeader}">
+  <mat-card class="mat-card-fill-parent">
+    <mat-card-header>
+      <mat-card-subtitle>
+        <toolbar-select-document *ngIf="showDocumentSelectionToolbar"
+          [allowMultipleCollections]="allowMultipleCollections"
+          [allowMultipleDocuments]="allowMultipleDocuments"
+          (selectedCollections)="onCollectionsChange($event)"
+          (selectedDocuments)="onDocumentsChange($event)"
+        >
+        </toolbar-select-document>
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="main-content">
+      <app-annotation-set-comparator
+        [collections]="selectedCollection"
+        [documents]="selectedDocument"
+        [clearOnDocumentsChange]="clearOnDocumentsChange"
+      >
+      </app-annotation-set-comparator>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -13,56 +13,11 @@
       </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content class="main-content">
-      <as-split direction="horizontal">
-        <as-split-area [size]="50" [minSize]="10" [maxSize]="90" class="mat-card-fill-parent">
-          <toolbar-select-annotator *ngIf="showAnnotatorSelectionToolbar"
-            [allowMultipleAnnotators]="allowMultipleAnnotators"
-            [annotators]="annotators"
-            [showApplyButton]="true"
-            (selectedAnnotators)="onAnnotatorsChange(0, $event)"
-            (onApply)="onApply(0, $event)"
-          >
-          </toolbar-select-annotator>
-          <annotation-set-filter *ngIf="showAnnotationSetFilter"
-            [showApplyButton]="true"
-            [collections]="selectedCollection"
-            [documents]="selectedDocument"
-            (onApply)="onApplyFilter(0, $event)"
-          >
-          </annotation-set-filter>
-          <annotation-set-inspector class="fill-space overflow-auto"
-            [collection]="selectedCollection"
-            [document]="selectedDocument"
-            [annotator]="selectedAnnotator[0]"
-            [annotations]="annotations[0]"
-          >
-          </annotation-set-inspector>
-        </as-split-area>
-        <as-split-area [size]="50" [minSize]="10" [maxSize]="90" class="mat-card-fill-parent">
-          <toolbar-select-annotator *ngIf="showAnnotatorSelectionToolbar"
-            [allowMultipleAnnotators]="allowMultipleAnnotators"
-            [annotators]="annotators"
-            [showApplyButton]="true"
-            (selectedAnnotators)="onAnnotatorsChange(1, $event)"
-            (onApply)="onApply(1, $event)"
-          >
-          </toolbar-select-annotator>
-          <annotation-set-filter *ngIf="showAnnotationSetFilter"
-            [showApplyButton]="true"
-            [collections]="selectedCollection"
-            [documents]="selectedDocument"
-            (onApply)="onApplyFilter(1, $event)"
-          >
-          </annotation-set-filter>
-          <annotation-set-inspector class="fill-space overflow-auto"
-            [collection]="selectedCollection"
-            [document]="selectedDocument"
-            [annotator]="selectedAnnotator[1]"
-            [annotations]="annotations[1]"
-          >
-          </annotation-set-inspector>
-        </as-split-area>
-        </as-split>
+      <app-annotation-set-comparator
+        [collections]="selectedCollection"
+        [documents]="selectedDocument"
+      >
+      </app-annotation-set-comparator>
     </mat-card-content>
   </mat-card>
 </div>

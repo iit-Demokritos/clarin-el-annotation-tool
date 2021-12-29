@@ -267,3 +267,27 @@ annotation-relation-import-btn {
 .CodeMirror-line .emph, .tei-emph {
   font-style: italic;
 }
+
+/*
+ * Annotations Diff...
+ */
+.diff-equal {
+}
+.diff-unequal {
+  @extend .bg-red-100;
+  &:not(.selected):hover {
+    background-color: mat-color($background, hover); //whitesmoke;
+  }
+}
+.diff-lower {
+  @extend .bg-yellow-100;
+  &:not(.selected):hover {
+    background-color: mat-color($background, hover); //whitesmoke;
+  }
+}
+.diff-greater {
+  @extend .bg-yellow-100;
+  &:not(.selected):hover {
+    background-color: mat-color($background, hover); //whitesmoke;
+  }
+}

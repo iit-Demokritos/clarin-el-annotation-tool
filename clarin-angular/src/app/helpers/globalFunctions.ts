@@ -20,3 +20,13 @@ function where(array, object) {
   let keys = Object.keys(object);
   return array.filter(item => keys.every(key => item[key] === object[key]));
 }
+
+/*
+ * From: https://stackoverflow.com/questions/56932156/typescript-how-to-copy-only-properties-and-methods-from-interface-to-a-new-objec
+ * */
+export function pickFromObject<T, K extends keyof T>(obj: T, ...keys: K[]): Pick<T, K> {
+  const result = {} as Pick<T, K>;
+  for(const key of keys) result[key] = obj[key];
+  return result;
+}; /* pickFromObject */
+

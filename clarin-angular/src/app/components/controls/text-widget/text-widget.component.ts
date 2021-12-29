@@ -117,9 +117,10 @@ export class TextWidgetComponent extends BaseControlComponent
       extraKeys: {}
     });
 
-    this.textWidgetLines = document.getElementsByClassName("CodeMirror-lines")[0];
     this.textarea = this.editor.getWrapperElement();
     this.gutter = this.editor.getGutterElement();
+    //this.textWidgetLines = document.getElementsByClassName("CodeMirror-lines")[0];
+    this.textWidgetLines = this.textarea.getElementsByClassName("CodeMirror-lines")[0];
 
     this.paper = new joint.dia.Paper({
       el: this.textWidgetOverlay.nativeElement,
@@ -165,7 +166,7 @@ export class TextWidgetComponent extends BaseControlComponent
         scope.$on('ui.layout.loaded', function (evt, id) {
           console.warn("text-widget: ui.layout.loaded", id);
         });
-    
+
     */
 
     // console.error("TextWidgetComponent: ngOnInit(): Setting CodeMirror mouse events on:", this.mainContent);
@@ -185,17 +186,18 @@ export class TextWidgetComponent extends BaseControlComponent
       // const height = entries[0].target.clientHeight;
       // console.error("div.CodeMirror.CodeMirror-wrap height changed:", height);
     });
-    var codeMirror = document.querySelector("div.CodeMirror.CodeMirror-wrap");
-    this.resizeObserver.observe(codeMirror);
     this.TextWidgetAPI.registerCurrentDocumentCallback(this.updateCurrentDocument.bind(this));
     this.TextWidgetAPI.registerCurrentSelectionCallback(this.updateCurrentSelection.bind(this));
     this.TextWidgetAPI.registerNewAnnotationsCallback(this.addNewAnnotations.bind(this));
     this.TextWidgetAPI.registerDeletedAnnotationsCallback(this.deleteAnnotations.bind(this));
     this.TextWidgetAPI.registerScrollIntoViewCallback(this.scrollToAnnotation.bind(this));
     this.TextWidgetAPI.registerSettingsCallback(this.updateSettings.bind(this));
-  }; /* ngOnInit */
+    // var codeMirror = document.querySelector("div.CodeMirror.CodeMirror-wrap");
+    this.resizeObserver.observe(this.textarea);
+  }; /* ngAfterViewInit */
 
   ngOnDestroy() {
+    this.resizeObserver.disconnect();
     // instead of scope.$on("$destroy",function(){})-new lines
     this.graph.clear()
     this.editor.off('refresh', this.overlayRefresh);
@@ -496,20 +498,21 @@ export class TextWidgetComponent extends BaseControlComponent
   } /* updateCurrentDocument */
 
   initialiseEditor(text, visualisationOptions: any) {
+    // console.error("TextWidgetComponent: initialiseEditor(): visualisationOptions:", typeof visualisationOptions, visualisationOptions);
     this.TextWidgetAPI.resetData();
     this.TextWidgetAPI.registerAnnotationCanBeDeletedCallback(this.annotationCanBeDeleted.bind(this));
     this.editor.setValue("");
     this.editor.clearHistory();
     if (visualisationOptions !== null && "gutter" in visualisationOptions) {
       this.skipLineNumber = visualisationOptions["gutter"];
-    
+
     } else {
       this.skipLineNumber = {};
     }
     this.editor.setValue(text);
 
     // this.initPanels();
-    
+
     this.graph.clear();
     this.annotationIdToGraphItem = {};
     this.connectedAnnotations = [];
@@ -534,12 +537,15 @@ export class TextWidgetComponent extends BaseControlComponent
       return;
     }
     var marks = options["marks"];
-    for (var i = 0; i < marks.length; i++) {
-      var item = marks[i];
-      this.editor.markText(item.start, item.end, {
-        className: /*"tei-"+*/item.tags
-      });
-    }
+    // console.error("TextWidgetComponent: visualiseVisualisationOptions(): marks:", marks.length);
+
+    this.editor.operation(() => {
+      marks.forEach((item) => {
+        this.editor.markText(item.start, item.end, {
+          className: /*"tei-"+*/item.tags
+        });
+      });}
+    );
   }; /* visualiseVisualisationOptions */
 
   migrateOldSpans(anns) {
@@ -1099,24 +1105,26 @@ export class TextWidgetComponent extends BaseControlComponent
   clearDuplicateAnnotationsFromEditor(newAnnotations) {
     var editorMarks = this.editor.getAllMarks();
 
-    newAnnotations.forEach((annotation) => {
-      if (this.TextWidgetAPI.belongsToSchemaAsSupportiveAnnotationType(annotation.annotation)) {
-        // Remove connected annotation
-        this.removeConnectedAnnotation(annotation);
-      } else if (this.TextWidgetAPI.isSettingAnnotation(annotation.annotation)) {
-        // Do nothing on setting Annotations...
-      } else {
-        this.overlayMarkRemove(annotation);
-        // Remove marks of regular annotation
-        editorMarks.forEach((editorMark) => {
-          // Get ID of mark
-          var editorMarkClass = editorMark.className.split(" ")[0];
+    this.editor.operation(() => {
+      newAnnotations.forEach((annotation) => {
+        if (this.TextWidgetAPI.belongsToSchemaAsSupportiveAnnotationType(annotation.annotation)) {
+          // Remove connected annotation
+          this.removeConnectedAnnotation(annotation);
+        } else if (this.TextWidgetAPI.isSettingAnnotation(annotation.annotation)) {
+          // Do nothing on setting Annotations...
+        } else {
+          this.overlayMarkRemove(annotation);
+          // Remove marks of regular annotation
+          editorMarks.forEach((editorMark) => {
+            // Get ID of mark
+            var editorMarkClass = editorMark.className.split(" ")[0];
 
-          if (("id-" + String(annotation.annotation._id).trim()).indexOf(editorMarkClass) > -1) {
-            editorMark.clear();
-          }
-        });
-      }
+            if (("id-" + String(annotation.annotation._id).trim()).indexOf(editorMarkClass) > -1) {
+              editorMark.clear();
+            }
+          });
+        }
+      });
     });
   }; /* clearDuplicateAnnotationsFromEditor */
 
@@ -1334,56 +1342,57 @@ export class TextWidgetComponent extends BaseControlComponent
 
     let added = 0;
     // if there are new annotations to be visualised, add them to the editor
-    for (var k = 0; k < newAnnotations.length; k++) {
-      var currAnnotation = newAnnotations[k];
-      if (!('annotation' in currAnnotation)) {
-        // This object does not contain an annotation...
-        continue;
-      }
-      if (this.TextWidgetAPI.isSettingAnnotation(currAnnotation.annotation) ||
-        (!this.TextWidgetAPI.isSettingsCompliantAnnotation(currAnnotation.annotation))) {
-        // If settings omit this annotation, skip it...
-        continue;
-      }
-      // console.error("survived:", currAnnotation.annotation);
+    this.editor.operation(() => {
+      newAnnotations.forEach((currAnnotation) => {
+        if (!('annotation' in currAnnotation)) {
+          // This object does not contain an annotation...
+          return; // continue;
+        }
+        if (this.TextWidgetAPI.isSettingAnnotation(currAnnotation.annotation) ||
+          (!this.TextWidgetAPI.isSettingsCompliantAnnotation(currAnnotation.annotation))) {
+          // If settings omit this annotation, skip it...
+          return; // continue;
+        }
+        // console.error("survived:", currAnnotation.annotation);
 
-      if (this.TextWidgetAPI.isRelationAnnotationType(currAnnotation.annotation)) {
-        if (this.addVisualsForRelationAnnotation(currAnnotation, annotatorType)) {
-          added++;
+        if (this.TextWidgetAPI.isRelationAnnotationType(currAnnotation.annotation)) {
+          if (this.addVisualsForRelationAnnotation(currAnnotation, annotatorType)) {
+            added++;
+          }
+        } else if ("document_attribute" in currAnnotation.annotation) {
+          // This is a document Annotation...
+          // Broadcast an event to our parent that a Document Attribute was found.
+          this.textWidgetEvent.emit({
+            event: "sendDocumentAttribute",
+            attributeName: currAnnotation.annotation.document_attribute,
+            annotation: currAnnotation.annotation
+          });
+          //$rootScope.$broadcast('sendDocumentAttribute:' +
+          //  currAnnotation.annotation.document_attribute, currAnnotation.annotation);
+        } else if ("collection_setting" in currAnnotation.annotation) {
+          // This is a collection setting Annotation...
+          // Broadcast an event to our parent that a Document Attribute was found.
+          this.textWidgetEvent.emit({
+            event: "sendCollectionSetting",
+            attributeName: currAnnotation.annotation.collection_setting,
+            annotation: currAnnotation.annotation
+          });
+        } else if ("document_setting" in currAnnotation.annotation) {
+          // This is a collection setting Annotation...
+          // Broadcast an event to our parent that a Document Attribute was found.
+          this.textWidgetEvent.emit({
+            event: "sendDocumentSetting",
+            attributeName: currAnnotation.annotation.document_setting,
+            annotation: currAnnotation.annotation
+          });
+        } else {
+          // Normal annotation
+          if (this.addVisualsForPlainAnnotation(currAnnotation, annotatorType)) {
+            added++;
+          }
         }
-      } else if ("document_attribute" in currAnnotation.annotation) {
-        // This is a document Annotation...
-        // Broadcast an event to our parent that a Document Attribute was found.
-        this.textWidgetEvent.emit({
-          event: "sendDocumentAttribute",
-          attributeName: currAnnotation.annotation.document_attribute,
-          annotation: currAnnotation.annotation
-        });
-        //$rootScope.$broadcast('sendDocumentAttribute:' +
-        //  currAnnotation.annotation.document_attribute, currAnnotation.annotation);
-      } else if ("collection_setting" in currAnnotation.annotation) {
-        // This is a collection setting Annotation...
-        // Broadcast an event to our parent that a Document Attribute was found.
-        this.textWidgetEvent.emit({
-          event: "sendCollectionSetting",
-          attributeName: currAnnotation.annotation.collection_setting,
-          annotation: currAnnotation.annotation
-        });
-      } else if ("document_setting" in currAnnotation.annotation) {
-        // This is a collection setting Annotation...
-        // Broadcast an event to our parent that a Document Attribute was found.
-        this.textWidgetEvent.emit({
-          event: "sendDocumentSetting",
-          attributeName: currAnnotation.annotation.document_setting,
-          annotation: currAnnotation.annotation
-        });
-      } else {
-        // Normal annotation
-        if (this.addVisualsForPlainAnnotation(currAnnotation, annotatorType)) {
-          added++;
-        }
-      }
-    }
+      });
+    });
 
     this.TextWidgetAPI.clearAnnotationsToBeAdded();
     // if (added) {
@@ -1490,31 +1499,33 @@ export class TextWidgetComponent extends BaseControlComponent
   }; /* deleteAnnotations */
 
   removeAnnotationsFromEditor(annotationsToBeDeleted) {
-    annotationsToBeDeleted.forEach((annotation) => {
-      if (this.TextWidgetAPI.belongsToSchemaAsSupportiveAnnotationType(annotation)) {
-        // Remove relation annotation
-        this.removeConnectedAnnotation({
-          "annotation": annotation,
-          "selected": false,
-          "action": "delete"
-        });
-      } else if (this.TextWidgetAPI.isSettingAnnotation(annotation)) {
-        // Do nothing on setting Annotations...
-      } else {
-        var annotationId = "id-" + String(annotation._id).trim();
-        this.overlayMarkRemove({
-          "annotation": annotation,
-          "selected": false,
-          "action": "delete"
-        });
-        // Regular annotations, delete their marks
-        var editorMarks = this.editor.getAllMarks();
-        editorMarks.forEach((mark) => {
-          if (String(mark.className).trim().indexOf(annotationId) !== -1) {
-            mark.clear();
-          }
-        });
-      }
+    this.editor.operation(() => {
+      annotationsToBeDeleted.forEach((annotation) => {
+        if (this.TextWidgetAPI.belongsToSchemaAsSupportiveAnnotationType(annotation)) {
+          // Remove relation annotation
+          this.removeConnectedAnnotation({
+            "annotation": annotation,
+            "selected": false,
+            "action": "delete"
+          });
+        } else if (this.TextWidgetAPI.isSettingAnnotation(annotation)) {
+          // Do nothing on setting Annotations...
+        } else {
+          var annotationId = "id-" + String(annotation._id).trim();
+          this.overlayMarkRemove({
+            "annotation": annotation,
+            "selected": false,
+            "action": "delete"
+          });
+          // Regular annotations, delete their marks
+          var editorMarks = this.editor.getAllMarks();
+          editorMarks.forEach((mark) => {
+            if (String(mark.className).trim().indexOf(annotationId) !== -1) {
+              mark.clear();
+            }
+          });
+        }
+      });
     });
   }; /* removeAnnotationsFromEditor */
 
@@ -1586,7 +1597,7 @@ export class TextWidgetComponent extends BaseControlComponent
     }
     var pos = {
       from: this.editor.posFromIndex(annotation.spans[0].start),
-      to: this.editor.posFromIndex(annotation.spans[annotation.spans.length - 1].end)
+      to:   this.editor.posFromIndex(annotation.spans[annotation.spans.length - 1].end)
     }
     this.editor.scrollIntoView(pos);
     //editor.setCursor(annotation.spans[0].start);
