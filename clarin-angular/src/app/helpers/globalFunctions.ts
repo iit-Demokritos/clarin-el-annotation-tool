@@ -30,3 +30,7 @@ export function pickFromObject<T, K extends keyof T>(obj: T, ...keys: K[]): Pick
   return result;
 }; /* pickFromObject */
 
+export function onlyUnique(value, index, self) {
+  return self.indexOf(value) === index;
+}; /* onlyUnique */
+

@@ -493,6 +493,20 @@ text-widget {
   }
 }
 
+.annotation-set-comparator-matrix {
+  width: 100%;
+  .annotation-set-comparator-matrix-header-id {
+     font-weight: bold;
+  }
+  .annotation-set-comparator-matrix-header {
+     text-align: center;
+     font-weight: bold;
+  }
+  .annotation-set-comparator-matrix-cell {
+     text-align: center;
+  }
+}
+
 /* Analytics Routes */
 .analytics-annotation-values {
   height: calc(100% - 68px - 24px);
@@ -713,6 +727,14 @@ highcharts-chart {
 }
 
 /* Special class for filling empty space, used to right-align buttons */
+.flex-column {
+  display: flex;
+  flex-flow: column;
+}
+.flex-column-fill-x {
+  flex: 0 1 auto;
+}
+.flex-column-fill-both,
 .fill-space {
   flex: 1 1 auto;
 }

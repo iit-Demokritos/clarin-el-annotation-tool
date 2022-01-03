@@ -26,6 +26,7 @@ import { AnalyticsService } from 'src/app/services/analytics-service/analytics.s
 import { MessageService } from 'src/app/services/message-service/message.service';
 import { DragAndDropService } from 'src/app/services/drag-and-drop-service/drag-and-drop.service';
 import { ToastrService } from 'ngx-toastr';
+import { LocalStorageService } from '@shared/services/storage.service';
 
 @Component({
   selector: 'main',
@@ -64,7 +65,8 @@ export class MainComponent implements OnInit {
     public analyticsService: AnalyticsService,
     public dragAndDropService: DragAndDropService,
     public messageService: MessageService,
-    public toastrService: ToastrService) { }
+    public toastrService: ToastrService,
+    public localStorageService: LocalStorageService) { }
 
   ngOnInit(): void {
   }

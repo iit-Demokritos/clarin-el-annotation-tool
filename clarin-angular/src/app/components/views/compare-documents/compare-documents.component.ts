@@ -1,4 +1,5 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { LocalStorageService } from '@shared/services/storage.service';
 
 @Component({
   selector: 'app-compare-documents',
@@ -16,6 +17,8 @@ export class CompareDocumentsComponent {
 
   selectedCollection         = {};
   selectedDocument           = {};
+
+  constructor(private store: LocalStorageService) {}
 
   onCollectionsChange(event) {
     this.selectedCollection = event;

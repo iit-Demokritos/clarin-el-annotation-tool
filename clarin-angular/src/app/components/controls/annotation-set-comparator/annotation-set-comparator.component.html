@@ -28,15 +28,34 @@
       </as-split-area>
     </as-split>
   </mat-tab>
+  <!--
   <mat-tab label="{{'Diff'|translate}}" [disabled]="!showTabDiff">
-  </mat-tab>
+  </mat-tab> -->
   <mat-tab label="{{'Inter-rater Reliability'|translate}}" [disabled]="!showTabIAA">
     <mat-tab-group>
-      <mat-tab label="{{'Cohen\'s kappa'|translate}}">
-        <h1>Cohen's kappa coefficient (κ): {{kappaCohen}}</h1>
-      </mat-tab>
       <mat-tab label="{{'Fleiss\' kappa'|translate}}">
-        <h1>Fleiss' kappa (κ): {{kappaFleiss}}</h1>
+        <div class="flex-column h-full w-full">
+          <h1 class="flex-column-fill-x m-16">Fleiss' kappa (κ): {{kappaFleiss}}</h1>
+          <div class="flex-column-fill-both overflow-auto">
+            <table mat-table [dataSource]="categoriesMatrixDataSource" class="annotation-set-comparator-matrix">
+              <ng-container matColumnDef="id">
+                <th class="annotation-set-comparator-matrix-header-id" mat-header-cell *matHeaderCellDef>#</th>
+                <td class="annotation-set-comparator-matrix-cell-id"   mat-cell *matCellDef="let value; let i = index">{{i+1}}</td>
+              </ng-container>
+                <ng-container *ngFor="let category of categories; let col = index;" [matColumnDef]="category">
+                  <th class="annotation-set-comparator-matrix-header" mat-header-cell *matHeaderCellDef>{{category}}</th>
+                  <td class="annotation-set-comparator-matrix-cell"   mat-cell *matCellDef="let value">{{value[col]}}</td>
+                </ng-container>
+              <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+            </table>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="{{'Cohen\'s kappa'|translate}}">
+        <div class="flex-column h-full w-full">
+          <h1 class="flex-column-fill-x m-16">Cohen's kappa coefficient (κ): {{kappaCohen}}</h1>
+        </div>
       </mat-tab>
     </mat-tab-group>
   </mat-tab>

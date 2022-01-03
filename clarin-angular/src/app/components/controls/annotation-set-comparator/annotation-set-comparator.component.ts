@@ -1,9 +1,11 @@
-import { Component, OnInit, AfterViewInit, Input, ViewEncapsulation, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, ViewEncapsulation, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { MainComponent } from 'src/app/components/views/main/main.component';
 import { AnnotationSetInspectorComponent } from 'src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component';
+import { AnnotationSetFilterComponent } from 'src/app/components/controls/annotation-set-filter/annotation-set-filter.component';
 import { Collection } from 'src/app/models/collection';
 import { Document } from 'src/app/models/document';
-import { sortAnnotationSet, diffAnnotationSets, cohenKappa } from 'src/app/helpers/annotation';
+import { sortAnnotationSet, diffAnnotationSets, diffedAnnotationSetsToCategoriesMatrix, diffedAnnotationSetsCategories, cohenKappa, fleissKappa } from 'src/app/helpers/annotation';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-annotation-set-comparator',
@@ -39,12 +41,22 @@ export class AnnotationSetComparatorComponent extends MainComponent implements O
   @ViewChildren(AnnotationSetInspectorComponent)
   private annotationSetInspectorComponent!: QueryList<AnnotationSetInspectorComponent>;
 
+  @ViewChildren(AnnotationSetFilterComponent)
+  private AnnotationSetFilterComponent!: QueryList<AnnotationSetFilterComponent>;
+
+  @ViewChild(MatTable)
+  table: MatTable<any>;
+  categoriesMatrixDataSource = new MatTableDataSource<number[]>();
+
   selectedAnnotator: any[]        = [];
   text: string[]                  = [];
   visualisation_options: object[] = [];
 
   kappaCohen  = 0.0;
   kappaFleiss = 0.0;
+  categoriesMatrix: number[][] = [];
+  categories: string[] = [];
+  columnsToDisplay = [];
 
   super() { }
 
@@ -75,11 +87,14 @@ export class AnnotationSetComparatorComponent extends MainComponent implements O
     this.annotations.pop();
     this.text.pop();
     this.visualisation_options.pop();
+    this.columnsToDisplay      = Array(this.numberOfComparators).fill('value');
   }; /* removeComparator */
-
 
   ngAfterViewInit(): void {
     this.onClear();
+    setTimeout(() => {
+      this.applyFilterAll();
+    }, 1000);
   }; /* ngAfterViewInit */
 
   onClear(): void {
@@ -151,15 +166,29 @@ export class AnnotationSetComparatorComponent extends MainComponent implements O
     });
   }; /* onApplyFilter */
 
+  applyFilterAll() {
+    this.AnnotationSetFilterComponent.forEach((child, index) => this.onApplyFilter(index, child.mongoQuery));
+  }; /* applyFilterAll */
+
   compareAnnotations() {
     if (!this.annotations.every((child) => child.length > 0)) {return;}
+    // All children have annotations, proceed with the comparisons...
+    // console.error("AnnotationSetComparatorComponent: compareAnnotations(): all comparators filled!");
     this.annotations = diffAnnotationSets(this.annotations);
     this.changeDetectorRef.detectChanges(); // forces change detection to run
     this.annotationSetInspectorComponent.forEach((child) => child.onApply());
+    // Calculate the categories matrix...
+    this.categories       = diffedAnnotationSetsCategories(this.annotations, "type");
+    this.categoriesMatrix = diffedAnnotationSetsToCategoriesMatrix(this.annotations, "type", this.categories);
+    this.columnsToDisplay = ["id", ...this.categories];
+    this.categoriesMatrixDataSource.data = this.categoriesMatrix;
+    this.table.renderRows();
+    this.toastrService.info("Inter-Annotator Agreement Calculated!");
     this.showTabIAA  = true;
-    this.showTabDiff = true;
-    // All children have annotations, proceed with the comparisons...
-    console.error("CompareAnnotationsComponent: compareAnnotations()");
+    this.showTabDiff = false;
+    // Fleiss' Kappa...
+    this.kappaFleiss = fleissKappa(this.categoriesMatrix, this.annotations.length);
+    console.error("Fleiss Kappa:", this.kappaFleiss);
     this.kappaCohen = cohenKappa(this.annotations[0].filter((ann) => 'type' in ann), this.annotations[1].filter((ann) => 'type' in ann));
     console.error("Cohen Kappa:", this.kappaCohen);
   }; /* compareAnnotations */

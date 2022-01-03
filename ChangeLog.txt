@@ -1,3 +1,16 @@
+03 January 2022 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/controls/annotation-set-comparator/annotation-set-comparator.component.html:
+ * clarin-angular/src/app/components/controls/annotation-set-comparator/annotation-set-comparator.component.ts:
+ * clarin-angular/src/app/components/views/compare-documents/compare-documents.component.ts:
+ * clarin-angular/src/app/helpers/annotation.ts:
+ * clarin-angular/src/app/helpers/globalFunctions.ts:
+ * clarin-angular/src/css/clarin-material.scss: Fleiss' Kappa.
+
+ * clarin-angular/src/app/components/views/main/main.component.ts:
+ * clarin-angular/src/app/components/controls/toolbar-select-document/toolbar-select-document.component.ts:
+ Document selection toolbar now "remembers" selection (saves selected ids in
+ local store).
+
 29 December 2021 Petasis George <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.html:
  * clarin-angular/src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:
