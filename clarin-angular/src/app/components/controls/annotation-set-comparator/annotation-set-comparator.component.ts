@@ -92,9 +92,9 @@ export class AnnotationSetComparatorComponent extends MainComponent implements O
 
   ngAfterViewInit(): void {
     this.onClear();
-    setTimeout(() => {
-      this.applyFilterAll();
-    }, 1000);
+    // setTimeout(() => {
+    //   this.applyFilterAll();
+    // }, 1000);
   }; /* ngAfterViewInit */
 
   onClear(): void {
