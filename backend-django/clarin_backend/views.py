@@ -1163,8 +1163,10 @@ class ExportCollectionView(APIView):
             print("ExportCollectionView (get):" + str(ex))
             return JsonResponse(data={"success": True, "message": "An error occured." + str(ex)},
                                 status=status.HTTP_200_OK)
-        return JsonResponse(data={"success": True, "message": "ok", "data": data},
+        response = JsonResponse(data={"success": True, "message": "ok", "data": data},
                             status=status.HTTP_200_OK)
+        response['Content-Disposition'] = f'attachment; filename="{collection.name}.json"'
+        return response
 
 
 def defaultconverter(o):
