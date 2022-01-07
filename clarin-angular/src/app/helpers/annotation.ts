@@ -125,6 +125,45 @@ export function diffAnnotationSets(annotationSets: Annotation[][]): Annotation[]
   return newAnnotationSets;
 }; /* diffAnnotationSets */
 
+export function diffedAnnotationSetsToRatersMatrix(annotations: Annotation[][],
+                                                   attributeName: string = "type",
+                                                   attributeValues: string[] = []): number[][] {
+  var values: string[];
+  if (attributeValues.length) {
+    values = attributeValues;
+  } else {
+    values = diffedAnnotationSetsCategories(annotations, attributeName);
+  }
+  // Get the shape of the input matrix...
+  var children = annotations.length;
+  var N = annotations[0].length; // 'N' = number of subjects
+  var k = values.length;
+  // Generate the matrix...
+  var cm: number[][] = [];
+  var c, ann, row, col;
+  for (let i = 0; i < N; i++) {
+    row = Array(children).fill("");
+    // Fill the matrix...
+    for (c = 0; c < children; c++) {
+      ann = annotations[c][i];
+      if ('attributes' in ann) {
+        ann.attributes.some((attr) => {
+          if ('name' in attr && attr.name == attributeName) {
+            col = values.indexOf(attr.value);
+            if (col != -1) {
+              row[c] = attr.value;
+              return true;
+            }
+          }
+          return false;
+        });
+      }
+    }
+    cm.push(row);
+  }
+  return cm;
+}; /* diffedAnnotationSetsToRatersMatrix */
+
 export function diffedAnnotationSetsToCategoriesMatrix(annotations: Annotation[][],
                                                       attributeName: string = "type",
                                                       attributeValues: string[] = []): number[][] {
@@ -150,22 +189,26 @@ export function diffedAnnotationSetsToCategoriesMatrix(annotations: Annotation[]
     for (c = 0; c < children; c++) {
       ann = annotations[c][i];
       if ('attributes' in ann) {
-        ann.attributes.some((attr) => {
-          if ('name' in attr && attr.name == attributeName) {
-            col = values.indexOf(attr.value);
-            if (col != -1) {
-              row[col] += 1;
-              return true;
-            }
-          }
-          return false;
-        });
+         ann.attributes.some((attr) => {
+           if ('name' in attr && attr.name == attributeName) {
+             col = values.indexOf(attr.value);
+             if (col != -1) {
+               row[col] += 1;
+               return true;
+             }
+           }
+           return false;
+         });
       }
     }
     cm.push(row);
   }
   return cm;
 }; /* diffedAnnotationSetsToCategoriesMatrix */
+
+export function diffedAnnotationSetsRaters(annotations: Annotation[][]) {
+  return annotations.map((rater, index) => `Rater ${index+1}`);
+}; /* diffedAnnotationSetsRaters */
 
 export function diffedAnnotationSetsCategories(annotations: Annotation[][],
                                                attributeName: string = "type") {

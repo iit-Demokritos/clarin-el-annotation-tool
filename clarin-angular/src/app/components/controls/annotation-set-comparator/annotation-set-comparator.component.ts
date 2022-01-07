@@ -4,8 +4,9 @@ import { AnnotationSetInspectorComponent } from 'src/app/components/controls/ann
 import { AnnotationSetFilterComponent } from 'src/app/components/controls/annotation-set-filter/annotation-set-filter.component';
 import { Collection } from 'src/app/models/collection';
 import { Document } from 'src/app/models/document';
-import { sortAnnotationSet, diffAnnotationSets, diffedAnnotationSetsToCategoriesMatrix, diffedAnnotationSetsCategories, cohenKappa, fleissKappa } from 'src/app/helpers/annotation';
+import { sortAnnotationSet, diffAnnotationSets, diffedAnnotationSetsToRatersMatrix, diffedAnnotationSetsToCategoriesMatrix, diffedAnnotationSetsRaters, diffedAnnotationSetsCategories, cohenKappa, fleissKappa } from 'src/app/helpers/annotation';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
+import Krippendorff from '@externals/krippendorff-alpha/src/krippendorff';
 
 @Component({
   selector: 'app-annotation-set-comparator',
@@ -44,19 +45,32 @@ export class AnnotationSetComparatorComponent extends MainComponent implements O
   @ViewChildren(AnnotationSetFilterComponent)
   private AnnotationSetFilterComponent!: QueryList<AnnotationSetFilterComponent>;
 
-  @ViewChild(MatTable)
-  table: MatTable<any>;
+  @ViewChild('rating_table')       table_rating:       MatTable<any>;
+  @ViewChild('agreement_table')    table_agreement:    MatTable<any>;
+  @ViewChild('fleiss_table')       table_fleiss:       MatTable<any>;
+  @ViewChild('krippendorff_table') table_krippendorff: MatTable<any>;
+
+  ratersMatrixDataSource     = new MatTableDataSource<number[]>();
   categoriesMatrixDataSource = new MatTableDataSource<number[]>();
+  agreementMatrixDataSource  = new MatTableDataSource<number[]>();
 
   selectedAnnotator: any[]        = [];
   text: string[]                  = [];
   visualisation_options: object[] = [];
 
-  kappaCohen  = 0.0;
-  kappaFleiss = 0.0;
+  kappaCohen: number           = 0.0;
+  kappaFleiss: number          = 0.0;
+  alphaKrippendorff: number    = 0.0;
   categoriesMatrix: number[][] = [];
-  categories: string[] = [];
-  columnsToDisplay = [];
+  categories: string[]         = [];
+  columnsToDisplay: string[]   = [];
+  ratersMatrix: number[][]     = [];
+  raters: string[]             = [];
+  ratersColumnsToDisplay: string[] = [];
+  // This is reduced version of categories matrix, with rows that sum to 1 are removed.
+  // It is used in the calculation of Krippendorff’s Alpha:
+  // https://www.real-statistics.com/reliability/interrater-reliability/krippendorffs-alpha/krippendorffs-alpha-basic-concepts/
+  agreementMatrix: number[][]  = [];
 
   super() { }
 
@@ -77,6 +91,7 @@ export class AnnotationSetComparatorComponent extends MainComponent implements O
     this.annotations.push([]);
     this.text.push("");
     this.visualisation_options.push({});
+    this.clearComparisons();
   }; /* addComparator */
 
   removeComparator() {
@@ -87,7 +102,7 @@ export class AnnotationSetComparatorComponent extends MainComponent implements O
     this.annotations.pop();
     this.text.pop();
     this.visualisation_options.pop();
-    this.columnsToDisplay      = Array(this.numberOfComparators).fill('value');
+    this.clearComparisons();
   }; /* removeComparator */
 
   ngAfterViewInit(): void {
@@ -177,20 +192,66 @@ export class AnnotationSetComparatorComponent extends MainComponent implements O
     this.annotations = diffAnnotationSets(this.annotations);
     this.changeDetectorRef.detectChanges(); // forces change detection to run
     this.annotationSetInspectorComponent.forEach((child) => child.onApply());
+    // Calculate the raters matrix...
+    this.raters                         = diffedAnnotationSetsRaters(this.annotations);
+    this.ratersMatrix                   = diffedAnnotationSetsToRatersMatrix(this.annotations, "type", this.categories);;
+    this.ratersColumnsToDisplay         = ["id", ...this.raters];
+    this.ratersMatrixDataSource.data    = this.ratersMatrix;
     // Calculate the categories matrix...
     this.categories       = diffedAnnotationSetsCategories(this.annotations, "type");
     this.categoriesMatrix = diffedAnnotationSetsToCategoriesMatrix(this.annotations, "type", this.categories);
     this.columnsToDisplay = ["id", ...this.categories];
     this.categoriesMatrixDataSource.data = this.categoriesMatrix;
-    this.table.renderRows();
+    // Caluclate the agreement matrix...
+    this.agreementMatrix                = this.categoriesMatrix.filter((row) => row.reduce((accumulator, curr) => accumulator + curr) > 1);
+    this.agreementMatrixDataSource.data = this.agreementMatrix;
+    this.table_rating.renderRows();
+    this.table_agreement.renderRows();
+    this.table_fleiss.renderRows();
+    this.table_krippendorff.renderRows();
     this.toastrService.info("Inter-Annotator Agreement Calculated!");
     this.showTabIAA  = true;
-    this.showTabDiff = false;
-    // Fleiss' Kappa...
+    this.showTabDiff = true;
+    // Fleiss’s Kappa...
     this.kappaFleiss = fleissKappa(this.categoriesMatrix, this.annotations.length);
     console.error("Fleiss Kappa:", this.kappaFleiss);
+    // Krippendorff’s Alpha...
+    let kripCal = new Krippendorff();
+    kripCal.setArrayData(this.ratersMatrix, 'categorical');
+    kripCal.calculate();
+    this.alphaKrippendorff = kripCal._KrAlpha;
+    console.error("Krippendorff Alpha:", this.alphaKrippendorff);
+    // Cohen’s Kappa...
     this.kappaCohen = cohenKappa(this.annotations[0].filter((ann) => 'type' in ann), this.annotations[1].filter((ann) => 'type' in ann));
     console.error("Cohen Kappa:", this.kappaCohen);
   }; /* compareAnnotations */
+
+  clearComparisons() {
+    this.categories             = [];
+    this.categoriesMatrix       = [];
+    this.columnsToDisplay       = [];
+    this.raters                 = [];
+    this.ratersMatrix           = [];
+    this.ratersColumnsToDisplay = [];
+    this.agreementMatrix        = [];
+
+    this.ratersMatrixDataSource.data     = this.ratersMatrix;
+    this.categoriesMatrixDataSource.data = this.categoriesMatrix;
+    this.agreementMatrixDataSource.data  = this.agreementMatrix;
+    this.table_rating.renderRows();
+    this.table_agreement.renderRows();
+    this.table_fleiss.renderRows();
+    this.table_krippendorff.renderRows();
+    this.showTabIAA  = false;
+    this.showTabDiff = false;
+    this.kappaCohen  = 0.0;
+    this.kappaFleiss = 0.0;
+    this.alphaKrippendorff = 0.0;
+    for (let i = 0; i < this.annotations.length; i++) {
+      this.annotations[i] = this.annotations[i].filter((ann) => "type" in ann);
+    }
+    this.changeDetectorRef.detectChanges(); // forces change detection to run
+    this.annotationSetInspectorComponent.forEach((child) => child.onApply());
+  }; /* clearComparisons */
 
 }

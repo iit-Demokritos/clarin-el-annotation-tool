@@ -28,16 +28,56 @@
       </as-split-area>
     </as-split>
   </mat-tab>
-  <!--
-  <mat-tab label="{{'Diff'|translate}}" [disabled]="!showTabDiff">
-  </mat-tab> -->
+  <mat-tab label="{{'Rating/Agreement Tables'|translate}}" [disabled]="!showTabDiff">
+    <!-- The two tables are described here: https://www.real-statistics.com/reliability/interrater-reliability/krippendorffs-alpha/krippendorffs-alpha-basic-concepts/ -->
+    <mat-tab-group>
+      <mat-tab label="{{'Rating Table'|translate}}">
+        <div class="flex-column h-full w-full">
+          <h1 class="flex-column-fill-x m-16">Rating Table</h1>
+          <div class="flex-column-fill-both overflow-auto">
+            <table mat-table #rating_table [dataSource]="ratersMatrixDataSource" class="annotation-set-comparator-matrix">
+              <ng-container matColumnDef="id">
+                <th class="annotation-set-comparator-matrix-header-id" mat-header-cell *matHeaderCellDef>#</th>
+                <td class="annotation-set-comparator-matrix-cell-id"   mat-cell *matCellDef="let value; let i = index">{{i+1}}</td>
+              </ng-container>
+                <ng-container *ngFor="let rater of raters; let col = index;" [matColumnDef]="rater">
+                  <th class="annotation-set-comparator-matrix-header"  mat-header-cell *matHeaderCellDef>{{rater}}</th>
+                  <td class="annotation-set-comparator-matrix-cell"    mat-cell *matCellDef="let value">{{value[col]}}</td>
+                </ng-container>
+              <tr mat-header-row *matHeaderRowDef="ratersColumnsToDisplay; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: ratersColumnsToDisplay;"></tr>
+            </table>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="{{'Agreement Table'|translate}}">
+        <div class="flex-column h-full w-full">
+          <h1 class="flex-column-fill-x m-16">Agreement Table</h1>
+          <div class="flex-column-fill-both overflow-auto">
+            <table mat-table #agreement_table [dataSource]="categoriesMatrixDataSource" class="annotation-set-comparator-matrix">
+              <ng-container matColumnDef="id">
+                <th class="annotation-set-comparator-matrix-header-id" mat-header-cell *matHeaderCellDef>#</th>
+                <td class="annotation-set-comparator-matrix-cell-id"   mat-cell *matCellDef="let value; let i = index">{{i+1}}</td>
+              </ng-container>
+                <ng-container *ngFor="let category of categories; let col = index;" [matColumnDef]="category">
+                  <th class="annotation-set-comparator-matrix-header"  mat-header-cell *matHeaderCellDef>{{category}}</th>
+                  <td class="annotation-set-comparator-matrix-cell"    mat-cell *matCellDef="let value">{{value[col]}}</td>
+                </ng-container>
+              <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+            </table>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-tab>
   <mat-tab label="{{'Inter-rater Reliability'|translate}}" [disabled]="!showTabIAA">
     <mat-tab-group>
-      <mat-tab label="{{'Fleiss\' kappa'|translate}}">
+      <mat-tab label="{{'Fleiss’ kappa'|translate}}">
         <div class="flex-column h-full w-full">
-          <h1 class="flex-column-fill-x m-16">Fleiss' kappa (κ): {{kappaFleiss}}</h1>
+          <h1 class="flex-column-fill-x m-16">Fleiss’ kappa (κ): {{kappaFleiss}}</h1>
           <div class="flex-column-fill-both overflow-auto">
-            <table mat-table [dataSource]="categoriesMatrixDataSource" class="annotation-set-comparator-matrix">
+            <table mat-table #fleiss_table [dataSource]="categoriesMatrixDataSource" class="annotation-set-comparator-matrix">
               <ng-container matColumnDef="id">
                 <th class="annotation-set-comparator-matrix-header-id" mat-header-cell *matHeaderCellDef>#</th>
                 <td class="annotation-set-comparator-matrix-cell-id"   mat-cell *matCellDef="let value; let i = index">{{i+1}}</td>
@@ -52,9 +92,28 @@
           </div>
         </div>
       </mat-tab>
-      <mat-tab label="{{'Cohen\'s kappa'|translate}}">
+      <mat-tab label="{{'Krippendorff’s alpha'|translate}}">
         <div class="flex-column h-full w-full">
-          <h1 class="flex-column-fill-x m-16">Cohen's kappa coefficient (κ): {{kappaCohen}}</h1>
+          <h1 class="flex-column-fill-x m-16">Krippendorff’s alpha (α): {{alphaKrippendorff}}</h1>
+          <div class="flex-column-fill-both overflow-auto">
+            <table mat-table #krippendorff_table [dataSource]="ratersMatrixDataSource" class="annotation-set-comparator-matrix">
+              <ng-container matColumnDef="id">
+                <th class="annotation-set-comparator-matrix-header-id" mat-header-cell *matHeaderCellDef>#</th>
+                <td class="annotation-set-comparator-matrix-cell-id"   mat-cell *matCellDef="let value; let i = index">{{i+1}}</td>
+              </ng-container>
+                <ng-container *ngFor="let rater of raters; let col = index;" [matColumnDef]="rater">
+                  <th class="annotation-set-comparator-matrix-header"  mat-header-cell *matHeaderCellDef>{{rater}}</th>
+                  <td class="annotation-set-comparator-matrix-cell"    mat-cell *matCellDef="let value">{{value[col]}}</td>
+                </ng-container>
+              <tr mat-header-row *matHeaderRowDef="ratersColumnsToDisplay; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: ratersColumnsToDisplay;"></tr>
+            </table>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="{{'Cohen’s kappa'|translate}}">
+        <div class="flex-column h-full w-full">
+          <h1 class="flex-column-fill-x m-16">Cohen’s kappa coefficient (κ): {{kappaCohen}}</h1>
         </div>
       </mat-tab>
     </mat-tab-group>
