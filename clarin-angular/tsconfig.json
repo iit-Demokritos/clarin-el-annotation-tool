@@ -28,7 +28,9 @@
       "@testing": ["testing"],
       "@testing/*": ["testing/*"],
       "@env": ["src/environments"],
-      "@env/*": ["src/environments/*"]
+      "@env/*": ["src/environments/*"],
+      "@externals": ["externals"],
+      "@externals/*": ["externals/*"]
     },
     "allowSyntheticDefaultImports":true,
     "emitDecoratorMetadata": true
