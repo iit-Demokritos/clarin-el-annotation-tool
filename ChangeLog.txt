@@ -1,4 +1,5 @@
 12 January 2022 Petasis George <petasis@iit.demokritos.gr>:
+ * backend-django/openapi/:
  * backend-django/DjangoClarin/settings.py:
  * backend-django/DjangoClarin/urls.py:
  * backend-django/requirements.txt: Added support for OpenAI through the
