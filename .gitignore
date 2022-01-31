@@ -21,6 +21,7 @@ backend-django/analytics/__pycache__
 backend-django/analytics/migrations/__pycache__
 backend-django/drag_and_drop/__pycache__
 backend-django/drag_and_drop/migrations/__pycache__
+backend-django/openapi/__pycache__/
 backend-django/clarin_backend/static/
 backend-django/static/
 backend-django/clarin_backend/templates/index.html
