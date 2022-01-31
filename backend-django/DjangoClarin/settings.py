@@ -59,7 +59,9 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'clarin_backend',
     'analytics',
-    'drag_and_drop'
+    'drag_and_drop',
+    'openapi',
+    'drf_spectacular'
 ]
 
 MIDDLEWARE = [
@@ -114,6 +116,14 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.BrowsableAPIRenderer',
         'DjangoClarin.renderers.TextEventStreamAPIRenderer',
     ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Ellogon Web Annotation Tool',
+    'DESCRIPTION': 'API for the back-end of the Ellogon Web Annotation Tool',
+    'VERSION': '1.0.0',
+    # OTHER SETTINGS
 }
 
 # REST Simple JWT

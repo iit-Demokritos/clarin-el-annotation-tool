@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/',         admin.site.urls),
     path('analytics/',     include('analytics.urls')),
     path('drag_and_drop/', include('drag_and_drop.urls')),
+    path('openapi/',       include('openapi.urls')),
     re_path('^assets/(?P<path>.*)$', static.serve, {'document_root': settings.BASE_DIR / "static" / "assets"}),
     path('',               include('clarin_backend.urls')) #change clarin to /?
 ]
