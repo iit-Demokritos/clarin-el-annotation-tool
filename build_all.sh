@@ -4,7 +4,7 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 ANGULAR2_PROJECT_NAME=clarin-angular
 ANGULAR2_DIR=$SCRIPT_DIR/$ANGULAR2_PROJECT_NAME
 
-LARAVEL_DIR=$SCRIPT_DIR/backend/clarin
+#LARAVEL_DIR=$SCRIPT_DIR/backend/clarin
 
 DJANGO_DIR=$SCRIPT_DIR/backend-django
 DJANGO_STATIC_DIR=$DJANGO_DIR/clarin_backend/static
@@ -50,9 +50,9 @@ sed -i "s/href=\"styles\./href=\"static\/styles\./g" $DJANGO_TEMPLATES_DIR/index
 
 ## Copy Laravel's index.php to dist/clarin-angular
 cp --force src/index.php dist/$ANGULAR2_PROJECT_NAME/index.php
-cp --force dist/$ANGULAR2_PROJECT_NAME/index.html \
-	   $LARAVEL_DIR/resources/views/angular2_index.php
+#cp --force dist/$ANGULAR2_PROJECT_NAME/index.html \
+#           $LARAVEL_DIR/resources/views/angular2_index.php
 #sed '/^<\/head>.*/i \ \ <link rel="stylesheet" type="text/css" href="assets/css/clarin.css">' \
-#	dist/$ANGULAR2_PROJECT_NAME/index.html \
-#	> $LARAVEL_DIR/resources/views/angular2_index.php
+#        dist/$ANGULAR2_PROJECT_NAME/index.html \
+#        > $LARAVEL_DIR/resources/views/angular2_index.php
 cp --force -r src/css dist/$ANGULAR2_PROJECT_NAME/assets
