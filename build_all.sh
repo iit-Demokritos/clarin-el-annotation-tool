@@ -6,7 +6,7 @@ ANGULAR2_DIR=$SCRIPT_DIR/$ANGULAR2_PROJECT_NAME
 
 LARAVEL_DIR=$SCRIPT_DIR/backend/clarin
 
-DJANGO_DIR=/home/clarinel/clarin-el-annotation-tool/backend-django
+DJANGO_DIR=$SCRIPT_DIR/backend-django
 DJANGO_STATIC_DIR=$DJANGO_DIR/clarin_backend/static
 DJANGO_TEMPLATES_DIR=$DJANGO_DIR/clarin_backend/templates
 
