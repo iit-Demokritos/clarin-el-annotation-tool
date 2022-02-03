@@ -34,6 +34,7 @@ ng build
 
 ## Copy dist to $DJANGO_STATIC_DIR
 echo "Copying distribution to Django: $DJANGO_STATIC_DIR"
+mkdir -p $DJANGO_STATIC_DIR
 rm -rf $DJANGO_STATIC_DIR/assets $DJANGO_STATIC_DIR/*es2015*.js \
        $DJANGO_STATIC_DIR/*-es5.*.js $DJANGO_STATIC_DIR/favicon.ico \
        $DJANGO_STATIC_DIR/index.html $DJANGO_STATIC_DIR/scripts.*.js \
