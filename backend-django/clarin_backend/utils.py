@@ -14,13 +14,22 @@ import sys, os
 from .models import Users, Collections, SharedCollections
 from django.db.models import Q
 
+class ErrorLoggingAPIViewList:
+    http_method_names = ["get", "post"]
+
+class ErrorLoggingAPIViewDetail:
+    http_method_names = ["get", "put", "patch", "delete"]
+
 class ErrorLoggingAPIView(APIView):
+    """
+    Base class to implement an error logging APIView.
+    """
     status_exception_default  = status.HTTP_400_BAD_REQUEST
     status_exception          = status.HTTP_400_BAD_REQUEST
     data_exception            = {}
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         ## Get the number of arguments of the list & retrieve methods...
         sig_list     = signature(self.list)
         sig_retrieve = signature(self.retrieve)
@@ -202,7 +211,9 @@ def get_clarindb():
 
 def get_collection_handle(db_handle, collection_name):
     # print(db_handle[collection_name])
-    return db_handle[collection_name]
+    if collection_name in db_handle:
+        return db_handle[collection_name]
+    return None
 
 
 db_handle, mongo_client = get_clarindb()

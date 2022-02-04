@@ -1,3 +1,6 @@
+04 February 2022 Petasis George <petasis@iit.demokritos.gr>:
+ * backend-django/clarin_backend/utils.py: Fixes for dockerisation.
+
 12 January 2022 Petasis George <petasis@iit.demokritos.gr>:
  * backend-django/openapi/:
  * backend-django/DjangoClarin/settings.py:
