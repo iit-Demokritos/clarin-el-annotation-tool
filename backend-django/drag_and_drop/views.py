@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from clarin_backend.utils import ErrorLoggingAPIView
+from clarin_backend.utils import ErrorLoggingAPIViewList
 from clarin_backend.mongodb_views import MongoDBAPIView
 from clarin_backend.models import Users, Collections, Documents
 from django.utils.decorators import method_decorator
@@ -7,12 +7,14 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.forms.models import model_to_dict
 from bson.objectid import ObjectId
 import re
-
+from drf_spectacular.utils import extend_schema_view, extend_schema
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class DocumentCopyView(MongoDBAPIView):
+    http_method_names = ["post"]
     db_name = 'annotations'
 
     # Create a new instance. (POST)
+
     def create(self, request):
         did = request.data['document_id']
         cid = request.data['collection_id']
@@ -73,3 +75,16 @@ class DocumentCopyView(MongoDBAPIView):
         # Save the annotations...
         self.db.insert(target_annotations)
         return {"success": True, "collection_id": cid, "document_id": document.pk}
+
+
+
+@extend_schema_view(
+    
+    ## Method: create
+    post=extend_schema(request=None,responses={200: None},
+        description="Gets document id and collection id and copies the document to the collection with the given collection id along with its annotations."
+        
+    )
+)
+class DocumentCopyViewList(ErrorLoggingAPIViewList, DocumentCopyView):
+     http_method_names = ["post"]

@@ -9,9 +9,14 @@ from .models import Users, Collections, SharedCollections, \
         OpenDocuments, Documents, \
         ButtonAnnotators, CoreferenceAnnotators
 
-from .utils import ErrorLoggingAPIView
+from .utils import ErrorLoggingAPIView, ErrorLoggingAPIViewList, ErrorLoggingAPIViewDetail
 from .mongodb_views import *
 from .serializers import *
+
+from drf_spectacular.utils import extend_schema_view, extend_schema
+#, OpenApiParameter, OpenApiExample
+#from drf_spectacular.types import OpenApiTypes
+#from rest_framework.decorators import action
 
 class SQLDBAPIView(ErrorLoggingAPIView):
 
@@ -27,8 +32,13 @@ class SQLDBAPIView(ErrorLoggingAPIView):
 ##############################################
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class DocumentsView(SQLDBAPIView):
+    """
+    Document Controller
+    """
+    http_method_names = ["get", "post", "patch", "delete"]
+
     # List all instances. (GET)
-    def list(self, request, cid):
+    def list(self, request, cid): 
         collection = self.getCollection(request.user, cid)
         documents  = Documents.objects.filter(collection_id=collection)
         docs = []
@@ -167,7 +177,7 @@ class DocumentsView(SQLDBAPIView):
     # def update(self, request, _id):
     # # Partially update an existing instance. (PATCH)
     # def partial_update(self, request, _id):
-    def partial_update(self,request,cid,did):
+    def partial_update(self, request, cid, did):
         collection = self.getCollection(request.user, cid)
         document   = Documents.objects.filter(id=did)
         if not document.exists():
@@ -200,3 +210,33 @@ class DocumentsView(SQLDBAPIView):
         tempAnnController.destroy(request, cid, did, 'null')
         document.delete()
         return {"deleted": True}
+
+@extend_schema_view(
+    ## Method: list
+    get=extend_schema(request=None,responses={200: None},operation_id="list_collection_documents",
+        description="Gets collection id and returns a list with the documents of the collection with the given id.",
+    ),
+    ## Method: create
+    post=extend_schema(request=None,responses={200: None},
+        description="Gets collection id and document data and creates a new document record.",
+    ),
+)
+class DocumentsViewList(ErrorLoggingAPIViewList, DocumentsView):
+    pass
+
+@extend_schema_view(
+    ## Method: retrieve
+    get=extend_schema(request=None,responses={200: None},operation_id="retrieve_document",
+        description="Gets collection id and document id and returns the document record.",
+    ),
+    ## Method: partial_update
+    patch=extend_schema(request=None,responses={200: None},
+        description="Gets collection id and document id and renames the document with the given document id.",
+    ),
+    ## Method: destroy
+    delete=extend_schema(request=None,responses={200: None},
+        description="Gets collection id and document id and deletes the document with the given document id.",
+    ),
+)
+class DocumentsViewDetail(DocumentsView):
+    http_method_names = ["get", "patch", "delete"]

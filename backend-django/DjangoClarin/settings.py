@@ -124,6 +124,7 @@ SPECTACULAR_SETTINGS = {
     'DESCRIPTION': 'API for the back-end of the Ellogon Web Annotation Tool',
     'VERSION': '1.0.0',
     # OTHER SETTINGS
+    #'PREPROCESSING_HOOKS': ['openapi.hooks.custom_preprocessing_hook']
 }
 
 # REST Simple JWT

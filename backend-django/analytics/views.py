@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework.views import APIView, View
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from clarin_backend import utils
@@ -34,6 +34,7 @@ def mongodb_db_annotations_aggregate(request):
     return mongodb_db_annotations().aggregate(query)
 
 class AnnotationsFindView(APIView):
+    @extend_schema(request=None,responses={200: None},description="Gets a mongodb query, a set of  projection fields and retrieves from the annotations collection the records that are matched.")   
     def post(self, request):
         cursor = mongodb_db_annotations_find(request)
         return Response(
@@ -42,6 +43,7 @@ class AnnotationsFindView(APIView):
         )
 
 class AnnotationsFindByIdView(APIView):
+    @extend_schema(request=None,responses={200: None},description="Gets an annotation id and returns the annotation data.")   
     def post(self, request):
         cursor = mongodb_db_annotations_find_by_id(request)
         return Response(

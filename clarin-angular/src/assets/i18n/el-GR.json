@@ -88,7 +88,10 @@
     "Analytics.Annotation Values": "Annotation Values",
     "Settings": "Ρυθμίσεις",
     "Send Feedback": "Αποστολή Σχολίων",
-    "Help": "Βοήθεια"
+    "Help": "Βοήθεια",
+    "Help.Documentation": "Documentation",
+    "Help.Developer Tools": "Developer Tools",
+    "Help.API Documentation": "API Documentation"
   },
   "Collections": {
     "MyCollections": "Οι Συλλογές Μου",

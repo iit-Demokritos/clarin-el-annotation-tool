@@ -105,8 +105,28 @@
     {
       "route": "app/help",
       "name": "Help",
-      "type": "link",
-      "icon": "help"
+      "type": "sub",
+      "icon": "help",
+      "children": [
+        {
+          "route": "documentation",
+          "name": "Documentation",
+          "type": "link",
+          "icon": "find_in_page"
+        },
+	{
+          "route": "developertools",
+          "name": "Developer Tools",
+          "type": "link",
+          "icon": "find_in_page"
+        },
+	{
+          "route": "apidocumentation",
+          "name": "API Documentation",
+          "type": "link",
+          "icon": "find_in_page"
+        }
+      ]
     }
   ]
 }

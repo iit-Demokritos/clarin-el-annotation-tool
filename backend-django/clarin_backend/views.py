@@ -56,6 +56,7 @@ import json
 from django.conf import settings
 from DjangoClarin import authentication
 
+from drf_spectacular.utils import extend_schema_view, extend_schema
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class ObtainTokenPairView(TokenObtainPairView):
@@ -66,6 +67,7 @@ class ObtainTokenPairView(TokenObtainPairView):
     # for loading the login page. Thus, this function must have
     # both a GET & POST methods, doing different things (returning
     # the main HTML page & logining in).
+    @extend_schema(request=None,responses={200: None},description="Loading login page.")
     def get(self, request):
         host = request.get_host()
         index = 'index.html'
@@ -73,8 +75,10 @@ class ObtainTokenPairView(TokenObtainPairView):
             index = 'anjularjs_index.html'
         # print("InitApp:", host, index);
         return render(request, index)
-
+    
+    @extend_schema(request=None,responses={200: None},description="Takes a set of user credentials and returns an access and refresh JSON web token pair to prove the authentication of those credentials.")
     def post(self, request, *args, **kwargs):
+
         serializer = self.get_serializer(data=request.data)
 
         try:
@@ -93,6 +97,7 @@ class ObtainTokenPairView(TokenObtainPairView):
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class InitApp(View):
+    @extend_schema(request=None,responses={200: None},description="Redirect to homepage.")
     def get(self, request):
         host = request.get_host()
         index = 'index.html'
@@ -121,9 +126,11 @@ class RefreshTokenView(TokenRefreshView):
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class CustomUserCreate(APIView):
+    
     permission_classes = (permissions.AllowAny,)
     authentication_classes = ()
-
+    
+    @extend_schema(request=None,responses={200: None},description="Takes a set of personal data (email, first name, last name, password), creates a new user and sends activation email.")
     def post(self, request, format='json'):
         # TODO: protect on error!
 
@@ -164,8 +171,10 @@ class CustomUserCreate(APIView):
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class LogoutAndBlacklistRefreshTokenForUserView(APIView):
+
     #permission_classes = (permissions.AllowAny,)
     #authentication_classes = ()
+    @extend_schema(request=None,responses={200: None},description="User Logout")
     def get(self, request):
         try:
             email = request.user
@@ -177,7 +186,9 @@ class LogoutAndBlacklistRefreshTokenForUserView(APIView):
         except Exception as e:
             print("LogoutAndBlacklistRefreshTokenForUserView get error:"+str(e))
             return Response({"success": True, "message": "Logout error:"+str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
+        
+        
+    @extend_schema(request=None,responses={200: None},description="User Logout")
     def post(self, request):
         try:
 
@@ -218,12 +229,14 @@ class ActivationView(View):
 
 
 class GetCsrfToken(APIView):
+  
     permission_classes = (permissions.AllowAny,)
     authentication_classes = ()
-
+    
+    @extend_schema(request=None,responses={200: None},description="Gets X-XSRF-token")
     def get(self, request):
-        cstf_token_val = get_token(request)
-        request.META["X-XSRF-TOKEN"] = cstf_token_val
+        csrf_token_val = get_token(request)
+        request.META["X-XSRF-TOKEN"] = csrf_token_val
         return Response(data={"success": True, "data": []},
                         status=status.HTTP_200_OK)
 
@@ -231,6 +244,7 @@ class GetCsrfToken(APIView):
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class ChangePassword(APIView):
 
+    @extend_schema(request=None,responses={200: None},description="Gets current password and new password and updates user's password.")
     def post(self, request):
         try:
             email = request.user
@@ -274,9 +288,11 @@ class InitPasswords(APIView):
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class ResetPassword(APIView):
+    
     permission_classes = (permissions.AllowAny,)
     authentication_classes = ()
 
+    @extend_schema(request=None,responses={200: None},description="Gets user's email, resets user's password and sends an email with the new password.")
     def post(self, request):
         try:
             email = request.data["email"]
@@ -308,8 +324,10 @@ class ResetPassword(APIView):
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class Me(APIView):
-
+    
+    @extend_schema(request=None,responses={200: None},description="Returns user's data")
     def get(self, request):
+        
         try:
             #print(request.build_absolute_uri('/static/assets/images/EllogonCyan.svg'))
             user = Users.objects.get(email=request.user)
@@ -322,8 +340,10 @@ class Me(APIView):
             print("Me error:"+str(e))
             return Response(data={"success": False, "message": "User info error:"+str(e)},
                             status=status.HTTP_200_OK)
-
+   
+    @extend_schema(request=None,responses={200: None},description="Updates user's firstname,lastname and email.")
     def post(self, request):
+        
         try:
             user = request.user
             data = request.data
@@ -344,6 +364,8 @@ class Me(APIView):
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class ReturnStatistics(APIView):
+    
+    @extend_schema(request=None,responses={200: None},description="Returns the total numbers of user's collections,documents and annotations.")   
     def get(self, request):
         annotations_counter = 0
         collections_counter = 0
@@ -372,6 +394,7 @@ class ReturnStatistics(APIView):
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class HandleCollection(APIView):
+    @extend_schema(request=None,responses={200: None},operation_id="collection_data_retrieve",description="Gets collection_id and returns collection data.")
     def get(self, request, collection_id):
         try:
             collection = Collections.objects.filter(id=collection_id)
@@ -393,6 +416,7 @@ class HandleCollection(APIView):
             print("HandleCollection (get):" + str(ex))
             return Response(data={"success": False}, status=status.HTTP_400_BAD_REQUEST)
 
+    @extend_schema(request=None,responses={200: None},description="Gets collection_id and deletes collection data along with its documents and their annotations.")
     def delete(self, request, collection_id):
         try:
             collection = Collections.objects.filter(id=collection_id)
@@ -412,7 +436,9 @@ class HandleCollection(APIView):
             annotations_temp.delete_many({"document_id": document.pk})
         collection.delete()
         return Response(data={"success": True}, status=status.HTTP_200_OK)
-
+    
+    
+    @extend_schema(request=None,responses={200: None},description="Gets collection_id and renames collection.")
     def patch(self, request, collection_id):
         try:
             collection = Collections.objects.filter(id=collection_id)
@@ -445,7 +471,9 @@ class HandleCollection(APIView):
 # 4 & 5
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class HandleCollections(APIView):
+    @extend_schema(request=None,responses={200: None},description="Returns  all data for the collections that user has access.")   
     def get(self, request):
+        
         collection_data = {}
         collections_lst = []
         try:
@@ -500,7 +528,9 @@ class HandleCollections(APIView):
             collection_data = {}
         return Response(data={"success": True, "data": collections_lst}, status=status.HTTP_200_OK)
 
+    @extend_schema(request=None,responses={200: None},description="Gets data (name,encoding,handler,type) for creating  a collection along with a set of documents.")   
     def post(self, request):
+        
         new_data = {}
         try:
             data = request.data["data"]
@@ -549,6 +579,8 @@ class HandleCollections(APIView):
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class ExistCollection(APIView):
+    
+    @extend_schema(request=None,responses={200: None},description="Checks if  there is collection with the given name.")   
     def get(self, request, collection_name):
         try:
             owner = Users.objects.get(email=request.user)
@@ -642,6 +674,7 @@ def DocumentLiveUpdate_event_stream(request, collection_id, document_id):
 # @condition(etag_func=None)
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class DocumentLiveUpdate(APIView):
+    @extend_schema(request=None,responses={200: None},description="Get document changes in real time for annotation tool web  application.")   
     def get(self, request, collection_id, document_id):
         # print("DocumentLiveUpdate:", request, collection_id, document_id, request.user.is_authenticated)
         # print("User:", request.user, dir(request.user));
@@ -655,9 +688,11 @@ class DocumentLiveUpdate(APIView):
 
 
 class HandlerApply(APIView):
+    
     authentication_classes = []
     permission_classes = []
 
+    @extend_schema(request=None,responses={200: None},description="Applies handler for tei xml files.")   
     def post(self, request, format='json'):
         try:
             data = request.data
@@ -679,7 +714,10 @@ class HandlerApply(APIView):
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class ShareCollectionView(APIView):
+    
+    @extend_schema(request=None,responses={200: None},description="Gets collection name, collection id and the email of the invited user and sends an email with an invitation for sharing the collection.")   
     def post(self, request, collection_id):
+
         try:
             data = request.data["data"]
             fromuser = Users.objects.get(email=request.user)
@@ -729,7 +767,9 @@ class ShareCollectionView(APIView):
         return Response(data={"success": False, "message": "An error occured. Invitation email has not been sent."},
                         status=status.HTTP_200_OK)
 
+    @extend_schema(request=None,responses={200: None},description="Gets collection id and returns all the users that are invited to share the collection.")   
     def get(self, request, collection_id):
+    
         collection = Collections.objects.get(pk=collection_id)
         user = Users.objects.get(email=request.user)
         sharecollections = SharedCollections.objects.filter(
@@ -743,7 +783,10 @@ class ShareCollectionView(APIView):
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class SharedCollectionDelete(APIView):
+    
+    @extend_schema(request=None,responses={200: None},description="Gets collection id and shared id and revokes the selected invitation.")   
     def delete(self, request, collection_id, share_id):
+        
         try:
             sharecollection = SharedCollections.objects.get(pk=share_id)
             touser=sharecollection.tofield
@@ -797,7 +840,10 @@ class AcceptCollectionView(View):
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class OpenDocumentView(APIView):
+    
+    @extend_schema(request=None,responses={200: None},operation_id="opendocument_view",description="Returns collection id, document id, annotator type, db_interactions, opened, confirmed and user id for all open documents.")   
     def get(self, request):
+        
         try:
             user = Users.objects.get(email=request.user)
             opendocuments = OpenDocuments.objects.all()
@@ -833,7 +879,9 @@ class OpenDocumentView(APIView):
             return Response(data={"success": False, "data": []}, status=status.HTTP_200_OK)
         return Response(data={"success": True, "data": records}, status=status.HTTP_200_OK)
 
+    @extend_schema(request=None,responses={200: None},description="Gets collection id, document id and annotator type and creates a new open document.")   
     def post(self, request):
+        
         try:
             data = request.data["data"]
             collection = Collections.objects.get(pk=data["collection_id"])
@@ -862,7 +910,10 @@ class OpenDocumentView(APIView):
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class CollectionDataView(APIView):
+    
+    @extend_schema(request=None,responses={200: None},description="Returns document id, document name, collection id, collection name, owner id, confirmed and is owner for all the documents that user has access.")   
     def get(self, request):
+        
         try:
             user = Users.objects.get(email=request.user)
             collections = Collections.objects.filter(owner_id=user)
@@ -910,6 +961,8 @@ class CollectionDataView(APIView):
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class ButtonAnnotatorView(APIView):
+    
+    @extend_schema(request=None,responses={200: None},description="Gets most recent selected button annotation schema.")   
     def get(self, request):
 
         try:
@@ -924,7 +977,9 @@ class ButtonAnnotatorView(APIView):
                             status=status.HTTP_200_OK)
         return Response(data={"success": True, "data": btn_data}, status=status.HTTP_200_OK)
 
+    @extend_schema(request=None,responses={200: None},description="Stores the user's most recent selection of button annotation schema.")   
     def post(self, request):
+        
         try:
             user = Users.objects.get(email=request.user)
             button_annotator = ButtonAnnotators.objects.filter(user_id=user)
@@ -952,6 +1007,8 @@ class ButtonAnnotatorView(APIView):
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class CoreferenceAnnotatorView(APIView):
+    
+    @extend_schema(request=None,responses={200: None},description="Gets most recent selected coreference annotation schema.")   
     def get(self, request):
 
         try:
@@ -967,7 +1024,9 @@ class CoreferenceAnnotatorView(APIView):
                             status=status.HTTP_200_OK)
         return Response(data={"success": True, "data": coref_data}, status=status.HTTP_200_OK)
 
+    @extend_schema(request=None,responses={200: None},description="Stores the user's most recent selection of coreference annotation schema.")   
     def post(self, request):
+        
         try:
             user = Users.objects.get(email=request.user)
             coreference_annotator = CoreferenceAnnotators.objects.filter(
@@ -992,6 +1051,8 @@ class CoreferenceAnnotatorView(APIView):
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class OpenDocumentRetrieve(APIView):
+    
+    @extend_schema(request=None,responses={200: None},description="Returns all open documents with the given document id.")   
     def get(self, request, document_id):
         data = []
         try:
@@ -1028,6 +1089,8 @@ class OpenDocumentRetrieve(APIView):
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class OpenDocumentUpdate(APIView):
+    
+    @extend_schema(request=None,responses={200: None}, operation_id="open_document_update",description="Gets document id and button annotator name and returns collection id, document id, db interactions, annotator type, confirmed, opened.<br>Resets db interactions and updates updated_at with current timestamp.")   
     def get(self, request, document_id, Button_Annotator_name):
         data = []
         try:
@@ -1063,7 +1126,9 @@ class OpenDocumentUpdate(APIView):
         return Response(data={"success": True, "data": data},
                         status=status.HTTP_200_OK)
 
+    @extend_schema(request=None,responses={200: None},description="Gets document id and button annotator name and deletes the open document.")   
     def delete(self, request, document_id, Button_Annotator_name):
+        
         try:
             user = Users.objects.get(email=request.user)
             document = Documents.objects.get(pk=document_id)
@@ -1082,7 +1147,7 @@ class OpenDocumentUpdate(APIView):
 class ImportView(APIView):
     permission_classes = (permissions.AllowAny,)
     authentication_classes = ()
-
+    @extend_schema(request=None,responses={200: None},description="Not implemented.")   
     def post(self, request):
         return Response(data={"message": "This functionality is not implemented"}, status=status.HTTP_200_OK)
 
@@ -1090,6 +1155,7 @@ class ImportView(APIView):
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class ImportAnnotationsView(APIView):
 
+    @extend_schema(request=None,responses={200: None},description="Gets collection id, document id and a list with annotations and imports them to the current document.")   
     def post(self, request, collection_id, document_id):
 
         annotations = request.data["data"]
@@ -1127,9 +1193,11 @@ class ImportAnnotationsView(APIView):
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class ExportCollectionView(APIView):
+
     permission_classes = (permissions.AllowAny,)
     authentication_classes = ()
 
+    @extend_schema(request=None,responses={200: None},description="Gets collection id and exports the collection along with its documents and their annotations.")   
     def get(self, request, collection_id):
         data = {}
         try:

@@ -7,12 +7,11 @@ from rest_framework.views import APIView, View
 
 from .models import Users, Collections, SharedCollections, OpenDocuments, Documents, \
     ButtonAnnotators, CoreferenceAnnotators
-
-from .utils import ErrorLoggingAPIView, get_collection_handle
+from .utils import ErrorLoggingAPIView, ErrorLoggingAPIViewList, ErrorLoggingAPIViewDetail,get_collection_handle
 from .utils import db_handle as mongodb_db_clarin
 from bson.objectid import ObjectId
 import datetime
-
+from drf_spectacular.utils import extend_schema_view, extend_schema
 class MongoDBAPIView(ErrorLoggingAPIView):
     db_name = ''
     
@@ -92,6 +91,7 @@ class MongoDBAPIView(ErrorLoggingAPIView):
 ##############################################
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class AnnotationsView(MongoDBAPIView):
+    http_method_names = ["get", "post", "delete"]
     db_name = 'annotations'
 
     optional = [
@@ -199,11 +199,44 @@ class AnnotationsView(MongoDBAPIView):
         return {'db_interactions': 0}
 
 
+@extend_schema_view(
+    ## Method: list
+    get=extend_schema(request=None,responses={200: None},operation_id="list_all_annotations",
+        description="Gets collection id and document id and returns a list with the annotations of the document with the given id.",
+    ),
+    ## Method: create
+    post=extend_schema(request=None,responses={200: None},
+        description="Gets collection id,document id and annotation data and creates annotation record."
+        
+    ),# change line for parameters?
+    delete=extend_schema(request=None,responses={200: None},operation_id="delete_all_annotations",
+        description="Gets collection id,document id and deletes all the annotations of the document",
+    ),
+)
+class AnnotationsViewList(ErrorLoggingAPIViewList, AnnotationsView):
+     http_method_names = ["get", "post","delete"]
+
+@extend_schema_view(
+    ## Method: retrieve
+    get=extend_schema(request=None,responses={200: None},operation_id="list_specific_annotations",
+        description="Gets collection id,document id and a parameter: <br/> annotator id for retrieving a list with the annotations of the document with the given id  and the given annotator. <br/>  annotation id for retrieving a single annotation",
+    ),
+    ## Method: destroy
+    delete=extend_schema(request=None,responses={200: None},operation_id="delete_specific_annotations",
+        description="Gets collection id,document id and a parameter: <br/> annotator id for deleting all the annotations of the document for the given annotator. <br/> annotation id for deleting a single annotation.",
+    ),
+)
+class AnnotationsViewDetail(AnnotationsView):
+   http_method_names = ["get", "delete"]
+
+
+
 ##############################################
 ## Temp Annotations
 ##############################################
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class TempAnnotationsView(MongoDBAPIView):
+    http_method_names = ["get", "post","put" "delete"]
     db_name = 'annotations_temp'
     optional = [
         'document_attribute',
@@ -359,3 +392,37 @@ class TempAnnotationsView(MongoDBAPIView):
         if not db_interactions:
             db_interactions = 0
         return {'db_interactions': db_interactions}
+
+
+
+@extend_schema_view(
+    ## Method: list
+    get=extend_schema(request=None,responses={200: None},operation_id="list_all_temp_annotations",
+        description="Gets collection id and document id and returns a list with the temp annotations of the document with the given id.",
+    ),
+    ## Method: create
+    post=extend_schema(request=None,responses={200: None},
+        description="Gets collection id,document id and annotation data and creates temp annotation record."
+        
+    ),# change line for parameters?
+    delete=extend_schema(request=None,responses={200: None},operation_id="delete_all_temp_annotations",
+        description="Gets collection id,document id and deletes all the temp annotations of the document",
+    ),
+)
+class TempAnnotationsViewList(ErrorLoggingAPIViewList, TempAnnotationsView):
+     http_method_names = ["get", "post","delete"]
+
+@extend_schema_view(
+    ## Method: retrieve
+    get=extend_schema(request=None,responses={200: None},operation_id="list_specific_temp_annotations",
+        description="Gets collection id,document id and a parameter: <br/> annotator id for retrieving a list with the temp annotations of the document with the given id  and the given annotator. <br/> temp annotation id for retrieving a single temp annotation",
+    ),
+    put=extend_schema(request=None,responses={200: None},
+        description="Gets collection id,document id,temp annotation id and updates temp annotation with the given id"),
+    ## Method: destroy
+    delete=extend_schema(request=None,responses={200: None},operation_id="delete_specific_temp_annotations",
+        description="Gets collection id,document id and a parameter: <br/> annotator id for deleting all the temp annotations of the document for the given annotator. <br/> annotation id for deleting a single temp annotation.",
+    ),
+)
+class TempAnnotationsViewDetail(TempAnnotationsView):
+  http_method_names = ["get","put","delete"]

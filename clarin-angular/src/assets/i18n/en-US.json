@@ -88,7 +88,10 @@
     "Analytics.Annotation Values": "Annotation Values",
     "Settings": "Settings",
     "Send Feedback": "Send Feedback",
-    "Help": "Help"
+    "Help": "Help",
+    "Help.Documentation": "Documentation",
+    "Help.Developer Tools": "Developer Tools",
+    "Help.API Documentation": "API Documentation"
   },
   "Collections": {
     "MyCollections": "My Collections",

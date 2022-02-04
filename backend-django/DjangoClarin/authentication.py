@@ -6,7 +6,7 @@ from django.conf import settings
 
 from rest_framework.authentication import CSRFCheck
 from rest_framework import exceptions
-
+from drf_spectacular.contrib.rest_framework_simplejwt import SimpleJWTScheme
 def setJWTCookie(response, access_token):
     response.set_cookie(
         key      = settings.SIMPLE_JWT['AUTH_COOKIE'], 
@@ -36,3 +36,14 @@ class CustomAuthentication(JWTAuthentication):
         validated_token = self.get_validated_token(raw_token)
         # print("USER:", self.get_user(validated_token), ", Validated Token:", validated_token)
         return self.get_user(validated_token), validated_token
+    
+
+class SimpleJWTTokenUserScheme(SimpleJWTScheme):
+    name = "CustomJWTAuth"
+    target_class = CustomAuthentication
+    def get_security_definition(self, auto_schema):
+        return {
+            "type": "http",
+            "scheme": "bearer",
+            "bearerFormat": "JWT",
+        }

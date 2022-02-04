@@ -4,6 +4,25 @@
 03 February 2022 Petasis George <petasis@iit.demokritos.gr>:
  * docker/*: Started support for dockerisation of the annotation tool.
 
+02 February 2022 Petasis George <petasis@iit.demokritos.gr>, Anna Gradou <agradou@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
+ * clarin-angular/src/assets/data/menu.json:
+ * clarin-angular/src/assets/i18n/el-GR.json:
+ * clarin-angular/src/assets/i18n/en-US.json: Changes in sidebar.
+
+ * backend-django/DjangoClarin/authentication.py:
+ * backend-django/DjangoClarin/settings.py:
+ * backend-django/analytics/views.py:
+ * backend-django/clarin_backend/mongodb_views.py:
+ * backend-django/clarin_backend/sql_views.py:
+ * backend-django/clarin_backend/urls.py:
+ * backend-django/clarin_backend/views.py:
+ * backend-django/drag_and_drop/urls.py:
+ * backend-django/drag_and_drop/views.py: Added OpenAPI documentation.
+
+31 January 2022 Anna Gradou <agradou@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/views/inspect-document/inspect-document.component.html:
+ Fix of not displaying the opened Document.
+
 12 January 2022 Petasis George <petasis@iit.demokritos.gr>:
  * backend-django/openapi/:
  * backend-django/DjangoClarin/settings.py:
