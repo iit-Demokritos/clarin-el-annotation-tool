@@ -14,7 +14,7 @@ else
 fi
 
 ## If npm is available, download the frontend packages...
-if command -v npm &> /dev/null
+if [ ! -d "$SCRIPT_DIR/../clarin-angular/node_modules" ] && command -v npm &> /dev/null
 then
     cd $SCRIPT_DIR/../clarin-angular
     npm install --legacy-peer-deps --yes

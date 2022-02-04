@@ -5,10 +5,14 @@ from rest_framework import status
 from clarin_backend import utils
 from bson.objectid import ObjectId
 
-mongodb_client         = utils.mongo_client
-mongodb_db_clarin      = utils.db_handle
-mongodb_db_annotations = utils.get_collection_handle(
-    mongodb_db_clarin, "annotations")
+mongodb_client          = utils.mongo_client
+mongodb_db_clarin       = utils.db_handle
+_mongodb_db_annotations = None
+
+def mongodb_db_annotations():
+    if not _mongodb_db_annotations:
+        _mongodb_db_annotations = utils.get_collection_handle(mongodb_db_clarin, "annotations")
+    return _mongodb_db_annotations
 
 def mongodb_doc_fix_id(doc):
     if '_id' in doc:
@@ -19,15 +23,15 @@ def mongodb_doc_fix_id(doc):
 def mongodb_db_annotations_find(request):
     query      = request.data.get('q')
     projection = request.data.get('p')
-    return map(mongodb_doc_fix_id, mongodb_db_annotations.find(query, projection))
+    return map(mongodb_doc_fix_id, mongodb_db_annotations().find(query, projection))
 
 def mongodb_db_annotations_find_by_id(request):
     _id        = request.data.get('id')
-    return map(mongodb_doc_fix_id, mongodb_db_annotations.find({'_id': ObjectId(_id)}))
+    return map(mongodb_doc_fix_id, mongodb_db_annotations().find({'_id': ObjectId(_id)}))
 
 def mongodb_db_annotations_aggregate(request):
     query      = request.data.get('q')
-    return mongodb_db_annotations.aggregate(query)
+    return mongodb_db_annotations().aggregate(query)
 
 class AnnotationsFindView(APIView):
     def post(self, request):
