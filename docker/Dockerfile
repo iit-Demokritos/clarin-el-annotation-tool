@@ -99,8 +99,8 @@ ADD ChangeLog.txt  /var/www/clarin-el-annotation-tool/ChangeLog.txt
 RUN cd /var/www/clarin-el-annotation-tool/backend-django/ && \
     python -m venv --system-site-packages /var/www/clarin-el-annotation-tool/backend-django/apache_venv && \
     . /var/www/clarin-el-annotation-tool/backend-django/apache_venv/bin/activate && \
-    pip install wheel && \
-    pip install -r /var/www/clarin-el-annotation-tool/backend-django/requirements.txt
+    pip --disable-pip-version-check install wheel && \
+    pip --disable-pip-version-check install -r /var/www/clarin-el-annotation-tool/backend-django/requirements.txt
 
 # Install Javascript packages...
 RUN cd /var/www/clarin-el-annotation-tool/clarin-angular && \
@@ -110,8 +110,8 @@ RUN cd /var/www/clarin-el-annotation-tool/clarin-angular && \
 
 # Build everything...
 ADD docker/conf/env /var/www/clarin-el-annotation-tool/backend-django/DjangoClarin/.env
-RUN pip install wheel && \
-    pip install django-environ djangorestframework djangorestframework-simplejwt \
+RUN pip --disable-pip-version-check install wheel && \
+    pip --disable-pip-version-check install django-environ djangorestframework djangorestframework-simplejwt \
                 drf-spectacular simplejwt dataclasses_json
 RUN cd /var/www/clarin-el-annotation-tool && \
     bash build_all.sh

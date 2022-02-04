@@ -211,7 +211,7 @@ def get_clarindb():
 
 def get_collection_handle(db_handle, collection_name):
     # print(db_handle[collection_name])
-    if collection_name in db_handle:
+    if db_handle and collection_name in db_handle:
         return db_handle[collection_name]
     return None
 
