@@ -178,43 +178,29 @@ invitation_token = InvitationTokenGenerator()
 
 
 def get_clarindb():
-    hostname = settings.MONGO_DB_HOST
-    port_number=settings.MONGO_DB_PORT
-    user=settings.MONGO_USERNAME
-    password=settings.MONGO_PASSWORD
-    db_name=settings.MONGO_DATABASE
-    clarindb=None
-    mongoclient=None
+    hostname    = settings.MONGO_DB_HOST
+    port_number = settings.MONGO_DB_PORT
+    user        = settings.MONGO_USERNAME
+    password    = settings.MONGO_PASSWORD
+    db_name     = settings.MONGO_DATABASE
+    clarindb    = None
+    mongoclient = None
     try:
-       # print(hostname)
-        #print(port_number)
-        #print(user)
-        #print(password)
-        #print(db_name)
         mongo_con="mongodb://"+user+":"+password+"@"+hostname+":"+str(port_number)
-       # print(mongo_con)
-        #print("mongodb://clarinel:CeimUgyediaskibwawEijWir@localhost:27017")
         mongoclient = MongoClient(mongo_con)
         clarindb = mongoclient["clarin"]
-        #mongoclient = MongoClient(host=hostname, port=port_number,username=user,password=password,
-      #  authSource=db_name)#?
-       # mongoclient.server_info()
     except Exception as ex:
-            print(ex)
-
-
-    #print(mongoclient
-   # clarindb = mongoclient["clarin"]
-    #print(clarindb)
+        print(ex)
     return clarindb, mongoclient
 
 
 def get_collection_handle(db_handle, collection_name):
-    # print(db_handle[collection_name])
-    if db_handle and collection_name in db_handle:
+    if not db_handle:
+        return None
+    names = db_handle.list_collection_names()
+    if collection_name in names:
         return db_handle[collection_name]
     return None
-
 
 db_handle, mongo_client = get_clarindb()
 #annotations = get_collection_handle(db_handle, "annotations")

@@ -39,6 +39,15 @@ RUN dnf -y install               \
     mysql-connector-python3      \
     mariadb-connector-c-devel
 
+RUN pip --disable-pip-version-check install wheel && \
+    pip --disable-pip-version-check install \
+        django-environ                      \
+        djangorestframework                 \
+        djangorestframework-simplejwt       \
+        drf-spectacular                     \
+        simplejwt                           \
+        dataclasses_json
+
 ## Build Apache Rivet...
 RUN mkdir /home/packages && \
     cd /home/packages && \
@@ -83,6 +92,13 @@ RUN cd /opt && \
     tclsh /opt/WebServices/EllogonAnnotationTool/ellogon-apache-services/apache-rivet/server/server_init.tcl && \
     chmod 755 $HOME
 
+# Create the apache python virtual env...
+RUN python -m venv --system-site-packages /var/www/apache_venv 
+ADD backend-django/requirements.txt /var/www/apache_venv/requirements.txt
+RUN . /var/www/apache_venv/bin/activate && \
+    pip --disable-pip-version-check install wheel && \
+    pip --disable-pip-version-check install -r /var/www/apache_venv/requirements.txt
+
 # Install the annotation tool...
 # RUN mkdir -p /var/www && \
 #     cd /var/www && \
@@ -90,17 +106,9 @@ RUN cd /opt && \
 #     cd clarin-el-annotation-tool && \
 #     rm -rf backend frontend && \
 #     rm -f clarin
-ADD backend-django /var/www/clarin-el-annotation-tool/backend-django
-ADD clarin-angular /var/www/clarin-el-annotation-tool/clarin-angular
 ADD build_all.sh   /var/www/clarin-el-annotation-tool/build_all.sh
 ADD ChangeLog.txt  /var/www/clarin-el-annotation-tool/ChangeLog.txt
-
-# Create the apache python virtual env...
-RUN cd /var/www/clarin-el-annotation-tool/backend-django/ && \
-    python -m venv --system-site-packages /var/www/clarin-el-annotation-tool/backend-django/apache_venv && \
-    . /var/www/clarin-el-annotation-tool/backend-django/apache_venv/bin/activate && \
-    pip --disable-pip-version-check install wheel && \
-    pip --disable-pip-version-check install -r /var/www/clarin-el-annotation-tool/backend-django/requirements.txt
+ADD clarin-angular /var/www/clarin-el-annotation-tool/clarin-angular
 
 # Install Javascript packages...
 RUN cd /var/www/clarin-el-annotation-tool/clarin-angular && \
@@ -108,11 +116,11 @@ RUN cd /var/www/clarin-el-annotation-tool/clarin-angular && \
     npm install -g @angular/cli && \
     npm install --legacy-peer-deps
 
+# Add Django backend...
+ADD backend-django /var/www/clarin-el-annotation-tool/backend-django
+
 # Build everything...
 ADD docker/conf/env /var/www/clarin-el-annotation-tool/backend-django/DjangoClarin/.env
-RUN pip --disable-pip-version-check install wheel && \
-    pip --disable-pip-version-check install django-environ djangorestframework djangorestframework-simplejwt \
-                drf-spectacular simplejwt dataclasses_json
 RUN cd /var/www/clarin-el-annotation-tool && \
     bash build_all.sh
 
