@@ -1,0 +1,7 @@
+export FEDORA_VERSION="35"
+export APACHE_RIVET_TAG="3.2.1"
+
+export IMAGE_NAME=ellogon-web-annotation-tool
+export IMAGE_VERSION=v1
+
+export ROOT_PASSWORD="arAlfAcIrAkpocvossedPot7"
