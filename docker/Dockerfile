@@ -55,8 +55,8 @@ RUN cd /home/packages/rivet && \
 
 ## Create an Apache conf include
 # Add custom Apache Rivet configuration file to the container
-ADD ./conf/rivet.conf /etc/httpd/conf.d/rivet.conf
-ADD ./conf/ellogon_annotation_tool.conf /etc/httpd/conf.d/ellogon_annotation_tool.conf
+ADD docker/conf/rivet.conf /etc/httpd/conf.d/rivet.conf
+ADD docker/conf/ellogon_annotation_tool.conf /etc/httpd/conf.d/ellogon_annotation_tool.conf
 
 # Compile & install rl_json library
 RUN cd /home/packages && \
@@ -84,12 +84,16 @@ RUN cd /opt && \
     chmod 755 $HOME
 
 # Install the annotation tool...
-RUN mkdir -p /var/www && \
-    cd /var/www && \
-    git clone --recurse-submodules https://github.com/iit-Demokritos/clarin-el-annotation-tool.git && \
-    cd clarin-el-annotation-tool && \
-    rm -rf backend frontend && \
-    rm -f clarin
+# RUN mkdir -p /var/www && \
+#     cd /var/www && \
+#     git clone --recurse-submodules https://github.com/iit-Demokritos/clarin-el-annotation-tool.git && \
+#     cd clarin-el-annotation-tool && \
+#     rm -rf backend frontend && \
+#     rm -f clarin
+ADD backend-django /var/www/clarin-el-annotation-tool/backend-django
+ADD clarin-angular /var/www/clarin-el-annotation-tool/clarin-angular
+ADD build_all.sh   /var/www/clarin-el-annotation-tool/build_all.sh
+ADD ChangeLog.txt  /var/www/clarin-el-annotation-tool/ChangeLog.txt
 
 # Create the apache python virtual env...
 RUN cd /var/www/clarin-el-annotation-tool/backend-django/ && \
@@ -105,7 +109,7 @@ RUN cd /var/www/clarin-el-annotation-tool/clarin-angular && \
     npm install --legacy-peer-deps
 
 # Build everything...
-ADD ./conf/env /var/www/clarin-el-annotation-tool/backend-django/DjangoClarin/.env
+ADD docker/conf/env /var/www/clarin-el-annotation-tool/backend-django/DjangoClarin/.env
 RUN pip install wheel && \
     pip install django-environ djangorestframework djangorestframework-simplejwt \
                 drf-spectacular simplejwt dataclasses_json
