@@ -115,7 +115,7 @@ DATABASES = {
    
 }
 
-#print(env.db())
+
 
 # REST
 # https://www.django-rest-framework.org/

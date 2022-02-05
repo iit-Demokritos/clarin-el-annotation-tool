@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from clarin_backend import utils
 from bson.objectid import ObjectId
-
+from drf_spectacular.utils import extend_schema_view, extend_schema
 mongodb_client          = utils.mongo_client
 mongodb_db_clarin       = utils.db_handle
 _mongodb_db_annotations = None

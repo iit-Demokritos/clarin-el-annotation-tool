@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  mariadb:
+    image: mariadb:10.5.13
+    environment:
+      - MYSQL_ROOT_PASSWORD=pass1
+      - MYSQL_DATABASE=ellogon_annotation_tool 
+      - MYSQL_USER=user1
+      - MYSQL_PASSWORD=pass1
+    ports:
+      - "3306:3306"
+  mongodb:
+    image: mongo:4.2.8
+    environment:
+      - MONGO_INITDB_DATABASE=clarin
+      - MONGO_INITDB_ROOT_USERNAME=user1
+      - MONGO_INITDB_ROOT_PASSWORD=pass1
+    ports:
+      - 27017:27017
+
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8009:8000"
+    depends_on:
+      - mariadb
+      - mongodb
