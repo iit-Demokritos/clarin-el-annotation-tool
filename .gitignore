@@ -17,6 +17,8 @@ backend-django/DjangoClarin/.settings.py.swp
 backend-django/DjangoClarin/__pycache__/
 backend-django/clarin_backend/migrations/__pycache__
 backend-django/clarin_backend/__pycache__/
+backend-django/clarin_backend/management/__pycache__
+backend-django/clarin_backend/management/commands/__pycache__
 backend-django/analytics/__pycache__
 backend-django/analytics/migrations/__pycache__
 backend-django/drag_and_drop/__pycache__
