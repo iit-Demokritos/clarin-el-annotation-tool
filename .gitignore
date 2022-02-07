@@ -30,3 +30,4 @@ backend-django/clarin_backend/templates/index.html
 backend-django/apache_venv/
 backend/pass.txt
 clarin-angular/package-lock.json
+docker/conf/env
