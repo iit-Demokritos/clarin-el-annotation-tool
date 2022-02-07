@@ -22,7 +22,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         return token
 
     def validate(self, attrs):
-        message="Authentication failed:"
+        message="Authentication failed: "
         #print(self.context['request'].build_absolute_uri("/")[:-1])
         request=self.context['request']
         try:

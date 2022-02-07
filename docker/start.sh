@@ -32,6 +32,22 @@ fi
 ${DOCKER_COMPOSE} --project-name ${PROJECT_NAME} \
                   -f docker/docker-compose.yml \
                   up -d --no-recreate
+
+# Perform migrations...
+echo "Waiting for containers to start..."
+secs=$((3 * 60))
+while [ $secs -gt 0 ]; do
+   echo -ne "Seconds: $secs\033[0K\r"
+   sleep 1
+   : $((secs--))
+done
+echo "Performing migrations..."
+${DOCKER_COMPOSE} --project-name ${PROJECT_NAME} \
+                  -f docker/docker-compose.yml \
+                  exec web bash -c "cd /var/www/clarin-el-annotation-tool/backend-django/ && python manage.py wait_for_db"
+${DOCKER_COMPOSE} --project-name ${PROJECT_NAME} \
+                  -f docker/docker-compose.yml \
+                  exec web bash -c "cd /var/www/clarin-el-annotation-tool/backend-django/ && python manage.py migrate"
 # docker run --systemd=always -p 8000:80 -p 8001:443 -it ${IMAGE_NAME}
 echo "To execute a terminal, try:"
 echo "  set -o allexport; source ${SCRIPT_DIR}/env; set +o allexport"

@@ -14,7 +14,7 @@ services:
       - ${MYSQL_PORT_EXTERNAL}:${MYSQL_PORT}
     restart: always
     healthcheck:
-      test: ["CMD", "mysqladmin" ,"ping", "--host=localhost", "--password=${MYSQL_ROOT_PASSWORD}"]
+      test: ["CMD", "mysqladmin" ,"ping", "--host=localhost", "--password=$$MYSQL_PASSWORD"]
       interval: 1m30s
       timeout: 30s
       retries: 6
