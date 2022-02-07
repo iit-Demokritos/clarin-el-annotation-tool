@@ -15,7 +15,7 @@ backend/clarin_old/
 backend-django/DjangoClarin/.env
 backend-django/DjangoClarin/.settings.py.swp
 backend-django/DjangoClarin/__pycache__/
-backend-django/clarin_backend/migrations/
+backend-django/clarin_backend/migrations/__pycache__
 backend-django/clarin_backend/__pycache__/
 backend-django/analytics/__pycache__
 backend-django/analytics/migrations/__pycache__
