@@ -34,6 +34,7 @@ services:
       - ${MONGO_PORT_EXTERNAL}:${MONGO_PORT}
     volumes:
       - mongodb-data:/data/db:Z
+      - ./conf/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     healthcheck:
       test: echo 'db.runCommand("ping").ok' | mongo localhost:${MONGO_PORT}/test --quiet
   
@@ -42,7 +43,7 @@ services:
     container_name: ${PROJECT_NAME}-web
     build:
       context: ../
-      dockerfile: ./docker
+      dockerfile: ./docker/Dockerfile
     expose:
       - 80
       - 443
@@ -58,4 +59,4 @@ services:
         condition: service_healthy
 volumes:
   mariadb-data:
-  mondodb-data:
+  mongodb-data:

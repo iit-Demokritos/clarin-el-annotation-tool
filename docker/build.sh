@@ -48,6 +48,13 @@ if [ "$SCRIPT_DIR/env" -nt "$SCRIPT_DIR/conf/env" ]; then
   envsubst < $SCRIPT_DIR/env > $SCRIPT_DIR/conf/env
 fi
 
+# Generate conf/mongo-init.js from template...
+if [ "$SCRIPT_DIR/conf/mongo-init-template.js" -nt " $SCRIPT_DIR/conf/mongo-init.js" ]; then
+  echo "Generating conf/env..."
+  envsubst < $SCRIPT_DIR/conf/mongo-init-template.js > $SCRIPT_DIR/conf/mongo-init.js
+fi
+
+
 # As we want to re-use the current repository (and its local changes),
 # build image from the parent directory...
 cd $SCRIPT_DIR/..
