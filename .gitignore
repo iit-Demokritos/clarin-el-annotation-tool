@@ -31,3 +31,4 @@ backend-django/apache_venv/
 backend/pass.txt
 clarin-angular/package-lock.json
 docker/conf/env
+docker/conf/mongo-init.js
