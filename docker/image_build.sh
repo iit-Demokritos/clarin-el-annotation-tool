@@ -68,3 +68,6 @@ cd $SCRIPT_DIR/..
 docker build \
   -t ${DOCKER_HUB_NAME}:${IMAGE_VERSION} \
   -f docker/Dockerfile .
+
+# podman login docker.io
+# podman push docker.io/petasis/ellogon-web-annotation-tool:v0.1.0
