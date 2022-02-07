@@ -15,13 +15,13 @@ IMAGE_NAME=${PROJECT_NAME}
 IMAGE_VERSION=${PROJECT_VERSION}
 
 # The following password will be set for user root of the container...
-ROOT_PASSWORD=arAlfAcIrAkpocvossedPot7
+ROOT_PASSWORD="<root password currently not used>"
 
 # Maria DB configuration...
-MYSQL_ROOT_PASSWORD=HeagegIpbyanRyftOcdeugOi
+MYSQL_ROOT_PASSWORD="<set a password>"
 MYSQL_DATABASE=ellogon_annotation_tool
 MYSQL_USER=ellogon_annotation_tool
-MYSQL_PASSWORD=manyatApCoysalbOddyorav7
+MYSQL_PASSWORD="<set a password>"
 MYSQL_PORT=3306
 MYSQL_PORT_EXTERNAL=3307
 MYSQL_HOST=mariadb
@@ -29,9 +29,9 @@ TZ=Europe/Athens
 
 # Mongo DB configuration...
 MONGO_INITDB_ROOT_USERNAME=admin
-MONGO_INITDB_ROOT_PASSWORD=booxFiwiKrawJubCogefneadeckefeic
+MONGO_INITDB_ROOT_PASSWORD="<set a password>"
 MONGO_INITDB_USERNAME=ellogon_annotation_tool
-MONGO_INITDB_PASSWORD=EubkiUcfaydFogUdMogfiems
+MONGO_INITDB_PASSWORD="<set a password>"
 MONGO_INITDB_DATABASE=ellogon_annotation_tool
 MONGO_PORT=27017
 MONGO_PORT_EXTERNAL=27017
@@ -53,7 +53,7 @@ DEFAULT_FROM_EMAIL_NO_REPLY=ellogon-annotation-tool-no-reply@iit.demokritos.gr
 # Database:
 DATABASE_URL=mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_DATABASE}
 # Secret Key:
-SECRET_KEY="flp5bys1x0^es6d2ji77^=vmp5%mo&lc@)9$40emn5*=&$6a184564556465"
+SECRET_KEY="<set a secret hey here, and random string will do>"
 MONGO_DB_HOST=${MONGO_HOST}
 MONGO_DB_PORT=${MONGO_PORT}
 MONGO_USERNAME=${MONGO_INITDB_USERNAME}

@@ -32,3 +32,4 @@ backend/pass.txt
 clarin-angular/package-lock.json
 docker/conf/env
 docker/conf/mongo-init.js
+docker/env
