@@ -2,6 +2,7 @@ version: '3.9'
 
 services:
   mariadb:
+    restart: always
     image: ${MARIADB_IMAGE}:${MARIADB_VERSION}
     container_name: ${PROJECT_NAME}-mariadb
     environment:
@@ -12,7 +13,8 @@ services:
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     ports:
       - ${MYSQL_PORT_EXTERNAL}:${MYSQL_PORT}
-    restart: always
+    volumes:
+      - mariadb-data:/var/lib/mysql:Z
     healthcheck:
       test: ["CMD", "mysqladmin" ,"ping", "--host=localhost", "--password=$$MYSQL_PASSWORD"]
       interval: 1m30s
@@ -21,14 +23,19 @@ services:
       start_period: 40s
 
   mongodb:
+    restart: always
     image: ${MONGODB_IMAGE}:${MONGODB_VERSION}
     container_name: ${PROJECT_NAME}-mongodb
     environment:
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE}
     ports:
       - ${MONGO_PORT_EXTERNAL}:${MONGO_PORT}
-    restart: always
+    volumes:
+      - mongodb-data:/data/db:Z
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo localhost:${MONGO_PORT}/test --quiet
   
   web:
     restart: always
@@ -47,5 +54,8 @@ services:
     depends_on:
       mariadb:
         condition: service_healthy
-          #    links:
-          #      - 'mariadb'
+      mongodb:
+        condition: service_healthy
+volumes:
+  mariadb-data:
+  mondodb-data:
