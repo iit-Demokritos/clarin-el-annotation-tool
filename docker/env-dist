@@ -47,7 +47,7 @@ DEBUG=True
 # Use "," for adding more than one, i.e. ALLOWED_HOSTS=a,b,c
 ALLOWED_HOSTS=localhost
 # Email:
-# EMAIL_URL=smtp+tls://ellogon_annotation_tool:ellogon_annotation_tool@mail.iit.demokritos.gr:587
+EMAIL_URL=smtp+tls://user:pass@host:587
 DEFAULT_FROM_EMAIL=ellogon_annotation_tool@iit.demokritos.gr
 DEFAULT_FROM_EMAIL_NO_REPLY=ellogon-annotation-tool-no-reply@iit.demokritos.gr
 # Database:

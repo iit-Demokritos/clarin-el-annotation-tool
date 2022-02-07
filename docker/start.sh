@@ -1,15 +1,22 @@
 #!/usr/bin/env bash
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
+if [ ! -f "${SCRIPT_DIR}/env" ]; then
+  echo "File does not exist: ${SCRIPT_DIR}/env" 1>&2
+  echo "Please copy file \"${SCRIPT_DIR}/env-dist\" to \"${SCRIPT_DIR}/env\", and modify it accordingly!" 1>&2
+  exit 1
+fi
+
 set -o allexport
 source  ${SCRIPT_DIR}/env
 set +o allexport
 
-# if [[ -z "$EMAIL_URL" ]]; then
-#   echo "Please provide EMAIL_URL in environment:" 1>&2
-#   echo " E.g: EMAIL_URL=smtp+tls://user:pass@host:587" 1>&2
-#   exit 1
-# fi
+if [[ -z "$EMAIL_URL" ]]; then
+  echo "Please provide EMAIL_URL in environment:" 1>&2
+  echo " E.g: EMAIL_URL=smtp+tls://user:pass@host:587" 1>&2
+  echo " Please define this variable in: ${SCRIPT_DIR}/env" 1>&2
+  exit 1
+fi
 
 cd $SCRIPT_DIR/..
 
@@ -35,6 +42,12 @@ if [ "$SCRIPT_DIR/env" -nt "$SCRIPT_DIR/conf/env" ]; then
   envsubst < $SCRIPT_DIR/env > $SCRIPT_DIR/conf/env
 fi
 
+# Generate conf/mongo-init.js from template...
+if [ "$SCRIPT_DIR/conf/mongo-init-template.js" -nt " $SCRIPT_DIR/conf/mongo-init.js" ]; then
+  echo "Generating conf/env..."
+  envsubst < $SCRIPT_DIR/conf/mongo-init-template.js > $SCRIPT_DIR/conf/mongo-init.js
+fi
+
 ${DOCKER_COMPOSE} --project-name ${PROJECT_NAME} \
                   -f docker/docker-compose.yml \
                   up -d --no-recreate
@@ -56,6 +69,6 @@ ${DOCKER_COMPOSE} --project-name ${PROJECT_NAME} \
                   exec web bash -c "cd /var/www/clarin-el-annotation-tool/backend-django/ && python manage.py migrate"
 # docker run --systemd=always -p 8000:80 -p 8001:443 -it ${IMAGE_NAME}
 echo "To execute a terminal, try:"
-echo "  set -o allexport; source ${SCRIPT_DIR}/env; set +o allexport"
+echo "  set -o allexport; source ${SCRIPT_DIR}/conf/env; set +o allexport"
 echo "  docker-compose --env-file=./conf/env exec web bash"
 echo "  podman-compose exec web bash"

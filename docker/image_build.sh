@@ -2,7 +2,6 @@
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 cd $SCRIPT_DIR
 
-# . ${SCRIPT_DIR}/env
 set -o allexport
 source  ${SCRIPT_DIR}/env-dist
 set +o allexport
