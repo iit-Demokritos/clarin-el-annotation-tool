@@ -16,6 +16,8 @@ RUN dnf -y install               \
     libtool                      \
     passwd                       \
     httpd-devel                  \
+    python3-certbot-apache       \
+    mod_ssl                      \
     file                         \
     git                          \
     svn                          \
@@ -61,11 +63,6 @@ RUN cd /home/packages/rivet && \
     bash ./configure && \
     make install && \
     rm -rf /home/packages/rivet
-
-## Create an Apache conf include
-# Add custom Apache Rivet configuration file to the container
-ADD docker/conf/rivet.conf /etc/httpd/conf.d/rivet.conf
-ADD docker/conf/ellogon_annotation_tool.conf /etc/httpd/conf.d/ellogon_annotation_tool.conf
 
 # Compile & install rl_json library
 RUN cd /home/packages && \
@@ -131,6 +128,13 @@ EXPOSE 443
 RUN systemctl set-default multi-user.target
 
 RUN systemctl enable httpd
+#RUN firewall-cmd --permanent --zone=public --add-service=http
+#RUN firewall-cmd --permanent --zone=public --add-service=https
+
+## Create an Apache conf include
+# Add custom Apache Rivet configuration file to the container
+ADD docker/conf/rivet.conf /etc/httpd/conf.d/rivet.conf
+ADD docker/conf/ellogon_annotation_tool.conf /etc/httpd/conf.d/ellogon_annotation_tool.conf
 
 RUN echo ${ROOT_PASSWORD} | passwd root --stdin
 
@@ -138,3 +142,7 @@ STOPSIGNAL SIGRTMIN+3
 
 # Workaround for docker/docker#27202, technique based on comments from docker/docker#9212
 CMD ["/sbin/init"]
+
+RUN dnf install -y phpMyAdmin mariadb
+# Change "localhost" to "mariadb" in config...
+RUN sed -i 's/localhost/mariadb/g' /etc/phpMyAdmin/config.inc.php

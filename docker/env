@@ -1,7 +1,58 @@
-export FEDORA_VERSION="35"
-export APACHE_RIVET_TAG="3.2.1"
+PROJECT_NAME=ellogon-web-annotation-tool
+PROJECT_VERSION=v1
 
-export IMAGE_NAME=ellogon-web-annotation-tool
-export IMAGE_VERSION=v1
+MARIADB_IMAGE=mariadb
+MARIADB_VERSION=latest
 
-export ROOT_PASSWORD="arAlfAcIrAkpocvossedPot7"
+MONGODB_IMAGE=mongo
+MONGODB_VERSION=latest
+
+FEDORA_VERSION=35
+APACHE_RIVET_TAG=3.2.1
+
+IMAGE_NAME=${PROJECT_NAME}
+IMAGE_VERSION=${PROJECT_VERSION}
+
+# The following password will be set for user root of the container...
+ROOT_PASSWORD=arAlfAcIrAkpocvossedPot7
+
+# Maria DB configuration...
+MYSQL_ROOT_PASSWORD=HeagegIpbyanRyftOcdeugOi
+MYSQL_DATABASE=ellogon_annotation_tool
+MYSQL_USER=ellogon_annotation_tool
+MYSQL_PASSWORD=manyatApCoysalbOddyorav7
+MYSQL_PORT=3306
+MYSQL_PORT_EXTERNAL=3307
+MYSQL_HOST=mariadb
+TZ=Europe/Athens
+
+# Mongo DB configuration...
+MONGO_INITDB_ROOT_USERNAME=ellogon_annotation_tool
+MONGO_INITDB_ROOT_PASSWORD=EubkiUcfaydFogUdMogfiems
+MONGO_INITDB_DATABASE=ellogon_annotation_tool
+MONGO_PORT=27017
+MONGO_PORT_EXTERNAL=27017
+MONGO_HOST=mongodb
+
+# Annotation Tool configuration...
+ANNOTATION_TOOL_HTTP_PORT=8000
+ANNOTATION_TOOL_HTTPS_PORT=8001
+
+# Django configuration...
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG=True
+# Use "," for adding more than one, i.e. ALLOWED_HOSTS=a,b,c
+ALLOWED_HOSTS=localhost
+# Email:
+EMAIL_URL=smtp+tls://ellogon_annotation_tool:ellogon_annotation_tool@mail.iit.demokritos.gr:587
+DEFAULT_FROM_EMAIL=ellogon_annotation_tool@iit.demokritos.gr
+DEFAULT_FROM_EMAIL_NO_REPLY=ellogon-annotation-tool-no-reply@iit.demokritos.gr
+# Database:
+DATABASE_URL=mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_DATABASE}
+# Secret Key:
+SECRET_KEY="flp5bys1x0^es6d2ji77^=vmp5%mo&lc@)9$40emn5*=&$6a184564556465"
+MONGO_DB_HOST=${MONGO_HOST}
+MONGO_DB_PORT=${MONGO_PORT}
+MONGO_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+MONGO_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+MONGO_DATABASE=${MONGO_INITDB_DATABASE}

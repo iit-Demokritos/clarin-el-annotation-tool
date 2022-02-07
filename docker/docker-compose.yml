@@ -1,29 +1,45 @@
-version: '3'
+version: '3.9'
 
 services:
   mariadb:
-    image: mariadb:10.5.13
+    image: ${MARIADB_IMAGE}:${MARIADB_VERSION}
+    container_name: ${PROJECT_NAME}-mariadb
     environment:
-      - MYSQL_ROOT_PASSWORD=pass1
-      - MYSQL_DATABASE=ellogon_annotation_tool 
-      - MYSQL_USER=user1
-      - MYSQL_PASSWORD=pass1
+      - TZ=${TZ}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE} 
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     ports:
-      - "3306:3306"
-  mongodb:
-    image: mongo:4.2.8
-    environment:
-      - MONGO_INITDB_DATABASE=clarin
-      - MONGO_INITDB_ROOT_USERNAME=user1
-      - MONGO_INITDB_ROOT_PASSWORD=pass1
-    ports:
-      - 27017:27017
+      - ${MYSQL_PORT_EXTERNAL}:${MYSQL_PORT}
+    restart: always
 
-  web:
-    build: .
-    command: python manage.py runserver 0.0.0.0:8000
+  mongodb:
+    image: ${MONGODB_IMAGE}:${MONGODB_VERSION}
+    container_name: ${PROJECT_NAME}-mongodb
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
     ports:
-      - "8009:8000"
+      - ${MONGO_PORT_EXTERNAL}:${MONGO_PORT}
+    restart: always
+  
+  web:
+    restart: always
+    container_name: ${PROJECT_NAME}-web
+    build:
+      context: ../
+      dockerfile: ./docker
+    expose:
+      - 80
+      - 443
+    env_file:
+      - ./conf/env
+    ports:
+      - ${ANNOTATION_TOOL_HTTP_PORT}:80
+      - ${ANNOTATION_TOOL_HTTPS_PORT}:443
     depends_on:
       - mariadb
       - mongodb
+    links:
+      - 'mariadb'

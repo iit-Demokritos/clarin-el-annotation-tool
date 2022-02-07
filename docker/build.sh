@@ -2,7 +2,10 @@
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 cd $SCRIPT_DIR
 
-. ${SCRIPT_DIR}/env
+# . ${SCRIPT_DIR}/env
+set -o allexport
+source  ${SCRIPT_DIR}/env
+set +o allexport
 
 ## Make sure submodules have been initialised:
 cd $SCRIPT_DIR/..
@@ -31,15 +34,35 @@ then
     setsebool -P container_manage_cgroup true
 fi
 
-# As we want to re-use the current repository (and its locla changes),
+if command -v podman-compose &> /dev/null; then
+    export DOCKER_COMPOSE=podman-compose
+else
+    export DOCKER_COMPOSE=docker-compose
+fi
+
+bash $SCRIPT_DIR/stop.sh
+
+# Generate conf/env from env...
+if [ "$SCRIPT_DIR/env" -nt "$SCRIPT_DIR/conf/env" ]; then
+  echo "Generating conf/env..."
+  envsubst < $SCRIPT_DIR/env > $SCRIPT_DIR/conf/env
+fi
+
+# As we want to re-use the current repository (and its local changes),
 # build image from the parent directory...
 cd $SCRIPT_DIR/..
 
-docker build \
-  --build-arg FEDORA_VERSION="${FEDORA_VERSION}" \
-  --build-arg APACHE_RIVET_TAG="${APACHE_RIVET_TAG}" \
-  --build-arg ROOT_PASSWORD="${ROOT_PASSWORD}" \
-  -t ${IMAGE_NAME}:${IMAGE_VERSION} \
-  -f docker/Dockerfile .
+# docker build \
+#   --build-arg FEDORA_VERSION="${FEDORA_VERSION}" \
+#   --build-arg APACHE_RIVET_TAG="${APACHE_RIVET_TAG}" \
+#   --build-arg ROOT_PASSWORD="${ROOT_PASSWORD}" \
+#   -t ${IMAGE_NAME}:${IMAGE_VERSION} \
+#   -f docker/Dockerfile .
 
-echo "Image name: ${IMAGE_NAME}:${IMAGE_VERSION}"
+${DOCKER_COMPOSE} \
+        --project-name ${PROJECT_NAME} \
+        -f ./docker/docker-compose.yml \
+        build \
+        --build-arg FEDORA_VERSION="${FEDORA_VERSION}" \
+        --build-arg APACHE_RIVET_TAG="${APACHE_RIVET_TAG}" \
+        --build-arg ROOT_PASSWORD="${ROOT_PASSWORD}"
