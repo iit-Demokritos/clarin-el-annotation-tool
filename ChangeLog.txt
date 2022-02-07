@@ -1,4 +1,7 @@
 07 February 2022 Petasis George <petasis@iit.demokritos.gr>:
+ * backend-django/clarin_backend/management/: Added "wait_for_db" admin
+ command.
+
  * docker/Dockerfile:
  * docker/build.sh:
  * docker/conf/ellogon_annotation_tool.conf:

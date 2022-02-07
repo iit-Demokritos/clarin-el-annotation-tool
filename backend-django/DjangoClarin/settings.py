@@ -15,6 +15,7 @@ from pathlib import Path
 import json
 import os
 import environ
+import secrets
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,6 +28,13 @@ env = environ.Env(
     DEFAULT_FROM_EMAIL_NO_REPLY=(str, ''),
     LANGUAGE_CODE=(str, 'en-us'),
     TIME_ZONE=(str, 'Europe/Athens'),
+    SECRET_KEY=(str, secrets.token_urlsafe(64)),
+    DATABASE_URL=(str, ''),
+    MONGO_DB_HOST=(str, 'localhost'),
+    MONGO_DB_PORT=(str, '27017'),
+    MONGO_USERNAME=(str, ''),
+    MONGO_PASSWORD=(str, ''),
+    MONGO_DATABASE=(str, ''),
 )
 # reading .env file
 environ.Env.read_env()
