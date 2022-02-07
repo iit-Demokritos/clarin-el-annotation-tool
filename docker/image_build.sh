@@ -4,7 +4,7 @@ cd $SCRIPT_DIR
 
 # . ${SCRIPT_DIR}/env
 set -o allexport
-source  ${SCRIPT_DIR}/env
+source  ${SCRIPT_DIR}/env-dist
 set +o allexport
 
 ## Make sure submodules have been initialised:
@@ -43,14 +43,6 @@ if command -v selinuxenabled &> /dev/null; then
   fi
 fi
 
-if command -v podman-compose &> /dev/null; then
-    export DOCKER_COMPOSE=podman-compose
-else
-    export DOCKER_COMPOSE=docker-compose
-fi
-
-bash $SCRIPT_DIR/stop.sh
-
 # Generate conf/env from env...
 if [ "$SCRIPT_DIR/env" -nt "$SCRIPT_DIR/conf/env" ]; then
   echo "Generating conf/env..."
@@ -63,7 +55,6 @@ if [ "$SCRIPT_DIR/conf/mongo-init-template.js" -nt " $SCRIPT_DIR/conf/mongo-init
   envsubst < $SCRIPT_DIR/conf/mongo-init-template.js > $SCRIPT_DIR/conf/mongo-init.js
 fi
 
-
 # As we want to re-use the current repository (and its local changes),
 # build image from the parent directory...
 cd $SCRIPT_DIR/..
@@ -75,10 +66,6 @@ cd $SCRIPT_DIR/..
 #   -t ${IMAGE_NAME}:${IMAGE_VERSION} \
 #   -f docker/Dockerfile .
 
-${DOCKER_COMPOSE} \
-        --project-name ${PROJECT_NAME} \
-        -f ./docker/docker-compose.yml \
-        build \
-        --build-arg FEDORA_VERSION="${FEDORA_VERSION}" \
-        --build-arg APACHE_RIVET_TAG="${APACHE_RIVET_TAG}" \
-        --build-arg ROOT_PASSWORD="${ROOT_PASSWORD}"
+docker build \
+  -t ${DOCKER_HUB_NAME}:${IMAGE_VERSION} \
+  -f docker/Dockerfile .

@@ -2,7 +2,7 @@ ARG FEDORA_VERSION="35"
 FROM fedora:${FEDORA_VERSION}
 
 ARG APACHE_RIVET_TAG="3.2.1"
-ARG ROOT_PASSWORD="arAlfAcIrAkpocvossedPot7"
+# ARG ROOT_PASSWORD
 
 ENV container docker
 
@@ -117,7 +117,7 @@ RUN cd /var/www/clarin-el-annotation-tool/clarin-angular && \
 ADD backend-django /var/www/clarin-el-annotation-tool/backend-django
 
 # Build everything...
-ADD docker/conf/env /var/www/clarin-el-annotation-tool/backend-django/DjangoClarin/.env
+#ADD docker/conf/env /var/www/clarin-el-annotation-tool/backend-django/DjangoClarin/.env
 RUN cd /var/www/clarin-el-annotation-tool && \
     bash build_all.sh
 
@@ -136,13 +136,13 @@ RUN systemctl enable httpd
 ADD docker/conf/rivet.conf /etc/httpd/conf.d/rivet.conf
 ADD docker/conf/ellogon_annotation_tool.conf /etc/httpd/conf.d/ellogon_annotation_tool.conf
 
-RUN echo ${ROOT_PASSWORD} | passwd root --stdin
+#RUN echo ${ROOT_PASSWORD} | passwd root --stdin
 
 STOPSIGNAL SIGRTMIN+3
 
 # Workaround for docker/docker#27202, technique based on comments from docker/docker#9212
 CMD ["/sbin/init"]
 
-RUN dnf install -y phpMyAdmin mariadb
-# Change "localhost" to "mariadb" in config...
-RUN sed -i 's/localhost/mariadb/g' /etc/phpMyAdmin/config.inc.php
+# RUN dnf install -y phpMyAdmin mariadb
+# # Change "localhost" to "mariadb" in config...
+# RUN sed -i 's/localhost/mariadb/g' /etc/phpMyAdmin/config.inc.php

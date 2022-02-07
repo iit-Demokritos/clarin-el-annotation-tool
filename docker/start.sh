@@ -5,6 +5,12 @@ set -o allexport
 source  ${SCRIPT_DIR}/env
 set +o allexport
 
+# if [[ -z "$EMAIL_URL" ]]; then
+#   echo "Please provide EMAIL_URL in environment:" 1>&2
+#   echo " E.g: EMAIL_URL=smtp+tls://user:pass@host:587" 1>&2
+#   exit 1
+# fi
+
 cd $SCRIPT_DIR/..
 
 if command -v chcon &> /dev/null
