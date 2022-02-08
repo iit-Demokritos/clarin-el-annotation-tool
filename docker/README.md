@@ -1,5 +1,5 @@
 # The Ellogon Web Annotation Tool
-## How to deploy the Annotation tool through docker-compose
+## How to deploy the Annotation tool through docker-compose/podman-compose
 The Ellogon Web Annotation Tool can be deployed as a container. A container image is available at [Docker Hub](https://hub.docker.com/r/petasis/ellogon-web-annotation-tool).
 The steps to deploy the container through docker-compose/podman-compose or similar tools, are:
 1. Clone this repository:  
