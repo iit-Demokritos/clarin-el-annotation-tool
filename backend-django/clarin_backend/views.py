@@ -213,10 +213,10 @@ class ActivationView(View):
         user = Users.objects.get(pk=id)
         baseurl = request.get_host()
         #baseurl = request.build_absolute_uri('/')
-        if "127.0.0.1:8000" in baseurl:
-            baseurl = "https://localhost:4200/"
-        message = {"message": "Your account is activated successfully",
-                   "base_url": baseurl}
+        #if "127.0.0.1:8000" in baseurl:
+        #    baseurl = "https://localhost:4200/"
+        #message = {"message": "Your account is activated successfully",
+        #           "base_url": baseurl}
 
         if ((not account_activation_token.check_token(user, token)) or user.is_active):
             message = {"message": "Your account has been already activated", "ellogon_logo": request.build_absolute_uri(settings.APP_LOGO),
