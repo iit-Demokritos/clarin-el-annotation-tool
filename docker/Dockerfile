@@ -90,7 +90,7 @@ RUN cd /opt && \
     chmod 755 $HOME
 
 # Create the apache python virtual env...
-RUN python -m venv --system-site-packages /var/www/apache_venv 
+RUN python3 -m venv --system-site-packages /var/www/apache_venv 
 ADD backend-django/requirements.txt /var/www/apache_venv/requirements.txt
 RUN . /var/www/apache_venv/bin/activate && \
     pip --disable-pip-version-check install wheel && \
@@ -141,7 +141,25 @@ ADD docker/conf/ellogon_annotation_tool.conf /etc/httpd/conf.d/ellogon_annotatio
 STOPSIGNAL SIGRTMIN+3
 
 # Workaround for docker/docker#27202, technique based on comments from docker/docker#9212
-CMD ["/sbin/init"]
+#CMD ["/sbin/init"]
+
+# The following command is needed if httpd is not started by systemd.
+# The httpd service (/usr/lib/systemd/system/httpd.service) has a soft dependency on httpd-init.service.
+# httpd-init.service (/usr/lib/systemd/system/httpd-init.service) is part of the mod_ssl package.
+# httpd-init.service executes /usr/libexec/httpd-ssl-gencerts, which generates the certificate using sscg.
+#
+# The relevant part of the /usr/libexec/httpd-ssl-gencerts is this:
+#
+# sscg -q                                                             \
+#      --cert-file           /etc/pki/tls/certs/localhost.crt         \
+#      --cert-key-file       /etc/pki/tls/private/localhost.key       \
+#      --ca-file             /etc/pki/tls/certs/localhost.crt         \
+#      --lifetime            365                                      \
+#      --hostname            $FQDN                                    \
+#      --email               root@$FQDN
+RUN /usr/libexec/httpd-ssl-gencerts
+
+CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]
 
 # RUN dnf install -y phpMyAdmin mariadb
 # # Change "localhost" to "mariadb" in config...

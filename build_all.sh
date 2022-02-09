@@ -49,7 +49,7 @@ rm -rf $DJANGO_STATIC_DIR/index.php $DJANGO_STATIC_DIR/index.htm* $DJANGO_STATIC
 ## Patch index.html to add the "static" prefix in scripts...
 sed -i "s/script src=\"/script src=\"static\//g" $DJANGO_TEMPLATES_DIR/index.html
 sed -i "s/href=\"styles\./href=\"static\/styles\./g" $DJANGO_TEMPLATES_DIR/index.html
-(cd $DJANGO_DIR ; rm -rf static/* ; python manage.py collectstatic --noinput)
+(cd $DJANGO_DIR ; rm -rf static/* ; python3 manage.py collectstatic --noinput)
 
 ## Copy Laravel's index.php to dist/clarin-angular
 cp --force src/index.php dist/$ANGULAR2_PROJECT_NAME/index.php

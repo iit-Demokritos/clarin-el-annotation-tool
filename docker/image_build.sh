@@ -71,3 +71,7 @@ docker build \
 
 # podman login docker.io
 # podman push docker.io/petasis/ellogon-web-annotation-tool:v0.1.0
+
+echo "To run the container, try:"
+echo "  set -o allexport; source ${SCRIPT_DIR}/conf/env; set +o allexport"
+echo "  docker run --systemd=always -p 8000:80 -p 8001:443 -it ${IMAGE_NAME}"
