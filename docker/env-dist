@@ -1,5 +1,5 @@
 PROJECT_NAME=ellogon-web-annotation-tool
-PROJECT_VERSION=v0.1.0
+PROJECT_VERSION=v0.1.1
 DOCKER_HUB_NAME=docker.io/petasis/${PROJECT_NAME}
 
 MARIADB_IMAGE=mariadb

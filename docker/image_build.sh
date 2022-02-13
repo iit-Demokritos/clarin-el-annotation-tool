@@ -32,7 +32,7 @@ if command -v selinuxenabled &> /dev/null; then
     echo "SELInix ENABLED!"
     if command -v chcon &> /dev/null
     then
-        chcon -Rt svirt_sandbox_file_t .
+        chcon -R unconfined_u:object_r:container_file_t:s0 .
     fi
     
     if command -v setsebool &> /dev/null
