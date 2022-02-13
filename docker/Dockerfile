@@ -159,6 +159,9 @@ STOPSIGNAL SIGRTMIN+3
 #      --email               root@$FQDN
 RUN /usr/libexec/httpd-ssl-gencerts
 
+COPY docker/conf/docker-entrypoint.sh /usr/local/bin/
+ENTRYPOINT ["docker-entrypoint.sh"]
+
 CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]
 
 # RUN dnf install -y phpMyAdmin mariadb
