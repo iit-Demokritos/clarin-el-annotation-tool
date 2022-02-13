@@ -22,7 +22,7 @@ cd $SCRIPT_DIR/..
 
 if command -v chcon &> /dev/null
 then
-    chcon -R unconfined_u:object_r:container_file_t:s0 .
+    chcon -R -u unconfined_u -r object_r -t container_file_t .
 fi
 
 if command -v setsebool &> /dev/null
