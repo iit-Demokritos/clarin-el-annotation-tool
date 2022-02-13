@@ -160,7 +160,7 @@ STOPSIGNAL SIGRTMIN+3
 RUN /usr/libexec/httpd-ssl-gencerts
 
 COPY docker/conf/docker-entrypoint.sh /usr/local/bin/
-ENTRYPOINT ["docker-entrypoint.sh"]
+# ENTRYPOINT ["docker-entrypoint.sh"]
 
 CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]
 

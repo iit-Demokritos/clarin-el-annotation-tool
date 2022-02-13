@@ -70,7 +70,7 @@ docker build \
   -f docker/Dockerfile .
 
 # podman login docker.io
-# podman push docker.io/petasis/ellogon-web-annotation-tool:v0.1.1
+# podman push docker.io/petasis/ellogon-web-annotation-tool:v0.1.2
 
 echo "To run the container, try:"
 echo "  set -o allexport; source ${SCRIPT_DIR}/conf/env; set +o allexport"
