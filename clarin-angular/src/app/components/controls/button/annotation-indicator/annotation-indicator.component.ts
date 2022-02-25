@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, AfterViewInit, ViewChild } from '@angular/core';
 import { BaseControlComponent } from '../../base-control/base-control.component';
 
 @Component({
@@ -6,35 +6,33 @@ import { BaseControlComponent } from '../../base-control/base-control.component'
   templateUrl: './annotation-indicator.component.html',
   styleUrls: ['./annotation-indicator.component.scss']
 })
-export class AnnotationIndicatorComponent extends BaseControlComponent implements OnInit {
+export class AnnotationIndicatorComponent extends BaseControlComponent implements AfterViewInit {
 
-  @ViewChild("annIndicator") element: ElementRef;
+  color = 'transparent';
+  backgroundColor = 'transparent';
 
   super() { }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     //register callbacks for the annotation list and the selected annotation
-    this.TextWidgetAPI.registerSelectedAnnotationCallback(this.updateAnnotationIndicator);
-  }
+    this.TextWidgetAPI.registerSelectedAnnotationCallback(this.updateAnnotationIndicator.bind(this));
+  }; // ngAfterViewInit
 
   updateAnnotationIndicator() {
     var selectedAnnotation: any = this.TextWidgetAPI.getSelectedAnnotation();
 
     if (Object.keys(selectedAnnotation).length == 0) {
-      if (this.element.nativeElement.css('background-color') != "rgb(255, 255, 255)" || this.element.nativeElement.css('color') != "rgb(255, 255, 255)") {
-        this.element.nativeElement.css('color', '#fff');
-        this.element.nativeElement.css('background-color', '#fff');
-      }
+      this.color = this.backgroundColor = 'transparent';
     } else {
       var colorCombo: any = this.coreferenceColorService.getColorCombination(selectedAnnotation._id);
 
       if (Object.keys(colorCombo).length > 0) {
         if (this.TextWidgetAPI.getAnnotatorType() == "Button Annotator") {
-          this.element.nativeElement.css('color', colorCombo.fg_color);
-          this.element.nativeElement.css('background-color', colorCombo.bg_color);
+          this.color           = colorCombo.fg_color;
+          this.backgroundColor = colorCombo.bg_color;
         } else {
-          this.element.nativeElement.css('color', colorCombo["font-color"]);
-          this.element.nativeElement.css('background-color', colorCombo["selected-background-colour"]);
+          this.color           = colorCombo["font-color"];
+          this.backgroundColor = colorCombo["selected-background-colour"];
         }
       }
     }

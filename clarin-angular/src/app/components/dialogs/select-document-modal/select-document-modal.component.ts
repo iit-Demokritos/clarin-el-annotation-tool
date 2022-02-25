@@ -85,10 +85,11 @@ export class SelectDocumentModalComponent extends MainDialogComponent implements
     this.groups = [];
     this.attrs = [];
 
-    if (this.subheader == "Button Annotator")
+    if (this.subheader == "Button Annotator") {
       this.annotationSchemaOptions.values = [];
-    else
+    } else {
       this.annotationSchemaOptions.attributes = [];
+    }
   }
 
   initializeLanguages() { //fill the language select

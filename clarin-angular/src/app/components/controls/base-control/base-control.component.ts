@@ -32,8 +32,12 @@ export class BaseControlComponent extends ValueAccessorComponent<any> implements
   @Input() annotationRelationWidgetId;
   @Input() annotationWidgetIds;
 
-  // We do not use this, but it may exist in annotation schemes, and Angular will complain...
+  @Input() cols;
+
+  // We do not use these, but they may exist in annotation schemes,
+  // and Angular will complain...
   @Input() textvariable;
+  @Input() groupType;
 
   n = require("bson-objectid");
 

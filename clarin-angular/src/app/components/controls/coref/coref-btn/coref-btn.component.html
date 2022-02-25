@@ -1,2 +1,2 @@
-<button #element type="button" title="{{label}}" class="btn btn-default btn-sm btn-block coref-btn"
-    (click)="addAttribute(annotationType, annotationAttribute)"></button>
+<button type="button" title="{{label}}" class="btn btn-default btn-sm btn-block coref-btn" [style.backgroundColor]="btnBgColor" [style.color]="btnColor"
+    (click)="addAttribute()" [disabled]="disabled"><span class="coref-btn-span" style="--color-bg: {{bgColor}};">{{label}}</span></button>

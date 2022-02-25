@@ -1,5 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BaseControlComponent } from '../../base-control/base-control.component';
+import { Message } from 'src/app/models/services/message';
+import { MessageService } from 'src/app/services/message-service/message.service';
 
 @Component({
   selector: 'coref-span-end',
@@ -8,33 +10,51 @@ import { BaseControlComponent } from '../../base-control/base-control.component'
 })
 export class CorefSpanEndComponent extends BaseControlComponent implements OnInit {
 
-  @ViewChild("element") element: Element;
-
   super() { }
 
-  ngOnInit(): void {
+  visible_data = "";
+
+  ngAfterViewInit(): void {
     //register callbacks for the annotation list and the selected annotation
-    this.TextWidgetAPI.registerSelectedAnnotationCallback(this.updateCorefSpanEnd);
+    // this.TextWidgetAPI.registerSelectedAnnotationCallback(this.updateCorefSpanEnd.bind(this));
+    // We want to receive messages for COREF_ATTRIBUTE_VALUE...
+    this.messagesSubscribe();
   }
 
-  updateCorefSpanEnd() {
-    var selectedAnnotation: any = this.TextWidgetAPI.getSelectedAnnotation();
+  // updateCorefSpanEnd() {
+  //   var selectedAnnotation: any = this.TextWidgetAPI.getSelectedAnnotation();
 
-    if (Object.keys(selectedAnnotation).length > 0) { //is selected annotation is not empty 
-      //search for the specific attribute of the annotation
-      // var selAnnotationAttribute = _.findWhere(selectedAnnotation.attributes, { name: this.annotationAttribute });
-      var selAnnotationAttribute = selectedAnnotation.attributes.find(attr => attr.name === this.annotationAttribute);
+  //   if (Object.keys(selectedAnnotation).length > 0) { //is selected annotation is not empty 
+  //     var selAnnotationAttribute = selectedAnnotation.attributes.find(attr => attr.name === this.annotationAttribute);
 
-      /*// if element has the specific attribute and the attribute value is different from the element's value
-      if (!angular.isUndefined(selectedAnnotationAttribute.value.end) && selectedAnnotationAttribute.value.end != $(element).text())
-        $(element).text(selectedAnnotationAttribute.value.end); */
+  //     if (typeof (selAnnotationAttribute.value) != "undefined") {
+  //       var span = selAnnotationAttribute.value.split(" ");
+  //       if (span.length == 2) {
+  //         this.visible_data = span[1];
+  //       }
+  //     }
+  //   } else {
+  //     this.visible_data = "";
+  //   }
+  // }
 
-      if (typeof (selAnnotationAttribute.value) != "undefined") {
-        var span = selAnnotationAttribute.value.split(" ");
-        if (span.length == 2)
-          this.element.innerHTML = (span[1]);
+  // Callback for messages...
+  onMessageAdded(message: Message) {
+    switch(message.name) {
+      case MessageService.COREF_ATTRIBUTE_VALUE: {
+        if (message.value.annotation_type == this.annotationType &&
+            message.value.attribute_name  == this.annotationAttribute) {
+          // If the value is correct, highlight the button...
+          if (typeof (message.value.value) != "undefined" &&
+	      typeof (message.value.value.end) != "undefined") {
+            this.visible_data = message.value.value.end;
+          } else {
+            this.visible_data = "";
+          }
+        }
+        break;
       }
-    } else if (Object.keys(selectedAnnotation).length == 0 && this.element.innerHTML.length > 0)	//else clear the input element
-      this.element.innerHTML = ('');
-  }
+    }
+  }; /* onMessageAdded */
+
 }

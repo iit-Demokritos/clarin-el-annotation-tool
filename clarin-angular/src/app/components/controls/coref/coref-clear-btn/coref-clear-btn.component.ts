@@ -12,29 +12,31 @@ export class CorefClearBtnComponent extends BaseControlComponent implements OnIn
 
   ngOnInit(): void {
     //register callbacks for the selected annotation
-    this.TextWidgetAPI.registerSelectedAnnotationCallback(this.annotationSelectionUpdate);
+    this.TextWidgetAPI.registerSelectedAnnotationCallback(this.annotationSelectionUpdate.bind(this));
   }
 
   showClearBtn = true;
 
-  resetInputFields() {     //reset all annotator's widgets 
-    document.querySelector('.coref-combobox').innerHTML = ('');
-    document.querySelector('.coref-entry').innerHTML = ('');
-    document.querySelector('.coref-multi-entry').innerHTML = ('');
-    document.querySelector('.coref-segment-entry').innerHTML = ('');
-    document.querySelector('.coref-span-end').innerHTML = ('');
-    document.querySelector('.coref-span-start').innerHTML = ('');
-    (document.querySelector('.coref-checkbox input') as HTMLInputElement).checked = false;
-    document.querySelector('.coref-btn.active').setAttribute("style", "color:#333");
-    document.querySelector('.coref-btn.active').setAttribute("style", "background:#fff");
-    document.querySelector('.coref-btn.active').classList.remove('active');
+  resetInputFields() {
+    // Reset everything...
+    var data = this.messageService.attributeValueMemoryGet(this.annotationType);
+    for (const k in data) {
+      if (Object.keys(data[k]).length > 0) {
+        this.messageService.attributeValueMemorySetAttributeValue(this.annotationType, k, {});
+      }
+    }
   }
+
+  cancelSelectedAnnotation() {
+    // this.TextWidgetAPI.clearSelection();
+    this.TextWidgetAPI.clearSelectedAnnotation();
+  }; /* cancelSelectedAnnotation */
 
   annotationSelectionUpdate() {
     var selectedAnnotation = this.TextWidgetAPI.getSelectedAnnotation();
     if (Object.keys(selectedAnnotation).length == 0) //selected annotation exists
       this.showClearBtn = true;
-    else									                      //selected annotation not empty
+    else //selected annotation not empty
       this.showClearBtn = false;
   }
 }

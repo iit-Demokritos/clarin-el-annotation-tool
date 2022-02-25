@@ -245,7 +245,7 @@ class CoreferenceAnnotatorsSerializer(serializers.ModelSerializer):
     language = serializers.CharField(max_length=255, allow_null=True, default=None)
     annotation_type = serializers.CharField(max_length=255, allow_null=True, default=None)
     alternative = serializers.CharField(max_length=255, allow_null=True, default=None)
-    created_at = serializers.DateTimeField(default=datetime.now)
+    #created_at = serializers.DateTimeField(default=datetime.now)
     updated_at = serializers.DateTimeField(default=datetime.now)
 
     class Meta:

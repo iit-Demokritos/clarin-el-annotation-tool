@@ -16,6 +16,7 @@
   line-height: 1;
   border-radius: 0.25em;
   border: 1px solid;
+  border-color: var(--border-color);
 }
 
 .annotated-text:after {
@@ -27,8 +28,10 @@
   border-radius: 0.35em;
   text-transform: uppercase;
   display: inline-block;
+  // vertical-align: baseline;
   vertical-align: middle;
   margin: 0 0 0.2rem 0.5rem;
+  background-color: var(--border-color);
 }
 
 /************************************************/
@@ -43,30 +46,6 @@
   border-collapse: separate;
   margin-bottom: 0px;
   border-spacing: 0;
-}
-
-.sidebar-main-content .btn-sm i {
-  font-size: 18px;
-}
-.sidebar-main-content .coref-span-start,
-.sidebar-main-content .coref-span-end,
-.sidebar-main-content .annotation-entry,
-.sidebar-main-content .coref-entry,
-.sidebar-main-content .coref-segment-entry,
-.sidebar-main-content input[type="text"],
-.sidebar-main-content select {
-  height: 24px;
-  resize: none;
-  font-size: 12px !important;
-  padding: 2px !important;
-}
-.sidebar-main-content .coref-multi-entry {
-  resize: none;
-  font-size: 12px !important;
-  padding: 3px 5px 2px !important;
-  margin: 2px 0;
-  white-space: pre-wrap;
-  overflow-y: auto !important;
 }
 
 .button-widget-wrapper table button {
@@ -108,7 +87,8 @@
   padding: 4px 0 3px;
 }
 
-.annotation-btn {
+.annotation-btn,
+.coref-btn {
   //text-align: left;
   white-space: pre !important;
   display: inline-block;
@@ -118,7 +98,8 @@
   position: relative;
   text-overflow: ellipsis;
 }
-.annotation-btn-span {
+.annotation-btn-span,
+.coref-btn-span {
   @extend .annotation-btn;
   text-align: left;
   float: left;
@@ -222,6 +203,8 @@ annotation-relation-import-btn {
   }
 }
 
+.coref-annotate-btn,
+.coref-clear-btn,
 .annotation-relation-annotate-btn,
 .annotation-relation-clear-btn {
   button {
@@ -241,6 +224,79 @@ annotation-relation-import-btn {
   }
 }
 /*** end of button annotator widget ***/
+
+/*** Coreference Annotator Customization ***/
+.button-widget-wrapper.coref-widget-wrapper table {
+  table-layout: auto;
+}
+
+.button-widget-wrapper.coref-widget-wrapper .button-widget-subheader {
+  /* white-space:nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;*/
+  padding: 2px 0;
+  height: 24px;
+}
+
+coref-add-btn,
+coref-del-btn {
+  height: 24px;
+  line-height: 24px;
+  width: 24px;
+  // The following two lines center the element...
+  margin: -2px auto 0px;
+  display: block;
+  button,
+  .coref-add-btn,
+  .coref-del-btn,
+  .mat-button-focus-overlay,
+  .mat-ripple {
+    height: 20px;
+    line-height: 20px;
+    width: 20px;
+  }
+}
+
+.coref-checkbox { line-height: 19px; margin: 0 5px;}
+.coref-annotate-btn, .coref-clear-btn { margin: 5px 0 0!important; padding:4px 12px;}
+.coref-segment-entry {
+    white-space: nowrap;
+    overflow:hidden !important;
+    text-overflow: ellipsis;
+}
+.coref-multi-entry {
+    white-space: nowrap;
+    overflow:hidden !important;
+    text-overflow: ellipsis;
+}
+
+.side-content-container {
+  .btn-sm i {
+    font-size: 18px;
+  }
+  .coref-span-start,
+  .coref-span-end,
+  .annotation-entry,
+  .coref-entry,
+  .coref-segment-entry,
+  input[type="text"],
+  select {
+    height: 24px;
+    resize: none;
+    font-size: 12px !important;
+    padding: 2px !important;
+    min-height: 24px !important;
+  }
+  .coref-multi-entry {
+    resize: none;
+    font-size: 12px !important;
+    padding: 3px 5px 2px !important;
+    margin: 2px 0;
+    white-space: pre-wrap;
+    overflow-y: auto !important;
+  }
+}
+/*** End of Coreference Annotator Customization ***/
 
 /* TEI XML tags */
 .CodeMirror-line .stage, .tei-stage {

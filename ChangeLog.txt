@@ -1,3 +1,34 @@
+26 February 2022 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
+ * clarin-angular/src/app/components/controls/button/annotation-indicator/annotation-indicator.component.html:
+ * clarin-angular/src/app/components/controls/button/annotation-indicator/annotation-indicator.component.ts:
+ * clarin-angular/src/app/components/controls/base-control/base-control.component.ts:
+ * clarin-angular/src/app/components/controls/coref/coref-add-btn/coref-add-btn.component.html:
+ * clarin-angular/src/app/components/controls/coref/coref-add-btn/coref-add-btn.component.ts:
+ * clarin-angular/src/app/components/controls/coref/coref-annotate-btn/coref-annotate-btn.component.html:
+ * clarin-angular/src/app/components/controls/coref/coref-annotate-btn/coref-annotate-btn.component.ts:
+ * clarin-angular/src/app/components/controls/coref/coref-btn/coref-btn.component.html:
+ * clarin-angular/src/app/components/controls/coref/coref-btn/coref-btn.component.ts:
+ * clarin-angular/src/app/components/controls/coref/coref-clear-btn/coref-clear-btn.component.html:
+ * clarin-angular/src/app/components/controls/coref/coref-clear-btn/coref-clear-btn.component.ts:
+ * clarin-angular/src/app/components/controls/coref/coref-del-btn/coref-del-btn.component.html:
+ * clarin-angular/src/app/components/controls/coref/coref-del-btn/coref-del-btn.component.ts:
+ * clarin-angular/src/app/components/controls/coref/coref-segment-entry/coref-segment-entry.component.html:
+ * clarin-angular/src/app/components/controls/coref/coref-segment-entry/coref-segment-entry.component.ts:
+ * clarin-angular/src/app/components/controls/coref/coref-span-end/coref-span-end.component.html:
+ * clarin-angular/src/app/components/controls/coref/coref-span-end/coref-span-end.component.ts:
+ * clarin-angular/src/app/components/controls/coref/coref-span-start/coref-span-start.component.html:
+ * clarin-angular/src/app/components/controls/coref/coref-span-start/coref-span-start.component.ts:
+ * clarin-angular/src/app/models/services/message.ts:
+ * clarin-angular/src/app/services/message-service/message.service.ts:
+ * clarin-angular/src/css/clarin-annschema.scss:
+ Coreference Annotator.
+
+22 February 2022 Petasis George <petasis@iit.demokritos.gr>:
+ * backend-django/clarin_backend/views.py:
+ * backend-django/clarin_backend/serializers.py: Fixes for Coreference
+ Annotator.
+
 07 February 2022 Petasis George <petasis@iit.demokritos.gr>:
  * backend-django/clarin_backend/management/: Added "wait_for_db" admin
  command.

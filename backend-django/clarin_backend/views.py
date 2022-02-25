@@ -443,11 +443,11 @@ class HandleCollection(APIView):
         try:
             collection = Collections.objects.filter(id=collection_id)
             if not collection.exists():
-                return Response(data={"success": False, "exists": False, "flash": "An error occured"}, status=status.HTTP_400_BAD_REQUEST)
+                return Response(data={"success": False, "exists": False, "flash": "An error occured!"}, status=status.HTTP_400_BAD_REQUEST)
 
         except Exception as ex:
             print("HandleCollection (patch1):" + str(ex))
-            return Response(data={"success": False, "exists": False, "flash": "An error occured"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(data={"success": False, "exists": False, "flash": "An error occured!"}, status=status.HTTP_400_BAD_REQUEST)
         try:
             user = Users.objects.get(email=request.user)
             collection_queryset = Collections.objects.filter(
@@ -465,7 +465,7 @@ class HandleCollection(APIView):
                 return Response(data={"success": True, "exists": False}, status=status.HTTP_200_OK)
         except Exception as ex:
             print("HandleCollection (patch2):" + str(ex))
-            return Response(data={"success": True, "exists": True, "flash": "An error occured"}, status=status.HTTP_200_OK)
+            return Response(data={"success": True, "exists": True, "flash": "An error occured!"}, status=status.HTTP_200_OK)
 
 
 # 4 & 5
@@ -728,7 +728,7 @@ class ShareCollectionView(APIView):
                 collection_id=collection, fromfield=fromuser, tofield=touser)
         except Exception as e:
             print("ShareCollectionView(post):"+str(e))
-            return Response(data={"success": False, "message": "An error occured:"+str(e)+"Invitation email has not been sent"},
+            return Response(data={"success": False, "message": "An error occured: "+str(e)+" Invitation email has not been sent"},
                             status=status.HTTP_200_OK)
         if fromuser.pk == touser.pk:
             return Response(data={"success": False, "message": "You cannot share a collection with yourself."},
@@ -764,7 +764,7 @@ class ShareCollectionView(APIView):
             invitation_alert.send_sharecollection_email()
             return Response(data={"success": True}, status=status.HTTP_200_OK)
         print("ShareCollectionView(post):"+str(serializer.errors))
-        return Response(data={"success": False, "message": "An error occured. Invitation email has not been sent."},
+        return Response(data={"success": False, "message": "An error occured: Invitation email has not been sent."},
                         status=status.HTTP_200_OK)
 
     @extend_schema(request=None,responses={200: None},description="Gets collection id and returns all the users that are invited to share the collection.")   
@@ -904,7 +904,7 @@ class OpenDocumentView(APIView):
 
         except Exception as ex:
             print("OpenDocumentView (post):" + str(ex))
-            return Response(data={"success": False, "message": "An error occured."},
+            return Response(data={"success": False, "message": "An error occured!"},
                             status=status.HTTP_200_OK)
 
 
@@ -954,7 +954,7 @@ class CollectionDataView(APIView):
                                         "confirmed": 1, "is_owner": 0})
         except Exception as ex:
             print("CollectionDataView (get):" + str(ex))
-            return Response(data={"success": False, "message": "An error occured here."},
+            return Response(data={"success": False, "message": "An error occured!"},
                             status=status.HTTP_200_OK)
         return Response(data={"success": True, "data": doc_records}, status=status.HTTP_200_OK)
 
@@ -967,10 +967,13 @@ class ButtonAnnotatorView(APIView):
 
         try:
             user = Users.objects.get(email=request.user)
-            button_annotator = (
-                ButtonAnnotators.objects.filter(user_id=user)).get()
-            btn_data = {"language": button_annotator.language, "annotation_type": button_annotator.annotation_type,
+            button_annotator_query=ButtonAnnotators.objects.filter(user_id=user)
+            if (button_annotator_query.exists()):
+                button_annotator =button_annotator_query.get() 
+                btn_data = {"language": button_annotator.language, "annotation_type": button_annotator.annotation_type,
                         "attribute": button_annotator.attribute, "alternative": button_annotator.alternative}
+            else:
+                btn_data={}    
         except Exception as ex:
             print("ButtonAnnotatorView (get):" + str(ex))
             return Response(data={"success": True, "data": None},
@@ -1001,7 +1004,7 @@ class ButtonAnnotatorView(APIView):
 
         except Exception as ex:
             print("ButtonAnnotatorView (post):" + str(ex))
-            return Response(data={"success": False, "message": "An error occured."},
+            return Response(data={"success": False, "message": "An error occured!"},
                             status=status.HTTP_200_OK)
 
 
@@ -1013,14 +1016,17 @@ class CoreferenceAnnotatorView(APIView):
 
         try:
             user = Users.objects.get(email=request.user)
-            coreference_annotator = (
-                CoreferenceAnnotators.objects.filter(user_id=user)).get()
-            coref_data = {"language": coreference_annotator.language,
+            coreference_annotator_query=CoreferenceAnnotators.objects.filter(user_id=user)
+            if (coreference_annotator_query.exists()):
+                coreference_annotator =coreference_annotator_query.get() 
+                coref_data = {"language": coreference_annotator.language,
                           "annotation_type": coreference_annotator.annotation_type,
                           "alternative": coreference_annotator.alternative}
+            else:
+                coref_data={}    
         except Exception as ex:
             print("CoreferenceAnnotatorView (get):" + str(ex))
-            return Response(data={"success": False, "message": "An error occured." + str(ex)},
+            return Response(data={"success": False, "message": "An error occured: " + str(ex)},
                             status=status.HTTP_200_OK)
         return Response(data={"success": True, "data": coref_data}, status=status.HTTP_200_OK)
 
@@ -1031,8 +1037,8 @@ class CoreferenceAnnotatorView(APIView):
             user = Users.objects.get(email=request.user)
             coreference_annotator = CoreferenceAnnotators.objects.filter(
                 user_id=user)
-            data = {"language": request.data["language"], "annotation_type": request.data["annotation_type"],
-                    "alternative": request.data["alternative"],
+            data = {"language": request.data["data"]["language"], "annotation_type": request.data["data"]["annotation_type"],
+                    "alternative": request.data["data"]["alternative"],
                     "updated_at": datetime.now()}
             if not (coreference_annotator.exists()):
                 data["user_id"] = user.pk
@@ -1045,7 +1051,7 @@ class CoreferenceAnnotatorView(APIView):
             return Response(data={"success": True})
         except Exception as ex:
             print("CoreferenceAnnotatorView (post):" + str(ex))
-            return Response(data={"success": False, "message": "An error occured." + str(ex)},
+            return Response(data={"success": False, "message": "An error occured: " + str(ex)},
                             status=status.HTTP_200_OK)
 
 
@@ -1139,7 +1145,7 @@ class OpenDocumentUpdate(APIView):
             return Response(data={"success": True, "message": "open document deleted"}, status=status.HTTP_200_OK)
         except Exception as ex:
             print("OpenDocumentUpdate (delete):" + str(ex))
-            return Response(data={"success": False, "message": "An error occured"},
+            return Response(data={"success": False, "message": "An error occured!"},
                             status=status.HTTP_200_OK)
 
 
@@ -1229,7 +1235,7 @@ class ExportCollectionView(APIView):
             data["documents"] = doc_records
         except Exception as ex:
             print("ExportCollectionView (get):" + str(ex))
-            return JsonResponse(data={"success": True, "message": "An error occured." + str(ex)},
+            return JsonResponse(data={"success": True, "message": "An error occured: " + str(ex)},
                                 status=status.HTTP_200_OK)
         response = JsonResponse(data={"success": True, "message": "ok", "data": data},
                             status=status.HTTP_200_OK)

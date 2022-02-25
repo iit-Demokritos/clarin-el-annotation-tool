@@ -1216,7 +1216,7 @@ export class TextWidgetComponent extends BaseControlComponent
               className: markClassName,
               css: "color:" + colorCombination.colour_font + "; " +
                 "background: " + colorCombination.colour_selected_background + "; " +
-                "border-color:" + colorCombination.colour_border + ";" +
+                "--border-color:" + colorCombination.colour_border + ";" +
                 "border-top: 4px solid " + colorCombination.colour_border + "; " +
                 "border-bottom: 4px solid " + colorCombination.colour_border + "; ",
               attributes: {dataType: annotationAttributes[m].value}
@@ -1227,7 +1227,7 @@ export class TextWidgetComponent extends BaseControlComponent
               className: markClassName,
               css: "color:" + colorCombination.colour_font + ";" +
                 "background:" + colorCombination.colour_background + ";" +
-                "border-color:" + colorCombination.colour_border + ";",
+                "--border-color:" + colorCombination.colour_border + ";",
               attributes: {dataType: annotationAttributes[m].value}
             });
           }
@@ -1249,7 +1249,7 @@ export class TextWidgetComponent extends BaseControlComponent
           var markAttributes = {
             markerId: markerId
           }
-          markAttributes["data-type"] = typeAttribute
+          markAttributes["dataType"] = typeAttribute;
 
           // Create class for adding background color to the type pseudo-element
           var colorClass = " mark_color_" +
@@ -1265,7 +1265,7 @@ export class TextWidgetComponent extends BaseControlComponent
               attributes: markAttributes,
               css: "color:" + colourCom["font-color"] + "; " +
                 "background:" + colourCom["selected-background-colour"] + "; " +
-                "border-color:" + colourCom["border-color"] + "; " +
+                "--border-color:" + colourCom["border-color"] + "; " +
                 "border-top:" + "4px solid " + colourCom["border-color"] + "; " +
                 "border-bottom:" + "4px solid " + colourCom["border-color"] + "; "
             });
@@ -1276,7 +1276,7 @@ export class TextWidgetComponent extends BaseControlComponent
               attributes: markAttributes,
               css: "color:" + colourCom["font-color"] + ";" +
                 "background:" + colourCom["background-colour"] + ";" +
-                "border-color:" + colourCom["border-color"] + ";"
+                "--border-color:" + colourCom["border-color"] + ";"
             });
           }
           this.overlayMarkAdd(l, selection.start, selection.end, visAnnotation);
@@ -1418,7 +1418,7 @@ export class TextWidgetComponent extends BaseControlComponent
         _.each(markerSpans, (span) => {
           // Add the data type attribute
           var doc = document.querySelector(span) as Element;
-          doc.setAttribute("data-type", mark.typeAttribute);
+          doc.setAttribute("dataType", mark.typeAttribute);
 
           // If the marker has > 1 classes that set its type
           // pseudoelement's background-color, we

@@ -1,78 +1,93 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, AfterViewInit, ViewChild } from '@angular/core';
 import { BaseControlComponent } from '../../base-control/base-control.component';
+import { Message } from 'src/app/models/services/message';
+import { MessageService } from 'src/app/services/message-service/message.service';
 
 @Component({
   selector: 'coref-btn',
   templateUrl: './coref-btn.component.html',
   styleUrls: ['./coref-btn.component.scss']
 })
-export class CorefBtnComponent extends BaseControlComponent implements OnInit {
+export class CorefBtnComponent extends BaseControlComponent implements AfterViewInit {
 
   @Input() compound;
-  image;
-  imageSize;
-  label;
-  @ViewChild("element") element: Element;
+  @Input() image;
+  @Input() imageSize;
+  @Input() label;
+  @Input() variable;
+  // @ViewChild("element") element: ElementRef;
+
+  disabled   = false;
+  btnColor   = "#333";
+  btnBgColor = "#fff";
 
   super() { }
 
-  ngOnInit(): void {
-
-    if (typeof this.compound != "undefined") {
-      if (this.compound == "none") {
-        var imagePath = this.image.replace("/opt/Ellogon/share", "");
-        this.element.innerHTML = '<img src="images' + imagePath + '" width="' + this.imageSize + '" height="' + this.imageSize + '"/>';
-      } else {
-        /*element.css('color', scope.fgColor);*/
-        this.element.innerHTML = ('<span style="float:' + this.compound + '">' +
-          '<i class="fa fa-minus fa-rotate-90" style="float:' + this.compound + '; color:' + this.bgColor + '"></i>' + this.label +
-          '</span>');
-      }
-    }
-
+  ngAfterViewInit(): void {
+    // if (typeof this.compound != "undefined") {
+    //   if (this.compound == "none") {
+    //     var imagePath = this.image.replace("/opt/Ellogon/share", "");
+    //     this.element.nativeElement.innerHTML = '<img src="images' + imagePath + '" width="' + this.imageSize + '" height="' + this.imageSize + '"/>';
+    //   } else {
+    //     /*element.css('color', scope.fgColor);*/
+    //     this.element.nativeElement.innerHTML = ('<span style="float:' + this.compound + '">' +
+    //       '<i class="fa fa-minus fa-rotate-90" style="float:' + this.compound + '; color:' + this.bgColor + '"></i>' + this.label +
+    //       '</span>');
+    //   }
+    // }
     //register callbacks for the annotation list and the selected annotation
-    this.TextWidgetAPI.registerSelectedAnnotationCallback(this.updateCorefBtn);
-  }
-
-  addAttribute(annotationType, annotationAttribute) {
-    if (!this.element.classList.contains('active')) {
-      var elementGroup = this.element.getAttribute("id").split("_")[0] + "_" + this.element.getAttribute("id").split("_")[1];
-      var pressedButton = document.querySelector("button[id*='" + elementGroup + "']").querySelectorAll(".active");
-
-      if (pressedButton.length > 0) {							//if other button is pressed remove active class and restore bg/fg color
-        pressedButton[0].classList.remove('active');
-        pressedButton[0].setAttribute("style", "color:#333");
-        pressedButton[0].setAttribute("style", "background:#fff");
-      }
-
-      this.element.classList.add('active');
-      this.element.setAttribute("style", "color:" + this.fgColor);
-      this.element.setAttribute("style", "background:" + this.bgColor);
-    }
-
-    this.TextWidgetAPI.clearSelection();
-  }
+    this.TextWidgetAPI.registerSelectedAnnotationCallback(this.updateCorefBtn.bind(this));
+    // We want to receive messages, from CorefBtnComponent components...
+    this.messagesSubscribe();
+  }; // ngAfterViewInit
 
   updateCorefBtn() {
     var selectedAnnotation: any = this.TextWidgetAPI.getSelectedAnnotation();
 
-    if (Object.keys(selectedAnnotation).length > 0) { //is selected annotation is not empty 
-      // var selectedAnnotationAttribute = _.where(selectedAnnotation.attributes, { name: this.annotationAttribute })[0];
-      var selectedAnnotationAttribute = selectedAnnotation.attributes.find(attr => attr.name === this.annotationAttribute);
-
-      //if element has the specific attribute, it is not active and has the specific annotation value
-      if (typeof (selectedAnnotationAttribute) != "undefined" && !this.element.classList.contains('active') &&
-        (this.element.getAttribute('annotation-value') == selectedAnnotationAttribute.value)) {
-        this.element.classList.add('active');
-        this.element.setAttribute("style", "color:" + this.fgColor);
-        this.element.setAttribute("style", "background" + this.bgColor);
+    // The selected annotation is not empty 
+    if (Object.keys(selectedAnnotation).length > 0) {
+      // Check if the selected annotation has the same type as this button...
+      if (selectedAnnotation.type !== this.annotationType) {
+        // We cannot handle this annotation!
+        return;
       }
-    } else if (Object.keys(selectedAnnotation).length == 0 && this.element.classList.contains('active')) { //if selected annotation not empty and checkbox checked 
-      this.element.classList.remove('active');
-      this.element.setAttribute("style", "color:#333");
-      this.element.setAttribute("style", "background:#fff");
+
+      var selectedAnnotationAttribute = selectedAnnotation.attributes.find(attr =>
+        attr.name === this.annotationAttribute &&
+        attr.value === this.annotationValue
+      );
+
+      if (!(typeof (selectedAnnotationAttribute) == "undefined" || !selectedAnnotationAttribute)) {
+        this.messageService.attributeValueMemorySetAttributeValue(this.annotationType, this.annotationAttribute, {value: this.annotationValue});
+      }
+    } else {
+        this.messageService.attributeValueMemorySetAttributeValue(this.annotationType, this.annotationAttribute, {});
     }
   }
 
+  addAttribute() {
+    this.messageService.attributeValueMemorySetAttributeValue(this.annotationType, this.annotationAttribute, {value: this.annotationValue});
+    this.TextWidgetAPI.clearSelection();
+  }
+
+  // Callback for messages...
+  onMessageAdded(message: Message) {
+    switch(message.name) {
+      case MessageService.COREF_ATTRIBUTE_VALUE: {
+        if (message.value.annotation_type == this.annotationType &&
+            message.value.attribute_name  == this.annotationAttribute) {
+          // If the value is correct, highlight the button...
+          if (message.value.value.value == this.annotationValue) {
+            this.btnColor   = this.fgColor;
+            this.btnBgColor = this.bgColor;
+          } else {
+            this.btnColor   = "#333";
+            this.btnBgColor = "#fff";
+          }
+        }
+        break;
+      }
+    }
+  }
 
 }

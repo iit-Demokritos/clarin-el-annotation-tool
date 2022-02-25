@@ -1,6 +1,4 @@
-<div>
-    <button type="button" class="btn btn-primary btn-block coref-annotate-btn" *ngIf="showAnnotateBtn"
-        (click)="addAnnotation()">Annotate</button>
-    <button type="button" class="btn btn-primary btn-block coref-annotate-btn" *ngIf="!showAnnotateBtn"
-        (click)="updateAnnotation()">Update</button>
+<div class="coref-annotate-btn">
+    <button mat-stroked-button color="primary" *ngIf="showAnnotateBtn" (click)="addAnnotation()">{{'Annotate'|translate}}</button>
+    <button mat-stroked-button color="primary" *ngIf="!showAnnotateBtn" (click)="updateAnnotation()">{{'Update'|translate}}</button>
 </div>

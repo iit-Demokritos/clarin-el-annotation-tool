@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BaseControlComponent } from '../../base-control/base-control.component';
 
 @Component({
@@ -8,31 +8,20 @@ import { BaseControlComponent } from '../../base-control/base-control.component'
 })
 export class CorefAddBtnComponent extends BaseControlComponent implements OnInit {
 
-  @ViewChild("input") element: ElementRef;
-
   super() { }
 
   ngOnInit(): void {
   }
 
-  addAttribute(annotationType, annotationAttribute) {
+  addAttribute(): void {
+    // annotationType, annotationAttribute
     var currentSelection: any = this.TextWidgetAPI.getCurrentSelection();
 
     if (Object.keys(currentSelection).length > 0) {
-      this.element.nativeElement.parent().closest("tr").find(".coref-span-start").text(currentSelection.startOffset);
-      this.element.nativeElement.parent().closest("tr").find(".coref-span-end").text(currentSelection.endOffset);
+      this.messageService.attributeValueMemorySetAttributeValue(this.annotationType, this.annotationAttribute, {
+        start: currentSelection.startOffset, end: currentSelection.endOffset, segment: currentSelection.segment
+      });
 
-      var elementIdNumber = this.element.nativeElement.parent().attr('id').match(/\d+/)[0];
-
-      if (document.querySelectorAll("#x_t" + elementIdNumber).length) {
-        var segmentElement = document.querySelector("#x_t" + elementIdNumber);
-        segmentElement.textContent = (currentSelection.segment);
-        segmentElement.setAttribute("title", currentSelection.segment);
-      } /*else if ($(element).closest("tr").find(".coref-multi-entry").length) {
-        $(element).closest("tr").find(".coref-multi-entry").text(currentSelection.segment);
-        $(element).closest("tr").find(".coref-multi-entry").attr("title", currentSelection.segment);
-      }
-*/
       this.TextWidgetAPI.clearSelection();
     }
   }

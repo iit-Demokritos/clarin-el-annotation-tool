@@ -163,7 +163,7 @@ export class AnnotationButtonComponent extends BaseControlComponent implements O
     } else {
       this.TextWidgetAPI.clearSelection();
       this.TextWidgetAPI.clearSelectedAnnotation();
-      console.log("empty");
+      // console.log("empty");
     }
   }
 }

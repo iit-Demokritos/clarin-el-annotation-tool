@@ -1,5 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BaseControlComponent } from '../../base-control/base-control.component';
+import { Message } from 'src/app/models/services/message';
+import { MessageService } from 'src/app/services/message-service/message.service';
 
 @Component({
   selector: 'coref-segment-entry',
@@ -8,44 +10,62 @@ import { BaseControlComponent } from '../../base-control/base-control.component'
 })
 export class CorefSegmentEntryComponent extends BaseControlComponent implements OnInit {
 
-  @ViewChild("element") element: Element;
-
   super() { }
+
+  visible_data = "";
 
   ngOnInit(): void {
     //register callbacks for the annotation list and the selected annotation
-    this.TextWidgetAPI.registerSelectedAnnotationCallback(this.updateCorefSegmentEntry);
+    this.TextWidgetAPI.registerSelectedAnnotationCallback(this.updateCorefSegmentEntry.bind(this));
+    // We want to receive messages for COREF_ATTRIBUTE_VALUE...
+    this.messagesSubscribe();
   }
 
   updateCorefSegmentEntry() {
     var selectedAnnotation: any = this.TextWidgetAPI.getSelectedAnnotation();
 
     if (Object.keys(selectedAnnotation).length > 0) { //is selected annotation is not empty 
-      //search for the specific attribute of the annotation
-      // var selAnnotationAttribute = _.findWhere(selectedAnnotation.attributes, { name: this.annotationAttribute });
       var selAnnotationAttribute = selectedAnnotation.attributes.find(attr => attr.name === this.annotationAttribute);
-
-      //if attribute found and has segment inside, assign it to the input element
-      /*if (!angular.isUndefined(selAnnotationAttribute.value.segment) && selAnnotationAttribute.value.segment != $(element).text()) {
-        $(element).text(selAnnotationAttribute.value.segment);
-        $(element).attr('title', selAnnotationAttribute.value.segment);
-      }*/
 
       if (typeof (selAnnotationAttribute.value) != "undefined") {
         var span = selAnnotationAttribute.value.split(" ");
+        span[0] = parseInt(span[0]); span[1] = parseInt(span[1]);
         if (span.length == 2) {
-          // var selSpan = _.findWhere(selectedAnnotation.spans, { start: parseInt(span[0]), end: parseInt(span[1]) });
-          var selSpan = selectedAnnotation.spans.find(span =>
-            span.start === parseInt(span[0]) && span.end === parseInt(span[1]));
-          if (typeof (selSpan.segment) != "undefined" && selSpan.segment != this.element.innerHTML) {
-            this.element.innerHTML = (selSpan.segment);
-            this.element.setAttribute('title', selSpan.segment);
+          var selSpan = selectedAnnotation.spans.find(sp => sp.start == span[0] && sp.end == span[1]);
+          if (typeof (selSpan.segment) != "undefined") {
+            this.messageService.attributeValueMemorySetAttributeValue(this.annotationType, this.annotationAttribute, {
+              start: span[0], end: span[1], segment: selSpan.segment
+	    });
+
+            this.visible_data = selSpan.segment;
           }
-        }
+        } else {
+          this.messageService.attributeValueMemorySetAttributeValue(this.annotationType, this.annotationAttribute, {});
+	}
       }
-    } else if (Object.keys(selectedAnnotation).length == 0 && this.element.innerHTML.length > 0) { //else clear the input element
-      this.element.innerHTML = ('');
-      this.element.setAttribute('title', '');
+    } else {
+      this.messageService.attributeValueMemorySetAttributeValue(this.annotationType, this.annotationAttribute, {});
+      this.visible_data = ""; 
     }
   };
+
+  // Callback for messages...
+  onMessageAdded(message: Message) {
+    switch(message.name) {
+      case MessageService.COREF_ATTRIBUTE_VALUE: {
+        if (message.value.annotation_type == this.annotationType &&
+            message.value.attribute_name  == this.annotationAttribute) {
+          // If the value is correct, highlight the button...
+          if (typeof (message.value.value) != "undefined" &&
+	      typeof (message.value.value.segment) != "undefined") {
+            this.visible_data = message.value.value.segment;
+          } else {
+            this.visible_data = "";
+          }
+        }
+        break;
+      }
+    }
+  }; /* onMessageAdded */
+
 }

@@ -129,11 +129,11 @@ export class AnnotatorWidgetComponent extends BaseControlComponent
           //    + " found-in-collection"
           //    + annotatorsTemplate.slice(foundInCollectionPosition);
           //}
-          // console.warn("Template:", annotatorsTemplate);
+          // console.error("Template:", annotatorsTemplate);
 
           // Try to see how many annotation types this schema involves...
           var types = annotatorsTemplate.match(/\[annotationType\]=\"[^\"]+"/ig);
-          // console.warn("types:", types);
+          // console.error("types:", types);
           types = types.map(value => value.substr(17).replace(/['"]+/g, ''));
           // console.warn("types:", types);
           var types_unique = types.filter((value, index, self) => { return self.indexOf(value) === index; });

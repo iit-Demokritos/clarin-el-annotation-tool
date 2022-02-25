@@ -11,3 +11,13 @@ export interface AnnotationRelationComboboxStatusEntry {
 export interface AnnotationRelationComboboxStatus {
   [element_id: string]: AnnotationRelationComboboxStatusEntry
 }
+
+export interface AttributeValueMemoryValue {
+  value?:   string;
+  segment?: string;
+  start?:   number;
+  end?:     number;
+}
+export interface AttributeValueMemory {
+  [attribute_name: string]: AttributeValueMemoryValue;
+}
