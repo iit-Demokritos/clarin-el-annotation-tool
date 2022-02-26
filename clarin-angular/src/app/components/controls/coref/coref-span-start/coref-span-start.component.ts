@@ -46,7 +46,7 @@ export class CorefSpanStartComponent extends BaseControlComponent implements OnI
             message.value.attribute_name  == this.annotationAttribute) {
           // If the value is correct, highlight the button...
           if (typeof (message.value.value) != "undefined" &&
-	      typeof (message.value.value.start) != "undefined") {
+              typeof (message.value.value.start) != "undefined") {
             this.visible_data = message.value.value.start;
           } else {
             this.visible_data = "";

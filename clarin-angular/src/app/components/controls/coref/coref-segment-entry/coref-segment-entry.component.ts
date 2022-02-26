@@ -32,16 +32,16 @@ export class CorefSegmentEntryComponent extends BaseControlComponent implements 
         span[0] = parseInt(span[0]); span[1] = parseInt(span[1]);
         if (span.length == 2) {
           var selSpan = selectedAnnotation.spans.find(sp => sp.start == span[0] && sp.end == span[1]);
-          if (typeof (selSpan.segment) != "undefined") {
+          if (typeof (selSpan) != "undefined" && typeof (selSpan.segment) != "undefined") {
             this.messageService.attributeValueMemorySetAttributeValue(this.annotationType, this.annotationAttribute, {
               start: span[0], end: span[1], segment: selSpan.segment
-	    });
+            });
 
             this.visible_data = selSpan.segment;
           }
         } else {
           this.messageService.attributeValueMemorySetAttributeValue(this.annotationType, this.annotationAttribute, {});
-	}
+        }
       }
     } else {
       this.messageService.attributeValueMemorySetAttributeValue(this.annotationType, this.annotationAttribute, {});
@@ -57,7 +57,7 @@ export class CorefSegmentEntryComponent extends BaseControlComponent implements 
             message.value.attribute_name  == this.annotationAttribute) {
           // If the value is correct, highlight the button...
           if (typeof (message.value.value) != "undefined" &&
-	      typeof (message.value.value.segment) != "undefined") {
+              typeof (message.value.value.segment) != "undefined") {
             this.visible_data = message.value.value.segment;
           } else {
             this.visible_data = "";

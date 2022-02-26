@@ -558,6 +558,7 @@ export class TextWidgetComponent extends BaseControlComponent
         var selection = this.computeSelectionFromOffsets(span.start, span.end);
         var fragment = this.editor.getRange(selection.start, selection.end);
         if (span.segment !== fragment) {
+          var span_attribute = span.start + " " + span.end;
           var startp, endp, startn, endn, start, end;
           var cursor = this.editor.getSearchCursor(span.segment, selection.start);
           var foundp  = cursor.findPrevious();
@@ -587,6 +588,11 @@ export class TextWidgetComponent extends BaseControlComponent
             span.end     = end;
             ann.spans[j] = span;
             modified = true;
+            // Modify also attributes that may be a span...
+            ann.attributes = ann.attributes.map(attr => {
+              if (attr.value === span_attribute) {attr.value = start + " " + end;}
+              return attr;
+            });
           }
         }
       }
@@ -1186,11 +1192,11 @@ export class TextWidgetComponent extends BaseControlComponent
     }
     // console.error("Annotation:", visAnnotation, visAnnotation.annotation.spans[0].segment);
 
+    var annotationAttributes = visAnnotation.annotation.attributes;
     // Iterate through annotations spans
     for (var l = 0; l < visAnnotation.annotation.spans.length; l++) {
       var colorCombination: any = {};
       var annotationSpan = visAnnotation.annotation.spans[l];
-      var annotationAttributes = visAnnotation.annotation.attributes;
 
       // create the selection in the editor and annotate it
       var selection = this.computeSelectionFromOffsets(
@@ -1236,20 +1242,20 @@ export class TextWidgetComponent extends BaseControlComponent
 
           break;
         case "Coreference Annotator":
+          var value = annotationSpan.start + " " + annotationSpan.end;
+          var attribute = annotationAttributes.find(attr => attr.value === value);
+          if (typeof attribute == "undefined") {
+            continue;
+          }
           // If it is Coreference Annotator get the required color combination
           var colourCom =
             this.coreferenceColorService.getColorCombination(visAnnotation.annotation._id);
           var mark = null;
           var markerId = "mrkr_" + Math.floor(Math.random() * 1000000);
-          // Find type
-          var value = annotationSpan.start + " " + annotationSpan.end;
-          var typeAttribute = annotationAttributes.find(attr =>
-            attr.value === value
-          ).name;
           var markAttributes = {
             markerId: markerId
           }
-          markAttributes["dataType"] = typeAttribute;
+          markAttributes["dataType"] = attribute.name;
 
           // Create class for adding background color to the type pseudo-element
           var colorClass = " mark_color_" +

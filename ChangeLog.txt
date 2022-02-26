@@ -1,3 +1,12 @@
+27 February 2022 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
+ Added migration for attributes that are spans in migrateOldSpans().
+
+ * clarin-angular/src/app/components/controls/coref/coref-segment-entry/coref-segment-entry.component.ts:
+ * clarin-angular/src/app/components/controls/coref/coref-combobox/coref-combobox.component.html:
+ * clarin-angular/src/app/components/controls/coref/coref-combobox/coref-combobox.component.ts:
+ Fixes for Coreference Annotator.
+
 26 February 2022 Petasis George <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
  * clarin-angular/src/app/components/controls/button/annotation-indicator/annotation-indicator.component.html:

@@ -1,6 +1,6 @@
-<select #element class="form-control coref-combobox">
-    <option value="">Please select an option</option>
-    <option *ngFor="let option of comboOptions" value="{{option}}">
+<mat-select class="coref-combobox" [(value)]="selected">
+    <mat-option value="">{{'Please select an option'|translate}}</mat-option>
+    <mat-option *ngFor="let option of comboOptions" [value]="option">
         {{option}}
-    </option>
-</select>
+    </mat-option>
+</mat-select>
