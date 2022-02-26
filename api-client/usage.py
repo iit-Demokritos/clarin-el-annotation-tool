@@ -1,9 +1,9 @@
 from api import Session, Collection, Document, Span, Attribute
 
 # Login as a user, and create a session to have access to the data...
-session = Session(username="vast.annotator@gmail.com",
-                  password="yikbir8",
-                  URL='https://vast.ellogon.org/');
+session = Session(username="<your-email>",
+                  password="<your-password>",
+                  URL='https://annotation.ellogon.org/');
 
 # Print all collections...
 print("Available Collections:")
