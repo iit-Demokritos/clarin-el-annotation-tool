@@ -1046,8 +1046,9 @@ class CoreferenceAnnotatorView(APIView):
                 if serializer.is_valid():
                     coref_annotator = serializer.save()
             else:
-                serializer = CoreferenceAnnotatorsSerializer(
-                    coreference_annotator.get(), data=data, partial=True)
+                serializer = CoreferenceAnnotatorsSerializer(coreference_annotator.get(), data=data, partial=True)
+                if serializer.is_valid():
+                    coref_annotator = serializer.save()
             return Response(data={"success": True})
         except Exception as ex:
             print("CoreferenceAnnotatorView (post):" + str(ex))
