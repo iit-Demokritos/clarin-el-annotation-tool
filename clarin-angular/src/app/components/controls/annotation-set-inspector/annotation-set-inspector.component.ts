@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, AfterViewInit, Output, ViewEncapsulation, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, EventEmitter, Input, AfterViewInit, Output, ViewEncapsulation, ViewChild, ChangeDetectionStrategy, ElementRef } from '@angular/core';
 import { MainComponent } from 'src/app/components/views/main/main.component';
 import { Collection } from 'src/app/models/collection';
 import { Document } from 'src/app/models/document';
@@ -6,8 +6,9 @@ import { Annotation } from 'src/app/models/annotation';
 import { TextWidgetIsolatedComponent } from '../text-widget-isolated/text-widget-isolated.component';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { AnnotationPropertyToDisplayObject } from 'src/app/helpers/annotation';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { AnnotationDetailComponent } from '../annotation-detail/annotation-detail.component';
+import { ScrollStatus } from 'src/app/models/services/scrollstatus';
 import ObjectID from "bson-objectid";
 
 @Component({
@@ -31,7 +32,8 @@ export class AnnotationSetInspectorComponent extends MainComponent implements Af
   @Input() annotations: any[];
   // annotatorType: string;
 
-  @Output() selectedAnnotations = new EventEmitter<Annotation | Annotation[]>();
+  // @Output() selectedAnnotations = new EventEmitter<Annotation | Annotation[]>();
+  @Output() onScroll = new EventEmitter<ScrollStatus>();
   selectedAnnotation: Annotation;
   selectedIndex;
   selectedAnnotationDataSource=[];
@@ -41,6 +43,8 @@ export class AnnotationSetInspectorComponent extends MainComponent implements Af
   private TWA;
   @ViewChild(MatTable)
   table: MatTable<any>;
+  @ViewChild('annotationList') annotationList: ElementRef;
+  @ViewChild('documentViewer') documentViewer: ElementRef;
   collapsed_status:number[] = [];
   annotationsDataSource = new MatTableDataSource<Annotation>();
   annotationListDisplayedColumns: string[] = ['id', 'type', 'value', 'spans'];
@@ -201,5 +205,26 @@ export class AnnotationSetInspectorComponent extends MainComponent implements Af
     }
     return this.selectedAnnotation = this.selectedAnnotation === selectedAnnotation ? null : selectedAnnotation;
   }
+
+  onScrollAnnotations(element: HTMLElement) {
+    // console.error("AnnotationSetInspectorComponent: onScroll():", element.scrollTop, element.scrollLeft, element.scrollBy);
+    this.onScroll.emit({widget: "anns", scrollTop: element.scrollTop, scrollLeft: element.scrollLeft});
+  }; /* onScrollAnnotations */
+
+  onScrollDocument(element: HTMLElement) {
+    // console.error("AnnotationSetInspectorComponent: onScroll()", element.scrollTop, element.scrollLeft, element.scrollBy);
+    this.onScroll.emit({widget: "doc", scrollTop: element.scrollTop, scrollLeft: element.scrollLeft});
+  }; /* onScrollDocument */
+
+  setScrollStatus(status: ScrollStatus) {
+    var widget;
+    if (status.widget == "anns") {
+      widget = this.annotationList;
+    } else {
+      widget = this.documentViewer;
+    }
+    widget.nativeElement.scrollTop  = status.scrollTop;
+    widget.nativeElement.scrollLeft = status.scrollLeft;
+  }; /* setScrollStatus */
 
 }

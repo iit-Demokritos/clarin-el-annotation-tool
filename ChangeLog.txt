@@ -1,3 +1,10 @@
+28 February 2022 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/controls/annotation-set-comparator/annotation-set-comparator.component.html:
+ * clarin-angular/src/app/components/controls/annotation-set-comparator/annotation-set-comparator.component.ts:
+ * clarin-angular/src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.html:
+ * clarin-angular/src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:
+ Synchronised scrollbars in Annotation Set Inspectors.
+
 27 February 2022 Petasis George <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
  Added migration for attributes that are spans in migrateOldSpans().

@@ -1,6 +1,6 @@
 <div class="annotation-set-inspector">
   <as-split direction="vertical" class="h-full-minus-editor-panel">
-    <as-split-area [size]="50" [minSize]="10" [maxSize]="90" class="annotation-list">
+    <as-split-area [size]="50" [minSize]="10" [maxSize]="90" class="annotation-list" (scroll)="onScrollAnnotations(annotationList)" #annotationList>
       <table mat-table [dataSource]="annotationsDataSource" multiTemplateDataRows class="annotation-visualiser-container">
         <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef>ID</th>
@@ -43,7 +43,7 @@
         </tr>
       </table>
     </as-split-area>
-    <as-split-area [size]="50" [minSize]="10" [maxSize]="90" class="annotation-info">
+    <as-split-area [size]="50" [minSize]="10" [maxSize]="90" class="annotation-info"  (scroll)="onScrollDocument(documentViewer)" #documentViewer>
       <text-widget-isolated></text-widget-isolated>
     </as-split-area>
   </as-split>

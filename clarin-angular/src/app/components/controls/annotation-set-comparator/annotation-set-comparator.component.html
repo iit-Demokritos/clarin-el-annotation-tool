@@ -23,8 +23,9 @@
           [annotations]="annotations[i]"
           [collections]="collections"
           [documents]="documents"
+          (onScroll)="onScroll(i, $event)"
         >
-        </annotation-set-inspector>
+        </annotation-set-inspector >
       </as-split-area>
     </as-split>
   </mat-tab>

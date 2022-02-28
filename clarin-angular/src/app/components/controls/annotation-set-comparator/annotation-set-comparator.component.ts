@@ -7,6 +7,7 @@ import { Document } from 'src/app/models/document';
 import { sortAnnotationSet, diffAnnotationSets, diffedAnnotationSetsToRatersMatrix, diffedAnnotationSetsToCategoriesMatrix, diffedAnnotationSetsRaters, diffedAnnotationSetsCategories, cohenKappa, fleissKappa } from 'src/app/helpers/annotation';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import Krippendorff from '@externals/krippendorff-alpha/src/krippendorff';
+import { ScrollStatus } from 'src/app/models/services/scrollstatus';
 
 @Component({
   selector: 'app-annotation-set-comparator',
@@ -253,5 +254,10 @@ export class AnnotationSetComparatorComponent extends MainComponent implements O
     this.changeDetectorRef.detectChanges(); // forces change detection to run
     this.annotationSetInspectorComponent.forEach((child) => child.onApply());
   }; /* clearComparisons */
+
+  onScroll(child, event: ScrollStatus) {
+    // console.error("AnnotationSetComparatorComponent: onScroll():", child, event);
+    this.annotationSetInspectorComponent.forEach((ch, index) => {if (index != child) {ch.setScrollStatus(event)}});
+  }; /* onScroll */
 
 }
