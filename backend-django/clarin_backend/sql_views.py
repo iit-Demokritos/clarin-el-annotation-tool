@@ -116,7 +116,7 @@ class DocumentsView(SQLDBAPIView):
                        new_data["handler"] = "none"
                     if ("name" in data["handler"]):
                          new_data["handler_name"] = data["handler"]["name"]
-                         handler_apply=True
+                         handler_apply = True
                     else:
                        new_data["handler_name"] = None
                     
@@ -156,7 +156,7 @@ class DocumentsView(SQLDBAPIView):
                 if ("info" in vo_json):
                     new_data["visualisation_options"] = json.dumps(vo_json["info"])
                 else:
-                    new_data["visualisation_options"] =None
+                    new_data["visualisation_options"] = None
         
         name = new_data["name"]
         d = Documents.objects.filter(name=new_data["name"],collection_id=collection)

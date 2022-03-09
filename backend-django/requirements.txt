@@ -18,3 +18,4 @@ bcrypt
 pyyaml
 uritemplate
 drf-spectacular
+newspaper3k

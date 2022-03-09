@@ -142,7 +142,7 @@ class CollectionsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Collections
-        fields = ('name', 'encoding', 'handler',"created_at","updated_at","owner_id")
+        fields = ("name", "encoding", "handler", "created_at", "updated_at", "owner_id")
 
     def create(self, validated_data):
         instance = self.Meta.model(**validated_data)  # as long as the fields are the same, we can just use this
@@ -151,27 +151,27 @@ class CollectionsSerializer(serializers.ModelSerializer):
 
 
 class DocumentsSerializer(serializers.ModelSerializer):
-    name = serializers.CharField(max_length=255)
-    external_name = serializers.CharField(max_length=255)
-    text = serializers.CharField()
-    type = serializers.CharField(max_length=128, allow_null=True, default=None)
-    data_text = serializers.CharField(allow_null=True, default=None)
-    #data_binary = serializers.BinaryField(allow_null=True, default=None)
+    name                  = serializers.CharField(max_length=255)
+    external_name         = serializers.CharField(max_length=255)
+    text                  = serializers.CharField()
+    type                  = serializers.CharField(max_length=128, allow_null=True, default=None)
+    data_text             = serializers.CharField(allow_null=True, default=None)
+    #data_binary          = serializers.BinaryField(allow_null=True, default=None)
     visualisation_options = serializers.CharField(allow_null=True, default=None)
-    metadata = serializers.CharField(allow_null=True, default=None)
-    encoding = serializers.CharField(max_length=20)
-    handler = serializers.CharField(max_length=256, allow_null=True, default=None)
-    created_at = serializers.DateTimeField(default=datetime.now)
-    updated_at = serializers.DateTimeField(default=datetime.now)
-    version = serializers.IntegerField(default=1)
-    updated_by = serializers.CharField(max_length=255)
-    owner_id = serializers.PrimaryKeyRelatedField(read_only=False, queryset=Users.objects.all())
-    collection_id = serializers.PrimaryKeyRelatedField(read_only=False, queryset=Collections.objects.all())
+    metadata              = serializers.CharField(allow_null=True, default=None)
+    encoding              = serializers.CharField(max_length=20)
+    handler               = serializers.CharField(max_length=256, allow_null=True, default=None)
+    created_at            = serializers.DateTimeField(default=datetime.now)
+    updated_at            = serializers.DateTimeField(default=datetime.now)
+    version               = serializers.IntegerField(default=1)
+    updated_by            = serializers.CharField(max_length=255)
+    owner_id              = serializers.PrimaryKeyRelatedField(read_only=False, queryset=Users.objects.all())
+    collection_id         = serializers.PrimaryKeyRelatedField(read_only=False, queryset=Collections.objects.all())
 
     class Meta:
         model = Documents
-        fields =('name','external_name',"text","type","data_text","metadata","created_at",
-                 "version","visualisation_options","encoding","handler","updated_by","updated_at","owner_id","collection_id")
+        fields =("name", "external_name", "text", "type", "data_text", "metadata", "created_at",
+                 "version", "visualisation_options", "encoding", "handler", "updated_by", "updated_at", "owner_id", "collection_id")
 
     def create(self, validated_data):
         instance = self.Meta.model(**validated_data)

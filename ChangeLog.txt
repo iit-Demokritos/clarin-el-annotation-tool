@@ -1,3 +1,11 @@
+09 March 2022 Petasis George <petasis@iit.demokritos.gr>:
+ * backend-django/requirements.txt: Added newspaper3k.
+
+ * backend-django/DjangoClarin/settings.py:
+ * backend-django/DjangoClarin/urls.py:
+ * backend-django/importapi/*: A new Django application for creating a
+ Document from a URL.
+
 28 February 2022 Petasis George <petasis@iit.demokritos.gr>:
  * backend-django/clarin_backend/views.py: Fixes in coreference annotator
  table save.

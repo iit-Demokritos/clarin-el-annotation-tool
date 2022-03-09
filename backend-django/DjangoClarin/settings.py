@@ -69,7 +69,8 @@ INSTALLED_APPS = [
     'analytics',
     'drag_and_drop',
     'openapi',
-    'drf_spectacular'
+    'drf_spectacular',
+    'importapi'
 ]
 
 MIDDLEWARE = [
