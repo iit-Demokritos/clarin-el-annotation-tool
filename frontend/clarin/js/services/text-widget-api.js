@@ -383,7 +383,8 @@ angular.module('clarin-el').factory('TextWidgetAPI', function() {
       if ("annotation_type" in annotationSchema) {
         ann_id = ann_id + "_" + annotationSchema.annotation_type;
       }
-      if ("attribute" in annotationSchema) {
+      if ("attribute" in annotationSchema &&
+	  annotationSchema.attribute.length > 0) {
         ann_id = ann_id + "_" + annotationSchema.attribute;
       }
       if ("alternative" in annotationSchema) {

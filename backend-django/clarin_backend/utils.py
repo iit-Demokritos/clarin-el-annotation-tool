@@ -195,7 +195,7 @@ def get_clarindb():
 
 
 def get_collection_handle(db_handle, collection_name):
-    if not db_handle:
+    if db_handle is None:
         return None
     names = db_handle.list_collection_names()
     if collection_name in names:

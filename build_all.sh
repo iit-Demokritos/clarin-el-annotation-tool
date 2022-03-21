@@ -14,8 +14,12 @@ DJANGO_VENV=$DJANGO_DIR/apache_venv
 
 ## Set the correct SELinux context.
 #  sudo setsebool -P httpd_enable_homedirs on
+#  sudo setsebool -P httpd_read_user_content on
+#  sudo setsebool -P httpd_can_network_connect on
+#  sudo setsebool -P httpd_execmem on
 if [ -d "$DJANGO_VENV" ]; then
   chcon -R -t httpd_user_content_t $DJANGO_VENV
+  find . -name *.so -exec chcon -R -h -t httpd_sys_script_exec_t {} \;
 fi
 
 ## Angular 2 UI

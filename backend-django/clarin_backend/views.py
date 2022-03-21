@@ -35,7 +35,7 @@ from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, Ou
 from .serializers import MyTokenObtainPairSerializer, CustomUserSerializer, SharedCollectionsSerializer, \
     OpenDocumentsSerializer, ButtonAnnotatorsSerializer, CoreferenceAnnotatorsSerializer, CollectionsSerializer, \
     DocumentsSerializer
-from django.utils.encoding import force_bytes, force_text, DjangoUnicodeDecodeError
+from django.utils.encoding import force_bytes, force_str, DjangoUnicodeDecodeError
 from django.contrib.sites.shortcuts import get_current_site
 from .utils import account_activation_token, invitation_token, get_collection_handle
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
@@ -209,7 +209,7 @@ class ActivationView(View):
 
     def get(self, request, uidb64, token):
 
-        id = force_text(urlsafe_base64_decode(uidb64))
+        id = force_str(urlsafe_base64_decode(uidb64))
         user = Users.objects.get(pk=id)
         baseurl = request.get_host()
         #baseurl = request.build_absolute_uri('/')
@@ -374,11 +374,13 @@ class ReturnStatistics(APIView):
             owner = Users.objects.get(email=request.user)
             collections = Collections.objects.filter(owner_id=owner)
             documents = Documents.objects.filter(owner_id=owner)
-            annotation_col = get_collection_handle(db_handle, "annotations")
-            annotations = annotation_col.find({"owner_id": owner.pk})
-            annotations_counter = annotations.count(True)
             collections_counter = collections.count()
             documents_counter = documents.count()
+            annotation_col = get_collection_handle(db_handle, "annotations")
+            # Petasis, 16/03/2022: count() has been removed in mongo 5...
+            # annotations = annotation_col.find({"owner_id": owner.pk})
+            # annotations_counter = annotations.count(True)
+            annotations_counter = annotation_col.count_documents({"owner_id": owner.pk})
 
         except Exception as ex:
             print("ReturnStatistics (get):" + str(ex))
@@ -809,9 +811,9 @@ class AcceptCollectionView(View):
         if "http://127.0.0.1:8000/" in baseurl:
             baseurl = "https://localhost:4200/"
         try:
-            id = force_text(urlsafe_base64_decode(uidb64))
-            ids = force_text(urlsafe_base64_decode(usidb64))
-            idp = force_text(urlsafe_base64_decode(upidb64))
+            id = force_str(urlsafe_base64_decode(uidb64))
+            ids = force_str(urlsafe_base64_decode(usidb64))
+            idp = force_str(urlsafe_base64_decode(upidb64))
             owner = Users.objects.get(pk=id)
             shared_user = Users.objects.get(pk=ids)
             collection = Collections.objects.get(pk=idp)

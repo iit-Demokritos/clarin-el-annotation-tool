@@ -1,0 +1,27 @@
+<div class="automatic-annotator">
+  <div *ngFor="let type of autoAnnotatorSpecs | keyvalue">
+    <mat-card class="autoann-card" *ngFor="let item of type.value">
+      <mat-card-header>
+        <!--<div mat-card-avatar class="autoann-card-header-image"></div>-->
+	<mat-card-title>{{item.title}}</mat-card-title>
+	<mat-card-subtitle>{{item.type}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list>
+	  <mat-list-item>Annotation: "{{item.annotation}}"</mat-list-item>
+          <mat-divider></mat-divider>
+	  <mat-list-item>Attribute: "{{item.attribute}}"</mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>API Endpoint: "{{item.value}}"</mat-list-item>
+        </mat-list>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button color="primary" (click)="onPreview(item)">{{'PREVIEW'|translate}}</button>
+        <button mat-button color="warn"    (click)="onApply(item)">{{'APPLY'|translate}}</button>
+      </mat-card-actions>
+      <mat-card-footer>
+        <mat-progress-bar [mode]="progress_mode" [value]="progress_value"></mat-progress-bar>
+      </mat-card-footer>
+    </mat-card>
+  </div>
+</div>

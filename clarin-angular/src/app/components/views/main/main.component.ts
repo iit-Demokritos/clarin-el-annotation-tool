@@ -27,6 +27,7 @@ import { MessageService } from 'src/app/services/message-service/message.service
 import { DragAndDropService } from 'src/app/services/drag-and-drop-service/drag-and-drop.service';
 import { ToastrService } from 'ngx-toastr';
 import { LocalStorageService } from '@shared/services/storage.service';
+import { AutoannService } from '@services/autoann-service/autoann.service';
 
 @Component({
   selector: 'main',
@@ -66,7 +67,8 @@ export class MainComponent implements OnInit {
     public dragAndDropService: DragAndDropService,
     public messageService: MessageService,
     public toastrService: ToastrService,
-    public localStorageService: LocalStorageService) { }
+    public localStorageService: LocalStorageService,
+    public autoannService: AutoannService) { }
 
   ngOnInit(): void {
   }

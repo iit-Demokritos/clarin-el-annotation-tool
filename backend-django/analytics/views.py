@@ -11,7 +11,7 @@ _mongodb_db_annotations = None
 
 def mongodb_db_annotations():
     global _mongodb_db_annotations
-    if not _mongodb_db_annotations:
+    if _mongodb_db_annotations is None:
         _mongodb_db_annotations = utils.get_collection_handle(mongodb_db_clarin, "annotations")
     return _mongodb_db_annotations
 

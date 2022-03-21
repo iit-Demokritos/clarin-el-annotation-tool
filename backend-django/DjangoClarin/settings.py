@@ -70,7 +70,8 @@ INSTALLED_APPS = [
     'drag_and_drop',
     'openapi',
     'drf_spectacular',
-    'importapi'
+    'importapi',
+    'nlp'
 ]
 
 MIDDLEWARE = [

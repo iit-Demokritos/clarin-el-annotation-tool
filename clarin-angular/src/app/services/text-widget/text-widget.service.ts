@@ -61,6 +61,10 @@ export class TextWidgetAPI {
     Button_Annotator_neutral_argument_type_Mixed_Argument_Stance_Relations: {language: "neutral", annotation_type: "argument", attribute: "type", alternative: "Mixed Argument-Stance Relations"}
   }
 
+  
+  annotationSchemaAutoAnn = {};
+  annotationSchemaAutoAnnCallbacks = [];
+
 
   notifyObservers(observerStack: any[]) {
     let promises = [];
@@ -89,6 +93,7 @@ export class TextWidgetAPI {
     this.scrollIntoViewCallbacks = [];
     this.settingsCallbacks = [];
     this.annotationCanBeDeletedCallbacks = [];
+    this.annotationSchemaAutoAnnCallbacks = [];
   }
 
   resetCallbacks() {
@@ -98,6 +103,7 @@ export class TextWidgetAPI {
     this.foundInCollectionCallbacks = [];
     this.selectedAnnotationCallbacks = [];
     this.annotationCanBeDeletedCallbacks = [];
+    this.annotationSchemaAutoAnnCallbacks = [];
   }
 
   resetData() {
@@ -246,7 +252,7 @@ export class TextWidgetAPI {
     ];
   }; /* addAnnotations */
 
-  addAnnotation(newAnnotation, selected) {
+  addAnnotation(newAnnotation, selected=false) {
     if (typeof newAnnotation._id == "undefined") return false;
 
     this.annotations.push(newAnnotation);
@@ -607,12 +613,14 @@ export class TextWidgetAPI {
     if ("annotation_type" in this.annotationSchema) {
       ann_id = ann_id + "_" + this.annotationSchema["annotation_type"];
     }
-    if ("attribute" in this.annotationSchema) {
+    if ("attribute" in this.annotationSchema &&
+        this.annotationSchema["attribute"].length > 0) {
       ann_id = ann_id + "_" + this.annotationSchema["attribute"];
     }
     if ("alternative" in this.annotationSchema) {
       ann_id = ann_id + "_" + this.annotationSchema["alternative"];
     }
+    console.error('TextWidgetAPI: getAnnotatorTypeId():', this.annotationSchema, ann_id.split(' ').join('_'));
     return ann_id.split(' ').join('_');
   }
 
@@ -648,14 +656,46 @@ export class TextWidgetAPI {
   }
 
   setAnnotationSchema(newAnnotationSchema) {
+    // console.error("TextWidgetAPI: setAnnotationSchema():", newAnnotationSchema);
     this.annotationSchema = _.cloneDeep(newAnnotationSchema);
     this.annotationSchemaAnnotationTypes = [];
+    this.annotationSchemaAutoAnn = {};
     return this.notifyObservers(this.annotationSchemaCallbacks);
   }
 
   clearAnnotationSchema() {
     this.annotationSchema = {};
     this.annotationSchemaAnnotationTypes = [];
+    this.annotationSchemaAutoAnn = {};
+  }
+
+  getAnnotationSchemaAutoAnn() {
+    return this.annotationSchemaAutoAnn;
+  }
+
+  registerAnnotationSchemaAutoAnnCallback(callback) {
+    this.annotationSchemaAutoAnnCallbacks.push(callback);
+  }
+
+  registerAnnotationSchemaAutoAnn(type, value, title, annotation, attribute) {
+    if (type in this.annotationSchemaAutoAnn) {
+      this.annotationSchemaAutoAnn[type].push({
+        type: type,
+        value: value,
+        title: title,
+        annotation: annotation,
+        attribute: attribute
+      });
+    } else {
+      this.annotationSchemaAutoAnn[type] = [{
+        type: type,
+        value: value,
+        title: title,
+        annotation: annotation,
+        attribute: attribute
+      }];
+    }
+    return this.notifyObservers(this.annotationSchemaAutoAnnCallbacks);
   }
 
   getAnnotationSchemaAnnotationTypes() {

@@ -226,6 +226,7 @@ $foreground: map-get($theme, foreground);
       @extend .text-center;
       width: 100%;
       .side-content-header {
+        flex-wrap: wrap;
         mat-button-toggle, .mat-button-toggle-label-content {
           height: 24px;
           line-height: 24px;

@@ -6,7 +6,8 @@ from rest_framework import serializers
 from .models import Users, Collections, Documents, OpenDocuments, SharedCollections, ButtonAnnotators, \
     CoreferenceAnnotators
 from .send_email import EmailAlert
-from django.utils.encoding import force_bytes, force_text
+# from django.utils.encoding import force_bytes, force_text
+from django.utils.encoding import force_bytes
 from .utils import account_activation_token
 from django.urls import reverse
 

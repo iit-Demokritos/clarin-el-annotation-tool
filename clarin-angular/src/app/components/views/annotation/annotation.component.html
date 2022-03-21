@@ -127,15 +127,15 @@
           <div class="side-content-header-container">
             <mat-button-toggle-group class="side-content-header" aria-label="Schema Page" [(ngModel)]="sidebarSelector">
               <mat-button-toggle value="annotator">{{annotatorType|translate}}</mat-button-toggle>
-              <mat-button-toggle value="annotationVisualiser">{{'annotation.Annotation Visualiser'|translate}}
-              </mat-button-toggle>
+              <mat-button-toggle value="annotationVisualiser">{{'annotation.Annotation Visualiser'|translate}}</mat-button-toggle>
+              <mat-button-toggle *ngIf="layout.showAutomaticAnnotator" value="automaticAnnotator">{{'annotation.Automatic Annotator'|translate}}</mat-button-toggle>
             </mat-button-toggle-group>
           </div>
         </mat-toolbar>
         <div class="side-content-container">
           <annotation-visualizer [hidden]="sidebarSelector!='annotationVisualiser'"></annotation-visualizer>
-          <annotator-widget [broadcastedEvent]="broadcastEvent" [hidden]="sidebarSelector!='annotator'">
-          </annotator-widget>
+          <annotator-widget [broadcastedEvent]="broadcastEvent" [hidden]="sidebarSelector!='annotator'"></annotator-widget>
+          <automatic-annotator [hidden]="sidebarSelector!='automaticAnnotator'"></automatic-annotator>
         </div>
       </div>
     </as-split-area>

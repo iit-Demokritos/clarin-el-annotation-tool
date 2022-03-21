@@ -67,6 +67,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
     showDocument: true,
     showDocumentAttributes: true,
     showSettings: true,
+    showAutomaticAnnotator: false,
     showLinkRouterSelector: false,
     routerName: "direct",
     hideLinks: false
@@ -108,6 +109,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
   ];
   user: User;
   skipAnnotationsUpdates = false;
+  autoAnnotatorSpecs = {};
 
   dialogWidth:  "550px";
   dialogHeight: "600px";
@@ -172,6 +174,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
               this.TextWidgetAPI.disableIsRunning();
               this.TextWidgetAPI.resetCallbacks();
               this.TextWidgetAPI.setAnnotatorType(result.newAnnotator);
+              // this.TextWidgetAPI.registerAnnotationSchemaAutoAnnCallback(this.updateAutoAnn.bind(this));
               this.TextWidgetAPI.setAnnotationSchemaOptions(result.newAnnotationSchemaOptions);
               let promises = this.TextWidgetAPI.setAnnotationSchema(result.newAnnotationSchema);
               Promise.all(promises).then((data) => {
@@ -187,6 +190,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
                 Promise.all(this.TextWidgetAPI.setCurrentDocument(result.newDocument))
                 .then((data) => {
                   this.documentSelected = true;
+		  this.updateAutoAnn();
                   progressRef.complete();
                   //this.TextWidgetAPI.registerAnnotationsCallback(this.updateAnnotationList.bind(this));
 
@@ -203,7 +207,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
           this.dialog.open(ErrorDialogComponent, {
             data: new ConfirmDialogData("Error",
               "Error during the restoring of your documents. Please refresh the page and try again.")
-          })
+          });
         }
       });
   };
@@ -654,4 +658,9 @@ export class AnnotationComponent extends MainComponent implements OnInit {
   updateLinkVisibility(status) {
     this.textWidgetComponent.updateLinkVisibility(status.checked);
   }; /* updateLinkVisibility */
+
+  updateAutoAnn() {
+    this.autoAnnotatorSpecs = this.TextWidgetAPI.getAnnotationSchemaAutoAnn();
+    this.layout.showAutomaticAnnotator = Object.keys(this.autoAnnotatorSpecs).length > 0;
+  }
 }

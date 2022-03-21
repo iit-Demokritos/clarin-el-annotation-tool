@@ -1,3 +1,26 @@
+21 March 2022 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/views/annotation/annotation.component.html:
+ * clarin-angular/src/app/components/views/annotation/annotation.component.ts:
+ * clarin-angular/src/app/components/views/main/main.component.ts:
+ * clarin-angular/src/app/services/text-widget/text-widget.service.ts:
+ * clarin-angular/src/app/services/autoann-service/*:
+ * clarin-angular/src/app/components/controls/automatic-annotator/*: Automatic
+ Annotator component.
+
+ * clarin-angular/src/app/directives/autoann-token-classifier/*: A new
+ directive for enabling automatic annotation in annotation schemas.
+
+ * backend-django/DjangoClarin/settings.py:
+ * backend-django/DjangoClarin/urls.py:
+ * backend-django/nlp/*: New backend for supporting automatic annotation.
+
+17 March 2022 Petasis George <petasis@iit.demokritos.gr>:
+ * backend-django/analytics/views.py:
+ * backend-django/clarin_backend/send_email.py:
+ * backend-django/clarin_backend/serializers.py:
+ * backend-django/clarin_backend/utils.py:
+ * backend-django/clarin_backend/views.py: Fixes for Django 4.x and Mongo 5.x.
+
 09 March 2022 Petasis George <petasis@iit.demokritos.gr>:
  * backend-django/requirements.txt: Added newspaper3k.
 
@@ -10,6 +33,7 @@
  * backend-django/clarin_backend/views.py: Fixes in coreference annotator
  table save.
 
+ * clarin-angular/src/app/models/services/scrollstatus.ts:
  * clarin-angular/src/app/components/controls/annotation-set-comparator/annotation-set-comparator.component.html:
  * clarin-angular/src/app/components/controls/annotation-set-comparator/annotation-set-comparator.component.ts:
  * clarin-angular/src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.html:

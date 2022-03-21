@@ -19,3 +19,5 @@ pyyaml
 uritemplate
 drf-spectacular
 newspaper3k
+transformers
+torch

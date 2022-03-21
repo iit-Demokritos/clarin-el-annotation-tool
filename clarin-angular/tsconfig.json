@@ -30,7 +30,9 @@
       "@env": ["src/environments"],
       "@env/*": ["src/environments/*"],
       "@externals": ["externals"],
-      "@externals/*": ["externals/*"]
+      "@externals/*": ["externals/*"],
+      "@services": ["src/app/services"],
+      "@services/*": ["src/app/services/*"]
     },
     "allowSyntheticDefaultImports":true,
     "emitDecoratorMetadata": true

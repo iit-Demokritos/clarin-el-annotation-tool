@@ -5,7 +5,7 @@ from django.template import Context
 from django.template.loader import render_to_string, get_template
 from django.core.mail import EmailMessage, EmailMultiAlternatives, send_mail
 
-from django.utils.encoding import force_bytes, force_text, DjangoUnicodeDecodeError
+#from django.utils.encoding import force_bytes, force_text, DjangoUnicodeDecodeError
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.conf import settings

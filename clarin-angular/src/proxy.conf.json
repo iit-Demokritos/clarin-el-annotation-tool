@@ -28,5 +28,15 @@
     "secure": true,
     "changeOrigin": true,
     "logLevel": "debug"
+  },
+  "/nlp": {
+    "target": {
+        "host": "vast.ellogon.org",
+        "protocol": "https:",
+        "port": 443
+    },
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug"
   }
 }

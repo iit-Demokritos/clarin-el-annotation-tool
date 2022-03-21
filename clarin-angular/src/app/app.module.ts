@@ -129,6 +129,8 @@ import { QueryBuilderModule } from "angular2-query-builder";
 import { AnnotationSpansPipe } from './pipes/annotation-spans.pipe';
 import { AnnotationDetailComponent } from './components/controls/annotation-detail/annotation-detail.component';
 import { AnnotationSetComparatorComponent } from './components/controls/annotation-set-comparator/annotation-set-comparator.component';
+import { AutoannTokenClassifierDirective } from './directives/autoann-token-classifier/autoann-token-classifier.directive';
+import { AutomaticAnnotatorComponent } from './components/controls/automatic-annotator/automatic-annotator.component';
 
 // Required for AOT compilation
 export function TranslateHttpLoaderFactory(http: HttpClient) {
@@ -224,6 +226,8 @@ export function MyFlowFactory() {
     AnnotationDetailComponent,
     AnnotationSpansPipe,
     AnnotationSetComparatorComponent,
+    AutoannTokenClassifierDirective,
+    AutomaticAnnotatorComponent,
   ],
   imports: [
     BrowserModule,
@@ -332,6 +336,7 @@ export function MyFlowFactory() {
     AnnotationTextLabelComponent,
     AnnotationTextTextComponent,
     AnnotationTextComponent,
+    AutoannTokenClassifierDirective,
   ],
   providers: [
     /* Petasis, 12/12/2021: It does not work with the following enabled...
