@@ -10,6 +10,7 @@ import { UserService } from 'src/app/services/user-service/user.service';
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
+  hide_password = true;
 
   constructor(private fb: FormBuilder,
     private user: UserService,

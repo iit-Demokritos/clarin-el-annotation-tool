@@ -12,6 +12,7 @@ import { filter } from 'rxjs/operators';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  hide_password = true;
 
   constructor(private fb: FormBuilder, private router: Router,
     private auth: AuthService,

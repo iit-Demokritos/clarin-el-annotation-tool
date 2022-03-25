@@ -23,7 +23,8 @@
 
       <mat-form-field appearance="outline">
         <mat-label>{{'login.password' | translate}}:</mat-label>
-        <input matInput placeholder="password" type="password" formControlName="password" required>
+        <input matInput placeholder="password" [type]="hide_password ? 'password' : 'text'" formControlName="password" required>
+	<mat-icon matSuffix (click)="hide_password = !hide_password">{{hide_password ? 'visibility_off' : 'visibility'}}</mat-icon>
         <mat-error *ngIf="password.invalid">
           <span *ngIf="password.errors.required">
             {{'login.please_enter_password' | translate}}

@@ -1,3 +1,10 @@
+25 March 2022 Petasis George <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/views/login/login.component.html:
+ * clarin-angular/src/app/components/views/login/login.component.ts:
+ * clarin-angular/src/app/components/views/register/register.component.html:
+ * clarin-angular/src/app/components/views/register/register.component.ts:
+ Added support for showing passwords.
+
 21 March 2022 Petasis George <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/views/annotation/annotation.component.html:
  * clarin-angular/src/app/components/views/annotation/annotation.component.ts:

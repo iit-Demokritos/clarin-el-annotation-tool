@@ -60,11 +60,9 @@ export class TextWidgetAPI {
     Button_Annotator_neutral_argument_type_Generic: {language: "neutral", annotation_type: "argument", attribute: "type", alternative: "Generic"},
     Button_Annotator_neutral_argument_type_Mixed_Argument_Stance_Relations: {language: "neutral", annotation_type: "argument", attribute: "type", alternative: "Mixed Argument-Stance Relations"}
   }
-
   
   annotationSchemaAutoAnn = {};
   annotationSchemaAutoAnnCallbacks = [];
-
 
   notifyObservers(observerStack: any[]) {
     let promises = [];
