@@ -1,11 +1,18 @@
-25 March 2022 Petasis George <petasis@iit.demokritos.gr>:
+01-April-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * docs/*: Created a 'docs' directory, for Github Pages.
+
+ * build_all.sh:
+ * clarin-angular/package.json:
+ * clarin-angular/src/proxy.conf.json: Compodoc added.
+
+25 March 2022 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/views/login/login.component.html:
  * clarin-angular/src/app/components/views/login/login.component.ts:
  * clarin-angular/src/app/components/views/register/register.component.html:
  * clarin-angular/src/app/components/views/register/register.component.ts:
  Added support for showing passwords.
 
-21 March 2022 Petasis George <petasis@iit.demokritos.gr>:
+21 March 2022 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/views/annotation/annotation.component.html:
  * clarin-angular/src/app/components/views/annotation/annotation.component.ts:
  * clarin-angular/src/app/components/views/main/main.component.ts:
@@ -21,14 +28,14 @@
  * backend-django/DjangoClarin/urls.py:
  * backend-django/nlp/*: New backend for supporting automatic annotation.
 
-17 March 2022 Petasis George <petasis@iit.demokritos.gr>:
+17 March 2022 Petasis Georgios <petasis@iit.demokritos.gr>:
  * backend-django/analytics/views.py:
  * backend-django/clarin_backend/send_email.py:
  * backend-django/clarin_backend/serializers.py:
  * backend-django/clarin_backend/utils.py:
  * backend-django/clarin_backend/views.py: Fixes for Django 4.x and Mongo 5.x.
 
-09 March 2022 Petasis George <petasis@iit.demokritos.gr>:
+09 March 2022 Petasis Georgios <petasis@iit.demokritos.gr>:
  * backend-django/requirements.txt: Added newspaper3k.
 
  * backend-django/DjangoClarin/settings.py:
@@ -36,7 +43,7 @@
  * backend-django/importapi/*: A new Django application for creating a
  Document from a URL.
 
-28 February 2022 Petasis George <petasis@iit.demokritos.gr>:
+28 February 2022 Petasis Georgios <petasis@iit.demokritos.gr>:
  * backend-django/clarin_backend/views.py: Fixes in coreference annotator
  table save.
 
@@ -47,7 +54,7 @@
  * clarin-angular/src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:
  Synchronised scrollbars in Annotation Set Inspectors.
 
-27 February 2022 Petasis George <petasis@iit.demokritos.gr>:
+27 February 2022 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
  Added migration for attributes that are spans in migrateOldSpans().
 
@@ -56,7 +63,7 @@
  * clarin-angular/src/app/components/controls/coref/coref-combobox/coref-combobox.component.ts:
  Fixes for Coreference Annotator.
 
-26 February 2022 Petasis George <petasis@iit.demokritos.gr>:
+26 February 2022 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
  * clarin-angular/src/app/components/controls/button/annotation-indicator/annotation-indicator.component.html:
  * clarin-angular/src/app/components/controls/button/annotation-indicator/annotation-indicator.component.ts:
@@ -82,12 +89,12 @@
  * clarin-angular/src/css/clarin-annschema.scss:
  Coreference Annotator.
 
-22 February 2022 Petasis George <petasis@iit.demokritos.gr>:
+22 February 2022 Petasis Georgios <petasis@iit.demokritos.gr>:
  * backend-django/clarin_backend/views.py:
  * backend-django/clarin_backend/serializers.py: Fixes for Coreference
  Annotator.
 
-07 February 2022 Petasis George <petasis@iit.demokritos.gr>:
+07 February 2022 Petasis Georgios <petasis@iit.demokritos.gr>:
  * backend-django/clarin_backend/management/: Added "wait_for_db" admin
  command.
 
@@ -101,16 +108,16 @@
  * docker/restart.sh:
  * docker/stop.sh: Fixes sto dockerisation.
 
-05 February 2022 Petasis George <petasis@iit.demokritos.gr>:
+05 February 2022 Petasis Georgios <petasis@iit.demokritos.gr>:
  * docker/docker-compose.yml: Maria DB & Mongo integration.
 
-04 February 2022 Petasis George <petasis@iit.demokritos.gr>:
+04 February 2022 Petasis Georgios <petasis@iit.demokritos.gr>:
  * backend-django/clarin_backend/utils.py: Fixes for dockerisation.
 
-03 February 2022 Petasis George <petasis@iit.demokritos.gr>:
+03 February 2022 Petasis Georgios <petasis@iit.demokritos.gr>:
  * docker/*: Started support for dockerisation of the annotation tool.
 
-02 February 2022 Petasis George <petasis@iit.demokritos.gr>, Anna Gradou <agradou@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
+02 February 2022 Petasis Georgios <petasis@iit.demokritos.gr>, Anna Gradou <agradou@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
  * clarin-angular/src/assets/data/menu.json:
  * clarin-angular/src/assets/i18n/el-GR.json:
  * clarin-angular/src/assets/i18n/en-US.json: Changes in sidebar.
@@ -129,23 +136,23 @@
  * clarin-angular/src/app/components/views/inspect-document/inspect-document.component.html:
  Fix of not displaying the opened Document.
 
-12 January 2022 Petasis George <petasis@iit.demokritos.gr>:
+12 January 2022 Petasis Georgios <petasis@iit.demokritos.gr>:
  * backend-django/openapi/:
  * backend-django/DjangoClarin/settings.py:
  * backend-django/DjangoClarin/urls.py:
  * backend-django/requirements.txt: Added support for OpenAI through the
  drf-spectacular Django package.
 
-07 January 2022 Petasis George <petasis@iit.demokritos.gr>:
+07 January 2022 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/controls/annotation-set-comparator/annotation-set-comparator.component.html:
  * clarin-angular/src/app/components/controls/annotation-set-comparator/annotation-set-comparator.component.ts:
  * clarin-angular/src/app/helpers/annotation.ts: Krippendorff’s alpha.
 
-04 January 2022 Petasis George <petasis@iit.demokritos.gr>:
+04 January 2022 Petasis Georgios <petasis@iit.demokritos.gr>:
  * backend-django/clarin_backend/views.py: Added "Content-Disposition" HTTP
  header in "ExportCollectionView".
 
-03 January 2022 Petasis George <petasis@iit.demokritos.gr>:
+03 January 2022 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/controls/annotation-set-comparator/annotation-set-comparator.component.html:
  * clarin-angular/src/app/components/controls/annotation-set-comparator/annotation-set-comparator.component.ts:
  * clarin-angular/src/app/components/views/compare-documents/compare-documents.component.ts:
@@ -158,7 +165,7 @@
  Document selection toolbar now "remembers" selection (saves selected ids in
  local store).
 
-29 December 2021 Petasis George <petasis@iit.demokritos.gr>:
+29 December 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.html:
  * clarin-angular/src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:
  Various fixes.
@@ -179,7 +186,7 @@
  * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts: 
  Fixes regarding the identification of various elements of CodeMirror.
 
-27 December 2021 Petasis George <petasis@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
+27 December 2021 Petasis Georgios <petasis@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
  * clarin-angular/src/app/helpers/annotation.ts:
  * clarin-angular/src/app/helpers/globalFunctions.ts:
  * clarin-angular/src/app/helpers/attribute.ts:
@@ -187,7 +194,7 @@
  * clarin-angular/src/app/components/views/compare-annotations/compare-annotations.component.ts:
  Added support for calculating Cohen kappa.
 
-27 December 2021 Petasis George <petasis@iit.demokritos.gr>:
+27 December 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
  Added calls to editor.operation( in various places, to speed up codemirror
  operations.
@@ -196,13 +203,13 @@
  Fixed a bug where visualisation options was passed as a JSON string, and not as a
  parsed object.
 
-12 December 2021 Petasis George <petasis@iit.demokritos.gr>:
+12 December 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/app.module.ts:
  * clarin-angular/src/app/components/controls/uploader/uploader.component.html:
  * clarin-angular/src/app/services/collection-import-service/collection-import-service.service.ts:
  Fixes for Collection importing.
 
-11 December 2021 Petasis George <petasis@iit.demokritos.gr>:
+11 December 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/app.module.ts:
  * clarin-angular/src/app/components/controls/button/annotation-relation-set-btn/*:
  * clarin-angular/src/app/components/controls/annotation-visualizer/annotation-visualizer.component.ts:
@@ -224,13 +231,13 @@
  * clarin-angular/src/app/components/views/main/main.component.ts: Added the
  ToastrService service.
 
-10 December 2021 Petasis George <petasis@iit.demokritos.gr>:
+10 December 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
  * clarin-angular/src/app/components/views/annotation/annotation.component.html:
  * clarin-angular/src/app/components/views/annotation/annotation.component.ts:
  Added the ability to toggle the visibility of links.
 
-08 December 2021 Petasis George <petasis@iit.demokritos.gr>:
+08 December 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/views/annotation/annotation.component.ts:
  Fix for the empty settings when a Document is loaded from the Annotations
  store.
@@ -256,7 +263,7 @@
  * backend-django/clarin_backend/views.py:
  * backend-django/drag_and_drop/*: Added back-end for drag and drop.
 
-07 December 2021 Petasis George <petasis@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
+07 December 2021 Petasis Georgios <petasis@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
  * clarin-angular/src/app/app.module.ts:
  * clarin-angular/src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.html:
  * clarin-angular/src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:
@@ -265,7 +272,7 @@
  * clarin-angular/src/css/clarin-material.scss: Added a footer panel in
  Codemirror editor, and annotation details in annotation list.
 
-06 December 2021 Petasis George <petasis@iit.demokritos.gr>:
+06 December 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * backend-django/analytics/urls.py:
  * backend-django/analytics/views.py:
  * clarin-angular/src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:
@@ -273,7 +280,7 @@
  Added ability to retrieve annotations from the Annotation store, if a
  relation annotation is not in the annotation set.
 
-05 December 2021 Petasis George <petasis@iit.demokritos.gr>:
+05 December 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/views/compare-annotations/compare-annotations.component.html:
  * clarin-angular/src/app/components/views/compare-annotations/compare-annotations.component.scss:
  * clarin-angular/src/app/components/views/compare-annotations/compare-annotations.component.ts:
@@ -289,7 +296,7 @@
  * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
  Uses the annotation span format pipe.
 
-04 December 2021 Petasis George <petasis@iit.demokritos.gr>:
+04 December 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.html:
  Updated annotation set inspector to use the new pipe.
 
@@ -310,7 +317,7 @@
  * clarin-angular/src/app/helpers/annotation.ts: Added a function for sorting
  annotations based on spans.
 
-03 December 2021 Petasis George <petasis@iit.demokritos.gr>:
+03 December 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/css/clarin-material.scss:
  * clarin-angular/src/app/components/views/inspect-document/inspect-document.component.html:
  * clarin-angular/src/app/components/views/inspect-document/inspect-document.component.ts:
@@ -343,7 +350,7 @@
  * clarin-angular/src/app/services/analytics-service/analytics.service.ts:
  Added several helper methods, for returning information about annotations.
 
-02 December 2021 Petasis George <petasis@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
+02 December 2021 Petasis Georgios <petasis@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/dialogs/rename-document-modal/:
  * backend-django/clarin_backend/sql_views.py:
  * backend-django/clarin_backend/views.py:
@@ -356,7 +363,7 @@
  * clarin-angular/src/css/clarin-material.scss: Added the ability to rename
  Documents, and to annotate Documents from the Collection manager.
 
-01 December 2021 Petasis George <petasis@iit.demokritos.gr>:
+01 December 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/views/annotation/annotation.component.ts:
  * clarin-angular/src/app/components/dialogs/select-document-modal/select-document-modal.component.ts:
  Added the ability to annotate a requested Document, through the
@@ -400,7 +407,7 @@
  importing a set of Annotations (i.e. when transferring Annotations from DB to
  Temp).
 
-30 November 2021 Petasis George <petasis@iit.demokritos.gr>:
+30 November 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/views/inspect-document/inspect-document.component.html:
  * clarin-angular/src/app/components/views/inspect-document/inspect-document.component.ts:
  * clarin-angular/src/app/components/controls/annotation-set-inspector/:
@@ -438,18 +445,18 @@
  * clarin-angular/src/app/components/dialogs/detect-open-doc-modal/detect-open-doc-modal.component.ts:
  Fixed a bug, where the dialog for saving unsaved changes was not working.
 
-28 November 2021 Petasis George <petasis@iit.demokritos.gr>:
+28 November 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.html:
  * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.ts:
  * clarin-angular/src/css/clarin-material.scss: Added support from draging
  Documents onto Collections in Collection management UI. Backend not yet
  implemented.
 
-26 November 2021 Petasis George <petasis@iit.demokritos.gr>:
+26 November 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
  Fix in how annotations are fixed in migrateOldSpans().
 
-25 November 2021 Petasis George <petasis@iit.demokritos.gr>:
+25 November 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * frontend/clarin/js/directives/button/annotation-relation-annotate-btn.js:
  * frontend/clarin/js/directives/button/annotation-relation-clear-btn.js:
  * frontend/clarin/js/directives/button/annotation-relation-combobox.js:
@@ -485,7 +492,7 @@
  passing messages across components, and for keeping shared variables across
  components.
 
-23 November 2021 Petasis George <petasis@iit.demokritos.gr>:
+23 November 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * backend-django/clarin_backend/utils.py:
  * backend-django/clarin_backend/urls.py:
  * backend-django/clarin_backend/sql_views.py:
@@ -500,13 +507,13 @@
 
  * clarin-angular/package.json: Updated Join.js to version 3.4.4.
 
-15 November 2021 Petasis George <petasis@iit.demokritos.gr>, Anna Gradou <agradou@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
+15 November 2021 Petasis Georgios <petasis@iit.demokritos.gr>, Anna Gradou <agradou@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
  * backend-django/clarin_backend/mongodb_views.py:
  * backend-django/clarin_backend/utils.py:
  * backend-django/clarin_backend/views.py: Various bug fixes in the new
  MongoDB controllers.
 
-14 November 2021 Petasis George <petasis@iit.demokritos.gr>, Anna Gradou <agradou@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
+14 November 2021 Petasis Georgios <petasis@iit.demokritos.gr>, Anna Gradou <agradou@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
  * backend-django/clarin_backend/mongodb_views.py:
  * backend-django/clarin_backend/utils.py:
  * backend-django/clarin_backend/urls.py: New implementation of MongoDB
@@ -561,7 +568,7 @@
  * backend-django/DjangoClarin/settings.py:
  * backend-django/analytics/: A new app for supporting mongodb find/aggregate.
 
-09 November 2021 Petasis George <petasis@iit.demokritos.gr>, Anna Gradou <agradou@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
+09 November 2021 Petasis Georgios <petasis@iit.demokritos.gr>, Anna Gradou <agradou@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
  * *: Switch from laravel to django!
 
  * clarin-angular/src/app/components/controls/toolbar-select-document/toolbar-select-document.component.ts:
@@ -591,7 +598,7 @@
  * frontend/clarin/js/services/text-widget-api.js: Fix to the initialiser of
  annotationSchemaAnnotationTypes.
 
-03 November 2021 Petasis George <petasis@iit.demokritos.gr>, Anna Gradou <agradou@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
+03 November 2021 Petasis Georgios <petasis@iit.demokritos.gr>, Anna Gradou <agradou@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
  * backend-django/clarin_backend/urls.py: Fixed "auth/login".
 
  * backend-django/DjangoClarin/urls.py: Added an alias for "/assets" in
@@ -608,13 +615,13 @@
  * backend/clarin/public/.htaccess:
  * frontend/clarin/.htaccess: Commented out contents.
 
-01 November 2021 Petasis George <petasis@iit.demokritos.gr>, Anna Gradou <agradou@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
+01 November 2021 Petasis Georgios <petasis@iit.demokritos.gr>, Anna Gradou <agradou@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
   * backend-django/clarin_backend/urls.py:
   * backend-django/clarin_backend/views.py:
   * backend-django/templates/activateview.html:
   Get Temp Annotations API bug fix, fix  activationlink in activationview.
 
-31 October 2021 Petasis George <petasis@iit.demokritos.gr>:
+31 October 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * backend-django/clarin_backend/urls.py: Cosmetic changes and addition of the 
  'api/user/refresh-token' endpoint.
 
@@ -622,35 +629,35 @@
  * clarin-angular/src/app/ng-matero/core/authentication/login.service.ts:
  Fixed JWT login with Django.
 
-26 October 2021 Petasis George <petasis@iit.demokritos.gr>, Anna Gradou <agradou@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
+26 October 2021 Petasis Georgios <petasis@iit.demokritos.gr>, Anna Gradou <agradou@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
  * backend-django/*: Imported a new backend, based on Django (Python).
 
-25 October 2021 Petasis George <petasis@iit.demokritos.gr>, Anna Gradou <agradou@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
+25 October 2021 Petasis Georgios <petasis@iit.demokritos.gr>, Anna Gradou <agradou@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/dialogs/select-document-modal/select-document-modal.component.ts:
  Fix for the case the languages are not shown, if the user has never loaded a
  schema before.
 
-07 October 2021 Petasis George <petasis@iit.demokritos.gr>:
+07 October 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/views/annotation/annotation.component.ts:
  * clarin-angular/src/app/components/dialogs/detect-changes-modal/detect-changes-modal.component.ts:
  Fix in correctly determining the document owner.
 
-04 October 2021 Petasis George <petasis@iit.demokritos.gr>:
+04 October 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/dialogs/add-documents-dialog/add-documents-dialog.component.ts:
  Added feedback when a handler fails in adding a document.
 
-30 September 2021 Petasis George <petasis@iit.demokritos.gr>:
+30 September 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * larin-angular/src/app/components/views/manage-collections/manage-collections.component.html:
  * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.ts:
  Added modification date for Annotations & Temp Annotations display in
  Collection management.
 
- 28 September 2021 Petasis George <petasis@iit.demokritos.gr>:
+ 28 September 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * frontend/clarin/js/controllers/annotationCtrl.js: Fixed a bug where the
  Document selection modal was not shown if the last opened document was automatically
  closed by the tool.
 
-27 September 2021 Petasis George <petasis@iit.demokritos.gr>:
+27 September 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/views/annotation/annotation.component.ts:
  Fixed a bug where no Document selection was displayed, if the user has no
  open Documents. Bug reported by Francesco Barreca.
@@ -671,7 +678,7 @@
  * backend/clarin/app/Http/Controllers/OpenDocumentController.php: Fixed
  problems caused by the grouping only with documents (collapsing users).
 
-24 September 2021 Petasis George <petasis@iit.demokritos.gr>:
+24 September 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * backend/clarin/app/Http/Controllers/OpenDocumentController.php: Modified
  the returned open documents to include user details.
 
@@ -684,7 +691,7 @@
  Collection management about opened Documents. Added the ability to close an
  opened Document.
 
-22 September 2021 Petasis George <petasis@iit.demokritos.gr>:
+22 September 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.html:
  * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.ts:
  * clarin-angular/src/app/services/text-widget/text-widget.service.ts: More
@@ -695,7 +702,7 @@
  in backend's '/api/collection_data', where duplicate document entries were
  returned for shared Documents whose some invitations were not yet accepted.
 
-21 September 2021 Petasis George <petasis@iit.demokritos.gr>, Anna Gradou <agradou@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
+21 September 2021 Petasis Georgios <petasis@iit.demokritos.gr>, Anna Gradou <agradou@iit.demokritos.gr>, Alexandros Ntogramatzis <antogramatzis@iit.demokritos.gr>:
  * clarin-angular/src/app/app.module.ts:
  * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.html:
  * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.ts:
@@ -705,13 +712,13 @@
  * clarin-angular/src/css/clarin-material.scss: New facility for importing
  Documents from exported Collections.
  
- 20 September 2021 Petasis George <petasis@iit.demokritos.gr>:
+ 20 September 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.html:
  * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.ts:
  Reworked how Collection Management is shown (now multiple rows are used for
  each Document, containing information that includes the annotations).
 
-13 September 2021 Petasis George <petasis@iit.demokritos.gr>:
+13 September 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/views/reset-password/:
  * backend/clarin/app/Http/Controllers/UserController.php:
  * clarin-angular/src/app/app-routing.module.ts:
@@ -723,7 +730,7 @@
  * clarin-angular/src/assets/i18n/en-US.json: Added support for resetting
  password in the login screen.
 
-19 August 2021 Petasis George <petasis@iit.demokritos.gr>:
+19 August 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/models/annotation.ts:
  * clarin-angular/src/app/models/attribute.ts:
  * clarin-angular/src/app/models/collection.ts:
@@ -747,7 +754,7 @@
  routes, with 4 new dummy components. Implemented a toolbar component for
  selecting collections/documents.
 
-18 August 2021 Petasis George <petasis@iit.demokritos.gr>:
+18 August 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/controls/annotation-visualizer/annotation-visualizer.component.html:
  * clarin-angular/src/app/components/controls/annotation-visualizer/annotation-visualizer.component.ts:
  * clarin-angular/src/css/clarin-material.scss:
@@ -760,7 +767,7 @@
 
  * clarin-angular/tsconfig.json: Tests with partial AOT compilation.
 
-17 August 2021 Petasis George <petasis@iit.demokritos.gr>:
+17 August 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/package.json:
  * clarin-angular/angular.json:
  * build_all.sh: Updated to latest angular, switched build to production mode,
@@ -780,14 +787,14 @@
  * clarin-angular/src/styles/*:
  * clarin-angular/src/app/ng-matero/*: Update to latest ng-matero (12.1.1).
 
-17 August 2021 Petasis George <petasis@iit.demokritos.gr>:
+17 August 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/css/clarin-annschema.scss: Fixed spacing among cells.
 
  * backend/clarin/database/migrations/2021_08_12_114251_modify_open_documents_primary_keys.php:
  * Backend: Modified primary key in open_documents table, so as to allow
  multiple open documents for each user.
 
-09 August 2021 Petasis George <petasis@iit.demokritos.gr>:
+09 August 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/views/annotation/annotation.component.ts:
  Fixes in the way open Documents are handled. Old behaviour was buggy (still
  buggy in the AngularJS front-end).
@@ -803,7 +810,7 @@
  * backend/clarin/app/Http/Controllers/TempAnnotationController.php: Added
  "id"s in SSE messages.
 
-08 August 2021 Petasis George <petasis@iit.demokritos.gr>:
+08 August 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * backend/clarin/app/Http/Controllers/OpenDocumentController.php: Changes to
  return the user id. If 'db_interactions' is specified in store(), its value
  is set instead of the default calculated one.
@@ -815,7 +822,7 @@
  Changed service to set the db_interactions to 0 when a new Temp Document is
  created.
 
-03 August 2021 Petasis George <petasis@iit.demokritos.gr>:
+03 August 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/controls/annotation-visualizer/annotation-visualizer.component.ts:
  * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
  * clarin-angular/src/app/components/views/annotation/annotation.component.html:
@@ -824,7 +831,7 @@
  * frontend/clarin/templates/directives/annotation-visualizer.html: Working
  settings (at least to the filtering of Annotations part).
 
-02 August 2021 Petasis George <petasis@iit.demokritos.gr>:
+02 August 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/views/annotation/annotation.component.html:
  * clarin-angular/src/app/components/views/annotation/annotation.component.ts:
  * clarin-angular/src/app/services/text-widget/text-widget.service.ts: Initial
@@ -851,7 +858,7 @@
  * clarin-angular/src/app/components/controls/toolbar-widget/toolbar-widget.component.html:
  Added a button for exporting PDF.
 
-31 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+31 July 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/dialogs/select-document-modal/select-document-modal.component.html:
  "Cancel" button now returns the value "cancel" on dialog close.
 
@@ -867,7 +874,7 @@
  * backend/clarin/app/Models/TempAnnotation.php: Added new fields in
  annotations ('collection_setting', 'document_setting').
 
-30 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+30 July 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * backend/clarin/app/Http/Controllers/DocumentController.php:
  * clarin-angular/src/app/components/dialogs/add-documents-dialog/add-documents-dialog.component.html:
  * clarin-angular/src/assets/data/menu.json: Fixed a bug during adding
@@ -891,7 +898,7 @@
  * clarin-angular/src/assets/i18n/el-GR.json:
  * clarin-angular/src/assets/i18n/en-US.json: Added titles in page headers.
 
-29 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+29 July 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/controls/toolbar-widget/toolbar-widget.component.html:
  * clarin-angular/src/app/components/controls/toolbar-widget/toolbar-widget.component.ts:
  Change to emmit event to parent, on some toolbar buttons (i.e. Change
@@ -917,7 +924,7 @@
  * clarin-angular/src/css/clarin-material.scss: Implemented Document(s)
  selection/delete in Collection Management.
 
-28 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+28 July 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/controls/annotation-visualizer/annotation-visualizer.component.ts:
  Fixed visualisation of dates in Annotation Visualiser.
 
@@ -942,7 +949,7 @@
  * backend/clarin/app/Http/Controllers/DocumentController.php: Fixed bugs when
  importing old exports.
 
-27 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+27 July 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.html:
  * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.ts:
  All functionality tested.
@@ -977,7 +984,7 @@
  * backend/clarin/app/Http/routes.php: Changes in backend, to support import.
 
 
-25 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+25 July 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * backend/clarin/app/Http/Controllers/CollectionController.php: Fixed a bug
  in update() function, as empty() was not enough to detect if a collection
  with the same name already exists.
@@ -1012,7 +1019,7 @@
  new one. The component is re-used in the add Documents to an existing
  Collection functionality.
 
-24 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+24 July 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/dialogs/share-collection-modal/share-collection-modal.component.html:
  * clarin-angular/src/app/components/dialogs/share-collection-modal/share-collection-modal.component.ts:
  * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.html:
@@ -1020,7 +1027,7 @@
  * clarin-angular/src/assets/i18n/en-US.json:
  * clarin-angular/src/css/clarin-material.scss: Fixed Collection sharing.
 
-23 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+23 July 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/dialogs/select-document-modal/select-document-modal.component.html:
  * clarin-angular/src/css/clarin-material.scss: Added Cancel button on
  Document Selection.
@@ -1043,7 +1050,7 @@
  * clarin-angular/src/styles/_app-theme.scss: Added a settings button in top
  toolbar, and some buttons in Collection Management.
 
-22 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+22 July 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * backend/clarin/app/Http/Controllers/UserController.php:
  * clarin-angular/src/app/components/views/register/register.component.ts:
  * clarin-angular/src/app/ng-matero/core/authentication/auth.service.ts:
@@ -1051,7 +1058,7 @@
  we always have a valid CSRF token before doing a POST action (even if the
  frontend is not served by the backend (i.e. by ng serve)).
 
-21 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+21 July 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/views/login/login.component.html:
  * clarin-angular/src/app/components/views/login/login.component.ts:
  * clarin-angular/src/app/components/views/register/register.component.html:
@@ -1087,7 +1094,7 @@
  * clarin-angular/src/app/services/text-widget/text-widget.service.ts:
  * clarin-angular/src/assets/data/menu.json: Fixed login/logout.
 
-20 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+20 July 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/controls/annotator-widget/annotator-widget.component.ts:
  * clarin-angular/src/app/components/controls/button/annotation-button-custom-value-add/annotation-button-custom-value-add.component.ts:
  * clarin-angular/src/app/components/dialogs/add-custom-value-modal/add-custom-value-modal.component.html:
@@ -1101,7 +1108,7 @@
  annotator-widget, in a more "Angular" way (by filling an object with the
  items, and using *ngFor in the template...).
 
-17 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+17 July 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/dialogs/add-custom-value-modal/:
  * clarin-angular/src/app/app.module.ts:
  * clarin-angular/src/app/components/controls/annotator-widget/annotator-widget.component.ts:
@@ -1119,7 +1126,7 @@
  custom Annotation Buttons: They appear (if values found in the Document) and
  work, but still adding new custom Annotation Button does not work.
 
-16 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+16 July 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/controls/button/annotation-button-custom-value-add/:
  * clarin-angular/src/css/clarin-material.scss:
  * clarin-angular/src/app/app.module.ts: Added a component for the "New Value"
@@ -1133,7 +1140,7 @@
  broadcasted. (this.changeDetectorRef.detectChanges() called after every
  assignment).
 
-15 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+15 July 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/dialogs/detect-changes-modal/detect-changes-modal.component.ts:
  * clarin-angular/src/app/components/views/annotation/annotation.component.ts:
  * clarin-angular/src/app/ng-matero/core/interceptors/error-interceptor.ts:
@@ -1168,7 +1175,7 @@
  * clarin-angular/src/app/directives/document-attributes/: Added support for
  Document Attributes.
 
-14 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+14 July 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/controls/annotation-visualizer/annotation-visualizer.component.html:
  * clarin-angular/src/app/components/controls/annotation-visualizer/annotation-visualizer.component.ts:
  * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
@@ -1197,7 +1204,7 @@
  * clarin-angular/src/css/clarin-material.scss: Fixed overlaping area
  selection, and added pre-selection for some cases.
 
-12 July 2021 Petasis George <petasis@iit.demokritos.gr>:
+12 July 2021 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/package.json:
  * clarin-angular/src/app/app.module.ts:
  * clarin-angular/src/app/components/controls/annotator-widget/annotator-widget.component.ts:
@@ -1278,7 +1285,7 @@
  * clarin-angular/src/app/services/text-widget/text-widget.service.ts: Various
  updates to modernise the code (i.e. moved from underscore to lodash 4.x).
 
-27 June 2021 Petasis George <petasis@iit.demokritos.gr>
+27 June 2021 Petasis Georgios <petasis@iit.demokritos.gr>
  * clarin-angular/src/css/clarin-annschema.scss: New file for CSS related to
  the Annotator Widget (only).
 
@@ -1318,7 +1325,7 @@
  * clarin-angular/src/css/clarin-annschema.scss:
  Moved various components to Angular Material.
 
-26 June 2021 Petasis George <petasis@iit.demokritos.gr>
+26 June 2021 Petasis Georgios <petasis@iit.demokritos.gr>
  * clarin-angular/src/app/components/views/auth-layout-mod/:
  * clarin-angular/src/app/components/views/login/:
  * clarin-angular/src/app/components/views/register/: New components (copied
@@ -1348,7 +1355,7 @@
  to fix some bugs and support the new Angular UI (additional API under
  api/auth).
 
-23 June 2021 Petasis George <petasis@iit.demokritos.gr>
+23 June 2021 Petasis Georgios <petasis@iit.demokritos.gr>
  * clarin-angular/src/app/components/controls/uploader/*:
  * clarin-angular/src/app/components/views/add-collection/*: Fixes in file
  comboboxes and collection upload.
@@ -1356,7 +1363,7 @@
  * clarin-angular/src/app/ng-matero/*: Added the ng-matero template.
  * clarin-angular: Pulled changes from SEMANTIKA, and resolved some conflicts.
 
-16 June 2021 Petasis George <petasis@iit.demokritos.gr>
+16 June 2021 Petasis Georgios <petasis@iit.demokritos.gr>
  * backend/clarin/app/Http/Controllers/UserController.php:
  * backend/clarin/resources/views/emails/activate-account.blade.php:
  * backend/clarin/resources/views/emails/reset-password.blade.php:
@@ -1364,7 +1371,7 @@
  during send of e-mails, so as the logo image is correctly loaded under both
  the AnrjularJS and the Angular UI.
 
-31 May 2021 Petasis George <petasis@iit.demokritos.gr>
+31 May 2021 Petasis Georgios <petasis@iit.demokritos.gr>
  * clarin/app/Http/routes.php: Added some more routes (domain dependent) to
  support the UI in Angular.
  * clarin-angular/src/app/app-routing.module.ts:
@@ -1375,11 +1382,11 @@
  * clarin-angular/src/index.html: Minor changes for hosting both UIs
  (AngularJS & Angular) on the same server.
  
-28 May 2021 Petasis George <petasis@iit.demokritos.gr>
+28 May 2021 Petasis Georgios <petasis@iit.demokritos.gr>
  * clarin-angular: A new folder, containing a migration from AngularJS to
  Angular. Migration has been done by SEMANTIKA (http://semantika.si/en-us/).
 
-05 May 2021 Petasis George <petasis@iit.demokritos.gr>
+05 May 2021 Petasis Georgios <petasis@iit.demokritos.gr>
  * frontend/clarin/js/directives/text-widget.js:
  * frontend/clarin/css/clarin.css: Added CSS styling for TEI elements.
  * backend/clarin/.env.example:
@@ -1388,7 +1395,7 @@
  service).
    Backend (Laravel) upgraded to 8.x.
 
-04 May 2021 Petasis George <petasis@iit.demokritos.gr>
+04 May 2021 Petasis Georgios <petasis@iit.demokritos.gr>
  * backend/clarin/app/Http/Controllers/DocumentController.php:
  * backend/clarin/app/Models/Document.php:
  * backend/clarin/database/migrations/2021_04_27_112120_add_document_fields.php:
@@ -1401,19 +1408,19 @@
  document type, and a document handler. Two handlers are currently supported,
  "None" and "TEI XML".
 
-27 April 2021 Petasis George <petasis@iit.demokritos.gr>
+27 April 2021 Petasis Georgios <petasis@iit.demokritos.gr>
  * backend/clarin/vendor/composer/autoload_classmap.php:
  * backend/clarin/vendor/composer/autoload_static.php: Added backend migration
  (new Document fields) for importing document types beyond text.
 
-19 April 2021 Petasis George <petasis@iit.demokritos.gr>
+19 April 2021 Petasis Georgios <petasis@iit.demokritos.gr>
  * frontend/clarin/css/clarin.css:
  * frontend/clarin/js/directives/annotator-widget.js:
  * frontend/clarin/js/directives/button/annotation-button.js:
  * frontend/clarin/templates/annotation.html: Added support for predefined
  line breaks in Button Annotator labels. Also reduced paddings to 1px.
 
-10 April 2021 Petasis George <petasis@iit.demokritos.gr>
+10 April 2021 Petasis Georgios <petasis@iit.demokritos.gr>
  * frontend/clarin/js/app.js:
  * frontend/clarin/js/controllers/annotationCtrl.js:
  * frontend/clarin/js/directives/text-widget.js:
@@ -1424,12 +1431,12 @@
  * frontend/clarin/js/directives/text-widget.js: Fixes in overlay box
  calculations.
 
-07 April 2021 Petasis George <petasis@iit.demokritos.gr>
+07 April 2021 Petasis Georgios <petasis@iit.demokritos.gr>
  * frontend/clarin/js/directives/text-widget.js:
  * frontend/clarin/js/directives/toolbar-widget.js: Restricted "Delete" key
  binding only to the editor window.
 
-06 April 2021 Petasis George <petasis@iit.demokritos.gr>
+06 April 2021 Petasis Georgios <petasis@iit.demokritos.gr>
  * frontend/clarin/js/controllers/annotationCtrl.js:
  * frontend/clarin/js/controllers/modals/detectChangesModalCtrl.js:
  * frontend/clarin/js/controllers/modals/detectOpenDocModalCtrl.js:
@@ -1441,7 +1448,7 @@
  (mainly on modal dialogs) of storing Annotator id instead of Annotator type
  in the opened documents database.
 
-05 April 2021 Petasis George <petasis@iit.demokritos.gr>
+05 April 2021 Petasis Georgios <petasis@iit.demokritos.gr>
  * backend/clarin/resources/views/index.php:
  * frontend/clarin/bower.json:
  * frontend/clarin/css/clarin.css:
@@ -1452,7 +1459,7 @@
  lines (from LeaderLine to Joint). Now relations are put in asingle SVG
  element, layered on top of the editor.
 
-02 April 2021 Petasis George <petasis@iit.demokritos.gr>
+02 April 2021 Petasis Georgios <petasis@iit.demokritos.gr>
  * backend/clarin/resources/views/index.php:
  * frontend/clarin/js/directives/annotator-widget.js:
  * frontend/clarin/js/directives/button/annotation-relation-annotate-btn.js:
@@ -1482,13 +1489,13 @@
  * frontend/clarin/templates/modals/rename-collection-modal.html: Added
  support for custom values in Button Annotator.
 
-28 March 2021 Petasis George <petasis@iit.demokritos.gr>
+28 March 2021 Petasis Georgios <petasis@iit.demokritos.gr>
  * frontend/clarin/js/directives/document/annotation-text-text.js:
  * frontend/clarin/js/directives/dom-helpers.js:
  * frontend/clarin/js/directives/text-widget.js: Added initialisation of
  Document Attributes, if relevant annotations exist.
 :
-27 March 2021 Petasis George <petasis@iit.demokritos.gr>
+27 March 2021 Petasis Georgios <petasis@iit.demokritos.gr>
  * backend/clarin/app/Http/Controllers/AnnotationController.php:
  * backend/clarin/app/Http/Controllers/TempAnnotationController.php:
  * frontend/clarin/js/directives/annotation-visualizer.js:
@@ -1502,7 +1509,7 @@
  <group type="document_attributes" name="Document Metadata" button_number="1"
  sort="false"><value type="paragraph" name="author">Author</value></group>.
 
-25 March 2021 Petasis George <petasis@iit.demokritos.gr>
+25 March 2021 Petasis Georgios <petasis@iit.demokritos.gr>
  * frontend/clarin/css/clarin.css:
  * frontend/clarin/js/config/ocLazyLoadConfig.js:
  * frontend/clarin/js/directives/annotator-widget.js:
@@ -1521,7 +1528,7 @@
  * frontend/clarin/templates/annotation.html: Added two tabs above the
  document editor.
 
-23 March 2021 Petasis George <petasis@iit.demokritos.gr>
+23 March 2021 Petasis Georgios <petasis@iit.demokritos.gr>
  * frontend/clarin/js/controllers/modals/selectDocumentModalCtrl.js:
  * frontend/clarin/templates/modals/select-document-modal.html: Fixed a bug,
  where the user can select a schema with empty attributes.
@@ -1533,7 +1540,7 @@
  * frontend/clarin/js/controllers/modals/detectChangesModalCtrl.js: Fixed a
  bug in backend, in OpenDocument::destroy().
 
-22 March 2021 Petasis George <petasis@iit.demokritos.gr>
+22 March 2021 Petasis Georgios <petasis@iit.demokritos.gr>
  * backend/clarin/app/Http/Controllers/AnnotationController.php:
  * backend/clarin/app/Http/Controllers/CollectionController.php:
  * backend/clarin/app/Models/Annotation.php: Added more fields for annotations
@@ -1571,7 +1578,7 @@
  hopefully fix the deletion of annotations that happen if you accidentally
  open a different annotator on annotated docuemnts.
 :
-20 March 2021 Petasis George <petasis@iit.demokritos.gr>
+20 March 2021 Petasis Georgios <petasis@iit.demokritos.gr>
  * frontend/clarin/css/clarin.css:
  * frontend/clarin/css/codemirror.css:
  * frontend/clarin/js/directives/annotation-visualizer.js:

@@ -31,6 +31,9 @@ cd $ANGULAR2_DIR
 #rm -rf ./node_modules/@types/lodash
 #cp --force src/css/clarin.css src/css/clarin.scss
 
+## Build Documentation...
+npm run compodoc:build
+
 ## Build Angular project (will create dist/clarin-angular folder)
 ng build
 #        --configuration production
