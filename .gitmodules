@@ -1,3 +1,6 @@
 [submodule "clarin-angular/externals/krippendorff-alpha"]
 	path = clarin-angular/externals/krippendorff-alpha
 	url = https://github.com/tanbt/krippendorff-alpha.git
+[submodule "site/themes/docsy"]
+	path = site/themes/docsy
+	url = https://github.com/google/docsy.git
