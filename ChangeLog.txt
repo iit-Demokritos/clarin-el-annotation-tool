@@ -1,3 +1,7 @@
+05-May-2022 Petasis Georgios
+ * clarin-angular/src/app/services/restore-annotation-service/restore-annotation.service.ts:
+ Removed Temp Annotations removal on save.
+
 04-May-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/views/annotation/annotation.component.ts:
  Reduced the number of dialogs shown to user about open documents.

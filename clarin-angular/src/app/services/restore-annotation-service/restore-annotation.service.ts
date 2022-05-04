@@ -44,12 +44,15 @@ export class RestoreAnnotationService {
         .then((response) => {
           annotationsResponse = response;
           if (response["success"] && response["data"].length > 0) {
-            // If annotations number is greater than 0 save them to Temp
-            annotationsResponse.data = this.TextWidgetAPI.selectAnnotationsMatchingSchema(response["data"], annotatorId);
             reset_db_interactions = true;
-            return this.tempAnnotationService.save(collectionId, documentId, annotationsResponse.data);
+            // If annotations number is greater than 0 save them to Temp
+	    /* Petasis, 4 May 2022: Lets put everything to temp... */
+            // annotationsResponse.data = this.TextWidgetAPI.selectAnnotationsMatchingSchema(response["data"], annotatorId);
+            // return this.tempAnnotationService.save(collectionId, documentId, annotationsResponse.data);
+	    return this.tempAnnotationService.save(collectionId, documentId, response["data"]);
           } else if (response["success"] && response["data"].length == 0) {
             // If annotations number is equals 0 don't save anything
+            reset_db_interactions = true;
             return response;
           } else if (!response["success"]) {
             reject(response);
@@ -108,7 +111,6 @@ export class RestoreAnnotationService {
                 .then((response: any) => {
                   if (response["success"]) {
                     annotations = response.data;
-
                     return this.annotationService.destroy(collectionId, documentId, annotatorId /*null*/); //delete the old annotations of the document
                   } else
                     return reject(response);
@@ -165,11 +167,11 @@ export class RestoreAnnotationService {
             return this.annotationService.save(collectionId, documentId, annotations);
           else
             return reject(response);
-        }).then((response: any) => { //save all the annotations
-          if (response.success)
-            return this.tempAnnotationService.destroy(collectionId, documentId, annotatorId)
-          else
-            return reject(response);
+        //}).then((response: any) => { //save all the annotations
+        //  if (response.success)
+        //    return this.tempAnnotationService.destroy(collectionId, documentId, annotatorId)
+        //  else
+        //    return reject(response);
         }).then((response: any) => { //delete the temp annotations
           if (response.success)
             return this.openDocumentService.destroy(documentId, annotatorId);
