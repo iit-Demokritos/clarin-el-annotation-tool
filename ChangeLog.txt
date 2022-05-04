@@ -1,4 +1,10 @@
 04-May-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * backend-django/clarin_backend/sql_views.py:
+ * backend-django/clarin_backend/urls.py:
+ * clarin-angular/src/app/components/dialogs/import-modal/import-modal.component.ts:
+ Fixed a bug when importing an exported collection (where "text" was not
+ defined if the handler did not need to run again).
+
  * clarin-angular/src/app/components/controls/toolbar-widget/toolbar-widget.component.html:
  * clarin-angular/src/app/components/controls/toolbar-widget/toolbar-widget.component.ts:
  * clarin-angular/src/app/components/dialogs/detect-changes-modal/detect-changes-modal.component.ts:

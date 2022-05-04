@@ -53,7 +53,12 @@ export class ImportModalComponent implements OnInit {
     this.collectionImportService.exists(this.collectionName)
       .then((response) => {
         if (response["success"] && response["exists"]) {
-          var collectionId = response["data"][0]["id"];
+          var collectionId;
+          if (Array.isArray(response["data"])) {
+            collectionId = response["data"][0]["id"];
+          } else {
+            collectionId = response["data"]["id"];
+          }
           // collection already exists
           var modalOptions = new ConfirmDialogData();
           modalOptions.headerType = "warning";

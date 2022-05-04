@@ -102,7 +102,7 @@ class DocumentsView(SQLDBAPIView):
         new_data["type"] = "text"
         if ("type" in data and data["type"] is not None):
             new_data["type"] = data["type"].lower()
-        handler_apply=False
+        handler_apply = False
         if ("handler" in data):
             if (isinstance(data["handler"], str) == True):
                 new_data["handler"] = data["handler"]
@@ -135,18 +135,18 @@ class DocumentsView(SQLDBAPIView):
         new_data["version"] = 1
         if ("version" in data):
             new_data["version"] = data["version"]
-        new_data["encoding"] = data["encoding"]
-        new_data["owner_id"] = owner.pk
-        new_data["updated_by"] = owner.email
+        new_data["encoding"]      = data["encoding"]
+        new_data["owner_id"]      = owner.pk
+        new_data["updated_by"]    = owner.email
         new_data["collection_id"] = cid
         # check type for assigning right value to binary
-        binary=False 
+        binary = False 
         handler_type= new_data["handler"].lower()
-        if (handler_type=="none"):
+        if (handler_type=="none" or handler_apply == False):
             new_data["text"] = data["text"]
         else:
             if (handler_apply==True):
-                handler = HandlerClass(data["text"],  new_data["handler"])
+                handler = HandlerClass(data["text"], new_data["handler"])
                 vo_json = handler.apply()["documents"][0]
                 if (binary==True):
                     new_data["data_binary"]= data["text"] 
@@ -171,7 +171,8 @@ class DocumentsView(SQLDBAPIView):
             instancedoc = serializer.save()  
             return {"success": True, "collection_id": cid, "document_id": instancedoc.pk}
         else:
-            return {"success": False}, status.HTTP_400_BAD_REQUEST         
+            serializer.is_valid(raise_exception=True)
+            return {"success": False, "message": str(serializer.errors)}, status.HTTP_400_BAD_REQUEST         
 
     # # Update an existing instance. (PUT)
     # def update(self, request, _id):
@@ -193,7 +194,6 @@ class DocumentsView(SQLDBAPIView):
                 return {"success": True, "exists": False}, status.HTTP_200_OK
         else:
             return{"success": False, "exists": False, "flash": "An error occured"}, status.HTTP_400_BAD_REQUEST
-
         
     # # Destroy an existing instance. (DELETE)
     def destroy(self, request, cid, did):

@@ -92,15 +92,19 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "clarin-angular:build",
-            "proxyConfig": "src/proxy.conf.json",
-            "ssl": true
+            "proxyConfig": "src/proxy-local.conf.json",
+            "ssl": false
           },
           "configurations": {
             "production": {
-              "browserTarget": "clarin-angular:build:production"
+              "browserTarget": "clarin-angular:build:production",
+              "proxyConfig": "src/proxy.conf.json",
+              "ssl": true
             },
             "development": {
-              "browserTarget": "clarin-angular:build:development"
+              "browserTarget": "clarin-angular:build:development",
+              "proxyConfig": "src/proxy-local.conf.json",
+              "ssl": false
             },
             "hmr": {
               "hmr": true,
