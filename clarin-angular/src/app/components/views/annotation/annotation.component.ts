@@ -357,6 +357,8 @@ export class AnnotationComponent extends MainComponent implements OnInit {
               console.warn("  Document opened by current user, which is shared and opened also by other users");
               // Ask the user what to do...
               askUser = true;
+	      // Petasis, 04 May 2022: Reduce the dialogs to the user...
+	      askUser = false;
             }
             if (askUser) {
               const response = await this.askUserOnOpenedDocument(openedDocument);

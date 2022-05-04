@@ -3,6 +3,7 @@
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 ANGULAR2_PROJECT_NAME=clarin-angular
 ANGULAR2_DIR=$SCRIPT_DIR/$ANGULAR2_PROJECT_NAME
+HUGO_DIR=$SCRIPT_DIR/site
 
 #LARAVEL_DIR=$SCRIPT_DIR/backend/clarin
 
@@ -66,3 +67,9 @@ cp --force src/index.php dist/$ANGULAR2_PROJECT_NAME/index.php
 #        dist/$ANGULAR2_PROJECT_NAME/index.html \
 #        > $LARAVEL_DIR/resources/views/angular2_index.php
 cp --force -r src/css dist/$ANGULAR2_PROJECT_NAME/assets
+
+##
+## Generate site...
+##
+cd $HUGO_DIR
+bash build.sh

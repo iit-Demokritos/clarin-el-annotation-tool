@@ -1,4 +1,7 @@
 04-May-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/views/annotation/annotation.component.ts:
+ Reduced the number of dialogs shown to user about open documents.
+
  * backend-django/clarin_backend/sql_views.py:
  * backend-django/clarin_backend/urls.py:
  * clarin-angular/src/app/components/dialogs/import-modal/import-modal.component.ts:
