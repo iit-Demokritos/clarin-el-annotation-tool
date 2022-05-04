@@ -1,11 +1,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>The Ellogon Annotation Platform – The Ellogon Annotation Platform</title>
-    <link>/</link>
+    <link>https://iit-demokritos.github.io/clarin-el-annotation-tool/</link>
     <description>Recent content on The Ellogon Annotation Platform</description>
     <generator>Hugo -- gohugo.io</generator>
     
-	  <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="https://iit-demokritos.github.io/clarin-el-annotation-tool/index.xml" rel="self" type="application/rss+xml" />
     
     
       

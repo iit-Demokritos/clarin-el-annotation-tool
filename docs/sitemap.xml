@@ -2,52 +2,52 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>/docs/getting-started/</loc>
+    <loc>https://iit-demokritos.github.io/clarin-el-annotation-tool/docs/getting-started/</loc>
     <lastmod>2022-05-02T15:30:48+03:00</lastmod>
   </url><url>
-    <loc>/docs/concepts/</loc>
+    <loc>https://iit-demokritos.github.io/clarin-el-annotation-tool/docs/concepts/</loc>
     <lastmod>2022-05-02T15:30:48+03:00</lastmod>
   </url><url>
-    <loc>/docs/</loc>
+    <loc>https://iit-demokritos.github.io/clarin-el-annotation-tool/docs/</loc>
     <lastmod>2022-05-04T00:35:33+03:00</lastmod>
   </url><url>
-    <loc>/tags/architecture/</loc>
+    <loc>https://iit-demokritos.github.io/clarin-el-annotation-tool/tags/architecture/</loc>
     <lastmod>2022-05-03T22:57:58+03:00</lastmod>
   </url><url>
-    <loc>/docs/concepts/architecture/</loc>
+    <loc>https://iit-demokritos.github.io/clarin-el-annotation-tool/docs/concepts/architecture/</loc>
     <lastmod>2022-05-03T22:57:58+03:00</lastmod>
   </url><url>
-    <loc>/categories/</loc>
+    <loc>https://iit-demokritos.github.io/clarin-el-annotation-tool/categories/</loc>
     <lastmod>2022-05-03T22:57:58+03:00</lastmod>
   </url><url>
-    <loc>/docs/getting-started/online/</loc>
+    <loc>https://iit-demokritos.github.io/clarin-el-annotation-tool/docs/getting-started/online/</loc>
     <lastmod>2022-05-04T00:38:06+03:00</lastmod>
   </url><url>
-    <loc>/community/</loc>
+    <loc>https://iit-demokritos.github.io/clarin-el-annotation-tool/community/</loc>
     <lastmod>2022-05-02T15:30:48+03:00</lastmod>
   </url><url>
-    <loc>/categories/concepts/</loc>
+    <loc>https://iit-demokritos.github.io/clarin-el-annotation-tool/categories/concepts/</loc>
     <lastmod>2022-05-03T22:57:58+03:00</lastmod>
   </url><url>
-    <loc>/tags/docs/</loc>
+    <loc>https://iit-demokritos.github.io/clarin-el-annotation-tool/tags/docs/</loc>
     <lastmod>2022-05-03T22:57:58+03:00</lastmod>
   </url><url>
-    <loc>/</loc>
+    <loc>https://iit-demokritos.github.io/clarin-el-annotation-tool/</loc>
     <lastmod>2022-05-04T00:45:14+03:00</lastmod>
   </url><url>
-    <loc>/categories/examples/</loc>
+    <loc>https://iit-demokritos.github.io/clarin-el-annotation-tool/categories/examples/</loc>
     <lastmod>2022-05-02T15:30:48+03:00</lastmod>
   </url><url>
-    <loc>/categories/placeholders/</loc>
+    <loc>https://iit-demokritos.github.io/clarin-el-annotation-tool/categories/placeholders/</loc>
     <lastmod>2022-05-02T15:30:48+03:00</lastmod>
   </url><url>
-    <loc>/search/</loc>
+    <loc>https://iit-demokritos.github.io/clarin-el-annotation-tool/search/</loc>
     <lastmod>2022-05-02T15:30:48+03:00</lastmod>
   </url><url>
-    <loc>/tags/</loc>
+    <loc>https://iit-demokritos.github.io/clarin-el-annotation-tool/tags/</loc>
     <lastmod>2022-05-03T22:57:58+03:00</lastmod>
   </url><url>
-    <loc>/tags/test/</loc>
+    <loc>https://iit-demokritos.github.io/clarin-el-annotation-tool/tags/test/</loc>
     <lastmod>2022-05-02T15:30:48+03:00</lastmod>
   </url>
 </urlset>

@@ -1,11 +1,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>The Ellogon Annotation Platform – Examples</title>
-    <link>/categories/examples/</link>
+    <link>https://iit-demokritos.github.io/clarin-el-annotation-tool/categories/examples/</link>
     <description>Recent content in Examples on The Ellogon Annotation Platform</description>
     <generator>Hugo -- gohugo.io</generator>
     
-	  <atom:link href="/categories/examples/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="https://iit-demokritos.github.io/clarin-el-annotation-tool/categories/examples/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -15,10 +15,10 @@
     
     <item>
       <title>Docs: Getting Started</title>
-      <link>/docs/getting-started/</link>
+      <link>https://iit-demokritos.github.io/clarin-el-annotation-tool/docs/getting-started/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/docs/getting-started/</guid>
+      <guid>https://iit-demokritos.github.io/clarin-el-annotation-tool/docs/getting-started/</guid>
       <description>
         
         
