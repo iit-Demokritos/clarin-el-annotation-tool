@@ -156,11 +156,13 @@ export class ToolbarWidgetComponent extends BaseControlComponent implements OnIn
       });
   };
 
+  /**
+   * Petasis, 4 May 2022: Commented  out, as it is not used anywhere...
   deleteTempAnnotations() {
     var currentDocument: any = this.TextWidgetAPI.getCurrentDocument();
     var AnnotatorTypeId = this.TextWidgetAPI.getAnnotatorTypeId();
 
-    this.restoreAnnotationService.discard(currentDocument.collection_id, currentDocument.id, AnnotatorTypeId)     //delete the old annotations of the document*/
+    this.restoreAnnotationService.discard(currentDocument.collection_id, currentDocument.id, AnnotatorTypeId)     //delete the old annotations of the document
       .then((response: any) => {
         if (!response.success) {
           this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Error during the saving of your document\'s annotations. Please refresh the page and try again.") })
@@ -169,6 +171,7 @@ export class ToolbarWidgetComponent extends BaseControlComponent implements OnIn
         this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Database error. Please refresh the page and try again.") })
       });
   };
+  */
 
   updateCurrentCollection() {
     var newCollection: any = this.TextWidgetAPI.getCurrentCollection();

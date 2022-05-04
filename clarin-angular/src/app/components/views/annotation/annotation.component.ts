@@ -55,7 +55,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
   super() { }
 
   ObjectID;
-  autoSaveIndicator;
+  autoSaveIndicator = false;
   documentSelection = true;
   documentSelected = false;
   annotatorType = "No Schema";

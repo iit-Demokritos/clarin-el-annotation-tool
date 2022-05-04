@@ -26,13 +26,17 @@
   <button mat-stroked-button color="save" (click)="saveAnnotations()">
     <mat-icon>save</mat-icon>{{'annotation.Save Annotations'|translate}}
   </button>
+  <!--
   <button mat-stroked-button color="autosave" (click)="autoSaveIndicator=!autoSaveIndicator">
     <mat-icon>{{autoSaveIndicator ? 'folder_open' : 'folder'}}</mat-icon>{{'annotation.Auto Save'|translate}}
   </button>
+  -->
   <button mat-stroked-button color="change" (click)="notifyParent.emit('change.collection')">
     <mat-icon>folder_open</mat-icon>{{'annotation.Change Collection'|translate}}
   </button>
+  <!--
   <button mat-icon-button color="primary" (click)="notifyParent.emit('export.document.pdf')">
     <mat-icon>picture_as_pdf</mat-icon>
   </button>
+  -->
 </mat-toolbar>

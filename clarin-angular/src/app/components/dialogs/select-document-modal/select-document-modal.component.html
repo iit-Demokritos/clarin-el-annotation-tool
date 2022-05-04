@@ -73,7 +73,7 @@
                   </p>
                   <p>
                     <mat-form-field appearance="fill" *ngIf="subheader!='Coreference Annotator'">
-                      <mat-label>Annotation Type</mat-label>
+                      <mat-label>Annotation Attribute</mat-label>
                       <mat-select [compareWith]="compareFn" name="ann_attr" [(ngModel)]="annotationSchema.attribute"
                         (ngModelChange)="changeAnnotationAttribute(annotationSchema.attribute); annotationSchema.alternative='';">
                         <mat-option value="">Please select annotation attribute...</mat-option>
@@ -86,7 +86,7 @@
                   </p>
                   <p>
                     <mat-form-field appearance="fill">
-                      <mat-label>Annotation Type</mat-label>
+                      <mat-label>Annotation Alternative</mat-label>
                       <mat-select [compareWith]="compareFn" name="ann_alter" [(ngModel)]="annotationSchema.alternative"
                         (ngModelChange)="changeAttributeAlternative(annotationSchema.alternative)">
                         <mat-option value="">Please select attribute alternative...</mat-option>

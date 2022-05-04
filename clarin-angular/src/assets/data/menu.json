@@ -107,23 +107,31 @@
       "name": "Help",
       "type": "sub",
       "icon": "help",
+      "label": {
+        "color": "indigo-500",
+        "value": "new"
+      },
       "children": [
         {
-          "route": "documentation",
+          "route": "https://iit-demokritos.github.io/clarin-el-annotation-tool/",
           "name": "Documentation",
-          "type": "link",
-          "icon": "find_in_page"
-        },
+          "type": "extTabLink",
+          "icon": "find_in_page",
+	  "label": {
+            "color": "indigo-500",
+            "value": "new"
+          }
+	},
 	{
-          "route": "developertools",
+          "route": "https://anntooldocs.vast-project.eu/",
           "name": "Developer Tools",
-          "type": "link",
+          "type": "extTabLink",
           "icon": "find_in_page"
         },
 	{
-          "route": "apidocumentation",
+          "route": "https://iit-demokritos.github.io/clarin-el-annotation-tool/",
           "name": "API Documentation",
-          "type": "link",
+          "type": "extTabLink",
           "icon": "find_in_page"
         }
       ]

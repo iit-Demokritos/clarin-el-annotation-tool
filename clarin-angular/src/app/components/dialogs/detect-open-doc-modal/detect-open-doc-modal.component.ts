@@ -19,7 +19,7 @@ export class DetectOpenDocModalComponent extends MainDialogComponent implements 
 
   saveChanges() {
     var AnnotatorTypeId = this.TextWidgetAPI.getAnnotatorTypeId();
-    this.restoreAnnotationService.autoSave(this.currentDocument.collection_id, this.currentDocument.id, AnnotatorTypeId)
+    this.restoreAnnotationService.saveAndCloseDocument(this.currentDocument.collection_id, this.currentDocument.id, AnnotatorTypeId)
       .then((response: any) => {
         if (response.success)
           this.dialogRef.close(response);

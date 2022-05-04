@@ -1,3 +1,21 @@
+04-May-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/controls/toolbar-widget/toolbar-widget.component.html:
+ * clarin-angular/src/app/components/controls/toolbar-widget/toolbar-widget.component.ts:
+ * clarin-angular/src/app/components/dialogs/detect-changes-modal/detect-changes-modal.component.ts:
+ * clarin-angular/src/app/components/dialogs/detect-open-doc-modal/detect-open-doc-modal.component.ts:
+ * clarin-angular/src/app/components/views/annotation/annotation.component.ts:
+ * clarin-angular/src/app/services/restore-annotation-service/restore-annotation.service.ts:
+ Added new method RestoreAnnotationService::saveAndCloseDocument(), and
+ restricted use of RestoreAnnotationService::autoSave(). Autosave disabled in
+ UI.
+
+ * clarin-angular/src/assets/data/menu.json: Added links to the documentation,
+ hosted in Github Pages: https://iit-demokritos.github.io/clarin-el-annotation-tool/
+
+ * clarin-angular/src/app/components/dialogs/select-document-modal/select-document-modal.component.html:
+ * clarin-angular/src/assets/i18n/el-GR.json: Fixed typos in the Greek
+ translation.
+
 01-April-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
  * docs/*: Created a 'docs' directory, for Github Pages.
 

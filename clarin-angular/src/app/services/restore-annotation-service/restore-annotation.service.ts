@@ -108,6 +108,7 @@ export class RestoreAnnotationService {
                 .then((response: any) => {
                   if (response["success"]) {
                     annotations = response.data;
+
                     return this.annotationService.destroy(collectionId, documentId, annotatorId /*null*/); //delete the old annotations of the document
                   } else
                     return reject(response);
@@ -139,7 +140,16 @@ export class RestoreAnnotationService {
     });
   };
 
+  saveAndCloseDocument(collectionId, documentId, annotatorId) {
+    console.error("RestoreAnnotationService: saveAndCloseDocument() CALLED:", collectionId, documentId, annotatorId);
+    return this.autoSave(collectionId, documentId, annotatorId);
+  }; /* saveAndCloseDocument */
+
+  /**
+   * Petasis, 4 May 2022: This needs to be re-examined...
+   * */
   autoSave(collectionId, documentId, annotatorId) { //saveChanges
+    console.error("RestoreAnnotationService: autoSave() CALLED:", collectionId, documentId, annotatorId);
     var annotations = [];
     return new Promise((resolve, reject) => {
 
@@ -147,7 +157,7 @@ export class RestoreAnnotationService {
         .then((response: any) => {
           if (response.success) {
             annotations = response.data;
-            return this.annotationService.destroy(collectionId, documentId, annotatorId /*null*/)
+            return this.annotationService.destroy(collectionId, documentId, annotatorId)
           } else
             return reject(response);
         }).then((response: any) => { //empty the document annotations
@@ -157,7 +167,7 @@ export class RestoreAnnotationService {
             return reject(response);
         }).then((response: any) => { //save all the annotations
           if (response.success)
-            return this.tempAnnotationService.destroy(collectionId, documentId, annotatorId /*null*/)
+            return this.tempAnnotationService.destroy(collectionId, documentId, annotatorId)
           else
             return reject(response);
         }).then((response: any) => { //delete the temp annotations

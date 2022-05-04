@@ -158,7 +158,7 @@ export class DetectChangesModalComponent extends MainDialogComponent implements 
   };
 
   saveChanges() {
-    this.restoreAnnotationService.autoSave(this.openedDocument.collection_id, this.openedDocument.document_id, this.openedDocument.annotator_type)
+    this.restoreAnnotationService.saveAndCloseDocument(this.openedDocument.collection_id, this.openedDocument.document_id, this.openedDocument.annotator_type)
       .then((response: any) => {
         response.userSelection = "save";
         this.dialogRef.close(response);
