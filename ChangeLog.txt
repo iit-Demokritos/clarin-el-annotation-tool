@@ -1,4 +1,7 @@
 05-May-2022 Petasis Georgios
+ * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
+ Fixed some selection misses in mouseUpHandler().
+
  * clarin-angular/src/app/services/restore-annotation-service/restore-annotation.service.ts:
  Removed Temp Annotations removal on save.
 

@@ -333,15 +333,22 @@ export class TextWidgetComponent extends BaseControlComponent
           if (availableAnnotationsLength > 0) {
             // Petasis, 14/07/2021: Find the annotation with the smallest segment...
             var availableAnnotationsOnCursor = availableMarksOnCursor.map((a) => this.getAnnotationFromMark(a));
-            var smallestAnn = availableAnnotationsOnCursor.reduce((a, b) =>
-              a.spans[0].segment.length <= b.spans[0].segment.length ? a : b
-            );
-            // console.error("small:", smallestAnn);
-            if (smallestAnn) {annotationId = smallestAnn['_id'];}
-            // // Get first part of the annotation's class name, which should be the ID
-            // annotationId =
-            //   availableMarksOnCursor[availableAnnotationsLength - 1].className;
-            // annotationId = annotationId.split(" ")[0].substr(3); // remove "id-" prefix...
+            // Petasis, 05/05/2022: Make sure that marks not related to annotations
+            // (i.e. marks for formatting) are filtered out...
+            availableAnnotationsOnCursor = availableAnnotationsOnCursor.filter((element) => {
+              return element !== undefined;
+            });
+            if (availableAnnotationsOnCursor.length) {
+              var smallestAnn = availableAnnotationsOnCursor.reduce((a, b) =>
+                a.spans[0].segment.length <= b.spans[0].segment.length ? a : b
+              );
+              // console.error("small:", smallestAnn);
+              if (smallestAnn) {annotationId = smallestAnn['_id'];}
+              // // Get first part of the annotation's class name, which should be the ID
+              // annotationId =
+              //   availableMarksOnCursor[availableAnnotationsLength - 1].className;
+              // annotationId = annotationId.split(" ")[0].substr(3); // remove "id-" prefix...
+            }
           }
           // console.error("TextWidgetComponent: mouseUpHandler(): availableMarksOnCursor:",
           //               availableAnnotationsLength, availableMarksOnCursor, annotationId);
