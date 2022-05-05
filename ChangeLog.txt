@@ -1,4 +1,7 @@
 05-May-2022 Petasis Georgios
+ * backend-django/clarin_backend/mongodb_views.py: Save of annotations as a
+ set, now is done in import mode (updated_by/updated_at is retained).
+
  * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
  Fixed some selection misses in mouseUpHandler().
 

@@ -127,8 +127,12 @@ class AnnotationsView(MongoDBAPIView):
         # Have we received a single annotation?
         if type(request.data['data']) is list:
             annotations = request.data['data']
+            importing_set = True;
         else:
             annotations = [request.data['data']]
+            importing_set = False;
+        if importing_set:
+            importing = importing_set
         for annotation in annotations:
             # Just make sure during migration, that annotation does not exist
             try:

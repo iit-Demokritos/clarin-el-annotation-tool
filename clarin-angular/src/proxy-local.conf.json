@@ -1,0 +1,38 @@
+{
+  "/api": {
+    "target": {
+        "host": "127.0.0.1",
+        "protocol": "http:",
+        "port": 8000
+    },
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/analytics": {
+    "target": {
+        "host": "127.0.0.1",
+        "protocol": "http:",
+        "port": 8000
+    },
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/drag_and_drop": {
+    "target": {
+        "host": "127.0.0.1",
+        "protocol": "http:",
+        "port": 8000
+    },
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/nlp": {
+    "target": {
+        "host": "127.0.0.1",
+        "protocol": "http:",
+        "port": 8000
+    },
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}
