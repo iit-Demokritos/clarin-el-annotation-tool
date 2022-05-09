@@ -16,7 +16,7 @@ set +o allexport
 cd $SCRIPT_DIR/..
 if command -v git &> /dev/null
 then
-    git submodule update --remote --init
+    git submodule update --remote --init -recursive
 else
     echo "git is not available. Please make sure submodules have been initialised!"
 fi

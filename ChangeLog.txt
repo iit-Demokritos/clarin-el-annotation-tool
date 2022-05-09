@@ -1,4 +1,7 @@
-05-May-2022 Petasis Georgios
+09-May-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * docs/*: Footer fixes.
+
+05-May-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
  * backend-django/clarin_backend/mongodb_views.py: Save of annotations as a
  set, now is done in import mode (updated_by/updated_at is retained).
 
