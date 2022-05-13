@@ -1,5 +1,31 @@
+12-May-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * clarin-angular/package.json:
+ * clarin-angular/src/app/app.component.ts:
+ * clarin-angular/src/app/components/controls/annotation-set-comparator/annotation-set-comparator.component.html:
+ * clarin-angular/src/app/components/controls/annotation-set-comparator/annotation-set-comparator.component.ts:
+ * clarin-angular/src/app/components/controls/annotation-set-filter/annotation-set-filter.component.html:
+ * clarin-angular/src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:
+ * clarin-angular/src/app/helpers/annotation.ts:
+ * clarin-angular/src/assets/i18n/el-GR.json:
+ * clarin-angular/src/css/clarin-material.scss: Added support for span overlap
+ in inter-annotation agreement calculations.
+
+ * clarin-angular/tsconfig.json:
+ * clarin-angular/src/app/components/views/login/login.component.html:
+ * clarin-angular/src/app/components/views/login/login.component.ts:
+ * clarin-angular/src/app/components/views/register/register.component.html:
+ * clarin-angular/src/app/components/views/register/register.component.ts:
+ * clarin-angular/src/app/components/views/reset-password/reset-password.component.html:
+ * clarin-angular/src/app/components/views/reset-password/reset-password.component.ts:
+ Added version on the authentication dialogs.
+
 09-May-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
  * docs/*: Footer fixes.
+
+ * clarin-angular/src/app/components/views/analytics-annotation-values/analytics-annotation-values.component.html:
+ * clarin-angular/src/assets/i18n/el-GR.json:
+ * clarin-angular/src/assets/i18n/en-US.json:
+ * clarin-angular/src/index.html: Changed "Tool" to "Platform".
 
 05-May-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
  * backend-django/clarin_backend/mongodb_views.py: Save of annotations as a

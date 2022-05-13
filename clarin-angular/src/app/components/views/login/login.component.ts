@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '@core/authentication/auth.service';
 import { FlashMessagesService } from 'flash-messages-angular';
 import { filter } from 'rxjs/operators';
+import  packageJson from '@src/../package.json';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +14,8 @@ import { filter } from 'rxjs/operators';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   hide_password = true;
+
+  public appVersion: string = packageJson.version;
 
   constructor(private fb: FormBuilder, private router: Router,
     private auth: AuthService,

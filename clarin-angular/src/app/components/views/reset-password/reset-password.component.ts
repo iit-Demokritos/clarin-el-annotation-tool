@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '@core/authentication/auth.service';
 import { FlashMessagesService } from 'flash-messages-angular';
 import { filter } from 'rxjs/operators';
+import  packageJson from '@src/../package.json';
 
 @Component({
   selector: 'app-reset-password',
@@ -12,6 +13,7 @@ import { filter } from 'rxjs/operators';
 })
 export class ResetPasswordComponent implements OnInit {
   resetPasswordForm: FormGroup;
+  public appVersion: string = packageJson.version;
 
   constructor(private fb: FormBuilder, private router: Router,
     private auth: AuthService,

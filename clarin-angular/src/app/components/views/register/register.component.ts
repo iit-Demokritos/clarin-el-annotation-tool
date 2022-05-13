@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { FlashMessagesService } from 'flash-messages-angular';
 import { UserService } from 'src/app/services/user-service/user.service';
+import  packageJson from '@src/../package.json';
 
 @Component({
   selector: 'app-register',
@@ -11,6 +12,8 @@ import { UserService } from 'src/app/services/user-service/user.service';
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   hide_password = true;
+
+  public appVersion: string = packageJson.version;
 
   constructor(private fb: FormBuilder,
     private user: UserService,

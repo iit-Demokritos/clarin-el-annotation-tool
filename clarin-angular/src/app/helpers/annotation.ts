@@ -74,7 +74,11 @@ interface AnnotationSpansIndexer {
   set?:  number;
 }
 
-export function sortAnnotationSet(annotations: Annotation[]): Annotation[] {
+export interface diffAnnotationSetsOptions {
+  spanOverlapPercentage: number;
+}; /* diffAnnotationSetsOptions */
+
+export function sortAnnotationSet(annotations: Annotation[], options: diffAnnotationSetsOptions|null = null): Annotation[] {
   // Create a list of indexes, spans, adding spans if missing...
   var indexes = annotationSetToSpanIndexes(annotations);
   // Sort the list of indexes...
@@ -83,7 +87,7 @@ export function sortAnnotationSet(annotations: Annotation[]): Annotation[] {
   return indexes.map(i => annotations[i.index]);
 }; /* sortAnnotationSet */
 
-export function diffAnnotationSets(annotationSets: Annotation[][]): Annotation[][] {
+export function diffAnnotationSets(annotationSets: Annotation[][], options: diffAnnotationSetsOptions|null = null): Annotation[][] {
   /* Put the set index in each annotation... */
   annotationSets = annotationSets.map((set, index) => {
     return set.map((ann) => {let ann_cp = {...ann}; ann_cp['diff_set_index'] = index; return ann_cp;});
@@ -111,8 +115,21 @@ export function diffAnnotationSets(annotationSets: Annotation[][]): Annotation[]
   // * if they are the same as ann, add it in the same row.
   // * if the new ann is different, start a new row...
   let next_ann = annotationsIndexes.shift();
+  /*
+   * Check if overlap has been provided, and set the proper
+   * comparison functions...
+   */
+  var spans_equal;
+  var overlap = 100;
+  if (options && options.spanOverlapPercentage < 100) {
+    spans_equal = compareAnnotationsSpanOverlap;
+    overlap     = options.spanOverlapPercentage;
+    console.error("diffAnnotationSets(): overlap set to:", overlap);
+  } else {
+    spans_equal = compareAnnotationsSpans;
+  }
   while (next_ann) {
-    if (compareAnnotationsSpans(ann, next_ann) != 0) {
+    if (spans_equal(ann, next_ann, overlap) != 0) {
       // Add a new row!
       newAnnotationSets.forEach((set) => set.push({})); newRow += 1;
     }
@@ -260,7 +277,7 @@ export function annotationSetToSpanIndexes(annotations: Annotation[]): Annotatio
   });
 }; /* annotationSetToSpanIndexes */
 
-export function compareAnnotationsSpans(ann1: AnnotationSpansIndexer, ann2: AnnotationSpansIndexer): number {
+export function compareAnnotationsSpans(ann1: AnnotationSpansIndexer, ann2: AnnotationSpansIndexer, overlap=100): number {
   var items1 = ann1.spans.length;
   var items2 = ann2.spans.length;
   // Check existence of spans...
@@ -317,6 +334,64 @@ export function compareAnnotationsSpans(ann1: AnnotationSpansIndexer, ann2: Anno
   }
   return -1;
 }; /* compareAnnotationsSpans */
+
+export function compareAnnotationsSpanOverlap(ann1: AnnotationSpansIndexer, ann2: AnnotationSpansIndexer, overlap=100): number {
+  var items1 = ann1.spans.length;
+  var items2 = ann2.spans.length;
+  // Check existence of spans...
+  if (items1 == 0) {
+    if (items2 == 0) return 100; // They are equal
+    return 0; // Set ann1 as "greater", at the end
+  } else if (items2 == 0) {
+    return 0; // Set ann2 as "greater", at the end
+  }
+  // Both annotations have spans...
+  var x1 = Math.min(...ann1.spans.map(span => span.start));
+  var y1 = Math.min(...ann2.spans.map(span => span.start));
+  var x2 = Math.max(...ann1.spans.map(span => span.end));
+  var y2 = Math.max(...ann2.spans.map(span => span.end));
+  // console.error("compareAnnotationsSpanOverlap():", x1, x2, y1, y2,
+  //  segmentsOverlapPercentage(x1, x2, y1, y2),
+  //  segmentsOverlapPercentage(x1, x2, y1, y2) >= overlap ? 0 : 1);
+  return segmentsOverlapPercentage(x1, x2, y1, y2) >= overlap ? 0 : 1;
+}; /* compareAnnotationsSpanOverlap */
+
+/*
+ * Annotation Overlap
+ */
+export function segmentsIntersect(x1, x2, y1, y2) {
+  // Assumes x1 <= x2 and y1 <= y2; if this assumption is not safe, the code
+  // can be changed to have x1 being min(x1, x2) and x2 being max(x1, x2) and
+  // similarly for the ys.
+  return x2 >= y1 && y2 >= x1;
+}; /* segmentsIntersect */
+
+export function segmentsOverlap(x1, x2, y1, y2) {
+  // Assumes x1 <= x2 and y1 <= y2; if this assumption is not safe, the code
+  // can be changed to have x1 being min(x1, x2) and x2 being max(x1, x2) and
+  // similarly for the ys.
+
+  return Math.max(0, Math.min(x2, y2) - Math.max(x1, y1));
+  // if (x2 >= y1 && y2 >= x1) {
+  //   return min(x2, y2) - max(x1, y1)
+  // }
+  // return 0;
+}; /* segmentsOverlap */
+
+export function segmentsOverlapPercentage(x1, x2, y1, y2) {
+  // Assumes x1 <= x2 and y1 <= y2; if this assumption is not safe, the code
+  // can be changed to have x1 being min(x1, x2) and x2 being max(x1, x2) and
+  // similarly for the ys.
+  var overlap =  Math.max(0, Math.min(x2, y2) - Math.max(x1, y1));
+  if (overlap > 0) {
+    var longer_segment = Math.max(x2-x1, y2-y1);
+    if (longer_segment > 0) {
+      return (overlap / longer_segment) * 100;
+    }
+    return 100;
+  }
+  return 0;
+}; /* segmentsOverlapPercentage */
 
 /*
  * Keep fields:

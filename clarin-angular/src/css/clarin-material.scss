@@ -65,6 +65,7 @@ $foreground: map-get($theme, foreground);
 }
 
 /* Annotation Toolbar */
+.annotation-set-comparator-toolbar,
 .select-document-toolbar,
 .app-toolbar,
 .annotation-toolbar {
@@ -492,6 +493,15 @@ text-widget {
     color: unset;
     opacity: unset;
   }
+  .annotation-set-comparator-options-label {
+    display: inline-block;
+    width: 14ch;
+  }
+  .annotation-set-comparator-options-form-field {
+    display: inline-block;
+    width: 6ch;
+    margin: 0 4px;
+  }
 }
 
 .annotation-set-comparator-matrix {
@@ -709,6 +719,23 @@ text-widget {
   }
   .mat-button {
     text-transform: uppercase;
+  }
+}
+
+/*
+ * Expansion buttons...
+ */
+.expansion-button {
+  .mat-arrow-icon {
+  //float: left;
+  margin: 0px 2px 0px 0;
+  transform: rotate(0);
+  transition: linear 0.25s transform;
+  cursor: pointer;
+
+  &.expanded {
+    transform: rotate(90deg);
+  }
   }
 }
 

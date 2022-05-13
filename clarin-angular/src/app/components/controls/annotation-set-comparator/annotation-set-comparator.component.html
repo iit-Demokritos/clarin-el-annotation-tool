@@ -1,31 +1,60 @@
 <mat-tab-group class="annotation-set-comparator">
   <mat-tab label="{{'Annotations'|translate}}">
     <as-split direction="horizontal">
-      <as-split-area [size]="this.comparatorAreaSize"
-        [minSize]="10" [maxSize]="90" class="mat-card-fill-parent"
+      <as-split-area [size]="this.comparatorAreaSize" [minSize]="10" [maxSize]="90" class="mat-card-fill-parent"
         *ngFor="let item of numberOfComparatorsArray; let i = index">
+        <mat-toolbar class="annotation-set-comparator-toolbar">
+          <button mat-stroked-button color="accent" class="expansion-button" *ngIf="showAnnotationSetFilter"
+            (click)="isOpenAnnotationsFilter[i] = !isOpenAnnotationsFilter[i]">
+            <mat-icon class="mat-arrow-icon" [ngClass]="{ expanded: isOpenAnnotationsFilter[i] }">chevron_right</mat-icon>
+            <mat-icon>filter_list</mat-icon> ({{annotationSetFilterModel[i].query.rules.length}})
+          </button>
+          <span class="p-l-4"></span>
+          <button mat-stroked-button color="primary" class="expansion-button" *ngIf="showComparisonOptions"
+            (click)="isOpenComparisonOptions[i] = !isOpenComparisonOptions[i]" [disabled]="applyDisabled">
+            <mat-icon class="mat-arrow-icon" [ngClass]="{ expanded: isOpenComparisonOptions[i] }">chevron_right</mat-icon>
+            <mat-icon>tune</mat-icon> ({{optionsSpanOverlapPercentage}} %)
+          </button>
+          <span class="fill-space"></span>
+          <button mat-raised-button color="primary" (click)="applyFilterForChild(i)"
+            [disabled]="(!annotationSetFilterModel[i].valid) || (optionsSpanOverlapPercentage < 1) || (optionsSpanOverlapPercentage > 100)">{{'Apply'|translate}}</button>
+        </mat-toolbar>
         <toolbar-select-annotator *ngIf="showAnnotatorSelectionToolbar"
-          [allowMultipleAnnotators]="allowMultipleAnnotators"
-          [annotators]="annotators"
-          [showApplyButton]="true"
-          (selectedAnnotators)="onAnnotatorsChange(i, $event)"
-          (onApply)="onApply(i, $event)"
-        >
+          [allowMultipleAnnotators]="allowMultipleAnnotators" [annotators]="annotators" [showApplyButton]="true"
+          (selectedAnnotators)="onAnnotatorsChange(i, $event)" (onApply)="onApply(i, $event)">
         </toolbar-select-annotator>
-        <annotation-set-filter *ngIf="showAnnotationSetFilter"
-          [showApplyButton]="true"
-          [collections]="collections"
-          [documents]="documents"
-          (onApply)="onApplyFilter(i, $event)"
-        >
-        </annotation-set-filter>
-        <annotation-set-inspector class="fill-space overflow-auto"
-          [annotations]="annotations[i]"
-          [collections]="collections"
-          [documents]="documents"
-          (onScroll)="onScroll(i, $event)"
-        >
-        </annotation-set-inspector >
+        <section *ngIf="showAnnotationSetFilter" [hidden]="!isOpenAnnotationsFilter[i]">
+          <mat-divider [inset]="true"></mat-divider>
+          <annotation-set-filter
+            [showApplyButton]="false" [collections]="collections" [documents]="documents"
+            (onApply)="onApplyFilter(i, $event)" (change)="annotationSetFilterModel[i].query = $event"
+            (valid)="annotationSetFilterModel[i].valid = $event">
+          </annotation-set-filter>
+          <mat-divider [inset]="true"></mat-divider>
+        </section>
+        <section [hidden]="!isOpenComparisonOptions[i]">
+          <mat-divider [inset]="true"></mat-divider>
+          <h2>Comparison Options</h2>
+          <p>These options affect how comparisons are performed, and are common for all components.</p>
+          <div class="annotation-set-comparator-options-container">
+            <div class="annotation-set-comparator-options-container-options">
+              <div>
+                <label class="annotation-set-comparator-options-label" for="overlap-slider">Span Overlap</label>
+                <mat-slider aria-label="Overlap" id="overlap-slider" min="1" max="100" tickInterval="1" thumbLabel
+                  [(ngModel)]="optionsSpanOverlapPercentage">
+                </mat-slider>
+                <mat-form-field class="annotation-set-comparator-options-form-field">
+                  <input matInput type="number" min="1" max="100" [(ngModel)]="optionsSpanOverlapPercentage">
+                </mat-form-field>
+                %
+              </div>
+            </div>
+          </div>
+          <mat-divider [inset]="true"></mat-divider>
+        </section>
+        <annotation-set-inspector class="fill-space overflow-auto" [annotations]="annotations[i]"
+          [collections]="collections" [documents]="documents" (onScroll)="onScroll(i, $event)">
+        </annotation-set-inspector>
       </as-split-area>
     </as-split>
   </mat-tab>
@@ -36,15 +65,17 @@
         <div class="flex-column h-full w-full">
           <h1 class="flex-column-fill-x m-16">Rating Table</h1>
           <div class="flex-column-fill-both overflow-auto">
-            <table mat-table #rating_table [dataSource]="ratersMatrixDataSource" class="annotation-set-comparator-matrix">
+            <table mat-table #rating_table [dataSource]="ratersMatrixDataSource"
+              class="annotation-set-comparator-matrix">
               <ng-container matColumnDef="id">
                 <th class="annotation-set-comparator-matrix-header-id" mat-header-cell *matHeaderCellDef>#</th>
-                <td class="annotation-set-comparator-matrix-cell-id"   mat-cell *matCellDef="let value; let i = index">{{i+1}}</td>
+                <td class="annotation-set-comparator-matrix-cell-id" mat-cell *matCellDef="let value; let i = index">
+                  {{i+1}}</td>
               </ng-container>
-                <ng-container *ngFor="let rater of raters; let col = index;" [matColumnDef]="rater">
-                  <th class="annotation-set-comparator-matrix-header"  mat-header-cell *matHeaderCellDef>{{rater}}</th>
-                  <td class="annotation-set-comparator-matrix-cell"    mat-cell *matCellDef="let value">{{value[col]}}</td>
-                </ng-container>
+              <ng-container *ngFor="let rater of raters; let col = index;" [matColumnDef]="rater">
+                <th class="annotation-set-comparator-matrix-header" mat-header-cell *matHeaderCellDef>{{rater}}</th>
+                <td class="annotation-set-comparator-matrix-cell" mat-cell *matCellDef="let value">{{value[col]}}</td>
+              </ng-container>
               <tr mat-header-row *matHeaderRowDef="ratersColumnsToDisplay; sticky: true"></tr>
               <tr mat-row *matRowDef="let row; columns: ratersColumnsToDisplay;"></tr>
             </table>
@@ -55,15 +86,17 @@
         <div class="flex-column h-full w-full">
           <h1 class="flex-column-fill-x m-16">Agreement Table</h1>
           <div class="flex-column-fill-both overflow-auto">
-            <table mat-table #agreement_table [dataSource]="categoriesMatrixDataSource" class="annotation-set-comparator-matrix">
+            <table mat-table #agreement_table [dataSource]="categoriesMatrixDataSource"
+              class="annotation-set-comparator-matrix">
               <ng-container matColumnDef="id">
                 <th class="annotation-set-comparator-matrix-header-id" mat-header-cell *matHeaderCellDef>#</th>
-                <td class="annotation-set-comparator-matrix-cell-id"   mat-cell *matCellDef="let value; let i = index">{{i+1}}</td>
+                <td class="annotation-set-comparator-matrix-cell-id" mat-cell *matCellDef="let value; let i = index">
+                  {{i+1}}</td>
               </ng-container>
-                <ng-container *ngFor="let category of categories; let col = index;" [matColumnDef]="category">
-                  <th class="annotation-set-comparator-matrix-header"  mat-header-cell *matHeaderCellDef>{{category}}</th>
-                  <td class="annotation-set-comparator-matrix-cell"    mat-cell *matCellDef="let value">{{value[col]}}</td>
-                </ng-container>
+              <ng-container *ngFor="let category of categories; let col = index;" [matColumnDef]="category">
+                <th class="annotation-set-comparator-matrix-header" mat-header-cell *matHeaderCellDef>{{category}}</th>
+                <td class="annotation-set-comparator-matrix-cell" mat-cell *matCellDef="let value">{{value[col]}}</td>
+              </ng-container>
               <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
               <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
             </table>
@@ -78,15 +111,17 @@
         <div class="flex-column h-full w-full">
           <h1 class="flex-column-fill-x m-16">Fleiss’ kappa (κ): {{kappaFleiss}}</h1>
           <div class="flex-column-fill-both overflow-auto">
-            <table mat-table #fleiss_table [dataSource]="categoriesMatrixDataSource" class="annotation-set-comparator-matrix">
+            <table mat-table #fleiss_table [dataSource]="categoriesMatrixDataSource"
+              class="annotation-set-comparator-matrix">
               <ng-container matColumnDef="id">
                 <th class="annotation-set-comparator-matrix-header-id" mat-header-cell *matHeaderCellDef>#</th>
-                <td class="annotation-set-comparator-matrix-cell-id"   mat-cell *matCellDef="let value; let i = index">{{i+1}}</td>
+                <td class="annotation-set-comparator-matrix-cell-id" mat-cell *matCellDef="let value; let i = index">
+                  {{i+1}}</td>
               </ng-container>
-                <ng-container *ngFor="let category of categories; let col = index;" [matColumnDef]="category">
-                  <th class="annotation-set-comparator-matrix-header" mat-header-cell *matHeaderCellDef>{{category}}</th>
-                  <td class="annotation-set-comparator-matrix-cell"   mat-cell *matCellDef="let value">{{value[col]}}</td>
-                </ng-container>
+              <ng-container *ngFor="let category of categories; let col = index;" [matColumnDef]="category">
+                <th class="annotation-set-comparator-matrix-header" mat-header-cell *matHeaderCellDef>{{category}}</th>
+                <td class="annotation-set-comparator-matrix-cell" mat-cell *matCellDef="let value">{{value[col]}}</td>
+              </ng-container>
               <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
               <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
             </table>
@@ -97,15 +132,17 @@
         <div class="flex-column h-full w-full">
           <h1 class="flex-column-fill-x m-16">Krippendorff’s alpha (α): {{alphaKrippendorff}}</h1>
           <div class="flex-column-fill-both overflow-auto">
-            <table mat-table #krippendorff_table [dataSource]="ratersMatrixDataSource" class="annotation-set-comparator-matrix">
+            <table mat-table #krippendorff_table [dataSource]="ratersMatrixDataSource"
+              class="annotation-set-comparator-matrix">
               <ng-container matColumnDef="id">
                 <th class="annotation-set-comparator-matrix-header-id" mat-header-cell *matHeaderCellDef>#</th>
-                <td class="annotation-set-comparator-matrix-cell-id"   mat-cell *matCellDef="let value; let i = index">{{i+1}}</td>
+                <td class="annotation-set-comparator-matrix-cell-id" mat-cell *matCellDef="let value; let i = index">
+                  {{i+1}}</td>
               </ng-container>
-                <ng-container *ngFor="let rater of raters; let col = index;" [matColumnDef]="rater">
-                  <th class="annotation-set-comparator-matrix-header"  mat-header-cell *matHeaderCellDef>{{rater}}</th>
-                  <td class="annotation-set-comparator-matrix-cell"    mat-cell *matCellDef="let value">{{value[col]}}</td>
-                </ng-container>
+              <ng-container *ngFor="let rater of raters; let col = index;" [matColumnDef]="rater">
+                <th class="annotation-set-comparator-matrix-header" mat-header-cell *matHeaderCellDef>{{rater}}</th>
+                <td class="annotation-set-comparator-matrix-cell" mat-cell *matCellDef="let value">{{value[col]}}</td>
+              </ng-container>
               <tr mat-header-row *matHeaderRowDef="ratersColumnsToDisplay; sticky: true"></tr>
               <tr mat-row *matRowDef="let row; columns: ratersColumnsToDisplay;"></tr>
             </table>

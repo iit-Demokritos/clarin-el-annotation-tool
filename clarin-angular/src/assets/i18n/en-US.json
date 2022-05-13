@@ -181,7 +181,7 @@
     "logout": "logout"
   },
   "login": {
-    "title": "The Ellogon Annotation Tool",
+    "title": "The Ellogon Annotation Platform",
     "subtitle": "Welcome Back!",
     "username": "Username",
     "password": "Password",

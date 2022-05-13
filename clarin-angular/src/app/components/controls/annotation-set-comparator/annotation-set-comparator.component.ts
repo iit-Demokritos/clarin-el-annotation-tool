@@ -4,10 +4,12 @@ import { AnnotationSetInspectorComponent } from 'src/app/components/controls/ann
 import { AnnotationSetFilterComponent } from 'src/app/components/controls/annotation-set-filter/annotation-set-filter.component';
 import { Collection } from 'src/app/models/collection';
 import { Document } from 'src/app/models/document';
-import { sortAnnotationSet, diffAnnotationSets, diffedAnnotationSetsToRatersMatrix, diffedAnnotationSetsToCategoriesMatrix, diffedAnnotationSetsRaters, diffedAnnotationSetsCategories, cohenKappa, fleissKappa } from 'src/app/helpers/annotation';
+import { sortAnnotationSet, diffAnnotationSets, diffAnnotationSetsOptions, diffedAnnotationSetsToRatersMatrix, diffedAnnotationSetsToCategoriesMatrix, diffedAnnotationSetsRaters, diffedAnnotationSetsCategories, cohenKappa, fleissKappa } from 'src/app/helpers/annotation';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import Krippendorff from '@externals/krippendorff-alpha/src/krippendorff';
 import { ScrollStatus } from 'src/app/models/services/scrollstatus';
+
+// import { ComponentPortal, DomPortal } from '@angular/cdk/portal';
 
 @Component({
   selector: 'app-annotation-set-comparator',
@@ -20,6 +22,7 @@ export class AnnotationSetComparatorComponent extends MainComponent implements O
   @Input() allowMultipleAnnotators: boolean       = false;
   @Input() showAnnotatorSelectionToolbar: boolean = false;
   @Input() showAnnotationSetFilter: boolean       = true;
+  @Input() showComparisonOptions: boolean         = true;
   @Input() numberOfComparators: number            = 2;
   @Input() clearOnDocumentsChange: boolean        = true;
 
@@ -68,20 +71,33 @@ export class AnnotationSetComparatorComponent extends MainComponent implements O
   ratersMatrix: number[][]     = [];
   raters: string[]             = [];
   ratersColumnsToDisplay: string[] = [];
+
+  optionsSpanOverlapPercentage: number = 100;
   // This is reduced version of categories matrix, with rows that sum to 1 are removed.
   // It is used in the calculation of Krippendorff’s Alpha:
   // https://www.real-statistics.com/reliability/interrater-reliability/krippendorffs-alpha/krippendorffs-alpha-basic-concepts/
   agreementMatrix: number[][]  = [];
 
+  /* Variables used by the overlays... */
+  // overlayRef;
+  // annotationSetFilterPortal;
+  public default_model = {query: {condition: 'and', rules: []}, valid: false};
+  annotationSetFilterModel: any[];
+  isOpenAnnotationsFilter: boolean[] = [];
+  isOpenComparisonOptions: boolean[] = [];
+
   super() { }
 
   ngOnInit(): void {
     this.numberOfComparatorsArray = Array(this.numberOfComparators).fill(0).map((x,i)=>i); // [0,1,2,3,4];
-    this.comparatorAreaSize    = 100/this.numberOfComparators;
-    this.selectedAnnotator     = Array(this.numberOfComparators).fill({});
-    this.annotations           = Array(this.numberOfComparators).fill([]);
-    this.text                  = Array(this.numberOfComparators).fill("");
-    this.visualisation_options = Array(this.numberOfComparators).fill({});
+    this.comparatorAreaSize       = 100/this.numberOfComparators;
+    this.selectedAnnotator        = Array(this.numberOfComparators).fill({});
+    this.annotations              = Array(this.numberOfComparators).fill([]);
+    this.text                     = Array(this.numberOfComparators).fill("");
+    this.visualisation_options    = Array(this.numberOfComparators).fill({});
+    this.isOpenAnnotationsFilter  = Array(this.numberOfComparators).fill(false);
+    this.isOpenComparisonOptions  = Array(this.numberOfComparators).fill(false);
+    this.annotationSetFilterModel = Array(this.numberOfComparators).fill({}).map((x) => {return {... this.default_model}});
   }; /* ngOnInit */
 
   addComparator() {
@@ -92,6 +108,9 @@ export class AnnotationSetComparatorComponent extends MainComponent implements O
     this.annotations.push([]);
     this.text.push("");
     this.visualisation_options.push({});
+    this.isOpenAnnotationsFilter.push(false);
+    this.isOpenComparisonOptions.push(false);
+    this.annotationSetFilterModel.push({... this.default_model});
     this.clearComparisons();
   }; /* addComparator */
 
@@ -103,6 +122,7 @@ export class AnnotationSetComparatorComponent extends MainComponent implements O
     this.annotations.pop();
     this.text.pop();
     this.visualisation_options.pop();
+    this.annotationSetFilterModel.pop();
     this.clearComparisons();
   }; /* removeComparator */
 
@@ -111,6 +131,13 @@ export class AnnotationSetComparatorComponent extends MainComponent implements O
     // setTimeout(() => {
     //   this.applyFilterAll();
     // }, 1000);
+    //
+    // this.overlayRef = this.overlay.create();
+    // this.annotationSetFilterPortal = Array(this.numberOfComparators).fill({});
+    // this.numberOfComparatorsArray.forEach((x, child) => {
+    //   this.annotationSetFilterPortal[child] = new DomPortal(this.AnnotationSetFilterComponent[child]);
+    // });
+
   }; /* ngAfterViewInit */
 
   onClear(): void {
@@ -154,6 +181,16 @@ export class AnnotationSetComparatorComponent extends MainComponent implements O
     });
   }; /* onApply */
 
+  // onShowFilter(child, event) {
+  //   this.isOpenAnnotationsFilter[child] = !this.isOpenAnnotationsFilter[child];
+  //   console.error("AnnotationSetFilterComponent:", this.annotationSetFilterPortal[child], this.AnnotationSetFilterComponent[child]);
+  //   if (this.isOpenAnnotationsFilter[child]) {
+  //     this.overlayRef.attach(this.annotationSetFilterPortal[child]);
+  //   } else {
+  //     this.overlayRef.detach(this.annotationSetFilterPortal[child]);
+  //   }
+  // }; /* onShowFilter */
+
   onApplyFilter(child, event) {
     this.showTabIAA  = false;
     this.showTabDiff = false;
@@ -186,11 +223,18 @@ export class AnnotationSetComparatorComponent extends MainComponent implements O
     this.AnnotationSetFilterComponent.forEach((child, index) => this.onApplyFilter(index, child.mongoQuery));
   }; /* applyFilterAll */
 
+  applyFilterForChild(child) {
+    this.onApplyFilter(child, this.AnnotationSetFilterComponent.get(child).mongoQuery);
+  }; /* applyFilterForChild */
+
   compareAnnotations() {
     if (!this.annotations.every((child) => child.length > 0)) {return;}
     // All children have annotations, proceed with the comparisons...
     // console.error("AnnotationSetComparatorComponent: compareAnnotations(): all comparators filled!");
-    this.annotations = diffAnnotationSets(this.annotations);
+    var diffOptions: diffAnnotationSetsOptions = {
+      spanOverlapPercentage: this.optionsSpanOverlapPercentage
+    };
+    this.annotations = diffAnnotationSets(this.annotations, diffOptions);
     this.changeDetectorRef.detectChanges(); // forces change detection to run
     this.annotationSetInspectorComponent.forEach((child) => child.onApply());
     // Calculate the raters matrix...

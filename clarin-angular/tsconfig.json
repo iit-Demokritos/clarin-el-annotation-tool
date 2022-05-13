@@ -35,7 +35,9 @@
       "@services/*": ["src/app/services/*"]
     },
     "allowSyntheticDefaultImports":true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

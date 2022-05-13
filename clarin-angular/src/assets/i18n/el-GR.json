@@ -160,7 +160,7 @@
     "Save Annotations": "Αποθήκευση Επισημειώσεων",
     "Delete Annotation": "Διαγραφή Επισημείωσης",
     "Change Collection": "Αλλαγή Συλλογής",
-    "Filter Annotations": "Φιλτράρισμα Επισημειώσεω",
+    "Filter Annotations": "Φιλτράρισμα Επισημειώσεων",
     "FilterAnnotationsPlaceholder": "Π.χ. μια τιμή χαρακτηριστικού",
     "Annotator": "Annotator"
   },
@@ -181,7 +181,7 @@
     "logout": "αποσύνδεση"
   },
   "login": {
-    "title": "The Ellogon Annotation Tool",
+    "title": "The Ellogon Annotation Platform",
     "subtitle": "Welcome Back!",
     "username": "Username",
     "password": "Password",

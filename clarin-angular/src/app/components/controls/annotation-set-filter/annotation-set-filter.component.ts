@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewEncapsulation, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import { MainComponent } from 'src/app/components/views/main/main.component';
 import { TextWidgetAPI } from 'src/app/services/text-widget/text-widget.service';
 import { AnalyticsService } from 'src/app/services/analytics-service/analytics.service';
@@ -9,6 +9,8 @@ import { Annotation } from 'src/app/models/annotation';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { QueryBuilderClassNames, QueryBuilderConfig } from 'angular2-query-builder';
 
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+
 @Component({
   selector: 'annotation-set-filter',
   templateUrl: './annotation-set-filter.component.html',
@@ -16,10 +18,13 @@ import { QueryBuilderClassNames, QueryBuilderConfig } from 'angular2-query-build
   // According to: https://stackoverflow.com/questions/60521315/how-to-replace-an-injected-service-in-angular-template-when-using-from-other-com
   // This will inject a new object of TextWidgetAPI instead of reusing the same shared object
   // providers: [{provide: TextWidgetAPI, useClass: TextWidgetAPI}],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  providers: [
+    { provide: NG_VALUE_ACCESSOR, useExisting: AnnotationSetFilterComponent, multi: true }
+  ]
 })
-export class AnnotationSetFilterComponent {
-  public queryCtrl: FormControl;
+export class AnnotationSetFilterComponent implements ControlValueAccessor, AfterViewInit {
+  // public queryCtrl: FormControl;
 
   public default_query = {condition: 'and', rules: []};
 
@@ -36,7 +41,12 @@ export class AnnotationSetFilterComponent {
   };
 
   private _query = {...this.default_query};
-  set query(val) {this._query = val; this.onQueryChange();}
+  set query(val) {
+    this._query = val;
+    this.onQueryChange();
+    this.handleDataChange();
+    this.change.emit(this.query);
+  };
   get query() {return this._query;}
   public mongoQuery;
 
@@ -45,6 +55,7 @@ export class AnnotationSetFilterComponent {
   public persistValueOnFieldChange: boolean = false;
   public disabled = true;
 
+  @Input()  ignoreQueryModelChangeEventsNumber: number = 1;
   @Input()  fillWidth: boolean = true;
   @Input()  showApplyButton: boolean = false;
   @Input()  ApplyButtonLabel: string = "Apply";
@@ -78,15 +89,33 @@ export class AnnotationSetFilterComponent {
 
   @Output() onApply      = new EventEmitter<any>();
   @Output() mongoDBQuery = new EventEmitter<any>();
+  @Output() change       = new EventEmitter<any>();
+  @Output() valid        = new EventEmitter<boolean>();
   applyDisabled = true;
+  emittedApplyDisabled = true;
 
+  super() { }
+ 
   constructor(
     private formBuilder: FormBuilder,
     private analyticsService: AnalyticsService,
     private changeDetectorRef: ChangeDetectorRef,
   ) {
-    this.queryCtrl = this.formBuilder.control(this.query);
+    // this.queryCtrl = this.formBuilder.control(this.query);
     this.disabled = true;
+  }
+
+  ngAfterViewInit(): void {
+  }
+
+  onQueryModelChange(event) {
+    console.error("HANDLER:", event, this.ignoreQueryModelChangeEventsNumber, this.query)
+    if (this.ignoreQueryModelChangeEventsNumber) {
+      this.ignoreQueryModelChangeEventsNumber--;
+    } else {
+      this.query = event;
+    }
+    console.error("CONFIG:", this.config);
   }
 
   onCollectionsChange() {
@@ -113,6 +142,7 @@ export class AnnotationSetFilterComponent {
         values.map(obj => {
           return {name: obj.name + ' (' + obj.count + ' Annotations)', value: obj._id};
       });
+      // this.changeDetectorRef.markForCheck();
     });
     this.analyticsService.getAnnotationAttributes(this.selectedDocumentIds)
     .then((values: any[]) => {
@@ -120,6 +150,7 @@ export class AnnotationSetFilterComponent {
         values.map(obj => {
           return {name: obj.name + ' (' + obj.count + ' Annotations)', value: obj._id};
       });
+      // this.changeDetectorRef.markForCheck();
     });
     this.analyticsService.getAnnotationAttributeValues(this.selectedDocumentIds)
     .then((values: any[]) => {
@@ -127,6 +158,7 @@ export class AnnotationSetFilterComponent {
         values.map(obj => {
           return {name: obj.name + ' (' + obj.count + ' Annotations)', value: obj._id};
       });
+      // this.changeDetectorRef.markForCheck();
     });
     this.analyticsService.getDocumentAttributes(this.selectedDocumentIds)
     .then((values: any[]) => {
@@ -134,6 +166,7 @@ export class AnnotationSetFilterComponent {
         values.map(obj => {
           return {name: obj.name + ' (' + obj.count + ' Annotations)', value: obj._id};
       });
+      // this.changeDetectorRef.markForCheck();
     });
     this.analyticsService.getAnnotationCreators(this.selectedDocumentIds)
     .then((values: any[]) => {
@@ -141,6 +174,7 @@ export class AnnotationSetFilterComponent {
         values.map(obj => {
           return {name: obj.name + ' (' + obj.count + ' Annotations)', value: obj._id};
       });
+      // this.changeDetectorRef.markForCheck();
     });
     this.analyticsService.getAnnotationUpdaters(this.selectedDocumentIds)
     .then((values: any[]) => {
@@ -148,11 +182,13 @@ export class AnnotationSetFilterComponent {
         values.map(obj => {
           return {name: obj.name + ' (' + obj.count + ' Annotations)', value: obj._id};
       });
+      // this.changeDetectorRef.markForCheck();
     });
+    // this.changeDetectorRef.markForCheck();
   }; /* onDocumentChange */
 
   onQueryChange() {
-    this.applyDisabled = !this.queryValid(this.query) || this.selectedDocumentIds.length == 0 ;
+    this.applyDisabled = !this.queryValid(this.query) || this.selectedDocumentIds.length == 0;
     if (this.applyDisabled) {
       this.mongoQuery = undefined;
     } else {
@@ -194,6 +230,10 @@ export class AnnotationSetFilterComponent {
       }
       this.mongoDBQuery.emit(this.mongoQuery);
     }
+    if (this.emittedApplyDisabled != this.applyDisabled) {
+      this.emittedApplyDisabled = this.applyDisabled;
+      this.valid.emit(!this.applyDisabled);
+    }
   }; /* onQueryChange */
 
   queryRuleValid(rule) {
@@ -210,7 +250,7 @@ export class AnnotationSetFilterComponent {
 
   queryValid(query) {
     // Do we have a condition?
-    if (!('condition' in query)) {return false;}
+    if (query == null || !('condition' in query)) {return false;}
     return query.rules.every(rule => this.queryRuleValid(rule));
   }; /* queryValid */
 
@@ -303,7 +343,32 @@ export class AnnotationSetFilterComponent {
       [this.conditions[ruleSet.condition]]: ruleSet.rules.map(
         rule => (rule.operator) ? this.mapRule(rule) : this.mapRuleSet(rule)
       )
-    }
+    };
   }; /* mapRuleSet */
 
+  /*
+   * ngModel implementation (ControlValueAccessor)
+   * Code from: https://unicorn-utterances.com/posts/angular-components-control-value-accessor
+   */
+  writeValue(value: any) {
+    this.query = value;
+  }; /* writeValue */
+
+  // For ControlValueAccessor interface
+  public onChangeCallback:  (_: any) => void = () => {};
+  public onTouchedCallback: ()       => void = () => {};
+
+  registerOnChange(fn: any): void {
+    this.onChangeCallback = fn;
+  }
+  registerOnTouched(fn: any): void {
+    this.onTouchedCallback = fn;
+  }
+
+  private handleDataChange(): void {
+    this.changeDetectorRef.markForCheck();
+    if (this.onChangeCallback) {
+      this.onChangeCallback(this._query);
+    }
+  }
 }
