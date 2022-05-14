@@ -14,332 +14,203 @@
     
     
     <item>
-      <title>Docs: Cloud Services</title>
-      <link>https://iit-demokritos.github.io/clarin-el-annotation-tool/docs/getting-started/online/</link>
+      <title>Docs: What is the Ellogon Annotation Platform?</title>
+      <link>https://iit-demokritos.github.io/clarin-el-annotation-tool/docs/getting-started/what-is/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://iit-demokritos.github.io/clarin-el-annotation-tool/docs/getting-started/online/</guid>
+      <guid>https://iit-demokritos.github.io/clarin-el-annotation-tool/docs/getting-started/what-is/</guid>
       <description>
         
         
-        &lt;h2 id=&#34;access-the-ellogon-annotation-platform-cloud-services&#34;&gt;Access the Ellogon Annotation Platform Cloud Services&lt;/h2&gt;
-&lt;p&gt;The Ellogon Annotation Platform Cloud Services can be accessed through the following links:&lt;/p&gt;
+        
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;Available for direct use at: &lt;strong&gt;&lt;a href=&#34;https://annotation.ellogon.org&#34;&gt;annotation.ellogon.org&lt;/a&gt;&lt;/strong&gt; | &lt;strong&gt;&lt;a href=&#34;https://annotation.vast-project.eu&#34;&gt;annotation.vast-project.eu&lt;/a&gt;&lt;/strong&gt;&lt;br&gt;
+Old version (Angular JS): &lt;strong&gt;&lt;a href=&#34;https://clarin.ellogon.org&#34;&gt;clarin.ellogon.org&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;The Ellogon Annotation Platform is an &lt;strong&gt;open-source&lt;/strong&gt;, &lt;strong&gt;free&lt;/strong&gt; to use, &lt;strong&gt;customisable&lt;/strong&gt; data annotation tool - in the cloud!&lt;/p&gt;
+&lt;p&gt;The Ellogon Annotation Platform is a tool for annotating (or labelling) and exploring multiple types of data, with a focus on simplicity, ease of use, extensibility, reliability, productivity and high performance.&lt;/p&gt;
+&lt;p&gt;You can perform different types of labelling with many data formats, especially with formats that encode text and annotation for tasks that relate to natural language processing (NLP). The Ellogon Annotation Platform provides a plethora of Annotation Schemas (encoded in &lt;a href=&#34;https://en.wikipedia.org/wiki/XML&#34;&gt;XML&lt;/a&gt;) for many NLP tasks (document classification, part-of-speech tagging, named-entity recognition and classification, (aspect &amp;amp; document based) sentiment analysis and polarity detection, argument mining, etc.), while new, user-generated, Annotation Schemas can be providing, extending applicability to new tasks, corpora, and annotation needs.&lt;/p&gt;
+&lt;p&gt;Due to a recent (2021-2022) migration of its back-end from &lt;a href=&#34;https://laravel.com/&#34;&gt;Laravel&lt;/a&gt; (&lt;a href=&#34;https://www.php.net/&#34;&gt;PHP&lt;/a&gt;) to &lt;a href=&#34;https://www.djangoproject.com/&#34;&gt;Django&lt;/a&gt; (&lt;a href=&#34;https://www.python.org/&#34;&gt;Python&lt;/a&gt;), enables the ability to integrate &lt;strong&gt;machine learning&lt;/strong&gt; models to supply predictions for labels (&lt;strong&gt;pre-annotation&lt;/strong&gt;), or perform continuous active learning. See &lt;a href=&#34;#&#34;&gt;seting up machine learning with annotation&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Finally, the Ellogon Annotation Platform provides many facilities and tools for visualising annotations and performing comparisons among multiple annotators. See the &lt;a href=&#34;#&#34;&gt;platform features&lt;/a&gt; for more.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Annotation Workflow</title>
+      <link>https://iit-demokritos.github.io/clarin-el-annotation-tool/docs/getting-started/annotation-workflow/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://iit-demokritos.github.io/clarin-el-annotation-tool/docs/getting-started/annotation-workflow/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The Ellogon Annotation Platform offers two deployment channels:&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;&lt;a href=&#34;https://annotation.ellogon.org&#34; target=&#34;_blank&#34;&gt;annotation.ellogon.org&lt;/a&gt;
-&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;&lt;a href=&#34;https://annotation.vast-project.eu&#34; target=&#34;_blank&#34;&gt;annotation.vast-project.eu&lt;/a&gt;
-&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;On-line, Cloud Services&lt;/strong&gt;: This usage type does not involve any form of installation process; users can start using the Ellogon Annotation Platform immediately.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Off-line, On-Premise&lt;/strong&gt;: In this case, users must download and install the platform on a server of their choice, using technologies such as containers.&lt;/p&gt;
+&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;All links point to the &lt;ins&gt;same deployment&lt;/ins&gt; of the Ellogon Annotation Platform (they are aliases).&lt;/p&gt;
-&lt;h2 id=&#34;1-sign-upsign-in&#34;&gt;1. Sign Up/Sign In&lt;/h2&gt;
-&lt;p&gt;Visit &lt;strong&gt;&lt;a href=&#34;https://annotation.ellogon.org&#34; target=&#34;_blank&#34;&gt;https://annotation.ellogon.org&lt;/a&gt;
-&lt;/strong&gt; to create a new account or login (if you already have registered before).&lt;/p&gt;
-
-
-
-
-
-
-
-&lt;div class=&#34;card rounded p-2 td-post-card mb-4 mt-4&#34; style=&#34;max-width: 610px&#34;&gt;
-	&lt;img class=&#34;card-img-top&#34; src=&#34;https://iit-demokritos.github.io/clarin-el-annotation-tool/clarin-el-annotation-tool/docs/getting-started/online/image2_hu4b2bdc749828653da68299d6f9a87ae7_12755_600x0_resize_catmullrom_3.png&#34; width=&#34;600&#34; height=&#34;576&#34;&gt;
-	
-	&lt;div class=&#34;card-body px-0 pt-2 pb-0&#34;&gt;
-		&lt;p class=&#34;card-text&#34;&gt;
-Figure 1. Welcome page. Use your username and password to login (left) or create a new account (right).
-&lt;/p&gt;
-	&lt;/div&gt;
-	
-&lt;/div&gt;
-
-
-
-
-
-
-
-&lt;div class=&#34;card rounded p-2 td-post-card mb-4 mt-4&#34; style=&#34;max-width: 610px&#34;&gt;
-	&lt;img class=&#34;card-img-top&#34; src=&#34;https://iit-demokritos.github.io/clarin-el-annotation-tool/clarin-el-annotation-tool/docs/getting-started/online/image3_hu86185a9f546d97a1f4a380932be751d6_8169_600x0_resize_catmullrom_3.png&#34; width=&#34;600&#34; height=&#34;760&#34;&gt;
-	
-	&lt;div class=&#34;card-body px-0 pt-2 pb-0&#34;&gt;
-		&lt;p class=&#34;card-text&#34;&gt;
-Figure 1. Welcome page. Use your username and password to login (left) or create a new account (right).
-&lt;/p&gt;
-	&lt;/div&gt;
-	
-&lt;/div&gt;
-&lt;p&gt;If this is the first time you visit the Ellogon Annotation Tool, create an account (highlighted option on the left-hand screenshot of Figure 1) following the steps below:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;STEP 1&lt;/strong&gt;: Fill in your Name, Email and Password (screenshot on the right in Figure 1).&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;STEP 2&lt;/strong&gt;: A few moments later you will receive a confirmation email. You have to click the received link. Your account will be activated and you will be able to sign in.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;If you have an activated account, choose LOGIN. You will need the Email and Password you used during sign up process.&lt;/p&gt;
-&lt;h2 id=&#34;2-import-data-create-a-new-collection&#34;&gt;2. Import Data: Create a new Collection&lt;/h2&gt;
-&lt;p&gt;After logging in you will be redirected to the page shown in Figure 2. This is an overview of your account. You can manage your Collections, your Annotation, Inspect the ongoing work, view the Analytics or manage your account Settings. Moreover, you can Send Feedback and used the Help to navigate through the tool.&lt;/p&gt;
-
-
-
-
-
-
-
-&lt;div class=&#34;card rounded p-2 td-post-card mb-4 mt-4&#34; style=&#34;max-width: 610px&#34;&gt;
-	&lt;img class=&#34;card-img-top&#34; src=&#34;https://iit-demokritos.github.io/clarin-el-annotation-tool/clarin-el-annotation-tool/docs/getting-started/online/image4_hueb9b6a124ad1a8eaf8f5ecbe6eb3b3c8_10628_600x0_resize_catmullrom_3.png&#34; width=&#34;600&#34; height=&#34;248&#34;&gt;
-	
-	&lt;div class=&#34;card-body px-0 pt-2 pb-0&#34;&gt;
-		&lt;p class=&#34;card-text&#34;&gt;
-Figure 2. My profile page - Change Password Page.
-&lt;/p&gt;
-	&lt;/div&gt;
-	
-&lt;/div&gt;
-&lt;p&gt;Two options are available under &lt;strong&gt;&lt;code&gt;Collections&lt;/code&gt;&lt;/strong&gt; on the menu at the left side (Figure 3):&lt;/p&gt;
+&lt;p&gt;Beyond the installation process, which is required only for the second deployment channel (2.), the following steps are typical in an annotation workflow, as supported by the Ellogon Annotation Platform:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
-&lt;p&gt;To Add New Collection&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Create Accounts&lt;/strong&gt;: The annotation team (including the annotators and the process managers) must register with the platform.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;To Manage Collections&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Define the Annotation Schema&lt;/strong&gt;: A suitable (for the task) annotation schema (from existing available schemas) must be selected. Alternatively, a new annotation schema must be defined (in XML), if task requirements exceed available schemas capabilities.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Import Data&lt;/strong&gt;: The data to be annotated must be imported into the platform. Any annotation team member can import data, and can select the rest of the team members that data can be shared.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Annotate Data&lt;/strong&gt;: Each annotation team member annotates the data assigned for annotation. Annotation can be collaborative (multiple annotators work simultaneously on data) or stand alone (each annotator creates its own annotation set over data).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Review Annotation&lt;/strong&gt;: Annotations from multiple annotators can be visualised, and compared to identify differences (and even correct inconsistencies to retrieve a &amp;ldquo;gold&amp;rdquo; annotation). Standard metrics (like inter-rater agreement) can be automatically calculated.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Export Annotated Data&lt;/strong&gt;, for further sharing/processing outside the platform.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 
-
-
-
-
-
-
-&lt;div class=&#34;card rounded p-2 td-post-card mb-4 mt-4&#34; style=&#34;max-width: 610px&#34;&gt;
-	&lt;img class=&#34;card-img-top&#34; src=&#34;https://iit-demokritos.github.io/clarin-el-annotation-tool/clarin-el-annotation-tool/docs/getting-started/online/image5_hu407f2c63f7c6b9ccc5aed253615c6c54_12883_600x0_resize_catmullrom_3.png&#34; width=&#34;600&#34; height=&#34;417&#34;&gt;
-	
-	&lt;div class=&#34;card-body px-0 pt-2 pb-0&#34;&gt;
-		&lt;p class=&#34;card-text&#34;&gt;
-Figure 3. Collections Menu bar.
-&lt;/p&gt;
-	&lt;/div&gt;
-	
-&lt;/div&gt;
-&lt;p&gt;To add a new collection, choose the first option. After completing the &lt;strong&gt;&lt;code&gt;Collection Name&lt;/code&gt;&lt;/strong&gt;, the &lt;strong&gt;&lt;code&gt;Default Encoding&lt;/code&gt;&lt;/strong&gt; and the &lt;strong&gt;&lt;code&gt;Default Handler&lt;/code&gt;&lt;/strong&gt; you can &lt;strong&gt;upload one or more files&lt;/strong&gt;. When you are done, click &lt;code&gt;Add Collection&lt;/code&gt; button to save it (Figure 4). After that you will be able to see your new collection by choosing &lt;code&gt;Manage Collections&lt;/code&gt; from the &lt;code&gt;Collections&lt;/code&gt; menu at the top bar.&lt;/p&gt;
-
-
-
-
-
-
-
-&lt;div class=&#34;card rounded p-2 td-post-card mb-4 mt-4&#34; style=&#34;max-width: 610px&#34;&gt;
-	&lt;img class=&#34;card-img-top&#34; src=&#34;https://iit-demokritos.github.io/clarin-el-annotation-tool/clarin-el-annotation-tool/docs/getting-started/online/image6_huc4b80e8b1298d98c504de15a23f5661c_23803_600x0_resize_catmullrom_3.png&#34; width=&#34;600&#34; height=&#34;336&#34;&gt;
-	
-	&lt;div class=&#34;card-body px-0 pt-2 pb-0&#34;&gt;
-		&lt;p class=&#34;card-text&#34;&gt;
-Figure 4. Add New Collection window.
-&lt;/p&gt;
-	&lt;/div&gt;
-	
-&lt;/div&gt;
-
-
-
-
-
-
-
-&lt;div class=&#34;card rounded p-2 td-post-card mb-4 mt-4&#34; style=&#34;max-width: 610px&#34;&gt;
-	&lt;img class=&#34;card-img-top&#34; src=&#34;https://iit-demokritos.github.io/clarin-el-annotation-tool/clarin-el-annotation-tool/docs/getting-started/online/image7_hu238a033530d324a3e7b1ce4772772abf_18224_600x0_resize_catmullrom_3.png&#34; width=&#34;600&#34; height=&#34;117&#34;&gt;
-	
-	&lt;div class=&#34;card-body px-0 pt-2 pb-0&#34;&gt;
-		&lt;p class=&#34;card-text&#34;&gt;
-Figure 5. My-demo-collection as browsed through the Manage Collections option of the menu at the left-hand side.
-&lt;/p&gt;
-	&lt;/div&gt;
-	
-&lt;/div&gt;
-&lt;h2 id=&#34;3-select-document-and-annotation-characteristics&#34;&gt;3. Select Document and Annotation Characteristics&lt;/h2&gt;
-&lt;p&gt;To start annotating a document, please follow the steps as described below:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;STEP 1&lt;/strong&gt;: Choose the Annotation option of the menu at the left-hand side and you will be prompted to Select Document (Figure 6- left).&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;STEP 2&lt;/strong&gt;: Choose the collection you need. The list of the documents appears (Figure 6 -right).&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;STEP 3&lt;/strong&gt;: Press on the document you want to annotate and the choose &lt;code&gt;SELECT&lt;/code&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-
-
-
-
-
-
-
-&lt;div class=&#34;card rounded p-2 td-post-card mb-4 mt-4&#34; style=&#34;max-width: 610px&#34;&gt;
-	&lt;img class=&#34;card-img-top&#34; src=&#34;https://iit-demokritos.github.io/clarin-el-annotation-tool/clarin-el-annotation-tool/docs/getting-started/online/image8_hu7c03738265bf55c80ea89706cf522995_11007_600x0_resize_catmullrom_3.png&#34; width=&#34;600&#34; height=&#34;341&#34;&gt;
-	
-	&lt;div class=&#34;card-body px-0 pt-2 pb-0&#34;&gt;
-		&lt;p class=&#34;card-text&#34;&gt;
-Figure 6. You can start the Annotation by first selecting the Collection (left) and then the document (right) you want to annotate.
-&lt;/p&gt;
-	&lt;/div&gt;
-	
-&lt;/div&gt;
-
-
-
-
-
-
-
-&lt;div class=&#34;card rounded p-2 td-post-card mb-4 mt-4&#34; style=&#34;max-width: 610px&#34;&gt;
-	&lt;img class=&#34;card-img-top&#34; src=&#34;https://iit-demokritos.github.io/clarin-el-annotation-tool/clarin-el-annotation-tool/docs/getting-started/online/image9_hu9654b038c39fe14fdc323c800b137c5c_5626_600x0_resize_catmullrom_3.png&#34; width=&#34;600&#34; height=&#34;506&#34;&gt;
-	
-	&lt;div class=&#34;card-body px-0 pt-2 pb-0&#34;&gt;
-		&lt;p class=&#34;card-text&#34;&gt;
-Figure 6. You can start the Annotation by first selecting the Collection (left) and then the document (right) you want to annotate.
-&lt;/p&gt;
-	&lt;/div&gt;
-	
-&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;STEP 4&lt;/strong&gt;: Once the annotation document is selected, select &lt;code&gt;Annotation Characteristics...&lt;/code&gt; (Figure 7.). For VAST, select the characteristics as shown in Figure 7 and then press &lt;code&gt;OK&lt;/code&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-
-
-
-
-
-&lt;div class=&#34;card rounded p-2 td-post-card mb-4 mt-4&#34; style=&#34;max-width: 610px&#34;&gt;
-	&lt;img class=&#34;card-img-top&#34; src=&#34;https://iit-demokritos.github.io/clarin-el-annotation-tool/clarin-el-annotation-tool/docs/getting-started/online/image10_hu56135ea641508debfb58d0d6768f511d_32201_600x0_resize_catmullrom_3.png&#34; width=&#34;600&#34; height=&#34;506&#34;&gt;
-	
-	&lt;div class=&#34;card-body px-0 pt-2 pb-0&#34;&gt;
-		&lt;p class=&#34;card-text&#34;&gt;
-Figure 7. The VAST Annotation Characteristics.
-&lt;/p&gt;
-	&lt;/div&gt;
-	
-&lt;/div&gt;
-&lt;h2 id=&#34;4-document-annotation&#34;&gt;4. Document Annotation&lt;/h2&gt;
-&lt;p&gt;After selecting the document and the VAST annotation characteristics as presented in the previous section you can start the annotation. Your screen will be similar to the one present in Figure 8. You can use the sidebar on the right to adjust the panels in a comfortable way.&lt;/p&gt;
-
-
-
-
-
-
-
-&lt;div class=&#34;card rounded p-2 td-post-card mb-4 mt-4&#34; style=&#34;max-width: 610px&#34;&gt;
-	&lt;img class=&#34;card-img-top&#34; src=&#34;https://iit-demokritos.github.io/clarin-el-annotation-tool/clarin-el-annotation-tool/docs/getting-started/online/image11_hua65fb8b487b4d7354b06d4c4fa3887e5_120543_600x0_resize_catmullrom_3.png&#34; width=&#34;600&#34; height=&#34;494&#34;&gt;
-	
-	&lt;div class=&#34;card-body px-0 pt-2 pb-0&#34;&gt;
-		&lt;p class=&#34;card-text&#34;&gt;
-Figure 8. A document for annotation and the VAST Annotation Characteristics.
-&lt;/p&gt;
-	&lt;/div&gt;
-	
-&lt;/div&gt;
-&lt;p&gt;To make an annotation follow the steps below:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;STEP 1&lt;/strong&gt;: Select the part of the document you want to annotate.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;STEP 2&lt;/strong&gt;: Press on the word you annotate it with. You will see immediately that the text is highlighted with the color of the pressed button (Figure 9.A). By clicking on the text, the corresponding button will be also highlighted. (Figure 9.B).&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;STEP 3&lt;/strong&gt;: Save (or delete) the annotation. All the annotations are saved temporarily so that they will not be lost. To save them permanently, click on the &lt;code&gt;Save Annotations&lt;/code&gt; button on top right of the window (Figure 8). To delete an annotation, click on the annotated text and then on the &lt;code&gt;Delete Annotation&lt;/code&gt; button on top right of the window.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-
-
-
-
-
-
-
-&lt;div class=&#34;card rounded p-2 td-post-card mb-4 mt-4&#34; style=&#34;max-width: 610px&#34;&gt;
-	&lt;img class=&#34;card-img-top&#34; src=&#34;https://iit-demokritos.github.io/clarin-el-annotation-tool/clarin-el-annotation-tool/docs/getting-started/online/image13_hu2fdd3db1437d78cacbfac34863c97e91_22530_600x0_resize_catmullrom_3.png&#34; width=&#34;600&#34; height=&#34;104&#34;&gt;
-	
-	&lt;div class=&#34;card-body px-0 pt-2 pb-0&#34;&gt;
-		&lt;p class=&#34;card-text&#34;&gt;
-Figure 9. To annotate the `or barely` with &#34;Reason&#34; select the phrase and then press the button of `Reason`.
-A. The annotated phrase is highlighted with the button&#39;s colour (green in the example).
-&lt;/p&gt;
-	&lt;/div&gt;
-	
-&lt;/div&gt;
-
-
-
-
-
-
-
-&lt;div class=&#34;card rounded p-2 td-post-card mb-4 mt-4&#34; style=&#34;max-width: 610px&#34;&gt;
-	&lt;img class=&#34;card-img-top&#34; src=&#34;https://iit-demokritos.github.io/clarin-el-annotation-tool/clarin-el-annotation-tool/docs/getting-started/online/image14_hu8dc85dc906b2a4f7d1c91da810ea38f2_17976_600x0_resize_catmullrom_3.png&#34; width=&#34;600&#34; height=&#34;77&#34;&gt;
-	
-	&lt;div class=&#34;card-body px-0 pt-2 pb-0&#34;&gt;
-		&lt;p class=&#34;card-text&#34;&gt;
-Figure 9. To annotate the `or barely` with &#34;Reason&#34; select the phrase and then press the button of `Reason`.
-B. Pressing on the annotated phrase the button of the value is also highlighted.
-&lt;/p&gt;
-	&lt;/div&gt;
-	
-&lt;/div&gt;
-&lt;p&gt;The &lt;code&gt;Annotation Visualiser&lt;/code&gt; tab provides information about each annotation such as the ID of the annotation, the span, the creator and the creation/update timestamp. You can navigate wither by pressing on the list of the right-hand side or within the text.&lt;/p&gt;
-
-
-
-
-
-
-
-&lt;div class=&#34;card rounded p-2 td-post-card mb-4 mt-4&#34; style=&#34;max-width: 610px&#34;&gt;
-	&lt;img class=&#34;card-img-top&#34; src=&#34;https://iit-demokritos.github.io/clarin-el-annotation-tool/clarin-el-annotation-tool/docs/getting-started/online/image15_hud5e212be206201f6532e39757a70271a_57616_600x0_resize_catmullrom_3.png&#34; width=&#34;600&#34; height=&#34;280&#34;&gt;
-	
-	&lt;div class=&#34;card-body px-0 pt-2 pb-0&#34;&gt;
-		&lt;p class=&#34;card-text&#34;&gt;
-Figure 10. The Annotation Visualiser.
-&lt;/p&gt;
-	&lt;/div&gt;
-	
-&lt;/div&gt;
-&lt;h2 id=&#34;5-document-attributes&#34;&gt;5. Document Attributes&lt;/h2&gt;
-&lt;p&gt;Besides from annotating a document you can also fill-in several data metadata by selecting the tab Document attributes as shown in the figure below. The metadata include:&lt;/p&gt;
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Quick Start</title>
+      <link>https://iit-demokritos.github.io/clarin-el-annotation-tool/docs/getting-started/quick-start/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://iit-demokritos.github.io/clarin-el-annotation-tool/docs/getting-started/quick-start/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The Ellogon Annotation Platform offers two deployment channels:&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;The Document Title&lt;/li&gt;
-&lt;li&gt;The Document Synopsis&lt;/li&gt;
-&lt;li&gt;The Relations/Conditions/Bipolarities&lt;/li&gt;
-&lt;li&gt;The Ideas/Values/Messages&lt;/li&gt;
-&lt;li&gt;The Emblematic/Archetypical Timeless Values&lt;/li&gt;
-&lt;li&gt;The Entities/persons&lt;/li&gt;
-&lt;li&gt;The Interpretation/Content&lt;/li&gt;
-&lt;li&gt;Relevant values in other (similar or not) texts&lt;/li&gt;
-&lt;li&gt;Comments&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;On-line, Cloud Services&lt;/strong&gt;: This usage type does not involve any form of installation process; users can start using the Ellogon Annotation Platform immediately.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Off-line, On-Premise&lt;/strong&gt;: In this case, users must download and install the platform on a server of their choice, using technologies such as containers.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;body-container whats-new&#34;&gt;
+  &lt;div class=&#34;container&#34;&gt;
+    &lt;div class=&#34;row&#34;&gt;
+      &lt;div class=&#34;col-lg-12 center-text&#34; style=&#34;margin-bottom: 40px&#34;&gt;
+        &lt;h2 class=&#34;section-title&#34;&gt;Select Usage Method&lt;/h2&gt;
+      &lt;/div&gt;
+      &lt;div class=&#34;col-lg-6&#34;&gt;
+        &lt;div class=&#34;card-shadow&#34;&gt;
+          &lt;span class=&#34;card-badge&#34;&gt;ON-LINE, CLOUD SERVICES&lt;/span&gt;
+          &lt;h4 class=&#34;section-text-bold mt-4&#34;&gt;
+            Start using the &lt;span class=&#34;d-lg-block&#34;&gt;Ellogon Annotation Platform&lt;/span&gt; immediately!
+          &lt;/h4&gt;
+          &lt;div class=&#34;card-shadow-content&#34;&gt;
+            &lt;p class=&#34;section-text&#34;&gt;
+              Get started with the Ellogon Annotation Platform in 5 minutes! Learn how
+              to register for an account, how to import data, how to annotate the data, and more.
+            &lt;/p&gt;
+            &lt;a
+              href=&#34;https://iit-demokritos.github.io/clarin-el-annotation-tool/clarin-el-annotation-tool/docs/getting-started/quick-start/online/&#34;
+              &gt;&lt;button class=&#34;hero-mid align-self-end&#34;&gt;&lt;i class=&#34;fas fa-tags mr-2&#34;&gt;&lt;/i&gt; Start Annotating Now!&lt;/button&gt;&lt;/a
+            &gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&#34;col-lg-6&#34;&gt;
+        &lt;div class=&#34;card-shadow&#34;&gt;
+          &lt;span class=&#34;card-badge&#34;&gt;ON-PREMISE&lt;/span&gt;
+          &lt;h4 class=&#34;section-text-bold mt-4&#34;&gt;
+            Install the &lt;span class=&#34;d-lg-block&#34;&gt;Ellogon Annotation Platform&lt;/span&gt; in your server
+          &lt;/h4&gt;
+          &lt;div class=&#34;card-shadow-content&#34;&gt;
+            &lt;p class=&#34;section-text&#34;&gt;
+              Learn how to use Fission functions with PostgreSQL database and
+              perform basic operations on it.
+            &lt;/p&gt;
+            &lt;a href=&#34;https://iit-demokritos.github.io/clarin-el-annotation-tool/clarin-el-annotation-tool/docs/getting-started/quick-start/offline/&#34;
+              &gt;&lt;button class=&#34;hero-mid-2 align-self-end&#34;&gt;&lt;i class=&#34;fas fa-download mr-2&#34;&gt;&lt;/i&gt;Download Now!&lt;/button&gt;&lt;/a
+            &gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: </title>
+      <link>https://iit-demokritos.github.io/clarin-el-annotation-tool/docs/getting-started/_annotation-workflow/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://iit-demokritos.github.io/clarin-el-annotation-tool/docs/getting-started/_annotation-workflow/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The Ellogon Annotation Platform offers two deployment channels:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;On-line, Cloud Services&lt;/strong&gt;: This usage type does not involve any form of installation process; users can start using the Ellogon Annotation Platform immediately.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Off-line, On-Premise&lt;/strong&gt;: In this case, users must download and install the platform on a server of their choice, using technologies such as containers.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Beyond the installation process, which is required only for the second deployment channel (2.), the following steps are typical in an annotation workflow, as supported by the Ellogon Annotation Platform:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Create Accounts&lt;/strong&gt;: The annotation team (including the annotators and the process managers) must register with the platform.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Define the Annotation Schema&lt;/strong&gt;: A suitable (for the task) annotation schema (from existing available schemas) must be selected. Alternatively, a new annotation schema must be defined (in XML), if task requirements exceed available schemas capabilities.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Import Data&lt;/strong&gt;: The data to be annotated must be imported into the platform. Any annotation team member can import data, and can select the rest of the team members that data can be shared.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Annotate Data&lt;/strong&gt;: Each annotation team member annotates the data assigned for annotation. Annotation can be collaborative (multiple annotators work simultaneously on data) or stand alone (each annotator creates its own annotation set over data).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Review Annotation&lt;/strong&gt;: Annotations from multiple annotators can be visualised, and compared to identify differences (and even correct inconsistencies to retrieve a &amp;ldquo;gold&amp;rdquo; annotation). Standard metrics (like inter-rater agreement) can be automatically calculated.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Export Annotated Data&lt;/strong&gt;, for further sharing/processing outside the platform.&lt;/p&gt;
+&lt;/li&gt;
 &lt;/ol&gt;
 
-
-
-
-
-
-
-&lt;div class=&#34;card rounded p-2 td-post-card mb-4 mt-4&#34; style=&#34;max-width: 610px&#34;&gt;
-	&lt;img class=&#34;card-img-top&#34; src=&#34;https://iit-demokritos.github.io/clarin-el-annotation-tool/clarin-el-annotation-tool/docs/getting-started/online/image16_hu741359bea218567b252aa9eb0159400a_38569_600x0_resize_catmullrom_3.png&#34; width=&#34;600&#34; height=&#34;236&#34;&gt;
-	
-	&lt;div class=&#34;card-body px-0 pt-2 pb-0&#34;&gt;
-		&lt;p class=&#34;card-text&#34;&gt;
-Figure 11. Document Attributes.
-&lt;/p&gt;
-	&lt;/div&gt;
-	
-&lt;/div&gt;
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: </title>
+      <link>https://iit-demokritos.github.io/clarin-el-annotation-tool/docs/getting-started/_what-is/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://iit-demokritos.github.io/clarin-el-annotation-tool/docs/getting-started/_what-is/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The Ellogon Annotation Platform is an &lt;strong&gt;open-source&lt;/strong&gt;, &lt;strong&gt;free&lt;/strong&gt; to use, &lt;strong&gt;customisable&lt;/strong&gt; data annotation tool - in the cloud!&lt;/p&gt;
+&lt;p&gt;The Ellogon Annotation Platform is a tool for annotating (or labelling) and exploring multiple types of data, with a focus on simplicity, ease of use, extensibility, reliability, productivity and high performance.&lt;/p&gt;
+&lt;p&gt;You can perform different types of labelling with many data formats, especially with formats that encode text and annotation for tasks that relate to natural language processing (NLP). The Ellogon Annotation Platform provides a plethora of Annotation Schemas (encoded in &lt;a href=&#34;https://en.wikipedia.org/wiki/XML&#34; target=&#34;_blank&#34;&gt;XML&lt;/a&gt;
+) for many NLP tasks (document classification, part-of-speech tagging, named-entity recognition and classification, (aspect &amp;amp; document based) sentiment analysis and polarity detection, argument mining, etc.), while new, user-generated, Annotation Schemas can be providing, extending applicability to new tasks, corpora, and annotation needs.&lt;/p&gt;
+&lt;p&gt;Due to a recent (2021-2022) migration of its back-end from &lt;a href=&#34;https://laravel.com/&#34; target=&#34;_blank&#34;&gt;Laravel&lt;/a&gt;
+ (&lt;a href=&#34;https://www.php.net/&#34; target=&#34;_blank&#34;&gt;PHP&lt;/a&gt;
+) to &lt;a href=&#34;https://www.djangoproject.com/&#34; target=&#34;_blank&#34;&gt;Django&lt;/a&gt;
+ (&lt;a href=&#34;https://www.python.org/&#34; target=&#34;_blank&#34;&gt;Python&lt;/a&gt;
+), enables the ability to integrate &lt;strong&gt;machine learning&lt;/strong&gt; models to supply predictions for labels (&lt;strong&gt;pre-annotation&lt;/strong&gt;), or perform continuous active learning. See &lt;a href=&#34;#&#34;&gt;seting up machine learning with annotation&lt;/a&gt;
+.&lt;/p&gt;
+&lt;p&gt;Finally, the Ellogon Annotation Platform provides many facilities and tools for visualising annotations and performing comparisons among multiple annotators. See the &lt;a href=&#34;#&#34;&gt;platform features&lt;/a&gt;
+ for more.&lt;/p&gt;
 
       </description>
     </item>

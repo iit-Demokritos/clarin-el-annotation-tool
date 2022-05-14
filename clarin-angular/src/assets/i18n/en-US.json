@@ -184,6 +184,7 @@
     "title": "The Ellogon Annotation Platform",
     "subtitle": "Welcome Back!",
     "username": "Username",
+    "username_email": "Username (e-mail)",
     "password": "Password",
     "remember_me": "Remember Me",
     "login": "Login",

@@ -1,0 +1,43 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>The Ellogon Annotation Platform – ellogon</title>
+    <link>https://iit-demokritos.github.io/clarin-el-annotation-tool/tags/ellogon/</link>
+    <description>Recent content in ellogon on The Ellogon Annotation Platform</description>
+    <generator>Hugo -- gohugo.io</generator>
+    
+	  <atom:link href="https://iit-demokritos.github.io/clarin-el-annotation-tool/tags/ellogon/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: What is the Ellogon Annotation Platform?</title>
+      <link>https://iit-demokritos.github.io/clarin-el-annotation-tool/docs/getting-started/what-is/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://iit-demokritos.github.io/clarin-el-annotation-tool/docs/getting-started/what-is/</guid>
+      <description>
+        
+        
+        
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;Available for direct use at: &lt;strong&gt;&lt;a href=&#34;https://annotation.ellogon.org&#34;&gt;annotation.ellogon.org&lt;/a&gt;&lt;/strong&gt; | &lt;strong&gt;&lt;a href=&#34;https://annotation.vast-project.eu&#34;&gt;annotation.vast-project.eu&lt;/a&gt;&lt;/strong&gt;&lt;br&gt;
+Old version (Angular JS): &lt;strong&gt;&lt;a href=&#34;https://clarin.ellogon.org&#34;&gt;clarin.ellogon.org&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;The Ellogon Annotation Platform is an &lt;strong&gt;open-source&lt;/strong&gt;, &lt;strong&gt;free&lt;/strong&gt; to use, &lt;strong&gt;customisable&lt;/strong&gt; data annotation tool - in the cloud!&lt;/p&gt;
+&lt;p&gt;The Ellogon Annotation Platform is a tool for annotating (or labelling) and exploring multiple types of data, with a focus on simplicity, ease of use, extensibility, reliability, productivity and high performance.&lt;/p&gt;
+&lt;p&gt;You can perform different types of labelling with many data formats, especially with formats that encode text and annotation for tasks that relate to natural language processing (NLP). The Ellogon Annotation Platform provides a plethora of Annotation Schemas (encoded in &lt;a href=&#34;https://en.wikipedia.org/wiki/XML&#34;&gt;XML&lt;/a&gt;) for many NLP tasks (document classification, part-of-speech tagging, named-entity recognition and classification, (aspect &amp;amp; document based) sentiment analysis and polarity detection, argument mining, etc.), while new, user-generated, Annotation Schemas can be providing, extending applicability to new tasks, corpora, and annotation needs.&lt;/p&gt;
+&lt;p&gt;Due to a recent (2021-2022) migration of its back-end from &lt;a href=&#34;https://laravel.com/&#34;&gt;Laravel&lt;/a&gt; (&lt;a href=&#34;https://www.php.net/&#34;&gt;PHP&lt;/a&gt;) to &lt;a href=&#34;https://www.djangoproject.com/&#34;&gt;Django&lt;/a&gt; (&lt;a href=&#34;https://www.python.org/&#34;&gt;Python&lt;/a&gt;), enables the ability to integrate &lt;strong&gt;machine learning&lt;/strong&gt; models to supply predictions for labels (&lt;strong&gt;pre-annotation&lt;/strong&gt;), or perform continuous active learning. See &lt;a href=&#34;#&#34;&gt;seting up machine learning with annotation&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Finally, the Ellogon Annotation Platform provides many facilities and tools for visualising annotations and performing comparisons among multiple annotators. See the &lt;a href=&#34;#&#34;&gt;platform features&lt;/a&gt; for more.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>

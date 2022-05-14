@@ -1,0 +1,486 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>The Ellogon Annotation Platform – Quick Start</title>
+    <link>https://iit-demokritos.github.io/clarin-el-annotation-tool/docs/getting-started/quick-start/</link>
+    <description>Recent content in Quick Start on The Ellogon Annotation Platform</description>
+    <generator>Hugo -- gohugo.io</generator>
+    
+	  <atom:link href="https://iit-demokritos.github.io/clarin-el-annotation-tool/docs/getting-started/quick-start/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: Start using the Ellogon Annotation Platform</title>
+      <link>https://iit-demokritos.github.io/clarin-el-annotation-tool/docs/getting-started/quick-start/online/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://iit-demokritos.github.io/clarin-el-annotation-tool/docs/getting-started/quick-start/online/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;access-the-ellogon-annotation-platform-cloud-services&#34;&gt;Access the Ellogon Annotation Platform Cloud Services&lt;/h2&gt;
+&lt;p&gt;The Ellogon Annotation Platform Cloud Services can be accessed through the following links:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href=&#34;https://annotation.ellogon.org&#34; target=&#34;_blank&#34;&gt;annotation.ellogon.org&lt;/a&gt;
+&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href=&#34;https://annotation.vast-project.eu&#34; target=&#34;_blank&#34;&gt;annotation.vast-project.eu&lt;/a&gt;
+&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;All links point to the &lt;ins&gt;same deployment&lt;/ins&gt; of the Ellogon Annotation Platform (they are aliases).&lt;/p&gt;
+&lt;h2 id=&#34;1-sign-upsign-in&#34;&gt;1. Sign Up/Sign In&lt;/h2&gt;
+&lt;p&gt;Visit &lt;strong&gt;&lt;a href=&#34;https://annotation.ellogon.org&#34; target=&#34;_blank&#34;&gt;https://annotation.ellogon.org&lt;/a&gt;
+&lt;/strong&gt; to create a new account or login (if you already have registered before).&lt;/p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;span class=&#34;post-img&#34; style=&#34;width:auto;&#34;&gt;
+    &lt;img src=&#34;https://iit-demokritos.github.io/clarin-el-annotation-tool/images/screenshots/online/login.png&#34; style=&#34;width:auto; opacity:100%&#34; alt=&#34;Figure 1: Login page. Use your username and password to login or click on &amp;#34;Click here to create one&amp;#34; to create a new account.&#34; /&gt;
+    &lt;p&gt;Figure 1: Login page. Use your username and password to login or click on &amp;#34;Click here to create one&amp;#34; to create a new account.&lt;/p&gt;
+&lt;/span&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;span class=&#34;post-img&#34; style=&#34;width:auto;&#34;&gt;
+    &lt;img src=&#34;https://iit-demokritos.github.io/clarin-el-annotation-tool/images/screenshots/online/register.png&#34; style=&#34;width:auto; opacity:100%&#34; alt=&#34;Figure 2: Register page. Enter the requested details to create a new account.&#34; /&gt;
+    &lt;p&gt;Figure 2: Register page. Enter the requested details to create a new account.&lt;/p&gt;
+&lt;/span&gt;
+
+
+&lt;p&gt;If this is the first time you visit the Ellogon Annotation Tool, create an account (Figure 2) following the steps below:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;STEP 1&lt;/strong&gt;: Fill in your Name, Email and Password (Figure 2).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;STEP 2&lt;/strong&gt;: A few moments later you will receive a confirmation email. You have to click the received link. Your account will be activated and you will be able to sign in.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;If you have an activated account, choose LOGIN. You will need the Email and Password you used during the sign up process.&lt;/p&gt;
+&lt;h2 id=&#34;2-import-data-create-a-new-collection&#34;&gt;2. Import Data: Create a new Collection&lt;/h2&gt;
+&lt;p&gt;After logging in you will be redirected to the page shown in Figure 3. This is an overview of your account. You can manage your &lt;code&gt;Collections&lt;/code&gt;, your Annotation, &lt;code&gt;Inspect&lt;/code&gt; the ongoing work, view the &lt;code&gt;Analytics&lt;/code&gt; or manage your account &lt;code&gt;Settings&lt;/code&gt;. Moreover, you can &lt;code&gt;Send Feedback&lt;/code&gt; and use the &lt;code&gt;Help&lt;/code&gt; to navigate through the tool.&lt;/p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;span class=&#34;post-img&#34; style=&#34;width:auto;&#34;&gt;
+    &lt;img src=&#34;https://iit-demokritos.github.io/clarin-el-annotation-tool/images/screenshots/online/dashboard.png&#34; style=&#34;width:auto; opacity:100%&#34; alt=&#34;Figure 3: The user `Dashboard` page, providing some details about the user assets, along with the navigation menu on the left.&#34; /&gt;
+    &lt;p&gt;Figure 3: The user `Dashboard` page, providing some details about the user assets, along with the navigation menu on the left.&lt;/p&gt;
+&lt;/span&gt;
+
+
+&lt;p&gt;Two options are available under &lt;strong&gt;&lt;code&gt;Collections&lt;/code&gt;&lt;/strong&gt; on the menu at the left side (Figure 4):&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;To Add New Collection&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;To Manage Collections&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;span class=&#34;post-img&#34; style=&#34;width:auto;&#34;&gt;
+    &lt;img src=&#34;https://iit-demokritos.github.io/clarin-el-annotation-tool/images/screenshots/online/collections-menu.png&#34; style=&#34;width:auto; opacity:100%&#34; alt=&#34;Figure 4: The `Collections` sub-menu.&#34; /&gt;
+    &lt;p&gt;Figure 4: The `Collections` sub-menu.&lt;/p&gt;
+&lt;/span&gt;
+
+
+&lt;p&gt;To add a new collection, choose the first option. After completing the &lt;strong&gt;&lt;code&gt;Collection Name&lt;/code&gt;&lt;/strong&gt;, the &lt;strong&gt;&lt;code&gt;Default Encoding&lt;/code&gt;&lt;/strong&gt; and the &lt;strong&gt;&lt;code&gt;Default Handler&lt;/code&gt;&lt;/strong&gt; you can &lt;strong&gt;upload one or more files&lt;/strong&gt;. When you are done, click &lt;code&gt;ADD COLLECTION&lt;/code&gt; button to save it (Figure 5). After that you will be able to see your new collection by choosing &lt;code&gt;Manage Collections&lt;/code&gt; from the &lt;code&gt;Collections&lt;/code&gt; menu at the top bar.&lt;/p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;span class=&#34;post-img&#34; style=&#34;width:auto;&#34;&gt;
+    &lt;img src=&#34;https://iit-demokritos.github.io/clarin-el-annotation-tool/images/screenshots/online/new-collection.png&#34; style=&#34;width:auto; opacity:100%&#34; alt=&#34;Figure 5: The `Add New Collection` page.&#34; /&gt;
+    &lt;p&gt;Figure 5: The `Add New Collection` page.&lt;/p&gt;
+&lt;/span&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;span class=&#34;post-img&#34; style=&#34;width:auto;&#34;&gt;
+    &lt;img src=&#34;https://iit-demokritos.github.io/clarin-el-annotation-tool/images/screenshots/online/manage-collections.png&#34; style=&#34;width:auto; opacity:100%&#34; alt=&#34;Figure 6: The new collection as browsed through the `Manage Collections` option of the menu at the left-hand side.&#34; /&gt;
+    &lt;p&gt;Figure 6: The new collection as browsed through the `Manage Collections` option of the menu at the left-hand side.&lt;/p&gt;
+&lt;/span&gt;
+
+
+&lt;h2 id=&#34;3-select-document-and-annotation-characteristics&#34;&gt;3. Select Document and Annotation Characteristics&lt;/h2&gt;
+&lt;p&gt;To start annotating a document, please follow the steps as described below:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;STEP 1&lt;/strong&gt;: Choose the Annotation option of the menu at the left-hand side and you will be prompted to &lt;code&gt;Select Document&lt;/code&gt; (Figure 7).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;STEP 2&lt;/strong&gt;: Choose the collection you need. The list of its documents appears (Figure 7).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;STEP 3&lt;/strong&gt;: Press on the document you want to annotate and the choose &lt;code&gt;SELECT&lt;/code&gt; (Figure 7).&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;span class=&#34;post-img&#34; style=&#34;width:auto;&#34;&gt;
+    &lt;img src=&#34;https://iit-demokritos.github.io/clarin-el-annotation-tool/images/screenshots/online/annotate-select-document.png&#34; style=&#34;width:auto; opacity:100%&#34; alt=&#34;Figure 7: You can start the Annotation by first selecting a Collection, and then one of its Documents.&#34; /&gt;
+    &lt;p&gt;Figure 7: You can start the Annotation by first selecting a Collection, and then one of its Documents.&lt;/p&gt;
+&lt;/span&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;STEP 4&lt;/strong&gt;: Once the Document to be annotated is selected, select &lt;code&gt;Annotation Characteristics...&lt;/code&gt; (Figure 8). For example, to annotate with values, select the parameters as shown in Figure 8 and then press &lt;code&gt;OK&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;span class=&#34;post-img&#34; style=&#34;width:auto;&#34;&gt;
+    &lt;img src=&#34;https://iit-demokritos.github.io/clarin-el-annotation-tool/images/screenshots/online/annotation-select-schema.png&#34; style=&#34;width:auto; opacity:100%&#34; alt=&#34;Figure 8: Selecting an annotation schema.&#34; /&gt;
+    &lt;p&gt;Figure 8: Selecting an annotation schema.&lt;/p&gt;
+&lt;/span&gt;
+
+
+&lt;h2 id=&#34;4-document-annotation&#34;&gt;4. Document Annotation&lt;/h2&gt;
+&lt;p&gt;After selecting the document and the VAST annotation scheme for values, as presented in the previous section, you can start the annotation. Your screen will be similar to the one presented in Figure 9. You can use the sidebar on the right to adjust the panels in a comfortable way.&lt;/p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;span class=&#34;post-img&#34; style=&#34;width:auto;&#34;&gt;
+    &lt;img src=&#34;https://iit-demokritos.github.io/clarin-el-annotation-tool/images/screenshots/online/annotation.png&#34; style=&#34;width:auto; opacity:100%&#34; alt=&#34;Figure 9: The Annotation interface for the selected annotation schema. The Document to be annotated is shown at the left side, while the annotation schema is shown on the right side.&#34; /&gt;
+    &lt;p&gt;Figure 9: The Annotation interface for the selected annotation schema. The Document to be annotated is shown at the left side, while the annotation schema is shown on the right side.&lt;/p&gt;
+&lt;/span&gt;
+
+
+&lt;p&gt;The selected annotation schema is shown on the right side panel. In this case it contains a set of &lt;code&gt;buttons&lt;/code&gt; organised in categories.&lt;/p&gt;
+&lt;p&gt;To make an annotation follow the steps below:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;STEP 1&lt;/strong&gt;: Select the part of the document you want to annotate. A text segment can be easily selected by simply pressing the mouse wheel on the first word to be included in the segment, and then by clicking the mouse wheel again on the last word to be included in the segment.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;STEP 2&lt;/strong&gt;: Press on a button from the right side panel, to annotated the selected segment with the label displayed in the button. You will immediately see that the segment is highlighted with the colour associated with the pressed button (Figure 10). By clicking on the text, the corresponding button will be also highlighted. (Figure 11).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;STEP 3&lt;/strong&gt;: Save (or delete) the annotation. All the annotations are saved temporarily so that they will not be lost. To save them permanently, click on the &lt;code&gt;Save Annotations&lt;/code&gt; button on top right of the window (Figure 9). To delete an annotation, click on the annotated text and then on the &lt;code&gt;Delete Annotation&lt;/code&gt; button on top right of the window.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;span class=&#34;post-img&#34; style=&#34;width:auto;&#34;&gt;
+    &lt;img src=&#34;https://iit-demokritos.github.io/clarin-el-annotation-tool/images/screenshots/online/segment.png&#34; style=&#34;width:auto; opacity:100%&#34; alt=&#34;Figure 10: To annotate the `or barely` with `Reason` select the phrase and then press the button of `Reason`.&#34; /&gt;
+    &lt;p&gt;Figure 10: To annotate the `or barely` with `Reason` select the phrase and then press the button of `Reason`.&lt;/p&gt;
+&lt;/span&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;span class=&#34;post-img&#34; style=&#34;width:auto;&#34;&gt;
+    &lt;img src=&#34;https://iit-demokritos.github.io/clarin-el-annotation-tool/images/screenshots/online/segment-button.png&#34; style=&#34;width:auto; opacity:100%&#34; alt=&#34;Figure 11: Pressing on the annotated segment (to select it with the mouse), the button of the associated value is also highlighted.&#34; /&gt;
+    &lt;p&gt;Figure 11: Pressing on the annotated segment (to select it with the mouse), the button of the associated value is also highlighted.&lt;/p&gt;
+&lt;/span&gt;
+
+
+&lt;p&gt;The &lt;code&gt;Annotation Visualiser&lt;/code&gt; tab provides information about each annotation such as the ID of the annotation, the span (start/end of the annotated segment, in character offset for the start of the document), the creator and the creation/update timestamps. You can navigate wither by pressing on the list of the right-hand side or within the text.&lt;/p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;span class=&#34;post-img&#34; style=&#34;width:auto;&#34;&gt;
+    &lt;img src=&#34;https://iit-demokritos.github.io/clarin-el-annotation-tool/images/screenshots/online/annotation-visualiser.png&#34; style=&#34;width:auto; opacity:100%&#34; alt=&#34;Figure 12: The Annotation Visualiser.&#34; /&gt;
+    &lt;p&gt;Figure 12: The Annotation Visualiser.&lt;/p&gt;
+&lt;/span&gt;
+
+
+&lt;h2 id=&#34;5-document-attributes&#34;&gt;5. Document Attributes&lt;/h2&gt;
+&lt;p&gt;Besides from annotating a document you can also fill-in several data metadata by selecting the tab &lt;code&gt;Document Attributes&lt;/code&gt; as shown in the figure below. The metadata for this particular annotation schema include:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The Document Title&lt;/li&gt;
+&lt;li&gt;The Document Synopsis&lt;/li&gt;
+&lt;li&gt;The Relations/Conditions/Bipolarities&lt;/li&gt;
+&lt;li&gt;The Ideas/Values/Messages&lt;/li&gt;
+&lt;li&gt;The Emblematic/Archetypical Timeless Values&lt;/li&gt;
+&lt;li&gt;The Entities/persons&lt;/li&gt;
+&lt;li&gt;The Interpretation/Content&lt;/li&gt;
+&lt;li&gt;Relevant values in other (similar or not) texts&lt;/li&gt;
+&lt;li&gt;Comments&lt;/li&gt;
+&lt;/ol&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;span class=&#34;post-img&#34; style=&#34;width:auto;&#34;&gt;
+    &lt;img src=&#34;https://iit-demokritos.github.io/clarin-el-annotation-tool/images/screenshots/online/annotation-attributes.png&#34; style=&#34;width:auto; opacity:100%&#34; alt=&#34;Figure 13: Document Attributes.&#34; /&gt;
+    &lt;p&gt;Figure 13: Document Attributes.&lt;/p&gt;
+&lt;/span&gt;
+
+
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Install the Ellogon Annotation Platform</title>
+      <link>https://iit-demokritos.github.io/clarin-el-annotation-tool/docs/getting-started/quick-start/offline/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://iit-demokritos.github.io/clarin-el-annotation-tool/docs/getting-started/quick-start/offline/</guid>
+      <description>
+        
+        
+        
+      </description>
+    </item>
+    
+  </channel>
+</rss>

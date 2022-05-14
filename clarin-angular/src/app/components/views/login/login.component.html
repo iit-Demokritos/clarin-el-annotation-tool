@@ -8,7 +8,7 @@
     <flash-messages></flash-messages>
     <form class="form-field-full" [formGroup]="loginForm">
       <mat-form-field appearance="outline">
-        <mat-label>{{'login.username' | translate}}:</mat-label>
+        <mat-label>{{'login.username_email' | translate}}:</mat-label>
         <input matInput placeholder="e-mail" formControlName="username" required>
         <mat-error *ngIf="username.invalid">
           <span *ngIf="username.errors.required">
