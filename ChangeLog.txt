@@ -1,3 +1,10 @@
+15-May-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/helpers/text.ts:
+ * clarin-angular/src/app/components/controls/annotation-detail/annotation-detail.component.html:
+ * clarin-angular/src/app/helpers/annotation.ts:
+ * clarin-angular/src/app/helpers/span.ts: Truncated long attribute values in
+ annotation details, and put the full values as tooltips.
+
 12-May-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/package.json:
  * clarin-angular/src/app/app.component.ts:

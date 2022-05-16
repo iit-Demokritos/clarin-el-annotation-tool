@@ -1,4 +1,5 @@
 import { Span } from '../models/span';
+import { textToString } from './text';
 
 export function spanEqual(span1: Span, span2: Span): boolean {
   if (span1.start == span2.start && span1.end == span2.end) {
@@ -18,3 +19,8 @@ export function spansetEqual(spanset1: Span[], spanset2: Span[]): boolean {
   }
   return false;
 }; /* spansetEqual */
+
+export function spanToString(span: Span, length: number = 24) {
+  return span.start.toString() + ":" + span.end.toString() + " [\"" +
+         textToString(span.segment, length) + "\"]";
+}

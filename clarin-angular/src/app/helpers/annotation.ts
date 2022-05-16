@@ -2,8 +2,9 @@ import { formatDate } from '@angular/common';
 import { Annotation } from '../models/annotation';
 import { Span } from '../models/span';
 import { attributesetEqual } from './attribute';
-import { spansetEqual } from './span';
+import { spansetEqual, spanToString } from './span';
 import { pickFromObject } from './globalFunctions';
+import { textToString } from './text';
 
 export function AnnotationPropertyToDisplayObject(p) {
   switch (p[0]) {
@@ -11,39 +12,41 @@ export function AnnotationPropertyToDisplayObject(p) {
       return { name: "ID", value: p[1] };
       break;
     case "type":
-      return { name: "Type", value: p[1] };
+      return { name: "Type", value: textToString(p[1]), tooltip: p[1] };
       break;
     case "annotator_id":
-      return { name: "Annotator ID", value: p[1] };
+      return { name: "Annotator ID", value: textToString(p[1]), tooltip: p[1] };
       break;
     case "spans":
       return {
-        name: "Spans", value: p[1].map(e =>
-          e.start.toString() + ":" + e.end.toString() + " [\"" + e.segment + "\"]"
-        ).join("\n")
+        name: "Spans", value: p[1].map(e => spanToString(e)).join("\n"),
+	tooltip: p[1].map(e => spanToString(e, -1)).join("\n")
       };
       break;
     case "attributes":
       return {
         name: "Attributes", value: p[1].map(e =>
+          e.name + " - \"" + textToString(e.value) + "\""
+        ).join("\n"),
+	tooltip: p[1].map(e =>
           e.name + " - \"" + e.value + "\""
         ).join("\n")
       };
       break;
     case "document_attribute":
-      return { name: "Document Attribute", value: p[1] };
+      return { name: "Document Attribute", value: textToString(p[1]), tooltip: p[1] };
       break;
     case "collection_setting":
-      return { name: "Collection Setting", value: p[1] };
+      return { name: "Collection Setting", value: textToString(p[1]), tooltip: p[1] };
       break;
     case "document_setting":
-      return { name: "Document Setting", value: p[1] };
+      return { name: "Document Setting", value: textToString(p[1]), tooltip: p[1] };
       break;
     case "created_by":
-      return { name: "Created By", value: p[1] };
+      return { name: "Created By", value: textToString(p[1]), tooltip: p[1] };
       break;
     case "updated_by":
-      return { name: "Updated By", value: p[1] };
+      return { name: "Updated By", value: textToString(p[1]), tooltip: p[1] };
       break;
     case "created_at":
       return {
@@ -63,7 +66,7 @@ export function AnnotationPropertyToDisplayObject(p) {
       return null;
       break;
     default:
-      return { name: p[0], value: JSON.stringify(p[1]) };
+      return { name: p[0], value: textToString(JSON.stringify(p[1])), tooltip: JSON.stringify(p[1]) };
       break;
   }
 }; /* AnnotationPropertyToDisplayObject */
