@@ -387,9 +387,9 @@ export function segmentsOverlapPercentage(x1, x2, y1, y2) {
   // similarly for the ys.
   var overlap =  Math.max(0, Math.min(x2, y2) - Math.max(x1, y1));
   if (overlap > 0) {
-    var longer_segment = Math.max(x2-x1, y2-y1);
-    if (longer_segment > 0) {
-      return (overlap / longer_segment) * 100;
+    var shorter_segment = Math.min(x2-x1, y2-y1);
+    if (shorter_segment > 0) {
+      return (overlap / shorter_segment) * 100;
     }
     return 100;
   }

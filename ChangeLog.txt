@@ -1,3 +1,13 @@
+19-May-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:
+ * clarin-angular/src/app/components/views/analytics-annotation-values/analytics-annotation-values.component.html:
+ * clarin-angular/src/app/components/views/analytics-annotation-values/analytics-annotation-values.component.ts:
+ Added the query builder in analytics od annotation values.
+ 
+18-May-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/helpers/annotation.ts: Changed overlap percentage to
+ consider the smallest span (instead of the longest one).
+
 15-May-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/helpers/text.ts:
  * clarin-angular/src/app/components/controls/annotation-detail/annotation-detail.component.html:

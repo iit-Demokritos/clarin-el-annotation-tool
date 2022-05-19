@@ -55,6 +55,8 @@ export class AnnotationSetFilterComponent implements ControlValueAccessor, After
   public persistValueOnFieldChange: boolean = false;
   public disabled = true;
 
+  @Input()  ignoreDocumentAttributes: boolean = false;
+  @Input()  ignoreCollectionAttributes: boolean = false;
   @Input()  ignoreQueryModelChangeEventsNumber: number = 1;
   @Input()  fillWidth: boolean = true;
   @Input()  showApplyButton: boolean = false;
@@ -106,6 +108,9 @@ export class AnnotationSetFilterComponent implements ControlValueAccessor, After
   }
 
   ngAfterViewInit(): void {
+    if (this.ignoreDocumentAttributes) {
+      delete this.config.fields.doc_attr;
+    }
   }
 
   onQueryModelChange(event) {
@@ -160,14 +165,16 @@ export class AnnotationSetFilterComponent implements ControlValueAccessor, After
       });
       // this.changeDetectorRef.markForCheck();
     });
-    this.analyticsService.getDocumentAttributes(this.selectedDocumentIds)
-    .then((values: any[]) => {
-      this.config.fields.doc_attr.options =
-        values.map(obj => {
-          return {name: obj.name + ' (' + obj.count + ' Annotations)', value: obj._id};
+    if (!this.ignoreDocumentAttributes) {
+      this.analyticsService.getDocumentAttributes(this.selectedDocumentIds)
+      .then((values: any[]) => {
+        this.config.fields.doc_attr.options =
+          values.map(obj => {
+            return {name: obj.name + ' (' + obj.count + ' Annotations)', value: obj._id};
+        });
+        // this.changeDetectorRef.markForCheck();
       });
-      // this.changeDetectorRef.markForCheck();
-    });
+    }
     this.analyticsService.getAnnotationCreators(this.selectedDocumentIds)
     .then((values: any[]) => {
       this.config.fields.created_by.options =
@@ -217,6 +224,12 @@ export class AnnotationSetFilterComponent implements ControlValueAccessor, After
             ]
           };
         }
+        if (this.ignoreDocumentAttributes) {
+          this.mongoQuery['$and'].push({document_attribute:   { $exists: false }});
+        }
+        if (this.ignoreCollectionAttributes) {
+          this.mongoQuery['$and'].push({collection_attribute: { $exists: false }});
+        }
       } else {
         // We do not have a query...
         this.mongoQuery = {
@@ -227,6 +240,12 @@ export class AnnotationSetFilterComponent implements ControlValueAccessor, After
           document_setting:     { $exists: false },
           collection_setting:   { $exists: false }
         };
+        if (this.ignoreDocumentAttributes) {
+          this.mongoQuery['document_attribute']   = { $exists: false };
+        }
+        if (this.ignoreCollectionAttributes) {
+          this.mongoQuery['collection_attribute'] = { $exists: false };
+        }
       }
       this.mongoDBQuery.emit(this.mongoQuery);
     }

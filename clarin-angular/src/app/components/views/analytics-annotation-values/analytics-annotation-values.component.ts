@@ -15,7 +15,9 @@ export class AnalyticsAnnotationValuesComponent extends MainComponent implements
 
   @Input() showPageHeader: boolean = true;
   @Input() showDocumentSelectionToolbar: boolean = true;
-  @Input() showAnnotatorSelectionToolbar: boolean = true;
+  @Input() showAnnotatorSelectionToolbar: boolean = false;
+  @Input() showAnnotationSetFilter: boolean = true;
+
   @Input() allowMultipleCollections: boolean = true;
   @Input() allowMultipleDocuments: boolean = true;
 
@@ -154,6 +156,10 @@ export class AnalyticsAnnotationValuesComponent extends MainComponent implements
     this.analyticsService.getAnnotatorSchemas(this.selectedDocumentIds)
     .then((annotators: any[]) => {
       this.annotators = annotators;
+      // If the annotator selector is not visible, select all annotators...
+      if (!this.showAnnotatorSelectionToolbar) {
+        this.onAnnotatorsChange(this.annotators);
+      }
     });
   }
 
@@ -197,13 +203,13 @@ export class AnalyticsAnnotationValuesComponent extends MainComponent implements
     }
   }
 
-  onApply(event) {
+  onApplyMatchRule(match_rule) {
     var group = {
       _id:  "$attributes.value",
       count: {$sum : 1}
     };
     this.analyticsService.aggregate([
-      { $match:   this.match },
+      { $match:   match_rule },
       { $unwind: "$attributes" },
       { $match: { "attributes.name": { $nin: ["arg1", "arg2"] } } }, 
       { $group:   group },
@@ -226,6 +232,14 @@ export class AnalyticsAnnotationValuesComponent extends MainComponent implements
       }
     });
   }
+
+  onApply(event) {
+    this.onApplyMatchRule(this.match);
+  }; /* onApply */
+
+  onApplyFilter(event) {
+    this.onApplyMatchRule(event);
+  }; /* onApplyFilter */
 
   updateCharts() {
     this.chartInstanceBar.xAxis[0].setCategories(this.data.map(o => o.label));

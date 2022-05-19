@@ -11,6 +11,15 @@
           (selectedAnnotators)="onAnnotatorsChange($event)" [allowMultipleAnnotators]="true" [annotators]="annotators"
           [showApplyButton]="true" (onApply)="onApply($event)">
         </toolbar-select-annotator>
+        <annotation-set-filter *ngIf="showAnnotationSetFilter"
+          [ignoreDocumentAttributes]="true"
+          [ignoreCollectionAttributes]="true"
+          [showApplyButton]="true"
+          [collections]="selectedCollections"
+          [documents]="selectedDocuments"
+          (onApply)="onApplyFilter($event)"
+        >
+        </annotation-set-filter>
         <p>Selected Collections: {{selectedCollections.length}}, Selected Documents: {{selectedDocuments.length}}</p>
       </mat-card-subtitle>
     </mat-card-header>
