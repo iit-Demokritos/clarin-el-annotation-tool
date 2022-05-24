@@ -1,3 +1,14 @@
+24-May-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/controls/annotation-set-comparator/annotation-set-comparator.component.html:
+ * clarin-angular/src/app/components/controls/annotation-set-comparator/annotation-set-comparator.component.ts:
+ * clarin-angular/src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.html:
+ * clarin-angular/src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:
+ * clarin-angular/src/app/helpers/annotation.ts:
+ * clarin-angular/src/app/helpers/attribute.ts:
+ * clarin-angular/src/css/clarin-annschema.scss: Changed the way overlapping
+ annotations were handled during comparison. Now all overlaping annotations
+ (even identical) are retained.
+
 19-May-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:
  * clarin-angular/src/app/components/views/analytics-annotation-values/analytics-annotation-values.component.html:

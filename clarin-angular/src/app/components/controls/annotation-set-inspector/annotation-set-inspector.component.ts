@@ -35,7 +35,7 @@ export class AnnotationSetInspectorComponent extends MainComponent implements Af
   // @Output() selectedAnnotations = new EventEmitter<Annotation | Annotation[]>();
   @Output() onScroll = new EventEmitter<ScrollStatus>();
   selectedAnnotation: Annotation;
-  selectedIndex;
+  selectedIndex = "";
   selectedAnnotationDataSource=[];
   @ViewChild(TextWidgetIsolatedComponent)
   private textWidgetComponent!: TextWidgetIsolatedComponent;
@@ -162,7 +162,11 @@ export class AnnotationSetInspectorComponent extends MainComponent implements Af
 
   setSelectedAnnotation(selectedAnnotation) {
     // console.error("AnnotationSetInspectorComponent: setSelectedAnnotation()",
-    //               selectedAnnotation, this.annotator._id);
+    //               selectedAnnotation);
+    // Is it an empty row?
+    if (Object.keys(selectedAnnotation).length == 0) {
+      return;
+    }
     this.clearAnnotations();
     var previndex = this.annotations.findIndex(item => item._id === this.selectedIndex);
     var index     = this.annotations.findIndex(item => item._id === selectedAnnotation._id);

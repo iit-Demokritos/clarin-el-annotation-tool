@@ -35,8 +35,8 @@
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="annotationListDisplayedColumns; sticky: true"></tr>
-        <tr mat-row (click)="setSelectedAnnotation(row)" [ngClass]="{ selected: row._id == selectedIndex }"
-          *matRowDef="let row; columns: annotationListDisplayedColumns;" class="annotation-row" [ngClass]="row.diff_class">
+        <tr mat-row (click)="setSelectedAnnotation(row)" [ngClass]="{ 'selected': row._id == selectedIndex, 'diff-equal': row.diff_class == 'diff-equal', 'diff-unequal': row.diff_class == 'diff-unequal' }"
+          *matRowDef="let row; columns: annotationListDisplayedColumns;" class="annotation-row">
         <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" style="height: 0;"></tr>
         <tr class="mat-row" *matNoDataRow>
           <td class="mat-cell" [attr.colspan]="annotationListDisplayedColumns.length">{{'No data matching the filter'|translate}}</td>

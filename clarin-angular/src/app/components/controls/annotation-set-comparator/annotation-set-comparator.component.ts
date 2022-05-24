@@ -37,6 +37,7 @@ export class AnnotationSetComparatorComponent extends MainComponent implements O
   };
   @Input() annotations: any[]                     = [];
   @Input() annotators: object[]                   = [];
+  annotationsShown: any[]                         = [];
 
   showTabIAA: boolean                             = false;
   showTabDiff: boolean                            = false;
@@ -93,6 +94,7 @@ export class AnnotationSetComparatorComponent extends MainComponent implements O
     this.comparatorAreaSize       = 100/this.numberOfComparators;
     this.selectedAnnotator        = Array(this.numberOfComparators).fill({});
     this.annotations              = Array(this.numberOfComparators).fill([]);
+    this.annotationsShown         = Array(this.numberOfComparators).fill([]);
     this.text                     = Array(this.numberOfComparators).fill("");
     this.visualisation_options    = Array(this.numberOfComparators).fill({});
     this.isOpenAnnotationsFilter  = Array(this.numberOfComparators).fill(false);
@@ -106,6 +108,7 @@ export class AnnotationSetComparatorComponent extends MainComponent implements O
     this.comparatorAreaSize    = 100/this.numberOfComparators;
     this.selectedAnnotator.push({});
     this.annotations.push([]);
+    this.annotationsShown.push([]);
     this.text.push("");
     this.visualisation_options.push({});
     this.isOpenAnnotationsFilter.push(false);
@@ -120,6 +123,7 @@ export class AnnotationSetComparatorComponent extends MainComponent implements O
     this.numberOfComparatorsArray.pop();
     this.selectedAnnotator.pop();
     this.annotations.pop();
+    this.annotationsShown.pop();
     this.text.pop();
     this.visualisation_options.pop();
     this.annotationSetFilterModel.pop();
@@ -169,6 +173,7 @@ export class AnnotationSetComparatorComponent extends MainComponent implements O
       if (response["success"]) {
         this.annotations[child] = this.filterAnnotations(response["data"])
         this.annotations[child] = sortAnnotationSet(this.annotations[child]);
+        this.annotationsShown[child] = this.annotations[child];
         this.compareAnnotations();
         this.changeDetectorRef.detectChanges(); // forces change detection to run
         this.annotationSetInspectorComponent.get(child).onApply(event);
@@ -209,7 +214,11 @@ export class AnnotationSetComparatorComponent extends MainComponent implements O
         
         this.annotations[child] = this.filterAnnotations(response["data"]);
         this.annotations[child] = sortAnnotationSet(this.annotations[child])
-          .map((obj) => {obj['diff_class'] = "diff-equal"; return obj;});
+          .map((obj) => {obj['diff_class'] = "diff-unknown"; return obj;});
+
+        // this.annotations[child] = this.annotations[child].slice(0, 10);
+
+        this.annotationsShown[child] = this.annotations[child];
         this.compareAnnotations();
         this.changeDetectorRef.detectChanges(); // forces change detection to run
         this.annotationSetInspectorComponent.get(child).onApply(event);
@@ -232,19 +241,21 @@ export class AnnotationSetComparatorComponent extends MainComponent implements O
     // All children have annotations, proceed with the comparisons...
     // console.error("AnnotationSetComparatorComponent: compareAnnotations(): all comparators filled!");
     var diffOptions: diffAnnotationSetsOptions = {
-      spanOverlapPercentage: this.optionsSpanOverlapPercentage
+      spanOverlapPercentage: this.optionsSpanOverlapPercentage,
+      attributeName:         "type",
+      attributeValues:       []
     };
-    this.annotations = diffAnnotationSets(this.annotations, diffOptions);
+    this.annotationsShown = diffAnnotationSets(this.annotations, diffOptions);
     this.changeDetectorRef.detectChanges(); // forces change detection to run
     this.annotationSetInspectorComponent.forEach((child) => child.onApply());
     // Calculate the raters matrix...
-    this.raters                         = diffedAnnotationSetsRaters(this.annotations);
-    this.ratersMatrix                   = diffedAnnotationSetsToRatersMatrix(this.annotations, "type", this.categories);;
+    this.raters                         = diffedAnnotationSetsRaters(this.annotationsShown);
+    this.ratersMatrix                   = diffedAnnotationSetsToRatersMatrix(this.annotationsShown, "type", this.categories);;
     this.ratersColumnsToDisplay         = ["id", ...this.raters];
     this.ratersMatrixDataSource.data    = this.ratersMatrix;
     // Calculate the categories matrix...
-    this.categories       = diffedAnnotationSetsCategories(this.annotations, "type");
-    this.categoriesMatrix = diffedAnnotationSetsToCategoriesMatrix(this.annotations, "type", this.categories);
+    this.categories       = diffedAnnotationSetsCategories(this.annotationsShown, "type");
+    this.categoriesMatrix = diffedAnnotationSetsToCategoriesMatrix(this.annotationsShown, "type", this.categories);
     this.columnsToDisplay = ["id", ...this.categories];
     this.categoriesMatrixDataSource.data = this.categoriesMatrix;
     // Caluclate the agreement matrix...
@@ -258,7 +269,7 @@ export class AnnotationSetComparatorComponent extends MainComponent implements O
     this.showTabIAA  = true;
     this.showTabDiff = true;
     // Fleiss’s Kappa...
-    this.kappaFleiss = fleissKappa(this.categoriesMatrix, this.annotations.length);
+    this.kappaFleiss = fleissKappa(this.categoriesMatrix, this.annotationsShown.length);
     console.error("Fleiss Kappa:", this.kappaFleiss);
     // Krippendorff’s Alpha...
     let kripCal = new Krippendorff();
@@ -267,7 +278,7 @@ export class AnnotationSetComparatorComponent extends MainComponent implements O
     this.alphaKrippendorff = kripCal._KrAlpha;
     console.error("Krippendorff Alpha:", this.alphaKrippendorff);
     // Cohen’s Kappa...
-    this.kappaCohen = cohenKappa(this.annotations[0].filter((ann) => 'type' in ann), this.annotations[1].filter((ann) => 'type' in ann));
+    this.kappaCohen = cohenKappa(this.annotationsShown[0].filter((ann) => 'type' in ann), this.annotationsShown[1].filter((ann) => 'type' in ann));
     console.error("Cohen Kappa:", this.kappaCohen);
   }; /* compareAnnotations */
 

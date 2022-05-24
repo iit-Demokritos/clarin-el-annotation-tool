@@ -52,7 +52,7 @@
           </div>
           <mat-divider [inset]="true"></mat-divider>
         </section>
-        <annotation-set-inspector class="fill-space overflow-auto" [annotations]="annotations[i]"
+        <annotation-set-inspector class="fill-space overflow-auto" [annotations]="annotationsShown[i]"
           [collections]="collections" [documents]="documents" (onScroll)="onScroll(i, $event)">
         </annotation-set-inspector>
       </as-split-area>

@@ -327,21 +327,25 @@ coref-del-btn {
 /*
  * Annotations Diff...
  */
-.diff-equal {
+.diff-equal:not(.selected) {
+  @extend .bg-green-100;
+  &:not(.selected):hover {
+    background-color: mat-color($background, hover); //whitesmoke;
+  }
 }
-.diff-unequal {
+.diff-unequal:not(.selected) {
   @extend .bg-red-100;
   &:not(.selected):hover {
     background-color: mat-color($background, hover); //whitesmoke;
   }
 }
-.diff-lower {
+.diff-lower:not(.selected) {
   @extend .bg-yellow-100;
   &:not(.selected):hover {
     background-color: mat-color($background, hover); //whitesmoke;
   }
 }
-.diff-greater {
+.diff-greater:not(.selected) {
   @extend .bg-yellow-100;
   &:not(.selected):hover {
     background-color: mat-color($background, hover); //whitesmoke;

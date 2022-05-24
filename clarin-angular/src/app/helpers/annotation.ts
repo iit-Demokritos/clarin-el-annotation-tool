@@ -1,7 +1,8 @@
 import { formatDate } from '@angular/common';
 import { Annotation } from '../models/annotation';
 import { Span } from '../models/span';
-import { attributesetEqual } from './attribute';
+import { Attribute } from '../models/attribute'
+import { attributesetEqual, compareAttributeSets } from './attribute';
 import { spansetEqual, spanToString } from './span';
 import { pickFromObject } from './globalFunctions';
 import { textToString } from './text';
@@ -20,7 +21,7 @@ export function AnnotationPropertyToDisplayObject(p) {
     case "spans":
       return {
         name: "Spans", value: p[1].map(e => spanToString(e)).join("\n"),
-	tooltip: p[1].map(e => spanToString(e, -1)).join("\n")
+        tooltip: p[1].map(e => spanToString(e, -1)).join("\n")
       };
       break;
     case "attributes":
@@ -28,7 +29,7 @@ export function AnnotationPropertyToDisplayObject(p) {
         name: "Attributes", value: p[1].map(e =>
           e.name + " - \"" + textToString(e.value) + "\""
         ).join("\n"),
-	tooltip: p[1].map(e =>
+        tooltip: p[1].map(e =>
           e.name + " - \"" + e.value + "\""
         ).join("\n")
       };
@@ -72,20 +73,53 @@ export function AnnotationPropertyToDisplayObject(p) {
 }; /* AnnotationPropertyToDisplayObject */
 
 interface AnnotationSpansIndexer {
-  index: number;
-  spans: Span[];
-  set?:  number;
+  index:  number;
+  spans:  Span[];
+  set?:   number;
+  attrs?: Attribute[];
 }
 
 export interface diffAnnotationSetsOptions {
   spanOverlapPercentage: number;
+  attributeName:         string;
+  attributeValues:       string[];
 }; /* diffAnnotationSetsOptions */
+
+export function annotationSetToSpanIndexes(annotations: Annotation[]): AnnotationSpansIndexer[] {
+  return annotations.map((ann, index) => {
+    if (ann.spans && ann.spans.length) {
+      // A normal annotation...
+      return { index: index, spans: ann.spans, attrs: ann.attributes };
+    } else if (ann.attributes) {
+      // The annotation does not have any spans. Check if we can find some related annotations...
+      let relation_args = ann.attributes.filter(attr => attr["name"] == "arg1" || attr["name"] == "arg2");
+      if (relation_args.length) {
+        let spans = relation_args.reduce((accumulator, attr) => {
+          let _ann = annotations.find(a => a._id == attr.value);
+          if (_ann) { return accumulator.concat(_ann.spans); }
+          return accumulator;
+        }, []);
+        return {
+          index: index,
+          spans: spans,
+          attrs: ann.attributes
+        };
+      } else {
+        // There is nothing more we can do.
+        return { index: index, spans: ann.spans, attrs: ann.attributes };
+      }
+    } else {
+      // There is nothing more we can do.
+      return { index: index, spans: ann.spans, attrs: ann.attributes };
+    }
+  });
+}; /* annotationSetToSpanIndexes */
 
 export function sortAnnotationSet(annotations: Annotation[], options: diffAnnotationSetsOptions|null = null): Annotation[] {
   // Create a list of indexes, spans, adding spans if missing...
   var indexes = annotationSetToSpanIndexes(annotations);
   // Sort the list of indexes...
-  indexes.sort((ann1, ann2) => compareAnnotationsSpans(ann1, ann2));
+  indexes.sort((ann1, ann2) => compareAnnotations(ann1, ann2));
   // Map indexes to annotations...
   return indexes.map(i => annotations[i.index]);
 }; /* sortAnnotationSet */
@@ -106,7 +140,7 @@ export function diffAnnotationSets(annotationSets: Annotation[][], options: diff
   // Get indexes for each set...
   var annotationsIndexes = annotationSetToSpanIndexes(all_annotations);
   // Sort the list of indexes...
-  annotationsIndexes.sort((ann1, ann2) => compareAnnotationsSpans(ann1, ann2));
+  annotationsIndexes.sort((ann1, ann2) => compareAnnotations(ann1, ann2));
   var newRow = 0;
   // Get the first annotation, which is the lower one..
   var ann = annotationsIndexes.shift();
@@ -133,17 +167,51 @@ export function diffAnnotationSets(annotationSets: Annotation[][], options: diff
   }
   while (next_ann) {
     if (spans_equal(ann, next_ann, overlap) != 0) {
+      diffAnnotationSetsAddClasses(newAnnotationSets, sets, newRow, options);
       // Add a new row!
       newAnnotationSets.forEach((set) => set.push({})); newRow += 1;
     }
     ann = next_ann;
     annotation = all_annotations[ann.index];
     set_index = annotation['diff_set_index']; delete annotation['diff_set_index'];
+    if (Object.keys(newAnnotationSets[set_index][newRow]).length > 0) {
+      diffAnnotationSetsAddClasses(newAnnotationSets, sets, newRow, options);
+      // Add a new row!
+      newAnnotationSets.forEach((set) => set.push({})); newRow += 1;
+    }
     newAnnotationSets[set_index][newRow] = annotation;
     next_ann = annotationsIndexes.shift();
   }
   return newAnnotationSets;
 }; /* diffAnnotationSets */
+
+function diffAnnotationSetsAddClasses(annotationSets: Annotation[][], columns: number, row: number, options: diffAnnotationSetsOptions|null = null) {
+  if (options == null) {return;}
+  var row_annotations = [];
+  var row_values = [];
+  var ann;
+  for (let i = 0; i < columns; i++) {
+    ann = annotationSets[i][row];
+    if ('attributes' in ann) {
+      ann.attributes.some((attr) => {
+        if ('name' in attr && attr.name == options.attributeName) {
+          row_annotations.push(ann);
+          row_values.push(attr.value);
+          return true;
+        }
+        return false;
+      });
+    }
+  }
+  // Are the values the same?
+  if (row_values.length > 1) {
+    if (row_values.every( v => v == row_values[0])) {
+      row_annotations.forEach( ann => ann['diff_class'] = "diff-equal" );
+    } else {
+      row_annotations.forEach( ann => ann['diff_class'] = "diff-unequal" );
+    }
+  }
+}; /* diffAnnotationSetsAddClasses */
 
 export function diffedAnnotationSetsToRatersMatrix(annotations: Annotation[][],
                                                    attributeName: string = "type",
@@ -251,34 +319,9 @@ export function diffedAnnotationSetsCategories(annotations: Annotation[][],
   return values;
 }; /* diffedAnnotationSetsCategories */
 
-export function annotationSetToSpanIndexes(annotations: Annotation[]): AnnotationSpansIndexer[] {
-  return annotations.map((ann, index) => {
-    if (ann.spans && ann.spans.length) {
-      // A normal annotation...
-      return { index: index, spans: ann.spans };
-    } else if (ann.attributes) {
-      // The annotation does not have any spans. Check if we can find some related annotations...
-      let relation_args = ann.attributes.filter(attr => attr["name"] == "arg1" || attr["name"] == "arg2");
-      if (relation_args.length) {
-        let spans = relation_args.reduce((accumulator, attr) => {
-          let _ann = annotations.find(a => a._id == attr.value);
-          if (_ann) { return accumulator.concat(_ann.spans); }
-          return accumulator;
-        }, []);
-        return {
-          index: index,
-          spans: spans
-        };
-      } else {
-        // There is nothing more we can do.
-        return { index: index, spans: ann.spans };
-      }
-    } else {
-      // There is nothing more we can do.
-      return { index: index, spans: ann.spans };
-    }
-  });
-}; /* annotationSetToSpanIndexes */
+export function compareAnnotationsAttributes(ann1: AnnotationSpansIndexer, ann2: AnnotationSpansIndexer, overlap=100): number {
+ return compareAttributeSets(ann1.attrs, ann2.attrs);
+}; /* compareAnnotationsAttributes */
 
 export function compareAnnotationsSpans(ann1: AnnotationSpansIndexer, ann2: AnnotationSpansIndexer, overlap=100): number {
   var items1 = ann1.spans.length;
@@ -396,6 +439,23 @@ export function segmentsOverlapPercentage(x1, x2, y1, y2) {
   return 0;
 }; /* segmentsOverlapPercentage */
 
+
+export function compareAnnotations(ann1: AnnotationSpansIndexer, ann2: AnnotationSpansIndexer, overlap=100): number {
+  var cmp = compareAnnotationsSpans(ann1, ann2, overlap);
+  if (cmp != 0) {
+    return cmp;
+  }
+  return compareAnnotationsAttributes(ann1, ann2);
+}; /* compareAnnotations */
+
+export function compareAnnotationsOverlap(ann1: AnnotationSpansIndexer, ann2: AnnotationSpansIndexer, overlap=100): number {
+  var cmp = compareAnnotationsSpanOverlap(ann1, ann2, overlap);
+  if (cmp != 0) {
+    return cmp;
+  }
+  return compareAnnotationsAttributes(ann1, ann2);
+}; /* compareAnnotationsOverlap */
+
 /*
  * Keep fields:
  *   type
@@ -464,7 +524,7 @@ export function cohenKappa(sortedAnn1, sortedAnn2): number {
   //rtype: float
   //return: Cohen kappa statist
 
-  /*remove unnecessary  fields from annotations*/
+  /*remove unnecessary fields from annotations*/
   var anns1 = sortedAnn1.map(ann => excludeFields(ann));
   var anns2 = sortedAnn2.map(ann => excludeFields(ann));
   var cohen_kappa: number;
