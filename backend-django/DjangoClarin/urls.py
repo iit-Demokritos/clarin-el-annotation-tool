@@ -21,6 +21,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/',         admin.site.urls),
+    path('accounts/',      include('allauth.urls')),
     path('analytics/',     include('analytics.urls')),
     path('drag_and_drop/', include('drag_and_drop.urls')),
     path('openapi/',       include('openapi.urls')),

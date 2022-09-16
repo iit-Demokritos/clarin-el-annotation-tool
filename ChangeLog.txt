@@ -1,3 +1,7 @@
+16-September-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * backend-django/DjangoClarin/urls.py:
+ * backend-django/clarin_backend/models.py: OpenID authentication in Django.
+
 24-May-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/controls/annotation-set-comparator/annotation-set-comparator.component.html:
  * clarin-angular/src/app/components/controls/annotation-set-comparator/annotation-set-comparator.component.ts:

@@ -17,6 +17,7 @@ class Users(AbstractUser):
     created_at = models.DateTimeField("created_at",default=datetime.today)
     updated_at = models.DateTimeField("updated_at",default=datetime.today)
     USERNAME_FIELD = 'email'
+    # REQUIRED_FIELDS = ['username']
     REQUIRED_FIELDS = []
 
     class Meta:

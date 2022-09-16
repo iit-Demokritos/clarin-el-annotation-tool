@@ -98,6 +98,33 @@ class ImportDocumentFromURLView(APIView):
         document.save()
         return document
 
+    def extract_text_trafilatura(self, request, url, language="en"):
+        downloaded_url = trafilatura.fetch_url(url)
+        try:
+            a = trafilatura.extract(downloaded_url,
+                  json_output=True,
+                  with_metadata=True,
+                  include_comments = False,
+                  date_extraction_params = {
+                      'extensive_search': True,
+                      'original_date': True
+                  }
+            )
+        except AttributeError:
+            a = trafilatura.extract(downloaded_url,
+                  json_output=True,
+                  with_metadata=True,
+                  date_extraction_params = {
+                      'extensive_search': True,
+                      'original_date': True
+                      }
+            )
+        if a:
+            return json.loads(a)
+            # return json_output['text']
+        else:
+            return None
+
     def parse(self, request):
         url = request.query_params['url']
         if "lang" in request.query_params:

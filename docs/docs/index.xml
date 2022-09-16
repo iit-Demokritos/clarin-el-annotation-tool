@@ -560,7 +560,46 @@ Old version (Angular JS): &lt;strong&gt;&lt;a href=&#34;https://clarin.ellogon.o
       <description>
         
         
-        
+        &lt;h2 id=&#34;inter-annotator-agreement&#34;&gt;Inter-Annotator Agreement&lt;/h2&gt;
+&lt;p&gt;In order to assess the quality of annotation of a task, &lt;strong&gt;Inter-Rater Reliability&lt;/strong&gt; or &lt;strong&gt;Inter-Annotator Agreement&lt;/strong&gt; (both terms are equivalent) is frequently used. It all stems down to the consensus among multiple annotators when annotating the same documents, within the context of the same annotation task.&lt;/p&gt;
+&lt;p&gt;The Ellogon Annotation Platform offers facilities for inspecting the annotations over arbitrary sets of Documents, and perform comparisons among different annotation sets, typically created by different annotators.&lt;/p&gt;
+&lt;p&gt;A typical workflow for measuring inter-annotator agreement among annotators is:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;A set of annotators annotate the same resource (i.e. a textual document). Each annotator can privately annotate a copy of the original resource, or annotate the same, shared resource, limiting the display of annotations to his/her own annotations only, through the settings.&lt;/li&gt;
+&lt;li&gt;When all annotators have finished their annotations, the inter-annotation agreement can be calculated by the Ellogon Annotation Platform.&lt;/li&gt;
+&lt;li&gt;A user that has access to all annotated resources by all annotators, can select the &lt;code&gt;Inspection&lt;/code&gt; menu entry of the left panel, as shown in Figure 1. There are several available options for a) comparing annotation within a single resource (&lt;code&gt;Compare Annotations&lt;/code&gt;); b) comparing annotations between two different resources (assuming they both contain the same data, i.e. text) (&lt;code&gt;Compare Documents   &lt;/code&gt;); and c) compare annotations from arbitrary sets of documents (&lt;code&gt;Compare Collections&lt;/code&gt;).&lt;/li&gt;
+&lt;/ol&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;span class=&#34;post-img&#34; style=&#34;width:auto;&#34;&gt;
+    &lt;img src=&#34;https://iit-demokritos.github.io/clarin-el-annotation-tool//images/screenshots/inspection/compare-annotations/inspection-compare-annotations-menu.png&#34; style=&#34;width:auto; opacity:100%&#34; alt=&#34;Figure 1: `Inspection` menu.&#34; /&gt;
+    &lt;p&gt;Figure 1: `Inspection` menu.&lt;/p&gt;
+&lt;/span&gt;
+
+
+&lt;h3 id=&#34;comparing-annotations&#34;&gt;Comparing Annotations&lt;/h3&gt;
+&lt;p&gt;This comparison option assumes that a single document has been annotated by multiple annotators, thus different annotations sets created by more than one annotators exist.&lt;/p&gt;
+
       </description>
     </item>
     

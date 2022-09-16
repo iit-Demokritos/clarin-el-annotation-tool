@@ -10,6 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import mimetypes
+mimetypes.add_type("application/javascript", ".js", True)
+
 from datetime import timedelta
 from pathlib import Path
 import json
@@ -65,6 +68,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework', # add rest_framework
     'rest_framework_simplejwt.token_blacklist',
+
+    # django-allauth
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google', # for Google OAuth 2.0
+    'vast_auth2',
+    #'allauth.socialaccount.providers.openid', # for OpenId
+
+    # django-oidc-auth
+    #'oidc_auth',
+
     'clarin_backend',
     'analytics',
     'drag_and_drop',
@@ -243,3 +259,39 @@ PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
     'django.contrib.auth.hashers.Argon2PasswordHasher',
 ]
+
+##
+## Allauth
+##
+
+## https://dev.to/mdrhmn/django-google-authentication-using-django-allauth-18f8
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend'
+]
+
+SITE_ID = 2
+LOGIN_REDIRECT_URL = '/'
+
+# Additional configuration settings
+SOCIALACCOUNT_QUERY_EMAIL = True
+ACCOUNT_LOGOUT_ON_GET= True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_REQUIRED = True
+
+SOCIALACCOUNT_PROVIDERS = {
+    'vastauth2': {
+        'AUTH_URL': 'https://login.vast-project.eu/openam/oauth2/realms/root/realms/VAST_Tools',
+        'BASE_URL': 'https://login.vast-project.eu/openam',
+    },
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+

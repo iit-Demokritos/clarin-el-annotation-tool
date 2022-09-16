@@ -19,21 +19,25 @@
 <link rel="icon" type="image/png" href="/clarin-el-annotation-tool/favicons/android-192x192.png" sizes="192x192">
 
 <title>Inter-rater Reliability | The Ellogon Annotation Platform</title>
-<meta name="description" content="">
+<meta name="description" content="Inter-Annotator Agreement
+In order to assess the quality of annotation of a task, Inter-Rater Reliability or Inter-Annotator Agreement (both terms are …">
 <meta property="og:title" content="Inter-rater Reliability" />
-<meta property="og:description" content="" />
+<meta property="og:description" content="Inter-Annotator Agreement In order to assess the quality of annotation of a task, Inter-Rater Reliability or Inter-Annotator Agreement (both terms are equivalent) is frequently used. It all stems down to the consensus among multiple annotators when annotating the same documents, within the context of the same annotation task.
+The Ellogon Annotation Platform offers facilities for inspecting the annotations over arbitrary sets of Documents, and perform comparisons among different annotation sets, typically created by different annotators." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://iit-demokritos.github.io/clarin-el-annotation-tool/docs/manage-annotations/inter-rater-reliability/" /><meta property="article:section" content="docs" />
 
 <meta property="og:site_name" content="The Ellogon Annotation Platform" />
 
 <meta itemprop="name" content="Inter-rater Reliability">
-<meta itemprop="description" content="">
+<meta itemprop="description" content="Inter-Annotator Agreement In order to assess the quality of annotation of a task, Inter-Rater Reliability or Inter-Annotator Agreement (both terms are equivalent) is frequently used. It all stems down to the consensus among multiple annotators when annotating the same documents, within the context of the same annotation task.
+The Ellogon Annotation Platform offers facilities for inspecting the annotations over arbitrary sets of Documents, and perform comparisons among different annotation sets, typically created by different annotators.">
 
-<meta itemprop="wordCount" content="0">
+<meta itemprop="wordCount" content="248">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Inter-rater Reliability"/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:description" content="Inter-Annotator Agreement In order to assess the quality of annotation of a task, Inter-Rater Reliability or Inter-Annotator Agreement (both terms are equivalent) is frequently used. It all stems down to the consensus among multiple annotators when annotating the same documents, within the context of the same annotation task.
+The Ellogon Annotation Platform offers facilities for inspecting the annotations over arbitrary sets of Documents, and perform comparisons among different annotation sets, typically created by different annotators."/>
 
 
 
@@ -912,6 +916,16 @@ if (!doNotTrack) {
             
 
 
+<div class="td-toc"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#inter-annotator-agreement">Inter-Annotator Agreement</a>
+      <ul>
+        <li><a href="#comparing-annotations">Comparing Annotations</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+
 
 
             
@@ -1017,7 +1031,46 @@ if (!doNotTrack) {
 
 		
 	</header>    
-	
+	<h2 id="inter-annotator-agreement">Inter-Annotator Agreement</h2>
+<p>In order to assess the quality of annotation of a task, <strong>Inter-Rater Reliability</strong> or <strong>Inter-Annotator Agreement</strong> (both terms are equivalent) is frequently used. It all stems down to the consensus among multiple annotators when annotating the same documents, within the context of the same annotation task.</p>
+<p>The Ellogon Annotation Platform offers facilities for inspecting the annotations over arbitrary sets of Documents, and perform comparisons among different annotation sets, typically created by different annotators.</p>
+<p>A typical workflow for measuring inter-annotator agreement among annotators is:</p>
+<ol>
+<li>A set of annotators annotate the same resource (i.e. a textual document). Each annotator can privately annotate a copy of the original resource, or annotate the same, shared resource, limiting the display of annotations to his/her own annotations only, through the settings.</li>
+<li>When all annotators have finished their annotations, the inter-annotation agreement can be calculated by the Ellogon Annotation Platform.</li>
+<li>A user that has access to all annotated resources by all annotators, can select the <code>Inspection</code> menu entry of the left panel, as shown in Figure 1. There are several available options for a) comparing annotation within a single resource (<code>Compare Annotations</code>); b) comparing annotations between two different resources (assuming they both contain the same data, i.e. text) (<code>Compare Documents   </code>); and c) compare annotations from arbitrary sets of documents (<code>Compare Collections</code>).</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="post-img" style="width:auto;">
+    <img src="https://iit-demokritos.github.io/clarin-el-annotation-tool//images/screenshots/inspection/compare-annotations/inspection-compare-annotations-menu.png" style="width:auto; opacity:100%" alt="Figure 1: `Inspection` menu." />
+    <p>Figure 1: `Inspection` menu.</p>
+</span>
+
+
+<h3 id="comparing-annotations">Comparing Annotations</h3>
+<p>This comparison option assumes that a single document has been annotated by multiple annotators, thus different annotations sets created by more than one annotators exist.</p>
+
 	
 	
 	

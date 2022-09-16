@@ -1,6 +1,6 @@
 {
   "name": "The Ellogon Annotation Platform",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -64,6 +64,7 @@
     "ngx-progressbar": "^6.1.1",
     "ngx-scrollbar": "^7.6.1",
     "ngx-toastr": "^14.1.0",
+    "ngx-ui-tour-md-menu": "^8.0.2",
     "photoviewer": "^3.6.2",
     "rxjs": "~6.5.4",
     "screenfull": "^5.1.0",

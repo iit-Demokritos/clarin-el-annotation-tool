@@ -39,7 +39,8 @@ RUN dnf -y install               \
     python3-pyyaml               \
     python3-uritemplate          \
     mysql-connector-python3      \
-    mariadb-connector-c-devel
+    mariadb-connector-c-devel    \
+    hugo
 
 RUN pip --disable-pip-version-check install wheel && \
     pip --disable-pip-version-check install \
