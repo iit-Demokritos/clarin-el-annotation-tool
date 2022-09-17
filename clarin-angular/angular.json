@@ -8,6 +8,9 @@
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
         }
       },
       "root": "",
@@ -77,8 +80,8 @@
               "vendorChunk": false
             },
             "development": {
-              "optimization": false,
               "buildOptimizer": false,
+              "optimization": false,
               "aot": false,
               "vendorChunk": true,
               "extractLicenses": false,

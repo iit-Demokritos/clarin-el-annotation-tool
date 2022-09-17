@@ -1,14 +1,17 @@
 export interface User {
-  [propName: string]: any;
+  [prop: string]: any;
 
-  id: number | string | null;
+  id?: number | string | null;
   name?: string;
   email?: string;
   avatar?: string;
-  first_name?: string | null
+  first_name?: string | null;
   last_name?: string | null;
+  roles?: any[];
+  permissions?: any[];
 }
 
+/* Not used any more...
 export interface TokenResponse {
   access_token?: string;
   token?: string;
@@ -22,15 +25,20 @@ export interface TokenAttribute {
   tokenType: string;
   exp: number;
 }
+*/
 
 export interface Token {
-  accessToken: () => string;
-  refreshToken: () => string;
-  tokenType: () => string;
-  exp: () => number;
-  valid: () => boolean;
+  [prop: string]: any;
+
+  access_token: string;
+  token_type?: string;
+  expires_in?: number;
+  exp?: number;
+  refresh_token?: string;
+
+/*  valid: () => boolean;
   refreshTime: () => number;
-  headerValue: () => string;
+  headerValue: () => string;*/
 }
 
 export interface BackendUser {
@@ -46,6 +54,6 @@ export interface BackendUser {
 }
 
 export interface LoginData {
-  sucess:boolean;
-  data:BackendUser;
+  sucess:       boolean;
+  data:         BackendUser;
 }

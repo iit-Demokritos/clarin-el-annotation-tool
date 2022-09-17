@@ -25,7 +25,7 @@ import { ShareCollectionModalComponent } from './components/dialogs/share-collec
 import { AddCollectionComponent } from './components/views/add-collection/add-collection.component';
 
 import { NgxFlowModule, FlowInjectionToken } from '@flowjs/ngx-flow';
-import { Flow } from '@flowjs/flow.js';
+import * as Flow from '@flowjs/flow.js';
 import { AnnotationComponent } from './components/views/annotation/annotation.component';
 import { ErrorDialogComponent } from './components/dialogs/error-dialog/error-dialog.component';
 import { UploaderComponent } from './components/controls/uploader/uploader.component';

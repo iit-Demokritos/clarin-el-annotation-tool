@@ -1,5 +1,5 @@
-@use '~@angular/material' as mat;
-@use '~@ng-matero/extensions' as mtx;
+@use '@angular/material' as mat;
+@use '@ng-matero/extensions' as mtx;
 
 @use '../app/ng-matero/theme/style/reboot-theme';
 @use '../app/ng-matero/theme/header/header-theme';
@@ -7,11 +7,8 @@
 @use '../app/ng-matero/theme/sidemenu/sidemenu-theme';
 @use '../app/ng-matero/theme/topmenu/topmenu-theme';
 @use '../app/ng-matero/shared/components/error-code/error-code-theme';
-@use '../app/ng-matero/theme/customizer/customizer-theme';
 
 @use './custom/table-theme';
-
-@use '~@mat-datetimepicker/core/datetimepicker/datetimepicker-theme';
 
 @include mat.core();
 
@@ -26,9 +23,6 @@
   @include sidemenu-theme.theme($theme);
   @include topmenu-theme.theme($theme);
   @include error-code-theme.theme($theme);
-  @include customizer-theme.theme($theme);
 
   @include table-theme.theme($theme);
-
-  @include datetimepicker-theme.mat-datetimepicker-theme($theme);
 }

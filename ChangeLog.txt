@@ -1,3 +1,6 @@
+17-September-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * Upgraded to Angular 13, Ng-Matero 13. Updated to version 3.0.2.
+
 16-September-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
  * backend-django/DjangoClarin/urls.py:
  * backend-django/clarin_backend/models.py: OpenID authentication in Django.

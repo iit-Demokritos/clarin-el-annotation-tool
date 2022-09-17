@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
     // This service is in src/ng-matero/core/authentication/auth.service.ts (@core)
     this.auth
       .login(this.username.value, this.password.value, this.rememberMe.value)
-      .pipe(filter(authenticated => authenticated))
+      //.pipe(filter(authenticated => authenticated))
       .subscribe(
         () => {
           this.router.navigateByUrl('/app');

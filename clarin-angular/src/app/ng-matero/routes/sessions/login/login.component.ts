@@ -1,26 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '@core/authentication/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { filter } from 'rxjs/operators';
+import { AuthService } from '@core/authentication';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
 })
 export class LoginComponent implements OnInit {
-  loginForm!: FormGroup;
+  isSubmitting = false;
+
+  loginForm = this.fb.group({
+    username: ['', [Validators.required]],
+    password: ['', [Validators.required]],
+    rememberMe: [false],
+  });
 
   constructor(private fb: FormBuilder, private router: Router, private auth: AuthService) {}
 
-  ngOnInit() {
-    this.loginForm = this.fb.group({
-      username: ['', [Validators.required]],
-      password: ['', [Validators.required]],
-      remember_me: [false],
-    });
-  }
+  ngOnInit() {}
 
   get username() {
     return this.loginForm.get('username');
@@ -31,25 +31,28 @@ export class LoginComponent implements OnInit {
   }
 
   get rememberMe() {
-    return this.loginForm.get('remember_me');
+    return this.loginForm.get('rememberMe');
   }
 
   login() {
+    this.isSubmitting = true;
+
     this.auth
       .login(this.username?.value, this.password?.value, this.rememberMe?.value)
       .pipe(filter(authenticated => authenticated))
       .subscribe(
         () => this.router.navigateByUrl('/'),
-        (error: HttpErrorResponse) => {
-          if (error.status === 422) {
+        (errorRes: HttpErrorResponse) => {
+          if (errorRes.status === 422) {
             const form = this.loginForm;
-            const errors = error.error.errors;
+            const errors = errorRes.error.errors;
             Object.keys(errors).forEach(key => {
               form.get(key === 'email' ? 'username' : key)?.setErrors({
                 remote: errors[key][0],
               });
             });
           }
+          this.isSubmitting = false;
         }
       );
   }

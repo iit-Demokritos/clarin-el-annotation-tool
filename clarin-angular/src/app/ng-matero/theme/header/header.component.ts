@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   Output,
   EventEmitter,
   Input,
@@ -8,7 +7,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { SettingsService, AppSettings } from '@core';
-import * as screenfull from 'screenfull';
+import screenfull from 'screenfull';
 
 @Component({
   selector: 'app-header',
@@ -20,7 +19,7 @@ import * as screenfull from 'screenfull';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
   @Input() showToggle = true;
   @Input() showBranding = false;
 
@@ -28,19 +27,13 @@ export class HeaderComponent implements OnInit {
   @Output() toggleSidenavNotice = new EventEmitter<void>();
   @Output() toggleSettingsPanel = new EventEmitter<void>();
 
-  private get screenfull(): screenfull.Screenfull {
-    return screenfull as screenfull.Screenfull;
-  }
-
   options;
 
   constructor() {}
 
-  ngOnInit() {}
-
   toggleFullscreen() {
-    if (this.screenfull.isEnabled) {
-      this.screenfull.toggle();
+    if (screenfull.isEnabled) {
+      screenfull.toggle();
     }
   }
 

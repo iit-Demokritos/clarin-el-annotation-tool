@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { TokenResponse, User, LoginData } from './interface';
-import { map, tap } from 'rxjs/operators';
+import { Token, User, LoginData } from './interface';
+import { Menu } from '@core';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -19,8 +20,8 @@ export class LoginService {
     return this.getToken();
   }
 
-  getAccessToken(token) {
-    if (typeof token === 'string' || token instanceof String) {
+  getAccessToken(token) : string {
+    if (typeof token === 'string' /* || token instanceof String */) {
       this.token_refresh = null;
       return token;
     } else {
@@ -29,23 +30,29 @@ export class LoginService {
     }
   }; /* getAccessToken */
 
-  getRefreshToken() {
+  getRefreshToken() : string {
     return this.token_refresh;
   }; /* getRefreshToken */
 
   login(email: string, password: string, rememberMe: boolean = false) {
+    /*
+     * The caller to this method is AuthService::login(), which gets our response,
+     * and passes it to TokenService::set(), which expects a <Token>.
+     */
     // Ensure we have a valid CSRF token...
     this.refreshCSRFToken();
-    return this.http.post<LoginData | any>('/api/auth/login', {
+    return this.http.post<Token>('/api/auth/login', {
       email,
       password,
       remember_me: rememberMe,
     }).pipe(
-      // Caller expects a <TokenResponse>
+      // Caller expects a <Token>
       map(loginData => {
-        return {access_token:  this.getAccessToken(loginData['data']['jwtToken']),
-                refresh_token: this.getRefreshToken(),
-                token_type:    'bearer'}
+        return {
+          access_token:      this.getAccessToken(loginData['data']['jwtToken']),
+          refresh_token:     this.getRefreshToken(),
+          token_type:        'bearer'
+        }
       }).bind(this)
     );
   }; /* login */
@@ -58,16 +65,17 @@ export class LoginService {
     });
   }; /* reset */
 
-  refresh(token_refresh: string) {
+  refresh(params: Record<string, any>) {
     // return this.http.post<TokenResponse | any>('/auth/refresh', {});
-    return this.http.post<TokenResponse | any>('/api/user/refresh-token', {
-      refresh: token_refresh
+    return this.http.post<Token | any>('/api/user/refresh-token', {
+      refresh: params['refresh_token']
     }).pipe(
-      // Caller expects a <TokenResponse>
+      // Caller expects a <Token>
       map(loginData => {
         return {access_token:  this.getAccessToken(loginData),
                 refresh_token: this.getRefreshToken(),
-                token_type:    'bearer'}
+                token_type:    'bearer'/*,
+                prop["loginData"]: loginData*/}
       }).bind(this)
     );
   }; /* refresh */
@@ -92,7 +100,7 @@ export class LoginService {
   }; /* me */
 
   menu() {
-    //return this.http.get('/me/menu');
-    return this.http.get('assets/data/menu.json?_t=' + Date.now());
+    //return this.http.get<{ menu: Menu[] }>('/me/menu').pipe(map(res => res.menu));
+    return this.http.get<{ menu: Menu[] }>('assets/data/menu.json?_t=' + Date.now()).pipe(map(res => res.menu));
   }; /* menu */
 }

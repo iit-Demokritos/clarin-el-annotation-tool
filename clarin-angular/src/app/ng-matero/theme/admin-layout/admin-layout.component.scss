@@ -1,4 +1,4 @@
-@use '~@angular/material' as mat;
+@use '@angular/material' as mat;
 @use '../style/variables';
 @use '../style/transitions';
 @use '../style/breakpoints';
@@ -22,6 +22,10 @@
 
   &.mat-drawer-side {
     border-width: 0;
+
+    [dir='rtl'] & {
+      border-width: 0;
+    }
   }
 }
 
@@ -82,14 +86,14 @@
     margin-left: variables.$sidenav-collapsed-width !important;
 
     [dir='rtl'] & {
-      margin-left: auto !important;
       margin-right: variables.$sidenav-collapsed-width !important;
+      margin-left: auto !important;
     }
   }
 
   &[dir='rtl'] .matero-content-wrap {
-    margin-left: auto !important;
     margin-right: variables.$sidenav-collapsed-width !important;
+    margin-left: auto !important;
   }
 }
 
@@ -103,8 +107,8 @@
     margin-left: 16px;
 
     [dir='rtl'] & {
-      margin-left: auto;
       margin-right: 16px;
+      margin-left: auto;
     }
   }
 }
@@ -141,8 +145,8 @@
     margin-left: variables.$sidenav-width !important;
 
     [dir='rtl'] & {
-      margin-left: auto !important;
       margin-right: variables.$sidenav-width !important;
+      margin-left: auto !important;
     }
   }
 }

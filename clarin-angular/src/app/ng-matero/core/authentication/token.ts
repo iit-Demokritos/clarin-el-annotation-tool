@@ -1,123 +1,89 @@
-import { toByteArray } from 'base64-js';
-import { capitalize, now, timeLeft } from './helpers';
-import { Token, TokenAttribute } from './interface';
+import { base64, capitalize, currentTimestamp, timeLeft } from './helpers';
+import { Token } from './interface';
 
-export abstract class BaseToken implements Token {
-  accessToken(): string {
-    return '';
+export abstract class BaseToken {
+  constructor(protected attributes: Token) {}
+
+  get access_token(): string {
+    return this.attributes.access_token;
   }
 
-  refreshToken(): string {
-    return '';
+  get refresh_token(): string | void {
+    return this.attributes.refresh_token;
   }
 
-  tokenType() {
-    return '';
+  get token_type(): string {
+    return this.attributes.token_type ?? 'bearer';
   }
 
-  exp(): number {
-    return 0;
-  }
-
-  valid() {
-    return !!this.accessToken() && !this.isExpired();
-  }
-
-  isExpired() {
-    return this.exp() !== 0 && this.exp() - now() < 0;
-  }
-
-  headerValue() {
-    return !!this.accessToken() ? [capitalize(this.tokenType()), this.accessToken()].join(' ') : '';
-  }
-
-  refreshTime() {
-    return timeLeft(this.exp() - 60 * 1000);
-  }
-}
-
-export class SimpleToken extends BaseToken {
-  constructor(protected attributes: TokenAttribute) {
-    super();
-  }
-
-  accessToken() {
-    return this.attributes.accessToken;
-  }
-
-  refreshToken() {
-    return this.attributes.refreshToken;
-  }
-
-  tokenType() {
-    return this.attributes.tokenType;
-  }
-
-  exp() {
+  get exp(): number | void {
     return this.attributes.exp;
   }
+
+  valid(): boolean {
+    return this.hasAccessToken() && !this.isExpired();
+  }
+
+  getBearerToken(): string {
+    return this.access_token
+      ? [capitalize(this.token_type), this.access_token].join(' ').trim()
+      : '';
+  }
+
+  needRefresh(): boolean {
+    return this.exp !== undefined && this.exp >= 0;
+  }
+
+  getRefreshTime(): number {
+    const exp = typeof this.exp === 'number' ? this.exp : 0; // Petasis
+    return timeLeft((/*this.*/exp ?? 0) - 5);
+  }
+
+  private hasAccessToken(): boolean {
+    return !!this.access_token;
+  }
+
+  private isExpired(): boolean {
+    const exp = typeof this.exp === 'number' ? this.exp : 0; // Petasis
+    return this.exp !== undefined && /*this.*/exp - currentTimestamp() <= 0;
+  }
 }
 
-export class JwtToken extends SimpleToken {
-  private _payload: { exp: number } | null = null;
+export class SimpleToken extends BaseToken {}
 
-  static is(accessToken: string) {
+export class JwtToken extends SimpleToken {
+  private _payload?: { exp?: number | void };
+
+  static is(accessToken: string): boolean {
     try {
       const [_header] = accessToken.split('.');
-      const header = JSON.parse(JwtToken.decode(_header));
+      const header = JSON.parse(base64.decode(_header));
 
-      return header.typ === 'JWT';
+      return header.typ.toUpperCase().includes('JWT');
     } catch (e) {
       return false;
     }
   }
 
-  static decode(b64: string) {
-    b64 = b64.replace(/[-_]/g, m => {
-      return { '-': '+', '_': '/' }[m] as string;
-    });
-    while (b64.length % 4) {
-      b64 += '=';
-    }
-
-    return String.fromCharCode(...toByteArray(b64));
+  get exp(): number | void {
+    return this.payload?.exp;
   }
 
-  accessToken() {
-    return this.attributes.accessToken;
-  }
-
-  refreshToken() {
-    return this.attributes.refreshToken;
-  }
-
-  tokenType() {
-    return this.attributes.tokenType;
-  }
-
-  exp() {
-    if (!this.payload) {
-      return 0;
+  private get payload(): { exp?: number | void } {
+    if (!this.access_token) {
+      return {};
     }
 
-    if (!this.payload.exp === undefined) {
-      return this.attributes.exp;
+    if (this._payload) {
+      return this._payload;
     }
 
-    return this.payload.exp * 1000;
-  }
-
-  private get payload() {
-    if (!this.accessToken()) {
-      return { exp: 0 };
+    const [, payload] = this.access_token.split('.');
+    const data = JSON.parse(base64.decode(payload));
+    if (!data.exp) {
+      data.exp = this.attributes.exp;
     }
 
-    if (!this._payload) {
-      const [, payload] = this.accessToken().split('.');
-
-      this._payload = JSON.parse(JwtToken.decode(payload));
-    }
-
-    return this._payload;
+    return (this._payload = data);
   }
 }

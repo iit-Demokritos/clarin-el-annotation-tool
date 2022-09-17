@@ -1,13 +1,13 @@
-@use '~@angular/material' as mat;
-@use '~ngx-toastr/toastr';
+@use '@angular/material' as mat;
+@use 'ngx-toastr/toastr';
 
 .toast-container {
   .ngx-toastr {
     min-height: 48px;
     padding: 14px 16px;
-    border-radius: 4px;
     color: rgba(255, 255, 255, .7);
     background-color: #323232;
+    border-radius: 4px;
 
     @include mat.elevation(6);
 

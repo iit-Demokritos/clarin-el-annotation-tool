@@ -1,5 +1,6 @@
+@use 'sass:color';
 @use 'sass:map';
-@use '~@angular/material' as mat;
+@use '@angular/material' as mat;
 
 @mixin theme($theme) {
   $primary: map.get($theme, primary);
@@ -9,7 +10,7 @@
     color: mat.get-color-from-palette($primary);
 
     &:hover {
-      color: lighten(mat.get-color-from-palette($primary), 10%);
+      color: color.adjust(mat.get-color-from-palette($primary), $lightness: 10%);
     }
   }
 

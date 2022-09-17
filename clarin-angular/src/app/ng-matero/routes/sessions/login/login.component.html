@@ -34,12 +34,12 @@
       </mat-form-field>
 
       <div class="m-y-16" fxLayout="row" fxLayoutAlign="space-between center">
-        <mat-checkbox formControlName="remember_me">{{'login.remember_me' | translate}}
+        <mat-checkbox formControlName="rememberMe">{{'login.remember_me' | translate}}
         </mat-checkbox>
       </div>
 
       <button class="w-full" mat-raised-button color="primary"
-              [disabled]="loginForm?.invalid"
+              [disabled]="!!loginForm?.invalid" [loading]="isSubmitting"
               (click)="login()">{{'login.login' | translate}}</button>
 
       <div class="m-t-16">{{'login.have_no_account' | translate}}?

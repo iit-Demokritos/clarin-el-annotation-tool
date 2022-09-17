@@ -1,70 +1,27 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, timer } from 'rxjs';
-import { filter, map, share, switchMap } from 'rxjs/operators';
-import { LocalStorageService } from '../../shared/services/storage.service';
-import { Token, TokenResponse } from './interface';
-import { now } from './helpers';
+import { Injectable, OnDestroy } from '@angular/core';
+import { BehaviorSubject, Observable, Subject, Subscription, timer } from 'rxjs';
+import { share } from 'rxjs/operators';
+import { LocalStorageService } from '@shared';
+import { Token } from './interface';
+import { BaseToken } from './token';
 import { TokenFactory } from './token-factory.service';
+import { currentTimestamp, filterObject } from './helpers';
 
 @Injectable({
   providedIn: 'root',
 })
-export class TokenService {
-  private key = 'TOKEN';
-  private _token: Token | null = null;
-  private change$ = new BehaviorSubject<boolean>(true);
+export class TokenService implements OnDestroy {
+  private key = 'ng-matero-token';
+
+  private change$ = new BehaviorSubject<BaseToken | undefined>(undefined);
+  private refresh$ = new Subject<BaseToken | undefined>();
+  private timer$?: Subscription;
+
+  private _token?: BaseToken;
 
   constructor(private store: LocalStorageService, private factory: TokenFactory) {}
 
-  set(token: TokenResponse | any) {
-    this.setToken(token, true);
-
-    return this;
-  }
-
-  refresh(token: TokenResponse | any) {
-    this.setToken(token, false);
-  }
-
-  clear() {
-    this.clearToken();
-  }
-
-  changed() {
-    return this.change$.pipe(
-      filter(changed => changed),
-      map(() => this.getToken()),
-      share()
-    );
-  }
-
-  refreshed() {
-    return this.change$.pipe(
-      filter(() => this.hasRefreshTime()),
-      switchMap(() => timer(this.getRefreshTime())),
-      filter(() => this.valid()),
-      map(() => this.getToken()),
-      share()
-    );
-  }
-
-  valid() {
-    return !!this.getToken()?.valid();
-  }
-
-  headerValue() {
-    return this.getToken()?.headerValue();
-  }
-
-  refreshTokenValue() {
-    return this.getToken()?.refreshToken();
-  }
-
-  private getToken(): Token | null {
-    if (!this.hasToken()) {
-      return null;
-    }
-
+  private get token(): BaseToken | undefined {
     if (!this._token) {
       this._token = this.factory.create(this.store.get(this.key));
     }
@@ -72,33 +29,71 @@ export class TokenService {
     return this._token;
   }
 
-  private setToken(token: any, changed = false) {
-    this._token = null;
-    const accessToken = token.access_token || token.token || '';
-    const refreshToken = token.refresh_token || '';
-    const tokenType = token.token_type || 'bearer';
-    const expiresIn = token.expires_in || 0;
-    const exp = expiresIn <= 0 ? 0 : now() + expiresIn * 1000;
-
-    this.store.set(this.key, Object.assign({}, token, { accessToken, refreshToken, tokenType, exp }));
-    this.change$.next(changed);
+  change(): Observable<BaseToken | undefined> {
+    return this.change$.pipe(share());
   }
 
-  private hasToken() {
-    return this.store.has(this.key);
+  refresh(): Observable<BaseToken | undefined> {
+    this.buildRefresh();
+
+    return this.refresh$.pipe(share());
   }
 
-  private clearToken() {
-    this._token = null;
-    this.store.remove(this.key);
-    this.change$.next(true);
+  set(token?: Token): TokenService {
+    this.save(token);
+
+    return this;
   }
 
-  private hasRefreshTime() {
-    return this.hasToken() && this.getToken()!.exp() > 0;
+  clear(): void {
+    this.save();
   }
 
-  private getRefreshTime() {
-    return this.getToken()!.refreshTime();
+  valid(): boolean {
+    return this.token?.valid() ?? false;
+  }
+
+  getBearerToken(): string {
+    return this.token?.getBearerToken() ?? '';
+  }
+
+  getRefreshToken(): string | void {
+    return this.token?.refresh_token;
+  }
+
+  ngOnDestroy(): void {
+    this.clearRefresh();
+  }
+
+  private save(token?: Token): void {
+    this._token = undefined;
+
+    if (!token) {
+      this.store.remove(this.key);
+    } else {
+      const value = Object.assign({ access_token: '', token_type: 'Bearer' }, token, {
+        exp: token.expires_in ? currentTimestamp() + token.expires_in : null,
+      });
+      this.store.set(this.key, filterObject(value));
+    }
+
+    this.change$.next(this.token);
+    this.buildRefresh();
+  }
+
+  private buildRefresh() {
+    this.clearRefresh();
+
+    if (this.token?.needRefresh()) {
+      this.timer$ = timer(this.token.getRefreshTime() * 1000).subscribe(() => {
+        this.refresh$.next(this.token);
+      });
+    }
+  }
+
+  private clearRefresh() {
+    if (this.timer$ && !this.timer$.closed) {
+      this.timer$.unsubscribe();
+    }
   }
 }

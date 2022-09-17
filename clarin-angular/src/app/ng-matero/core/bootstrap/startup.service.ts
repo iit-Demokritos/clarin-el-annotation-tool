@@ -1,46 +1,53 @@
 import { Injectable } from '@angular/core';
-import { iif, of, throwError } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
-import { MenuService } from './menu.service';
-import { TokenService } from '../authentication/token.service';
-import { LoginService } from '../authentication/login.service';
+import { switchMap, tap } from 'rxjs/operators';
 import { NgxPermissionsService, NgxRolesService } from 'ngx-permissions';
+import { AuthService, User } from '@core/authentication';
+import { Menu, MenuService } from './menu.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StartupService {
   constructor(
-    private token: TokenService,
-    private menu: MenuService,
-    private login: LoginService,
-    private permissonsSrv: NgxPermissionsService,
-    private rolesSrv: NgxRolesService
+    private authService: AuthService,
+    private menuService: MenuService,
+    private permissonsService: NgxPermissionsService,
+    private rolesService: NgxRolesService
   ) {}
 
-  /** Load the application only after get the menu or other essential informations such as roles and permissions. */
-  load(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.token
-        .changed()
+  /**
+   * Load the application only after get the menu or other essential informations
+   * such as permissions and roles.
+   */
+  load() {
+    return new Promise<void>((resolve, reject) => {
+      this.authService
+        .change()
         .pipe(
-          switchMap(() => iif(() => this.token.valid(), this.login.menu(), of({ menu: [] }))),
-          catchError(error => throwError(error))
+          tap(user => this.setPermissions(user)),
+          switchMap(() => this.authService.menu()),
+          tap((menu: Menu[] /* Petasis */) => this.setMenu(menu))
         )
-        .subscribe((response: any) => {
-          this.menu.addNamespace(response.menu, 'menu');
-          this.menu.set(response.menu);
-
-          // Demo purposes only. You can add essential permissions and roles with your own cases.
-          const permissions = ['canAdd', 'canDelete', 'canEdit', 'canRead'];
-          this.permissonsSrv.loadPermissions(permissions);
-          this.rolesSrv.addRoles({ ADMIN: permissions });
-
-          // Tips: Alternative you can add permissions with role at the same time.
-          // this.rolesSrv.addRolesWithPermissions({ ADMIN: permissions });
-
-          resolve(null);
-        });
+        .subscribe(
+          () => resolve(),
+          () => resolve()
+        );
     });
+  }
+
+  private setMenu(menu: Menu[]) {
+    this.menuService.addNamespace(menu, 'menu');
+    this.menuService.set(menu);
+  }
+
+  private setPermissions(user: User) {
+    // In a real app, you should get permissions and roles from the user information.
+    const permissions = ['canAdd', 'canDelete', 'canEdit', 'canRead'];
+    this.permissonsService.loadPermissions(permissions);
+    this.rolesService.flushRoles();
+    this.rolesService.addRoles({ ADMIN: permissions });
+
+    // Tips: Alternatively you can add permissions with role at the same time.
+    // this.rolesService.addRolesWithPermissions({ ADMIN: permissions });
   }
 }
