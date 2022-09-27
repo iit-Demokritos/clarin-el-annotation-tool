@@ -38,6 +38,10 @@ class Collections(models.Model):
         db_table = "collections"
 
 
+def user_collection_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/user_<id>/<collection_id>/<filename>
+    return 'user_{0}/{1}/{2}'.format(instance.owner_id.id, instance.collection_id.id, filename)
+
 class Documents(models.Model):
     name = models.CharField("name", max_length=255)
     external_name = models.CharField("external_name", max_length=255)
@@ -45,6 +49,7 @@ class Documents(models.Model):
     type = models.CharField("type", max_length=128, null=True, default=None)  # medium text
     data_text = models.TextField("data_text", null=True, default=None)
     data_binary = models.BinaryField("data_binary", null=True, default=None)
+    data_image = models.ImageField(upload_to=user_collection_directory_path, max_length=255, null=True, default=None, blank=True)  # This uses a function
     visualisation_options = models.TextField("visualisation_options", null=True, default=None)
     metadata = models.TextField("metadata", null=True, default=None)
     encoding = models.CharField("encoding", max_length=20)

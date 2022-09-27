@@ -38,9 +38,16 @@ env = environ.Env(
     MONGO_USERNAME=(str, ''),
     MONGO_PASSWORD=(str, ''),
     MONGO_DATABASE=(str, ''),
+    DJANGO_MEDIA_DATA_LAKE_BASE_DIR=(str, ""),
 )
 # reading .env file
 environ.Env.read_env()
+
+MEDIA_URL  = "/media_data_lake/"
+if not env('DJANGO_MEDIA_DATA_LAKE_BASE_DIR'):
+    MEDIA_ROOT = BASE_DIR / "media_data_lake"
+else:
+    MEDIA_ROOT = os.path.join( env('DJANGO_MEDIA_DATA_LAKE_BASE_DIR'), "media_data_lake")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/

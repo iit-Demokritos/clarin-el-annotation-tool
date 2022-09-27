@@ -18,6 +18,12 @@ from drf_spectacular.utils import extend_schema_view, extend_schema
 #from drf_spectacular.types import OpenApiTypes
 #from rest_framework.decorators import action
 
+import io; # For reading images from strings...
+import base64
+## For creating FieldFile/ImageField fields from data...
+from django.core.files.base import ContentFile
+from PIL import Image
+
 class SQLDBAPIView(ErrorLoggingAPIView):
 
     @staticmethod
@@ -43,6 +49,8 @@ class DocumentsView(SQLDBAPIView):
         documents  = Documents.objects.filter(collection_id=collection)
         docs = []
         for doc in documents:
+            print(doc.data_image)
+            print(type(doc.data_image))
             docs.append({
                 "id":                    doc.id,
                 "collection_id":         doc.collection_id.pk,
@@ -52,6 +60,7 @@ class DocumentsView(SQLDBAPIView):
                 "text":                  self.normaliseNewlines(doc.text),
                 "data_text":             self.normaliseNewlines(doc.data_text),
                 "data_binary":           doc.data_binary,
+                "data_image":            doc.data_image.url if doc.data_image.name else None,
                 "encoding":              doc.encoding,
                 "handler":               doc.handler,
                 "visualisation_options": doc.visualisation_options,
@@ -69,12 +78,14 @@ class DocumentsView(SQLDBAPIView):
     def retrieve(self, request, cid, did):
         collection = self.getCollection(request.user, cid)
         document   = Documents.objects.get(id=did)
-        is_opened = OpenDocuments.objects \
+        is_opened  = OpenDocuments.objects \
             .filter(collection_id       = collection, 
                     document_id         = document,
                     db_interactions__gt = 0) \
             .count()
         doc_record = model_to_dict(document)
+        if not doc_record['data_image'].name:
+            doc_record['data_image'] = None
         ## Normalise newlines, as expected by codemirror:
         ##   lineSeparator: string|null
         ##   Explicitly set the line separator for the editor. By default (value null),
@@ -102,6 +113,26 @@ class DocumentsView(SQLDBAPIView):
         new_data["type"] = "text"
         if ("type" in data and data["type"] is not None):
             new_data["type"] = data["type"].lower()
+
+        ## Do we have an image? Since images are saved as files in
+        ## disk, we must be sure it is an image!
+        if (new_data["type"] != "text" and "data_image" in data and data["data_image"]):
+            try:
+                image = Image.open(io.BytesIO(base64.b64decode(data["data_image"])))
+                image.verify()
+                imgType = image.format.lower()
+                image.close()
+            except IOError:
+                return {"success": False, "message": "Invalid Image Data"}, status.HTTP_400_BAD_REQUEST
+            ## Do we have the correct type?
+            if (imgType != new_data["type"]):
+                return {"success": False, "message": f"Invalid Image Type: {image.format.lower()}"}, status.HTTP_400_BAD_REQUEST
+            new_data["data_image"] = ContentFile(base64.b64decode(data["data_image"]), name=new_data["name"])
+            ## Make sure the text is not None...
+            if (data["text"] is None):
+                new_data["text"] = "{}"
+                data["text"]     = "{}"
+
         handler_apply = False
         if ("handler" in data):
             if (isinstance(data["handler"], str) == True):

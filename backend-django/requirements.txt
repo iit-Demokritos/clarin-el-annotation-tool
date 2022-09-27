@@ -11,7 +11,9 @@ simplejwt
 six
 lxml
 beautifulsoup4
+pillow
 dataclasses_json
+base64
 pymongo
 mysql-connector-python
 bcrypt

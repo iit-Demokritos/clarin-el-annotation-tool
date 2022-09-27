@@ -5,6 +5,8 @@ import os
 import dataclasses, json
 from bson.objectid import ObjectId
 #from dataclasses_json import dataclass_json
+from PIL import Image ;# used for importing images as documents (only)
+import base64
 
 class EnhancedJSONEncoder(json.JSONEncoder):
         def default(self, o):
@@ -119,7 +121,7 @@ class Session:
 
     def document_create(self, cid, external_name, text,
                         encoding='UTF-8', handler='none', type='text',
-                        name=None):
+                        name=None, data_binary=None, data_image=None):
         if not external_name:
             raise Exception('External name cannot be empty!')
         if not name:
@@ -131,7 +133,9 @@ class Session:
             'collection_id': cid,
             'external_name': external_name,
             'encoding':      encoding,
-            'handler':       handler
+            'handler':       handler,
+            'data_binary':   base64.b64encode(data_binary).decode("latin1") if data_binary else None,
+            'data_image':    base64.b64encode(data_image).decode("latin1")  if data_image  else None
         }})['data']
 
     def document_delete(self, cid, did):
@@ -291,6 +295,7 @@ class Document(APIObjectBase):
     name:                  str           = None
     data_text:             str           = None
     data_binary:           str           = None
+    data_image:            str           = None
     id:                    int           = None
     collection_id:         int           = None
     owner_id:              int           = None
@@ -323,7 +328,9 @@ class Document(APIObjectBase):
         data = self.session.document_create(cid=self.collection_id,
                 external_name=self.external_name, text=self.text,
                 encoding=self.encoding, handler=self.handler,
-                type=self.type, name=self.name)
+                type=self.type, name=self.name,
+                data_binary=self.data_binary,
+                data_image=self.data_image)
         self.id = data['document_id']
         assert self.collection_id == data['collection_id']
         return self
@@ -412,7 +419,7 @@ class Collection(APIObjectBase):
         return next((doc for doc in self.documents() if doc.name == name), None)
 
     def documentCreate(self, external_name, text, encoding='UTF-8', handler='none', type='text',
-                annotations=None, name=None):
+                annotations=None, name=None, data_binary=None, data_image=None):
         if not external_name:
             raise Exception('External name cannot be empty!')
         if not name:
@@ -420,11 +427,21 @@ class Collection(APIObjectBase):
         doc = Document(external_name=external_name, text=text,
                 encoding=encoding, handler=handler, type=type,
                 annotations=annotations, name=name,
+                data_binary=data_binary, data_image=data_image,
                 collection_id=self.id, session=self.session, parent=self)
         if not self.documents_new:
             self.documents_new = []
         self.documents_new.append(doc)
         return doc
+
+    def documentImageCreate(self, external_name, handler='none', annotations=None, name=None):
+        if not external_name:
+            raise Exception('External name cannot be empty!')
+        with Image.open(external_name) as image:
+            type  = image.format.lower()
+        with open(external_name, 'rb') as fd:
+            rawImageData = fd.read()
+        return self.documentCreate(external_name, text=None, handler=handler, annotations=annotations, name=name, type=type, data_image=rawImageData)
 
     def documentDelete(self, doc):
         assert dataclasses.is_dataclass(doc)
