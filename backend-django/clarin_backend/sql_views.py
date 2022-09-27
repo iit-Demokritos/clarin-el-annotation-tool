@@ -84,8 +84,8 @@ class DocumentsView(SQLDBAPIView):
                     db_interactions__gt = 0) \
             .count()
         doc_record = model_to_dict(document)
-        if not doc_record['data_image'].name:
-            doc_record['data_image'] = None
+        doc_record['data_image'] = doc_record['data_image'].url if doc_record['data_image'].name else None
+
         ## Normalise newlines, as expected by codemirror:
         ##   lineSeparator: string|null
         ##   Explicitly set the line separator for the editor. By default (value null),
