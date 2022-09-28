@@ -339,12 +339,12 @@ export function MyFlowFactory() {
     AutoannTokenClassifierDirective,
   ],
   providers: [
-    /* Petasis, 12/12/2021: It does not work with the following enabled...
+    /* Petasis, 12/12/2021: It does not work with the following enabled...*/
     {
       provide: FlowInjectionToken,
       // useFactory: MyFlowFactory,
       useValue: Flow
-    },*/
+    },
     /* ng-matero */
     { provide: BASE_URL, useValue: environment.baseUrl },
     httpInterceptorProviders,
