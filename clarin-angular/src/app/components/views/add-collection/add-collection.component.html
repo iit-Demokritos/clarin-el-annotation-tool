@@ -4,10 +4,34 @@
     <as-split-area order="1" [visible]="showMyCollections" [size]="30" [minSize]="10" [maxSize]="60"
       class="side-bar-wrapper">
       <mat-card class="mat-card-fill-parent">
+        <!-- SIDEBAR HEADER -->
         <mat-card-header class="sidebar-header">
-          <mat-card-title>{{'Collections.MyCollections'|translate}} ({{dataForTheTree.length}})</mat-card-title>
+          <mat-card-title matBadge="{{dataForTheTree.length}}" matBadgeOverlap="false" matBadgeColor="accent">
+            {{'Collections.MyCollections'|translate}}</mat-card-title>
         </mat-card-header>
-        <mat-card-content class="sidebar-main-content">
+        <mat-card-content class="sidebar-main-content mat-card-fill-parent">
+          <!-- SIDEBAR COLLECTION LIST -->
+          <mat-selection-list #collections="cdkDropList" [multiple]="false"
+            cdkDropList (cdkDropListDropped)="onCollectionDrop($event)"
+            [cdkDropListSortPredicate]="onCollectionDropOver"
+            [cdkDropListAutoScrollDisabled]="disableCollectionDraggingAutoscroll"
+          >
+            <mat-list-option *ngFor="let collection of dataForTheTree;let index=index"
+              [value]="collection"
+              (click)="showSelectedCollection(collection, index)"
+              cdkDrag [cdkDragDisabled]="disableCollectionDragging"
+              [ngClass]="{'drop-target-allow': dropTargetCollection == index && dropTargetCollectionAllow, 'drop-target-deny': dropTargetCollection == index && !dropTargetCollectionAllow}"
+            >
+                <mat-icon *ngIf="collection.confirmed!=1" mat-list-icon matBadge="{{collection.document_count}}" matBadgeOverlap="true" matBadgeSize="small" matBadgeColor="accent" matBadgePosition="before">folder</mat-icon>
+                <mat-icon *ngIf="collection.confirmed==1 && collection.is_owner" mat-list-icon matBadge="{{collection.document_count}}" matBadgeOverlap="true" matBadgeSize="small" matBadgeColor="accent" matBadgePosition="before">folder_shared</mat-icon>
+                <mat-icon *ngIf="collection.confirmed==1 && !collection.is_owner" mat-list-icon matBadge="{{collection.document_count}}" matBadgeOverlap="true" matBadgeSize="small" matBadgeColor="accent" matBadgePosition="before">snippet_folder</mat-icon>
+                <div mat-line> {{collection.name}}</div>
+                <div mat-line *ngIf="collection.confirmed==1 && collection.is_owner">({{'Collections.SharedByMe'|translate}})</div>
+                <div mat-line *ngIf="collection.confirmed==1 && !collection.is_owner" class="label label-info"
+                  title="The actions that can be performed on this collection are limited because it does not belong to you">({{'Collections.SharedWithMe'|translate}})</div>
+            </mat-list-option>
+          </mat-selection-list>
+          <!--
           <mat-action-list>
             <button mat-list-item *ngFor="let collection of dataForTheTree">
               <mat-icon class="mat-icon-rtl-mirror">folder</mat-icon> {{collection.name}} <span class="right">
@@ -19,6 +43,7 @@
               </span>
             </button>
           </mat-action-list>
+          -->
         </mat-card-content>
       </mat-card>
     </as-split-area>

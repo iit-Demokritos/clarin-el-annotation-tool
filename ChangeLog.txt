@@ -1,4 +1,8 @@
 28-September-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/views/add-collection/add-collection.component.html:
+ * clarin-angular/src/css/clarin-material.scss: Update the display of
+ Collections, while adding a new Collection (to match Collection management).
+
  * clarin-angular/src/app/app.module.ts: Fixes for including ngx-flow in
  Angular 13.
 
