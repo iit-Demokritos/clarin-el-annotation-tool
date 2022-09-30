@@ -8,9 +8,19 @@ import * as _ from 'lodash';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
 import { BaseControlComponent } from '../base-control/base-control.component';
+import * as ShapeControl from 'src/app/helpers/jointjsControls';
 //import 'codemirror/addon/display/panel.js';
 //import { addPanel } from 'codemirror/addon/display/panel' // <- Does not work!
 // var blobStream = require('blob-stream');
+//
+/*
+ * Annotation Mode...
+ */
+enum AnnotationMode {
+  UNKNOWN,
+  TEXT,
+  IMAGE
+};
 
 @Component({
   selector: 'text-widget',
@@ -28,6 +38,9 @@ export class TextWidgetComponent extends BaseControlComponent
   textWidget: ElementRef;
   @ViewChild("annotationeditortextwidgetoverlay")
   textWidgetOverlay: ElementRef;
+  @ViewChild("annotationeditorimagewidget")
+  imageWidget: ElementRef;
+
 
   /* @ViewChild("annotationeditortextwidget", { static: true }) */
   @Output() textWidgetEvent: EventEmitter<any> = new EventEmitter();
@@ -88,6 +101,10 @@ export class TextWidgetComponent extends BaseControlComponent
 
   // Settings
   settings: any[] = [];
+
+  eAnnotationMode = AnnotationMode; // Make AnnotationMode enum available in the HTML template
+  annotationMode: AnnotationMode = AnnotationMode.UNKNOWN;
+  annotationImageURL: string = null;
 
   ngOnInit() {
 
@@ -151,6 +168,15 @@ export class TextWidgetComponent extends BaseControlComponent
       // Set this annotation as the selected one
       this.TextWidgetAPI.setSelectedAnnotation(annotation);
       this.TextWidgetAPI.clearOverlappingAreas(); // not sure if required...
+    });
+
+    // Allow mouse to create a selection rectangle...
+    this.paper.on({
+      'blank:pointerdown':  (evt, x, y)   => this.imageOverlayPointerDown(evt, x, y),
+      'blank:pointermove':  (evt, x, y)   => this.imageOverlayPointerMove(evt, x, y),
+      'blank:pointerup':    (evt, x, y)   => this.imageOverlayPointerUp(evt, x, y),
+      'element:mouseenter': (elementView) => this.imageOverlayElementMouseEnter(elementView),
+      'cell:mouseleave':    (cellView)    => this.imageOverlayCellMouseLeave(cellView)
     });
 
     /* this segment exist in text-widget.js- transformation needed
@@ -296,6 +322,9 @@ export class TextWidgetComponent extends BaseControlComponent
   }; /* getAnnotationFromMark */
 
   mouseDownUpHandler(args) {
+    if (this.annotationMode != AnnotationMode.TEXT) {
+      return;
+    }
     var e = args[0];
     if (e.button === 1) { // middle button click
       e.preventDefault();
@@ -305,7 +334,11 @@ export class TextWidgetComponent extends BaseControlComponent
 
   mouseUpHandler(args) {
     var e = args[0];
-    // console.error("mouseUpHandler:", e);
+    console.error("mouseUpHandler:", e);
+    if (this.annotationMode != AnnotationMode.TEXT) {
+      return;
+    }
+
     // if (!this.initialLoad) {
     //   this.initialLoad = true;
     // }
@@ -448,7 +481,7 @@ export class TextWidgetComponent extends BaseControlComponent
             } else {
               // this.spinnerVisible = true;
               var options = JSON.parse(response.data.visualisation_options);
-              this.initialiseEditor(response.data.text, options);
+              this.initialiseEditor(response.data, options);
               if (response.data.is_opened) {
                 this.restoreAnnotationService.restoreFromTemp(newDocument.collection_id,
                   newDocument.id, this.AnnotatorTypeId)
@@ -504,7 +537,7 @@ export class TextWidgetComponent extends BaseControlComponent
     });
   } /* updateCurrentDocument */
 
-  initialiseEditor(text, visualisationOptions: any) {
+  initialiseEditor(doc, visualisationOptions: any) {
     // console.error("TextWidgetComponent: initialiseEditor(): visualisationOptions:", typeof visualisationOptions, visualisationOptions);
     this.TextWidgetAPI.resetData();
     this.TextWidgetAPI.registerAnnotationCanBeDeletedCallback(this.annotationCanBeDeleted.bind(this));
@@ -512,31 +545,63 @@ export class TextWidgetComponent extends BaseControlComponent
     this.editor.clearHistory();
     if (visualisationOptions !== null && "gutter" in visualisationOptions) {
       this.skipLineNumber = visualisationOptions["gutter"];
-
     } else {
       this.skipLineNumber = {};
     }
-    this.editor.setValue(text);
+
+    /* Are we annotating text or an image? */
+    switch (doc.type.toLowerCase()) {
+      case "png":
+      case "jpeg":
+        this.annotationMode = AnnotationMode.IMAGE;
+        this.annotationImageURL = doc.data_image;
+        this.textWidgetOverlay.nativeElement.style.pointerEvents = "all";
+        this.textWidgetOverlay.nativeElement.style.width  = "100%";
+        this.textWidgetOverlay.nativeElement.style.height = "100%";
+        break;
+      case "text":
+      default:
+        this.textWidgetOverlay.nativeElement.style.pointerEvents = "none";
+        this.textWidgetOverlay.nativeElement.style.width  = "100%";
+        this.annotationMode = AnnotationMode.TEXT;
+        this.editor.setValue(doc.text);
+        break;
+    }
 
     // this.initPanels();
 
     this.graph.clear();
     this.annotationIdToGraphItem = {};
     this.connectedAnnotations = [];
-    this.editor.refresh();
-    this.showLinkRouterSelector = false;
-    this.textWidgetEvent.emit({
-      event: "showLinkRouterSelector",
-      value: this.showLinkRouterSelector
-    });
-    this.visualiseVisualisationOptions(visualisationOptions);
-    this.editor.refresh();
+    if (this.annotationMode == AnnotationMode.TEXT) {
+      this.editor.refresh();
+      this.showLinkRouterSelector = false;
+      this.textWidgetEvent.emit({
+        event: "showLinkRouterSelector",
+        value: this.showLinkRouterSelector
+      });
+      this.visualiseVisualisationOptions(visualisationOptions);
+      this.editor.refresh();
+    }
+    if (this.annotationMode == AnnotationMode.IMAGE) {
+      this.resizeOverlay();
+    }
     // console.error("CM size:", this.editor.getScrollInfo());
     // console.error("OVERLAY:", this.textWidgetOverlay.nativeElement.style.height);
   }; /* initialiseEditor */
 
   resizeOverlay() {
-    this.textWidgetOverlay.nativeElement.style.height = (this.editor.getScrollInfo().height + 2).toString()+'px';
+    // console.error("resizeOverlay()");
+    if (this.annotationMode == AnnotationMode.TEXT) {
+      this.textWidgetOverlay.nativeElement.style.width  = "100%";
+      this.textWidgetOverlay.nativeElement.style.height = (this.editor.getScrollInfo().height + 2).toString()+'px';
+    }
+    if (this.annotationMode == AnnotationMode.IMAGE) {
+      // console.error((this.imageWidget.nativeElement as HTMLImageElement).naturalWidth);
+      // console.error((this.imageWidget.nativeElement as HTMLImageElement).naturalHeight);
+      this.textWidgetOverlay.nativeElement.style.width  = this.imageWidget.nativeElement.scrollWidth.toString()+'px';
+      this.textWidgetOverlay.nativeElement.style.height = this.imageWidget.nativeElement.scrollHeight.toString()+'px';
+    }
   }; /* resizeOverlay */
 
   visualiseVisualisationOptions(options) {
@@ -1675,5 +1740,104 @@ export class TextWidgetComponent extends BaseControlComponent
     // Make sure that the annotation to be deleted is not a relation argument...
     return this.connectedAnnotations.every((item) => ann._id != item.startId && ann._id != item.endId );
   }; /* annotationCanBeDeleted */
+
+  /*
+   * Image Annotation
+   */
+  imageAnnotator = {
+    selection: undefined
+  };
+
+  imageOverlayPointerDown(evt, x, y) {
+    console.error("imageOverlayPointerDown:", evt, x, y);
+    // From: https://github.com/clientIO/joint/blob/master/demo/rough/src/rough.js
+    if (this.imageAnnotator.selection) {
+      // If there is a selection, deselect it...
+      this.imageAnnotator.selection.remove();
+    }
+    this.imageAnnotator.selection = undefined;
+    evt.data = {};
+    evt.data["x"] = x;
+    evt.data["y"] = y;
+  }; /* imageOverlayPointerDown */
+
+  imageOverlayPointerMove(evt, x, y) {
+    console.error("imageOverlayPointerMove:", evt, x, y, evt.data);
+    var data = evt.data;
+    var cell;
+    // If we do not have a selection, create one...
+    if (this.imageAnnotator.selection === undefined) {
+      data = evt.data = {};
+      cell = new joint.shapes.standard.Rectangle({attrs: {
+        body: {
+          stroke: "red",
+          fill: "red"
+        }
+      }});
+      cell.attr('body/fill-opacity', '0.5');
+      cell.position(x, y);
+      data["x"] = x;
+      data["y"] = y;
+      cell.addTo(this.graph);
+      this.imageAnnotator.selection = cell;
+    } else {
+      cell = this.imageAnnotator.selection;
+      if (cell.isLink()) {
+          cell.target({ x: x, y: y });
+      } else {
+          var bbox = new joint.g.Rect(data.x, data.y, x - data.x, y - data.y);
+          bbox.normalize();
+          cell.set({
+              position: { x: bbox.x, y: bbox.y },
+              size: { width: Math.max(bbox.width, 1), height: Math.max(bbox.height, 1) }
+          });
+      }
+    }
+  }; /* imageOverlayPointerMove */
+
+  imageOverlayPointerUp(evt, x, y) {
+    //console.error("imageOverlayPointerUp:", evt, x, y);
+    //var cell = evt.data.cell;
+    //if (cell.isLink()) return;
+    //var color = ['#31d0c6', '#7c68fc', '#fe854f', '#feb663', '#c6c7e2'][joint.g.random(0,4)];
+    /*cell.attr({
+      body: {
+        stroke: color,
+        fill: "transparent"
+      }
+    });*/
+  }; /* imageOverlayPointerUp */
+
+  imageOverlayElementMouseEnter(elementView) {
+    var model = elementView.model;
+    var bbox = model.getBBox();
+    elementView.addTools(new joint.dia.ToolsView({
+      tools: [
+        new joint.elementTools.Remove({
+          useModelGeometry: true,
+          y: '50%',
+          x: '50%',
+          offset: { x: -3, y: 3 }
+        }),
+        new joint.elementTools.Boundary({
+          focusOpacity: 0.6,
+          padding: 6,
+          useModelGeometry: true
+        }),
+        new ShapeControl.ShapeLControl({  handleAttributes: { fill: 'orange', cursor: 'w-resize'  }}),
+        new ShapeControl.ShapeRControl({  handleAttributes: { fill: 'orange', cursor: 'e-resize'  }}),
+        new ShapeControl.ShapeTControl({  handleAttributes: { fill: 'orange', cursor: 'n-resize'  }}),
+        new ShapeControl.ShapeBControl({  handleAttributes: { fill: 'orange', cursor: 's-resize'  }}),
+        new ShapeControl.ShapeLTControl({ handleAttributes: { fill: 'orange', cursor: 'nw-resize' }}),
+        new ShapeControl.ShapeLBControl({ handleAttributes: { fill: 'orange', cursor: 'sw-resize' }}),
+        new ShapeControl.ShapeRTControl({ handleAttributes: { fill: 'orange', cursor: 'ne-resize' }}),
+        new ShapeControl.ShapeRBControl({ handleAttributes: { fill: 'orange', cursor: 'se-resize' }})
+      ]
+    }));
+  }; /* imageOverlayElementMouseEnter */
+
+  imageOverlayCellMouseLeave(cellView) {
+    cellView.removeTools();
+  }; /* imageOverlayCellMouseLeave */
 
 }

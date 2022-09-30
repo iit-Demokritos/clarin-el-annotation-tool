@@ -134,8 +134,8 @@ class Session:
             'external_name': external_name,
             'encoding':      encoding,
             'handler':       handler,
-            'data_binary':   base64.b64encode(data_binary).decode("latin1") if data_binary else None,
-            'data_image':    base64.b64encode(data_image).decode("latin1")  if data_image  else None
+            'data_binary':   base64.b64encode(data_binary).decode("ascii") if data_binary else None,
+            'data_image':    f'data:image/{type.lower()};base64,' + base64.b64encode(data_image).decode("ascii")  if data_image  else None
         }})['data']
 
     def document_delete(self, cid, did):

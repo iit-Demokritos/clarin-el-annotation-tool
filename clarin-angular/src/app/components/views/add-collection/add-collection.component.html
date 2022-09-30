@@ -54,7 +54,7 @@
             translate}}</mat-card-title>
         </mat-card-header>
         <form [formGroup]="editCollectionForm" (submit)="submitCollection()">
-          <mat-card-content>
+          <mat-card-content class="main-content">
             <mat-form-field appearance="outline" *ngIf="showNameField">
               <mat-label>{{'Collections.CollectionName' | translate}}</mat-label>
               <input matInput type="text" formControlName="collectionName"

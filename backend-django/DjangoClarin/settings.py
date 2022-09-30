@@ -94,7 +94,9 @@ INSTALLED_APPS = [
     'openapi',
     'drf_spectacular',
     'importapi',
-    'nlp'
+    'nlp',
+
+    'django_cleanup.apps.CleanupConfig', # This must be always at the end!
 ]
 
 MIDDLEWARE = [

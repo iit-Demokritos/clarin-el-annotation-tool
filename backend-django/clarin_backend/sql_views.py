@@ -23,6 +23,7 @@ import base64
 ## For creating FieldFile/ImageField fields from data...
 from django.core.files.base import ContentFile
 from PIL import Image
+import urllib ;# For data urls...
 
 class SQLDBAPIView(ErrorLoggingAPIView):
 
@@ -49,8 +50,6 @@ class DocumentsView(SQLDBAPIView):
         documents  = Documents.objects.filter(collection_id=collection)
         docs = []
         for doc in documents:
-            print(doc.data_image)
-            print(type(doc.data_image))
             docs.append({
                 "id":                    doc.id,
                 "collection_id":         doc.collection_id.pk,
@@ -118,7 +117,13 @@ class DocumentsView(SQLDBAPIView):
         ## disk, we must be sure it is an image!
         if (new_data["type"] != "text" and "data_image" in data and data["data_image"]):
             try:
-                image = Image.open(io.BytesIO(base64.b64decode(data["data_image"])))
+                if data["data_image"].startswith("data:"):
+                    response = urllib.request.urlopen(data["data_image"])
+                    raw_image_data = response.file.read()
+                    image = Image.open(io.BytesIO(raw_image_data))
+                else:
+                    raw_image_data = base64.b64decode(data["data_image"])
+                    image = Image.open(io.BytesIO(raw_image_data))
                 image.verify()
                 imgType = image.format.lower()
                 image.close()
@@ -127,9 +132,9 @@ class DocumentsView(SQLDBAPIView):
             ## Do we have the correct type?
             if (imgType != new_data["type"]):
                 return {"success": False, "message": f"Invalid Image Type: {image.format.lower()}"}, status.HTTP_400_BAD_REQUEST
-            new_data["data_image"] = ContentFile(base64.b64decode(data["data_image"]), name=new_data["name"])
+            new_data["data_image"] = ContentFile(raw_image_data, name=new_data["name"])
             ## Make sure the text is not None...
-            if (data["text"] is None):
+            if ("text" not in data or data["text"] is None):
                 new_data["text"] = "{}"
                 data["text"]     = "{}"
 

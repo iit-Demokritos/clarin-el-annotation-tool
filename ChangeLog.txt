@@ -1,3 +1,22 @@
+29-September-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/controls/text-widget/text-widget.component.html:
+ * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
+ * clarin-angular/src/app/components/controls/uploader/uploader.component.ts:
+ * clarin-angular/src/app/components/views/add-collection/add-collection.component.html:
+ * clarin-angular/src/app/components/views/add-collection/add-collection.component.ts:
+ * clarin-angular/src/app/services/document-service/document.service.ts:
+ * clarin-angular/src/css/clarin-material.scss:
+ * clarin-angular/src/proxy.conf.json:
+ * clarin-angular/src/app/helpers/jointjsControls.ts: Added support for
+ visualising images, and perform rectangular selections over images. Work in
+ progress.
+
+ * api-client/api.py:
+ * backend-django/DjangoClarin/settings.py:
+ * backend-django/clarin_backend/sql_views.py:
+ * backend-django/requirements.txt: Updates to backend (to support data URLs
+ and ensure that deleted images are removed from the filesystem).
+
 28-September-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/views/add-collection/add-collection.component.html:
  * clarin-angular/src/css/clarin-material.scss: Update the display of

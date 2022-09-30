@@ -16,16 +16,34 @@ export class DocumentService {
       reader.onload = function (e) {
         docData["name"] = documentFile.name;
         docData["type"] = documentFile.type;
-        docData["text"] = reader.result;
         docData["collection_id"] = collection_id;
         docData["external_name"] = documentFile.name;
         docData["encoding"] = documentFile.encoding;
         docData["handler"] = documentFile.handler;
+        switch (documentFile.type.toLowerCase()) {
+          case "png":
+          case "jpeg":
+            docData["data_image"] = reader.result;
+            break;
+          case "text":
+          default:
+            docData["text"] = reader.result;
+            break;
+        }
 
         resolve(docData);
       }
 
-      reader.readAsText(documentFile.file);
+      switch (documentFile.type.toLowerCase()) {
+        case "png":
+        case "jpeg":
+          reader.readAsDataURL(documentFile.file);
+          break;
+        case "text":
+        default:
+          reader.readAsText(documentFile.file);
+          break;
+      }
     });
   }
 

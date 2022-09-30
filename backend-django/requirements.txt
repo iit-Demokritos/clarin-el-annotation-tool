@@ -3,6 +3,7 @@ django-environ
 #django-filter
 djangorestframework
 djangorestframework-simplejwt
+django-cleanup
 #django-webpack-loader
 #markdown
 mysqlclient

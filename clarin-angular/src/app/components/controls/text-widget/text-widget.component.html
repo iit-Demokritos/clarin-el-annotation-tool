@@ -1,5 +1,8 @@
 <!--textarea #element id='text-widget'></textarea-->
 <div #annotationeditortextwidgetcontainer class='annotation-editor-text-widget-container'>
-  <textarea #annotationeditortextwidget class="annotation-editor-text-widget"></textarea>
+  <img #annotationeditorimagewidget [src]="annotationImageURL" class="annotation-editor-image-widget" [hidden]="annotationMode != eAnnotationMode.IMAGE" (load)="resizeOverlay()" />
+  <div [hidden]="annotationMode != eAnnotationMode.TEXT">
+    <textarea #annotationeditortextwidget class="annotation-editor-text-widget"></textarea>
+  </div>
   <div #annotationeditortextwidgetoverlay class="annotation-editor-text-widget-overlay"></div>
 </div>

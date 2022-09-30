@@ -38,5 +38,15 @@
     "secure": true,
     "changeOrigin": true,
     "logLevel": "debug"
+  },
+  "/media_data_lake": {
+    "target": {
+        "host": "annotation.ellogon.org",
+        "protocol": "https:",
+        "port": 443
+    },
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug"
   }
 }

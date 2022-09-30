@@ -26,8 +26,8 @@ export class AddCollectionComponent extends MainComponent implements OnInit {
   public breakpoint: number; // Breakpoint observer code
   public editCollectionForm: FormGroup;
   // sidebarSelector = "myCollections";
-  allowedTypes = ["text/plain", "text/xml"];
-  typeOptions = ["Text", "TEI XML"];
+  allowedTypes = ["text/plain", "text/xml", 'image/jpeg', 'image/png', 'image/*'];
+  typeOptions = ["Text", "TEI XML", "JPEG", "PNG", "IMAGE"];
   encodingOptions = ["UTF-8", "Unicode"];
   handlerOptions = [
     { name: 'No Handler', value: 'none' },

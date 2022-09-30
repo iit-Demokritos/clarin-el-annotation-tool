@@ -93,12 +93,13 @@ export class UploaderComponent extends BaseControlComponent implements OnInit, O
       else if (this.autoupload && event.type === 'filesSubmitted') {
         let message: string = "";
         if (this.unsupportedFiles.length == 1) {
-          message = "The file " + this.unsupportedFiles[0].name;
+          message = "The file '" + this.unsupportedFiles[0].name;
+          message += "' (" + this.unsupportedFiles[0].type + ")";
           message += " is not supported.";
         } else if (this.unsupportedFiles.length > 1) {
           message = "The files";
           this.unsupportedFiles.forEach(element => {
-            message += " '" + element.name + "',";
+            message += " '" + element.name + "' (" + this.unsupportedFiles[0].type + "),";
           });
           message = message.substring(0, message.length - 1);
           message += " are not supported.";

@@ -183,6 +183,9 @@ $foreground: map-get($theme, foreground);
           pointer-events: none; /* auto=visiblePainted */
           z-index: 10;
         }
+        .annotation-editor-image-widget {
+          pointer-events: none;
+        }
       }
     }
   }
@@ -600,6 +603,9 @@ text-widget {
         margin: 0;
       }
       min-height: 40px;
+    }
+    .mat-card-actions {
+      margin: 0; // Default is -8 left/right, it overflows the buttons and a scrollbar gets shown...
     }
     .document-list-table {
       overflow-x: auto;
