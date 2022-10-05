@@ -94,6 +94,7 @@ export class AnnotationButtonComponent extends BaseControlComponent implements O
     // console.error("AnnotationButtonComponent: addAnnotation():", annotationType, annotationAttribute, annotationValue);
     //if the user has already selected an annotation, update it
     var selectedAnnotation: any = this.TextWidgetAPI.getSelectedAnnotation();
+    // console.error("Selected Annotation:", selectedAnnotation);
     var newAttribute = {
       name: annotationAttribute,
       value: annotationValue
@@ -128,23 +129,41 @@ export class AnnotationButtonComponent extends BaseControlComponent implements O
       return false;
     }
 
-    //if their is selected text, add new annotation
+    // If there is selected text/image rectangle, add new annotation...
     var currentSelection: any = this.TextWidgetAPI.getCurrentSelection();
+    // console.error("Selected Region:", currentSelection);
 
-    if (typeof (currentSelection) != "undefined" && Object.keys(currentSelection).length > 0 && currentSelection.segment.length > 0) {
+    if (typeof (currentSelection) != "undefined" && Object.keys(currentSelection).length > 0 &&
+       (currentSelection.segment.length > 0 || currentSelection.x >= 0)) {
       var currentDocument: any = this.TextWidgetAPI.getCurrentDocument();
-      var newAnnotation = {
-        _id: this.ObjectId().toString(),
-        document_id: currentDocument.id,
-        collection_id: currentDocument.collection_id,
-        annotator_id: currentDocument.annotator_id,
-        type: annotationType,
-        spans: [{
-          segment: currentSelection.segment,
-          start: currentSelection.startOffset,
-          end: currentSelection.endOffset
-        }],
-        attributes: [newAttribute]
+      var newAnnotation = newAnnotation = {
+          _id: this.ObjectId().toString(),
+          document_id: currentDocument.id,
+          collection_id: currentDocument.collection_id,
+          annotator_id: currentDocument.annotator_id,
+          type: annotationType,
+          spans: [],
+          attributes: [newAttribute]
+        };
+      if (currentSelection.segment.length > 0) {
+        newAnnotation.spans = [{
+            type: "text",
+            segment: currentSelection.segment,
+            start: currentSelection.startOffset,
+            end: currentSelection.endOffset
+          }];
+      } else if (currentSelection.x >= 0) {
+         newAnnotation.spans = [{
+            type: currentSelection.type,
+            segment: "",
+            start: -1,
+            end: -1,
+            x: currentSelection.x,
+            y: currentSelection.y,
+            width: currentSelection.width,
+            height: currentSelection.height,
+            rotation: currentSelection.rotation
+          }];
       };
 
       //newAnnotation.spans.push(annotationSpan);

@@ -563,6 +563,7 @@ export class TextWidgetAPI {
 
   setCurrentSelection(newCurrentSelection, notify) {
     this.currentSelection = _.cloneDeep(newCurrentSelection);
+    // console.error("TextWidgetAPI: setCurrentSelection():", newCurrentSelection);
 
     if (notify) {
       return this.notifyObservers(this.currentSelectionCallbacks);
@@ -570,6 +571,7 @@ export class TextWidgetAPI {
   }
 
   clearSelection() {
+    // console.error("TextWidgetAPI: clearSelection()");
     this.currentSelection = {};
     return this.notifyObservers(this.currentSelectionCallbacks);
   }

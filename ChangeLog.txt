@@ -1,3 +1,21 @@
+05-October-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/controls/button/annotation-button/annotation-button.component.ts:
+ Added support for annotating images.
+
+ * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
+ Added support for image annotations!
+
+ * clarin-angular/src/app/components/controls/annotation-visualizer/annotation-visualizer.component.ts:
+ Add a flag to not trigger a selection change event periodically (though live
+ syncing annotations).
+
+ * clarin-angular/src/app/helpers/jointjsControls.ts: Added various helper
+ controls, for adjusting selection on image annotation.
+
+ * clarin-angular/src/app/pipes/annotation-spans.pipe.ts:
+ * clarin-angular/src/app/models/span.ts: Modified Span, to include fields for
+ image annotations.
+
 29-September-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/controls/text-widget/text-widget.component.html:
  * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:

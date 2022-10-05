@@ -157,6 +157,7 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
         //   console.error("AnnotationVisualizerComponent: liveUpdateDocument():", serviceResponse);
         // }
 
+        var selection_changed = false;
         for (var i = 0; i < serviceResponse.length; i++) {
           //if (!serviceResponse[i].modified_by==1) return;
           if (!this.TextWidgetAPI.belongsToSchema(serviceResponse[i]))
@@ -183,9 +184,12 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
           }
 
           this.TextWidgetAPI.setSelectedAnnotationById(currentSelectedAnnotation._id);
+          selection_changed = true;
         }
 
-        this.TextWidgetAPI.setCurrentSelection(currentSelection, true);
+        if (selection_changed) {
+          this.TextWidgetAPI.setCurrentSelection(currentSelection, true);
+        }
 
       }, (event: any) => {
         var txt;

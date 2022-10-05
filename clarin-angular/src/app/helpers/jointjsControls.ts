@@ -234,3 +234,39 @@ export class ShapeRBControl extends elementTools.Control {
     }; /* resetPosition */
 }; /* ShapeRBControl */
 
+export class ShapeRotateControl extends elementTools.Control {
+
+    protected getPosition(view: dia.ElementView): dia.Point {
+      const { model }         = view;
+      const { width, height } = model.size();
+      return { x: width - 20, y: height / 2 };
+    }; /* getPosition */
+
+    // https://stackoverflow.com/questions/9614109/how-to-calculate-an-angle-from-points
+    angle(originX, originY, targetX, targetY) {
+      var dy = targetX - originX;
+      var dx = targetY - originY;
+      var theta = Math.atan2(dy, dx); // range (-PI, PI]
+      theta *= 180 / Math.PI; // rads to degs, range (-180, 180]
+      return theta;
+    }
+    angle360(originX, originY, targetX, targetY) {
+      var theta = this.angle(originX, originY, targetX, targetY); // range (-180, 180]
+      if (theta < 0) theta += 360; // range [0, 360)
+      return theta - 90;
+    }
+
+    protected setPosition(view: dia.ElementView, coordinates: dia.Point): void {
+      // console.error(coordinates);
+      const { model }         = view;
+      const { width, height } = model.size();
+      const { x, y }          = model.position();
+      const abs               = model.getAbsolutePointFromRelative(coordinates);
+      var angle = this.angle360(x+width/2, y+height/2, abs.x, abs.y);
+      // console.error(angle, x+width/2, y+height/2, abs.x, abs.y);
+      model.rotate(-angle, true);
+    }; /* setPosition */
+
+    protected resetPosition(view): void {
+    }; /* resetPosition */
+}; /* ShapeRotateControl */

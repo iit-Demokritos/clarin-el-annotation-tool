@@ -147,14 +147,18 @@ export class TextWidgetComponent extends BaseControlComponent
       gridSize: 1,
       restrictTranslate: true,
       snapLabels: true,
-      interactive: {
-        linkMove: false,
-        labelMove: true,
-        arrowheadMove: false,
-        vertexMove: false,
-        vertexAdd: false,
-        vertexRemove: false,
-        useLinkTools: false
+      interactive: (view) => {
+        return {
+          linkMove: false,
+          labelMove: true,
+          arrowheadMove: false,
+          vertexMove: false,
+          vertexAdd: false,
+          vertexRemove: false,
+          useLinkTools: false,
+          elementMove: view.model.get('elementMove'),
+          // stopDelegation: view.model.get('stopDelegation')
+        };
       }
     });
     // Set an event on lines pointer clicks...
@@ -172,11 +176,12 @@ export class TextWidgetComponent extends BaseControlComponent
 
     // Allow mouse to create a selection rectangle...
     this.paper.on({
-      'blank:pointerdown':  (evt, x, y)   => this.imageOverlayPointerDown(evt, x, y),
-      'blank:pointermove':  (evt, x, y)   => this.imageOverlayPointerMove(evt, x, y),
-      'blank:pointerup':    (evt, x, y)   => this.imageOverlayPointerUp(evt, x, y),
-      'element:mouseenter': (elementView) => this.imageOverlayElementMouseEnter(elementView),
-      'cell:mouseleave':    (cellView)    => this.imageOverlayCellMouseLeave(cellView)
+      'blank:pointerdown':    (evt, x, y)              => this.imageOverlayPointerDown(evt, x, y),
+      'blank:pointermove':    (evt, x, y)              => this.imageOverlayPointerMove(evt, x, y),
+      'blank:pointerup':      (evt, x, y)              => this.imageOverlayPointerUp(evt, x, y),
+      'element:pointerclick': (elementView, evt, x, y) => this.imageOverlayElementPointerClick(elementView, evt, x, y),
+      'element:mouseenter':   (elementView)            => this.imageOverlayElementMouseEnter(elementView),
+      'element:mouseleave':   (elementView)            => this.imageOverlayCellMouseLeave(elementView)
     });
 
     /* this segment exist in text-widget.js- transformation needed
@@ -282,24 +287,49 @@ export class TextWidgetComponent extends BaseControlComponent
   getSelectionInfo() {
     // var start = 0, end = 0;
     var selection = {
+      type: "",
+      // Field used for text annotation...
       startOffset: -1,
       endOffset: -1,
-      segment: ""
+      segment: "",
+      // Fields used for image annotation (bbox)...
+      x: -1,
+      y: -1,
+      width: -1,
+      height: -1,
+      rotation: 0,
     };
 
-    // var totalDocLines        = editor.lineCount();
-    var editorSelectionStart = this.editor.getCursor("from");
-    var editorSelectionEnd   = this.editor.getCursor("to");
-    // var editorSegment        = editor.getSelection();
+    switch (this.annotationMode) {
+      case AnnotationMode.TEXT:
+        // var totalDocLines     = editor.lineCount();
+        var editorSelectionStart = this.editor.getCursor("from");
+        var editorSelectionEnd   = this.editor.getCursor("to");
+        // var editorSegment     = editor.getSelection();
 
-    if (typeof (editorSelectionStart) != "undefined" &&
-      typeof (editorSelectionEnd) != "undefined") {
-      /* Petasis, 20/03/2021: Used codemirror functions for getting offsets... */
-      selection.startOffset = this.editor.indexFromPos(editorSelectionStart);
-      selection.endOffset = this.editor.indexFromPos(editorSelectionEnd);
-      selection.segment = this.editor.getSelection();
+        if (typeof (editorSelectionStart) != "undefined" &&
+            typeof (editorSelectionEnd)   != "undefined") {
+          /* Petasis, 20/03/2021: Used codemirror functions for getting offsets... */
+          selection.startOffset = this.editor.indexFromPos(editorSelectionStart);
+          selection.endOffset   = this.editor.indexFromPos(editorSelectionEnd);
+          selection.segment     = this.editor.getSelection();
+        }
+        break;
+      case AnnotationMode.IMAGE:
+        // Do we have a selection?
+        if (this.imageAnnotator.selection !== undefined) {
+          const { width, height } = this.imageAnnotator.selection.size();
+          const { x, y }          = this.imageAnnotator.selection.position();
+          const angle             = this.imageAnnotator.selection.angle();
+          selection.type          = "rect";
+          selection.x             = x;
+          selection.y             = y;
+          selection.width         = width;
+          selection.height        = height;
+          selection.rotation      = ((angle) ? angle : 0);
+        }
+        break;
     }
-
     return selection;
   }; /* getSelectionInfo */
 
@@ -334,8 +364,10 @@ export class TextWidgetComponent extends BaseControlComponent
 
   mouseUpHandler(args) {
     var e = args[0];
-    console.error("mouseUpHandler:", e);
+    // console.error("TextWidgetComponent: mouseUpHandler:", e);
     if (this.annotationMode != AnnotationMode.TEXT) {
+      // When annotation images, selection is handled in methods imageOverlayPointerDown(),
+      // imageOverlayPointerMove(), imageOverlayPointerUp()...
       return;
     }
 
@@ -450,7 +482,7 @@ export class TextWidgetComponent extends BaseControlComponent
   updateCurrentDocument() {
     var newDocument: any = this.TextWidgetAPI.getCurrentDocument();
     this.AnnotatorTypeId = newDocument.annotator_id;
-    // console.error("updateCurrentDocument: newDoc:", newDocument,
+    // console.error("TextWidgetComponent: updateCurrentDocument: newDoc:", newDocument,
     //               "annotator:", this.AnnotatorTypeId);
     return new Promise((resolve, reject) => {
 
@@ -586,12 +618,12 @@ export class TextWidgetComponent extends BaseControlComponent
     if (this.annotationMode == AnnotationMode.IMAGE) {
       this.resizeOverlay();
     }
-    // console.error("CM size:", this.editor.getScrollInfo());
-    // console.error("OVERLAY:", this.textWidgetOverlay.nativeElement.style.height);
+    // console.error("TextWidgetComponent: CM size:", this.editor.getScrollInfo());
+    // console.error("TextWidgetComponent: OVERLAY:", this.textWidgetOverlay.nativeElement.style.height);
   }; /* initialiseEditor */
 
   resizeOverlay() {
-    // console.error("resizeOverlay()");
+    // console.error("TextWidgetComponent: resizeOverlay()");
     if (this.annotationMode == AnnotationMode.TEXT) {
       this.textWidgetOverlay.nativeElement.style.width  = "100%";
       this.textWidgetOverlay.nativeElement.style.height = (this.editor.getScrollInfo().height + 2).toString()+'px';
@@ -621,6 +653,10 @@ export class TextWidgetComponent extends BaseControlComponent
   }; /* visualiseVisualisationOptions */
 
   migrateOldSpans(anns) {
+    if (this.annotationMode != AnnotationMode.TEXT) {
+      // No point in migration...
+      return anns;
+    }
     var annotations = [];
     for (var i = 0; i < anns.length; i++) {
       var ann = anns[i];
@@ -680,19 +716,23 @@ export class TextWidgetComponent extends BaseControlComponent
     // console.warn("overlayRefresh: gutter width:", this.gutter.offsetWidth,
     //   "editor width:", this.textWidgetLines["offsetWidth"]);
     this.resizeOverlay();
-    for (const annId in this.annotationIdToGraphItem) {
-      var annotation = this.TextWidgetAPI.getAnnotationById(annId);
-      if (!annotation) {continue;}
-      for (var l = 0; l < annotation.spans.length; l++) {
-        var annotationSpan = annotation.spans[l];
-        var selection = this.computeSelectionFromOffsets(
-          parseInt(annotationSpan.start), parseInt(annotationSpan.end));
-        this.overlayMarkAdd(l, selection.start, selection.end, {
-          "annotation": annotation,
-          "selected": false,
-          "action": "resize"
-        });
-      }
+    switch (this.annotationMode) {
+      case AnnotationMode.TEXT:
+        for (const annId in this.annotationIdToGraphItem) {
+          var annotation = this.TextWidgetAPI.getAnnotationById(annId);
+          if (!annotation) {continue;}
+          for (var l = 0; l < annotation.spans.length; l++) {
+            var annotationSpan = annotation.spans[l];
+            var selection = this.computeSelectionFromOffsets(
+              parseInt(annotationSpan.start), parseInt(annotationSpan.end));
+            this.overlayMarkAdd(l, selection.start, selection.end, {
+              "annotation": annotation,
+              "selected": false,
+              "action": "resize"
+            });
+          }
+        }
+        break;
     }
     this.overlayLinksRefresh();
   }; /* overlayRefresh */
@@ -734,6 +774,7 @@ export class TextWidgetComponent extends BaseControlComponent
   }; /* overlayAnnotationGetBoundingClientRect */
 
   overlayHighlight(annotation) {
+    // console.error("TextWidgetComponent: overlayHighlight():", annotation);
     var deep = false, selector = 'body', items, colours = {}, colour;
     if (annotation.annotation._id in this.annotationIdToGraphItem) {
       items = this.annotationIdToGraphItem[annotation.annotation._id];
@@ -753,6 +794,13 @@ export class TextWidgetComponent extends BaseControlComponent
       colours = { 0: '#4666E5', 1: "purple", 2: "orange" };
       deep = true; selector = 'root';
     }
+    switch (this.annotationMode) {
+      case AnnotationMode.IMAGE:
+        selector = 'root';
+        break;
+    }
+
+    // console.error("TextWidgetComponent: overlayHighlight(): items:", items);
     for (const spanIndex in items) {
       var item = items[spanIndex];
       if (spanIndex in colours) {
@@ -761,6 +809,7 @@ export class TextWidgetComponent extends BaseControlComponent
         colour = '#4666E5';
       }
       const elementView = item.findView(this.paper);
+      // console.error("TextWidgetComponent: overlayHighlight(): span:", spanIndex, "elementView:", elementView);
       if (annotation.action == "select") {
         joint.highlighters.mask.remove(elementView);
         joint.highlighters.mask.add(elementView, { selector: selector },
@@ -773,10 +822,12 @@ export class TextWidgetComponent extends BaseControlComponent
             'stroke-linejoin': 'round'
           }
         });
+        // console.error("TextWidgetComponent: overlayHighlight(): span:", spanIndex, "mask add:", colour, selector);
         // console.warn("<<overlayHighlight>>:", annotation.annotation._id);
       } else if (true || annotation.action == "deselect" ||
         annotation.action == "delete") {
         joint.highlighters.mask.remove(elementView);
+        // console.error("TextWidgetComponent: overlayHighlight(): span:", spanIndex, "mask REMOVE");
         // console.warn("  overlayHighlight  :", annotation.annotation._id);
       }
     }
@@ -790,7 +841,7 @@ export class TextWidgetComponent extends BaseControlComponent
     // }
     if (annotation.annotation._id in this.annotationIdToGraphItem) {
       if (annotation.action == "select" ||
-        annotation.action == "deselect") {
+          annotation.action == "deselect") {
         // This is a request to delete the item, because it will be
         // re-added as selected/deselected. Do not remove it...
         this.overlayHighlight(annotation);
@@ -801,9 +852,13 @@ export class TextWidgetComponent extends BaseControlComponent
     } else {
       this.annotationIdToGraphItem[annotation.annotation._id] = {};
     }
+    if (this.annotationMode != AnnotationMode.TEXT) {
+      return null;
+    }
+
     // This method creates a polygon from codemirror coordinates (line, pos)
     var startCoords = this.editor.charCoords(startPos, "local"),
-        endCoords = this.editor.charCoords(endPos, "local");
+        endCoords   = this.editor.charCoords(endPos, "local");
     // console.error("TextWidgetComponent: overlayMarkAdd():", startCoords, endCoords);
     // Calculate points...
     if (typeof (item) == "undefined") {
@@ -850,12 +905,13 @@ export class TextWidgetComponent extends BaseControlComponent
   }; /* overlayMarkAdd */
 
   overlayMarkRemove(annotation) {
+    // console.error("TextWidgetComponent: overlayMarkRemove():", annotation);
     // if (annotation.action != "matches") {
     //   console.warn("-- overlayMarkRemove:", annotation.annotation._id, annotation);
     // }
     if (annotation.annotation._id in this.annotationIdToGraphItem) {
       if (annotation.action == "select" ||
-        annotation.action == "deselect") {
+          annotation.action == "deselect") {
         // This is a request to delete the item, because it will be
         // re-added as selected/deselected. Do not remove it...
         this.overlayHighlight(annotation);
@@ -866,7 +922,9 @@ export class TextWidgetComponent extends BaseControlComponent
         this.graph.disconnectLinks(item);
         const elementView = item.findView(this.paper);
         joint.highlighters.mask.remove(elementView);
+        // console.error("TextWidgetComponent: overlayMarkRemove(): mask REMOVE");
         item.remove();
+        // console.error("TextWidgetComponent: overlayMarkRemove(): removed item:", item);
       }
       delete this.annotationIdToGraphItem[annotation.annotation._id];
       return true;
@@ -1129,7 +1187,7 @@ export class TextWidgetComponent extends BaseControlComponent
         router = routerName;
         break;
     }
-    // console.error("updateLinkRouter:", routerName, router);
+    // console.error("TextWidgetComponent: updateLinkRouter:", routerName, router);
     this.connectedAnnotations.forEach((annotation) => {
       if (router) {
         // annotation.instance.set("router", { name: router });
@@ -1172,6 +1230,7 @@ export class TextWidgetComponent extends BaseControlComponent
 
     const elementView = connectedAnnotation.instance.findView(this.paper);
     joint.highlighters.mask.remove(elementView);
+    // console.error("TextWidgetComponent: removeConnectedAnnotation(): mask REMOVE:", elementView);
     // Remove the LeaderLine instance
     connectedAnnotation.instance.remove();
 
@@ -1201,6 +1260,21 @@ export class TextWidgetComponent extends BaseControlComponent
               editorMark.clear();
             }
           });
+          // Remove image annotations...
+          switch (this.annotationMode) {
+            case AnnotationMode.IMAGE:
+              for (const spanIndex in this.annotationIdToGraphItem[annotation.annotation._id]) {
+                var item = this.annotationIdToGraphItem[annotation.annotation._id][spanIndex];
+                this.graph.disconnectLinks(item);
+                const elementView = item.findView(this.paper);
+                joint.highlighters.mask.remove(elementView);
+                // console.error("TextWidgetComponent: clearDuplicateAnnotationsFromEditor(): mask REMOVE:", elementView);
+                item.remove();
+                // console.error("TextWidgetComponent: clearDuplicateAnnotationsFromEditor(): removed item:", item);
+              }
+              delete this.annotationIdToGraphItem[annotation.annotation._id];
+              break;
+          }
         }
       });
     });
@@ -1262,7 +1336,7 @@ export class TextWidgetComponent extends BaseControlComponent
     if (!annotatorType && 'annotator_id' in visAnnotation.annotation) {
       annotatorType = this.TextWidgetAPI.getAnnotatorTypeFromAnnotatorTypeId(visAnnotation.annotation['annotator_id']);
     }
-    // console.error("Annotation:", visAnnotation, visAnnotation.annotation.spans[0].segment);
+    // console.error("TextWidgetComponent: addVisualsForPlainAnnotation(): Annotation:", visAnnotation, visAnnotation.annotation.spans[0]);
 
     var annotationAttributes = visAnnotation.annotation.attributes;
     // Iterate through annotations spans
@@ -1271,8 +1345,18 @@ export class TextWidgetComponent extends BaseControlComponent
       var annotationSpan = visAnnotation.annotation.spans[l];
 
       // create the selection in the editor and annotate it
-      var selection = this.computeSelectionFromOffsets(
-        parseInt(annotationSpan.start), parseInt(annotationSpan.end));
+      var selection;
+      if (this.annotationMode == AnnotationMode.TEXT) {
+        selection = this.computeSelectionFromOffsets(
+          parseInt(annotationSpan.start), parseInt(annotationSpan.end));
+      }
+
+      var selected = false;
+      if (typeof (visAnnotation.selected) != "undefined" &&
+                  visAnnotation.selected) {
+        selected = true;
+      }
+
       var count = 0;
       switch (annotatorType) {
         case "Button Annotator":
@@ -1287,30 +1371,62 @@ export class TextWidgetComponent extends BaseControlComponent
           var markClassName = "id-" +
             String(visAnnotation.annotation._id).trim() + this.markedTextClass;
 
-          if (typeof (visAnnotation.selected) != "undefined" &&
-            visAnnotation.selected) {
-            // Selected marker
-            this.editor.markText(selection.start, selection.end, {
-              className: markClassName,
-              css: "color:" + colorCombination.colour_font + "; " +
-                "background: " + colorCombination.colour_selected_background + "; " +
-                "--border-color:" + colorCombination.colour_border + ";" +
-                "border-top: 4px solid " + colorCombination.colour_border + "; " +
-                "border-bottom: 4px solid " + colorCombination.colour_border + "; ",
-              attributes: {dataType: annotationAttributes[m].value}
-            });
-          } else {
-            // Normal marker
-            this.editor.markText(selection.start, selection.end, {
-              className: markClassName,
-              css: "color:" + colorCombination.colour_font + ";" +
-                "background:" + colorCombination.colour_background + ";" +
-                "--border-color:" + colorCombination.colour_border + ";",
-              attributes: {dataType: annotationAttributes[m].value}
-            });
+          switch (this.annotationMode) {
+            case AnnotationMode.TEXT:
+              if (selected) {
+                // Selected marker
+                this.editor.markText(selection.start, selection.end, {
+                  className: markClassName,
+                  css: "color:" + colorCombination.colour_font + "; " +
+                    "background: " + colorCombination.colour_selected_background + "; " +
+                    "--border-color:" + colorCombination.colour_border + ";" +
+                    "border-top: 4px solid " + colorCombination.colour_border + "; " +
+                    "border-bottom: 4px solid " + colorCombination.colour_border + "; ",
+                  attributes: {dataType: annotationAttributes[m].value}
+                });
+              } else {
+                // Normal marker
+                this.editor.markText(selection.start, selection.end, {
+                  className: markClassName,
+                  css: "color:" + colorCombination.colour_font + ";" +
+                    "background:" + colorCombination.colour_background + ";" +
+                    "--border-color:" + colorCombination.colour_border + ";",
+                  attributes: {dataType: annotationAttributes[m].value}
+                });
+              }
+              this.overlayMarkAdd(l, selection.start, selection.end,
+                visAnnotation);
+              break;
+            case AnnotationMode.IMAGE:
+              var cell;
+              var markup = { markup: [{ className: markClassName }]};
+              switch (annotationSpan.type) {
+                case "rect":
+                default:
+                  cell = new joint.shapes.standard.Rectangle();
+              }
+              cell.position(annotationSpan.x, annotationSpan.y);
+              cell.resize(annotationSpan.width, annotationSpan.height);
+              cell.rotate(annotationSpan.rotation);
+              cell.attr('body/cursor', 'pointer');
+              cell.attr('body/stroke', colorCombination.colour_border);
+              cell.attr('body/stroke-width', selected ? 4 : 1);
+              cell.attr('body/fill', selected ? colorCombination.colour_selected_background : colorCombination.colour_background);
+              cell.attr('body/fill-opacity', '0.3');
+              cell.attr('body/stroke-opacity', '0.8');
+              cell.set('elementMove', false);
+              cell.set('annotation', visAnnotation.annotation);
+              // console.error("TextWidgetComponent: addVisualsForPlainAnnotation() =>", cell.get('annotation'));
+              cell.addTo(this.graph);
+              if (!(visAnnotation.annotation._id in this.annotationIdToGraphItem)) {
+                this.annotationIdToGraphItem[visAnnotation.annotation._id] = {};
+              }
+              this.annotationIdToGraphItem[visAnnotation.annotation._id][l] = cell;
+              // No need to call overlayMarkAdd(), as we have already call the overlay.
+              // However, we need to highlight it if needed (a check done inside overlayMarkAdd()).
+              this.overlayMarkAdd(-1, -1, -1, visAnnotation);
+              break;
           }
-          this.overlayMarkAdd(l, selection.start, selection.end,
-            visAnnotation);
 
           break;
         case "Coreference Annotator":
@@ -1335,8 +1451,7 @@ export class TextWidgetComponent extends BaseControlComponent
           var markClassName = "id-" + String(visAnnotation.annotation._id).trim() + " " +
             markerId + this.markedTextClass + colorClass;
 
-          if (typeof (visAnnotation.selected) != "undefined" &&
-            visAnnotation.selected) {
+          if (selected) {
             // Selected marker
             mark = this.editor.markText(selection.start, selection.end, {
               className: markClassName,
@@ -1377,7 +1492,7 @@ export class TextWidgetComponent extends BaseControlComponent
       link.instance.attr('line/stroke', (valid ? '#808080' : "red"));
     });
     // (Re)generate the SPAN elements that show the marker types
-    // Petasis, 20/03/2021: non needed anymore! addTypeAttributesToMarkers();
+    // Petasis, 20/03/2021: not needed anymore! addTypeAttributesToMarkers();
     return true;
   }; /* addVisualsForPlainAnnotation */
 
@@ -1431,7 +1546,7 @@ export class TextWidgetComponent extends BaseControlComponent
           // If settings omit this annotation, skip it...
           return; // continue;
         }
-        // console.error("survived:", currAnnotation.annotation);
+        // console.error("TextWidgetComponent: survived:", currAnnotation.annotation);
 
         if (this.TextWidgetAPI.isRelationAnnotationType(currAnnotation.annotation)) {
           if (this.addVisualsForRelationAnnotation(currAnnotation, annotatorType)) {
@@ -1555,6 +1670,7 @@ export class TextWidgetComponent extends BaseControlComponent
    * @returns {boolean}
    */
   deleteAnnotations() {
+    // console.error("TextWidgetComponent: deleteAnnotations()");
     if (!this.TextWidgetAPI.checkIsRunning()) //check if running
       this.TextWidgetAPI.enableIsRunning();
     else
@@ -1609,7 +1725,7 @@ export class TextWidgetComponent extends BaseControlComponent
 
   deleteSelectedAnnotation(...e) {
     // if (evt.which != 46)           {return false;} // key, code = "Delete"
-    console.error("TextWidgetComponent: deleteSelectedAnnotation():", e);
+    // console.error("TextWidgetComponent: deleteSelectedAnnotation():", e);
     if (this.TextWidgetAPI.checkIsRunning()) { return false; }
     var annotationToBeDeleted: any = this.TextWidgetAPI.getSelectedAnnotation();
     if (Object.keys(annotationToBeDeleted).length == 0) { return false; }
@@ -1640,19 +1756,31 @@ export class TextWidgetComponent extends BaseControlComponent
 
   updateCurrentSelection() {
     var currentSel: any = this.TextWidgetAPI.getCurrentSelection();
+    // console.error("TextWidgetComponent: updateCurrentSelection():", currentSel);
 
     if (typeof (currentSel) == "undefined") {
       return;
     } else if (Object.keys(currentSel).length == 0) {
-      this.editor.setSelection({
-        line: 0,
-        ch: 0
-      }, {
-        line: 0,
-        ch: 0
-      }, {
-        scroll: false
-      });
+      switch (this.annotationMode) {
+        case AnnotationMode.TEXT:
+          this.editor.setSelection({
+            line: 0,
+            ch: 0
+          }, {
+            line: 0,
+            ch: 0
+          }, {
+            scroll: false
+          });
+          break;
+        case AnnotationMode.IMAGE:
+          if (this.imageAnnotator.selection) {
+            // If there is a selection, deselect it...
+            this.imageAnnotator.selection.remove();
+           }
+           this.imageAnnotator.selection = undefined;
+           break;
+      }
     } else {
       var sel = this.computeSelectionFromOffsets(parseInt(currentSel.startOffset),
         parseInt(currentSel.endOffset));
@@ -1663,6 +1791,7 @@ export class TextWidgetComponent extends BaseControlComponent
   }; /* updateCurrentSelection */
 
   scrollToAnnotation(annotation=undefined) {
+    // console.error("TextWidgetComponent: scrollToAnnotation():", annotation);
     if (!annotation) {
       annotation = this.TextWidgetAPI.getScrollToAnnotation();
     }
@@ -1749,20 +1878,21 @@ export class TextWidgetComponent extends BaseControlComponent
   };
 
   imageOverlayPointerDown(evt, x, y) {
-    console.error("imageOverlayPointerDown:", evt, x, y);
+    // console.error("TextWidgetComponent: imageOverlayPointerDown:", evt, x, y);
     // From: https://github.com/clientIO/joint/blob/master/demo/rough/src/rough.js
     if (this.imageAnnotator.selection) {
       // If there is a selection, deselect it...
       this.imageAnnotator.selection.remove();
     }
     this.imageAnnotator.selection = undefined;
+    this.TextWidgetAPI.clearSelection();
     evt.data = {};
     evt.data["x"] = x;
     evt.data["y"] = y;
   }; /* imageOverlayPointerDown */
 
   imageOverlayPointerMove(evt, x, y) {
-    console.error("imageOverlayPointerMove:", evt, x, y, evt.data);
+    // console.error("TextWidgetComponent: imageOverlayPointerMove:", evt, x, y, evt.data);
     var data = evt.data;
     var cell;
     // If we do not have a selection, create one...
@@ -1774,11 +1904,15 @@ export class TextWidgetComponent extends BaseControlComponent
           fill: "red"
         }
       }});
-      cell.attr('body/fill-opacity', '0.5');
+      cell.attr('body/fill-opacity',   '0.5');
+      cell.attr('body/stroke-opacity', '0.8');
       cell.position(x, y);
+      cell.set('elementMove', true);
+      cell.set('annotation',  null);
       data["x"] = x;
       data["y"] = y;
       cell.addTo(this.graph);
+      cell.on('change', this.imageOverlayElementChange.bind(this));
       this.imageAnnotator.selection = cell;
     } else {
       cell = this.imageAnnotator.selection;
@@ -1796,28 +1930,50 @@ export class TextWidgetComponent extends BaseControlComponent
   }; /* imageOverlayPointerMove */
 
   imageOverlayPointerUp(evt, x, y) {
-    //console.error("imageOverlayPointerUp:", evt, x, y);
-    //var cell = evt.data.cell;
-    //if (cell.isLink()) return;
-    //var color = ['#31d0c6', '#7c68fc', '#fe854f', '#feb663', '#c6c7e2'][joint.g.random(0,4)];
-    /*cell.attr({
-      body: {
-        stroke: color,
-        fill: "transparent"
-      }
-    });*/
+    // console.error("TextWidgetComponent: imageOverlayPointerUp:", evt, x, y);
+    var selection = this.getSelectionInfo();
+    if (Object.keys(selection).length > 0) {
+      this.TextWidgetAPI.setCurrentSelection(selection, false);
+      this.TextWidgetAPI.clearSelectedAnnotation();
+    }
   }; /* imageOverlayPointerUp */
 
+  imageOverlayElementChange(element, opt) {
+    var selection = this.getSelectionInfo();
+    if (Object.keys(selection).length > 0) {
+      this.TextWidgetAPI.setCurrentSelection(selection, false);
+      this.TextWidgetAPI.clearSelectedAnnotation();
+    }
+  }; /* imageOverlayElementChange */
+
+  imageOverlayElementPointerClick(elementView, evt, x, y) {
+    // console.error("TextWidgetComponent: imageOverlayElementPointerClick():", elementView, elementView.model.annotation);
+    // Deselect everything...
+    this.imageOverlayPointerDown(evt, x, y);
+    var annotation = elementView.model.get("annotation");
+    if (annotation != null) {
+      var selectedAnnotation = this.TextWidgetAPI.getAnnotationById(annotation._id);
+      var prevAnnotationId   = this.TextWidgetAPI.getSelectedAnnotation()["_id"];
+      if (typeof (selectedAnnotation) != "undefined" &&
+          prevAnnotationId !== selectedAnnotation._id) {
+        this.TextWidgetAPI.setSelectedAnnotation(selectedAnnotation);
+      }
+    }
+  }; /* imageOverlayElementPointerClick */
+
   imageOverlayElementMouseEnter(elementView) {
+    var selection = this.imageAnnotator.selection && this.imageAnnotator.selection.findView(this.paper) == elementView;
+    if (!selection) return;
     var model = elementView.model;
-    var bbox = model.getBBox();
+    var bbox  = model.getBBox();
+
     elementView.addTools(new joint.dia.ToolsView({
       tools: [
         new joint.elementTools.Remove({
           useModelGeometry: true,
           y: '50%',
           x: '50%',
-          offset: { x: -3, y: 3 }
+          offset: { x: 0, y: 0 }
         }),
         new joint.elementTools.Boundary({
           focusOpacity: 0.6,
@@ -1831,13 +1987,16 @@ export class TextWidgetComponent extends BaseControlComponent
         new ShapeControl.ShapeLTControl({ handleAttributes: { fill: 'orange', cursor: 'nw-resize' }}),
         new ShapeControl.ShapeLBControl({ handleAttributes: { fill: 'orange', cursor: 'sw-resize' }}),
         new ShapeControl.ShapeRTControl({ handleAttributes: { fill: 'orange', cursor: 'ne-resize' }}),
-        new ShapeControl.ShapeRBControl({ handleAttributes: { fill: 'orange', cursor: 'se-resize' }})
+        new ShapeControl.ShapeRBControl({ handleAttributes: { fill: 'orange', cursor: 'se-resize' }}),
+        new ShapeControl.ShapeRotateControl({ handleAttributes: { fill: 'blue', cursor: 'move' }})
       ]
     }));
   }; /* imageOverlayElementMouseEnter */
 
-  imageOverlayCellMouseLeave(cellView) {
-    cellView.removeTools();
+  imageOverlayCellMouseLeave(elementView) {
+    var selection = this.imageAnnotator.selection && this.imageAnnotator.selection.findView(this.paper) == elementView;
+    if (!selection) return;
+    elementView.removeTools();
   }; /* imageOverlayCellMouseLeave */
 
 }

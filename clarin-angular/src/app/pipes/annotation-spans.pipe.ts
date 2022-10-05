@@ -11,7 +11,7 @@ export class AnnotationSpansPipe implements PipeTransform {
     // If we have spans, transform the spans...
     if (ann.spans.length) {
       return ann.spans.map((s) => 
-        '['+s.start.toString()+':'+s.end.toString()+']').join(', ');
+        '['+(s.start >= 0 ? s.start : s.x).toString()+':'+(s.end >=0 ? s.end : s.y).toString()+']').join(', ');
     }
     // No spans. Do we have an array of spans as argument?
     if (!anns) {return "";}
@@ -25,7 +25,7 @@ export class AnnotationSpansPipe implements PipeTransform {
       return accumulator;
     }, []);
     return spans.map((s) => 
-        '['+s.start.toString()+':'+s.end.toString()+']').join(', ');
+        '['+(s.start >= 0 ? s.start : s.x).toString()+':'+(s.end >=0 ? s.end : s.y)+']').join(', ');
   }
 
 }
