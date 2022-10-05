@@ -23,6 +23,9 @@ export class DocumentService {
         switch (documentFile.type.toLowerCase()) {
           case "png":
           case "jpeg":
+          case "gif":
+          case "tiff":
+          case "webp":
             docData["data_image"] = reader.result;
             break;
           case "text":
@@ -37,6 +40,9 @@ export class DocumentService {
       switch (documentFile.type.toLowerCase()) {
         case "png":
         case "jpeg":
+        case "gif":
+        case "tiff":
+        case "webp":
           reader.readAsDataURL(documentFile.file);
           break;
         case "text":

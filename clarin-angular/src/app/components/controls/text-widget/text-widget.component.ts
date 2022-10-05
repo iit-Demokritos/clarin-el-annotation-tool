@@ -585,6 +585,9 @@ export class TextWidgetComponent extends BaseControlComponent
     switch (doc.type.toLowerCase()) {
       case "png":
       case "jpeg":
+      case "gif":
+      case "tiff":
+      case "webp":
         this.annotationMode = AnnotationMode.IMAGE;
         this.annotationImageURL = doc.data_image;
         this.textWidgetOverlay.nativeElement.style.pointerEvents = "all";
