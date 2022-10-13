@@ -6,10 +6,6 @@ import { LoginService } from './login.service';
 import { filterObject, isEmptyObject } from './helpers';
 import { Token, User } from './interface';
 
-// OAuthService
-import { OAuthService, /*JwksValidationHandler,*/ AuthConfig } from 'angular-oauth2-oidc';
-import { VAST_AuthCodeFlowConfig } from '@services/oauth-services/vast-oauth-service.service';
-
 @Injectable({
   providedIn: 'root',
 })
@@ -24,11 +20,7 @@ export class AuthService {
   );
 
   constructor(private loginService: LoginService,
-              private tokenService: TokenService,
-              private oauthService: OAuthService) {
-    this.oauthService.configure(VAST_AuthCodeFlowConfig);
-    // this.oauthService.tokenValidationHandler = new JwksValidationHandler();
-    //this.oauthService.loadDiscoveryDocumentAndTryLogin();
+              private tokenService: TokenService) {
   }; /* constructor */
 
   init() {
@@ -105,14 +97,4 @@ export class AuthService {
     return this.loginService.authenticated();
   }; /* authenticated */
 
-  /*
-   * Social login: OAUTH 2.0
-   */
-  loginSocial(provider: string = "VAST") {
-    console.error("AuthService: loginSocial(): provider:", provider);
-    this.oauthService.configure(VAST_AuthCodeFlowConfig);
-    this.oauthService.loadDiscoveryDocumentAndTryLogin();
-    this.oauthService.initImplicitFlow();
-
-  }; /* loginSocial */
 }

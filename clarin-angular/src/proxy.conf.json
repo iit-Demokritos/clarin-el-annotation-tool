@@ -7,6 +7,6 @@
       "port": 443
   },
   "secure": true,
-  "changeOrigin": false,
+  "changeOrigin": true,
   "logLevel": "debug"
 }

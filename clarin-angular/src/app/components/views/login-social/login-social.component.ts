@@ -8,18 +8,12 @@ import { filter } from 'rxjs/operators';
 import { LoginComponent }  from '@components/views/login/login.component';
 import { Token } from '@core/authentication/interface';
 
-import  packageJson from '@src/../package.json';
-
 @Component({
-  selector: 'app-login',
-  templateUrl: '../login/login.component.html',
+  selector: 'app-login-social',
+  template: '<app-login></app-login>'
+  // templateURL: '../login/login.component.html',
 })
 export class LoginSocialComponent extends LoginComponent implements OnInit {
-  loginForm: FormGroup;
-  hide_password = true;
-
-  public appVersion: string = packageJson.version;
-
   route_params: any;
   user_authenticated: any;
 
