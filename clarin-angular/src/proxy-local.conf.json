@@ -1,38 +1,8 @@
 {
-  "/api": {
-    "target": {
-        "host": "127.0.0.1",
-        "protocol": "http:",
-        "port": 8000
-    },
-    "changeOrigin": true,
-    "logLevel": "debug"
-  },
-  "/analytics": {
-    "target": {
-        "host": "127.0.0.1",
-        "protocol": "http:",
-        "port": 8000
-    },
-    "changeOrigin": true,
-    "logLevel": "debug"
-  },
-  "/drag_and_drop": {
-    "target": {
-        "host": "127.0.0.1",
-        "protocol": "http:",
-        "port": 8000
-    },
-    "changeOrigin": true,
-    "logLevel": "debug"
-  },
-  "/nlp": {
-    "target": {
-        "host": "127.0.0.1",
-        "protocol": "http:",
-        "port": 8000
-    },
-    "changeOrigin": true,
-    "logLevel": "debug"
-  }
+  "context": ["/api", "/analytics", "/drag_and_drop", "/nlp",
+              "/media_data_lake", "/social_login", "/accounts"],
+  "target": "http://127.0.0.1:8000",
+  "secure": false,
+  "changeOrigin": false,
+  "logLevel": "debug"
 }

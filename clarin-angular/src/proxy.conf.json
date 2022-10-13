@@ -1,52 +1,12 @@
 {
-  "/api": {
-    "target": {
-        "host": "annotation.ellogon.org",
-        "protocol": "https:",
-        "port": 443
-    },
-    "secure": true,
-    "changeOrigin": true,
-    "logLevel": "debug"
+  "context": ["/api", "/analytics", "/drag_and_drop", "/nlp", "/media_data_lake",
+              "/social_login", "/accounts"],
+  "target": {
+      "host": "annotation.ellogon.org",
+      "protocol": "https:",
+      "port": 443
   },
-  "/analytics": {
-    "target": {
-        "host": "annotation.ellogon.org",
-        "protocol": "https:",
-        "port": 443
-    },
-    "secure": true,
-    "changeOrigin": true,
-    "logLevel": "debug"
-  },
-  "/drag_and_drop": {
-    "target": {
-        "host": "annotation.ellogon.org",
-        "protocol": "https:",
-        "port": 443
-    },
-    "secure": true,
-    "changeOrigin": true,
-    "logLevel": "debug"
-  },
-  "/nlp": {
-    "target": {
-        "host": "annotation.ellogon.org",
-        "protocol": "https:",
-        "port": 443
-    },
-    "secure": true,
-    "changeOrigin": true,
-    "logLevel": "debug"
-  },
-  "/media_data_lake": {
-    "target": {
-        "host": "annotation.ellogon.org",
-        "protocol": "https:",
-        "port": 443
-    },
-    "secure": true,
-    "changeOrigin": true,
-    "logLevel": "debug"
-  }
+  "secure": true,
+  "changeOrigin": false,
+  "logLevel": "debug"
 }

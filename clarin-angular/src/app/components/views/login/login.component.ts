@@ -6,6 +6,7 @@ import { AuthService } from '@core/authentication/auth.service';
 import { FlashMessagesService } from 'flash-messages-angular';
 import { filter } from 'rxjs/operators';
 import  packageJson from '@src/../package.json';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -17,9 +18,10 @@ export class LoginComponent implements OnInit {
 
   public appVersion: string = packageJson.version;
 
-  constructor(private fb: FormBuilder, private router: Router,
-    private auth: AuthService,
-    private flashMessage: FlashMessagesService) { }
+  constructor(public fb: FormBuilder,
+              public router: Router,
+              public auth: AuthService,
+              public flashMessage: FlashMessagesService) { }
 
   ngOnInit() {
     this.loginForm = this.fb.group({
@@ -27,7 +29,14 @@ export class LoginComponent implements OnInit {
       password: ['', [Validators.required]],
       remember_me: [false],
     });
-  }
+    /*this.auth.authenticated().subscribe(
+      (data) => {
+        console.error("LoginComponent: ngOnInit(): data:", data);
+      },
+      (error: HttpErrorResponse) => {
+        console.error("LoginComponent: ngOnInit(): error:", error);
+      });*/
+  }; /* ngOnInit */
 
   get username() {
     return this.loginForm.get('username');
@@ -66,5 +75,6 @@ export class LoginComponent implements OnInit {
           }
         }
       );
-  }
+  }; // login
+
 }

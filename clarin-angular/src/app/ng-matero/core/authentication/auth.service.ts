@@ -6,6 +6,10 @@ import { LoginService } from './login.service';
 import { filterObject, isEmptyObject } from './helpers';
 import { Token, User } from './interface';
 
+// OAuthService
+import { OAuthService, /*JwksValidationHandler,*/ AuthConfig } from 'angular-oauth2-oidc';
+import { VAST_AuthCodeFlowConfig } from '@services/oauth-services/vast-oauth-service.service';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -19,7 +23,13 @@ export class AuthService {
     share()
   );
 
-  constructor(private loginService: LoginService, private tokenService: TokenService) {}
+  constructor(private loginService: LoginService,
+              private tokenService: TokenService,
+              private oauthService: OAuthService) {
+    this.oauthService.configure(VAST_AuthCodeFlowConfig);
+    // this.oauthService.tokenValidationHandler = new JwksValidationHandler();
+    //this.oauthService.loadDiscoveryDocumentAndTryLogin();
+  }; /* constructor */
 
   init() {
     return new Promise<void>(resolve => this.change$.subscribe(() => resolve()));
@@ -39,6 +49,11 @@ export class AuthService {
       map(() => this.check())
     );
   }
+
+  loginToken(token?: Token): boolean {
+    this.tokenService.set(token);
+    return this.check();
+  }; /* loginTokens */
   
   reset(email: string,) {
     this.tokenService.clear();
@@ -84,4 +99,20 @@ export class AuthService {
 
     return this.loginService.me().pipe(tap(user => this.user$.next(user)));
   }
+
+  authenticated() {
+    // console.error("AuthService: authenticated()");
+    return this.loginService.authenticated();
+  }; /* authenticated */
+
+  /*
+   * Social login: OAUTH 2.0
+   */
+  loginSocial(provider: string = "VAST") {
+    console.error("AuthService: loginSocial(): provider:", provider);
+    this.oauthService.configure(VAST_AuthCodeFlowConfig);
+    this.oauthService.loadDiscoveryDocumentAndTryLogin();
+    this.oauthService.initImplicitFlow();
+
+  }; /* loginSocial */
 }

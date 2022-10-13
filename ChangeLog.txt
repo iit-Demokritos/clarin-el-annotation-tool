@@ -1,4 +1,21 @@
 13-October-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * clarin-angular/package.json: Updated version to 3.2.0. (Supports VAST
+ login).
+
+ * clarin-angular/src/app/components/views/login-social/:
+ * clarin-angular/src/app/app-routing.module.ts:
+ * clarin-angular/src/app/app.component.ts:
+ * clarin-angular/src/app/app.module.ts:
+ * clarin-angular/src/app/components/views/login/login.component.html:
+ * clarin-angular/src/app/components/views/login/login.component.ts:
+ * clarin-angular/src/app/ng-matero/core/authentication/auth.service.ts:
+ * clarin-angular/src/app/ng-matero/core/authentication/login.service.ts:
+ * clarin-angular/src/assets/i18n/el-GR.json:
+ * clarin-angular/src/assets/i18n/en-US.json:
+ * clarin-angular/src/css/clarin-material.scss:
+ * clarin-angular/src/proxy-local.conf.json:
+ * clarin-angular/src/proxy.conf.json: Added support for VAST login.
+
  * backend-django/vast_auth2/views.py: Implemented VAST login (OAuth2).
 
  * backend-django/clarin_backend/views.py: Added class UserAuthenticated().

@@ -7,16 +7,17 @@ import { ProfileComponent } from './components/views/profile/profile.component';
 import { WelcomeComponent } from './components/views/welcome/welcome.component';
 
  /* Petasis, 18/06/21: ng-matero template: https://github.com/ng-matero/ng-matero */
-import { SharedModule }           from '@shared/shared.module';
-import { AdminLayoutComponent }   from './ng-matero/theme/admin-layout/admin-layout.component';
-import { AuthLayoutComponent }    from './ng-matero/theme/auth-layout/auth-layout.component';
-import { DashboardComponent }     from './ng-matero/routes/dashboard/dashboard.component';
-//import { LoginComponent }         from './ng-matero/routes/sessions/login/login.component';
-import { AuthLayoutModComponent } from './components/views/auth-layout-mod/auth-layout-mod.component';
-import { LoginComponent }         from './components/views/login/login.component';
-import { RegisterComponent }      from './components/views/register/register.component';
-import { ResetPasswordComponent } from './components/views/reset-password/reset-password.component';
-import { AuthGuard }              from '@core';
+import { SharedModule }                from '@shared/shared.module';
+import { AdminLayoutComponent }        from './ng-matero/theme/admin-layout/admin-layout.component';
+import { AuthLayoutComponent }         from './ng-matero/theme/auth-layout/auth-layout.component';
+import { DashboardComponent }          from './ng-matero/routes/dashboard/dashboard.component';
+//import { LoginComponent }            from './ng-matero/routes/sessions/login/login.component';
+import { AuthLayoutModComponent }      from './components/views/auth-layout-mod/auth-layout-mod.component';
+import { LoginComponent }              from './components/views/login/login.component';
+import { LoginSocialComponent }        from './components/views/login-social/login-social.component';
+import { RegisterComponent }           from './components/views/register/register.component';
+import { ResetPasswordComponent }      from './components/views/reset-password/reset-password.component';
+import { AuthGuard }                   from '@core';
 
 import { InspectDocumentComponent }    from './components/views/inspect-document/inspect-document.component';
 import { CompareAnnotationsComponent } from './components/views/compare-annotations/compare-annotations.component';
@@ -42,10 +43,10 @@ const routes: Routes = [
     canActivateChild: [AuthGuard],
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'dashboard',          component: DashboardComponent },
-      { path: 'collections/add',    component: AddCollectionComponent },
-      { path: 'collections/manage', component: ManageCollectionsComponent },
-      { path: "annotation",         component: AnnotationComponent },
+      { path: 'dashboard',                     component: DashboardComponent },
+      { path: 'collections/add',               component: AddCollectionComponent },
+      { path: 'collections/manage',            component: ManageCollectionsComponent },
+      { path: "annotation",                    component: AnnotationComponent },
       { path: "inspection/document",           component: InspectDocumentComponent },
       { path: "inspection/compareannotations", component: CompareAnnotationsComponent },
       { path: "inspection/comparedocuments",   component: CompareDocumentsComponent },
@@ -61,9 +62,10 @@ const routes: Routes = [
     path: 'auth',
     component: AuthLayoutModComponent,
     children: [
-      { path: 'login',    component: LoginComponent },
-      { path: 'register', component: RegisterComponent },
-      { path: 'reset',    component: ResetPasswordComponent },
+      { path: 'loginsocial', component: LoginSocialComponent },
+      { path: 'login',       component: LoginComponent },
+      { path: 'register',    component: RegisterComponent },
+      { path: 'reset',       component: ResetPasswordComponent },
     ],
   },
   { path: 'profile/overview', redirectTo: 'app/profile/overview' },

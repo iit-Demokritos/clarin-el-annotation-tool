@@ -196,7 +196,11 @@
     "please_enter_email": "Please enter your user name (e-mail)",
     "Reset Password": "Reset Password",
     "Forgot your password?": "Forgot your password?",
-    "reset_password": "Click here to reset your password!"
+    "reset_password": "Click here to reset your password!",
+    "sign_in_with_vast": "Sign in with VAST",
+    "sign_in_with": "Sign in with",
+    "or": "or",
+    "OR": "OR"
   },
   "register": {
     "welcome": "Welcome",

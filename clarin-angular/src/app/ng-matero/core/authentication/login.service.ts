@@ -99,6 +99,12 @@ export class LoginService {
     );
   }; /* me */
 
+  authenticated() {
+    // console.error("LoginService: authenticated()");
+    // this.refreshCSRFToken();
+    return this.http.get<any>('/api/user/authenticated');
+  }; /* authenticated */
+
   menu() {
     //return this.http.get<{ menu: Menu[] }>('/me/menu').pipe(map(res => res.menu));
     return this.http.get<{ menu: Menu[] }>('assets/data/menu.json?_t=' + Date.now()).pipe(map(res => res.menu));

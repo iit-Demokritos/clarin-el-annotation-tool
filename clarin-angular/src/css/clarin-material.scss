@@ -57,6 +57,46 @@ $foreground: map-get($theme, foreground);
   .register-card {
     max-width: 500px;
   }
+  .division {
+    float: none;
+    margin: 18px auto 18px;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    width: 100%;
+    .line {
+      border-top: 1px solid #dfdfdf;
+      position: absolute;
+      top: 10px;
+      width: 34%;
+    }
+    .line.l {
+      left: 0;
+    }
+    .line.r {
+      right: 0;
+    }
+  }
+  .social_login {
+    align-items: center;
+    text-align: center;
+    button {
+      width: 80%;
+    }
+    .social_logo {
+      // font-size: 40px;
+      //transform: scale(2);
+      // font-size: 50px;
+      height: 40px ;
+      width: 80px;
+      margin-top:6px;
+      margin-right: 20px;
+      margin-bottom: 6px;
+    }
+    .social_logo_vast {
+      filter: brightness(80);
+    }
+  }
 }
 
 .tool-header-avatar-image {

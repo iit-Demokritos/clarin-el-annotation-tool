@@ -24,7 +24,7 @@
       <mat-form-field appearance="outline">
         <mat-label>{{'login.password' | translate}}:</mat-label>
         <input matInput placeholder="password" [type]="hide_password ? 'password' : 'text'" formControlName="password" required>
-	<mat-icon matSuffix (click)="hide_password = !hide_password">{{hide_password ? 'visibility_off' : 'visibility'}}</mat-icon>
+        <mat-icon matSuffix (click)="hide_password = !hide_password">{{hide_password ? 'visibility_off' : 'visibility'}}</mat-icon>
         <mat-error *ngIf="password.invalid">
           <span *ngIf="password.errors.required">
             {{'login.please_enter_password' | translate}}
@@ -51,6 +51,23 @@
         <a routerLink="/auth/reset">{{'login.reset_password' | translate}}</a>
       </div>
     </form>
+    <div class="division">
+      <div class="line l"></div>
+      <span>{{'login.OR' | translate}}</span>
+      <div class="line r"></div>
+    </div>
+    <div class="social_login">
+      <!--<mat-icon svgIcon="logo_vast" class="social_logo"></mat-icon> -->
+      <!-- /social_login/vast/url/ --> 
+      <form #social_login_form name="social_login_form" action="/accounts/vastauth2/login/?process=login" method="post" novalidate>
+        <input type="hidden" name="process" value="login">
+        <input type="hidden" name="next"    value="/auth/loginsocial">
+        <button mat-raised-button color="primary" (click)="social_login_form.submit()" type="submit">
+          <mat-icon svgIcon="logo_vast" class="social_logo social_logo_vast"></mat-icon> {{'login.sign_in_with' | translate}} VAST
+          <mat-icon>open_in_new</mat-icon>
+        </button>
+      </form>
+    </div>
   </mat-card>
 </div>
 <div class="text-right m-t-8">{{'Version'|translate}}: {{appVersion}}</div>
