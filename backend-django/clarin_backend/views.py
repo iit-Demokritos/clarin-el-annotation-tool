@@ -182,7 +182,7 @@ class LogoutAndBlacklistRefreshTokenForUserView(APIView):
             tokens = OutstandingToken.objects.filter(user_id=request.user.id)
             for token in tokens:
                 t, _ = BlacklistedToken.objects.get_or_create(token=token)
-            return Response({"success": True, "message": "You successfully signed out."}, status=status.HTTP_200_OK)
+            return authentication.deleteJWTCookie(Response({"success": True, "message": "You successfully signed out."}, status=status.HTTP_200_OK))
         except Exception as e:
             print("LogoutAndBlacklistRefreshTokenForUserView get error:"+str(e))
             return Response({"success": True, "message": "Logout error:"+str(e)}, status=status.HTTP_400_BAD_REQUEST)
@@ -195,7 +195,7 @@ class LogoutAndBlacklistRefreshTokenForUserView(APIView):
             refresh_token = request.data["refresh_token"]
             token = RefreshToken(refresh_token)
             token.blacklist()
-            return Response({"success": True, "message": "You successfully signed out."}, status=status.HTTP_205_RESET_CONTENT)
+            return authentication.deleteJWTCookie(Response({"success": True, "message": "You successfully signed out."}, status=status.HTTP_205_RESET_CONTENT))
         except Exception as e:
             print("LogoutAndBlacklistRefreshTokenForUserView post error:"+str(e))
             return Response({"success": True, "message": "Logout error:"+str(e)}, status=status.HTTP_400_BAD_REQUEST)
@@ -360,6 +360,39 @@ class Me(APIView):
             print("UpdateProfile error:"+str(e))
             return Response(data={"success": False, "message": "Your changes have not been saved"},
                             status=status.HTTP_400_BAD_REQUEST)
+
+@method_decorator(ensure_csrf_cookie, name='dispatch')
+class UserAuthenticated(APIView):
+    permission_classes = (permissions.AllowAny,)
+    # authentication_classes = ()
+    
+    @extend_schema(request=None,responses={200: None},description="Returns whether the user is authenticated.")
+    def get(self, request):
+        # print("CSRF Token:", request.META["CSRF_COOKIE"], flush=True)
+        # print("User Authenticated:", request.user.is_authenticated, ", Session key:", request.session.session_key, flush=True)
+        user = request.user
+        # print("User:", user.__dict__)
+        data = {
+          "success": True,
+          "message": "",
+          "data":    {
+              "authenticated": False,
+              "jwtToken": {},
+              "user": {
+                  "id":         getattr(user, "pk", None),
+                  "first_name": getattr(user, "first_name", None),
+                  "last_name":  getattr(user, "last_name", None),
+                  "email":      getattr(user, "email", None),
+                  "last_login": getattr(user, "last_login", None)
+              }
+          }
+        }
+        if request.user.is_authenticated:
+            data["message"] = "User is authenticated."
+            data["data"]["authenticated"] = True
+        else:
+            data["message"] = "User is not authenticated."
+        return Response(data = data, status = status.HTTP_200_OK)
 
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')

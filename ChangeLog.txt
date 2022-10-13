@@ -1,3 +1,14 @@
+13-October-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * backend-django/vast_auth2/views.py: Implemented VAST login (OAuth2).
+
+ * backend-django/clarin_backend/views.py: Added class UserAuthenticated().
+
+ * backend-django/clarin_backend/urls.py: Added paths 'auth/loginsocial' and 
+ 'api/user/authenticated'.
+
+ * backend-django/DjangoClarin/authentication.py: Added function
+ deleteJWTCookie().
+
 05-October-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/package.json: Updated version to 3.1.0.
 

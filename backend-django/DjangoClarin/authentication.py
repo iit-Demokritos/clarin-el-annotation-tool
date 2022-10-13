@@ -18,6 +18,10 @@ def setJWTCookie(response, access_token):
     )
     return response
 
+def deleteJWTCookie(response):
+    response.delete_cookie(settings.SIMPLE_JWT['AUTH_COOKIE'])
+    return response
+
 class CustomAuthentication(JWTAuthentication):
     
     def authenticate(self, request):

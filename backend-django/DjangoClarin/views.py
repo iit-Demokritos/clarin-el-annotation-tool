@@ -162,7 +162,7 @@ class GetCsrfToken(APIView):
     authentication_classes = ()
     def get(self,request):
             cstf_token_val=get_token(request)
-            print(cstf_token_val)
+            #print(cstf_token_val)
             request.META["X-XSRF-TOKEN"]=cstf_token_val
             return Response(data={"success": True, "data": []},
                                 status=status.HTTP_200_OK)

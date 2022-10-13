@@ -83,7 +83,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google', # for Google OAuth 2.0
     'vast_auth2',
-    #'allauth.socialaccount.providers.openid', # for OpenId
+
 
     # django-oidc-auth
     #'oidc_auth',

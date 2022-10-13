@@ -28,5 +28,14 @@ urlpatterns = [
     path('importapi/',     include('importapi.urls')),
     path('nlp/',           include('nlp.urls')),
     re_path('^assets/(?P<path>.*)$', static.serve, {'document_root': settings.BASE_DIR / "static" / "assets"}),
-    path('',               include('clarin_backend.urls')) #change clarin to /?
+    # path('',               include('clarin_backend.urls')) #change clarin to /?
 ]
+
+if settings.DEBUG:
+    from django.conf.urls.static import static as static2 
+    print(settings.MEDIA_URL, settings.MEDIA_ROOT)
+    urlpatterns += static2(settings.MEDIA_URL,
+                           document_root=settings.MEDIA_ROOT)
+
+urlpatterns.append(path('', include('clarin_backend.urls')))
+

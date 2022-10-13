@@ -5,12 +5,12 @@ from rest_framework import status
 from clarin_backend.models import Collections, Documents
 from .pipelines import *
 
-import requests
-import json
 from clarin_backend.sql_views import SQLDBAPIView
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.forms.models import model_to_dict
+import requests
+import json
 
 class GPUInfoView(APIView):
     """
