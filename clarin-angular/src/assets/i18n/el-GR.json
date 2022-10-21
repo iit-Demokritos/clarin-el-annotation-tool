@@ -247,11 +247,22 @@
   },
   "pageheader": {
     "Personal Profile": "Personal Profile",
-    "Dashboard": "Dashboard",
+    "Dashboard": "Ταμπλό",
     "Add New Collection": "Add New Collection",
     "Manage Collections": "Manage Collections",
     "Inspect Document": "Inspect Document",
     "Annotation Values": "Annotation Values"
+  },
+  "dashboard": {
+    "Collections": "Συλλογές",
+    "Documents": "Έγγραφα",
+    "Annotations": "Επισημειώσεις",
+    "MyCollections": "Οι Συλλογές μου",
+    "MySharedCollections": "Συλλογές Κοινοποιημένες σε εμένα",
+    "MyUnsharedCollections": "Συλλογές που δεν είναι πλέον Κοινοποιημένες σε εμένα",
+    "MyCollectionsInfo": "Statistics about all the Collections owned by me.",
+    "MySharedCollectionsInfo": "Statistics about Collections that are not owned by me, but they have been shared with me.",
+    "MyUnsharedCollectionsInfo": "Statistics about Collections that have been shared with me in the past, but are no longer shared with me."
   },
   "Analytics": {
     "Charts": "Charts",

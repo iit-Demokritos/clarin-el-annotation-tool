@@ -400,9 +400,15 @@ class ReturnStatistics(APIView):
     
     @extend_schema(request=None,responses={200: None},description="Returns the total numbers of user's collections,documents and annotations.")   
     def get(self, request):
-        annotations_counter = 0
-        collections_counter = 0
-        documents_counter = 0
+        annotations_counter          = 0
+        collections_counter          = 0
+        documents_counter            = 0
+        annotations_shared_counter   = 0
+        documents_shared_counter     = 0
+        annotations_shared_counter   = 0
+        collections_unshared_counter = 0
+        documents_unshared_counter   = 0
+        annotations_unshared_counter = 0
         try:
             owner = Users.objects.get(email=request.user)
             collections = Collections.objects.filter(owner_id=owner)
@@ -413,18 +419,56 @@ class ReturnStatistics(APIView):
             # Petasis, 16/03/2022: count() has been removed in mongo 5...
             # annotations = annotation_col.find({"owner_id": owner.pk})
             # annotations_counter = annotations.count(True)
-            annotations_counter = annotation_col.count_documents({"owner_id": owner.pk})
+
+            # Petasis, 21/10/2022: Filter annotations with the collections owned by the user...
+            collection_ids = list(collections.values_list('id', flat=True))
+            annotations_counter = annotation_col.count_documents({"owner_id": owner.pk, "collection_id": { "$in": collection_ids }})
+
+            ## Find the collections shared with the user...
+            collections_shared = SharedCollections.objects.filter(tofield=owner.email)
+            collections_shared_ids = list(collections_shared.values_list('id', flat=True))
+            collections_shared_counter = len(collections_shared_ids)
+            documents_shared_counter   = 0
+            annotations_shared_counter = annotation_col.count_documents({"owner_id": owner.pk, "collection_id": { "$in": collections_shared_ids }})
+
+            ## Find annotations in collections no longer shared to the user...
+            annotations_unshared = annotation_col.find({"owner_id": owner.pk, "collection_id": { "$nin": collections_shared_ids + collection_ids }})
+            collections_unshared = set()
+            documents_unshared   = set()
+            for ann in annotations_unshared:
+                annotations_unshared_counter += 1
+                collections_unshared.add(ann.get("collection_id"))
+                documents_unshared.add(ann.get("document_id"))
+            collections_unshared_counter = len(collections_unshared)
+            documents_unshared_counter   = len(documents_unshared)
+
 
         except Exception as ex:
             print("ReturnStatistics (get):" + str(ex))
             return Response(data={
                 "success": False,
-                "data": {"collections": collections_counter, "documents": documents_counter,
-                         "annotations": annotations_counter}
+                "data": {"collections":          collections_counter,
+                         "documents":            documents_counter,
+                         "annotations":          annotations_counter,
+                         "collections_shared":   collections_shared_counter,
+                         "documents_shared":     documents_shared_counter,
+                         "annotations_shared":   annotations_shared_counter,
+                         "collections_unshared": collections_unshared_counter,
+                         "documents_unshared":   documents_unshared_counter,
+                         "annotations_unshared": annotations_unshared_counter
+                         }
             }, status=status.HTTP_200_OK)
         return Response(data={"success": True,
-                              "data": {"collections": collections_counter, "documents": documents_counter,
-                                       "annotations": annotations_counter}}, status=status.HTTP_200_OK)
+                              "data": {"collections":          collections_counter,
+                                       "documents":            documents_counter,
+                                       "annotations":          annotations_counter,
+                                       "collections_shared":   collections_shared_counter,
+                                       "documents_shared":     documents_shared_counter,
+                                       "annotations_shared":   annotations_shared_counter,
+                                       "collections_unshared": collections_unshared_counter,
+                                       "documents_unshared":   documents_unshared_counter,
+                                       "annotations_unshared": annotations_unshared_counter
+                                       }}, status=status.HTTP_200_OK)
 
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')

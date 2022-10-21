@@ -253,6 +253,17 @@
     "Inspect Document": "Inspect Document",
     "Annotation Values": "Annotation Values"
   },
+  "dashboard": {
+    "Collections": "Collections",
+    "Documents": "Documents",
+    "Annotations": "Annotations",
+    "MyCollections": "My Collections",
+    "MySharedCollections": "Collections Shared with me",
+    "MyUnsharedCollections": "Collections no longer Shared with me",
+    "MyCollectionsInfo": "Statistics about all the Collections owned by me.",
+    "MySharedCollectionsInfo": "Statistics about Collections that are not owned by me, but they have been shared with me.",
+    "MyUnsharedCollectionsInfo": "Statistics about Collections that have been shared with me in the past, but are no longer shared with me."
+  },
   "Analytics": {
     "Charts": "Charts",
     "Bar Charts": "Bar Charts",

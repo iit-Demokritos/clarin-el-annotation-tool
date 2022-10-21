@@ -1,9 +1,10 @@
 {
   "name": "The Ellogon Annotation Platform",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --ssl false",
+    "local": "ng serve --ssl false --proxy-config src/proxy-local.conf.json",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
