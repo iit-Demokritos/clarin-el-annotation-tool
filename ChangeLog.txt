@@ -2,6 +2,10 @@
  * clarin-angular/package.json: Updated version to 3.2.2. (Fixes in settings
  panel).
 
+ * clarin-angular/src/app/components/dialogs/select-document-modal/select-document-modal.component.html:
+ * clarin-angular/src/css/clarin-material.scss: Changed the widget used for
+ showing Collections/Documents to fix a problem in Safari browser.
+
  * clarin-angular/src/app/app.component.ts:
  * clarin-angular/src/app/ng-matero/theme/admin-layout/admin-layout.component.html:
  * clarin-angular/src/app/ng-matero/theme/customizer/customizer.component.html:

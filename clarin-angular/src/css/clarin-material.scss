@@ -18,6 +18,9 @@ $foreground: map-get($theme, foreground);
   width: 600px;
   height: 400px;
   overflow: auto;
+  .mat-button {
+    text-transform: none
+  }
 }
 
 .select-document-modal .collections-tree .selected-node {

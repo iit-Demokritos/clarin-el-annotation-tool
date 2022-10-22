@@ -9,7 +9,7 @@
       <!-- This is the tree node template for leaf nodes -->
       <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
         <!-- use a disabled button to provide padding for tree leaf -->
-        <button mat-icon-button (click)="showSelected(node)"
+        <button mat-button (click)="showSelected(node)"
           [ngClass]="{'selected-node': selectedDocument === node.element}">
           <mat-icon class="mat-icon-rtl-mirror">
             {{'file_present'}}
@@ -17,8 +17,8 @@
         </button>
       </mat-tree-node>
       <!-- This is the tree node template for expandable nodes -->
-      <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
-        <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.name">
+      <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding matTreeNodeToggle>
+        <button mat-button [attr.aria-label]="'toggle ' + node.name">
           <mat-icon class="mat-icon-rtl-mirror">
             {{treeControl.isExpanded(node) ? 'folder_open' : 'folder'}}
           </mat-icon>
