@@ -22,7 +22,7 @@
                       foreground="rgba(255,255,255,1)"
                       background='rgba(0,0,0,.5)'>
         </mtx-progress>
-        <!--<small class="text-muted">Monthly</small>-->
+        <small class="dashboard-item text-muted">{{stat.footer | translate}}</small>
       </mat-card-content>
     </mat-card>
   </div>
@@ -51,7 +51,7 @@
                       foreground="rgba(255,255,255,1)"
                       background='rgba(0,0,0,.5)'>
         </mtx-progress>
-        <!--<small class="text-muted">Monthly</small>-->
+        <small class="dashboard-item text-muted">{{stat.footer | translate}}</small>
       </mat-card-content>
     </mat-card>
   </div>
@@ -80,7 +80,36 @@
                       foreground="rgba(255,255,255,1)"
                       background='rgba(0,0,0,.5)'>
         </mtx-progress>
-        <!--<small class="text-muted">Monthly</small>-->
+        <small class="dashboard-item text-muted">{{stat.footer | translate}}</small>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+</div>
+</mat-card-content>
+<mat-card-footer></mat-card-footer>
+</mat-card>
+
+<mat-card>
+<mat-card-title>{{'dashboard.MyTotalStatistics' | translate}}</mat-card-title>
+<mat-card-subtitle>{{'dashboard.MyTotalStatisticsInfo' | translate}}</mat-card-subtitle>
+<mat-card-content>
+<div class="matero-row" fxLayout="row wrap">
+
+  <!-- Statistics -->
+  <div class="matero-col" fxFlex.gt-sm="25" fxFlex.gt-xs="50" fxFlex="100"
+       *ngFor="let stat of myTotalStatistics">
+    <mat-card [ngClass]="['text-white', stat.color]">
+      <!--<mat-card-title class="f-s-12 f-w-100">{{stat.title}}</mat-card-title>-->
+      <mat-card-title class="text-center">{{stat.title | translate}}</mat-card-title>
+      <mat-card-content>
+        <h2 class="text-center">{{stat.amount}}</h2>
+        <mtx-progress [value]="stat.progress.value"
+                      height="2px"
+                      foreground="rgba(255,255,255,1)"
+                      background='rgba(0,0,0,.5)'>
+        </mtx-progress>
+        <small class="dashboard-item text-muted">{{stat.footer | translate}}</small>
       </mat-card-content>
     </mat-card>
   </div>

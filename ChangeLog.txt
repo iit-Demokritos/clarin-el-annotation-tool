@@ -1,3 +1,12 @@
+22-October-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/ng-matero/routes/dashboard/dashboard.component.html:
+ * clarin-angular/src/app/ng-matero/routes/dashboard/dashboard.component.ts:
+ * clarin-angular/src/app/ng-matero/routes/dashboard/dashboard.srevice.ts:
+ Changes to the dashboard (provides details in four groups).
+
+ * backend-django/clarin_backend/views.py: Added more information for user
+ statistics.
+
 21-October-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/package.json: Updated version to 3.2.1. (More detailed
  Dashboard).

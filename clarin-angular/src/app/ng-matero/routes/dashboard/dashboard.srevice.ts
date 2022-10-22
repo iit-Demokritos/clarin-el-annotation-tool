@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UserService } from 'src/app/services/user-service/user.service';
+import { cloneDeep } from "lodash";
 
 const MESSAGES = [
   {
@@ -36,31 +37,64 @@ const MESSAGES = [
 
 @Injectable()
 export class DashboardService {
-  statistics = [
-    {
+  item_collections = {
       title: 'dashboard.Collections',
-      amount: '0',
+      amount: '⏳',
       progress: {
         value: 100,
       },
       color: 'bg-indigo-500',
-    },
-    {
+      footer: '',
+    };
+  item_documents = {
       title: 'dashboard.Documents',
-      amount: '0',
+      amount: '⏳',
       progress: {
         value: 100,
       },
       color: 'bg-blue-500',
-    },
-    {
+      footer: '',
+    };
+  item_annotations = {
       title: 'dashboard.Annotations',
-      amount: '0',
+      amount: '⏳',
       progress: {
         value: 100,
       },
       color: 'bg-green-500',
-    },
+      footer: '',
+    };
+  item_collectionsShared = {
+      title: 'dashboard.CollectionsShared',
+      amount: '⏳',
+      progress: {
+        value: 0,
+      },
+      color: 'bg-teal-500',
+      footer: 'dashboard.CollectionsSharedByMe'
+    };
+  
+  statistics = [
+    this.item_collections,
+    this.item_documents,
+    this.item_annotations,
+    this.item_collectionsShared,
+  ];
+
+  statistics_shared = [
+    this.item_collections,
+    this.item_annotations,
+  ];
+
+  statistics_unshared = [
+    this.item_collections,
+    this.item_documents,
+    this.item_annotations,
+  ];
+
+  statistics_total = [
+     this.item_collections,
+     this.item_annotations,
   ];
 
   charts = [
@@ -76,18 +110,29 @@ export class DashboardService {
     return this.charts;
   }
 
+  cloneArrayObjects(arrayObj) {
+    return cloneDeep(arrayObj);
+    // let myClonedArray = [];
+    // arrayObj.forEach(val => myClonedArray.push(Object.assign({}, val)));
+    // return myClonedArray;
+  }; /* cloneArrayObjects */
+
   getStatistics() {
-    let myClonedArray = [];
-    this.statistics.forEach(val => myClonedArray.push(Object.assign({}, val)));
-    return myClonedArray;
+    let val = this.cloneArrayObjects(this.statistics);
+    val[0].footer = val[1].footer = val[2].footer = '\u00a0';
+    return val;
   }
 
   getSharedStatistics() {
-    return this.getStatistics();
+    return this.cloneArrayObjects(this.statistics_shared);
   }
 
   getUnsharedStatistics() {
-    return this.getStatistics();
+    return this.cloneArrayObjects(this.statistics_unshared);
+  }
+
+  getTotalStatistics() {
+    return this.cloneArrayObjects(this.statistics_total);
   }
 
   getUserStatistics() {

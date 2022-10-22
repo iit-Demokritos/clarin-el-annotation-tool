@@ -34,6 +34,7 @@ export class DashboardComponent /*extends MainComponent*/ implements OnInit, Aft
   myStatistics         = this.dashboardSrv.getStatistics();
   mySharedStatistics   = this.dashboardSrv.getSharedStatistics();
   myUnsharedStatistics = this.dashboardSrv.getUnsharedStatistics();
+  myTotalStatistics    = this.dashboardSrv.getTotalStatistics();
 
   notifySubscription!: Subscription;
 
@@ -50,14 +51,28 @@ export class DashboardComponent /*extends MainComponent*/ implements OnInit, Aft
         this.myStatistics[0].amount         = response.data.collections.toString();
         this.myStatistics[1].amount         = response.data.documents.toString();
         this.myStatistics[2].amount         = response.data.annotations.toString();
-	
-	this.mySharedStatistics[0].amount   = response.data.collections_shared.toString();
-        this.mySharedStatistics[1].amount   = response.data.documents_shared.toString();
-        this.mySharedStatistics[2].amount   = response.data.annotations_shared.toString();
+        this.myStatistics[3].amount         = response.data.collections_user_shares.toString();
+        /* Calculate progress... */
+        let total_collections = response.data.collections + response.data.collections_shared;
+        this.myStatistics[0].progress.value = response.data.collections / total_collections * 100;
+        this.myStatistics[2].progress.value = response.data.annotations / response.data.annotations_total * 100;
+        this.myStatistics[3].progress.value = response.data.collections_user_shares / response.data.collections * 100;
+        
+        this.mySharedStatistics[0].amount   = response.data.collections_shared.toString();
+        this.mySharedStatistics[1].amount   = response.data.annotations_shared.toString();
+        /* Calculate progress... */
+        this.mySharedStatistics[0].progress.value = response.data.collections_shared / total_collections * 100;
+        this.mySharedStatistics[1].progress.value = response.data.annotations_shared / response.data.annotations_total * 100;
 
-	this.myUnsharedStatistics[0].amount = response.data.collections_unshared.toString();
+        this.myUnsharedStatistics[0].amount = response.data.collections_unshared.toString();
         this.myUnsharedStatistics[1].amount = response.data.documents_unshared.toString();
         this.myUnsharedStatistics[2].amount = response.data.annotations_unshared.toString();
+        /* Calculate progress... */
+        this.myUnsharedStatistics[0].progress.value = response.data.collections_unshared / total_collections * 100;
+        this.myUnsharedStatistics[2].progress.value = response.data.annotations_unshared / response.data.annotations_total * 100;
+
+        this.myTotalStatistics[0].amount    = total_collections.toString();
+        this.myTotalStatistics[1].amount    = response.data.annotations_total.toString();
 
         this.changeDetectorRef.detectChanges();
       }, (error) => {

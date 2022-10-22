@@ -262,7 +262,11 @@
     "MyUnsharedCollections": "Collections no longer Shared with me",
     "MyCollectionsInfo": "Statistics about all the Collections owned by me.",
     "MySharedCollectionsInfo": "Statistics about Collections that are not owned by me, but they have been shared with me.",
-    "MyUnsharedCollectionsInfo": "Statistics about Collections that have been shared with me in the past, but are no longer shared with me."
+    "MyUnsharedCollectionsInfo": "Statistics about Collections that have been shared with me in the past, but are no longer shared with me.",
+    "MyTotalStatistics": "Total Statistics",
+    "MyTotalStatisticsInfo": "Statistics about all Collections.",
+    "CollectionsShared": "Collections Shared",
+    "CollectionsSharedByMe": "Collections Shared by me"
   },
   "Analytics": {
     "Charts": "Charts",
