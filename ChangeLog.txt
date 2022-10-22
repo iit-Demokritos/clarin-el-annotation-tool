@@ -1,4 +1,15 @@
 22-October-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * clarin-angular/package.json: Updated version to 3.2.2. (Fixes in settings
+ panel).
+
+ * clarin-angular/src/app/app.component.ts:
+ * clarin-angular/src/app/ng-matero/theme/admin-layout/admin-layout.component.html:
+ * clarin-angular/src/app/ng-matero/theme/customizer/customizer.component.html:
+ * clarin-angular/src/app/ng-matero/theme/customizer/customizer.component.scss:
+ * clarin-angular/src/app/ng-matero/theme/customizer/customizer.component.ts:
+ Fixed a bug reported by UMIL/VAST, regarding the settings panel. Updated to
+ more recent ng-matero code.
+
  * clarin-angular/src/app/ng-matero/routes/dashboard/dashboard.component.html:
  * clarin-angular/src/app/ng-matero/routes/dashboard/dashboard.component.ts:
  * clarin-angular/src/app/ng-matero/routes/dashboard/dashboard.srevice.ts:

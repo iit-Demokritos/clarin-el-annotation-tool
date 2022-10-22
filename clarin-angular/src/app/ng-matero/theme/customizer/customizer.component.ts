@@ -1,6 +1,7 @@
-import { Component, OnInit, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
-import { SettingsService } from '@core';
+import { Component, Output, EventEmitter, ViewEncapsulation, TemplateRef, ViewChild } from '@angular/core';
+import { AppSettings, SettingsService } from '@core';
 import { CdkDragStart } from '@angular/cdk/drag-drop';
+import { MtxDrawer, MtxDrawerRef } from '@ng-matero/extensions/drawer';
 
 @Component({
   selector: 'app-customizer',
@@ -8,34 +9,40 @@ import { CdkDragStart } from '@angular/cdk/drag-drop';
   styleUrls: ['./customizer.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class CustomizerComponent implements OnInit {
+export class CustomizerComponent {
+  @Output() optionsChange = new EventEmitter<AppSettings>();
+  @ViewChild('customizerPanel') customizerPanel: TemplateRef<any>;
+
   options = this.settings.getOptions();
-  opened = false;
+
   dragging = false;
-  @Output() optionsChange = new EventEmitter<object>();
 
-  constructor(private settings: SettingsService) {}
+  drawerRef?: MtxDrawerRef;
 
-  ngOnInit() {}
+  constructor(private settings: SettingsService, private drawer: MtxDrawer) {}
 
-  handleDragStart(event: CdkDragStart): void {
+  onDragStart(event: CdkDragStart) {
     this.dragging = true;
   }
 
-  openPanel(event: MouseEvent) {
+  openPanelCmd() {
+    return this.openPanel(this.customizerPanel);
+  }; /* openPanelCmd */
+
+  openPanel(templateRef: TemplateRef<any>) {
     if (this.dragging) {
       this.dragging = false;
       return;
     }
-    this.opened = true;
+
+    this.drawerRef = this.drawer.open(templateRef, {
+      position: this.options.dir === 'rtl' ? 'left' : 'right',
+      width: '320px',
+    });
   }
 
   closePanel() {
-    this.opened = false;
-  }
-
-  togglePanel() {
-    this.opened = !this.opened;
+    this.drawerRef?.dismiss();
   }
 
   sendOptions() {
