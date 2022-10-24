@@ -19,7 +19,9 @@ import * as ShapeControl from 'src/app/helpers/jointjsControls';
 enum AnnotationMode {
   UNKNOWN,
   TEXT,
-  IMAGE
+  IMAGE,
+  AUDIO,
+  VIDEO
 };
 
 @Component({
@@ -40,6 +42,10 @@ export class TextWidgetComponent extends BaseControlComponent
   textWidgetOverlay: ElementRef;
   @ViewChild("annotationeditorimagewidget")
   imageWidget: ElementRef;
+  @ViewChild("annotationeditoraudiowidget")
+  audioWidget: ElementRef;
+  @ViewChild("annotationeditorvideowidget")
+  videoWidget: ElementRef;
 
 
   /* @ViewChild("annotationeditortextwidget", { static: true }) */
@@ -105,9 +111,10 @@ export class TextWidgetComponent extends BaseControlComponent
   eAnnotationMode = AnnotationMode; // Make AnnotationMode enum available in the HTML template
   annotationMode: AnnotationMode = AnnotationMode.UNKNOWN;
   annotationImageURL: string = null;
+  annotationAudioURL: string = null;
+  annotationVideoURL: string = null;
 
   ngOnInit() {
-
   }
 
   ngAfterViewInit() {
@@ -593,6 +600,19 @@ export class TextWidgetComponent extends BaseControlComponent
         this.textWidgetOverlay.nativeElement.style.pointerEvents = "all";
         this.textWidgetOverlay.nativeElement.style.width  = "100%";
         this.textWidgetOverlay.nativeElement.style.height = "100%";
+        break;
+      case "audio mp3":
+      case "audio ogg":
+      case "audio wav":
+      case "audio mp4":
+        this.annotationMode = AnnotationMode.AUDIO;
+        this.annotationAudioURL = doc.data_file;
+        break;
+      case "video mp4":
+      case "video webm":
+      case "video ogg":
+        this.annotationMode = AnnotationMode.VIDEO;
+        this.annotationVideoURL = doc.data_file;
         break;
       case "text":
       default:

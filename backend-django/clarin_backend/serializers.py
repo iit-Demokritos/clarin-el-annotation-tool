@@ -159,6 +159,7 @@ class DocumentsSerializer(serializers.ModelSerializer):
     data_text             = serializers.CharField(allow_null=True, default=None)
     #data_binary          = serializers.BinaryField(allow_null=True, default=None)
     data_image            = serializers.ImageField(allow_null=True, default=None)
+    data_file             = serializers.FileField(allow_null=True, default=None)
     visualisation_options = serializers.CharField(allow_null=True, default=None)
     metadata              = serializers.CharField(allow_null=True, default=None)
     encoding              = serializers.CharField(max_length=20)
@@ -172,7 +173,7 @@ class DocumentsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Documents
-        fields =("name", "external_name", "text", "type", "data_text", "data_image", "metadata", "created_at",
+        fields =("name", "external_name", "text", "type", "data_text", "data_image", "data_file", "metadata", "created_at",
                  "version", "visualisation_options", "encoding", "handler", "updated_by", "updated_at", "owner_id", "collection_id")
 
     def create(self, validated_data):

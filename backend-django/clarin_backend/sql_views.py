@@ -60,6 +60,7 @@ class DocumentsView(SQLDBAPIView):
                 "data_text":             self.normaliseNewlines(doc.data_text),
                 "data_binary":           doc.data_binary,
                 "data_image":            doc.data_image.url if doc.data_image.name else None,
+                "data_file":             doc.data_file.url  if doc.data_file.name else None,
                 "encoding":              doc.encoding,
                 "handler":               doc.handler,
                 "visualisation_options": doc.visualisation_options,
@@ -84,6 +85,7 @@ class DocumentsView(SQLDBAPIView):
             .count()
         doc_record = model_to_dict(document)
         doc_record['data_image'] = doc_record['data_image'].url if doc_record['data_image'].name else None
+        doc_record['data_file']  = doc_record['data_file'].url  if doc_record['data_file'].name else None
 
         ## Normalise newlines, as expected by codemirror:
         ##   lineSeparator: string|null
@@ -106,6 +108,9 @@ class DocumentsView(SQLDBAPIView):
         duplicateCounter = -1;
         unique_identifier = 1;
         data = request.data["data"]
+        # print("DATA:", data)
+        # return {"success": False, "message": "DEBUG"}, status.HTTP_400_BAD_REQUEST
+
         new_data = {}
         new_data["name"] = data["name"]
         owner = request.user
@@ -137,6 +142,44 @@ class DocumentsView(SQLDBAPIView):
             if ("text" not in data or data["text"] is None):
                 new_data["text"] = "{}"
                 data["text"]     = "{}"
+
+        ## Audio...
+        if new_data["type"].lower().startswith("audio "):
+            if "data_audio" in data and data["data_audio"]:
+                try:
+                    if data["data_audio"].startswith("data:"):
+                        response = urllib.request.urlopen(data["data_audio"])
+                        raw_data = response.file.read()
+                    else:
+                        raw_data = base64.b64decode(data["data_audio"])
+                except IOError:
+                    return {"success": False, "message": "Invalid Audio Data"}, status.HTTP_400_BAD_REQUEST
+                new_data["data_file"] = ContentFile(raw_data, name=new_data["name"])
+                ## Make sure the text is not None...
+                if ("text" not in data or data["text"] is None):
+                    new_data["text"] = "{}"
+                    data["text"]     = "{}"
+            else:
+                return {"success": False, "message": "Field 'data_audio' missing"}, status.HTTP_400_BAD_REQUEST
+
+        ## Video...
+        if new_data["type"].lower().startswith("video "):
+            if "data_video" in data and data["data_video"]:
+                try:
+                    if data["data_video"].startswith("data:"):
+                        response = urllib.request.urlopen(data["data_video"])
+                        raw_data = response.file.read()
+                    else:
+                        raw_data = base64.b64decode(data["data_video"])
+                except IOError:
+                    return {"success": False, "message": "Invalid Video Data"}, status.HTTP_400_BAD_REQUEST
+                new_data["data_file"] = ContentFile(raw_data, name=new_data["name"])
+                ## Make sure the text is not None...
+                if ("text" not in data or data["text"] is None):
+                    new_data["text"] = "{}"
+                    data["text"]     = "{}"
+            else:
+                return {"success": False, "message": "Field 'data_video' missing"}, status.HTTP_400_BAD_REQUEST
 
         handler_apply = False
         if ("handler" in data):

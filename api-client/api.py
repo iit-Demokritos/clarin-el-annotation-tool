@@ -121,7 +121,8 @@ class Session:
 
     def document_create(self, cid, external_name, text,
                         encoding='UTF-8', handler='none', type='text',
-                        name=None, data_binary=None, data_image=None):
+                        name=None, data_binary=None, data_image=None,
+                        data_file=None, data_url=None):
         if not external_name:
             raise Exception('External name cannot be empty!')
         if not name:
@@ -135,7 +136,7 @@ class Session:
             'encoding':      encoding,
             'handler':       handler,
             'data_binary':   base64.b64encode(data_binary).decode("ascii") if data_binary else None,
-            'data_image':    f'data:image/{type.lower()};base64,' + base64.b64encode(data_image).decode("ascii")  if data_image  else None
+            'data_image':    f'data:image/{type.lower()};base64,' + base64.b64encode(data_image).decode("ascii")  if data_image else None
         }})['data']
 
     def document_delete(self, cid, did):
@@ -195,6 +196,12 @@ class Span(APIObjectBase):
     start:                 int          = None
     end:                   int          = None
     segment:               str          = None
+    type:                  str          = None
+    x:                     int          = None
+    y:                     int          = None
+    width:                 int          = None
+    height:                int          = None
+    rotation:              int          = None
 
 Spans = List[Span]
 
@@ -296,6 +303,8 @@ class Document(APIObjectBase):
     data_text:             str           = None
     data_binary:           str           = None
     data_image:            str           = None
+    data_file:             str           = None
+    data_url:              str           = None
     id:                    int           = None
     collection_id:         int           = None
     owner_id:              int           = None
@@ -330,7 +339,9 @@ class Document(APIObjectBase):
                 encoding=self.encoding, handler=self.handler,
                 type=self.type, name=self.name,
                 data_binary=self.data_binary,
-                data_image=self.data_image)
+                data_image=self.data_image,
+                data_file=self.data_file,
+                data_url=self.data_url)
         self.id = data['document_id']
         assert self.collection_id == data['collection_id']
         return self
@@ -419,7 +430,8 @@ class Collection(APIObjectBase):
         return next((doc for doc in self.documents() if doc.name == name), None)
 
     def documentCreate(self, external_name, text, encoding='UTF-8', handler='none', type='text',
-                annotations=None, name=None, data_binary=None, data_image=None):
+                annotations=None, name=None, data_binary=None,
+                data_image=None, data_file=None, data_url=None):
         if not external_name:
             raise Exception('External name cannot be empty!')
         if not name:
@@ -428,6 +440,7 @@ class Collection(APIObjectBase):
                 encoding=encoding, handler=handler, type=type,
                 annotations=annotations, name=name,
                 data_binary=data_binary, data_image=data_image,
+                data_file=data_file, data_url=data_url,
                 collection_id=self.id, session=self.session, parent=self)
         if not self.documents_new:
             self.documents_new = []
@@ -441,7 +454,29 @@ class Collection(APIObjectBase):
             type  = image.format.lower()
         with open(external_name, 'rb') as fd:
             rawImageData = fd.read()
-        return self.documentCreate(external_name, text=None, handler=handler, annotations=annotations, name=name, type=type, data_image=rawImageData)
+        return self.documentCreate(external_name, text=None, handler=handler, annotations=annotations, name=name, type=type,
+                                   data_image=rawImageData)
+
+    ## Supported formats: WAV, OGG, MP3, MP4
+    def documentAudioCreate(self, external_name, handler='none', annotations=None, name=None):
+        if not external_name:
+            raise Exception('External name cannot be empty!')
+        with Image.open(external_name) as image:
+            type  = image.format.lower()
+        with open(external_name, 'rb') as fd:
+            rawImageData = fd.read()
+        return self.documentCreate(external_name, text=None, handler=handler, annotations=annotations, name=name, type=type,
+                                   data_image=rawImageData)
+
+    def documentVideoCreate(self, external_name, handler='none', annotations=None, name=None):
+        if not external_name:
+            raise Exception('External name cannot be empty!')
+        with Image.open(external_name) as image:
+            type  = image.format.lower()
+        with open(external_name, 'rb') as fd:
+            rawImageData = fd.read()
+        return self.documentCreate(external_name, text=None, handler=handler, annotations=annotations, name=name, type=type,
+                                   data_image=rawImageData)
 
     def documentDelete(self, doc):
         assert dataclasses.is_dataclass(doc)

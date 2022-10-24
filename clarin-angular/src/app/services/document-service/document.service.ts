@@ -26,9 +26,22 @@ export class DocumentService {
           case "gif":
           case "tiff":
           case "webp":
+          case "svg":
             docData["data_image"] = reader.result;
             break;
+          case "audio mp3":
+          case "audio ogg":
+          case "audio wav":
+          case "audio mp4":
+            docData["data_audio"] = reader.result;
+            break;
+          case "video mp4":
+          case "video webm":
+          case "video ogg":
+            docData["data_video"] = reader.result;
+            break;
           case "text":
+          case "tei xml":
           default:
             docData["text"] = reader.result;
             break;
@@ -43,9 +56,18 @@ export class DocumentService {
         case "gif":
         case "tiff":
         case "webp":
+        case "svg":
+        case "audio mp3":
+        case "audio ogg":
+        case "audio wav":
+        case "audio mp4":
+        case "video mp4":
+        case "video webm":
+        case "video ogg":
           reader.readAsDataURL(documentFile.file);
           break;
         case "text":
+        case "tei xml":
         default:
           reader.readAsText(documentFile.file);
           break;
@@ -63,7 +85,6 @@ export class DocumentService {
         });
     });
   }
-
 
   get(collectionId, documentId) {
     return new Promise((resolve, reject) => {
@@ -127,7 +148,6 @@ export class DocumentService {
     return Promise.all(promises);
   }; /* saveDocuments */
 
-
   update(documentData) {
     return new Promise((resolve, reject) => {
       this.http.patch('api/collections/' + documentData.cid+"/documents/"+ documentData.id, {
@@ -144,9 +164,6 @@ export class DocumentService {
         });
     })
   }
-
-
-
 
   destroy(collectionId, documentId) {
     return new Promise((resolve, reject) => {

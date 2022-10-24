@@ -1,3 +1,19 @@
+24-October-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * clarin-angular/package.json: Updated version to 3.2.3. (Uploads of
+ audio/video Documents).
+
+ * api-client/api.py:
+ * backend-django/clarin_backend/models.py:
+ * backend-django/clarin_backend/serializers.py:
+ * backend-django/clarin_backend/sql_views.py: Added support for uploading
+ Audio/Video Documents.
+
+ * clarin-angular/src/app/components/controls/text-widget/text-widget.component.html:
+ * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
+ * clarin-angular/src/app/components/views/add-collection/add-collection.component.ts:
+ * clarin-angular/src/app/services/document-service/document.service.ts: Added
+ support for Audio/Video Documents.
+
 22-October-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/package.json: Updated version to 3.2.2. (Fixes in settings
  panel).
