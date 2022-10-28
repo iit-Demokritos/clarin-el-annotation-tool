@@ -9,20 +9,15 @@ import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
 import { BaseControlComponent } from '../base-control/base-control.component';
 import * as ShapeControl from 'src/app/helpers/jointjsControls';
+
+import { AnnotationMode, Selection, SelectionDefaults } from 'src/app/models/selection';
+
+import { WavesurferAudioComponent } from 'src/app/components/controls/wavesurfer-audio/wavesurfer-audio.component';
+import { WavesurferVideoComponent } from 'src/app/components/controls/wavesurfer-video/wavesurfer-video.component';
 //import 'codemirror/addon/display/panel.js';
 //import { addPanel } from 'codemirror/addon/display/panel' // <- Does not work!
 // var blobStream = require('blob-stream');
 //
-/*
- * Annotation Mode...
- */
-enum AnnotationMode {
-  UNKNOWN,
-  TEXT,
-  IMAGE,
-  AUDIO,
-  VIDEO
-};
 
 @Component({
   selector: 'text-widget',
@@ -42,11 +37,10 @@ export class TextWidgetComponent extends BaseControlComponent
   textWidgetOverlay: ElementRef;
   @ViewChild("annotationeditorimagewidget")
   imageWidget: ElementRef;
-  @ViewChild("annotationeditoraudiowidget")
-  audioWidget: ElementRef;
-  @ViewChild("annotationeditorvideowidget")
-  videoWidget: ElementRef;
-
+  @ViewChild(WavesurferAudioComponent)
+  audioWidget: WavesurferAudioComponent;
+  @ViewChild(WavesurferVideoComponent)
+  videoWidget: WavesurferVideoComponent;
 
   /* @ViewChild("annotationeditortextwidget", { static: true }) */
   @Output() textWidgetEvent: EventEmitter<any> = new EventEmitter();
@@ -293,18 +287,8 @@ export class TextWidgetComponent extends BaseControlComponent
 
   getSelectionInfo() {
     // var start = 0, end = 0;
-    var selection = {
-      type: "",
-      // Field used for text annotation...
-      startOffset: -1,
-      endOffset: -1,
-      segment: "",
-      // Fields used for image annotation (bbox)...
-      x: -1,
-      y: -1,
-      width: -1,
-      height: -1,
-      rotation: 0,
+    var selection: Selection = {
+      ... SelectionDefaults, mode: this.annotationMode
     };
 
     switch (this.annotationMode) {
@@ -317,14 +301,15 @@ export class TextWidgetComponent extends BaseControlComponent
         if (typeof (editorSelectionStart) != "undefined" &&
             typeof (editorSelectionEnd)   != "undefined") {
           /* Petasis, 20/03/2021: Used codemirror functions for getting offsets... */
-          selection.startOffset = this.editor.indexFromPos(editorSelectionStart);
-          selection.endOffset   = this.editor.indexFromPos(editorSelectionEnd);
-          selection.segment     = this.editor.getSelection();
+          selection.type         = "text";
+          selection.startOffset  = this.editor.indexFromPos(editorSelectionStart);
+          selection.endOffset    = this.editor.indexFromPos(editorSelectionEnd);
+          selection.segment      = this.editor.getSelection();
         }
         break;
       case AnnotationMode.IMAGE:
         // Do we have a selection?
-        if (this.imageAnnotator.selection !== undefined) {
+        if (this.imageAnnotator.selection != null) {
           const { width, height } = this.imageAnnotator.selection.size();
           const { x, y }          = this.imageAnnotator.selection.position();
           const angle             = this.imageAnnotator.selection.angle();
@@ -336,7 +321,15 @@ export class TextWidgetComponent extends BaseControlComponent
           selection.rotation      = ((angle) ? angle : 0);
         }
         break;
+      case AnnotationMode.VIDEO:
+        if (this.videoWidget.selection != null) {
+          selection.type          = "wfregion";
+          selection.startOffset   = this.videoWidget.selection.start;
+          selection.endOffset     = this.videoWidget.selection.end;
+        }
+        break;
     }
+    // console.error("TextWidgetComponent: getSelectionInfo():", selection);
     return selection;
   }; /* getSelectionInfo */
 
@@ -493,7 +486,7 @@ export class TextWidgetComponent extends BaseControlComponent
     //               "annotator:", this.AnnotatorTypeId);
     return new Promise((resolve, reject) => {
 
-      if (Object.keys(newDocument).length > 0) { //if new document is not empty
+      if (Object.keys(newDocument).length > 0) { // if new document is not empty
         var documentData = {
           document_id: newDocument.id,
           collection_id: newDocument.collection_id,
@@ -1297,6 +1290,9 @@ export class TextWidgetComponent extends BaseControlComponent
               }
               delete this.annotationIdToGraphItem[annotation.annotation._id];
               break;
+            case AnnotationMode.VIDEO:
+              this.videoWidget.removeRegionForAnnotationId(annotation.annotation._id);
+              break;
           }
         }
       });
@@ -1448,6 +1444,9 @@ export class TextWidgetComponent extends BaseControlComponent
               // No need to call overlayMarkAdd(), as we have already call the overlay.
               // However, we need to highlight it if needed (a check done inside overlayMarkAdd()).
               this.overlayMarkAdd(-1, -1, -1, visAnnotation);
+              break;
+            case AnnotationMode.VIDEO:
+              this.videoWidget.addRegion(visAnnotation.annotation._id, annotationSpan, colorCombination, selected);
               break;
           }
 
@@ -1734,13 +1733,20 @@ export class TextWidgetComponent extends BaseControlComponent
             "selected": false,
             "action": "delete"
           });
-          // Regular annotations, delete their marks
-          var editorMarks = this.editor.getAllMarks();
-          editorMarks.forEach((mark) => {
-            if (String(mark.className).trim().indexOf(annotationId) !== -1) {
-              mark.clear();
-            }
-          });
+          switch (this.annotationMode) {
+            case AnnotationMode.TEXT:
+              // Regular annotations, delete their marks
+              var editorMarks = this.editor.getAllMarks();
+              editorMarks.forEach((mark) => {
+                if (String(mark.className).trim().indexOf(annotationId) !== -1) {
+                  mark.clear();
+                }
+              });
+              break;
+            case AnnotationMode.VIDEO:
+              this.videoWidget.removeRegionForAnnotationId(annotation._id);
+              break;
+          }
         }
       });
     });
@@ -1800,9 +1806,12 @@ export class TextWidgetComponent extends BaseControlComponent
           if (this.imageAnnotator.selection) {
             // If there is a selection, deselect it...
             this.imageAnnotator.selection.remove();
-           }
-           this.imageAnnotator.selection = undefined;
-           break;
+          }
+          this.imageAnnotator.selection = undefined;
+          break;
+        case AnnotationMode.VIDEO:
+          this.videoWidget.clearSelection();
+          break;
       }
     } else {
       var sel = this.computeSelectionFromOffsets(parseInt(currentSel.startOffset),
@@ -1825,13 +1834,21 @@ export class TextWidgetComponent extends BaseControlComponent
       // Empty spans, like in Document Attribute annotations...
       return false;
     }
-    var pos = {
-      from: this.editor.posFromIndex(annotation.spans[0].start),
-      to:   this.editor.posFromIndex(annotation.spans[annotation.spans.length - 1].end)
+    switch (this.annotationMode) {
+       case AnnotationMode.TEXT:
+         var pos = {
+           from: this.editor.posFromIndex(annotation.spans[0].start),
+           to:   this.editor.posFromIndex(annotation.spans[annotation.spans.length - 1].end)
+         }
+         this.editor.scrollIntoView(pos);
+         //editor.setCursor(annotation.spans[0].start);
+         //editor.scrollIntoView(null);
+         break;
+       case AnnotationMode.VIDEO:
+          this.videoWidget.scrollIntoView(annotation._id);
+          break;
     }
-    this.editor.scrollIntoView(pos);
-    //editor.setCursor(annotation.spans[0].start);
-    //editor.scrollIntoView(null);
+
   }; /* scrollToAnnotation */
 
   exportPDF() {
@@ -2022,4 +2039,30 @@ export class TextWidgetComponent extends BaseControlComponent
     elementView.removeTools();
   }; /* imageOverlayCellMouseLeave */
 
+  /*
+   * Audio/Video Annotation
+   */
+  avComponentEvent(event) {
+    // console.error("TextWidgetComponent: avComponentEvent:", event);
+
+    switch (event) {
+      case "selection-clear":
+      case "selection-add":
+        var selection = this.getSelectionInfo();
+        if (Object.keys(selection).length > 0) {
+          this.TextWidgetAPI.setCurrentSelection(selection, false);
+          this.TextWidgetAPI.clearSelectedAnnotation();
+        }
+        break;
+      case "annotation-edit":
+        var annotationId = this.videoWidget.editAnnotationId;
+        var selectedAnnotation = this.TextWidgetAPI.getAnnotationById(annotationId);
+        var prevAnnotationId = this.TextWidgetAPI.getSelectedAnnotation()["_id"];
+        if (typeof (selectedAnnotation) != "undefined" &&
+          prevAnnotationId !== selectedAnnotation._id) {
+          this.TextWidgetAPI.setSelectedAnnotation(selectedAnnotation);
+        }
+        break;
+    }
+  }; /* avComponentEvent */
 }

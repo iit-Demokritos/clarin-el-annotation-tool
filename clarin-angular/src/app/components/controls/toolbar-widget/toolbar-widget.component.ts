@@ -46,6 +46,7 @@ export class ToolbarWidgetComponent extends BaseControlComponent implements OnIn
                   if (response.success) {
                     newDocument.annotator_id = AnnotatorTypeId;
                     this.TextWidgetAPI.setCurrentDocument(newDocument);
+                    this.notifyParent.emit("change.document");
                   } else {
                     this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Error during the save annotations. Please refresh the page and try again.") })
                   }
@@ -62,6 +63,7 @@ export class ToolbarWidgetComponent extends BaseControlComponent implements OnIn
                 if (response.success) {
                   newDocument.annotator_id = this.TextWidgetAPI.getAnnotatorTypeId();
                   this.TextWidgetAPI.setCurrentDocument(newDocument);
+                  this.notifyParent.emit("change.document");
                 } else {
                   this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Error during the save annotations. Please refresh the page and try again.") })
                   return false;
@@ -71,6 +73,7 @@ export class ToolbarWidgetComponent extends BaseControlComponent implements OnIn
           } else {
             newDocument.annotator_id = this.TextWidgetAPI.getAnnotatorTypeId();
             this.TextWidgetAPI.setCurrentDocument(newDocument);
+            this.notifyParent.emit("change.document");
           }
         }
       }, (error) => {

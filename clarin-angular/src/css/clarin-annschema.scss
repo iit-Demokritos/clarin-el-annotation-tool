@@ -351,3 +351,19 @@ coref-del-btn {
     background-color: mat-color($background, hover); //whitesmoke;
   }
 }
+
+/*
+ * Audio/Video Annotation
+ */
+.wavesurfer-region {
+  opacity: 0.4;
+  border: 1px !important;
+  border-style: solid !important;
+  border-color: var(--border-color) !important;
+}
+.wavesurfer-region.selected {
+  opacity: 0.6;
+  border: 4px !important;
+  border-style: solid !important;
+  border-color: var(--border-color) !important;
+}

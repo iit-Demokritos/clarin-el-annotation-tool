@@ -71,6 +71,8 @@ urlpatterns = [
     path('api/collections/<int:cid>/documents/<int:did>/annotations',                                   AnnotationsViewList.as_view(),                       name='document_annotations'),
     path('api/collections/<int:cid>/documents/<int:did>/temp_annotations/<str:param>',                  TempAnnotationsViewDetail.as_view(),                 name='handle_annotation'),
     path('api/collections/<int:cid>/documents/<int:did>/temp_annotations',                              TempAnnotationsViewList.as_view(),                   name='temp_annotation'),
+    path('api/collections/<int:cid>/documents/<int:did>/changes/<str:Button_Annotator_name>',           AnnotationDiffViewDetail.as_view(),                  name='annotation_diff_annotator'),
+    path('api/collections/<int:cid>/documents/<int:did>/changes',                                       AnnotationDiffViewList.as_view(),                    name='annotation_diff'),
 
     #path('api/test/collections/<int:cid>/documents',                                                    DocumentsViewList.as_view(),                         name='api_test_collection_documents'),
     #path('api/test/collections/<int:cid>/documents/<int:did>',                                          DocumentsViewDetail.as_view(),                       name='current_document'),

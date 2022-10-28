@@ -2,7 +2,12 @@
   <h1 mat-dialog-title>{{'Warning'|translate}}</h1>
   <mat-dialog-content>
     <flash-messages></flash-messages>
-    It seems that you have done changes on the document that have not been saved. What do you want to do?
+    <p>It seems that you have done changes on the document that have not been saved.</p>
+    <p>Total Changes: {{changes}}</p>
+    <p>Annotations Added: {{annotations_added}}</p>
+    <p>Annotations Deleted: {{annotations_removed}}</p>
+    <p>Annotations Changed: {{annotations_changed}}</p>
+    <p>What do you want to do?</p>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-button (click)="saveChanges()">{{'Save Changes'|translate}}</button>

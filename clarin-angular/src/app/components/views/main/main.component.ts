@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Compiler, Component, Injector, NgModuleRef, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '@core/authentication/auth.service';
 import { TranslateService } from '@ngx-translate/core';
 import { FlashMessagesService } from 'flash-messages-angular';
@@ -28,6 +28,7 @@ import { DragAndDropService } from 'src/app/services/drag-and-drop-service/drag-
 import { ToastrService } from 'ngx-toastr';
 import { LocalStorageService } from '@shared/services/storage.service';
 import { AutoannService } from '@services/autoann-service/autoann.service';
+import { Location } from '@angular/common'; 
 
 @Component({
   selector: 'main',
@@ -41,6 +42,8 @@ export class MainComponent implements OnInit {
   constructor(public userService: UserService,
     public flashMessage: FlashMessagesService,
     public router: Router,
+    public routerLocation: Location,
+    public activatedRoute: ActivatedRoute,
     public collectionService: CollectionService,
     public documentService: DocumentService,
     public dialog: MatDialog,

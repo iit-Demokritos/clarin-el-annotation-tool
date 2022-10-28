@@ -5,6 +5,9 @@ from rest_framework.response import Response
 from rest_framework import status, permissions
 from rest_framework.views import APIView, View
 
+from deepdiff import DeepDiff
+from deepdiff.helper import CannotCompare
+
 from .models import Users, Collections, SharedCollections, OpenDocuments, Documents, \
     ButtonAnnotators, CoreferenceAnnotators
 from .utils import ErrorLoggingAPIView, ErrorLoggingAPIViewList, ErrorLoggingAPIViewDetail,get_collection_handle
@@ -12,6 +15,9 @@ from .utils import db_handle as mongodb_db_clarin
 from bson.objectid import ObjectId
 import datetime
 from drf_spectacular.utils import extend_schema_view, extend_schema
+
+import json
+
 class MongoDBAPIView(ErrorLoggingAPIView):
     db_name = ''
     
@@ -42,6 +48,16 @@ class MongoDBAPIView(ErrorLoggingAPIView):
         return get_collection_handle(mongodb_db_clarin, self.db_name)
 
     @staticmethod
+    def mongodb_encode_id(id):
+        if type(id) is str:
+            # Decide if it is a UUID or an ObjectID:
+            if '-' in id:
+                # Leave it as a string...
+                return id
+            else:
+                return ObjectId(id)
+
+    @staticmethod
     def mongodb_doc_fix_id(doc):
         if '_id' in doc and type(doc['_id']) is not str:
             doc['_id'] = str(doc['_id'])
@@ -50,7 +66,7 @@ class MongoDBAPIView(ErrorLoggingAPIView):
     @staticmethod
     def mongodb_doc_add_id(doc):
         if '_id' in doc and type(doc['_id']) is str:
-            doc['_id'] = ObjectId(doc['_id'])
+            doc['_id'] = MongoDBAPIView.mongodb_encode_id(doc['_id'])
         return doc
 
     @staticmethod
@@ -115,7 +131,7 @@ class AnnotationsView(MongoDBAPIView):
                                       'document_id':   did,
                                       'annotator_id':  Button_Annotator_name})
         else:
-            return self.mongodb_find_one({'_id': ObjectId(Button_Annotator_name)})
+            return self.mongodb_find_one({'_id': self.mongodb_encode_id(Button_Annotator_name)})
 
 
     # Create a new instance. (POST)
@@ -136,12 +152,12 @@ class AnnotationsView(MongoDBAPIView):
         for annotation in annotations:
             # Just make sure during migration, that annotation does not exist
             try:
-                self.db.delete_one({'_id': ObjectId(annotation['_id'])})
+                self.db.delete_one({'_id': self.mongodb_encode_id(annotation['_id'])})
             except Exception:
                 pass
 
             new_ann = {
-                '_id':           ObjectId(annotation['_id']),
+                '_id':           self.mongodb_encode_id(annotation['_id']),
                 'collection_id': cid,
                 'document_id':   did,
                 'owner_id':      request.user.id,
@@ -199,7 +215,7 @@ class AnnotationsView(MongoDBAPIView):
                                  'annotator_id':  annotator_id})
         else:
             # We have an annotation id, delete a single annotation...
-            self.db.delete_one({'_id': ObjectId(param)})
+            self.db.delete_one({'_id': self.mongodb_encode_id(param)})
         return {'db_interactions': 0}
 
 
@@ -269,7 +285,7 @@ class TempAnnotationsView(MongoDBAPIView):
                                       'annotator_id':  param,
                                       'deleted_at':    {'$exists': False}})
         else:
-            return self.mongodb_find_one({'_id':        ObjectId(param),
+            return self.mongodb_find_one({'_id':        self.mongodb_encode_id(param),
                                           'deleted_at': {'$exists': False}})
 
     # Create a new instance. (POST)
@@ -288,7 +304,7 @@ class TempAnnotationsView(MongoDBAPIView):
             importing_set = False;
         for annotation in annotations:
             new_ann = {
-                '_id':           ObjectId(annotation['_id']),
+                '_id':           self.mongodb_encode_id(annotation['_id']),
                 'collection_id': cid,
                 'document_id':   did,
                 'owner_id':      request.user.id,
@@ -329,7 +345,7 @@ class TempAnnotationsView(MongoDBAPIView):
         collection = self.getCollection(request.user, cid)
         document   = Documents.objects.get(pk=did)
         user       = Users.objects.get(email=request.user.email)
-        ann        = self.mongodb_find_one({'_id': ObjectId(param)})
+        ann        = self.mongodb_find_one({'_id': self.mongodb_encode_id(param)})
 
         annotation            = self.mongodb_doc_fix_id(request.data['data'])
         new_ann               = ann | annotation # merges the two dictionaries, python > 3.9
@@ -373,13 +389,13 @@ class TempAnnotationsView(MongoDBAPIView):
         else:
             # We have an annotation id, delete a single annotation...
             tm = datetime.datetime.now()
-            status = self.db.update_one({'_id': ObjectId(param)}, {
+            status = self.db.update_one({'_id': self.mongodb_encode_id(param)}, {
                 '$set': {'updated_by': request.user.email,
                          'updated_at': tm,
                          'deleted_by': request.user.email,
                          'deleted_at': tm}
             })
-            ann = self.mongodb_find_one({'_id': ObjectId(param)})
+            ann = self.mongodb_find_one({'_id': self.mongodb_encode_id(param)})
             annotator_id = ann.get('annotator_id', None)
 
         if annotator_id:
@@ -396,8 +412,6 @@ class TempAnnotationsView(MongoDBAPIView):
         if not db_interactions:
             db_interactions = 0
         return {'db_interactions': db_interactions}
-
-
 
 @extend_schema_view(
     ## Method: list
@@ -430,3 +444,85 @@ class TempAnnotationsViewList(ErrorLoggingAPIViewList, TempAnnotationsView):
 )
 class TempAnnotationsViewDetail(TempAnnotationsView):
   http_method_names = ["get","put","delete"]
+
+
+##############################################
+## Annotation Diff
+##############################################
+class AnnotationDiffView(ErrorLoggingAPIView):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.annotationsView = AnnotationsView()
+        self.annotationsTempView = TempAnnotationsView()
+        self.request       = None
+        self.cid           = None
+        self.did           = None
+        self.annotatorName = None
+
+    @property
+    def annotations(self):
+        if self.annotatorName == None:
+            return self.annotationsView.list(self.request, self.cid, self.did)
+        else:
+            return self.annotationsView.retrieve(self.request, self.cid, self.did, self.annotatorName)
+
+    @property
+    def annotations_temp(self):
+        if self.annotatorName == None:
+            return self.annotationsTempView.list(self.request, self.cid, self.did)
+        else:
+            return self.annotationsTempView.retrieve(self.request, self.cid, self.did, self.annotatorName)
+
+    # List all instances. (GET)
+    def list(self, request, cid, did):
+        self.request       = request
+        self.cid           = cid
+        self.did           = did
+        self.annotatorName = None
+        return self.compare();
+
+    # Retrieve a single instance. (GET)
+    def retrieve(self, request, cid, did, Button_Annotator_name):
+        self.request       = request
+        self.cid           = cid
+        self.did           = did
+        self.annotatorName = Button_Annotator_name
+        return self.compare();
+
+    def simplify_annotation(self, ann):
+        ann.pop("owner_id", None)
+        return ann
+
+    def compare(self):
+        annotations      = list(map(self.simplify_annotation, self.annotations))
+        annotations_temp = list(map(self.simplify_annotation, self.annotations_temp))
+        diff = DeepDiff(annotations, annotations_temp,
+                        ignore_order=True,
+                        iterable_compare_func=self.compare_func,
+                        group_by='_id')
+        json_data = json.loads(diff.to_json())
+        annotations_added   = len(json_data.get("dictionary_item_added", []))
+        annotations_removed = len(json_data.get("dictionary_item_removed", []))
+        annotations_changed = len(json_data.get("values_changed", {}))
+        changes             = annotations_added + annotations_removed + annotations_changed
+        return {
+            #'diff':  json_data,
+            #'descr': diff.pretty(),
+            'changes':             changes,
+            'annotations_added':   annotations_added,
+            'annotations_removed': annotations_removed,
+            'annotations_changed': annotations_changed
+        }
+
+    @staticmethod
+    def compare_func(x, y, level=None):
+        try:
+            return x['_id'] == y['_id']
+        except Exception:
+            raise CannotCompare() from None
+
+class AnnotationDiffViewList(AnnotationDiffView):
+     http_method_names = ["get"]
+
+class AnnotationDiffViewDetail(AnnotationDiffView):
+     http_method_names = ["get"]

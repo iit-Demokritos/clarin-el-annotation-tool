@@ -29,3 +29,4 @@ django-allauth
 drf-oidc-auth
 #django-oidc-auth
 git+https://github.com/intelie/django-oidc-auth.git
+deepdiff

@@ -3,6 +3,7 @@ import * as _ from 'lodash';
 import { ErrorDialogComponent } from 'src/app/components/dialogs/error-dialog/error-dialog.component';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 import { BaseControlComponent } from '../../base-control/base-control.component';
+import { AnnotationMode, Selection } from 'src/app/models/selection';
 
 @Component({
   selector: 'annotation-button',
@@ -130,11 +131,10 @@ export class AnnotationButtonComponent extends BaseControlComponent implements O
     }
 
     // If there is selected text/image rectangle, add new annotation...
-    var currentSelection: any = this.TextWidgetAPI.getCurrentSelection();
-    // console.error("Selected Region:", currentSelection);
+    var currentSelection: Selection | any = this.TextWidgetAPI.getCurrentSelection();
+    // console.error("AnnotationButtonComponent: addAnnotation(): Selected Region:", currentSelection);
 
-    if (typeof (currentSelection) != "undefined" && Object.keys(currentSelection).length > 0 &&
-       (currentSelection.segment.length > 0 || currentSelection.x >= 0)) {
+    if ("type" in currentSelection && currentSelection.type != null) {
       var currentDocument: any = this.TextWidgetAPI.getCurrentDocument();
       var newAnnotation = newAnnotation = {
           _id: this.ObjectId().toString(),
@@ -145,15 +145,17 @@ export class AnnotationButtonComponent extends BaseControlComponent implements O
           spans: [],
           attributes: [newAttribute]
         };
-      if (currentSelection.segment.length > 0) {
-        newAnnotation.spans = [{
+      switch (currentSelection.mode) {
+        case AnnotationMode.TEXT:
+          newAnnotation.spans = [{
             type: "text",
             segment: currentSelection.segment,
             start: currentSelection.startOffset,
             end: currentSelection.endOffset
           }];
-      } else if (currentSelection.x >= 0) {
-         newAnnotation.spans = [{
+          break;
+        case AnnotationMode.IMAGE:
+          newAnnotation.spans = [{
             type: currentSelection.type,
             segment: "",
             start: -1,
@@ -164,6 +166,15 @@ export class AnnotationButtonComponent extends BaseControlComponent implements O
             height: currentSelection.height,
             rotation: currentSelection.rotation
           }];
+          break;
+        case AnnotationMode.VIDEO:
+          newAnnotation.spans = [{
+            type:    currentSelection.type,
+            segment: "",
+            start:   currentSelection.startOffset,
+            end:     currentSelection.endOffset
+          }];
+          break;
       };
 
       //newAnnotation.spans.push(annotationSpan);

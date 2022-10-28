@@ -1,12 +1,16 @@
 <!--textarea #element id='text-widget'></textarea-->
 <div #annotationeditortextwidgetcontainer class='annotation-editor-text-widget-container'>
   <img #annotationeditorimagewidget [src]="annotationImageURL" class="annotation-editor-image-widget" [hidden]="annotationMode != eAnnotationMode.IMAGE" (load)="resizeOverlay()" />
-  <audio #annotationeditoraudiowidget [src]="annotationAudioURL" controls [hidden]="annotationMode != eAnnotationMode.AUDIO" (load)="resizeOverlay()">
+  <!--<audio #annotationeditoraudiowidget [src]="annotationAudioURL" controls [hidden]="annotationMode != eAnnotationMode.AUDIO" (load)="resizeOverlay()">
     Your browser does not support the audio element.
-  </audio>
-  <video #annotationeditorvideowidget [src]="annotationVideoURL" controls [hidden]="annotationMode != eAnnotationMode.VIDEO" (load)="resizeOverlay()">
+  </audio>-->
+  <!--<video #annotationeditorvideowidget [src]="annotationVideoURL" controls [hidden]="annotationMode != eAnnotationMode.VIDEO" (load)="resizeOverlay()">
     Your browser does not support the video element.
-  </video>
+  </video>-->
+  <wavesurfer-audio [src]="annotationAudioURL" [hidden]="annotationMode != eAnnotationMode.AUDIO" (load)="resizeOverlay()" (event)="avComponentEvent($event)">
+  </wavesurfer-audio>
+  <wavesurfer-video [src]="annotationVideoURL" [hidden]="annotationMode != eAnnotationMode.VIDEO" (load)="resizeOverlay()" (event)="avComponentEvent($event)">
+  </wavesurfer-video>
   <div [hidden]="annotationMode != eAnnotationMode.TEXT">
     <textarea #annotationeditortextwidget class="annotation-editor-text-widget"></textarea>
   </div>

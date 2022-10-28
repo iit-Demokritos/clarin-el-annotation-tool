@@ -10,11 +10,29 @@ import { MainDialogComponent } from '../main-dialog/main-dialog.component';
 export class DetectOpenDocModalComponent extends MainDialogComponent implements OnInit {
 
   currentDocument;
+  changes             = 0;
+  annotations_added   = 0;
+  annotations_changed = 0
+  annotations_removed = 0;
 
   super() { }
 
   ngOnInit(): void {
     this.currentDocument = _.cloneDeep(this.data);
+    console.error(this.currentDocument);
+    this.tempAnnotationService.changes(this.currentDocument.collection_id,
+                                       this.currentDocument.id,
+                                       this.currentDocument.annotator_id)
+    .then((response) => {
+       console.error(response);
+       if (response['success']) {
+         this.annotations_added   = response['data']['annotations_added'];
+         this.annotations_changed = response['data']['annotations_changed'];
+         this.annotations_removed = response['data']['annotations_removed'];
+         this.changes             = response['data']['changes'];
+       }
+    }, (error) => {
+    });
   }
 
   saveChanges() {

@@ -503,7 +503,8 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
   /** Annotate Document... */
   annotateDocument(document) {
     this.messageService.requestToAnnotateDocument = document;
-    this.router.navigateByUrl('/app/annotation');
+    this.router.navigate(['/app/annotation', document.collection_id,
+                                             document.id]);
     // console.error("ManageCollectionsComponent: annotateDocument():", document);
   }; /* annotateDocument */
 

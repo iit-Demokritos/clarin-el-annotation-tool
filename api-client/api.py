@@ -142,6 +142,13 @@ class Session:
     def document_delete(self, cid, did):
         return self.delete(f'api/collections/{cid}/documents/{did}')['data']
 
+    def document_changes(self, cid, did, annotator_id=None):
+        if (annotator_id):
+            url = f'api/collections/{cid}/documents/{did}/changes/{annotator_id}'
+        else:
+            url = f'api/collections/{cid}/documents/{did}/changes'
+        return self.get(url)
+
     ##
     ## Annotations...
     ##
@@ -380,6 +387,9 @@ class Document(APIObjectBase):
         assert self.id            == ann.document_id
         self.session.annotations_delete_single(ann.collection_id,
             ann.document_id, ann._id)
+
+    def changes(self, annotator_id=None):
+        return self.session.document_changes(self.collection_id, self.id, annotator_id)
 
 Documents = List[Document]
 

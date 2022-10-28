@@ -58,6 +58,8 @@ from DjangoClarin import authentication
 
 from drf_spectacular.utils import extend_schema_view, extend_schema
 
+from django.db.models import F
+
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class ObtainTokenPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -424,17 +426,17 @@ class ReturnStatistics(APIView):
 
             # Petasis, 21/10/2022: Filter annotations with the collections owned by the user...
             collection_ids = list(collections.values_list('id', flat=True))
-            annotations_counter = annotation_col.count_documents({"owner_id": owner.pk, "collection_id": { "$in": collection_ids }})
+            annotations_counter = annotation_col.count_documents({"created_by": owner.email, "collection_id": { "$in": collection_ids }})
 
             ## Find the collections shared with the user...
             collections_shared = SharedCollections.objects.filter(tofield=owner.email)
             collections_shared_ids = list(set(collections_shared.values_list('collection_id', flat=True)))
             collections_shared_counter = len(collections_shared_ids)
             documents_shared_counter   = 0
-            annotations_shared_counter = annotation_col.count_documents({"owner_id": owner.pk, "collection_id": { "$in": collections_shared_ids }})
+            annotations_shared_counter = annotation_col.count_documents({"created_by": owner.email, "collection_id": { "$in": collections_shared_ids }})
 
             ## Find annotations in collections no longer shared to the user...
-            annotations_unshared = annotation_col.find({"owner_id": owner.pk, "collection_id": { "$nin": collections_shared_ids + collection_ids }})
+            annotations_unshared = annotation_col.find({"created_by": owner.email, "collection_id": { "$nin": collections_shared_ids + collection_ids }})
             collections_unshared = set()
             documents_unshared   = set()
             for ann in annotations_unshared:
@@ -450,7 +452,7 @@ class ReturnStatistics(APIView):
             collections_shared_byuser_count = len(collections_shared_ids)
 
             ## Total annotations...
-            annotations_total_counter = annotation_col.count_documents({"owner_id": owner.pk})
+            annotations_total_counter = annotation_col.count_documents({"created_by": owner.email})
 
 
         except Exception as ex:
@@ -976,22 +978,36 @@ class OpenDocumentView(APIView):
     def post(self, request):
 
         try:
+            update_all_users = False
             data = request.data["data"]
             collection = Collections.objects.get(pk=data["collection_id"])
             document = Documents.objects.get(pk=data["document_id"])
             user = Users.objects.get(email=request.user)
             opendocument = OpenDocuments.objects.filter(
-                user_id=user.pk, collection_id=collection, document_id=document)
-            data = {"annotator_type": data["annotator_type"], "user_id": user.pk,
-                    "collection_id": collection.pk, "document_id": document.pk, "db_interactions": 0,
-                    "updated_at": datetime.now()}
+                user_id=user.pk,
+                collection_id=collection,
+                document_id=document,
+                annotator_type=data["annotator_type"])
+            db_interactions = data.get("db_interactions", 0)
+            if db_interactions < 0:
+                update_all_users = True
+                db_interactions = 0
             if (not (opendocument.exists())):
+                data = {"annotator_type": data["annotator_type"], "user_id": user.pk,
+                        "collection_id": collection.pk, "document_id": document.pk, "db_interactions": db_interactions,
+                        "updated_at": datetime.now()}
                 serializer = OpenDocumentsSerializer(data=data)
                 if serializer.is_valid():
                     opendocument = serializer.save()
             else:
-                serializer = OpenDocumentsSerializer(
-                    opendocument.get(), data=data, partial=True)
+                if update_all_users:
+                    opendocument.update(db_interactions = db_interactions)
+
+            # if update_all_users:
+            #     OpenDocuments.objects.filter(
+            #         collection_id=collection,
+            #         document_id=document,
+            #         annotator_type=data["annotator_type"]).update(db_interactions = db_interactions)
 
             return Response(data={"success": True, "data": {"annotator_type": data["annotator_type"], "collection_id": collection.pk, "document_id": document.pk}})
 
@@ -1216,9 +1232,10 @@ class OpenDocumentUpdate(APIView):
 
             data.append({"collection_id": collection_id, "document_id": int(document_id), "db_interactions": opendocument.db_interactions,
                          "annotator_type": Button_Annotator_name, "confirmed": confirmed, "opened": 1})
-            opendocument.db_interactions = 0
-            opendocument.updated_at = datetime.now()
-            opendocument.save()
+            # Petasis, 28/10/2022: TODO: Cannot understant the logic of setting interactions to 0 in GET!
+            # opendocument.db_interactions = 0
+            # opendocument.updated_at = datetime.now()
+            # opendocument.save()
         except Exception as ex:
             print("OpenDocumentUpdate (get):" + str(ex))
             return Response(data={"success": True, "data": data},

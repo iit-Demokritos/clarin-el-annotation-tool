@@ -9,6 +9,15 @@ mongodb_client          = utils.mongo_client
 mongodb_db_clarin       = utils.db_handle
 _mongodb_db_annotations = None
 
+def mongodb_encode_id(id):
+    if type(id) is str:
+        # Decide if it is a UUID or an ObjectID:
+        if '-' in id:
+            # Leave it as a string...
+            return id
+        else:
+            return ObjectId(id)
+
 def mongodb_db_annotations():
     global _mongodb_db_annotations
     if _mongodb_db_annotations is None:
@@ -28,7 +37,7 @@ def mongodb_db_annotations_find(request):
 
 def mongodb_db_annotations_find_by_id(request):
     _id        = request.data.get('id')
-    return map(mongodb_doc_fix_id, mongodb_db_annotations().find({'_id': ObjectId(_id)}))
+    return map(mongodb_doc_fix_id, mongodb_db_annotations().find({'_id': mongodb_encode_id(_id)}))
 
 def mongodb_db_annotations_aggregate(request):
     query      = request.data.get('q')

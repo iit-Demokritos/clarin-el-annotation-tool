@@ -47,6 +47,7 @@ const routes: Routes = [
       { path: 'collections/add',               component: AddCollectionComponent },
       { path: 'collections/manage',            component: ManageCollectionsComponent },
       { path: "annotation",                    component: AnnotationComponent },
+      { path: "annotation/:cid/:did",          component: AnnotationComponent },
       { path: "inspection/document",           component: InspectDocumentComponent },
       { path: "inspection/compareannotations", component: CompareAnnotationsComponent },
       { path: "inspection/comparedocuments",   component: CompareDocumentsComponent },

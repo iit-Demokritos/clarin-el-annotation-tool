@@ -132,6 +132,8 @@ import { AnnotationDetailComponent } from './components/controls/annotation-deta
 import { AnnotationSetComparatorComponent } from './components/controls/annotation-set-comparator/annotation-set-comparator.component';
 import { AutoannTokenClassifierDirective } from './directives/autoann-token-classifier/autoann-token-classifier.directive';
 import { AutomaticAnnotatorComponent } from './components/controls/automatic-annotator/automatic-annotator.component';
+import { WavesurferAudioComponent } from './components/controls/wavesurfer-audio/wavesurfer-audio.component';
+import { WavesurferVideoComponent } from './components/controls/wavesurfer-video/wavesurfer-video.component';
 
 // Required for AOT compilation
 export function TranslateHttpLoaderFactory(http: HttpClient) {
@@ -229,6 +231,8 @@ export function MyFlowFactory() {
     AnnotationSetComparatorComponent,
     AutoannTokenClassifierDirective,
     AutomaticAnnotatorComponent,
+    WavesurferAudioComponent,
+    WavesurferVideoComponent,
   ],
   imports: [
     BrowserModule,

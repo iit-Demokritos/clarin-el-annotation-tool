@@ -74,10 +74,27 @@ export class TempAnnotationService {
     });
   };
 
-  destroy = function (collectionId, documentId, annotationId) {
+  destroy(collectionId, documentId, annotationId) {
     // console.error("TempAnnotationService: destroy():", collectionId, documentId, annotationId);
     return new Promise((resolve, reject) => {
       this.http.delete('api/collections/' + collectionId + '/documents/' + documentId + '/temp_annotations/' + annotationId)
+        .subscribe((data) => {
+          resolve(data);
+        }, (error) => {
+          reject(error);
+        });
+
+    });
+  };
+
+  changes(collectionId, documentId, annotationId = null) {
+    return new Promise((resolve, reject) => {
+      var url = 'api/collections/' + collectionId + '/documents/' + documentId + '/changes';
+      if (annotationId != null) {
+        url +=  '/' + annotationId;
+      }
+      console.error("TempAnnotationService: changes():", collectionId, documentId, annotationId, url);
+      this.http.get(url)
         .subscribe((data) => {
           resolve(data);
         }, (error) => {

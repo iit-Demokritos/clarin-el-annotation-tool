@@ -232,7 +232,12 @@ export class SelectDocumentModalComponent extends MainDialogComponent implements
       this.flash = "";
       //let selectedCollection = $filter('filter')(this.dataForTheTree, { id: this.selectedDocument["collection_id"] }, true);
 
-      this.selectedCollection = this.dataForTheTree.data.filter(x => x.id == this.selectedDocument["collection_id"]);//this.data.collectionsData.filter(x => x.id == this.selectedDocument["collection_id"]);
+      this.selectedCollection = this.dataForTheTree.data.find(x => x.id == this.selectedDocument["collection_id"]);
+      /* Is this a complete Document? Does it have name? */
+      if (! ("name" in this.selectedDocument)) {
+        var did = this.selectedDocument["id"];
+        this.selectedDocument = this.selectedCollection.children.find(x => x.id == did);
+      }
       this.documentSelectorHeight = 0;
       this.showSelectDocument = false;
       // console.error("SelectDocumentModalComponent: selectDocument():", this.selectedCollection, this.selectedDocument);
@@ -259,7 +264,7 @@ export class SelectDocumentModalComponent extends MainDialogComponent implements
       newAnnotator: this.subheader,
       newAnnotationSchemaOptions: this.annotationSchemaOptions,
       newAnnotationSchema: this.annotationSchema,
-      newCollection: this.selectedCollection[0],
+      newCollection: this.selectedCollection,
       newDocument: this.selectedDocument
     };
 
@@ -275,7 +280,7 @@ export class SelectDocumentModalComponent extends MainDialogComponent implements
           newAnnotator: this.data.annotator,
           newAnnotationSchemaOptions: this.annotationSchemaOptions,
           newAnnotationSchema: _.cloneDeep(this.data.annotationSchema),
-          newCollection: this.selectedCollection[0],
+          newCollection: this.selectedCollection,
           newDocument: this.selectedDocument
         };
 

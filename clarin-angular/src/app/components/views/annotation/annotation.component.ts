@@ -9,6 +9,7 @@ import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.co
 import { SelectDocumentModalComponent } from '../../dialogs/select-document-modal/select-document-modal.component';
 import { MainComponent } from '../main/main.component';
 import { NgProgressRef } from 'ngx-progressbar';
+import { ParamMap } from '@angular/router'
 
 /*
  * How Documents are opened:
@@ -36,7 +37,7 @@ import { NgProgressRef } from 'ngx-progressbar';
  *    actions 4):
  *
  *
- * ?) The user is reirected to AnnotationComponent.createDocumentSelectionModal(),
+ * ?) The user is redirected to AnnotationComponent.createDocumentSelectionModal(),
  *    to select a Document & an Annotation schema to open.
  *
  */
@@ -119,6 +120,15 @@ export class AnnotationComponent extends MainComponent implements OnInit {
     this.TextWidgetAPI.initializeCallbacks();
     this.TextWidgetAPI.resetData();
     this.TextWidgetAPI.disableIsRunning();
+    /* Have we got any parameters? */
+    var cid = this.activatedRoute.snapshot.paramMap.get('cid');
+    var did = this.activatedRoute.snapshot.paramMap.get('did');
+    if (cid != null && did != null && !this.messageService.requestToAnnotateDocument) {
+      this.messageService.requestToAnnotateDocument = {
+        id: did,
+        collection_id: cid
+      };
+    }
     // Is there a request to annotated a specific document?
     if (this.messageService.requestToAnnotateDocument) {
       this.createDocumentSelectionModal();
@@ -190,7 +200,9 @@ export class AnnotationComponent extends MainComponent implements OnInit {
                 Promise.all(this.TextWidgetAPI.setCurrentDocument(result.newDocument))
                 .then((data) => {
                   this.documentSelected = true;
-		  this.updateAutoAnn();
+                  // Set the location...
+                  this.updateRouterLocation(result.newDocument);
+                  this.updateAutoAnn();
                   progressRef.complete();
                   //this.TextWidgetAPI.registerAnnotationsCallback(this.updateAnnotationList.bind(this));
 
@@ -357,8 +369,8 @@ export class AnnotationComponent extends MainComponent implements OnInit {
               console.warn("  Document opened by current user, which is shared and opened also by other users");
               // Ask the user what to do...
               askUser = true;
-	      // Petasis, 04 May 2022: Reduce the dialogs to the user...
-	      askUser = false;
+              // Petasis, 04 May 2022: Reduce the dialogs to the user...
+              askUser = false;
             }
             if (askUser) {
               const response = await this.askUserOnOpenedDocument(openedDocument);
@@ -642,6 +654,9 @@ export class AnnotationComponent extends MainComponent implements OnInit {
       case 'export.document.pdf':
         this.textWidgetComponent.exportPDF();
         break;
+      case "change.document":
+        this.updateRouterLocation();
+        break;
       default:
         break;
     }
@@ -665,4 +680,13 @@ export class AnnotationComponent extends MainComponent implements OnInit {
     this.autoAnnotatorSpecs = this.TextWidgetAPI.getAnnotationSchemaAutoAnn();
     this.layout.showAutomaticAnnotator = Object.keys(this.autoAnnotatorSpecs).length > 0;
   }
+
+  updateRouterLocation(doc=null) {
+    if (doc == null) {
+      doc = this.TextWidgetAPI.getCurrentDocument();
+    }
+    // Set the location...
+    const url = this.router.createUrlTree(['/app/annotation', doc.collection_id, doc.id]).toString();
+    this.routerLocation.go(url);
+  }; /* updateRouterLocation */
 }
