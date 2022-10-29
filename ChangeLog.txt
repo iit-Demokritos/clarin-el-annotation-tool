@@ -1,4 +1,22 @@
+29-October-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * clarin-angular/package.json: Updated version to 3.3.0. (Audio/Video
+ Annotation).
+
+ * clarin-angular/src/app/components/controls/button/annotation-button/annotation-button.component.ts:
+ * clarin-angular/src/app/components/controls/text-widget/text-widget.component.html:
+ * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
+ * clarin-angular/src/app/components/controls/wavesurfer-audio/wavesurfer-audio.component.html:
+ * clarin-angular/src/app/components/controls/wavesurfer-audio/wavesurfer-audio.component.ts:
+ * clarin-angular/src/app/components/controls/wavesurfer-video/wavesurfer-video.component.html:
+ * clarin-angular/src/app/components/controls/wavesurfer-video/wavesurfer-video.component.ts:
+ * clarin-angular/src/app/components/views/annotation/annotation.component.html:
+ * clarin-angular/src/css/clarin-material.scss: Audio & Video Annotation
+ implemented.
+
 28-October-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * clarin-angular/package.json: Updated version to 3.2.4. (Dashboard fixes,
+ Video Annotation.).
+
  * clarin-angular/src/app/app-routing.module.ts:
  * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
  * clarin-angular/src/app/components/controls/toolbar-widget/toolbar-widget.component.ts:

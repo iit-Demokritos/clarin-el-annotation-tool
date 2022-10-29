@@ -167,6 +167,7 @@ export class AnnotationButtonComponent extends BaseControlComponent implements O
             rotation: currentSelection.rotation
           }];
           break;
+        case AnnotationMode.AUDIO:
         case AnnotationMode.VIDEO:
           newAnnotation.spans = [{
             type:    currentSelection.type,

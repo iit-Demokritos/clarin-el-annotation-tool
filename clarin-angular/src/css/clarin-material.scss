@@ -202,12 +202,13 @@ $foreground: map-get($theme, foreground);
     overflow-y: auto;
   }
   .main-content-document {
+    height: 100%;
     /* Position the editor overlay on top of the editor */
     /* From: https://stackoverflow.com/questions/2941189/how-to-overlay-one-div-over-another-div
      * If we had bootstrap 4, we could have used this:
      * https://stackoverflow.com/questions/60620315/put-div-above-another-div-in-bootstrap */
     text-widget {
-      //height: 100%;
+      height: 100%;
       //width: 100%;
       //display: block;
       //box-sizing: border-box;
@@ -769,6 +770,58 @@ text-widget {
   }
   .mat-button {
     text-transform: uppercase;
+  }
+}
+
+/*
+ * Audio/Video Annotation
+ */
+.wavesurfer-audio,
+.wavesurfer-video {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  .waveform {
+    width: calc(100% - 28px);
+    margin: 7px 14px 7px 14px;
+    minimap {
+      margin-top: 7px;
+    }
+  }
+  .timeline {
+    margin: 0 14px 0 14px;
+  }
+
+  .media-footer {
+    margin-top: 14px;
+    width: 100%;
+    .media-action-bar {
+      width: 100%;
+      justify-content: center;
+      .mat-icon {
+        height: 36px !important;
+        width: 36px !important;
+        font-size: 36px !important;
+      }
+    }
+  }
+}
+
+.wavesurfer-video {
+  .video {
+    margin: 0 auto;
+    flex: 1 1 auto;
+    max-width: 100%;
+    width: auto    !important;
+    height: 100%   !important;
+  }
+}
+.wavesurfer-audio {
+  .waveform {
+    flex-grow: 1;
+    // margin-top: auto;
+    // margin-bottom: auto;
   }
 }
 

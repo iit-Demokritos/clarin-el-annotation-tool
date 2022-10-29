@@ -1,9 +1,47 @@
 <div class="wavesurfer-video">
-  <video #video style="display:block; margin: 0 auto;" [src]="src">
+  <video #video class="video" [src]="src">
     <!-- Here be the video -->
   </video>
-  <div #wavetimeline></div>
-  <div #waveform>
+  <div #wavetimeline class="timeline"></div>
+  <div #waveform class="waveform">
     <!-- Here be the waveform -->
   </div>
+  <div class="media-footer">
+      <mat-toolbar color="primary" class="media-action-bar">
+        <!--<mat-toolbar-row class="media-action-bar">-->
+          <button mat-button (click)="previous()">
+            <mat-icon mat-list-icon>skip_previous</mat-icon>
+          </button>
+          <button mat-button (click)="play()" [disabled]="state?.error" *ngIf="!state?.playing">
+            <mat-icon mat-list-icon>play_circle_filled</mat-icon>
+          </button>
+          <button mat-button (click)="pause()" *ngIf="state?.playing">
+            <mat-icon mat-list-icon>pause</mat-icon>
+          </button>
+          <button mat-button (click)="next()">
+            <mat-icon mat-list-icon>skip_next</mat-icon>
+          </button>
+          <button mat-button (click)="zoomOut()" [disabled]="state.zoom < 2">
+            <mat-icon>zoom_out</mat-icon>
+          </button>
+          <mat-slider class="zoom-slider" min="1" max="200" step="5"
+            [(ngModel)]="state.zoom"
+            (input)="onZoomChangeEnd($event)">
+          </mat-slider>
+          <button mat-button (click)="zoomIn()" [disabled]="state.zoom > 199">
+            <mat-icon>zoom_in</mat-icon>
+          </button>
+          <button mat-button (click)="mute()" [disabled]="state.volume == 0">
+            <mat-icon>volume_off</mat-icon>
+          </button>
+          <mat-slider class="volume-slider" min="0" max="1" step="0.05"
+            [(ngModel)]="state.volume"
+            (input)="onVolumeChangeEnd($event)">
+          </mat-slider>
+          <button mat-button (click)="volumeUp()" [disabled]="state.volume == 1">
+            <mat-icon>volume_up</mat-icon>
+          </button>
+        <!--</mat-toolbar-row>-->
+      </mat-toolbar>
+    </div>
 </div>

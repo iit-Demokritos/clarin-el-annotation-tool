@@ -107,6 +107,7 @@ export class TextWidgetComponent extends BaseControlComponent
   annotationImageURL: string = null;
   annotationAudioURL: string = null;
   annotationVideoURL: string = null;
+  hideOverlay: boolean = false;
 
   ngOnInit() {
   }
@@ -319,6 +320,13 @@ export class TextWidgetComponent extends BaseControlComponent
           selection.width         = width;
           selection.height        = height;
           selection.rotation      = ((angle) ? angle : 0);
+        }
+        break;
+      case AnnotationMode.AUDIO:
+        if (this.audioWidget.selection != null) {
+          selection.type          = "wfregion";
+          selection.startOffset   = this.audioWidget.selection.start;
+          selection.endOffset     = this.audioWidget.selection.end;
         }
         break;
       case AnnotationMode.VIDEO:
@@ -590,6 +598,7 @@ export class TextWidgetComponent extends BaseControlComponent
       case "webp":
         this.annotationMode = AnnotationMode.IMAGE;
         this.annotationImageURL = doc.data_image;
+        this.hideOverlay = false;
         this.textWidgetOverlay.nativeElement.style.pointerEvents = "all";
         this.textWidgetOverlay.nativeElement.style.width  = "100%";
         this.textWidgetOverlay.nativeElement.style.height = "100%";
@@ -600,12 +609,16 @@ export class TextWidgetComponent extends BaseControlComponent
       case "audio mp4":
         this.annotationMode = AnnotationMode.AUDIO;
         this.annotationAudioURL = doc.data_file;
+        this.textWidgetOverlay.nativeElement.style.height = "0px";
+        this.hideOverlay = true;
         break;
       case "video mp4":
       case "video webm":
       case "video ogg":
         this.annotationMode = AnnotationMode.VIDEO;
         this.annotationVideoURL = doc.data_file;
+        this.textWidgetOverlay.nativeElement.style.height = "0px";
+        this.hideOverlay = true;
         break;
       case "text":
       default:
@@ -613,6 +626,7 @@ export class TextWidgetComponent extends BaseControlComponent
         this.textWidgetOverlay.nativeElement.style.width  = "100%";
         this.annotationMode = AnnotationMode.TEXT;
         this.editor.setValue(doc.text);
+        this.hideOverlay = false;
         break;
     }
 
@@ -639,17 +653,20 @@ export class TextWidgetComponent extends BaseControlComponent
   }; /* initialiseEditor */
 
   resizeOverlay() {
-    // console.error("TextWidgetComponent: resizeOverlay()");
-    if (this.annotationMode == AnnotationMode.TEXT) {
-      this.textWidgetOverlay.nativeElement.style.width  = "100%";
-      this.textWidgetOverlay.nativeElement.style.height = (this.editor.getScrollInfo().height + 2).toString()+'px';
-    }
-    if (this.annotationMode == AnnotationMode.IMAGE) {
-      // console.error((this.imageWidget.nativeElement as HTMLImageElement).naturalWidth);
-      // console.error((this.imageWidget.nativeElement as HTMLImageElement).naturalHeight);
-      this.textWidgetOverlay.nativeElement.style.width  = this.imageWidget.nativeElement.scrollWidth.toString()+'px';
-      this.textWidgetOverlay.nativeElement.style.height = this.imageWidget.nativeElement.scrollHeight.toString()+'px';
-    }
+    // console.error("TextWidgetComponent: resizeOverlay():", this.annotationMode);
+    switch (this.annotationMode) {
+      case AnnotationMode.TEXT:
+        this.textWidgetOverlay.nativeElement.style.width  = "100%";
+        this.textWidgetOverlay.nativeElement.style.height = (this.editor.getScrollInfo().height + 2).toString()+'px';
+        break;
+      case AnnotationMode.IMAGE:
+        // console.error((this.imageWidget.nativeElement as HTMLImageElement).naturalWidth);
+        // console.error((this.imageWidget.nativeElement as HTMLImageElement).naturalHeight);
+        this.textWidgetOverlay.nativeElement.style.width  = this.imageWidget.nativeElement.scrollWidth.toString()+'px';
+        this.textWidgetOverlay.nativeElement.style.height = this.imageWidget.nativeElement.scrollHeight.toString()+'px';
+        break;
+    };
+    // console.error(this.textWidgetOverlay.nativeElement.style.width, this.textWidgetOverlay.nativeElement.style.height);
   }; /* resizeOverlay */
 
   visualiseVisualisationOptions(options) {
@@ -1290,6 +1307,9 @@ export class TextWidgetComponent extends BaseControlComponent
               }
               delete this.annotationIdToGraphItem[annotation.annotation._id];
               break;
+            case AnnotationMode.AUDIO:
+              this.audioWidget.removeRegionForAnnotationId(annotation.annotation._id);
+              break;
             case AnnotationMode.VIDEO:
               this.videoWidget.removeRegionForAnnotationId(annotation.annotation._id);
               break;
@@ -1444,6 +1464,9 @@ export class TextWidgetComponent extends BaseControlComponent
               // No need to call overlayMarkAdd(), as we have already call the overlay.
               // However, we need to highlight it if needed (a check done inside overlayMarkAdd()).
               this.overlayMarkAdd(-1, -1, -1, visAnnotation);
+              break;
+            case AnnotationMode.AUDIO:
+              this.audioWidget.addRegion(visAnnotation.annotation._id, annotationSpan, colorCombination, selected);
               break;
             case AnnotationMode.VIDEO:
               this.videoWidget.addRegion(visAnnotation.annotation._id, annotationSpan, colorCombination, selected);
@@ -1743,6 +1766,9 @@ export class TextWidgetComponent extends BaseControlComponent
                 }
               });
               break;
+            case AnnotationMode.AUDIO:
+              this.audioWidget.removeRegionForAnnotationId(annotation._id);
+              break;
             case AnnotationMode.VIDEO:
               this.videoWidget.removeRegionForAnnotationId(annotation._id);
               break;
@@ -1809,6 +1835,9 @@ export class TextWidgetComponent extends BaseControlComponent
           }
           this.imageAnnotator.selection = undefined;
           break;
+        case AnnotationMode.AUDIO:
+          this.audioWidget.clearSelection();
+          break;
         case AnnotationMode.VIDEO:
           this.videoWidget.clearSelection();
           break;
@@ -1844,6 +1873,9 @@ export class TextWidgetComponent extends BaseControlComponent
          //editor.setCursor(annotation.spans[0].start);
          //editor.scrollIntoView(null);
          break;
+       case AnnotationMode.AUDIO:
+          this.audioWidget.scrollIntoView(annotation._id);
+          break;
        case AnnotationMode.VIDEO:
           this.videoWidget.scrollIntoView(annotation._id);
           break;
@@ -2055,7 +2087,15 @@ export class TextWidgetComponent extends BaseControlComponent
         }
         break;
       case "annotation-edit":
-        var annotationId = this.videoWidget.editAnnotationId;
+        var annotationId;
+        switch (this.annotationMode) {
+          case AnnotationMode.AUDIO:
+            annotationId = this.audioWidget.editAnnotationId;
+            break;
+          case AnnotationMode.VIDEO:
+            annotationId = this.videoWidget.editAnnotationId;
+            break;
+        };
         var selectedAnnotation = this.TextWidgetAPI.getAnnotationById(annotationId);
         var prevAnnotationId = this.TextWidgetAPI.getSelectedAnnotation()["_id"];
         if (typeof (selectedAnnotation) != "undefined" &&

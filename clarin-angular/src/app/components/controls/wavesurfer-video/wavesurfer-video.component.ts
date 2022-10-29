@@ -27,6 +27,17 @@ export class WavesurferVideoComponent implements OnInit, OnDestroy, AfterViewIni
 
   processEvents: boolean = true;
 
+  state = {
+    duration: 0,
+    playing: false,
+    error: false,
+    volume: 0,
+    zoom: 1
+  };
+
+  // Resize observer for refreshing zoom if parent size changes...
+  resizeObserver: any;
+
   constructor(private toastrService: ToastrService) { }
 
   ngOnInit(): void {
@@ -35,13 +46,20 @@ export class WavesurferVideoComponent implements OnInit, OnDestroy, AfterViewIni
   ngAfterViewInit() {
     this.wavesurfer = WaveSurfer.create({
       container: this.waveform.nativeElement,
-      height: 100,
-      pixelRatio: 1,
-      minPxPerSec: 100,
-      scrollParent: true,
-      normalize: true,
+      waveColor: "#97A0AF",
+      progressColor: "#52c41a",
+      cursorWidth: 1,
+      cursorColor: "rgb(51, 51, 51)",
+      height: 128,
+      responsive: true,
+      fillParent: true,
+      //pixelRatio: 1,
+      //minPxPerSec: 100,
+      //scrollParent: true,
+      //normalize: true,
       splitChannels: false,
       backend: 'MediaElement',
+      barheight: 1,
       plugins: [
           WaveSurferRegions.create(),
           WaveSurferMinimap.create({
@@ -52,7 +70,10 @@ export class WavesurferVideoComponent implements OnInit, OnDestroy, AfterViewIni
           WaveSurferTimeline.create({
               container: this.wavetimeline.nativeElement
           }),
-          WaveSurferCursor.create()
+          WaveSurferCursor.create({
+            showTime: true,
+            opacity: 1,
+          })
       ]
     });
     this.wavesurfer.on('error', (e) => {
@@ -79,27 +100,44 @@ export class WavesurferVideoComponent implements OnInit, OnDestroy, AfterViewIni
     this.wavesurfer.on('region-in',         this.showNote.bind(this));
     this.wavesurfer.on('region-out',        this.hideNote.bind(this));
 
+    this.wavesurfer.on('pause', (region) => {
+      this.state.playing = false;
+    });
     this.wavesurfer.on('region-play', (region) => {
         region.once('out', () => {
             this.wavesurfer.play(region.start);
-            this.wavesurfer.pause();
+            this.pause();
         });
     });
-    // this.video.nativeElement.addEventListener('loadeddata', this.onVideoDataLoaded.bind(this), false);
+    this.wavesurfer.on('waveform-ready', () => {
+      this.state.volume = this.wavesurfer.getVolume();
+    });
+    this.video.nativeElement.addEventListener('loadeddata', this.onVideoDataLoaded.bind(this), {
+      once: true
+    });
+    // create an Observer instance
+    this.resizeObserver = new ResizeObserver((entries) => {
+      this.state.zoom = 1;
+      this.wavesurfer.zoom(this.state.zoom);
+    });
+    this.resizeObserver.observe(this.waveform.nativeElement);
   }; /* ngAfterViewInit */
 
   ngOnDestroy() {
+    this.resizeObserver.disconnect();
   } /* ngOnDestroy */
 
   onVideoDataLoaded() {
-    this.toastrService.info("Video has been loaded");
-    console.error("WavesurferVideoComponent: onVideoDataLoaded(): Video has been loaded");
+    // this.toastrService.info("Video has been loaded");
+    // console.error("WavesurferVideoComponent: onVideoDataLoaded(): Video has been loaded");
     // this.wavesurfer.clearRegions();
+    this.wavesurfer.load(this.video.nativeElement);
   }; /* onVideoDataLoaded */
 
   ngOnChanges(changes) {
     if ('src' in changes && this.src != null && this.wavesurfer != null) {
-      this.wavesurfer.load(this.video.nativeElement);
+      // this.wavesurfer.load(this.video.nativeElement);
+      // this.wavesurfer.load(this.src);
     }
   }; /* ngOnChanges */
 
@@ -190,5 +228,54 @@ export class WavesurferVideoComponent implements OnInit, OnDestroy, AfterViewIni
 
   hideNote(region) {
   }; /* hideNote */
+
+  play() {
+    this.wavesurfer.play();
+    this.state.playing = true;
+  }
+
+  pause() {
+    this.wavesurfer.pause();
+    this.state.playing = false;
+  }
+
+  previous() {
+    this.wavesurfer.seekTo(0);
+  }
+
+  next() {
+    this.wavesurfer.seekTo(1);
+  }
+
+  onZoomChangeEnd(event) {
+    this.wavesurfer.zoom(event.value);
+  }
+
+  zoomOut() {
+    this.state.zoom -= 20;
+    if (this.state.zoom < 0) this.state.zoom = 0;
+    this.wavesurfer.zoom(this.state.zoom);
+  }
+
+  zoomIn() {
+    this.state.zoom += 20;
+    if (this.state.zoom >200) this.state.zoom = 200;
+    this.wavesurfer.zoom(this.state.zoom);
+  }
+
+  onVolumeChangeEnd(event) {
+    this.wavesurfer.setVolume(event.value);
+  }
+
+  mute() {
+    this.state.volume = 0;
+    this.wavesurfer.setVolume(this.state.volume);
+  }
+
+  volumeUp() {
+    this.state.volume += 0.1;
+    if (this.state.volume > 1) this.state.volume = 1;
+    this.wavesurfer.setVolume(this.state.volume);
+  }
 
 }
