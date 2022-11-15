@@ -60,6 +60,9 @@ from drf_spectacular.utils import extend_schema_view, extend_schema
 
 from django.db.models import F
 
+## Custom JSON encoder for image/file fields...
+from .encoders import ExtendedJSONEncoder
+
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class ObtainTokenPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -1349,8 +1352,9 @@ class ExportCollectionView(APIView):
             return JsonResponse(data={"success": True, "message": "An error occured: " + str(ex)},
                                 status=status.HTTP_200_OK)
         response = JsonResponse(data={"success": True, "message": "ok", "data": data},
-                            status=status.HTTP_200_OK)
-        response['Content-Disposition'] = f'attachment; filename="{collection.name}.json"'
+                            status=status.HTTP_200_OK, encoder=ExtendedJSONEncoder)
+        datetime_str = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+        response['Content-Disposition'] = f'attachment; filename="{collection.name}-{datetime_str}.json"'
         return response
 
 

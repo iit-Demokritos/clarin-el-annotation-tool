@@ -74,6 +74,8 @@ urlpatterns = [
     path('api/collections/<int:cid>/documents/<int:did>/changes/<str:Button_Annotator_name>',           AnnotationDiffViewDetail.as_view(),                  name='annotation_diff_annotator'),
     path('api/collections/<int:cid>/documents/<int:did>/changes',                                       AnnotationDiffViewList.as_view(),                    name='annotation_diff'),
 
+    path('api/shares',                                                                                  SharesViewList.as_view(),                            name='shares_list'),
+
     #path('api/test/collections/<int:cid>/documents',                                                    DocumentsViewList.as_view(),                         name='api_test_collection_documents'),
     #path('api/test/collections/<int:cid>/documents/<int:did>',                                          DocumentsViewDetail.as_view(),                       name='current_document'),
     #path('api/test/email/send',                                                                         TestEmailSendView.as_view(),                         name='test_email_send'),

@@ -38,6 +38,11 @@ class ErrorLoggingAPIView(APIView):
         # print("##############", self.arguments_list, self.arguments_retrieve)
 
     @staticmethod
+    def ensureAuthenticatedUser(request):
+        if not request.user.is_authenticated:
+            raise Exception("An authenticated user is required.")
+
+    @staticmethod
     def userHasAccessToCollection(user, collection):
         # collection = Collections.objects.get(id=cid)
         if collection.owner_id_id == user.id:
@@ -55,8 +60,9 @@ class ErrorLoggingAPIView(APIView):
         ErrorLoggingAPIView.userHasAccessToCollection(user, collection)
         return collection
 
-    def logException(self, ex, method):
+    def logException(self, request, ex, method):
         print(self.__class__.__name__, "-", method+"() - Catch Exception:", ex)
+        print(" User:", request.user, request.user.pk, request.user.email)
         tb = ex.__traceback__
         # Skip the outer layer...
         if tb is not None:
@@ -98,35 +104,35 @@ class ErrorLoggingAPIView(APIView):
                 raise "Cannot decide over list() or retrieve()!"
             return self.returnResponse(data, method)
         except Exception as ex:
-            return self.logException(ex, "list/retrieve")
+            return self.logException(request, ex, "list/retrieve")
 
     def post(self, request, *args, **kwargs):
         try:
             data = self.create(request, *args, **kwargs)
             return self.returnResponse(data, "create")
         except Exception as ex:
-            return self.logException(ex, "create")
+            return self.logException(request, ex, "create")
 
     def put(self, request, *args, **kwargs):
         try:
             data = self.update(request, *args, **kwargs)
             return self.returnResponse(data, "update")
         except Exception as ex:
-            return self.logException(ex, "update")
+            return self.logException(request, ex, "update")
 
     def patch(self, request, *args, **kwargs):
         try:
             data = self.partial_update(request, *args, **kwargs)
             return self.returnResponse(data, "partial_update")
         except Exception as ex:
-            return self.logException(ex, "partial_update")
+            return self.logException(request, ex, "partial_update")
 
     def delete(self, request, *args, **kwargs):
         try:
             data = self.destroy(request, *args, **kwargs)
             return self.returnResponse(data, "destroy")
         except Exception as ex:
-            return self.logException(ex, "destroy")
+            return self.logException(request, ex, "destroy")
 
     # From: https://github.com/encode/django-rest-framework/blob/master/rest_framework/mixins.py
 

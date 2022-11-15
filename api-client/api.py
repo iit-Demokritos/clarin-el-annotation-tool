@@ -175,6 +175,12 @@ class Session:
         return self.delete(f'api/collections/{cid}/documents/{did}/annotations/{annotation_id}');
 
     ##
+    ## Shares...
+    ##
+    def shares_get(self):
+        return self.get('api/shares')['data']
+
+    ##
     ## Objects...
     ##
     def collections(self):
@@ -498,3 +504,16 @@ class Collection(APIObjectBase):
         return self.session.document_delete(self.id, doc.id)
 
 Collections = List[Collection]
+
+@dataclass
+class Share(APIObjectBase):
+    id:                    int           = None,
+    confirmed:             bool          = False,
+    created_at:            str           = None,
+    updated_at:            str           = None,
+    collection_id:         int           = None,
+    collection_name:       str           = None,
+    from_email:            str           = None,
+    to_email:              str           = None,
+
+Shares = List[Share]

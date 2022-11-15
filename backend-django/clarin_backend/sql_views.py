@@ -8,6 +8,7 @@ from rest_framework import status
 from .models import Users, Collections, SharedCollections, \
         OpenDocuments, Documents, \
         ButtonAnnotators, CoreferenceAnnotators
+from django.db.models import Q
 
 from .utils import ErrorLoggingAPIView, ErrorLoggingAPIViewList, ErrorLoggingAPIViewDetail
 from .mongodb_views import *
@@ -24,6 +25,10 @@ import base64
 from django.core.files.base import ContentFile
 from PIL import Image
 import urllib ;# For data urls...
+
+## Custom JSON encoder for image/file fields...
+from .encoders import ExtendedJSONEncoder
+from django.core.serializers import serialize
 
 class SQLDBAPIView(ErrorLoggingAPIView):
 
@@ -319,3 +324,62 @@ class DocumentsViewList(ErrorLoggingAPIViewList, DocumentsView):
 )
 class DocumentsViewDetail(DocumentsView):
     http_method_names = ["get", "patch", "delete"]
+
+##############################################
+## Shares
+##############################################
+@method_decorator(ensure_csrf_cookie, name='dispatch')
+class SharesView(SQLDBAPIView):
+    """
+    Shares Controller
+    """
+    http_method_names = ["get"]
+
+    def sharedEntryToDict(self, e):
+        return {
+                "id":               e.pk,
+                "confirmed":        e.confirmed,
+                "created_at":       e.created_at,
+                "updated_at":       e.updated_at,
+                "collection_id":    e.collection_id.pk,
+                "collection_name":  e.collection_id.name,
+                "from_email":       e.fromfield.email,
+                "to_email":         e.tofield.email
+            }
+
+    # List all instances. (GET)
+    def list(self, request):
+        self.ensureAuthenticatedUser(request)
+        shared_by_me = []
+        for e in SharedCollections.objects \
+                .filter(fromfield = request.user, confirmed = 1):
+            shared_by_me.append(self.sharedEntryToDict(e))
+        shared_with_me = []
+        for e in SharedCollections.objects \
+                .filter(tofield = request.user, confirmed = 1):
+            shared_with_me.append(self.sharedEntryToDict(e))
+        shared_by_me_pending = []
+        for e in SharedCollections.objects \
+                .filter(fromfield = request.user, confirmed = 0):
+            shared_by_me.append(self.sharedEntryToDict(e))
+        shared_with_me_pending = []
+        for e in SharedCollections.objects \
+                .filter(tofield = request.user, confirmed = 0):
+            shared_with_me.append(self.sharedEntryToDict(e))
+
+        return {
+            'shared_by_me':           shared_by_me,
+            'shared_with_me':         shared_with_me,
+            'shared_by_me_pending':   shared_by_me_pending,
+            'shared_with_me_pending': shared_with_me_pending,
+        }
+
+@extend_schema_view(
+    ## Method: list
+    get=extend_schema(request=None,responses={200: None},operation_id="list_shares",
+        description="Returns information about the Collections shared by and shared to the user. Requires an authenticated user.",
+    ),
+)
+class SharesViewList(ErrorLoggingAPIViewList, SharesView):
+    pass
+

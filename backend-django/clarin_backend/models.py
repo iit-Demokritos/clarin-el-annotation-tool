@@ -87,13 +87,13 @@ class OpenDocuments(models.Model):
 
 
 class SharedCollections(models.Model):
-    confirmed = models.SmallIntegerField("confirmed",default=0)
-    confirmation_code = models.CharField("confirmation_code", max_length=255,null=True, default=None)
-    created_at = models.DateTimeField("created_at", default=datetime.today)
-    updated_at = models.DateTimeField("updated_at", default=datetime.today)
-    collection_id = models.ForeignKey(Collections, on_delete=models.CASCADE)
-    fromfield =  models.ForeignKey(Users, on_delete=models.CASCADE,null=True,related_name="fromfield",to_field='email')
-    tofield= models.ForeignKey(Users, on_delete=models.CASCADE,null=True,related_name="tofield",to_field='email')
+    confirmed         = models.SmallIntegerField("confirmed", default=0)
+    confirmation_code = models.CharField("confirmation_code", max_length=255, null=True, default=None)
+    created_at        = models.DateTimeField("created_at", default=datetime.today)
+    updated_at        = models.DateTimeField("updated_at", default=datetime.today)
+    collection_id     = models.ForeignKey(Collections, on_delete=models.CASCADE)
+    fromfield         = models.ForeignKey(Users, on_delete=models.CASCADE, null=True, related_name="fromfield", to_field='email')
+    tofield           = models.ForeignKey(Users, on_delete=models.CASCADE, null=True, related_name="tofield",   to_field='email')
 
     class Meta:
         managed = True
