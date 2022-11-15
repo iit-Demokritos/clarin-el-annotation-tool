@@ -78,6 +78,7 @@
     "Collections": "Συλλογές",
     "Collections.Add New Collection": "Νέα Συλλογή",
     "Collections.Manage Collections": "Διαχείριση Συλλογών",
+    "Collections.Shared Collections": "Κοινοποίηση Συλλογών",
     "Annotation": "Επισημείωση",
     "Inspection": "Επισκόπηση",
     "Inspection.Inspect Document": "Inspect Document",
@@ -251,7 +252,8 @@
     "Add New Collection": "Add New Collection",
     "Manage Collections": "Manage Collections",
     "Inspect Document": "Inspect Document",
-    "Annotation Values": "Annotation Values"
+    "Annotation Values": "Annotation Values",
+    "Shared Collections": "Shared Collections"
   },
   "dashboard": {
     "Collections": "Συλλογές",

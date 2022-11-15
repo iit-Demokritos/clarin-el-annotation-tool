@@ -78,6 +78,7 @@
     "Collections": "Collections",
     "Collections.Add New Collection": "Add New Collection",
     "Collections.Manage Collections": "Manage Collections",
+    "Collections.Shared Collections": "Shared Collections",
     "Annotation": "Annotation",
     "Inspection": "Inspection",
     "Inspection.Inspect Document": "Inspect Document",
@@ -251,7 +252,8 @@
     "Add New Collection": "Add New Collection",
     "Manage Collections": "Manage Collections",
     "Inspect Document": "Inspect Document",
-    "Annotation Values": "Annotation Values"
+    "Annotation Values": "Annotation Values",
+    "Shared Collections": "Shared Collections"
   },
   "dashboard": {
     "Collections": "Collections",

@@ -1,4 +1,16 @@
 15-November-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * clarin-angular/package.json: Updated version to 3.3.1. (Shared Collection
+ Management).
+
+ * clarin-angular/src/app/app-routing.module.ts:
+ * clarin-angular/src/app/app.module.ts:
+ * clarin-angular/src/app/models/collection.ts:
+ * clarin-angular/src/assets/data/menu.json:
+ * clarin-angular/src/assets/i18n/el-GR.json:
+ * clarin-angular/src/assets/i18n/en-US.json:
+ * clarin-angular/src/css/clarin-material.scss: Added new tab for viewing
+ shared Collection information.
+
  * api-client/api.py:
  * backend-django/DjangoClarin/urls.py:
  * backend-django/clarin_backend/models.py:

@@ -12,6 +12,7 @@ import { FlashMessagesModule } from 'flash-messages-angular';
 import { ProfileComponent } from './components/views/profile/profile.component';
 import { NavbarComponent } from './components/views/navbar/navbar.component';
 import { ManageCollectionsComponent } from './components/views/manage-collections/manage-collections.component';
+import { SharedCollectionsComponent } from './components/views/shared-collections/shared-collections.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule} from '@angular/material/dialog';
 import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/confirm-dialog.component';
@@ -157,6 +158,7 @@ export function MyFlowFactory() {
     ProfileComponent,
     NavbarComponent,
     ManageCollectionsComponent,
+    SharedCollectionsComponent,
     ConfirmDialogComponent,
     MainDialogComponent,
     AddDocumentsDialogComponent,
@@ -286,6 +288,7 @@ export function MyFlowFactory() {
     ProfileComponent,
     NavbarComponent,
     ManageCollectionsComponent,
+    SharedCollectionsComponent,
     ConfirmDialogComponent,
     MainDialogComponent,
     AddDocumentsDialogComponent,

@@ -32,7 +32,9 @@
       "@externals": ["externals"],
       "@externals/*": ["externals/*"],
       "@services": ["src/app/services"],
-      "@services/*": ["src/app/services/*"]
+      "@services/*": ["src/app/services/*"],
+      "@models": ["src/app/models"],
+      "@models/*": ["src/app/models/*"]
     },
     "allowSyntheticDefaultImports":true,
     "emitDecoratorMetadata": true,

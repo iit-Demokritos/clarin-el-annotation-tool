@@ -774,6 +774,44 @@ text-widget {
 }
 
 /*
+ * Shared Collections Management
+ */
+manage-shared-collections {
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    align-content: stretch;
+    .mat-card {
+      flex: 1 1 auto;
+      height: calc(50% - 16px);
+      display: flex !important;
+      flex-direction: column;
+      .mat-card-content {
+        overflow: auto;
+        flex: 1 1 auto;
+        display: flex !important;
+        flex-direction: column;
+        .table-scroll {
+          overflow: auto;
+          flex: 1 1 auto;
+
+        }
+      }
+    }
+  }
+  table {
+    width: 100%;
+    .mat-column-confirmed {
+      text-align: center;
+      .mat-sort-header-container {
+        justify-content:center;
+      }
+    }
+  }
+}
+
+/*
  * Audio/Video Annotation
  */
 .wavesurfer-audio,

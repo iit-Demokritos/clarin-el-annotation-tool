@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { AddCollectionComponent } from './components/views/add-collection/add-collection.component';
 import { AnnotationComponent } from './components/views/annotation/annotation.component';
 import { ManageCollectionsComponent } from './components/views/manage-collections/manage-collections.component';
+import { SharedCollectionsComponent } from './components/views/shared-collections/shared-collections.component';
 import { ProfileComponent } from './components/views/profile/profile.component';
 import { WelcomeComponent } from './components/views/welcome/welcome.component';
 
@@ -46,6 +47,7 @@ const routes: Routes = [
       { path: 'dashboard',                     component: DashboardComponent },
       { path: 'collections/add',               component: AddCollectionComponent },
       { path: 'collections/manage',            component: ManageCollectionsComponent },
+      { path: 'collections/shared',            component: SharedCollectionsComponent },
       { path: "annotation",                    component: AnnotationComponent },
       { path: "annotation/:cid/:did",          component: AnnotationComponent },
       { path: "inspection/document",           component: InspectDocumentComponent },

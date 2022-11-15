@@ -27,6 +27,12 @@
           "name": "Manage Collections",
           "type": "link",
           "icon": "settings_applications"
+        },
+        {
+          "route": "shared",
+          "name": "Shared Collections",
+          "type": "link",
+          "icon": "settings_applications"
         }
       ]
     },
