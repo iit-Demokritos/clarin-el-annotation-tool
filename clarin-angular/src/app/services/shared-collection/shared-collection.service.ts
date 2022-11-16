@@ -20,6 +20,8 @@ export class SharedCollectionService {
     });
   };
 
+  /*
+   * TODO: This method is outdated!
   confirm(collectionId, confirmationCode) {
     return new Promise((resolve, reject) => {
       this.http.get('./api/collections/' + collectionId + '/share_verify/' + confirmationCode)
@@ -31,6 +33,7 @@ export class SharedCollectionService {
 
     });
   };
+ */
 
   save(collectionId, collectionData) {
     return new Promise((resolve, reject) => {
@@ -47,9 +50,9 @@ export class SharedCollectionService {
     });
   };
 
-  destroy(collectionId, confirmationCode) {
+  destroy(collectionId, invitationId) {
     return new Promise((resolve, reject) => {
-      this.http.delete('./api/collections/' + collectionId + '/share/' + confirmationCode)
+      this.http.delete('./api/collections/' + collectionId + '/share/' + invitationId)
         .subscribe(function (data) {
           resolve(data);
         }, (error) => {

@@ -1,4 +1,6 @@
-from datetime import datetime
+# Petasis, 16/11/2022: Use Django's timezone, which has also the timezone...
+# from datetime import datetime
+from django.utils import timezone
 
 from django.utils.http import urlsafe_base64_encode
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -64,7 +66,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 
 
-                     return {"success": False,"message": "The account  with these credentials has not been activated.Please look your email"}
+                     return {"success": False,"message": "The account  with these credentials has not been activated. Please look your email."}
                 # print(check)
                  #r = requests.post(request.build_absolute_uri(reverse('auth_token_obtain')),
                                  #  data=data)
@@ -76,7 +78,9 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 
         #refresh = self.get_token(self.user)
-        self.user.last_login=datetime.now()
+        # self.user.last_login=datetime.now()
+        self.user.last_login = timezone.now()
+
         self.user.save()
 
         data["success"] = True
@@ -106,8 +110,8 @@ class CustomUserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(required=True)
     first_name = serializers.CharField(max_length=255, allow_null=True, default=None)
     last_name = serializers.CharField(max_length=255, allow_null=True, default=None)
-    # created_at = serializers.DateTimeField(default=datetime.now)
-    # updated_at = serializers.DateTimeField(default=datetime.now)
+    # created_at = serializers.DateTimeField(default=timezone.now)
+    # updated_at = serializers.DateTimeField(default=timezone.now)
     # last_login = serializers.DateTimeField(allow_null=True, default=None)
     password = serializers.CharField(min_length=8, write_only=True, required=True)
 
@@ -137,8 +141,8 @@ class CollectionsSerializer(serializers.ModelSerializer):
     name = serializers.CharField(max_length=255)
     encoding = serializers.CharField(max_length=255)
     handler = serializers.CharField(max_length=255)
-    created_at = serializers.DateTimeField(default=datetime.now)
-    updated_at = serializers.DateTimeField(default=datetime.now)
+    created_at = serializers.DateTimeField(default=timezone.now)
+    updated_at = serializers.DateTimeField(default=timezone.now)
     owner_id = serializers.PrimaryKeyRelatedField(read_only=False, queryset=Users.objects.all())
 
     class Meta:
@@ -164,8 +168,8 @@ class DocumentsSerializer(serializers.ModelSerializer):
     metadata              = serializers.CharField(allow_null=True, default=None)
     encoding              = serializers.CharField(max_length=20)
     handler               = serializers.CharField(max_length=256, allow_null=True, default=None)
-    created_at            = serializers.DateTimeField(default=datetime.now)
-    updated_at            = serializers.DateTimeField(default=datetime.now)
+    created_at            = serializers.DateTimeField(default=timezone.now)
+    updated_at            = serializers.DateTimeField(default=timezone.now)
     version               = serializers.IntegerField(default=1)
     updated_by            = serializers.CharField(max_length=255)
     owner_id              = serializers.PrimaryKeyRelatedField(read_only=False, queryset=Users.objects.all())
@@ -185,8 +189,8 @@ class DocumentsSerializer(serializers.ModelSerializer):
 
 
 class OpenDocumentsSerializer(serializers.ModelSerializer):
-    #created_at = serializers.DateTimeField(default=datetime.now)
-    updated_at = serializers.DateTimeField(default=datetime.now)
+    #created_at = serializers.DateTimeField(default=timezone.now)
+    updated_at = serializers.DateTimeField(default=timezone.now)
     db_interactions = serializers.IntegerField()
     annotator_type = serializers.CharField(max_length=255)
     user_id = serializers.PrimaryKeyRelatedField(read_only=False, queryset=Users.objects.all())
@@ -206,8 +210,8 @@ class OpenDocumentsSerializer(serializers.ModelSerializer):
 class SharedCollectionsSerializer(serializers.ModelSerializer):
     confirmed = serializers.IntegerField(default=0)  #SmallIntegerField model
     confirmation_code = serializers.CharField(max_length=255, allow_null=True, default=None)
-    #created_at = serializers.DateTimeField(default=datetime.now)
-    updated_at = serializers.DateTimeField(default=datetime.now)
+    #created_at = serializers.DateTimeField(default=timezone.now)
+    updated_at = serializers.DateTimeField(default=timezone.now)
     collection_id = serializers.PrimaryKeyRelatedField(read_only=False, queryset=Collections.objects.all())
     fromfield= serializers.SlugRelatedField(many=False,read_only=False,slug_field='email',queryset=Users.objects.all())
     tofield= serializers.SlugRelatedField(many=False,read_only=False,slug_field='email',queryset=Users.objects.all())
@@ -230,8 +234,8 @@ class ButtonAnnotatorsSerializer(serializers.ModelSerializer):
     annotation_type = serializers.CharField(max_length=255, allow_null=True, default=None)
     attribute = serializers.CharField(max_length=255, allow_null=True, default=None)
     alternative = serializers.CharField(max_length=255, allow_null=True, default=None)
-    #created_at = serializers.DateTimeField(default=datetime.now)
-    updated_at = serializers.DateTimeField(default=datetime.now)
+    #created_at = serializers.DateTimeField(default=timezone.now)
+    updated_at = serializers.DateTimeField(default=timezone.now)
 
     class Meta:
         model = ButtonAnnotators
@@ -248,8 +252,8 @@ class CoreferenceAnnotatorsSerializer(serializers.ModelSerializer):
     language = serializers.CharField(max_length=255, allow_null=True, default=None)
     annotation_type = serializers.CharField(max_length=255, allow_null=True, default=None)
     alternative = serializers.CharField(max_length=255, allow_null=True, default=None)
-    #created_at = serializers.DateTimeField(default=datetime.now)
-    updated_at = serializers.DateTimeField(default=datetime.now)
+    #created_at = serializers.DateTimeField(default=timezone.now)
+    updated_at = serializers.DateTimeField(default=timezone.now)
 
     class Meta:
         model = CoreferenceAnnotators

@@ -11,33 +11,47 @@
               <!-- Id -->
               <ng-container matColumnDef="id">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'ID' | translate}}</th>
-                <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                <td mat-cell *matCellDef="let element">{{element.id}}</td>
               </ng-container>
 
               <!-- Collection Name Column -->
               <ng-container matColumnDef="collection_name">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'Name' | translate}}</th>
-                <td mat-cell *matCellDef="let element"> {{element.collection_name}} </td>
+                <td mat-cell *matCellDef="let element">{{element.collection_name}}</td>
               </ng-container>
 
               <!-- From Column -->
               <ng-container matColumnDef="from_email">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'From' | translate}}</th>
-                <td mat-cell *matCellDef="let element"> {{element.from_email}} </td>
+                <td mat-cell *matCellDef="let element">{{element.from_email}}</td>
               </ng-container>
 
               <!-- To Column -->
               <ng-container matColumnDef="to_email">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'To' | translate}}</th>
-                <td mat-cell *matCellDef="let element"> {{element.to_email}} </td>
+                <td mat-cell *matCellDef="let element"><a href="mailto://{{element.to_email}}">{{element.to_email}}</a></td>
               </ng-container>
 
               <!-- Confirmed Symbol Column -->
               <ng-container matColumnDef="confirmed">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'Confirmed' | translate}}</th>
                 <td mat-cell *matCellDef="let element">
-                  <mat-icon color="primary" *ngIf="element.confirmed">check_circle</mat-icon>
-                  <mat-icon color="warn" *ngIf="!element.confirmed">cancel</mat-icon>
+                  <mat-icon color="primary" *ngIf="element.confirmed" matTooltip="{{'Created' | translate}}: {{element.created_at_str}},
+ {{'Accepted' | translate}}: {{element.updated_at_str}}">check_circle</mat-icon>
+                  <mat-icon color="warn" *ngIf="!element.confirmed" matTooltip="{{'Created' | translate}}: {{element.created_at_str}}">cancel</mat-icon>
+                </td>
+              </ng-container>
+              <!-- Actions Column -->
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'Actions' | translate}}</th>
+                <td mat-cell *matCellDef="let element">
+                  <button mat-icon-button color="warn" *ngIf="element.confirmed" (click)="onDeleteSharing(element)"  matTooltip="{{'Stop Collection Sharing' | translate}}">
+                    <mat-icon>delete_forever</mat-icon>
+                  </button>
+                  <button mat-icon-button class="text-green-900" *ngIf="!element.confirmed"
+                    (click)="onConfirmSharing(element)" matTooltip="{{'Force Invitation Acceptance' | translate}}">
+                    <mat-icon>library_add</mat-icon>
+                  </button>
                 </td>
               </ng-container>
 
@@ -61,33 +75,47 @@
               <!-- Id -->
               <ng-container matColumnDef="id">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'ID' | translate}}</th>
-                <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                <td mat-cell *matCellDef="let element">{{element.id}}</td>
               </ng-container>
 
               <!-- Collection Name Column -->
               <ng-container matColumnDef="collection_name">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'Name' | translate}}</th>
-                <td mat-cell *matCellDef="let element"> {{element.collection_name}} </td>
+                <td mat-cell *matCellDef="let element">{{element.collection_name}}</td>
               </ng-container>
 
               <!-- From Column -->
               <ng-container matColumnDef="from_email">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'From' | translate}}</th>
-                <td mat-cell *matCellDef="let element"> {{element.from_email}} </td>
+                <td mat-cell *matCellDef="let element"><a href="mailto://{{element.from_email}}">{{element.from_email}}</a></td>
               </ng-container>
 
               <!-- To Column -->
               <ng-container matColumnDef="to_email">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'To' | translate}}</th>
-                <td mat-cell *matCellDef="let element"> {{element.to_email}} </td>
+                <td mat-cell *matCellDef="let element">{{element.to_email}}</td>
               </ng-container>
 
               <!-- Confirmed Symbol Column -->
               <ng-container matColumnDef="confirmed">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'Confirmed' | translate}}</th>
                 <td mat-cell *matCellDef="let element">
-                  <mat-icon color="primary" *ngIf="element.confirmed">check_circle</mat-icon>
-                  <mat-icon color="warn" *ngIf="!element.confirmed">cancel</mat-icon>
+                <mat-icon color="primary" *ngIf="element.confirmed" matTooltip="{{'Created' | translate}}: {{element.created_at_str}},
+ {{'Accepted' | translate}}: {{element.updated_at_str}}">check_circle</mat-icon>
+                  <mat-icon color="warn" *ngIf="!element.confirmed" matTooltip="{{'Created' | translate}}: {{element.created_at_str}}">cancel</mat-icon>
+                </td>
+              </ng-container>
+              <!-- Actions Column -->
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'Actions' | translate}}</th>
+                <td mat-cell *matCellDef="let element">
+                  <button mat-icon-button color="warn" *ngIf="element.confirmed" (click)="onRevokeSharing(element)" matTooltip="{{'Revoke Invitation Acceptance' | translate}}">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                  <button mat-icon-button class="text-green-900" *ngIf="!element.confirmed"
+                    (click)="onConfirmSharing(element)"  matTooltip="{{'Accept Invitation' | translate}}">
+                    <mat-icon>library_add</mat-icon>
+                  </button>
                 </td>
               </ng-container>
 

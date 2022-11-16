@@ -2,6 +2,7 @@ import json
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.forms.models import model_to_dict
+from django.utils import timezone
 from .handlers import HandlerClass
 from rest_framework import status
 
@@ -272,7 +273,7 @@ class DocumentsView(SQLDBAPIView):
         print(document_queryset)
         if(document_queryset.exists()):
                 return {"success": True, "exists": True, "flash": "The name you selected already exists. Please select a new name"},status.HTTP_200_OK
-        serializer = DocumentsSerializer(document.get(), data={"name": request.data["data"]["name"],"external_name":request.data["data"]["name"],"updated_at":datetime.now()}, partial=True)
+        serializer = DocumentsSerializer(document.get(), data={"name": request.data["data"]["name"],"external_name":request.data["data"]["name"],"updated_at":timezone.now()}, partial=True)
         if serializer.is_valid():
                 d = serializer.save()
                 return {"success": True, "exists": False}, status.HTTP_200_OK
@@ -337,14 +338,15 @@ class SharesView(SQLDBAPIView):
 
     def sharedEntryToDict(self, e):
         return {
-                "id":               e.pk,
-                "confirmed":        e.confirmed,
-                "created_at":       e.created_at,
-                "updated_at":       e.updated_at,
-                "collection_id":    e.collection_id.pk,
-                "collection_name":  e.collection_id.name,
-                "from_email":       e.fromfield.email,
-                "to_email":         e.tofield.email
+                "id":                e.pk,
+                "confirmed":         e.confirmed,
+                "created_at":        e.created_at,
+                "updated_at":        e.updated_at,
+                "collection_id":     e.collection_id.pk,
+                "collection_name":   e.collection_id.name,
+                "from_email":        e.fromfield.email,
+                "to_email":          e.tofield.email,
+                "confirmation_code": e.confirmation_code
             }
 
     # List all instances. (GET)
@@ -374,6 +376,23 @@ class SharesView(SQLDBAPIView):
             'shared_with_me_pending': shared_with_me_pending,
         }
 
+    # Partially update an existing instance. (PATCH)
+    def partial_update(self, request, sid):
+        self.ensureAuthenticatedUser(request)
+        data = request.data
+        # print("DATA:", data)
+        # Locate the object...
+        entry = SharedCollections.objects.get(pk=sid,
+                                              collection_id=data['collection_id'],
+                                              confirmation_code=data['confirmation_code'],
+                                              fromfield=data['from_email'],
+                                              tofield=data['to_email']
+                                              )
+        entry.confirmed  = data['confirmed']
+        entry.updated_at = timezone.now()
+        entry.save()
+        return self.sharedEntryToDict(entry)
+
 @extend_schema_view(
     ## Method: list
     get=extend_schema(request=None,responses={200: None},operation_id="list_shares",
@@ -383,3 +402,19 @@ class SharesView(SQLDBAPIView):
 class SharesViewList(ErrorLoggingAPIViewList, SharesView):
     pass
 
+@extend_schema_view(
+    ## Method: retrieve
+    get=extend_schema(request=None,responses={200: None},operation_id="retrieve_document",
+        description="Gets collection id and document id and returns the document record.",
+    ),
+    ## Method: partial_update
+    patch=extend_schema(request=None,responses={200: None},
+        description="Gets collection id and document id and renames the document with the given document id.",
+    ),
+    ## Method: destroy
+    delete=extend_schema(request=None,responses={200: None},
+        description="Gets collection id and document id and deletes the document with the given document id.",
+    ),
+)
+class SharesViewDetail(SharesView):
+    http_method_names = ["get", "patch", "delete"]

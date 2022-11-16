@@ -13,7 +13,7 @@ from .models import Users, Collections, SharedCollections, OpenDocuments, Docume
 from .utils import ErrorLoggingAPIView, ErrorLoggingAPIViewList, ErrorLoggingAPIViewDetail,get_collection_handle
 from .utils import db_handle as mongodb_db_clarin
 from bson.objectid import ObjectId
-import datetime
+from django.utils import timezone
 from drf_spectacular.utils import extend_schema_view, extend_schema
 
 import json
@@ -73,9 +73,9 @@ class MongoDBAPIView(ErrorLoggingAPIView):
     def add_timestamps(ann):
         if 'created_at' in ann:
             if 'updated_at' not in ann:
-                ann['updated_at'] = datetime.datetime.now()
+                ann['updated_at'] = timezone.now()
         else:
-            ann['created_at'] = datetime.datetime.now()
+            ann['created_at'] = timezone.now()
             ann['updated_at'] = ann['created_at']
         return ann
 
@@ -350,7 +350,7 @@ class TempAnnotationsView(MongoDBAPIView):
         annotation            = self.mongodb_doc_fix_id(request.data['data'])
         new_ann               = ann | annotation # merges the two dictionaries, python > 3.9
         new_ann['updated_by'] = request.user.email
-        new_ann['updated_at'] = datetime.datetime.now()
+        new_ann['updated_at'] = timezone.now()
         self.mongodb_update_one(new_ann)
         opendocument = (OpenDocuments.objects.filter(
             collection_id = collection,
@@ -388,7 +388,7 @@ class TempAnnotationsView(MongoDBAPIView):
             increment = status.deleted_count
         else:
             # We have an annotation id, delete a single annotation...
-            tm = datetime.datetime.now()
+            tm = timezone.now()
             status = self.db.update_one({'_id': self.mongodb_encode_id(param)}, {
                 '$set': {'updated_by': request.user.email,
                          'updated_at': tm,

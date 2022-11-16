@@ -4,6 +4,7 @@ from .uniqid import uniqid
 import mysql.connector
 import os
 from datetime import datetime, timedelta
+from django.utils import timezone
 from re import I
 import time
 
@@ -557,7 +558,7 @@ class HandleCollection(APIView):
                                 status=status.HTTP_200_OK)
 
             serializer = CollectionsSerializer(
-                collection.get(), data={"name": request.data["data"]["name"],"updated_at":datetime.now()}, partial=True)
+                collection.get(), data={"name": request.data["data"]["name"],"updated_at":timezone.now()}, partial=True)
             if serializer.is_valid():
                 project = serializer.save()
                 return Response(data={"success": True, "exists": False}, status=status.HTTP_200_OK)
@@ -703,7 +704,7 @@ class ExistCollection(APIView):
 
 def DocumentLiveUpdate_event_stream(request, collection_id, document_id):
     elapsed_time = 0
-    started_time = datetime.now() - timedelta(seconds=7)
+    started_time = timezone.now() - timedelta(seconds=7)
     new_annotations = []
     cid = int(collection_id)
     did = int(document_id)
@@ -736,7 +737,7 @@ def DocumentLiveUpdate_event_stream(request, collection_id, document_id):
         # print(f"status: {is_owner} | {is_shared}")
 
         yield "event: message\n"
-        started_time_new = datetime.now()
+        started_time_new = timezone.now()
         if is_owner or is_shared:
             # Get Annotations from TEMP where('updated_at', '>=', started_time)
             new_annotations = []
@@ -998,7 +999,7 @@ class OpenDocumentView(APIView):
             if (not (opendocument.exists())):
                 data = {"annotator_type": data["annotator_type"], "user_id": user.pk,
                         "collection_id": collection.pk, "document_id": document.pk, "db_interactions": db_interactions,
-                        "updated_at": datetime.now()}
+                        "updated_at": timezone.now()}
                 serializer = OpenDocumentsSerializer(data=data)
                 if serializer.is_valid():
                     opendocument = serializer.save()
@@ -1100,7 +1101,7 @@ class ButtonAnnotatorView(APIView):
             button_annotator = ButtonAnnotators.objects.filter(user_id=user)
             data = {"language": request.data["data"]["language"], "annotation_type": request.data["data"]["annotation_type"],
                     "attribute": request.data["data"]["attribute"], "alternative": request.data["data"]["alternative"],
-                    "updated_at": datetime.now()}
+                    "updated_at": timezone.now()}
             if (not (button_annotator.exists())):
                 data["user_id"] = user.pk
                 serializer = ButtonAnnotatorsSerializer(data=data)
@@ -1151,7 +1152,7 @@ class CoreferenceAnnotatorView(APIView):
                 user_id=user)
             data = {"language": request.data["data"]["language"], "annotation_type": request.data["data"]["annotation_type"],
                     "alternative": request.data["data"]["alternative"],
-                    "updated_at": datetime.now()}
+                    "updated_at": timezone.now()}
             if not (coreference_annotator.exists()):
                 data["user_id"] = user.pk
                 serializer = CoreferenceAnnotatorsSerializer(data=data)
@@ -1237,7 +1238,7 @@ class OpenDocumentUpdate(APIView):
                          "annotator_type": Button_Annotator_name, "confirmed": confirmed, "opened": 1})
             # Petasis, 28/10/2022: TODO: Cannot understant the logic of setting interactions to 0 in GET!
             # opendocument.db_interactions = 0
-            # opendocument.updated_at = datetime.now()
+            # opendocument.updated_at = timezone.now()
             # opendocument.save()
         except Exception as ex:
             print("OpenDocumentUpdate (get):" + str(ex))
@@ -1353,7 +1354,7 @@ class ExportCollectionView(APIView):
                                 status=status.HTTP_200_OK)
         response = JsonResponse(data={"success": True, "message": "ok", "data": data},
                             status=status.HTTP_200_OK, encoder=ExtendedJSONEncoder)
-        datetime_str = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+        datetime_str = timezone.now().strftime("%Y-%m-%d-%H-%M-%S")
         response['Content-Disposition'] = f'attachment; filename="{collection.name}-{datetime_str}.json"'
         return response
 
@@ -1370,7 +1371,7 @@ def str2date(strdate):
         # print(dt_tuple)
         datetimeobj = datetime(*dt_tuple)
     except Exception as e:
-        datetimeobj = datetime.now()
+        datetimeobj = timezone.now()
     return datetimeobj
 
 

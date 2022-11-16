@@ -10,14 +10,15 @@ export interface Collection {
 }
 
 export interface SharedCollectionInformation {
-  id:              number;
-  confirmed:       boolean;
-  created_at:      string;
-  updated_at:      string;
-  collection_id:   number;
-  collection_name: string;
-  from_email:      string;
-  to_email:        string;
+  id:                number;
+  confirmed:         boolean;
+  created_at:        string;
+  updated_at:        string;
+  collection_id:     number;
+  collection_name:   string;
+  from_email:        string;
+  to_email:          string;
+  confirmation_code: string;
 }
 
 export interface SharedCollectionsInformation extends Array<SharedCollectionInformation>{}

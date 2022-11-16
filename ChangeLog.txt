@@ -1,4 +1,23 @@
 16-November-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/dialogs/share-collection-modal/share-collection-modal.component.html:
+ * clarin-angular/src/app/components/views/shared-collections/shared-collections.component.html:
+ * clarin-angular/src/app/components/views/shared-collections/shared-collections.component.ts:
+ * clarin-angular/src/app/models/collection.ts:
+ * clarin-angular/src/app/services/shared-collection/shared-collection.service.ts:
+ * clarin-angular/src/app/services/shared-collections-service/shared-collections-service.service.ts:
+ * clarin-angular/src/assets/i18n/el-GR.json:
+ * clarin-angular/src/assets/i18n/en-US.json:
+ * clarin-angular/src/css/clarin-material.scss: Added actions in Shared Collection
+ Management.
+
+ * backend-django/clarin_backend/models.py:
+ * backend-django/clarin_backend/mongodb_views.py:
+ * backend-django/clarin_backend/serializers.py:
+ * backend-django/clarin_backend/sql_views.py:
+ * backend-django/clarin_backend/urls.py:
+ * backend-django/clarin_backend/views.py: Fixes regrding using dates with
+ timezones, additions for managing Collection sharing.
+
  * clarin-angular/src/app/components/views/shared-collections/shared-collections.component.html:
  * clarin-angular/src/css/clarin-material.scss: Added a split pane to Shared Collection
  Management.

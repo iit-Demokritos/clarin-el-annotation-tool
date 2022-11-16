@@ -795,7 +795,8 @@ manage-shared-collections {
   }
   table {
     width: 100%;
-    .mat-column-confirmed {
+    .mat-column-confirmed,
+    .mat-column-actions {
       text-align: center;
       .mat-sort-header-container {
         justify-content:center;
