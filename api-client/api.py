@@ -367,6 +367,8 @@ class Document(APIObjectBase):
                 annotationData=annotations)
 
     def annotationsByType(self, type):
+        if not annotations:
+           return None 
         for ann in self.annotations:
             if ann.type == type:
                 yield ann
