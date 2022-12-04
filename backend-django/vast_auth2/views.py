@@ -44,6 +44,7 @@ class VASTAuth2OAuth2Adapter(OAuth2Adapter):
     #     return url
 
     def complete_login(self, request, app, token, response):
+        # print("### VASTAuth2OAuth2Adapter: complete_login()", flush=True)
         # print(requests)
         extra_data = requests.get(
             self.profile_url,
@@ -68,50 +69,56 @@ class VASTAuth2OAuth2Adapter(OAuth2Adapter):
 
         sociallogin = self.get_provider().sociallogin_from_response(request, extra_data)
         # print("sociallogin:", sociallogin, sociallogin.state, flush=True)
+        # print("### VASTAuth2OAuth2Adapter: complete_login() END", flush=True)
         return sociallogin
 
+@method_decorator(csrf_exempt, name='dispatch')
 class VASTAuth2OAuth2LoginView(OAuth2LoginView):
+    @method_decorator(csrf_exempt)
     def login(self, request, *args, **kwargs):
-        # print("VASTAuth2OAuth2LoginView:", flush=True)
+        # print("### VASTAuth2OAuth2LoginView: login()", flush=True)
         # print("VASTAuth2OAuth2LoginView:", request.META, flush=True)
         result = super().login(request, *args, **kwargs)
+        # print("super().login():", result)
         state = SocialLogin.state_from_request(request)
         # print("State:", state, flush=True);
         # print("User Authenticated:", request.user.is_authenticated, ", Session key:", request.session.session_key, flush=True)
-        # print("CSRF Token:", request.META["CSRF_COOKIE"], flush=True)
+        # print("CSRF Token:", request.META.get("CSRF_COOKIE"), flush=True)
         return result
 
 class VASTAuth2OAuth2CallbackView(OAuth2CallbackView):
     def dispatch(self, request, *args, **kwargs):
-        # print("VASTAuth2OAuth2CallbackView:", flush=True)
-        # print("CSRF Token:", request.META["CSRF_COOKIE"], flush=True)
+        # print("### VASTAuth2OAuth2CallbackView: dispatch()", flush=True)
+        # print("CSRF Token:", request.META.get("CSRF_COOKIE"), flush=True)
         # print("VASTAuth2OAuth2CallbackView:", request.META, flush=True)
         res = super().dispatch(request, *args, **kwargs)
         state = SocialLogin.state_from_request(request)
         # print("State:", state, flush=True);
         # print("Result:", res, flush=True);
         # print("User Authenticated:", request.user.is_authenticated, ", Session key:", request.session.session_key, flush=True)
-        # print("CSRF Token:", request.META["CSRF_COOKIE"], flush=True)
+        # print("CSRF Token:", request.META.get("CSRF_COOKIE"), flush=True)
         ##
         ## So, at this point we have logged in into Django, and we have a user.
         ## However, this is not enough in our case, as we do not use Django's session authentication!
         ## Our API is in DRF (Django Rest Framework), configured to only use rest_framework_simplejwt
-        ## authentication (DjangoClarin.authentication.CustomAuthentication, which inherits from 
+        ## authentication (DjangoClarin.authentication.CustomAuthentication, which inherits from
         ## rest_framework_simplejwt.authentication.JWTAuthentication, but also looks for a coockie
         ## with name settings.SIMPLE_JWT['AUTH_COOKIE']).
         ## Thus, we need to generate a JWT token pair, and store the access token in this cookie!
+        data = None
         if request.user.is_authenticated:
             refresh = RefreshToken.for_user(request.user)
             data = {"refresh": str(refresh), "access" : str(refresh.access_token)}
             setJWTCookie(res, data["access"])
-        res.delete_cookie("messages")
-        ## Add the keys to the Location url...
-        url_parts = urllib.parse.urlparse(res['Location'])
-        query = dict(urllib.parse.parse_qsl(url_parts.query))
-        query.update(data)
-        new_url = url_parts._replace(query=urllib.parse.urlencode(query)).geturl()
-        # print("LOCATION:", res['Location'], "->", new_url)
-        res['Location'] = new_url
+        if data:
+            res.delete_cookie("messages")
+            ## Add the keys to the Location url...
+            url_parts = urllib.parse.urlparse(res['Location'])
+            query = dict(urllib.parse.parse_qsl(url_parts.query))
+            query.update(data)
+            new_url = url_parts._replace(query=urllib.parse.urlencode(query)).geturl()
+            # print("LOCATION:", res['Location'], "->", new_url)
+            res['Location'] = new_url
         return res
 
 # @receiver(user_logged_in)
@@ -120,15 +127,15 @@ class VASTAuth2OAuth2CallbackView(OAuth2CallbackView):
 #     request = kwargs["request"]
 #     print("User Authenticated:", request.user.is_authenticated, ", Session key:", request.session.session_key, flush=True)
 #     print("CSRF Token:", request.META["CSRF_COOKIE"], flush=True)
-# 
-# 
+#
+#
 # @receiver(user_logged_out)
 # def my_callback_user_logged_out(sender, **kwargs):
 #     print("=======> user_logged_out! user:", kwargs["user"].__dict__)
 #     request = kwargs["request"]
 #     print("User Authenticated:", request.user.is_authenticated, ", Session key:", request.session.session_key, flush=True)
 #     print("CSRF Token:", request.META["CSRF_COOKIE"], flush=True)
-# 
+#
 # @receiver(user_login_failed)
 # def my_callback_user_login_failed(sender, **kwargs):
 #     print("=======> user_login_failed! user:", kwargs["user"].__dict__)

@@ -1,3 +1,9 @@
+04-December-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * backend-django/DjangoClarin/settings.py:
+ * backend-django/vast_auth2/views.py:
+ * backend-django/vast_auth2/adapter.py: An adapter for Django Allauth, to
+ link VAST logins with existing accounts.
+
 16-November-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/dialogs/share-collection-modal/share-collection-modal.component.html:
  * clarin-angular/src/app/components/views/shared-collections/shared-collections.component.html:
