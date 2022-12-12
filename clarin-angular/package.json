@@ -1,6 +1,6 @@
 {
   "name": "The Ellogon Annotation Platform",
-  "version": "3.3.1",
+  "version": "3.3.2",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --ssl false",
@@ -40,6 +40,9 @@
     "@compodoc/compodoc": "^1.1.19",
     "@flowjs/flow.js": "^2.14.1",
     "@flowjs/ngx-flow": "^0.5.0",
+    "@fortawesome/angular-fontawesome": "^0.10.2",
+    "@fortawesome/fontawesome-svg-core": "^6.1.1",
+    "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@mat-datetimepicker/core": "^9.0.68",
     "@mat-datetimepicker/moment": "^9.0.68",
     "@ng-bootstrap/ng-bootstrap": "^12.1.2",
@@ -54,7 +57,7 @@
     "backbone": "^1.4.0",
     "bootstrap": "^5.1.0",
     "bson-objectid": "^2.0.1",
-    "codemirror": "^5.62.2",
+    "codemirror": "^5.65.10",
     "flash-messages": "^0.0.4",
     "flash-messages-angular": "^4.0.1",
     "highcharts": "^9.3.1",

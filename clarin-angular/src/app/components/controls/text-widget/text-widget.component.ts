@@ -372,7 +372,7 @@ export class TextWidgetComponent extends BaseControlComponent
 
   mouseUpHandler(args) {
     var e = args[0];
-    // console.error("TextWidgetComponent: mouseUpHandler:", e);
+    // console.error("TextWidgetComponent: mouseUpHandler():", e);
     if (this.annotationMode != AnnotationMode.TEXT) {
       // When annotation images, selection is handled in methods imageOverlayPointerDown(),
       // imageOverlayPointerMove(), imageOverlayPointerUp()...
@@ -393,6 +393,7 @@ export class TextWidgetComponent extends BaseControlComponent
         this.TextWidgetAPI.clearSelectedAnnotation();
 
         if (selection.segment == "") { //point selection
+          // console.error("TextWidgetComponent: mouseUpHandler(): point:", selection.segment);
           var annotationId = null;
 
           // Regular mark selection, use CodeMirror's api,

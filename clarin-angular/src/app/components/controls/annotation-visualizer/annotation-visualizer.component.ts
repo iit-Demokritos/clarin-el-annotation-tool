@@ -61,7 +61,7 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
   }; /* filterAnnotations */
 
   // This method is called each time the user releases a key in
-  // the "Filter Annotations" serach field.
+  // the "Filter Annotations" search field.
   applyFilter(event: Event) {
     // const filterValue = (event.target as HTMLInputElement).value;
     this.mm = new Minimatch(this.filter.trim(), this.minimatchOptions);

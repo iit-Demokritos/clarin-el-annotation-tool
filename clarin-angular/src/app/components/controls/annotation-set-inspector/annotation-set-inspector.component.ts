@@ -3,12 +3,15 @@ import { MainComponent } from 'src/app/components/views/main/main.component';
 import { Collection } from 'src/app/models/collection';
 import { Document } from 'src/app/models/document';
 import { Annotation } from 'src/app/models/annotation';
+import { annotationSortingDataAccessor } from 'src/app/helpers/annotation';
 import { TextWidgetIsolatedComponent } from '../text-widget-isolated/text-widget-isolated.component';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
 import { AnnotationPropertyToDisplayObject } from 'src/app/helpers/annotation';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { AnnotationDetailComponent } from '../annotation-detail/annotation-detail.component';
 import { ScrollStatus } from 'src/app/models/services/scrollstatus';
+import { Minimatch } from "minimatch";
 import ObjectID from "bson-objectid";
 
 @Component({
@@ -41,8 +44,8 @@ export class AnnotationSetInspectorComponent extends MainComponent implements Af
   private textWidgetComponent!: TextWidgetIsolatedComponent;
   /* Variable for isolated TextWidgetAPI of textWidgetComponent */
   private TWA;
-  @ViewChild(MatTable)
-  table: MatTable<any>;
+  @ViewChild(MatTable) table: MatTable<any>;
+  @ViewChild(MatSort)  sort: MatSort;
   @ViewChild('annotationList') annotationList: ElementRef;
   @ViewChild('documentViewer') documentViewer: ElementRef;
   collapsed_status:number[] = [];
@@ -57,6 +60,10 @@ export class AnnotationSetInspectorComponent extends MainComponent implements Af
   footer_caret_column    = "";
   footer_caret_offset    = "";
   footer_caret_selection = "[]";
+
+  filter: string = "";
+  minimatchOptions = { nocase: true, nocomment: true };
+  mm: any; // Minimatch object
 
   super() { }
 
@@ -97,6 +104,9 @@ export class AnnotationSetInspectorComponent extends MainComponent implements Af
     this.textWidgetComponent.editor.on("cursorActivity", () => {
       this.getCaret();
     });
+    this.annotationsDataSource.sort = this.sort;
+    this.annotationsDataSource.sortingDataAccessor = annotationSortingDataAccessor;
+    this.annotationsDataSource.filterPredicate = this.filterAnnotations.bind(this);
   }
 
   onClear() {
@@ -110,10 +120,10 @@ export class AnnotationSetInspectorComponent extends MainComponent implements Af
       if (typeof this.documentInEditor.visualisation_options == "string") {
         this.documentInEditor.visualisation_options = JSON.parse(this.documentInEditor.visualisation_options);
       }
-      this.textWidgetComponent.initialiseEditor(this.documentInEditor.text,
+      this.textWidgetComponent.initialiseEditor({type: "text", text: this.documentInEditor.text},
                                                 this.documentInEditor.visualisation_options);
     } else {
-      this.textWidgetComponent.initialiseEditor("", {});
+      this.textWidgetComponent.initialiseEditor({type: "text", text: ""}, {});
     }
 
     // console.error("AnnotationSetInspectorComponent: onApply(): annotaions", this.annotations);
@@ -230,5 +240,25 @@ export class AnnotationSetInspectorComponent extends MainComponent implements Af
     widget.nativeElement.scrollTop  = status.scrollTop;
     widget.nativeElement.scrollLeft = status.scrollLeft;
   }; /* setScrollStatus */
+
+  filterAnnotations(ann: Annotation, filter: string) {
+    // console.error("AnnotationVisualizerComponent: filterAnnotations():", ann, filter, this.mm);
+    if (this.mm.empty) { return true; }
+    return ann.attributes.some((attr) => {
+      // console.error("attr:", attr, attr.value, this.mm.match(attr.value));
+      if (attr.value.indexOf(filter) !== -1) { return true; }
+      return this.mm.match(attr.value)
+    });
+  }; /* filterAnnotations */
+
+  // This method is called each time the user releases a key in
+  // the "Filter Annotations" search field.
+  onApplyFilter(event: Event) {
+    // const filterValue = (event.target as HTMLInputElement).value;
+    this.mm = new Minimatch(this.filter.trim(), this.minimatchOptions);
+    // console.error("AnnotationVisualizerComponent: applyFilter():",
+    //   this.mm, this.mm.pattern);
+    this.annotationsDataSource.filter = this.mm.pattern;
+  }; /* onApplyFilter */
 
 }

@@ -1,6 +1,6 @@
 import { formatDate } from '@angular/common';
 import { Annotation } from '../models/annotation';
-import { Span } from '../models/span';
+import { Span, SpanType } from '../models/span';
 import { Attribute } from '../models/attribute'
 import { attributesetEqual, compareAttributeSets } from './attribute';
 import { spansetEqual, spanToString } from './span';
@@ -71,6 +71,23 @@ export function AnnotationPropertyToDisplayObject(p) {
       break;
   }
 }; /* AnnotationPropertyToDisplayObject */
+
+export function annotationSortingDataAccessor(item:any, property:string) {
+  switch(property) {
+    case 'id': return item['_id'];
+    //case 'type':  return (item.type == 'setting annotation') ? 'Setting' : (item.type);
+    case 'value': return item.attributes ? item.attributes[0].value : "";
+    case 'spans':
+      if (!item.spans) return 0;
+      switch(item.spans[0].type) {
+        case SpanType.TEXT:
+        default:
+        return item.spans ? item.spans[0].start : 0;
+      }
+      break;
+    default: return item[property];
+  }
+}; /* annotationSortingDataAccessor */
 
 interface AnnotationSpansIndexer {
   index:  number;

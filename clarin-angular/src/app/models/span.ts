@@ -9,3 +9,9 @@ export interface Span {
   height?:   number;
   rotation?: number;
 }
+
+export enum SpanType {
+  TEXT            = "text",
+  RECT            = "rect",
+  WAVEFORM_REGION = "wfregion"
+}; /* SpanType */

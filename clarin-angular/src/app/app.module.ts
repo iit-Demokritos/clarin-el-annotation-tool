@@ -135,6 +135,7 @@ import { AutoannTokenClassifierDirective } from './directives/autoann-token-clas
 import { AutomaticAnnotatorComponent } from './components/controls/automatic-annotator/automatic-annotator.component';
 import { WavesurferAudioComponent } from './components/controls/wavesurfer-audio/wavesurfer-audio.component';
 import { WavesurferVideoComponent } from './components/controls/wavesurfer-video/wavesurfer-video.component';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 
 // Required for AOT compilation
 export function TranslateHttpLoaderFactory(http: HttpClient) {
@@ -148,6 +149,16 @@ export function MyFlowFactory() {
   return Flow;
 }
 */
+
+/*
+ * FontAwesome icons!
+ */
+import { faFile,
+         faFileExcel,
+         faFileCsv,
+         faFileCode,
+         faFileLines
+} from '@fortawesome/free-solid-svg-icons';
 
 @NgModule({
   declarations: [
@@ -278,7 +289,8 @@ export function MyFlowFactory() {
     HighchartsChartModule, // HighCharts
     MatTableExporterModule,
     DragDropModule,
-    QueryBuilderModule
+    QueryBuilderModule,
+    FontAwesomeModule
   ],
   exports:[
     ButtonAnnotatorValueListDirective,
@@ -360,4 +372,15 @@ export function MyFlowFactory() {
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(library: FaIconLibrary) {
+    // Add an icon to the library for convenient access in other components
+    library.addIcons(
+        faFile,
+        faFileExcel,
+        faFileCsv,
+        faFileCode,
+        faFileLines
+    );
+  }
+}
