@@ -227,6 +227,10 @@ class ActivationView(View):
         if ((not account_activation_token.check_token(user, token)) or user.is_active):
             message = {"message": "Your account has been already activated", "ellogon_logo": request.build_absolute_uri(settings.APP_LOGO),
                        "base_url": baseurl+"auth/login"}
+        else:
+            message = {"message": "Your account has been activated successfully", "ellogon_logo": request.build_absolute_uri(settings.APP_LOGO),
+                       "base_url": baseurl+"auth/login"}
+
         user.is_active = True
         user.save()
         template = loader.get_template('activateview.html')
