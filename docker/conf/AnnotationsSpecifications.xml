@@ -1,0 +1,1479 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Ellogon_Annotations_Specifications xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="AnnotationsSpecifications.xsd">
+  <language name="greek">
+    <annotation name="token">
+      <attribute name="pos">
+        The type of the annotation.
+        <alternative name="HBrill">
+          POS tag values, as used by the HBrill component.
+          <group name="Άρθρα" button_number="5">
+            Άρθρα!
+            <value name="DDT">Οριστικό Aρθρο</value>
+            <value name="IDT">Αόριστο Aρθρο</value>
+          </group>
+          <group name="Ουσιαστικά" button_number="5">
+            Ουσιαστικά
+            <value name="NNM">Ουσιαστικό, ενικός, αρσενικό</value>
+            <value name="NNF">Ουσιαστικό, ενικός, θηλυκό</value>
+            <value name="NNN">Ουσιαστικό, ενικός, ουδέτερο</value>
+            <value name="NNSM">Ουσιαστικό, πληθυντικός, αρσενικό</value>
+            <value name="NNSF">Ουσιαστικό, πληθυντικός, θηλυκό</value>
+            <value name="NNSN">Ουσιαστικό, πληθυντικός, ουδέτερο</value>
+            <value name="NNPM">Κύριο Όνομα (ουσιαστικό), ενικός, αρσενικό</value>
+            <value name="NNPF">Κύριο Όνομα (ουσιαστικό), ενικός, θηλυκό</value>
+            <value name="NNPN">Κύριο Όνομα (ουσιαστικό), ενικός, ουδέτερο</value>
+            <value name="NNPSM">Κύριο Όνομα (ουσιαστικό), πληθυντικός, αρσενικό</value>
+            <value name="NNPSF">Κύριο Όνομα (ουσιαστικό), πληθυντικός, θηλυκό</value>
+            <value name="NNPSN">Κύριο Όνομα (ουσιαστικό), πληθυντικός, ουδέτερο</value>
+          </group>
+          <group name="Επίθετα" button_number="5">
+            Επίθετα
+            <value name="JJM">Επίθετο, ενικός, αρσενικό</value>
+            <value name="JJF">Επίθετο, ενικός, θηλυκό</value>
+            <value name="JJN">Επίθετο, ενικός, ουδέτερο</value>
+            <value name="JJSM">Επίθετο, πληθυντικός, αρσενικό</value>
+            <value name="JJSF">Επίθετο, πληθυντικός, θηλυκό</value>
+            <value name="JJSN">Επίθετο, πληθυντικός, ουδέτερο</value>
+            <value name="CD">Απόλυτα αριθμητικά (ένα, δύο, τρία, ... και νούμερα: 1, 2, 3...)</value>
+          </group>
+          <group name="Αντωνυμίες" button_number="5">
+            Αντωνυμίες
+            <value name="PRP">Προσωπική Αντωνυμία</value>
+            <value name="PP">Κτητική Αντωνυμία</value>
+            <value name="REP">Αυτοπαθής Αντωνυμία</value>
+            <value name="DP">Οριστική Αντωνυμία</value>
+            <value name="IP">Δεικτική Αντωνυμία</value>
+            <value name="WP">Αναφορική Αντωνυμία</value>
+            <value name="QP">Ερωτηματική Αντωνυμία</value>
+            <value name="INP">Αόριστη Αντωνυμία</value>
+          </group>
+          <group name="Ρήματα" button_number="5">
+            Ρήματα
+            <value name="VB">Ρήμα παροντικού χρόνου</value>
+            <value name="VBD">Ρήμα παρελθοντικού χρόνου</value>
+            <value name="VBF">Ρήμα μελλοντικού χρόνου</value>
+            <value name="VBS">Ρήμα παροντικού χρόνου, πληθυντικός</value>
+            <value name="VBDS">Ρήμα παρελθοντικού χρόνου, πληθυντικός</value>
+            <value name="VBFS">Ρήμα μελλοντικού χρόνου, πληθυντικός</value>
+            <value name="MD">Βοηθητικό ρήμα (έχω, είμαι)</value>
+          </group>
+          <group name="Μετοχές" button_number="5">
+            Μετοχές
+            <value name="VBG">Μετοχή ενεργητικού χρόνου (-οντας, -ώντας)</value>
+            <value name="VBP">Μετοχή παροντικού χρόνου</value>
+            <value name="VBPD">Μετοχή παρελθοντικού χρόνου</value>
+            <value name="VBPF">Μετοχή μελλοντικού χρόνου</value>
+          </group>
+          <group name="Άκλιτα Μέρη του Λόγου" button_number="5">
+            Aκλιτα Μέρη του Λόγου
+            <value name="RB">Επίρρημα</value>
+            <value name="IN">Πρόθεση (με, σε, για, ως, προς, κατά, μετά, παρά, αντί, από, δίχως, χωρίς, ίσαμε, δια, εκ, εξ, εν, επί, περί, προ, υπέρ, υπό, συν, μείον, πλην)</value>
+            <value name="CC">Σύνδεσμος</value>
+            <value name="RP">Μόριο (ας, θα, να, μα, για)</value>
+            <value name="UH">Επιφώνημα</value>
+            <value name="FW">Ξένη λέξη</value>
+          </group>
+          <group name="Διάφορα Σύμβολα" button_number="5">
+            Διάφορα Σύμβολα
+            <value name="DATE">Ημερομηνία</value>
+            <value name="AB">Σύτμηση</value>
+            <value name="SYM">Σύμβολο</value>
+            <value name="LS">Σύμβολο Λίστας</value>
+            <value name=".">Τελεία</value>
+            <value name=",">Κόμμα</value>
+            <value name=":">Aνω-κάτω τελεία</value>
+            <value name=";">Ερωτηματικό</value>
+            <value name="!">Θαυμαστικό</value>
+            <value name="(">Αριστερή παρένθεση</value>
+            <value name=")">Δεξιά παρένθεση</value>
+            <value name='"'>Εισαγωγικα (&quot;, ', «, »)</value>
+          </group>
+        </alternative>
+        <alternative name="Parole">
+          POS tag values, as defined by the PAROLE project.
+          <group button_number="3" name="Οριστικό Άρθρο">
+            <value name="AtDfMaSgNm">Οριστικό άρθρο αρσενικό ενικός ονομαστική</value>
+            <value name="AtDfMaSgGe">Οριστικό άρθρο αρσενικό ενικός γενική</value>
+            <value name="AtDfMaSgAc">Οριστικό άρθρο αρσενικό ενικός αιτιατική</value>
+            <value name="AtDfMaPlNm">Οριστικό άρθρο αρσενικό πληθυντικός ονομαστική</value>
+            <value name="AtDfMaPlGe">Οριστικό άρθρο αρσενικό πληθυντικός γενική</value>
+            <value name="AtDfMaPlAc">Οριστικό άρθρο αρσενικό πληθυντικός αιτιατική</value>
+            <value name="AtDfFeSgNm">Οριστικό άρθρο θηλυκό ενικός ονομαστική</value>
+            <value name="AtDfFeSgGe">Οριστικό άρθρο θηλυκό ενικός γενική</value>
+            <value name="AtDfFeSgAc">Οριστικό άρθρο θηλυκό ενικός αιτιατική</value>
+            <value name="AtDfFePlNm">Οριστικό άρθρο θηλυκό πληθυντικός ονομαστική</value>
+            <value name="AtDfFePlGe">Οριστικό άρθρο θηλυκό πληθυντικός γενική</value>
+            <value name="AtDfFePlAc">Οριστικό άρθρο θηλυκό πληθυντικός αιτιατική</value>
+            <value name="AtDfNeSgNm">Οριστικό άρθρο ουδέτερο ενικός ονομαστική</value>
+            <value name="AtDfNeSgGe">Οριστικό άρθρο ουδέτερο ενικός γενική</value>
+            <value name="AtDfNeSgAc">Οριστικό άρθρο ουδέτερο ενικός αιτιατική</value>
+            <value name="AtDfNePlNm">Οριστικό άρθρο ουδέτερο πληθυντικός ονομαστική</value>
+            <value name="AtDfNePlGe">Οριστικό άρθρο ουδέτερο πληθυντικός γενική</value>
+            <value name="AtDfNePlAc">Οριστικό άρθρο ουδέτερο πληθυντικός αιτιατική</value>
+          </group>
+          <group button_number="3" name="Αόριστο Άρθρο">
+            <value name="AtIdMaSgNm">Αόριστο άρθρο αρσενικό ενικός ονομαστική</value>
+            <value name="AtIdMaSgGe">Αόριστο άρθρο αρσενικό ενικός γενική</value>
+            <value name="AtIdMaSgAc">Αόριστο άρθρο αρσενικό ενικός αιτιατική</value>
+            <value name="AtIdMaPlNm">Αόριστο άρθρο αρσενικό πληθυντικός ονομαστική</value>
+            <value name="AtIdMaPlGe">Αόριστο άρθρο αρσενικό πληθυντικός γενική</value>
+            <value name="AtIdMaPlAc">Αόριστο άρθρο αρσενικό πληθυντικός αιτιατική</value>
+            <value name="AtIdFeSgNm">Αόριστο άρθρο θηλυκό ενικός ονομαστική</value>
+            <value name="AtIdFeSgGe">Αόριστο άρθρο θηλυκό ενικός γενική</value>
+            <value name="AtIdFeSgAc">Αόριστο άρθρο θηλυκό ενικός αιτιατική</value>
+            <value name="AtIdFePlNm">Αόριστο άρθρο θηλυκό πληθυντικός ονομαστική</value>
+            <value name="AtIdFePlGe">Αόριστο άρθρο θηλυκό πληθυντικός γενική</value>
+            <value name="AtIdFePlAc">Αόριστο άρθρο θηλυκό πληθυντικός αιτιατική</value>
+            <value name="AtIdNeSgNm">Αόριστο άρθρο ουδέτερο ενικός ονομαστική</value>
+            <value name="AtIdNeSgGe">Αόριστο άρθρο ουδέτερο ενικός γενική</value>
+            <value name="AtIdNeSgAc">Αόριστο άρθρο ουδέτερο ενικός αιτιατική</value>
+            <value name="AtIdNePlNm">Αόριστο άρθρο ουδέτερο πληθυντικός ονομαστική</value>
+            <value name="AtIdNePlGe">Αόριστο άρθρο ουδέτερο πληθυντικός γενική</value>
+            <value name="AtIdNePlAc">Αόριστο άρθρο ουδέτερο πληθυντικός αιτιατική</value>
+          </group>
+          <group button_number="3" name="Ουσιαστικά">
+            <value name="NoMaSgNm">Ουσιαστικό αρσενικό ενικός ονομαστική</value>
+            <value name="NoMaSgGe">Ουσιαστικό αρσενικό ενικός γενική</value>
+            <value name="NoMaSgAc">Ουσιαστικό αρσενικό ενικός αιτιατική</value>
+            <value name="NoMaPlNm">Ουσιαστικό αρσενικό πληθυντικός ονομαστική</value>
+            <value name="NoMaPlGe">Ουσιαστικό αρσενικό πληθυντικός γενική</value>
+            <value name="NoMaPlAc">Ουσιαστικό αρσενικό πληθυντικός αιτιατική</value>
+            <value name="NoFeSgNm">Ουσιαστικό θηλυκό ενικός ονομαστική</value>
+            <value name="NoFeSgGe">Ουσιαστικό θηλυκό ενικός γενική</value>
+            <value name="NoFeSgAc">Ουσιαστικό θηλυκό ενικός αιτιατική</value>
+            <value name="NoFePlNm">Ουσιαστικό θηλυκό πληθυντικός ονομαστική</value>
+            <value name="NoFePlGe">Ουσιαστικό θηλυκό πληθυντικός γενική</value>
+            <value name="NoFePlAc">Ουσιαστικό θηλυκό πληθυντικός αιτιατική</value>
+            <value name="NoNeSgNm">Ουσιαστικό ουδέτερο ενικός ονομαστική</value>
+            <value name="NoNeSgGe">Ουσιαστικό ουδέτερο ενικός γενική</value>
+            <value name="NoNeSgAc">Ουσιαστικό ουδέτερο ενικός αιτιατική</value>
+            <value name="NoNePlNm">Ουσιαστικό ουδέτερο πληθυντικός ονομαστική</value>
+            <value name="NoNePlGe">Ουσιαστικό ουδέτερο πληθυντικός γενική</value>
+            <value name="NoNePlAc">Ουσιαστικό ουδέτερο πληθυντικός αιτιατική</value>
+          </group>
+          <group button_number="3" name="Επίθετα">
+            <value name="AjMaSgNm">Επίθετο αρσενικό ενικός ονομαστική</value>
+            <value name="AjMaSgGe">Επίθετο αρσενικό ενικός γενική</value>
+            <value name="AjMaSgAc">Επίθετο αρσενικό ενικός αιτιατική</value>
+            <value name="AjMaPlNm">Επίθετο αρσενικό πληθυντικός ονομαστική</value>
+            <value name="AjMaPlGe">Επίθετο αρσενικό πληθυντικός γενική</value>
+            <value name="AjMaPlAc">Επίθετο αρσενικό πληθυντικός αιτιατική</value>
+            <value name="AjFeSgNm">Επίθετο θηλυκό ενικός ονομαστική</value>
+            <value name="AjFeSgGe">Επίθετο θηλυκό ενικός γενική</value>
+            <value name="AjFeSgAc">Επίθετο θηλυκό ενικός αιτιατική</value>
+            <value name="AjFePlNm">Επίθετο θηλυκό πληθυντικός ονομαστική</value>
+            <value name="AjFePlGe">Επίθετο θηλυκό πληθυντικός γενική</value>
+            <value name="AjFePlAc">Επίθετο θηλυκό πληθυντικός αιτιατική</value>
+            <value name="AjNeSgNm">Επίθετο ουδέτερο ενικός ονομαστική</value>
+            <value name="AjNeSgGe">Επίθετο ουδέτερο ενικός γενική</value>
+            <value name="AjNeSgAc">Επίθετο ουδέτερο ενικός αιτιατική</value>
+            <value name="AjNePlNm">Επίθετο ουδέτερο πληθυντικός ονομαστική</value>
+            <value name="AjNePlGe">Επίθετο ουδέτερο πληθυντικός γενική</value>
+            <value name="AjNePlAc">Επίθετο ουδέτερο πληθυντικός αιτιατική</value>
+          </group>
+          <group button_number="3" name="Απόλυτα Αριθμητικά  Νούμερα">
+            <value name="NmCd">Απόλυτα αριθμητικά (ένα, δύο, τρία, ... και νούμερα: 1, 2, 3...)</value>
+          </group>
+          <group button_number="3" name="Αντωνυμίες">
+            <value name="PnMaSgNm">Αντωνυμία αρσενικό ενικός ονομαστική</value>
+            <value name="PnMaSgGe">Αντωνυμία αρσενικό ενικός γενική</value>
+            <value name="PnMaSgAc">Αντωνυμία αρσενικό ενικός αιτιατική</value>
+            <value name="PnMaPlNm">Αντωνυμία αρσενικό πληθυντικός ονομαστική</value>
+            <value name="PnMaPlGe">Αντωνυμία αρσενικό πληθυντικός γενική</value>
+            <value name="PnMaPlAc">Αντωνυμία αρσενικό πληθυντικός αιτιατική</value>
+            <value name="PnFeSgNm">Αντωνυμία θηλυκό ενικός ονομαστική</value>
+            <value name="PnFeSgGe">Αντωνυμία θηλυκό ενικός γενική</value>
+            <value name="PnFeSgAc">Αντωνυμία θηλυκό ενικός αιτιατική</value>
+            <value name="PnFePlNm">Αντωνυμία θηλυκό πληθυντικός ονομαστική</value>
+            <value name="PnFePlGe">Αντωνυμία θηλυκό πληθυντικός γενική</value>
+            <value name="PnFePlAc">Αντωνυμία θηλυκό πληθυντικός αιτιατική</value>
+            <value name="PnNeSgNm">Αντωνυμία ουδέτερο ενικός ονομαστική</value>
+            <value name="PnNeSgGe">Αντωνυμία ουδέτερο ενικός γενική</value>
+            <value name="PnNeSgAc">Αντωνυμία ουδέτερο ενικός αιτιατική</value>
+            <value name="PnNePlNm">Αντωνυμία ουδέτερο πληθυντικός ονομαστική</value>
+            <value name="PnNePlGe">Αντωνυμία ουδέτερο πληθυντικός γενική</value>
+            <value name="PnNePlAc">Αντωνυμία ουδέτερο πληθυντικός αιτιατική</value>
+            <value name="PnSgNm">Αντωνυμία χωρίς γένος ενικός ονομαστική</value>
+            <value name="PnSgGe">Αντωνυμία χωρίς γένος ενικός γενική</value>
+            <value name="PnSgAc">Αντωνυμία χωρίς γένος ενικός αιτιατική</value>
+            <value name="PnPlNm">Αντωνυμία χωρίς γένος πληθυντικός ονομαστική</value>
+            <value name="PnPlGe">Αντωνυμία χωρίς γένος πληθυντικός γενική</value>
+            <value name="PnPlAc">Αντωνυμία χωρίς γένος πληθυντικός αιτιατική</value>
+          </group>
+          <group button_number="3" name="Απρόσωπα Ρήματα">
+            <value name="VbIs">Απρόσωπο Ρήμα</value>
+          </group>
+          <group button_number="3" name="Προσωπικά Ρήματα">
+            <value name="VbMnPrSg">Ρήμα προσωπικό παροντικού χρόνου, ενικός</value>
+            <value name="VbMnPaSg">Ρήμα προσωπικό παρελθοντικού χρόνου, πληθυντικός</value>
+            <value name="VbMnXxSg">Ρήμα προσωπικό μελλοντικού χρόνου, ενικός</value>
+            <value name="VbMnPrPl">Ρήμα προσωπικό παροντικού χρόνου, πληθυντικός</value>
+            <value name="VbMnPaPl">Ρήμα προσωπικό παρελθοντικού χρόνου, πληθυντικός</value>
+            <value name="VbMnXxPl">Ρήμα προσωπικό μελλοντικού χρόνου, πληθυντικός</value>
+          </group>
+          <group button_number="3" name="Απαρέμφατο">
+            <value name="VbNfAv">Απαρέμφατο ενεργητικής φωνής</value>
+            <value name="VbNfPv">Απαρέμφατο παθητικής φωνής</value>
+          </group>
+          <group button_number="3" name="Μετοχές">
+            <value name="VbPpPrPvNm">Μετοχή Παροντικού Χρόνου Παθητικής Φωνής Ονομαστική</value>
+            <value name="VbPpPrPvGe">Μετοχή Παροντικού Χρόνου Παθητικής Φωνής Γενική</value>
+            <value name="VbPpPrPvAc">Μετοχή Παροντικού Χρόνου Παθητικής Φωνής Αιτιατική</value>
+            <value name="VbPpPrAv">Μετοχή Παροντικού Χρόνου Ενεργητικής Φωνής (-οντας, -ώντας)</value>
+          </group>
+          <group button_number="3" name="Άκλιτα Μέρη του Λόγου">
+            <value name="Ad">Επίρρημα</value>
+            <value name="AsPp">Πρόθεση</value>
+            <value name="Cj">Σύνδεσμος</value>
+            <value name="Pt">Μόριο (ας, θα, να, μα, για)</value>
+            <value name="Ij">Επιφώνημα</value>
+            <value name="RgFw">Ξένη λέξη</value>
+          </group>
+          <group button_number="3" name="Διάφορα Σύμβολα">
+            <value name="RgAb">Σύτμηση</value>
+            <value name="RgAn">Ακρώνυμο</value>
+            <value name="RgSy">Σύμβολο</value>
+            <value name="Pu">Σημείο Στίξης</value>
+          </group>
+        </alternative>
+      </attribute>
+      <attribute name="case">
+        <alternative name="Generic">
+          <value name="nom">Ονομαστική</value>
+          <value name="gen">Γενική</value>
+          <value name="acc">Αιτιατική</value>
+          <value name="voc">Κλητική</value>
+        </alternative>
+      </attribute>
+      <attribute name="person">
+        <alternative name="Generic">
+          <value name="1st">Πρώτο πρόσωπο</value>
+          <value name="2nd">Δεύτερο πρόσωπο</value>
+          <value name="3rd">Τρίτο πρόσωπο</value>
+        </alternative>
+      </attribute>
+      <attribute name="number">
+        <alternative name="Generic">
+          <value name="singular">Ενικός Αριθμός</value>
+          <value name="plural">Πληθυντικός Αριθμός</value>
+        </alternative>
+      </attribute>
+      <attribute name="type">
+        The token type of the word
+        <alternative name="Generic">
+          <value name="a">descr 1</value>
+          <value name="b">descr 2</value>
+        </alternative>
+      </attribute>
+    </annotation>
+    <annotation name="sentence">
+      <attribute name="constituents">
+        The type of the annotation
+        <alternative name="Generic"></alternative>
+      </attribute>
+      <attribute name="pos">
+        The pos of the annotation
+        <alternative name="Generic">
+          <value name="a">descr 1</value>
+          <value name="b">descr 2</value>
+        </alternative>
+      </attribute>
+    </annotation>
+    <annotation name="name">
+      <attribute name="type">
+        <alternative name="Generic">
+          <value name="person">Πρόσωπο</value>
+          <value name="organisation">Οργανισμός</value>
+          <value name="location">Τοποθεσία</value>
+          <value name="person_org">Πρόσωπο &amp; Οργανισμός</value>
+          <value name="location_org">Τοποθεσία &amp; Οργανισμός</value>
+        </alternative>
+      </attribute>
+    </annotation>
+    <annotation name="entity|polarity_manual">
+      <attribute name="type">
+        <alternative name="Intellitech">
+          <group name="person" button_number="5">
+            Πρόσωπο
+            <value name="athlete">Αθλητής</value>
+            <value name="journalist">Δημοσιογράφος</value>
+            <value name="minister">Υπουργός</value>
+            <value name="militarian">Στρατιωτικός</value>
+            <value name="person">Πρόσωπο</value>
+            <value name="politician">Πολιτικός</value>
+            <value name="president">Πρόεδρος</value>
+            <value name="title">Τιτλος</value>
+          </group>
+          <group name="organisation" button_number="5">
+            Οργανισμός
+            <value name="antigovernment_org">Αντι-κυβερνητική</value>
+            <value name="army_force">Στρατιωτική Δύναμη</value>
+            <value name="bank">Τράπεζα</value>
+            <value name="court">Δικαστήριο</value>
+            <value name="company">Εταιρία</value>
+            <value name="education">Εκπαίδευση</value>
+            <value name="fund">Ταμείο</value>
+            <value name="government">Κυβέρνηση</value>
+            <value name="journal">Εφημερίδα</value>
+            <value name="ministry">Υπουργείο</value>
+            <value name="newsmedia">ΜΜΕ</value>
+            <value name="non-profit">Μη κερδοσκοπική</value>
+            <value name="organisation">Οργανισμός</value>
+            <value name="party">Κόμμα</value>
+            <value name="radio">Ραδιόφωνο</value>
+            <value name="sport_team">Ομάδα</value>
+            <value name="state">Κρατική</value>
+            <value name="transport">ΜΜΜ</value>
+            <value name="union">Σωματείο</value>
+          </group>
+          <group name="location" button_number="5">
+            Τοποθεσία
+            <value name="area">Περιοχή</value>
+            <value name="building">Κτήριο</value>
+            <value name="city">Πόλη</value>
+            <value name="continent">Ήπειρος</value>
+            <value name="county">Νομός</value>
+            <value name="country">Χώρα</value>
+            <value name="highway">Αυτοκινητόδρομος</value>
+            <value name="hospital">Νοσοκομείο</value>
+            <value name="perfecture">Περιφέρεια</value>
+            <value name="place">Πλατεία</value>
+            <value name="street">Οδός</value>
+            <value name="town">Κωμόπολη</value>
+          </group>
+          <group name="event" button_number="5">
+            Γεγονός
+            <value name="competition"></value>
+            <value name="meeting"></value>
+          </group>
+          <group name="various" button_number="5">
+            Διάφορα
+            <value name="economical_term">Οικονομικός όρος</value>
+            <value name="ethnicity">Εθνικότητα</value>
+            <value name="financial_figure">Οικονομική ποσότητα</value>
+            <value name="game">Παιχνίδι</value>
+            <value name="law">Νόμος</value>
+            <value name="religion">Θρησκεία</value>
+            <value name="sport">Άθλημα</value>
+            <value name="tax">Φόρος</value>
+          </group>
+          <group name="polarity" sort="false" button_number="5">
+            Πολικότητα
+            <value name="positive" colour="hue_luminance green 3 0" auto_tag="false">Θετική</value>
+            <value name="positive_obj_feature" colour="hue_luminance green 3 1" columnspan="2" auto_tag="false">Θετική (υποκ.)</value>
+            <value name="positive_op_holder" colour="hue_luminance green 3 2" columnspan="2" auto_tag="false">Θετική (αντικ.)</value>
+            <value name="negative" colour="hue_luminance red 3 0" auto_tag="false">Αρνητική</value>
+            <value name="negative_obj_feature" colour="hue_luminance red 3 1" columnspan="2" auto_tag="false">Αρνητική (υποκ.)</value>
+            <value name="negative_op_holder" colour="hue_luminance red 3 2" columnspan="2" auto_tag="false">Αρνητική (αντικ.)</value>
+            <value name="neutral" colour="hue_luminance yellow 3 0" auto_tag="false">Ουδέτερη</value>
+            <value name="neutral_obj_feature" colour="hue_luminance yellow 3 1" columnspan="2" auto_tag="false">Ουδέτερη (υποκ.)</value>
+            <value name="neutral_op_holder" colour="hue_luminance yellow 3 2" columnspan="2" auto_tag="false">Ουδέτερη (αντικ.)</value>
+          </group>
+          -->
+          <group name="sentiment" sort="false" button_number="5">
+            Πολικότητα
+            <value name="-5" colour="hue_luminance red 5 0">-5</value>
+            <value name="-4" colour="hue_luminance red 5 1">-4</value>
+            <value name="-3" colour="hue_luminance red 5 2">-3</value>
+            <value name="-2" colour="hue_luminance red 5 3">-2</value>
+            <value name="-1" colour="hue_luminance red 5 4">-1</value>
+            <value name="0" background="yellow" foreground="black" columnspan="5">0</value>
+            <value name="+1" colour="hue_luminance green 5 4">+1</value>
+            <value name="+2" colour="hue_luminance green 5 3">+2</value>
+            <value name="+3" colour="hue_luminance green 5 2">+3</value>
+            <value name="+4" colour="hue_luminance green 5 1">+4</value>
+            <value name="+5" colour="hue_luminance green 5 0">+5</value>
+            <value name="but">but</value>
+            <value name="not">not</value>
+          </group>
+        </alternative>
+      </attribute>
+    </annotation>
+    <multi_attributed_annotation name="polarity">
+      <alternative name="NOMAD" button_number="1">
+        <attribute name="opinion_scope">Opinion Scope:</attribute>
+        <attribute name="opinion">Opinion:</attribute>
+        <attribute name="opinion_polarity">
+          Polarity:
+          <value name="positive">Positive</value>
+          <value name="neutral">Neutral</value>
+          <value name="negative">Negative</value>
+        </attribute>
+        <attribute name="argument">Argument:</attribute>
+        <attribute name="argument_category">
+          Type:
+          <value name="example">Example</value>
+          <value name="counter_example">Counter Example</value>
+          <value name="analogy">Analogy</value>
+          <value name="reference_to_authority">Reference to Authority</value>
+        </attribute>
+      </alternative>
+    </multi_attributed_annotation>
+    <multi_attributed_annotation name="argument" colourfrom="polarity">
+      <alternative name="Mandenaki" button_number="3">
+        <attribute name="arg_title" type="title">Argument</attribute>
+        <attribute name="claim" type="span2" required="1">Ισχυρισμός:</attribute>
+        <attribute name="premise" type="span2" required="0">Προκείμενη 1:</attribute>
+        <attribute name="premise_type" required="0" editable="0" default="0">
+          Τύπος 1:
+          <value name="premise">Προκείμενη</value>
+          <value name="study">Προκείμενη με στοιχεία</value>
+          <value name="expert">Προκείμενη με επίκληση στην αυθεντία</value>
+          <value name="example">Προκείμενη με παράδειγμα</value>
+          <value name="petitio_principia">Προκείμενη Petitio Principia</value>
+          <value name="threat">Προκείμενη με απειλή</value>
+          <value name="ad_hominem">Προκείμενη Ad Hominem</value>
+        </attribute>
+        <attribute name="premise_action" type="buttonsrow" sort="false" button_number="2" required="0">
+          Ενέργεια 1:
+          <value name="support" background="green" foreground="black">Supports</value>
+          <value name="attack" background="red">Attacks</value>
+        </attribute>
+        <attribute name="premise2" type="span2" required="0">Προκείμενη 2:</attribute>
+        <attribute name="premise2_type" required="0" editable="0" default="0">
+          Τύπος 2:
+          <value name="premise">Προκείμενη</value>
+          <value name="study">Προκείμενη με στοιχεία</value>
+          <value name="expert">Προκείμενη με επίκληση στην αυθεντία</value>
+          <value name="example">Προκείμενη με παράδειγμα</value>
+          <value name="petitio_principia">Προκείμενη Petitio Principia</value>
+          <value name="threat">Προκείμενη με απειλή</value>
+          <value name="ad_hominem">Προκείμενη Ad Hominem</value>
+        </attribute>
+        <attribute name="premise2_action" type="buttonsrow" sort="false" button_number="2" required="0">
+          Ενέργεια 2:
+          <value name="support" background="green" foreground="black">Supports</value>
+          <value name="attack" background="red">Attacks</value>
+        </attribute>
+        <attribute name="premise3" type="span2" required="0">Προκείμενη 3:</attribute>
+        <attribute name="premise3_type" required="0" editable="0" default="0">
+          Τύπος 3:
+          <value name="premise">Προκείμενη</value>
+          <value name="study">Προκείμενη με στοιχεία</value>
+          <value name="expert">Προκείμενη με επίκληση στην αυθεντία</value>
+          <value name="example">Προκείμενη με παράδειγμα</value>
+          <value name="petitio_principia">Προκείμενη Petitio Principia</value>
+          <value name="threat">Προκείμενη με απειλή</value>
+          <value name="ad_hominem">Προκείμενη Ad Hominem</value>
+        </attribute>
+        <attribute name="premise3_action" type="buttonsrow" sort="false" button_number="2" required="0">
+          Ενέργεια 3:
+          <value name="support" background="green" foreground="black">Supports</value>
+          <value name="attack" background="red">Attacks</value>
+        </attribute>
+        <attribute name="premise4" type="span2" required="0">Προκείμενη 4:</attribute>
+        <attribute name="premise4_type" required="0" editable="0" default="0">
+          Τύπος 4:
+          <value name="premise">Προκείμενη</value>
+          <value name="study">Προκείμενη με στοιχεία</value>
+          <value name="expert">Προκείμενη με επίκληση στην αυθεντία</value>
+          <value name="example">Προκείμενη με παράδειγμα</value>
+          <value name="petitio_principia">Προκείμενη Petitio Principia</value>
+          <value name="threat">Προκείμενη με απειλή</value>
+          <value name="ad_hominem">Προκείμενη Ad Hominem</value>
+        </attribute>
+        <attribute name="premise4_action" type="buttonsrow" sort="false" button_number="2" required="0">
+          Ενέργεια 4:
+          <value name="support" background="green" foreground="black">Supports</value>
+          <value name="attack" background="red">Attacks</value>
+        </attribute>
+        <attribute name="premise5" type="span2" required="0">Προκείμενη 5:</attribute>
+        <attribute name="premise5_type" required="0" editable="0" default="0">
+          Τύπος 5:
+          <value name="premise">Προκείμενη</value>
+          <value name="study">Προκείμενη με στοιχεία</value>
+          <value name="expert">Προκείμενη με επίκληση στην αυθεντία</value>
+          <value name="example">Προκείμενη με παράδειγμα</value>
+          <value name="petitio_principia">Προκείμενη Petitio Principia</value>
+          <value name="threat">Προκείμενη με απειλή</value>
+          <value name="ad_hominem">Προκείμενη Ad Hominem</value>
+        </attribute>
+        <attribute name="premise5_action" type="buttonsrow" sort="false" button_number="2" required="0">
+          Ενέργεια 5:
+          <value name="support" background="green" foreground="black">Supports</value>
+          <value name="attack" background="red">Attacks</value>
+        </attribute>
+        <attribute name="premise6" type="span2" required="0">Προκείμενη 6:</attribute>
+        <attribute name="premise6_type" required="0" editable="0" default="0">
+          Τύπος 6:
+          <value name="premise">Προκείμενη</value>
+          <value name="study">Προκείμενη με στοιχεία</value>
+          <value name="expert">Προκείμενη με επίκληση στην αυθεντία</value>
+          <value name="example">Προκείμενη με παράδειγμα</value>
+          <value name="petitio_principia">Προκείμενη Petitio Principia</value>
+          <value name="threat">Προκείμενη με απειλή</value>
+          <value name="ad_hominem">Προκείμενη Ad Hominem</value>
+        </attribute>
+        <attribute name="premise6_action" type="buttonsrow" sort="false" button_number="2" required="0">
+          Ενέργεια 6:
+          <value name="support" background="green" foreground="black">Supports</value>
+          <value name="attack" background="red">Attacks</value>
+        </attribute>
+
+        <attribute name="polarity" type="buttons" sort="false" button_number="5" required="1">
+          Polarity:
+          <value name="-5" colour="hue_luminance red 5 0">-5</value>
+          <value name="-4" colour="hue_luminance red 5 1">-4</value>
+          <value name="-3" colour="hue_luminance red 5 2">-3</value>
+          <value name="-2" colour="hue_luminance red 5 3">-2</value>
+          <value name="-1" colour="hue_luminance red 5 4">-1</value>
+          <value name="0" background="yellow" foreground="black" columnspan="5">0</value>
+          <value name="+1" colour="hue_luminance green 5 4">+1</value>
+          <value name="+2" colour="hue_luminance green 5 3">+2</value>
+          <value name="+3" colour="hue_luminance green 5 2">+3</value>
+          <value name="+4" colour="hue_luminance green 5 1">+4</value>
+          <value name="+5" colour="hue_luminance green 5 0">+5</value>
+        </attribute>
+        <attribute name="stance" type="buttons" sort="false" button_number="5" required="1">
+          Stance:
+          <value name="-5" colour="hue_luminance red 5 0">-5</value>
+          <value name="-4" colour="hue_luminance red 5 1">-4</value>
+          <value name="-3" colour="hue_luminance red 5 2">-3</value>
+          <value name="-2" colour="hue_luminance red 5 3">-2</value>
+          <value name="-1" colour="hue_luminance red 5 4">-1</value>
+          <value name="0" background="yellow" foreground="black" columnspan="5">0</value>
+          <value name="+1" colour="hue_luminance green 5 4">+1</value>
+          <value name="+2" colour="hue_luminance green 5 3">+2</value>
+          <value name="+3" colour="hue_luminance green 5 2">+3</value>
+          <value name="+4" colour="hue_luminance green 5 1">+4</value>
+          <value name="+5" colour="hue_luminance green 5 0">+5</value>
+        </attribute>
+        <attribute name="modified_by_user" type="label">Modified By:</attribute>
+      </alternative>
+    </multi_attributed_annotation>
+  </language>
+  <language name="english">
+    <annotation name="token">
+      <attribute name="case">
+        <alternative name="Generic">
+          <value name="nom">Nominal</value>
+          <value name="gen">General</value>
+          <value name="acc">Accusative</value>
+          <value name="voc">Vocal</value>
+        </alternative>
+      </attribute>
+      <attribute name="type">
+        The type of the annotation
+        <alternative name="Generic">
+          <value name="a">descr 1</value>
+          <value name="b">descr 2</value>
+        </alternative>
+      </attribute>
+      <attribute name="pos">
+        The pos of the annotation
+        <alternative name="Generic">
+          <value name="a">descr 1</value>
+          <value name="b">descr 2</value>
+        </alternative>
+      </attribute>
+    </annotation>
+    <annotation name="ne">
+      <attribute name="type">
+        <alternative name="BOEMIE" button_number="3">
+          <group name="Athlete" button_number="3">
+            Athlete/Performance
+            <value name="name">Person’s name</value>
+            <value name="age">Person’s age</value>
+            <value name="gender">Sport or athlete gender</value>
+            <value name="nationality">Person’s nationality</value>
+            <value name="performance">Person's performance</value>
+            <value name="ranking">Person's ranking</value>
+          </group>
+          <group name="Sport" button_number="3">
+            Sport
+            <value name="sport_name">Sport's name</value>
+            <value name="stadium_name">Stadium's name</value>
+          </group>
+          <group name="Round" button_number="3">
+            Round
+            <value name="round_name">Round's name</value>
+            <value name="heat_name" background="#4682b4" foreground="white">Heat's name</value>
+          </group>
+          <group name="Event" button_number="3">
+            Event
+            <value name="event_name">Event's name</value>
+            <value name="country">Event's country</value>
+          </group>
+          <group name="Common types" button_number="3">
+            Common types
+            <value name="date">Date expression</value>
+            <value name="city">City</value>
+          </group>
+        </alternative>
+      </attribute>
+    </annotation>
+    <annotation name="name">
+      <attribute name="type">
+        <alternative name="Generic">
+          <value name="person">Person</value>
+          <value name="organisation">Organisation</value>
+          <value name="location">Location</value>
+          <value name="person_org">Person &amp; Organisation</value>
+          <value name="location_org">Location &amp; Organisation</value>
+        </alternative>
+      </attribute>
+    </annotation>
+    <annotation name="sync3_event">
+      <attribute name="type">
+        <alternative name="news+blogs">
+          <group name="Tags" button_number="3" sort="false">
+            Tags
+            <value name="what" columnspan="1">What</value>
+            <value name="what2" columnspan="1">What2</value>
+            <value name="who" columnspan="1">Who</value>
+            <value name="to_whom" columnspan="1">To Whom</value>
+            <value name="publish_date" columnspan="1">Date of Publish</value>
+            <value name="predicate" columnspan="1">Predicate</value>
+          </group>
+          <group name="Tags + Description" button_number="1" sort="false">
+            Tags + Description
+            <value name="when" dateentry="date" dateformat="%m/%d/%Y 00:00:00 GMT" columnspan="3">When + Date</value>
+            <value name="where" entry="country" columnspan="3">Where + Country</value>
+            <value name="reporter_location" entry="country" columnspan="3">Reporter Location + Country</value>
+          </group>
+          <group name="Segments + Event + IPTC code" button_number="1" sort="false">
+            Segments
+            <value name="main" event="event" entry="iptc" columnspan="3">Main Segment + Event + IPTC Codes</value>
+            <value name="secondary" event="event" entry="iptc" columnspan="3">Secondary Segment + Event + IPTC Codes</value>
+          </group>
+          <group name="Sentiment" button_number="3" sort="false">
+            Sentiment
+            <value name="positive">Positive</value>
+            <value name="neutral">Neutral</value>
+            <value name="negative">Negative</value>
+          </group>
+        </alternative>
+        <alternative name="blogs">
+          <group name="Event" button_number="5">
+            Event
+            <value name="what">What</value>
+            <value name="who">Who</value>
+            <value name="where">Where</value>
+            <value name="publish_date">Date of Publish</value>
+            <value name="predicate">Predicate</value>
+            <value name="to_whom">To Whom</value>
+            <value name="when">When</value>
+          </group>
+        </alternative>
+      </attribute>
+    </annotation>
+    <annotation name="area">
+      <attribute name="type">
+        <alternative name="BOEMIE" button_number="3">
+          <group name="Semantic Categories" button_number="3">
+            <value name="news_item">News Item</value>
+            <value name="sport">Sport</value>
+            <value name="biography">Athlete's Biography</value>
+          </group>
+          <group name="Columns" button_number="3">
+            <value name="column">Column</value>
+            <value name="column_main">Main Column</value>
+            <value name="column_left">Left Column</value>
+            <value name="column_right">Right Column</value>
+          </group>
+          <group name="Tables" button_number="3">
+            <value name="table">Table</value>
+            <value name="table_column">Table Column</value>
+            <value name="table_row">Table Row</value>
+          </group>
+          <group name="Headings" button_number="3">
+            <value name="title">Title</value>
+            <value name="caption">Image Caption</value>
+          </group>
+          <group name="Page Areas" button_number="3">
+            Athlete/Performance
+            <value name="header">Header</value>
+            <value name="footer">Footer</value>
+            <value name="paragraph">Paragraph</value>
+            <value name="sentence">Sentence</value>
+            <value name="other_region">Other Region</value>
+          </group>
+        </alternative>
+      </attribute>
+    </annotation>
+    <template name="BOEMIE_IE_Template">
+      <table name="event">
+        <field value_type="annotation::id" max_value_number="0" primary="1" value_constraints="ne::type::event_name" name="event_name">Event's name</field>
+        <field value_type="annotation::id" max_value_number="1" primary="0" value_constraints="ne::type::date" name="start_date">Event's starting date</field>
+        <field value_type="annotation::id" max_value_number="1" primary="0" value_constraints="ne::type::date" name="end_date">Event's ending date</field>
+        <field value_type="annotation::id" max_value_number="1" primary="0" value_constraints="ne::type::city" name="city">Event's city</field>
+        <field value_type="annotation::id" max_value_number="1" primary="0" value_constraints="ne::type::country" name="country">Event's country</field>
+      </table>
+      <table name="sport">
+        <field value_type="annotation::id" max_value_number="0" primary="1" value_constraints="ne::type::sport_name" name="sport_name">Sport's name</field>
+        <field value_type="annotation::id" max_value_number="1" primary="0" value_constraints="ne::type::date" name="start_date">Sport's starting date</field>
+        <field value_type="annotation::id" max_value_number="1" primary="0" value_constraints="ne::type::date" name="end_date">Sport's ending date</field>
+        <field value_type="annotation::id" max_value_number="1" primary="0" value_constraints="ne::type::city" name="city">Sport's city</field>
+        <field value_type="annotation::id" max_value_number="1" primary="0" value_constraints="ne::type::stadium_name" name="stadium_name">Sport's stadium</field>
+        <field value_type="annotation::id::from_table" max_value_number="1" primary="0" value_constraints="BOEMIE_IE_Template:event" name="relates_to_event"></field>
+      </table>
+      <table name="round">
+        <field value_type="annotation::id" max_value_number="1" primary="1" value_constraints="ne::type::round_name" name="round_name">Sport's round</field>
+        <field value_type="annotation::id" max_value_number="1" primary="0" value_constraints="ne::type::date" name="round_date">Round's date</field>
+        <field value_type="annotation::id" max_value_number="1" primary="1" value_constraints="ne::type::heat_name" name="round_heat">Round's heat</field>
+        <field value_type="annotation::id::from_table" max_value_number="1" primary="1" value_constraints="BOEMIE_IE_Template:sport" name="relates_to_sport"></field>
+      </table>
+      <table name="trial">
+        <field value_type="annotation::id" max_value_number="1" primary="1" value_constraints="ne::type::performance" name="performance">Athlete's performance</field>
+        <field value_type="annotation::id" max_value_number="1" primary="0" value_constraints="ne::type::ranking" name="ranking">Athlete's ranking</field>
+        <field value_type="annotation::id::from_table" max_value_number="1" primary="1" value_constraints="BOEMIE_IE_Template:round" name="relates_to_round"></field>
+      </table>
+      <table name="athlete">
+        <field value_type="annotation::id" max_value_number="0" primary="1" value_constraints="ne::type::name" name="athlete_name">Athlete's name(s)</field>
+        <field value_type="annotation::id" max_value_number="0" primary="0" value_constraints="ne::type::age" name="age">Athlete's age</field>
+        <field value_type="annotation::id" max_value_number="0" primary="0" value_constraints="ne::type::nationality" name="nationality">Athlete's nationality</field>
+        <field value_type="annotation::id" max_value_number="0" primary="0" value_constraints="ne::type::gender" name="athlete_gender">Athlete's gender</field>
+        <field value_type="annotation::id::from_table" max_value_number="0" primary="0" value_constraints="BOEMIE_IE_Template:trial" name="relates_to_trials"></field>
+      </table>
+    </template>
+    <annotation name="sentiment">
+      <attribute name="polarity" sort="false" button_number="5">
+        <alternative name="Generic" sort="false" button_number="5">
+          <value name="-5" colour="hue_luminance red 5 0">-5</value>
+          <value name="-4" colour="hue_luminance red 5 1">-4</value>
+          <value name="-3" colour="hue_luminance red 5 2">-3</value>
+          <value name="-2" colour="hue_luminance red 5 3">-2</value>
+          <value name="-1" colour="hue_luminance red 5 4">-1</value>
+          <value name="0" background="yellow" foreground="black" columnspan="5">0</value>
+          <value name="+1" colour="hue_luminance green 5 4">+1</value>
+          <value name="+2" colour="hue_luminance green 5 3">+2</value>
+          <value name="+3" colour="hue_luminance green 5 2">+3</value>
+          <value name="+4" colour="hue_luminance green 5 1">+4</value>
+          <value name="+5" colour="hue_luminance green 5 0">+5</value>
+          <value name="but">but</value>
+          <value name="not">not</value>
+        </alternative>
+      </attribute>
+    </annotation>
+  </language>
+  <language name="EN-EL">
+    <multi_attributed_annotation name="translation">
+      <alternative name="Aligned" button_number="1">
+        Aligned Document
+        <attribute name="st_en">ST EN</attribute>
+        <attribute name="st_en_expression" type="entry">ST EN Expression</attribute>
+        <attribute name="st_rhet_rel">
+          ST Rhetorical Relation
+          <value name="addition">Addition</value>
+          <value name="contrast/concession">Contrast/Concession</value>
+          <value name="other">Other</value>
+          <value name="zero">0</value>
+        </attribute>
+        <attribute name="st_category">
+          ST Category
+          <value name="coordinator">Coordinator</value>
+          <value name="correlative_coordinator">Correlative Coordinator</value>
+          <value name="subordinator">Subordinator</value>
+          <value name="linking_adverbial">Linking Adverbial</value>
+          <value name="linking_expression">Linking Expression</value>
+          <value name="other">Other</value>
+        </attribute>
+        <attribute name="st_phrase_level_connection" type="check">ST Phrase-level Connection</attribute>
+        <attribute name="st_position">
+          ST Position
+          <value name="initial">Initial</value>
+          <value name="near_initial">Near Initial</value>
+          <value name="middle">Middle</value>
+          <value name="near_end">Near End</value>
+          <value name="end">End</value>
+        </attribute>
+        <!-- TT EL -->
+        <attribute name="tt_el">TT EL</attribute>
+        <attribute name="tt_el_expression" type="entry">TT EL Expression</attribute>
+        <attribute name="tt_rhet_rel">
+          TT Rhetorical Relation
+          <value name="addition">Addition</value>
+          <value name="contrast/concession">Contrast/Concession</value>
+          <value name="other">Other</value>
+          <value name="zero">0</value>
+        </attribute>
+        <attribute name="tt_omission" type="check">Omission</attribute>
+        <attribute name="tt_category">
+          TT Category
+          <value name="coordinator">Coordinator</value>
+          <value name="correlative_coordinator">Correlative Coordinator</value>
+          <value name="subordinator">Subordinator</value>
+          <value name="linking_adverbial">Linking Adverbial</value>
+          <value name="linking_expression">Linking Expression</value>
+          <value name="punctuation">Punctuation</value>
+          <value name="other">Other</value>
+        </attribute>
+        <attribute name="tt_phrase_level_connection" type="check">TT Phrase-level Connection</attribute>
+        <attribute name="tt_position">
+          TT Position
+          <value name="initial">Initial</value>
+          <value name="near_initial">Near Initial</value>
+          <value name="middle">Middle</value>
+          <value name="near_end">Near End</value>
+          <value name="end">End</value>
+        </attribute>
+        <attribute name="st_marker" type="entry">ST Comment</attribute>
+        <attribute name="tt_translation" type="entry">TT Comment</attribute>
+
+        <!-- TT ADDITION -->
+        <attribute name="tt_addition" type="title">TT ADDITION</attribute>
+
+        <attribute name="add_tt_el">TT EL</attribute>
+        <attribute name="add_tt_el_expression" type="entry">TT EL Expression</attribute>
+        <attribute name="add_tt_rhet_rel">
+          TT Rhetorical Relation
+          <value name="addition">Addition</value>
+          <value name="contrast/concession">Contrast/Concession</value>
+          <value name="other">Other</value>
+          <value name="zero">0</value>
+        </attribute>
+        <attribute name="add_tt_category">
+          TT Category
+          <value name="coordinator">Coordinator</value>
+          <value name="correlative_coordinator">Correlative Coordinator</value>
+          <value name="subordinator">Subordinator</value>
+          <value name="linking_adverbial">Linking Adverbial</value>
+          <value name="linking_expression">Linking Expression</value>
+          <value name="other">Other</value>
+        </attribute>
+        <attribute name="add_tt_phrase_level_connection" type="check">TT Phrase-level Connection</attribute>
+        <attribute name="add_tt_position">
+          TT Position
+          <value name="initial">Initial</value>
+          <value name="near_initial">Near Initial</value>
+          <value name="middle">Middle</value>
+          <value name="near_end">Near End</value>
+          <value name="end">End</value>
+        </attribute>
+        <attribute name="add_tt_el_rendering_of">
+          TT Rendering of
+          <value name="st_clause_main">ST Clause (Main)</value>
+          <value name="st_clause_subordinate">ST Clause (Subordinate)</value>
+          <value name="st_idiomatic_expression">ST Idiomatic Expression</value>
+          <value name="st_expression_collocation">ST Expression / Collocation</value>
+          <value name="figurative_language">Figurative Language</value>
+          <value name="st_adjective">ST Adjective</value>
+          <value name="st_adverb">ST Adverb</value>
+          <value name="st_adverbial_phrase">ST Adverbial Phrase</value>
+          <value name="st_noun_phrase">ST Noun Phrase</value>
+          <value name="st_participle">ST Participle</value>
+          <value name="st_punctuation">ST Punctuation</value>
+          <value name="st_connective">ST Connective</value>
+          <value name="st_marker">ST Marker</value>
+          <value name="zero">0</value>
+        </attribute>
+        <attribute name="add_tt_el_analysis_rendering_of_text_expression" type="entry">TT Analysis /\nRendering of Text/Expression</attribute>
+        <attribute name="add_st_en_clue_for_additional_tt_el">ST Clue for\nAdditional TT EL</attribute>
+        <attribute name="comments" type="entry">TT Comments</attribute>
+        <attribute name="st_comments" type="entry">ST Comments</attribute>
+
+        <!-- CONTEXT -->
+        <attribute name="context" type="title">CONTEXT</attribute>
+
+        <attribute name="st_verb">ST Verb</attribute>
+        <attribute name="st_adjective">ST Adjective</attribute>
+        <attribute name="st_adverb">ST Adverb</attribute>
+        <attribute name="st_other">ST Other</attribute>
+        <attribute name="st_more" type="check">ST More</attribute>
+        <attribute name="st_less" type="check">ST Less</attribute>
+        <attribute name="tt_verb">TT Verb</attribute>
+        <attribute name="tt_adjective">TT Adjective</attribute>
+        <attribute name="tt_adverb">TT Adverb</attribute>
+        <attribute name="tt_other">TT Other</attribute>
+        <attribute name="tt_more" type="check">TT More</attribute>
+        <attribute name="tt_less" type="check">TT Less</attribute>
+        <attribute name="compensation" type="check">Compensation</attribute>
+      </alternative>
+    </multi_attributed_annotation>
+  </language>
+  <language name="igbo">
+    <annotation name="token">
+      <attribute name="pos">
+        Morphological Tagset for the Tokens
+        <alternative name="Generic">
+          <group name="VERBS" button_number="5">
+            Verb
+            <value name="ICV">Inherent Complement Verb</value>
+            <value name="CompVB">Compound Verb</value>
+            <value name="AuxVB">Auxiliary Verb</value>
+            <value name="NegAUX">Negative Auxiliary</value>
+            <value name="ConjVB">Conjunctional Verb</value>
+            <value name="PrepVB">Prepositional Verb</value>
+            <value name="InfVB">Infinitive Verb</value>
+            <value name="VB">Verb</value>
+          </group>
+          <group name="PRONOUNS" button_number="5">
+            Pronouns
+            <value name="PersPronS">Personal Pronoun Singular</value>
+            <value name="PersPronP">Personal Pronoun Plural</value>
+            <value name="PossPronS">Possessive Pronoun Singular</value>
+            <value name="PossPronP">Possessive Pronoun Plural</value>
+            <value name="ReflPronS">Reflexive Pronoun Singular</value>
+            <value name="ReflPronP">Reflexive Pronoun Plural</value>
+            <value name="InterrPron">Interrogative Pronoun</value>
+            <value name="IndefPronS">Indefinite Pronoun Singular</value>
+            <value name="IndefPronP">Indefinite Pronoun Plural</value>
+            <value name="RelPronS">Relative Pronoun Singular</value>
+            <value name="RelPronS">Relative Pronoun Plural</value>
+          </group>
+          <group name="NOUNS" button_number="5">
+            Nouns
+            <value name="PropN">Proper Noun</value>
+            <value name="ComN">Common Noun</value>
+            <value name="AdjN">Adjectival Noun</value>
+            <value name="AdvN">Adverbial Noun</value>
+            <value name="BVC">Bound Verb Complement</value>
+            <value name="InhComp">Inherent Complement</value>
+            <value name="Gerund">Gerund</value>
+            <value name="AgentN">Agentive Nominal</value>
+            <value name="InstrN">Instrumental Nominal</value>
+            <value name="Ideo">Ideophone</value>
+          </group>
+          <group name="AFFIXES" button_number="5">
+            Affixes
+            <value name="PrepSuf">Prepositional Suffixes</value>
+            <value name="-rvSuf">-rV-Suffix</value>
+            <value name="-oVSuf">-oV-Suffix</value>
+            <value name="Pref">Prefix</value>
+            <value name="NegSuf">Negative Suffix</value>
+            <value name="ModSuf">Modal Suffix</value>
+            <value name="InflSuf">Inflectional Suffix</value>
+            <value name="ExtSuf">Extensional Suffix</value>
+            <value name="Pref">Prefix</value>
+          </group>
+          <group name="CONJUNCTION" button_number="5">
+            Conjunctions
+            <value name="SubConj">Subordinating Conjunction</value>
+            <value name="CoConj">Co-ordinating Conjunction</value>
+          </group>
+          <group name="INTERROGATIVES" button_number="5">
+            Interrogatives
+            <value name="Depdt">Dependent Interrogative</value>
+            <value name="Indepdt">Independent Interrogative</value>
+          </group>
+          <group name="The Rest" button_number="5">
+            The Rest
+            <value name="Partcl">Particle</value>
+            <value name="Prep">Preposition</value>
+            <value name="Det">Determiner</value>
+            <value name="Num">Numeral</value>
+            <value name="Adj">Adjective</value>
+            <value name="Adv">Adverb</value>
+            <value name="Interj">Interjection</value>
+            <value name="Encl">Enclitic</value>
+            <value name="Fw">Foreign Word</value>
+            <value name="Quant">Quantifier</value>
+          </group>
+        </alternative>
+      </attribute>
+    </annotation>
+  </language>
+  <language name="neutral">
+    <multi_attributed_annotation name="character" colourfrom="polarity">
+      <alternative name="NCSR" button_number="2">
+        <attribute name="entity_spans" type="otherspans" />
+        <attribute name="character" type="spansmall">Character:</attribute>
+        <attribute name="polarity" type="buttonsprevspan" sort="false" button_number="3" required="1">
+          Overal Character Polarity:
+          <value name="+1" background="green" foreground="black" compound="none" image="PolarityPositive">positive</value>
+          <value name="0" background="yellow" foreground="black" compound="none" image="PolarityNeutral">neutral</value>
+          <value name="-1" background="red" compound="none" image="PolarityNegative">negative</value>
+        </attribute>
+        <attribute name="c_role" type="buttonsrow" sort="false" button_number="3" required="1" editable="0">
+          Character Role:
+          <value name="protagonist">protagonist</value>
+          <value name="antagonist">antagonist</value>
+          <value name="minor">minor</value>
+        </attribute>
+        <attribute name="seg_title" type="title">Segments</attribute>
+        <attribute name="segment1" type="spansmall">Segment 1:</attribute>
+        <attribute name="segment1_p" type="buttonsprevspan" sort="false" button_number="3" required="0">
+          Segment 1 Polarity:
+          <value name="+1" background="green" foreground="black" compound="none" image="PolarityPositive">positive</value>
+          <value name="0" background="yellow" foreground="black" compound="none" image="PolarityNeutral">neutral</value>
+          <value name="-1" background="red" compound="none" image="PolarityNegative">negative</value>
+        </attribute>
+        <attribute name="segment2" type="spansmall">Segment 2:</attribute>
+        <attribute name="segment2_p" type="buttonsprevspan" sort="false" button_number="3" required="0">
+          Segment 2 Polarity:
+          <value name="+1" background="green" foreground="black" compound="none" image="PolarityPositive">positive</value>
+          <value name="0" background="yellow" foreground="black" compound="none" image="PolarityNeutral">neutral</value>
+          <value name="-1" background="red" compound="none" image="PolarityNegative">negative</value>
+        </attribute>
+        <attribute name="segment3" type="spansmall">Segment 3:</attribute>
+        <attribute name="segment3_p" type="buttonsprevspan" sort="false" button_number="3" required="0">
+          Segment 3 Polarity:
+          <value name="+1" background="green" foreground="black" compound="none" image="PolarityPositive">positive</value>
+          <value name="0" background="yellow" foreground="black" compound="none" image="PolarityNeutral">neutral</value>
+          <value name="-1" background="red" compound="none" image="PolarityNegative">negative</value>
+        </attribute>
+        <attribute name="segment4" type="spansmall">Segment 4:</attribute>
+        <attribute name="segment4_p" type="buttonsprevspan" sort="false" button_number="3" required="0">
+          Segment 4 Polarity:
+          <value name="+1" background="green" foreground="black" compound="none" image="PolarityPositive">positive</value>
+          <value name="0" background="yellow" foreground="black" compound="none" image="PolarityNeutral">neutral</value>
+          <value name="-1" background="red" compound="none" image="PolarityNegative">negative</value>
+        </attribute>
+        <attribute name="segment5" type="spansmall">Segment 5:</attribute>
+        <attribute name="segment5_p" type="buttonsprevspan" sort="false" button_number="3" required="0">
+          Segment 5 Polarity:
+          <value name="+1" background="green" foreground="black" compound="none" image="PolarityPositive">positive</value>
+          <value name="0" background="yellow" foreground="black" compound="none" image="PolarityNeutral">neutral</value>
+          <value name="-1" background="red" compound="none" image="PolarityNegative">negative</value>
+        </attribute>
+        <attribute name="segment6" type="spansmall">Segment 6:</attribute>
+        <attribute name="segment6_p" type="buttonsprevspan" sort="false" button_number="3" required="0">
+          Segment 6 Polarity:
+          <value name="+1" background="green" foreground="black" compound="none" image="PolarityPositive">positive</value>
+          <value name="0" background="yellow" foreground="black" compound="none" image="PolarityNeutral">neutral</value>
+          <value name="-1" background="red" compound="none" image="PolarityNegative">negative</value>
+        </attribute>
+        <attribute name="segment7" type="spansmall">Segment 7:</attribute>
+        <attribute name="segment7_p" type="buttonsprevspan" sort="false" button_number="3" required="0">
+          Segment 7 Polarity:
+          <value name="+1" background="green" foreground="black" compound="none" image="PolarityPositive">positive</value>
+          <value name="0" background="yellow" foreground="black" compound="none" image="PolarityNeutral">neutral</value>
+          <value name="-1" background="red" compound="none" image="PolarityNegative">negative</value>
+        </attribute>
+        <attribute name="segment8" type="spansmall">Segment 8:</attribute>
+        <attribute name="segment8_p" type="buttonsprevspan" sort="false" button_number="3" required="0">
+          Segment 8 Polarity:
+          <value name="+1" background="green" foreground="black" compound="none" image="PolarityPositive">positive</value>
+          <value name="0" background="yellow" foreground="black" compound="none" image="PolarityNeutral">neutral</value>
+          <value name="-1" background="red" compound="none" image="PolarityNegative">negative</value>
+        </attribute>
+        <attribute name="segment9" type="spansmall">Segment 9:</attribute>
+        <attribute name="segment9_p" type="buttonsprevspan" sort="false" button_number="3" required="0">
+          Segment 9 Polarity:
+          <value name="+1" background="green" foreground="black" compound="none" image="PolarityPositive">positive</value>
+          <value name="0" background="yellow" foreground="black" compound="none" image="PolarityNeutral">neutral</value>
+          <value name="-1" background="red" compound="none" image="PolarityNegative">negative</value>
+        </attribute>
+        <attribute name="segment10" type="spansmall">Segment 10:</attribute>
+        <attribute name="segment10_p" type="buttonsprevspan" sort="false" button_number="3" required="0">
+          Segment 10 Polarity:
+          <value name="+1" background="green" foreground="black" compound="none" image="PolarityPositive">positive</value>
+          <value name="0" background="yellow" foreground="black" compound="none" image="PolarityNeutral">neutral</value>
+          <value name="-1" background="red" compound="none" image="PolarityNegative">negative</value>
+        </attribute>
+
+        <attribute name="modified_by_user" type="label">Modified By:</attribute>
+      </alternative>
+    </multi_attributed_annotation>
+    <multi_attributed_annotation name="argument+polarity" colourfrom="polarity">
+      <alternative name="NOMAD" button_number="1">
+        <attribute name="arg_title" type="title">Argument</attribute>
+        <attribute name="claim" type="span2" required="0">Claim:</attribute>
+        <attribute name="support" type="span2" required="1">Support:</attribute>
+
+        <attribute name="modelid" type="combobox" valuessource="external" editable="false" required="1">Model Argument:</attribute>
+        <attribute name="polarity" type="buttons" sort="false" button_number="5" required="1">
+          Polarity:
+          <value name="-5" colour="hue_luminance red 5 0">-5</value>
+          <value name="-4" colour="hue_luminance red 5 1">-4</value>
+          <value name="-3" colour="hue_luminance red 5 2">-3</value>
+          <value name="-2" colour="hue_luminance red 5 3">-2</value>
+          <value name="-1" colour="hue_luminance red 5 4">-1</value>
+          <value name="0" background="yellow" foreground="black" columnspan="5">0</value>
+          <value name="+1" colour="hue_luminance green 5 4">+1</value>
+          <value name="+2" colour="hue_luminance green 5 3">+2</value>
+          <value name="+3" colour="hue_luminance green 5 2">+3</value>
+          <value name="+4" colour="hue_luminance green 5 1">+4</value>
+          <value name="+5" colour="hue_luminance green 5 0">+5</value>
+        </attribute>
+        <attribute name="ent_title" type="title">Argument Entities</attribute>
+        <attribute name="entity1" type="spansmall">Entity 1:</attribute>
+        <attribute name="entity2" type="spansmall">Entity 2:</attribute>
+        <attribute name="entity3" type="spansmall">Entity 3:</attribute>
+
+        <attribute name="modified_by_user" type="label">Modified By:</attribute>
+      </alternative>
+      <alternative name="Simple" button_number="1">
+        <attribute name="arg_title" type="title">Argument</attribute>
+        <attribute name="claim" type="span2" required="1">Claim:</attribute>
+        <attribute name="support" type="span2" required="0">Support 1:</attribute>
+        <attribute name="support2" type="span2" required="0">Support 2:</attribute>
+        <attribute name="support3" type="span2" required="0">Support 3:</attribute>
+
+        <attribute name="polarity" type="buttons" sort="false" button_number="5" required="1">
+          Polarity:
+          <value name="-5" colour="hue_luminance red 5 0">-5</value>
+          <value name="-4" colour="hue_luminance red 5 1">-4</value>
+          <value name="-3" colour="hue_luminance red 5 2">-3</value>
+          <value name="-2" colour="hue_luminance red 5 3">-2</value>
+          <value name="-1" colour="hue_luminance red 5 4">-1</value>
+          <value name="0" background="yellow" foreground="black" columnspan="5">0</value>
+          <value name="+1" colour="hue_luminance green 5 4">+1</value>
+          <value name="+2" colour="hue_luminance green 5 3">+2</value>
+          <value name="+3" colour="hue_luminance green 5 2">+3</value>
+          <value name="+4" colour="hue_luminance green 5 1">+4</value>
+          <value name="+5" colour="hue_luminance green 5 0">+5</value>
+        </attribute>
+        <attribute name="ent_title" type="title">Argument Entities</attribute>
+        <attribute name="entity1" type="spansmall">Entity 1:</attribute>
+        <attribute name="entity2" type="spansmall">Entity 2:</attribute>
+        <attribute name="entity3" type="spansmall">Entity 3:</attribute>
+
+        <attribute name="modified_by_user" type="label">Modified By:</attribute>
+      </alternative>
+    </multi_attributed_annotation>
+    <multi_attributed_annotation name="polarity">
+      <alternative name="NOMAD" button_number="1">
+        <attribute name="op_title" type="title">Opinion</attribute>
+        <attribute name="opinion_scope" type="spantext8" required="1">Opinion Scope:</attribute>
+        <attribute name="opinion_target" required="1">Opinion Target:</attribute>
+        <attribute name="opinion_target_type" editable="false" required="0">
+          Target Type:
+          <value name="law">Law</value>
+          <value name="location">Location</value>
+          <value name="oranisation">Organization</value>
+          <value name="person">Person</value>
+          <value name="other">Other</value>
+        </attribute>
+        <attribute name="opinion" type="spantext8" required="1">Opinion:</attribute>
+        <attribute name="opinion_type" editable="false" required="1">
+          Opinion Type:
+          <value name="comment">Comment</value>
+          <value name="proposal">Proposal</value>
+        </attribute>
+        <attribute name="opinion_polarity" editable="false" required="1">
+          Polarity:
+          <value name="positive">Positive</value>
+          <value name="neutral">Neutral</value>
+          <value name="negative">Negative</value>
+        </attribute>
+        <attribute name="arg_title" type="title">Argument</attribute>
+        <attribute name="argument" type="spantext8">Argument:</attribute>
+        <attribute name="argument_category" valuescmd="::schema_update" valueupdatecmd="::schema_value_set">
+          Type:
+          <value name="example">Example</value>
+          <value name="counter_example">Counter Example</value>
+          <value name="analogy">Analogy</value>
+          <value name="reference_to_authority">Reference to Authority</value>
+        </attribute>
+        <attribute name="modified_by_user" type="label">Modified By:</attribute>
+      </alternative>
+    </multi_attributed_annotation>
+    <annotation name="aspect|polarity">
+      <attribute name="type">
+        <alternative name="Generic">
+          <group name="Aspect" button_number="5">
+            Aspect:
+            <value name="generic">Generic</value>
+          </group>
+          <group name="Polarity" type="buttons" sort="false" button_number="5">
+            Polarity:
+            <value name="-5" colour="hue_luminance red 5 0">-5</value>
+            <value name="-4" colour="hue_luminance red 5 1">-4</value>
+            <value name="-3" colour="hue_luminance red 5 2">-3</value>
+            <value name="-2" colour="hue_luminance red 5 3">-2</value>
+            <value name="-1" colour="hue_luminance red 5 4">-1</value>
+            <value name="0" background="yellow" foreground="black" columnspan="5">0</value>
+            <value name="+1" colour="hue_luminance green 5 4">+1</value>
+            <value name="+2" colour="hue_luminance green 5 3">+2</value>
+            <value name="+3" colour="hue_luminance green 5 2">+3</value>
+            <value name="+4" colour="hue_luminance green 5 1">+4</value>
+            <value name="+5" colour="hue_luminance green 5 0">+5</value>
+          </group>
+        </alternative>
+      </attribute>
+    </annotation>
+    <multi_attributed_annotation name="aspect+polarity" colourfrom="opinion_polarity">
+      <alternative name="Generic">
+        <attribute name="aspect" required="1">Aspect:</attribute>
+        <attribute name="opinion_polarity" type="buttons" sort="false" editable="false" button_number="3" required="1">
+          Polarity:
+          <value name="positive" colour="hue_luminance green 5 4">Positive</value>
+          <value name="neutral" colour="hue_luminance red 5 4">Neutral</value>
+          <value name="negative" background="yellow" foreground="black">Negative</value>
+        </attribute>
+      </alternative>
+      <alternative name="Games">
+        <attribute name="aspect" required="1">Aspect:</attribute>
+        <attribute name="type" type="buttons" button_number="4">
+          Aspect:
+          <value name="gameplay">Gameplay</value>
+          <value name="general">General</value>
+          <value name="graphics">Graphics</value>
+          <value name="music">Music</value>
+          <value name="replayability">Replayability</value>
+          <value name="story">Story</value>
+          <value name="other">Other</value>
+          <value name="polarity">Polarity Segment</value>
+        </attribute>
+        <attribute name="opinion_polarity" type="buttons" sort="false" editable="false" button_number="3">
+          Polarity:
+          <value name="positive" colour="hue_luminance green 5 4">Positive</value>
+          <value name="neutral" colour="hue_luminance red 5 4">Neutral</value>
+          <value name="negative" background="yellow" foreground="black">Negative</value>
+        </attribute>
+      </alternative>
+    </multi_attributed_annotation>
+    <annotation name="argument">
+      <attribute name="type">
+        <alternative name="Generic">
+          <group name="ADU" button_number="2" sort="false">
+            <value name="major_claim" label="Major Claim">Major Claim</value>
+            <value name="claim" label="Claim">Claim</value>
+            <value name="premise" label="Premise">Premise</value>
+          </group>
+          <group name="relations" button_number="2">
+            <value type="relation" name="attack" label="Attack" annotation="argument_relation" attribute="type" args_num="2" annotation-arg1="argument" annotation-attribute-arg1="type" annotation-values-arg1="major_claim claim premise" annotation-arg2="argument" annotation-attribute-arg2="type" annotation-values-arg2="major_claim claim premise" columnspan="2">Attack</value>
+            <value type="relation" name="support" label="Support" annotation="argument_relation" attribute="type" args_num="2" annotation-arg1="argument" annotation-attribute-arg1="type" annotation-values-arg1="major_claim claim premise" annotation-arg2="argument" annotation-attribute-arg2="type" annotation-values-arg2="major_claim claim premise" columnspan="2">Support</value>
+          </group>
+          <group name="stance">
+            <value type="relation" name="against" label="Against" annotation="argument_relation" attribute="type" args_num="2" annotation-arg1="argument" annotation-attribute-arg1="type" annotation-values-arg1="major_claim claim premise" annotation-arg2="argument" annotation-attribute-arg2="type" annotation-values-arg2="major_claim claim premise" columnspan="2">Against</value>
+            <value type="relation" name="for" label="For/Pro" annotation="argument_relation" attribute="type" args_num="2" annotation-arg1="argument" annotation-attribute-arg1="type" annotation-values-arg1="major_claim claim premise" annotation-arg2="argument" annotation-attribute-arg2="type" annotation-values-arg2="major_claim claim premise" columnspan="2">For/Pro</value>
+          </group>
+        </alternative>
+        <alternative name="Mixed Argument-Stance Relations">
+          <group name="ADU" button_number="2" sort="false" autoann-token-classifier="http://localhost:8080/predict?access_token=ellogon">
+            <value name="major_claim" label="Major Claim">Major Claim</value>
+            <value name="claim" label="Claim">Claim</value>
+            <value name="premise" label="Premise">Premise</value>
+          </group>
+          <group name="Relations" button_number="2" sort="false">
+            <value type="relation" name="support" label="Support" annotation="argument_relation" attribute="type" args_num="2" annotation-arg1="argument" annotation-attribute-arg1="type" annotation-values-arg1="premise claim" annotation-arg2="argument" annotation-attribute-arg2="type" annotation-values-arg2="claim" label-arg1="Source" label-arg2="Target" columnspan="2">Support</value>
+            <value type="relation" name="attack" label="Attack" annotation="argument_relation" attribute="type" args_num="2" annotation-arg1="argument" annotation-attribute-arg1="type" annotation-values-arg1="premise claim" annotation-arg2="argument" annotation-attribute-arg2="type" annotation-values-arg2="claim" label-arg1="Source" label-arg2="Target" columnspan="2">Attack</value>
+            <value type="relation" name="support-for" label="Support / For/Pro" annotation="argument_relation" attribute="type" args_num="2" annotation-arg1="argument" annotation-attribute-arg1="type" annotation-values-arg1="premise claim" annotation-arg2="argument" annotation-attribute-arg2="type" annotation-values-arg2="major_claim" label-arg1="Source" label-arg2="Target" columnspan="2">Support / For/Pro</value>
+            <value type="relation" name="attack-against" label="Attack / Against" annotation="argument_relation" attribute="type" args_num="2" annotation-arg1="argument" annotation-attribute-arg1="type" annotation-values-arg1="premise claim" annotation-arg2="argument" annotation-attribute-arg2="type" annotation-values-arg2="major_claim" label-arg1="Source" label-arg2="Target" columnspan="2">Attack / Against</value>
+            <value type="relation" name="support-against" label="Support / Against" annotation="argument_relation" attribute="type" args_num="2" annotation-arg1="argument" annotation-attribute-arg1="type" annotation-values-arg1="premise claim" annotation-arg2="argument" annotation-attribute-arg2="type" annotation-values-arg2="major_claim" label-arg1="Source" label-arg2="Target" columnspan="2">Support / Against</value>
+            <value type="relation" name="attack-for" label="Attack / For/Pro" annotation="argument_relation" attribute="type" args_num="2" annotation-arg1="argument" annotation-attribute-arg1="type" annotation-values-arg1="premise claim" annotation-arg2="argument" annotation-attribute-arg2="type" annotation-values-arg2="major_claim" label-arg1="Source" label-arg2="Target" columnspan="2">Attack / For/Pro</value>
+          </group>
+        </alternative>
+      </attribute>
+    </annotation>
+    <annotation name="VAST_value">
+      <attribute name="type">
+        <alternative name="Generic" button_number="4" enable_custom_values="true">
+          <group name="I. KEY / MAIN CONCEPTS / VALUES / IDEAS" sort="true">
+            <value name="freedom" label="Freedom">Freedom</value>
+            <value name="democracy" label="Democracy">Democracy</value>
+            <value name="justice" label="Justice">Justice</value>
+            <value name="dialogue" label="Dialogue">Dialogue</value>
+            <value name="human_rights" label="Human Rights">Human Rights</value>
+            <value name="human_dignity" label="Human Dignity">Human Dignity</value>
+            <value name="equality" label="Equality">Equality</value>
+            <value name="reason" label="Reason">Reason</value>
+            <value name="peace" label="Peace">Peace</value>
+            <value name="progress" label="Progress">Progress</value>
+          </group>
+          <group name="II. EXPANDED / VARIOUS CONTENT" sort="true">
+            <value name="demonstrable_truth" label="Demonstrable Truth">Demonstrable Truth</value>
+            <value name="free_thinking" label="Free Thinking">Free Thinking</value>
+            <value name="female_speech" label="Female Speech">Female Speech</value>
+            <value name="democratic_state_equality" label="Democratic State\nand Equality" rowspan="2">Democratic State and Equality</value>
+            <value name="female_emancipation_and_autonomy" label="Female Emancipation\nand Autonomy" rowspan="2">Female Emancipation and Autonomy</value>
+            <value name="respect_majority_decisions" label="Respect of Majority\nDecisions" rowspan="2">Respect of Majority Decisions</value>
+            <value name="freedom_of_expression" label="Freedom of Expression">Freedom of Expression</value>
+            <value name="gender_equality" label="Gender Equality">Gender Equality</value>
+            <value name="power_of_motherhood" label="Power of Motherhood">Power of Motherhood</value>
+            <value name="reason_political_correctness" label="Reason/Political Correctness">Reason/Political Correctness</value>
+            <value name="rule_of_law" label="Rule of Law">Rule of Law</value>
+            <value name="social_altruism_and_self_sacrifice" label="Social Altruism and\nSelf-sacrifice" rowspan="2">Social Altruism and Self-sacrifice</value>
+            <value name="solidarity" label="Solidarity">Solidarity</value>
+            <value name="tolerance" label="Tolerance">Tolerance</value>
+            <value name="non_discrimination" label="Non-Discrimination">Non-Discrimination</value>
+            <value name="research_freedom" label="Research Freedom">Research Freedom</value>
+            <value name="science_for_public_good" label="Science for Public Good">Science for Public Good</value>
+            <value name="cooperation" label="Cooperation">Cooperation</value>
+            <value name="truth" label="Truth">Truth</value>
+            <value name="knowledge" label="Knowledge">Knowledge</value>
+            <value name="evolution" label="Evolution">Evolution</value>
+            <value name="evidence" label="Evidence">Evidence</value>
+            <value name="experimentation" label="Experimentation">Experimentation</value>
+            <value name="objectivity" label="Objectivity">Objectivity</value>
+            <value name="validation" label="Validation">Validation</value>
+            <value name="integrity" label="Integrity">Integrity</value>
+            <value name="reliableness" label="Reliableness">Reliableness</value>
+            <value name="empathy" label="Empathy">Empathy</value>
+            <value name="loyalty" label="Loyalty">Loyalty</value>
+            <value name="reward" label="Reward">Reward</value>
+            <value name="punishment" label="Punishment">Punishment</value>
+            <value name="kindness" label="Kindness">Kindness</value>
+            <value name="social_political_function_of_art" label="Social/Political Function of Art">Social/Political Function of Art</value>
+            <value name="love_among_siblings" label="Love among Siblings">Love among Siblings</value>
+            <value name="love_marital_love" label="Love/Marital Love">Love/Marital Love</value>
+            <value name="piety" label="Piety">Piety</value>
+            <value name="curiosity" label="Curiosity">Curiosity</value>
+            <value name="ingenuity" label="Ingenuity">Ingenuity</value>
+            <value name="purity" label="Purity">Purity</value>
+            <value name="honesty" label="Honesty">Honesty</value>
+            <value name="generosity" label="Generosity">Generosity</value>
+          </group>
+          <group name="III. OPPOSITE CONCEPTS / CONCEPTUAL COUPLES / BIPOLARITIES" sort="true">
+            <value name="appearance_vs_reality" columnspan="2" label="Appearance vs Reality">Appearance vs Reality</value>
+            <value name="exclusion_vs_respect_of_minorities" columnspan="2" rowspan="2" label="Exclusion vs Respect of Minorities\nand Marginalised Communities">Exclusion vs Respect of Minorities and Marginalised Communities</value>
+            <value name="fate/destiny_vs_individual_law" columnspan="2" label="Fate/Destiny vs Individual Law">Fate/Destiny vs Individual Law</value>
+            <value name="imperialist_civil_war_peace" columnspan="2" rowspan="2" label="Imperialist/Civil War vs Local\nand International Peace">Imperialist/Civil War vs Local and International Peace</value>
+            <value name="law_of_god" columnspan="2" label="Law of Gods/States">Law of Gods/States vs Individual Law</value>
+            <value name="female_oppression_and_devaluation_vs_female_emancipation_and_autonomy" columnspan="2" rowspan="2" label="Female Oppression and Devaluation vs\nFemale Emancipation and Autonomy">Female Oppression and Devaluation vs Female Emancipation and Autonomy</value>
+            <value name="gender_equality_vs_submission" columnspan="2" label="Gender Equality vs Submission">Gender Equality vs Submission</value>
+            <value name="rivalry_vs_solidarity" columnspan="2" label="Rivalry vs Solidarity">Rivalry vs Solidarity</value>
+            <value name="justice/fairness_vs_unfairness/abuse_of_power" columnspan="2" rowspan="2" label="Justice/Fairness vs\nUnfairness/Abuse of Power">Justice/Fairness vs Unfairness/Abuse of Power</value>
+            <value name="freedom_vs_slavery" columnspan="2" label="Freedom vs Slavery">Freedom vs Slavery</value>
+            <value name="reason/political_correctness_vs_political_arbitrariness" columnspan="2" rowspan="2" label="Reason/Political Correctness vs\nPolitical Arbitrariness">Reason/Political Correctness vs Political Arbitrariness</value>
+            <value name="demonstration_vs_revelation" columnspan="2" label="Demonstration vs Revelation">Demonstration vs Revelation</value>
+            <value name="evidence_vs_authority" columnspan="2" label="Evidence vs Authority">Evidence vs Authority</value>
+            <value name="autonomy_vs_heteronomy" columnspan="2" label="Autonomy vs Heteronomy">Autonomy vs Heteronomy</value>
+            <value name="clarity_vs_ambiguity" columnspan="2" label="Clarity vs Ambiguity">Clarity vs Ambiguity</value>
+            <value name="transparency_vs_secrecy" columnspan="2" label="Transparency vs Secrecy">Transparency vs Secrecy</value>
+            <value name="truthfulness_vs_mendacity" columnspan="2" label="Truthfulness vs Mendacity">Truthfulness vs Mendacity</value>
+            <value name="pluralism_vs_monism" columnspan="2" label="Pluralism vs Monism">Pluralism vs Monism</value>
+            <value name="freedom_of_speech_vs_censorship" columnspan="2" label="Freedom of Speech vs Censorship">Freedom of Speech vs Censorship</value>
+            <value name="tradition_vs_innovation" columnspan="2" label="Tradition vs Innovation">Tradition vs Innovation</value>
+            <value name="speculation_vs_observation" columnspan="2" label="Speculation vs Observation">Speculation vs Observation</value>
+            <value name="rivalry_vs_cooperation" columnspan="2" label="Rivalry vs Cooperation">Rivalry vs Cooperation</value>
+            <value name="violence_vs_kindness" columnspan="2" label="Violence vs Kindness">Violence vs Kindness</value>
+            <value name="justice_vs_injustice" columnspan="2" label="Justice vs Injustice">Justice vs Injustice</value>
+            <value name="good_vs_evil" columnspan="2" label="Good vs Evil">Good vs Evil</value>
+            <value name="right_vs_wrong" columnspan="2" label="Right vs Wrong">Right vs Wrong</value>
+            <value name="punishment_vs_reward" columnspan="2" label="Punishment vs Reward">Punishment vs Reward</value>
+            <value name="deceptiveness_vs_honesty" columnspan="2" label="Deceptiveness vs Honesty">Deceptiveness vs Honesty</value>
+            <value name="gratitude_vs_ingratitude" columnspan="2" label="Gratitude vs Ingratitude">Gratitude vs Ingratitude</value>
+            <value name="vengeance_vs_forgiveness" columnspan="2" label="Vengeance vs Forgiveness">Vengeance vs Forgiveness</value>
+            <value name="jealousy_vs_selflessness" columnspan="2" label="Jealousy vs Selflessness">Jealousy vs Selflessness</value>
+            <value name="generosity_vs_greed" columnspan="2" label="Generosity vs Greed">Generosity vs Greed</value>
+            <value name="trust_vs_distrust" columnspan="2" label="Trust vs Distrust">Trust vs Distrust</value>
+            <value name="loyalty_vs_disloyalty" columnspan="2" label="Loyalty vs Disloyalty">Loyalty vs Disloyalty</value>
+            <value name="arrogance_vs_modesty" columnspan="2" label="Arrogance vs Modesty">Arrogance vs Modesty</value>
+            <value name="obedience_vs_defiance" columnspan="2" label="Obedience vs Defiance">Obedience vs Defiance</value>
+            <value name="sadness_vs_happiness" columnspan="2" label="Sadness vs Happiness">Sadness vs Happiness</value>
+            <value name="shame_vs_pride" columnspan="2" label="Shame vs Pride">Shame vs Pride</value>
+            <value name="individual_vs_collective" columnspan="2" label="Individual vs Collective">Individual vs Collective</value>
+            <value name="guilt_vs_innocence" columnspan="2" label="Guilt vs Innocence">Guilt vs Innocence</value>
+            <value name="male_vs_female" columnspan="2" label="Male vs Female">Male vs Female</value>
+            <value name="faithful_vs_unfaithful" columnspan="2" label="Faithful vs Unfaithful">Faithful vs Unfaithful</value>
+          </group>
+          <!--<group name="II. EXPANDED / VARIOUS CONTENT" sort="true">
+            <value name="autonomy"                                 label="Autonomy">Autonomy</value>
+            <value name="citizen_rights"                           label="Citizen Rights">Citizen Rights</value>
+            <value name="dialectics"                               label="Dialectics">Dialectics</value>
+            <value name="fairness"                                 label="Fairness">Fairness</value>
+            <value name="certainty"                                label="Certainty">Certainty</value>
+          </group>
+          <group name="Specialisations" sort="true">
+            <value name="family_autonomy"                          label="Family autonomy">Family autonomy</value>
+            <value name="individual_will_responsibility_autonomy"  label="Individual will/responsibility/autonomy">Individual will/responsibility/autonomy</value>
+            <value name="respect_of_human_dignity"                 label="Respect of Human Dignity">Respect of Human Dignity</value>
+            <value name="respect_of_human_rights"                  label="Respect of Human Rights">Respect of Human Rights</value>
+            <value name="respect_of_the_opponent"                  label="Respect of the opponent">Respect of the opponent</value>
+            <value name="wifes_loyalty_certainty"                  label="Wife's Loyalty/Certainty">Wife's Loyalty/Certainty</value>
+          </group>
+          <group name="Bipolarities" sort="true">
+            <value name="fate_destiny"                             label="Fate/destiny">Fate/destiny vs individual action</value>
+          </group>
+          <group name="Entities" sort="true">
+          </group>-->
+          <group type="document_attributes" name="Document Metadata" button_number="1" sort="false">
+            <value type="paragraph" name="title">1. Document Title</value>
+            <value type="paragraph" name="synopsis">2. Document Synopsis</value>
+            <value type="paragraph" name="relations_conditions_bipolarities">3. Relations/Conditions/Bipolarities</value>
+            <value type="paragraph" name="ideas_values_messages">4. Ideas/Values/Messages</value>
+            <value type="paragraph" name="timeless_values">5. Emblematic/Archetypical Timeless Values</value>
+            <value type="paragraph" name="entities">6. Entities/persons</value>
+            <value type="paragraph" name="interpretation">7. Interpretation/Content</value>
+            <value type="paragraph" name="citations">8. Relevant values in other (similar or not) texts</value>
+            <value type="paragraph" name="comments">9. Comments</value>
+          </group>
+        </alternative>
+      </attribute>
+    </annotation>
+   <annotation name="AI_ethics_values">
+     <attribute name="type">
+       <alternative name="Generic" button_number="4" enable_custom_values="true">
+         <group name="I. EU Values" sort="true">
+           <value name="freedom"       label="Freedom">Freedom</value>
+           <value name="democracy"     label="Democracy">Democracy</value>
+           <value name="rule_of_law"   label="Rule of Law">Rule of Law</value>
+           <value name="human_rights"  label="Human Rights">Human Rights</value>
+           <value name="human_dignity" label="Human Dignity">Human Dignity</value>
+           <value name="equality"      label="Equality">Equality</value>
+         </group>
+         <group name="II. SCHWARTZ Value Categories" sort="true">
+           <value name="achievement"               columnspan="2" label="Achievement">Achievement</value>
+           <value name="benevolence_dependability" columnspan="2" label="Benevolence Dependability">Benevolence Dependability</value>
+           <value name="benevolence_caring"        columnspan="2" label="Benevolence Caring">Benevolence Caring</value>
+           <value name="conformity_interpersonal"  columnspan="2" label="Conformity Interpersonal">Conformity Interpersonal</value>
+           <value name="conformity_rules"          columnspan="2" label="Conformity Rules">Conformity Rules</value>
+           <value name="face"                      columnspan="2" label="Face">Face</value>
+           <value name="hedonism"                  columnspan="2" label="Hedonism">Hedonism</value>
+           <value name="humility"                  columnspan="2" label="Humility">Humility</value>
+           <value name="power_dominance"           columnspan="2" label="Power Dominance">Power Dominance</value>
+           <value name="power_resources"           columnspan="2" label="Power Resources">Power Resources</value>
+           <value name="security_personal"         columnspan="2" label="Security Personal">Security Personal</value>
+           <value name="security_societal"         columnspan="2" label="Security Societal">Security Societal</value>
+           <value name="self_direction_action"     columnspan="2" label="Self-direction action">Self-direction action</value>
+           <value name="self_direction_thought"    columnspan="2" label="Self-direction thought">Self-direction thought</value>
+           <value name="stimulation"               columnspan="2" label="Stimulation">Stimulation</value>
+           <value name="tradition"                 columnspan="2" label="Tradition">Tradition</value>
+           <value name="universalism_concern"      columnspan="2" label="Universalism Concern">Universalism Concern</value>
+           <value name="universalism_nature"       columnspan="2" label="Universalism Nature">Universalism Nature</value>
+           <value name="universalism_tolerance"    columnspan="2" label="Universalism Tolerance">Universalism Tolerance</value>
+         </group>
+         <group name="IV. AI Ethics Dimensions" sort="true">
+           <value name="human_agency_and_autonomy"         columnspan="2" label="Human agency \nand autonomy">Human agency and autonomy</value>
+           <value name="awareness_of_interaction"          columnspan="2" label="Awareness of interaction">Awareness of interaction</value>
+           <value name="overreliance"                      columnspan="2" label="Overreliance">Overreliance</value>
+           <value name="social_interaction"                columnspan="2" label="Social Interaction">Social Interaction</value>
+           <value name="technical_robustness"              columnspan="2" label="Technical Robustness">Technical Robustness</value>
+           <value name="human_oversight"                   columnspan="2" label="Human Oversight">Human Oversight</value>
+           <value name="resilience_to_attack_and_security" columnspan="2" label="Resilience to attack \nand security">Resilience to attack and security</value>
+           <value name="general_safety"                    columnspan="2" label="General Safety">General Safety</value>
+           <value name="accuracy"                          columnspan="2" label="Accuracy">Accuracy</value>
+           <value name="reliability"                       columnspan="2" label="Reliability">Reliability</value>
+           <value name="fall_back_plans"                   columnspan="2" label="Fall back plans">Fall back plans</value>
+           <value name="reproducibility"                   columnspan="2" label="Reproducibility">Reproducibility</value>
+           <value name="privacy"                           columnspan="2" label="Privacy">Privacy</value>
+           <value name="data_governance"                   columnspan="2" label="Data Governance">Data Governance</value>
+           <value name="transparency"                      columnspan="2" label="Transparency">Transparency</value>
+           <value name="traceability"                      columnspan="2" label="Traceability">Traceability</value>
+           <value name="explainability"                    columnspan="2" label="Explainability">Explainability</value>
+           <value name="communication"                     columnspan="2" label="Communication">Communication</value>
+           <value name="avoidance_of_bias"                 columnspan="2" label="Avoidance of Unfair Bias">Avoidance of Unfair Bias</value>
+           <value name="access_uni_design"                 columnspan="2" label="Accessibility \nand Universal Design">Accessibility and Universal Design</value>
+           <value name="stakeholder_participation"         columnspan="2" label="Stakeholder Participation">Stakeholder Participation</value>
+           <value name="environmental_well_being"          columnspan="2" label="Environmental well being">Environmental well being</value>
+           <value name="impact_work"                       columnspan="2" label="Impact on work \nand skills">Impact on work and skills</value>
+           <value name="impact_society"                    columnspan="2" label="Impact on society \nand Democracy">Impact on society and Democracy</value>
+           <value name="accountability"                    columnspan="2" label="Accountability">Accountability</value>
+           <value name="auditability"                      columnspan="2" label="Auditability">Auditability</value>
+           <value name="risk"                              columnspan="2" label="Risk management">Risk management</value>
+         </group>
+         <group type="document_attributes" name="Document Metadata" button_number="1" sort="false">
+           <value type="paragraph" name="title">1. Document Title</value>
+           <value type="paragraph" name="synopsis">2. Document Synopsis</value>
+           <value type="paragraph" name="messages">3. Messages</value>
+           <value type="paragraph" name="timeless_values">4. Values</value>
+           <value type="paragraph" name="ethics_dimensions">5. AI Ethics dimensions</value>
+           <value type="paragraph" name="interpretation">6. Interpretation/Content</value>
+           <value type="paragraph" name="citations">8. Relevant values in other (similar or not) texts</value>
+           <value type="paragraph" name="comments">9. Comments</value>
+         </group>
+       </alternative>
+     </attribute>
+   </annotation>
+   <annotation name="NGUPP">
+	<attribute name="type">
+		<alternative name="struct">
+			<group name="Strutturali" button_number="5" sort="false">
+				<value name="cor" label="Corte e parti">Corte e parti</value>
+				<value name="ant" label="Antefatto">Antefatto</value>
+				<value name="dom" label="Domande">Domande</value>
+				<value name="mot" label="Motivazione">Motivazione</value>
+				<value name="dec" label="Decisione">Decisione</value>
+			</group>
+		</alternative>
+		<alternative name="arg">
+			<group name="ADU" button_number="4" sort="false">
+				<value name="prem_f" label="Premessa Fattuale">Premessa Fattuale</value>
+				<value name="prem_g" label="Premessa Giuridica">Premessa Giuridica</value>
+				<value name="prem_m" label="Premessa Mista">Premessa Mista</value>
+				<value name="concl" label="Conclusione">Conclusione</value>
+			</group>
+			<group name="Relazioni" button_number="2" sort="false">
+				<value type="relation" annotation="argument_relation" attribute="type" args_num="2" annotation-arg1="NGUPP" annotation-attribute-arg1="type" annotation-values-arg1="prem_f prem_g prem_m concl" annotation-arg2="NGUPP" annotation-attribute-arg2="type" annotation-values-arg2="prem_f prem_g prem_m concl" label-arg1="" label-arg2="" name="supp" label="Supporto" columnspan="2">Supporto</value>
+				<value type="relation" annotation="argument_relation" attribute="type" args_num="2" annotation-arg1="NGUPP" annotation-attribute-arg1="type" annotation-values-arg1="prem_f prem_g prem_m concl" annotation-arg2="NGUPP" annotation-attribute-arg2="type" annotation-values-arg2="prem_f prem_g prem_m concl" label-arg1="" label-arg2="" name="cont" label="Contrasto" columnspan="2">Contrasto</value>
+			</group>
+		</alternative>
+	</attribute>
+</annotation>
+  </language>
+</Ellogon_Annotations_Specifications> <!--
+vim:fenc=utf-8
+-->

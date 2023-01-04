@@ -44,6 +44,7 @@ RUN dnf -y install                  \
     python3-six                     \
     python3-pyyaml                  \
     python3-uritemplate             \
+    python3-deepdiff                \
     mysql-connector-python3         \
     mariadb-connector-c-devel
 

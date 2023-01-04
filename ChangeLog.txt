@@ -2,6 +2,7 @@
  * build_all.sh:
  * docker/.dockerignore:
  * docker/conf/requirements.txt:
+ * docker/conf/AnnotationsSpecifications.xml:
  * docker/Dockerfile:
  * docker/env-dist:
  * docker/image_build.sh:
