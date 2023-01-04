@@ -1,10 +1,13 @@
 # import os
 # os.environ["TRANSFORMERS_CACHE"]="/mnt/home_WD_nvme/pepper/cache/transformers";
 #import json
-from transformers import AutoTokenizer, AutoModelForTokenClassification, pipeline
+try:
+    from transformers import AutoTokenizer, AutoModelForTokenClassification, pipeline
+    import torch
+except ImportError as err:
+    print("Django app nlp/pipelines.py: Cannot load modules:", err)
 #from threading import Lock
 #import logging
-import torch
 #import time
 
 def gpu_info():
