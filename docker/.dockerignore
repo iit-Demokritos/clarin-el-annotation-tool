@@ -1,0 +1,10 @@
+clarin-angular/dist
+clarin-angular/documentation
+clarin-angular/.angular
+clarin-angular/.vscode
+backend-django/apache_venv
+backend-django/create-python-venv.sh
+.git/
+.github/
+**/__pycache__
+**/.DS_Store

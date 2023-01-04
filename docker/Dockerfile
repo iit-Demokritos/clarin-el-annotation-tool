@@ -1,7 +1,9 @@
-ARG FEDORA_VERSION="35"
+ARG FEDORA_VERSION="37"
 FROM fedora:${FEDORA_VERSION}
 
 ARG APACHE_RIVET_TAG="3.2.1"
+ARG RL_JSON_TAG="0.11.4"
+
 # ARG ROOT_PASSWORD
 
 ENV container docker
@@ -10,42 +12,44 @@ ENV container docker
 RUN dnf -y update
 
 # Install needed packages...
-RUN dnf -y install               \
-    autoconf                     \
-    automake                     \
-    libtool                      \
-    passwd                       \
-    httpd-devel                  \
-    python3-certbot-apache       \
-    mod_ssl                      \
-    file                         \
-    git                          \
-    svn                          \
-    tcl-devel                    \
-    tdom                         \
-    tcllib                       \
-    npm                          \
-    python3-mod_wsgi             \
-    python3-devel                \
-    python3-pip                  \
-    python-pip-wheel             \
-    python3-mysqlclient          \
-    python3-pymongo              \
-    python3-django               \
-    python3-bcrypt               \
-    python3-beautifulsoup4       \
-    python3-lxml                 \
-    python3-six                  \
-    python3-pyyaml               \
-    python3-uritemplate          \
-    mysql-connector-python3      \
-    mariadb-connector-c-devel    \
-    hugo
+RUN dnf -y install                  \
+    autoconf                        \
+    automake                        \
+    libtool                         \
+    passwd                          \
+    httpd                           \
+    httpd-devel                     \
+    python3-certbot-apache          \
+    mod_ssl                         \
+    file                            \
+    git                             \
+    svn                             \
+    tcl-devel                       \
+    tdom                            \
+    tcllib                          \
+    npm                             \
+    python3-mod_wsgi                \
+    python3-devel                   \
+    python3-pip                     \
+    python3-wheel                   \
+    python3-mysqlclient             \
+    python3-pymongo                 \
+    python3-django                  \
+    python3-django-allauth          \
+    python3-django-rest-framework   \
+    python3-django-extensions       \
+    python3-bcrypt                  \
+    python3-beautifulsoup4          \
+    python3-lxml                    \
+    python3-six                     \
+    python3-pyyaml                  \
+    python3-uritemplate             \
+    mysql-connector-python3         \
+    mariadb-connector-c-devel
 
 RUN pip --disable-pip-version-check install wheel && \
     pip --disable-pip-version-check install \
         django-environ                      \
-        djangorestframework                 \
         djangorestframework-simplejwt       \
         drf-spectacular                     \
         simplejwt                           \
@@ -68,7 +72,11 @@ RUN cd /home/packages/rivet && \
 # Compile & install rl_json library
 RUN cd /home/packages && \
     git clone --recurse-submodules https://github.com/RubyLane/rl_json.git && \
-    cd  /home/packages/rl_json && \
+    echo "Checking RL_JSON version: ${RL_JSON_TAG}" && \
+    cd /home/packages/rl_json && \
+    git -c advice.detachedHead=false checkout tags/${RL_JSON_TAG}
+
+RUN cd /home/packages/rl_json && \
     autoreconf -fi && \
     bash ./configure && \
     make install && \
@@ -92,7 +100,7 @@ RUN cd /opt && \
 
 # Create the apache python virtual env...
 RUN python3 -m venv --system-site-packages /var/www/apache_venv 
-ADD backend-django/requirements.txt /var/www/apache_venv/requirements.txt
+ADD docker/conf/requirements.txt /var/www/apache_venv/requirements.txt
 RUN . /var/www/apache_venv/bin/activate && \
     pip --disable-pip-version-check install wheel && \
     pip --disable-pip-version-check install -r /var/www/apache_venv/requirements.txt
@@ -121,6 +129,9 @@ ADD backend-django /var/www/clarin-el-annotation-tool/backend-django
 #ADD docker/conf/env /var/www/clarin-el-annotation-tool/backend-django/DjangoClarin/.env
 RUN cd /var/www/clarin-el-annotation-tool && \
     bash build_all.sh
+
+# We do not need the Angular UI sources anymore...
+RUN rm -rf /var/www/clarin-el-annotation-tool/clarin-angular
 
 # We open ports 80/443, the default ones for HTTP/HTTPS for Apache server to listen on
 EXPOSE 80 
@@ -164,6 +175,9 @@ COPY docker/conf/docker-entrypoint.sh /usr/local/bin/
 # ENTRYPOINT ["docker-entrypoint.sh"]
 
 CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]
+
+RUN dnf remove -y golang
+RUN dnf clean all
 
 # RUN dnf install -y phpMyAdmin mariadb
 # # Change "localhost" to "mariadb" in config...

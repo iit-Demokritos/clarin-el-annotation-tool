@@ -22,8 +22,6 @@ uritemplate
 drf-spectacular
 newspaper3k
 trafilatura
-transformers
-torch
 django-allauth
 drf-oidc-auth
 #django-oidc-auth

@@ -1,3 +1,12 @@
+04-January-2023 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * build_all.sh:
+ * docker/.dockerignore:
+ * docker/conf/requirements.txt:
+ * docker/Dockerfile:
+ * docker/env-dist:
+ * docker/image_build.sh:
+ * docker/start.sh: Various updates to the docker image build process.
+
 12-December-2022 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/package.json: Updated version to 3.3.2. (Export Annotations
  in Document Inspection).

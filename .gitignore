@@ -33,6 +33,8 @@ backend-django/nlp/__pycache__/
 backend-django/nlp/migrations/__pycache__/
 backend/pass.txt
 clarin-angular/package-lock.json
+clarin-angular/.angular/
+clarin-angular/.vscode/
 docker/conf/env
 docker/conf/mongo-init.js
 docker/env

@@ -18,16 +18,20 @@ if [[ -z "$EMAIL_URL" ]]; then
   exit 1
 fi
 
-cd $SCRIPT_DIR/..
+cd $SCRIPT_DIR
 
 if command -v chcon &> /dev/null
 then
-    chcon -R -u unconfined_u -r object_r -t container_file_t .
+    echo "Setting context container_file_t on dir: \"$SCRIPT_DIR\""
+    chcon -R -u unconfined_u -r object_r -t container_file_t "$SCRIPT_DIR"
 fi
 
 if command -v setsebool &> /dev/null
 then
+    echo "Setting container_manage_cgroup to true..."
+    getsebool container_manage_cgroup
     setsebool -P container_manage_cgroup true
+    getsebool container_manage_cgroup
 fi
 
 if command -v podman-compose &> /dev/null; then
@@ -44,7 +48,7 @@ fi
 
 # Generate conf/mongo-init.js from template...
 if [ "$SCRIPT_DIR/conf/mongo-init-template.js" -nt " $SCRIPT_DIR/conf/mongo-init.js" ]; then
-  echo "Generating conf/env..."
+  echo "Generating conf/mongo-init.js..."
   envsubst < $SCRIPT_DIR/conf/mongo-init-template.js > $SCRIPT_DIR/conf/mongo-init.js
 fi
 

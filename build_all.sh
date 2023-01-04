@@ -26,6 +26,8 @@ fi
 ## Angular 2 UI
 cd $ANGULAR2_DIR
 
+rm -rf ./dist
+
 ## Install modules...
 #rm -rf ./node_modules
 #npm install
@@ -42,13 +44,18 @@ ng build
 
 #rm -rf src/css/clarin.scss
 
+pip install wheel
+pip install django-environ djangorestframework-simplejwt drf-spectacular django-cleanup
+
 ## Copy dist to $DJANGO_STATIC_DIR
 echo "Copying distribution to Django: $DJANGO_STATIC_DIR"
 mkdir -p $DJANGO_STATIC_DIR
 rm -rf $DJANGO_STATIC_DIR/assets $DJANGO_STATIC_DIR/*es2015*.js \
        $DJANGO_STATIC_DIR/*-es5.*.js $DJANGO_STATIC_DIR/favicon.ico \
        $DJANGO_STATIC_DIR/index.html $DJANGO_STATIC_DIR/scripts.*.js \
-       $DJANGO_STATIC_DIR/styles.*.css
+       $DJANGO_STATIC_DIR/main.*.js  $DJANGO_STATIC_DIR/runtime.*.js \
+       $DJANGO_STATIC_DIR/polyfills.*.js $DJANGO_STATIC_DIR/styles.*.css \
+       $DJANGO_STATIC_DIR/*.*.js
 mkdir -p $DJANGO_TEMPLATES_DIR
 cp --force -r dist/$ANGULAR2_PROJECT_NAME/* \
               $DJANGO_STATIC_DIR
@@ -71,5 +78,10 @@ cp --force -r src/css dist/$ANGULAR2_PROJECT_NAME/assets
 ##
 ## Generate site...
 ##
-cd $HUGO_DIR
-bash build.sh
+if [ -d "$HUGO_DIR" ]; then
+  cd $HUGO_DIR
+  bash build.sh
+  if [ -f "build.sh" ]; then
+    bash build.sh
+  fi
+fi
