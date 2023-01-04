@@ -414,7 +414,7 @@ class ReturnStatistics(APIView):
         collections_counter             = 0
         documents_counter               = 0
         collections_shared_byuser_count = 0
-        annotations_shared_counter      = 0
+        collections_shared_counter      = 0
         documents_shared_counter        = 0
         annotations_shared_counter      = 0
         collections_unshared_counter    = 0
