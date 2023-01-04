@@ -32,16 +32,16 @@ if command -v selinuxenabled &> /dev/null; then
     echo "SELInix ENABLED!"
     if command -v chcon &> /dev/null
     then
-	echo "Setting context container_file_t on dir: \"$SCRIPT_DIR\""
+        echo "Setting context container_file_t on dir: \"$SCRIPT_DIR\""
         chcon -R -u unconfined_u -r object_r -t container_file_t "$SCRIPT_DIR"
     fi
     
     if command -v setsebool &> /dev/null
     then
         echo "Setting container_manage_cgroup to true..."
-	getsebool container_manage_cgroup
+        getsebool container_manage_cgroup
         setsebool -P container_manage_cgroup true
-	getsebool container_manage_cgroup
+        getsebool container_manage_cgroup
     fi
   fi
 fi
@@ -82,10 +82,12 @@ cd $SCRIPT_DIR/..
 docker build \
   --ignorefile docker/.dockerignore \
   -t ${DOCKER_HUB_NAME}:${IMAGE_VERSION} \
+  -t ${DOCKER_HUB_NAME}:latest \
   -f docker/Dockerfile .
 
 # podman login docker.io
 # podman push docker.io/petasis/ellogon-web-annotation-tool:v0.1.3
+# podman push docker.io/petasis/ellogon-web-annotation-tool:latest
 
 echo "To run the container, try:"
 echo "  set -o allexport; source ${SCRIPT_DIR}/conf/env; set +o allexport"
