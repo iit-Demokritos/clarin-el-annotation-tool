@@ -9,7 +9,7 @@ if [ ! -f "${SCRIPT_DIR}/env" ]; then
 fi
 
 set -o allexport
-source  ${SCRIPT_DIR}/env
+source  "${SCRIPT_DIR}/env"
 set +o allexport
 
 cd $SCRIPT_DIR/..
@@ -21,5 +21,5 @@ else
 fi
 
 ${DOCKER_COMPOSE} --project-name ${PROJECT_NAME} \
-	          -f docker/docker-compose.yml \
+	          -f "$SCRIPT_DIR/docker-compose.yml" \
                   down

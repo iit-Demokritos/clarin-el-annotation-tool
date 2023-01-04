@@ -22,8 +22,8 @@ cd $SCRIPT_DIR
 
 if command -v chcon &> /dev/null
 then
-    echo "Setting context container_file_t on dir: \"$SCRIPT_DIR\""
-    chcon -R -u unconfined_u -r object_r -t container_file_t "$SCRIPT_DIR"
+    echo "Setting context container_file_t on dir: \"$SCRIPT_DIR/conf\""
+    chcon -R -u unconfined_u -r object_r -t container_file_t "$SCRIPT_DIR/conf"
 fi
 
 if command -v setsebool &> /dev/null
@@ -40,6 +40,9 @@ else
     export DOCKER_COMPOSE=docker-compose
 fi
 
+# Stop on errors...
+set -e
+
 # Generate conf/env from env...
 if [ "$SCRIPT_DIR/env" -nt "$SCRIPT_DIR/conf/env" ]; then
   echo "Generating conf/env..."
@@ -53,7 +56,7 @@ if [ "$SCRIPT_DIR/conf/mongo-init-template.js" -nt " $SCRIPT_DIR/conf/mongo-init
 fi
 
 ${DOCKER_COMPOSE} --project-name ${PROJECT_NAME} \
-                  -f docker/docker-compose.yml \
+                  -f "$SCRIPT_DIR/docker-compose.yml" \
                   up -d --no-recreate
 
 # Perform migrations...
@@ -66,13 +69,13 @@ while [ $secs -gt 0 ]; do
 done
 echo "Performing migrations..."
 ${DOCKER_COMPOSE} --project-name ${PROJECT_NAME} \
-                  -f docker/docker-compose.yml \
+                  -f "$SCRIPT_DIR/docker-compose.yml" \
                   exec web bash -c "cd /var/www/clarin-el-annotation-tool/backend-django/ && python3 manage.py wait_for_db"
 ${DOCKER_COMPOSE} --project-name ${PROJECT_NAME} \
-                  -f docker/docker-compose.yml \
+                  -f "$SCRIPT_DIR/docker-compose.yml" \
                   exec web bash -c "cd /var/www/clarin-el-annotation-tool/backend-django/ && python3 manage.py migrate"
 # docker run --systemd=always -p 8000:80 -p 8001:443 -it ${IMAGE_NAME}
 echo "To execute a terminal, try:"
-echo "  set -o allexport; source ${SCRIPT_DIR}/conf/env; set +o allexport"
-echo "  docker-compose --env-file=./conf/env exec web bash"
+echo "  set -o allexport; source \"${SCRIPT_DIR}/conf/env\"; set +o allexport"
+echo "  docker-compose --env-file=\"${SCRIPT_DIR}/conf/env\" exec web bash"
 echo "  podman-compose exec web bash"

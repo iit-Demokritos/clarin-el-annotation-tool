@@ -37,7 +37,7 @@ services:
       - mongodb-data:/data/db:Z
       - ./conf/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongo localhost:${MONGO_PORT}/test --quiet
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:${MONGO_PORT}/test --quiet
   
   web:
     restart: always
@@ -53,6 +53,7 @@ services:
 #     - ./conf/env
     volumes:
       - ./conf/env:/var/www/clarin-el-annotation-tool/backend-django/DjangoClarin/.env:ro
+      - ./conf/AnnotationsSpecifications.xml:/opt/Ellogon/share/Config/AnnotationsSpecifications.xml:Z
 #   environment:
 #     - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
 #     - MYSQL_PASSWORD=${MYSQL_PASSWORD}
