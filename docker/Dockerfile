@@ -54,7 +54,8 @@ RUN pip --disable-pip-version-check install wheel && \
         djangorestframework-simplejwt       \
         drf-spectacular                     \
         simplejwt                           \
-        dataclasses_json
+        dataclasses_json                    \
+        newspaper3k
 
 ## Build Apache Rivet...
 RUN mkdir /home/packages && \
