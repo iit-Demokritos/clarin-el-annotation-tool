@@ -1,3 +1,14 @@
+05-January-2023 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * backend-django/DjangoClarin/settings.py:
+ * backend-django/clarin_backend/urls.py:
+ * backend-django/clarin_backend/views.py:
+ * clarin-angular/src/app/components/views/login/login.component.html:
+ * clarin-angular/src/app/components/views/login/login.component.ts:
+ * clarin-angular/src/app/ng-matero/core/authentication/auth.service.ts:
+ * clarin-angular/src/app/ng-matero/core/authentication/login.service.ts:
+ Added check whether to include the social login buttons in the user login
+ view.
+
 04-January-2023 Petasis Georgios <petasis@iit.demokritos.gr>:
  * build_all.sh:
  * docker/.dockerignore:

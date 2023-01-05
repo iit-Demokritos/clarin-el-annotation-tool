@@ -13,7 +13,7 @@ from .views import ObtainTokenPairView, \
     ActivationView,InitApp,HandlerApply, \
     DocumentLiveUpdate,RefreshTokenView,ImportView, \
     TestEmailSendView, \
-    UserAuthenticated
+    UserAuthenticated, LoginSocialProviders
 
 from .mongodb_views import *
 from .sql_views import *
@@ -32,6 +32,7 @@ urlpatterns = [
   # path('auth/token/refresh',                                                                          jwt_views.TokenRefreshView.as_view(),                name='auth_token_refresh'),
     path('api/auth/register',                                                                           CustomUserCreate.as_view(),                          name="auth_register"),
     path('api/auth/gettoken',                                                                           GetCsrfToken.as_view(),                              name='csrf_token_get'),
+    path('api/auth/loginsocialproviders',                                                               LoginSocialProviders.as_view(),                      name='auth_login_social_providers'),
     path('api/auth/login',                                                                              ObtainTokenPairView.as_view(),                       name="auth_login"),
     path('api/auth/reset',                                                                              ResetPassword.as_view(),                             name='auth_reset'),
     path('api/user/logout',                                                                             LogoutAndBlacklistRefreshTokenForUserView.as_view(), name='api_user_logout'),

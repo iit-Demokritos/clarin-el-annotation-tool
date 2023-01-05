@@ -64,6 +64,9 @@ from django.db.models import F
 ## Custom JSON encoder for image/file fields...
 from .encoders import ExtendedJSONEncoder
 
+## Getting the list of social auth providers...
+from allauth.socialaccount import providers as socialaccount_providers
+
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class ObtainTokenPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -402,6 +405,25 @@ class UserAuthenticated(APIView):
             data["data"]["authenticated"] = True
         else:
             data["message"] = "User is not authenticated."
+        return Response(data = data, status = status.HTTP_200_OK)
+
+@method_decorator(ensure_csrf_cookie, name='dispatch')
+class LoginSocialProviders(APIView):
+    permission_classes = (permissions.AllowAny,)
+    # authentication_classes = ()
+
+    @extend_schema(request=None,responses={200: None},description="Returns information about the social login providers.")
+    def get(self, request):
+        providers = []
+        for p in socialaccount_providers.registry.get_list():
+            providers.append({"id": p.id, "name": p.name})
+        data = {
+          "success": True,
+          "message": "",
+          "data":    {
+              "providers": providers,
+          }
+        }
         return Response(data = data, status = status.HTTP_200_OK)
 
 

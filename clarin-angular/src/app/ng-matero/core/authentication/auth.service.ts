@@ -97,4 +97,8 @@ export class AuthService {
     return this.loginService.authenticated();
   }; /* authenticated */
 
+  socialLoginProviders() {
+    return this.loginService.socialLoginProviders();
+  }; /* socialLoginProviders */
+
 }

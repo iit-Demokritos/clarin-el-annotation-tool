@@ -16,6 +16,9 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   hide_password = true;
 
+  socialLoginProvidersLength = 0;
+  socialLoginProviders = {};
+
   public appVersion: string = packageJson.version;
 
   constructor(public fb: FormBuilder,
@@ -28,6 +31,24 @@ export class LoginComponent implements OnInit {
       username: ['', [Validators.required]],
       password: ['', [Validators.required]],
       remember_me: [false],
+    });
+    this.auth.socialLoginProviders().subscribe((data) => {
+      // console.error("LoginComponent: ngOnInit(): socialLoginProviders(): data:", data);
+      if (data["success"]) {
+        this.socialLoginProvidersLength = 0;
+        data["data"]["providers"].forEach((p) => {
+          switch(p.id) {
+            case "vastauth2": {
+              this.socialLoginProviders[p.id] = p;
+              this.socialLoginProvidersLength += 1;
+              break;
+            }
+          }
+        });
+      }
+    },
+    (error: HttpErrorResponse) => {
+      console.error("LoginComponent: ngOnInit(): socialLoginProviders(): error:", error);
     });
     /*this.auth.authenticated().subscribe(
       (data) => {

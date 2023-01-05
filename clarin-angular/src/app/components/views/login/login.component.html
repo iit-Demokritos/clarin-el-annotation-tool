@@ -51,22 +51,26 @@
         <a routerLink="/auth/reset">{{'login.reset_password' | translate}}</a>
       </div>
     </form>
-    <div class="division">
-      <div class="line l"></div>
-      <span>{{'login.OR' | translate}}</span>
-      <div class="line r"></div>
-    </div>
-    <div class="social_login">
-      <!--<mat-icon svgIcon="logo_vast" class="social_logo"></mat-icon> -->
-      <!-- /social_login/vast/url/ --> 
-      <form #social_login_form name="social_login_form" action="/accounts/vastauth2/login/?process=login" method="post" novalidate>
-        <input type="hidden" name="process" value="login">
-        <input type="hidden" name="next"    value="/auth/loginsocial">
-        <button mat-raised-button color="primary" (click)="social_login_form.submit()" type="submit">
-          <mat-icon svgIcon="logo_vast" class="social_logo social_logo_vast"></mat-icon> {{'login.sign_in_with' | translate}} VAST
-          <mat-icon>open_in_new</mat-icon>
-        </button>
-      </form>
+    <div *ngIf="socialLoginProvidersLength">
+      <div class="division">
+        <div class="line l"></div>
+        <span>{{'login.OR' | translate}}</span>
+        <div class="line r"></div>
+      </div>
+      <div class="social_login">
+        <!--<mat-icon svgIcon="logo_vast" class="social_logo"></mat-icon> -->
+        <!-- /social_login/vast/url/ --> 
+        <div *ngIf="socialLoginProviders.hasOwnProperty('vastauth2')">
+        <form #social_login_form_vast name="social_login_form_vast" action="/accounts/vastauth2/login/?process=login" method="post" novalidate>
+          <input type="hidden" name="process" value="login">
+          <input type="hidden" name="next"    value="/auth/loginsocial">
+          <button mat-raised-button color="primary" (click)="social_login_form_vast.submit()" type="submit">
+            <mat-icon svgIcon="logo_vast" class="social_logo social_logo_vast"></mat-icon> {{'login.sign_in_with' | translate}} VAST
+            <mat-icon>open_in_new</mat-icon>
+          </button>
+        </form>
+        </div>
+      </div>
     </div>
   </mat-card>
 </div>

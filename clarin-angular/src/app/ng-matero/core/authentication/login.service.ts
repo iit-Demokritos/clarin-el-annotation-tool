@@ -105,6 +105,12 @@ export class LoginService {
     return this.http.get<any>('/api/user/authenticated');
   }; /* authenticated */
 
+  socialLoginProviders() {
+    // console.error("LoginService: socialLoginProviders()");
+    // this.refreshCSRFToken();
+    return this.http.get<any>('/api/auth/loginsocialproviders');
+  }; /* socialLoginProviders */
+
   menu() {
     //return this.http.get<{ menu: Menu[] }>('/me/menu').pipe(map(res => res.menu));
     return this.http.get<{ menu: Menu[] }>('assets/data/menu.json?_t=' + Date.now()).pipe(map(res => res.menu));
