@@ -66,6 +66,9 @@ from .encoders import ExtendedJSONEncoder
 
 ## Getting the list of social auth providers...
 from allauth.socialaccount import providers as socialaccount_providers
+from allauth.socialaccount.models import SocialApp
+from allauth.socialaccount import app_settings as socialaccount_app_settings
+from django.contrib.sites.models import Site
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class ObtainTokenPairView(TokenObtainPairView):
@@ -415,8 +418,15 @@ class LoginSocialProviders(APIView):
     @extend_schema(request=None,responses={200: None},description="Returns information about the social login providers.")
     def get(self, request):
         providers = []
+        site = Site.objects.get_current()
         for p in socialaccount_providers.registry.get_list():
-            providers.append({"id": p.id, "name": p.name})
+            config = None
+            try:
+                config = SocialApp.objects.get(provider=p.id, sites=site)
+            except SocialApp.DoesNotExist:
+                config = socialaccount_app_settings.PROVIDERS.get(p, {}).get("APP")
+            if config:
+                providers.append({"id": p.id, "name": p.name})
         data = {
           "success": True,
           "message": "",
