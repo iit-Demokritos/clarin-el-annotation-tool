@@ -10,7 +10,7 @@ from deepdiff.helper import CannotCompare
 
 from .models import Users, Collections, SharedCollections, OpenDocuments, Documents, \
     ButtonAnnotators, CoreferenceAnnotators
-from .utils import ErrorLoggingAPIView, ErrorLoggingAPIViewList, ErrorLoggingAPIViewDetail,get_collection_handle
+from .utils import ErrorLoggingAPIView, ErrorLoggingAPIViewList, ErrorLoggingAPIViewDetail, get_collection_handle
 from .utils import db_handle as mongodb_db_clarin
 from bson.objectid import ObjectId
 from django.utils import timezone

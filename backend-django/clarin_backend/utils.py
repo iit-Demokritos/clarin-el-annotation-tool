@@ -192,9 +192,9 @@ def get_clarindb():
     clarindb    = None
     mongoclient = None
     try:
-        mongo_con="mongodb://"+user+":"+password+"@"+hostname+":"+str(port_number)
+        mongo_con=f"mongodb://{user}:{password}@{hostname}:{port_number}/?authSource={db_name}"
         mongoclient = MongoClient(mongo_con)
-        clarindb = mongoclient["clarin"]
+        clarindb = mongoclient[db_name]
     except Exception as ex:
         print(ex)
     return clarindb, mongoclient
