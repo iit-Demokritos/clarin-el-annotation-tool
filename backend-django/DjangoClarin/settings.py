@@ -35,6 +35,7 @@ env = environ.Env(
     DATABASE_URL=(str, ''),
     MONGO_DB_HOST=(str, 'localhost'),
     MONGO_DB_PORT=(str, '27017'),
+    MONGO_DB_AUTH=(str, 'admin'),
     MONGO_USERNAME=(str, ''),
     MONGO_PASSWORD=(str, ''),
     MONGO_DATABASE=(str, ''),
@@ -257,6 +258,7 @@ EMAIL_USER_SHARE_COLLECTION_BODY      = "This is an automatic email from {sender
 
 MONGO_DB_HOST=env("MONGO_DB_HOST")
 MONGO_DB_PORT=int(env("MONGO_DB_PORT"))
+MONGO_DB_AUTH=env("MONGO_DB_AUTH")
 MONGO_USERNAME=env("MONGO_USERNAME")
 MONGO_PASSWORD=env("MONGO_PASSWORD")
 MONGO_DATABASE=env("MONGO_DATABASE")

@@ -8,12 +8,13 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         hostname    = settings.MONGO_DB_HOST
         port_number = settings.MONGO_DB_PORT
+        db_auth     = settings.MONGO_DB_AUTH
         user        = settings.MONGO_USERNAME
         password    = settings.MONGO_PASSWORD
         db_name     = settings.MONGO_DATABASE
 
-        connection_str  = f"mongodb://{user}:{password}@{hostname}:{port_number}/?authSource={db_name}"
-        connection_str2 = f"mongodb://{user}:{password[:4]}...@{hostname}:{port_number}/?authSource={db_name}"
+        connection_str  = f"mongodb://{user}:{password}@{hostname}:{port_number}/?authSource={db_auth}"
+        connection_str2 = f"mongodb://{user}:{password[:4]}...@{hostname}:{port_number}/?authSource={db_auth}"
         mongoclient = None
         while not mongoclient:
             try:

@@ -186,13 +186,14 @@ invitation_token = InvitationTokenGenerator()
 def get_clarindb():
     hostname    = settings.MONGO_DB_HOST
     port_number = settings.MONGO_DB_PORT
+    db_auth     = settings.MONGO_DB_AUTH
     user        = settings.MONGO_USERNAME
     password    = settings.MONGO_PASSWORD
     db_name     = settings.MONGO_DATABASE
     clarindb    = None
     mongoclient = None
     try:
-        mongo_con=f"mongodb://{user}:{password}@{hostname}:{port_number}/?authSource={db_name}"
+        mongo_con=f"mongodb://{user}:{password}@{hostname}:{port_number}/?authSource={db_auth}"
         mongoclient = MongoClient(mongo_con)
         clarindb = mongoclient[db_name]
     except Exception as ex:
