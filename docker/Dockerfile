@@ -18,6 +18,7 @@ RUN dnf -y install                  \
     libtool                         \
     passwd                          \
     httpd                           \
+    httpd-core                      \
     httpd-devel                     \
     python3-certbot-apache          \
     mod_ssl                         \
