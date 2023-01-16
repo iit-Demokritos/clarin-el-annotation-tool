@@ -1,4 +1,5 @@
 16-January-2023 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * docker/Dockerfile:
  * clarin-angular/src/app/helpers/constants.ts:
  * clarin-angular/src/assets/data/menu.json:
  * clarin-angular/src/proxy-local.conf.json: Fixes for docker/podman.
