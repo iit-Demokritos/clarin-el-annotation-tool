@@ -1,3 +1,4 @@
+[
 {
   "context": ["/api", "/analytics", "/drag_and_drop", "/nlp",
               "/media_data_lake", "/social_login", "/accounts"],
@@ -5,4 +6,16 @@
   "secure": false,
   "changeOrigin": false,
   "logLevel": "debug"
+},
+{
+  "context": ["/clarin-ellogon-services"],
+  "target": {
+      "host": "annotation.ellogon.org",
+      "protocol": "https:",
+      "port": 443
+  },
+  "secure": true,
+  "changeOrigin": true,
+  "logLevel": "debug"
 }
+]
