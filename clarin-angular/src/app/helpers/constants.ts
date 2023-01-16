@@ -1,4 +1,4 @@
 export class CLARIN_CONSTANTS {
-    static BASE_URL: string = "https://www.ellogon.org";
-    static ELLOGON_SERVICES: string = "https://www.ellogon.org" + '/clarin-ellogon-services';
+    static BASE_URL: string = "";
+    static ELLOGON_SERVICES: string = "" + '/clarin-ellogon-services';
 }

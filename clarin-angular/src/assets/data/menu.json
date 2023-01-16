@@ -123,18 +123,18 @@
           "name": "Documentation",
           "type": "extTabLink",
           "icon": "find_in_page",
-	  "label": {
+          "label": {
             "color": "indigo-500",
             "value": "new"
           }
-	},
-	{
+        },
+        {
           "route": "https://anntooldocs.vast-project.eu/",
           "name": "Developer Tools",
           "type": "extTabLink",
           "icon": "find_in_page"
         },
-	{
+        {
           "route": "https://iit-demokritos.github.io/clarin-el-annotation-tool/",
           "name": "API Documentation",
           "type": "extTabLink",
