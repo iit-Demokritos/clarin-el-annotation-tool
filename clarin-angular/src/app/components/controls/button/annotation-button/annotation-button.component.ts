@@ -44,7 +44,7 @@ export class AnnotationButtonComponent extends BaseControlComponent implements O
     var selectedAnnotation: any = this.TextWidgetAPI.getSelectedAnnotation();
 
     if (Object.keys(selectedAnnotation).length > 0) {
-      //if selected annotation is not empty 
+      //if selected annotation is not empty
       /* var selectedAnnotationAttribute = _.where(selectedAnnotation.attributes, {
         name: this.annotationAttribute,
         value: this.annotationValue
@@ -68,7 +68,7 @@ export class AnnotationButtonComponent extends BaseControlComponent implements O
       }
 
       if (attributeIndex > -1 && !this.element.classList.contains('active')) {
-        // if the element has the same attribute and it is not active 
+        // if the element has the same attribute and it is not active
         this.element.classList.add('active');
         this.element.setAttribute("style", "color:" + this.fgColor);
         this.element.setAttribute("style", "background:" + this.bgColor);
@@ -113,9 +113,10 @@ export class AnnotationButtonComponent extends BaseControlComponent implements O
       var selectedAnnotationAttribute = selectedAnnotation.attributes.find(attr => attr.name === annotationAttribute);
 
       if (typeof (selectedAnnotationAttribute) == "undefined")
-        //the specific attribute does not exist in the current annotation, so add it 
+        //the specific attribute does not exist in the current annotation, so add it
         selectedAnnotation.attributes.push(newAttribute);
-      else {                                                    //the specific attribute exists in the current annotation, so update it 
+      else {
+        //the specific attribute exists in the current annotation, so update it
         var index = selectedAnnotation.attributes.indexOf(selectedAnnotationAttribute);
         selectedAnnotation.attributes[index] = _.cloneDeep(newAttribute);
       }

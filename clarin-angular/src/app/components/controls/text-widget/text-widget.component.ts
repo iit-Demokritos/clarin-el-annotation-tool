@@ -1476,20 +1476,27 @@ export class TextWidgetComponent extends BaseControlComponent
 
           break;
         case "Coreference Annotator":
-          var value = annotationSpan.start + " " + annotationSpan.end;
-          var attribute = annotationAttributes.find(attr => attr.value === value);
+          var attribute;
+          var markerId = "mrkr_" + Math.floor(Math.random() * 1000000);
+          var markAttributes = {
+            markerId: markerId
+          }
+          if (this.coreferenceColorService.optionLabelfrom) {
+            attribute = annotationAttributes.find(attr => attr.name === this.coreferenceColorService.optionLabelfrom);
+            if (attribute) markAttributes["dataType"] = attribute.value;
+          }
+          if (typeof attribute == "undefined") {
+            var value = annotationSpan.start + " " + annotationSpan.end;
+            attribute = annotationAttributes.find(attr => attr.value === value);
+            if (attribute) markAttributes["dataType"] = attribute.name;
+          }
           if (typeof attribute == "undefined") {
             continue;
           }
           // If it is Coreference Annotator get the required color combination
           var colourCom =
-            this.coreferenceColorService.getColorCombination(visAnnotation.annotation._id);
+            this.coreferenceColorService.getColorCombination(visAnnotation.annotation);
           var mark = null;
-          var markerId = "mrkr_" + Math.floor(Math.random() * 1000000);
-          var markAttributes = {
-            markerId: markerId
-          }
-          markAttributes["dataType"] = attribute.name;
 
           // Create class for adding background color to the type pseudo-element
           var colorClass = " mark_color_" +

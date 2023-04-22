@@ -1,3 +1,12 @@
+22-April-2023 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/controls/button/annotation-indicator/annotation-indicator.component.ts:
+ * clarin-angular/src/app/components/controls/coref/coref-annotate-btn/coref-annotate-btn.component.ts:
+ * clarin-angular/src/app/components/controls/coref/coref-btn/coref-btn.component.ts:
+ * clarin-angular/src/app/services/coreference-color-service/coreference-color.service.ts:
+ * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
+ Added functionality for specifying from which attribute the annotation
+ colours/labels can be retrieved, in coreference annotations.
+
 16-January-2023 Petasis Georgios <petasis@iit.demokritos.gr>:
  * docker/Dockerfile:
  * clarin-angular/src/app/helpers/constants.ts:

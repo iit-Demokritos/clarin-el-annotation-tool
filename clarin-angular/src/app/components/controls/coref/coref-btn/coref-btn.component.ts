@@ -37,6 +37,13 @@ export class CorefBtnComponent extends BaseControlComponent implements AfterView
     // }
     //register callbacks for the annotation list and the selected annotation
     this.TextWidgetAPI.registerSelectedAnnotationCallback(this.updateCorefBtn.bind(this));
+    // Declare colours for value...
+    this.buttonColorService.addColorCombination({
+      value: this.annotationAttribute + ":!:" + this.annotationValue, bg_color: this.bgColor, fg_color: this.fgColor,
+      colour_background: this.colourBackground, colour_font: this.colourFont,
+      colour_border: this.colourBorder, colour_selected_background: this.colourSelectedBackground
+    });
+    // console.error("CorefBtnComponent: ngAfterViewInit(): value:", this.annotationAttribute + ":!:" + this.annotationValue);
     // We want to receive messages, from CorefBtnComponent components...
     this.messagesSubscribe();
   }; // ngAfterViewInit
@@ -44,7 +51,7 @@ export class CorefBtnComponent extends BaseControlComponent implements AfterView
   updateCorefBtn() {
     var selectedAnnotation: any = this.TextWidgetAPI.getSelectedAnnotation();
 
-    // The selected annotation is not empty 
+    // The selected annotation is not empty
     if (Object.keys(selectedAnnotation).length > 0) {
       // Check if the selected annotation has the same type as this button...
       if (selectedAnnotation.type !== this.annotationType) {

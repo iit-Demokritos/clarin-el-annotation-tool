@@ -24,7 +24,7 @@ export class AnnotationIndicatorComponent extends BaseControlComponent implement
     if (Object.keys(selectedAnnotation).length == 0) {
       this.color = this.backgroundColor = 'transparent';
     } else {
-      var colorCombo: any = this.coreferenceColorService.getColorCombination(selectedAnnotation._id);
+      var colorCombo: any = this.coreferenceColorService.getColorCombination(selectedAnnotation);
 
       if (Object.keys(colorCombo).length > 0) {
         if (this.TextWidgetAPI.getAnnotatorType() == "Button Annotator") {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import * as _ from 'lodash';
 import { ErrorDialogComponent } from 'src/app/components/dialogs/error-dialog/error-dialog.component';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
@@ -12,11 +12,16 @@ import { AttributeValueMemory, AttributeValueMemoryValue } from 'src/app/models/
 })
 export class CorefAnnotateBtnComponent extends BaseControlComponent implements OnInit {
 
+  @Input() optionColourfrom;
+  @Input() optionLabelfrom;
+
   super() { }
 
   ngOnInit(): void {
     //register callbacks for the selected annotation
     this.TextWidgetAPI.registerSelectedAnnotationCallback(this.annotationSelectionUpdate.bind(this));
+    this.coreferenceColorService.optionColourfrom = this.optionColourfrom;
+    this.coreferenceColorService.optionLabelfrom  = this.optionLabelfrom;
   }
 
   addAnnotation() { //save the annotation to the db
@@ -48,7 +53,7 @@ export class CorefAnnotateBtnComponent extends BaseControlComponent implements O
 
       // If the spans have changed
       if (selectedAnnotation.spans != validationResult.annotation.spans) {
-        // assign the updated annotation spans to the existing annotation 
+        // assign the updated annotation spans to the existing annotation
         selectedAnnotation.spans = validationResult.annotation.spans;
       }
 
@@ -61,11 +66,11 @@ export class CorefAnnotateBtnComponent extends BaseControlComponent implements O
       //   var selectedAnnotationAttribute = selectedAnnotation.attributes.find(attr =>
       //     attr.name === validationResult.annotation.attributes[i].name);
 
-      //   // The specific attribute does not exist in the current annotation, so add it 
+      //   // The specific attribute does not exist in the current annotation, so add it
       //   if (typeof (selectedAnnotationAttribute) != "undefined") {
       //     selectedAnnotation.attributes.push(validationResult.annotation.attributes[i]);
       //   } else {
-      //     // Tthe specific attribute exists in the current annotation, so update it 
+      //     // Tthe specific attribute exists in the current annotation, so update it
       //     var index = selectedAnnotation.attributes.indexOf(selectedAnnotationAttribute);
       //     selectedAnnotation.attributes[index] = _.cloneDeep(validationResult.annotation.attributes[i]);
       //   }
@@ -85,6 +90,7 @@ export class CorefAnnotateBtnComponent extends BaseControlComponent implements O
     var result: any = { valid: true, annotation: {} };
 
     var selectedAnnotation: any = this.TextWidgetAPI.getSelectedAnnotation();
+    // console.error("CorefAnnotateBtnComponent: validateAnnotation(): selectedAnnotation:", selectedAnnotation);
     if (Object.keys(selectedAnnotation).length == 0) {
       var currentDocument: any = this.TextWidgetAPI.getCurrentDocument();
       result.annotation = {
@@ -108,9 +114,12 @@ export class CorefAnnotateBtnComponent extends BaseControlComponent implements O
     }
 
     var data = this.messageService.attributeValueMemoryGet(this.annotationType);
+    // console.error("CorefAnnotateBtnComponent: validateAnnotation(): data:", data);
 
     // Iterate over all attributes...
     for (const [k, v] of Object.entries(data)) {
+      // console.error("CorefAnnotateBtnComponent: validateAnnotation(): k,v:", k, v);
+
       // Is this a segment? coref-segment-entry
       if (("start" in v) && ("end" in v) && ("segment" in v)) {
         result.annotation.spans.push({ segment: v["segment"], start: v["start"], end: v["end"]});
@@ -124,7 +133,7 @@ export class CorefAnnotateBtnComponent extends BaseControlComponent implements O
       // coref-combobox
       // coref-checkbox
     }
-   
+
 
 //    tableRows.forEach(value => {
 //      if (value.querySelectorAll('.coref-segment-entry').length > 0) { //if row contains coreference annotation segment entry
@@ -149,7 +158,7 @@ export class CorefAnnotateBtnComponent extends BaseControlComponent implements O
 //            name: corefSegmentElement.getAttribute('annotation-attribute'),
 //            value: annotationSpan.start + " " + annotationSpan.end
 //          });
-//        } else { //validation section 
+//        } else { //validation section
 //          //result.valid = false;
 //          result.annotation.attributes.push({
 //            name: corefSegmentElement.getAttribute('annotation-attribute'),
@@ -178,7 +187,7 @@ export class CorefAnnotateBtnComponent extends BaseControlComponent implements O
 //            name: corefMultiElement.getAttribute('annotation-attribute'),
 //            value: annotationSpan.start + " " + annotationSpan.end
 //          });
-//        } else { //validation section 
+//        } else { //validation section
 //          //result.valid = false;
 //          result.annotation.attributes.push({
 //            name: corefMultiElement.getAttribute('annotation-attribute'),
@@ -195,7 +204,7 @@ export class CorefAnnotateBtnComponent extends BaseControlComponent implements O
 //            value: segment
 //          });
 //        } else { //validation section
-//          //result.valid = false; 
+//          //result.valid = false;
 //          result.annotation.attributes.push({
 //            name: corefEntryElement.getAttribute('annotation-attribute'),
 //            value: ""
@@ -210,14 +219,14 @@ export class CorefAnnotateBtnComponent extends BaseControlComponent implements O
 //            name: corefComboboxElement.getAttribute('annotation-attribute'),
 //            value: comboboxValue
 //          });
-//        } else { //validation section 
-//          //result.valid = false; 
+//        } else { //validation section
+//          //result.valid = false;
 //          result.annotation.attributes.push({
 //            name: corefComboboxElement.getAttribute('annotation-attribute'),
 //            value: ""
 //          });
 //        }
-//      } else if (value.querySelectorAll('.coref-checkbox').length > 0) { //if row contains coreference checkbox 
+//      } else if (value.querySelectorAll('.coref-checkbox').length > 0) { //if row contains coreference checkbox
 //        var corefCheckboxElement = value.querySelector('.coref-checkbox');
 //        var corefCheckboxInputElement = corefCheckboxElement.querySelector('input');
 //
