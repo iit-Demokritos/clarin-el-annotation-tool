@@ -31,6 +31,8 @@ backend-django/clarin_backend/templates/index.html
 backend-django/apache_venv/
 backend-django/nlp/__pycache__/
 backend-django/nlp/migrations/__pycache__/
+backend-django/vast_rdf/.env
+backend-django/vast_rdf/__pycache__/
 backend/pass.txt
 clarin-angular/package-lock.json
 clarin-angular/.angular/
