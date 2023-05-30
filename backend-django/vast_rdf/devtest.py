@@ -1,6 +1,5 @@
 from vast_repository import RDFStoreVAST
 rdf = RDFStoreVAST()
-print(rdf.config.config)
 rdf.retrieveAndSerialiseCollections()
 
 exit(0)
