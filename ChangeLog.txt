@@ -1,3 +1,10 @@
+24-July-2023 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * clarin-angular/package.json: Updated version to 3.3.3. (Image overlapping
+ areas selection).
+ * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
+ * clarin-angular/src/app/services/text-widget/text-widget.service.ts:
+ Added support for overlapping areas on image annotations.
+
 30-May-2023 Petasis Georgios <petasis@iit.demokritos.gr>:
  * backend-django/vast_rdf: Code for synchronising annotations with a SPARQL
  endpoint.

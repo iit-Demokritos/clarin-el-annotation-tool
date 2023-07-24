@@ -811,6 +811,12 @@ export class TextWidgetAPI {
     return this.notifyObservers(this.overlappingAreasCallbacks);
   }
 
+  setOverlappingAreas(annotationIDs) {
+    // console.error("TextWidgetComponent: setOverlappingAreas():", annotationIDs);
+    this.overlappingAreas = this.annotations.filter(annotation => annotationIDs.includes(annotation._id));
+    return this.notifyObservers(this.overlappingAreasCallbacks);
+  }; /* setOverlappingAreas */
+
   computeOverlappingAreas(offset) {
     var newOverlaps = [];
 
@@ -826,6 +832,9 @@ export class TextWidgetAPI {
     this.overlappingAreas = newOverlaps;
     return this.notifyObservers(this.overlappingAreasCallbacks);
   }
+
+  computeImageOverlappingAreas(x, y) {
+  }; /* computeImageOverlappingAreas */
 
   /*** Annotations Found In Collection Methods ***/
   registerFoundInCollectionCallback(callback) {

@@ -12,7 +12,15 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { AnnotationDetailComponent } from '../annotation-detail/annotation-detail.component';
 import { ScrollStatus } from 'src/app/models/services/scrollstatus';
 import { Minimatch } from "minimatch";
+import { MatTableExporterDirective, Exporter, Options } from 'mat-table-exporter';
 import ObjectID from "bson-objectid";
+
+export class SkipDetailRowsExporter implements Exporter<Options> {
+  export(rows: Array<any>, options?: Options) {
+    console.log(rows);
+  }
+}
+
 
 @Component({
   selector: 'annotation-set-inspector',
@@ -48,6 +56,7 @@ export class AnnotationSetInspectorComponent extends MainComponent implements Af
   @ViewChild(MatSort)  sort: MatSort;
   @ViewChild('annotationList') annotationList: ElementRef;
   @ViewChild('documentViewer') documentViewer: ElementRef;
+  @ViewChild(MatTableExporterDirective, { static: false }) exporter: MatTableExporterDirective;
   collapsed_status:number[] = [];
   annotationsDataSource = new MatTableDataSource<Annotation>();
   annotationListDisplayedColumns: string[] = ['id', 'type', 'value', 'spans'];
@@ -64,6 +73,8 @@ export class AnnotationSetInspectorComponent extends MainComponent implements Af
   filter: string = "";
   minimatchOptions = { nocase: true, nocomment: true };
   mm: any; // Minimatch object
+
+  skipDetailRowsExporter: SkipDetailRowsExporter = new SkipDetailRowsExporter();
 
   super() { }
 

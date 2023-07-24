@@ -2032,11 +2032,17 @@ export class TextWidgetComponent extends BaseControlComponent
     this.imageOverlayPointerDown(evt, x, y);
     var annotation = elementView.model.get("annotation");
     if (annotation != null) {
+      // console.error("TextWidgetComponent: imageOverlayElementPointerClick():", annotation);
       var selectedAnnotation = this.TextWidgetAPI.getAnnotationById(annotation._id);
       var prevAnnotationId   = this.TextWidgetAPI.getSelectedAnnotation()["_id"];
-      if (typeof (selectedAnnotation) != "undefined" &&
-          prevAnnotationId !== selectedAnnotation._id) {
-        this.TextWidgetAPI.setSelectedAnnotation(selectedAnnotation);
+      if (typeof (selectedAnnotation) != "undefined") {
+        if (prevAnnotationId !== selectedAnnotation._id) {
+          this.TextWidgetAPI.setSelectedAnnotation(selectedAnnotation);
+        }
+        // Are there any other elements under the mouse point?
+        var overlapping = this.graph.findModelsFromPoint({ x: x, y: y });
+        // console.error("TextWidgetComponent: imageOverlayElementPointerClick(): elements:", elementView, overlapping);
+        this.TextWidgetAPI.setOverlappingAreas(overlapping.map(x => x.get("annotation")._id));
       }
     }
   }; /* imageOverlayElementPointerClick */
