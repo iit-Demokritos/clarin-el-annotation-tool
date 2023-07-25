@@ -2046,8 +2046,8 @@ export class TextWidgetComponent extends BaseControlComponent
       );
       if (smallestAnn) {
         // console.error("TextWidgetComponent: imageOverlayElementPointerClick(): smallestAnn:", smallestAnn);
-	smallestAnn = smallestAnn.get("annotation");
-	if (smallestAnn !== undefined) {annotation = smallestAnn;}
+        smallestAnn = smallestAnn.get("annotation");
+        if (smallestAnn !== undefined) {annotation = smallestAnn;}
       }
     }
     if (annotation != null) {
