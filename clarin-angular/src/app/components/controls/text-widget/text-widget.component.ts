@@ -2031,18 +2031,33 @@ export class TextWidgetComponent extends BaseControlComponent
     // Deselect everything...
     this.imageOverlayPointerDown(evt, x, y);
     var annotation = elementView.model.get("annotation");
+    // Are there any other elements under the mouse point?
+    var availableAnnotationsOnCursor = this.graph.findModelsFromPoint({ x: x, y: y });
+    availableAnnotationsOnCursor = availableAnnotationsOnCursor.filter((element) =>
+      element.get("annotation") !== undefined
+    );
+
+    var availableAnnotationsLength = availableAnnotationsOnCursor.length;
+    if (availableAnnotationsLength > 1) {
+      // Petasis, 26/07/2023: Find the annotation with the smallest area...
+      // console.error("TextWidgetComponent: imageOverlayElementPointerClick(): elements:", elementView, availableAnnotationsOnCursor);
+      var smallestAnn = availableAnnotationsOnCursor.reduce((a, b) =>
+        a.get("size").width*a.get("size").height <= b.get("size").width*b.get("size").height ? a : b
+      );
+      if (smallestAnn) {
+        // console.error("TextWidgetComponent: imageOverlayElementPointerClick(): smallestAnn:", smallestAnn);
+	smallestAnn = smallestAnn.get("annotation");
+	if (smallestAnn !== undefined) {annotation = smallestAnn;}
+      }
+    }
     if (annotation != null) {
       // console.error("TextWidgetComponent: imageOverlayElementPointerClick():", annotation);
       var selectedAnnotation = this.TextWidgetAPI.getAnnotationById(annotation._id);
       var prevAnnotationId   = this.TextWidgetAPI.getSelectedAnnotation()["_id"];
-      if (typeof (selectedAnnotation) != "undefined") {
-        if (prevAnnotationId !== selectedAnnotation._id) {
-          this.TextWidgetAPI.setSelectedAnnotation(selectedAnnotation);
-        }
-        // Are there any other elements under the mouse point?
-        var overlapping = this.graph.findModelsFromPoint({ x: x, y: y });
-        // console.error("TextWidgetComponent: imageOverlayElementPointerClick(): elements:", elementView, overlapping);
-        this.TextWidgetAPI.setOverlappingAreas(overlapping.map(x => x.get("annotation")._id));
+      if (typeof (selectedAnnotation) != "undefined" &&
+              prevAnnotationId !== selectedAnnotation._id) {
+        this.TextWidgetAPI.setSelectedAnnotation(selectedAnnotation);
+        this.TextWidgetAPI.setOverlappingAreas(availableAnnotationsOnCursor.map(x => x.get("annotation")._id));
       }
     }
   }; /* imageOverlayElementPointerClick */
