@@ -216,6 +216,7 @@ $foreground: map-get($theme, foreground);
         height: 100%;
         width: 100%;
         position: relative;
+        transform-origin: left top;
         .annotation-editor-text-widget,
         .annotation-editor-text-widget-overlay {
           display: block;

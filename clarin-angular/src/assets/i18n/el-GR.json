@@ -280,6 +280,12 @@
     "ErrorDuringRetrievingCollections": "Error during the retrieval of your Collections.<br>Please refresh the page and try again.",
     "ErrorDuringRetrievingCollectionDocuments": "Error during the retrieval of the Collection's Documents.<br>Please refresh the page and try again."
   },
+  "Zoom": {
+    "ZoomIn": "Zoom In",
+    "ZoomOut": "Zoom Out",
+    "ZoomReset": "Reset Zoom Level",
+    "ZoomAdjust": "Adjust Zoom Level"
+  },
   "Yes": "Ναι",
   "No": "Όχι",
   "Warning": "Προσοχή",

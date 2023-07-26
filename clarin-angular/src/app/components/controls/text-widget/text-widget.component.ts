@@ -83,6 +83,7 @@ export class TextWidgetComponent extends BaseControlComponent
   connectedAnnotations = [];
   annotationIdToGraphItem = {};
   showLinkRouterSelector = false;
+  showZoomControls = false;
   linkVisibility = 'visible';
 
   // Get the local coordinates of the first character in the editor...
@@ -108,6 +109,10 @@ export class TextWidgetComponent extends BaseControlComponent
   annotationAudioURL: string = null;
   annotationVideoURL: string = null;
   hideOverlay: boolean = false;
+
+  state = {
+    zoom: 1
+  }
 
   ngOnInit() {
   }
@@ -636,6 +641,7 @@ export class TextWidgetComponent extends BaseControlComponent
     this.graph.clear();
     this.annotationIdToGraphItem = {};
     this.connectedAnnotations = [];
+    this.showZoomControls = false;
     if (this.annotationMode == AnnotationMode.TEXT) {
       this.editor.refresh();
       this.showLinkRouterSelector = false;
@@ -647,8 +653,13 @@ export class TextWidgetComponent extends BaseControlComponent
       this.editor.refresh();
     }
     if (this.annotationMode == AnnotationMode.IMAGE) {
+      this.showZoomControls = true;
       this.resizeOverlay();
     }
+    this.textWidgetEvent.emit({
+      event: "showZoomControls",
+      value: this.showZoomControls
+    });
     // console.error("TextWidgetComponent: CM size:", this.editor.getScrollInfo());
     // console.error("TextWidgetComponent: OVERLAY:", this.textWidgetOverlay.nativeElement.style.height);
   }; /* initialiseEditor */
@@ -1967,11 +1978,13 @@ export class TextWidgetComponent extends BaseControlComponent
     this.imageAnnotator.selection = undefined;
     this.TextWidgetAPI.clearSelection();
     evt.data = {};
-    evt.data["x"] = x;
-    evt.data["y"] = y;
+    evt.data["x"] = x / this.state.zoom;
+    evt.data["y"] = y / this.state.zoom;
   }; /* imageOverlayPointerDown */
 
   imageOverlayPointerMove(evt, x, y) {
+    x /= this.state.zoom;
+    y /= this.state.zoom;
     // console.error("TextWidgetComponent: imageOverlayPointerMove:", evt, x, y, evt.data);
     var data = evt.data;
     var cell;
@@ -1992,6 +2005,7 @@ export class TextWidgetComponent extends BaseControlComponent
       data["x"] = x;
       data["y"] = y;
       cell.addTo(this.graph);
+      // cell.on('change:position', this.imageOverlayElementChangePosition.bind(this));
       cell.on('change', this.imageOverlayElementChange.bind(this));
       this.imageAnnotator.selection = cell;
     } else {
@@ -2018,7 +2032,18 @@ export class TextWidgetComponent extends BaseControlComponent
     }
   }; /* imageOverlayPointerUp */
 
+  imageOverlayElementChangePosition(element, newPosition, opt) {
+    // console.error("TextWidgetComponent: imageOverlayElementChangePosition():", element, newPosition, opt);
+    var {x, y} = newPosition;
+    x /= this.state.zoom;
+    y /= this.state.zoom;
+    // this.paper.freeze();
+    // element.set("position", { x, y } );
+    // this.paper.unfreeze();
+  }; /* imageOverlayElementChange */
+
   imageOverlayElementChange(element, opt) {
+    // console.error("TextWidgetComponent: imageOverlayElementChange:", element, opt);
     var selection = this.getSelectionInfo();
     if (Object.keys(selection).length > 0) {
       this.TextWidgetAPI.setCurrentSelection(selection, false);
@@ -2027,9 +2052,11 @@ export class TextWidgetComponent extends BaseControlComponent
   }; /* imageOverlayElementChange */
 
   imageOverlayElementPointerClick(elementView, evt, x, y) {
-    // console.error("TextWidgetComponent: imageOverlayElementPointerClick():", elementView, elementView.model.annotation);
+    // console.error("TextWidgetComponent: imageOverlayElementPointerClick():", x, y, elementView, evt, elementView.model.get("annotation"));
     // Deselect everything...
     this.imageOverlayPointerDown(evt, x, y);
+    x /= this.state.zoom;
+    y /= this.state.zoom;
     var annotation = elementView.model.get("annotation");
     // Are there any other elements under the mouse point?
     var availableAnnotationsOnCursor = this.graph.findModelsFromPoint({ x: x, y: y });
@@ -2063,6 +2090,7 @@ export class TextWidgetComponent extends BaseControlComponent
   }; /* imageOverlayElementPointerClick */
 
   imageOverlayElementMouseEnter(elementView) {
+    // console.error("TextWidgetComponent: imageOverlayElementMouseEnter():", elementView);
     var selection = this.imageAnnotator.selection && this.imageAnnotator.selection.findView(this.paper) == elementView;
     if (!selection) return;
     var model = elementView.model;
@@ -2095,10 +2123,16 @@ export class TextWidgetComponent extends BaseControlComponent
   }; /* imageOverlayElementMouseEnter */
 
   imageOverlayCellMouseLeave(elementView) {
+    // console.error("TextWidgetComponent: imageOverlayCellMouseLeave():", elementView);
     var selection = this.imageAnnotator.selection && this.imageAnnotator.selection.findView(this.paper) == elementView;
     if (!selection) return;
     elementView.removeTools();
   }; /* imageOverlayCellMouseLeave */
+
+  updateZoomLevel(zoom) {
+    this.state.zoom = zoom;
+    this.mainContent.nativeElement.style.transform = "scale("+zoom+")";
+  }; /* updateZoomLevel */
 
   /*
    * Audio/Video Annotation

@@ -11,6 +11,23 @@
           <mat-button-toggle value="attributes" *ngIf="layout.showDocumentAttributes">{{'annotation.Document Attributes'|translate}}</mat-button-toggle>
           <mat-button-toggle value="settings" *ngIf="layout.showSettings">{{'annotation.Settings'|translate}}</mat-button-toggle>
         </mat-button-toggle-group>
+        <!--<div *ngIf="layout.showZoomControls">-->
+          <mat-divider [vertical]="true" *ngIf="layout.showZoomControls"></mat-divider>
+          <button mat-button (click)="zoomOut()" [disabled]="state.zoom <= state.zoom_min" *ngIf="layout.showZoomControls" matTooltip="{{'Zoom.ZoomIn'|translate}}">
+            <mat-icon>zoom_out</mat-icon>
+          </button>
+          <mat-slider discrete [min]="state.zoom_min" [max]="state.zoom_max" [step]="state.zoom_step"
+            [(ngModel)]="state.zoom"
+            (input)="onZoomChangeEnd($event)" *ngIf="layout.showZoomControls" matTooltip="{{'Zoom.ZoomAdjust'|translate}}">
+            <input matSliderThumb>
+          </mat-slider>
+          <button mat-button (click)="zoomIn()" [disabled]="state.zoom >= state.zoom_max" *ngIf="layout.showZoomControls" matTooltip="{{'Zoom.ZoomOut'|translate}}">
+            <mat-icon>zoom_in</mat-icon>
+          </button>
+          <button mat-button (click)="zoomReset()" [disabled]="state.zoom == state.zoom_default" *ngIf="layout.showZoomControls" matTooltip="{{'Zoom.ZoomReset'|translate}}">
+            <mat-icon>fullscreen_exit</mat-icon>
+          </button>
+        <!--</div>-->
         <mat-divider [vertical]="true" *ngIf="layout.showLinkRouterSelector"></mat-divider>
         <div *ngIf="layout.showLinkRouterSelector">{{'Link Router'|translate}}:&nbsp;</div>
         <mat-form-field *ngIf="layout.showLinkRouterSelector" class="router-select" appearance="outline" [ngClass]="{'w-full' : fillWidth}">

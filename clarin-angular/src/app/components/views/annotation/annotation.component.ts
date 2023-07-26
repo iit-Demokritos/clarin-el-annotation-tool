@@ -68,10 +68,18 @@ export class AnnotationComponent extends MainComponent implements OnInit {
     showDocument: true,
     showDocumentAttributes: true,
     showSettings: true,
+    showZoomControls: false,
     showAutomaticAnnotator: false,
     showLinkRouterSelector: false,
     routerName: "direct",
     hideLinks: false
+  };
+  state = {
+    zoom: 1,
+    zoom_default: 1,
+    zoom_min: 0.1,
+    zoom_max: 5.0,
+    zoom_step: 0.1
   };
   spinnerVisible;
   broadcastEvent = {};
@@ -642,6 +650,13 @@ export class AnnotationComponent extends MainComponent implements OnInit {
     if (evt.event == "showLinkRouterSelector") {
       this.layout.showLinkRouterSelector = evt.value;
     }
+    if (evt.event == "showZoomControls") {
+      this.layout.showZoomControls = evt.value;
+      this.zoomReset();
+    }
+    if (evt.event == "resetZoomLevel") {
+      this.zoomReset();
+    }
     this.broadcastEvent = evt;
     this.changeDetectorRef.detectChanges(); // forces change detection to run
   }; /* getTextWidgetNotification */
@@ -689,4 +704,31 @@ export class AnnotationComponent extends MainComponent implements OnInit {
     const url = this.router.createUrlTree(['/app/annotation', doc.collection_id, doc.id]).toString();
     this.routerLocation.go(url);
   }; /* updateRouterLocation */
+
+  onZoomChangeEnd(event) {
+    this.state.zoom = event.value;
+    this.updateZoomLevel();
+  }; /* onZoomChangeEnd */
+
+  zoomOut() {
+    this.state.zoom -= 0.1;
+    if (this.state.zoom < this.state.zoom_min) this.state.zoom = this.state.zoom_min;
+    this.updateZoomLevel();
+  }; /* zoomOut */
+
+  zoomIn() {
+    this.state.zoom += 0.1;
+    if (this.state.zoom > this.state.zoom_max) this.state.zoom = this.state.zoom_max;
+    this.updateZoomLevel();
+  }; /* zoomIn */
+
+  zoomReset() {
+    this.state.zoom = 1;
+    this.updateZoomLevel();
+  }; /* zoomReset */
+
+  updateZoomLevel() {
+    this.textWidgetComponent.updateZoomLevel(this.state.zoom);
+  }; /* updateZoomLevel */
+
 }
