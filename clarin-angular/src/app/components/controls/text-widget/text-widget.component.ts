@@ -2131,6 +2131,7 @@ export class TextWidgetComponent extends BaseControlComponent
 
   updateZoomLevel(zoom) {
     this.state.zoom = zoom;
+    // this.paper.scale(this.state.zoom);
     this.mainContent.nativeElement.style.transform = "scale("+zoom+")";
   }; /* updateZoomLevel */
 

@@ -1,3 +1,12 @@
+26-July-2023 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
+ * clarin-angular/src/app/components/views/annotation/annotation.component.html:
+ * clarin-angular/src/app/components/views/annotation/annotation.component.ts:
+ * clarin-angular/src/assets/i18n/el-GR.json:
+ * clarin-angular/src/assets/i18n/en-US.json:
+ * clarin-angular/src/css/clarin-material.scss: Added preliminary support for
+ zooming during image annotation.
+
 24-July-2023 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/package.json: Updated version to 3.3.3. (Image overlapping
  areas selection).
