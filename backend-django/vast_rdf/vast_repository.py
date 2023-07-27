@@ -193,7 +193,7 @@ class RDFStoreVAST:
         match span.type:
             case 'rect':
                 obj = RDFStoreObject(type=self.vast.vastSegmentRectange,
-                                     id=URIRef(f"{self.vast.vastSegemntRectange}/{annotation._id}/{span.x}-{span.y}-{span.width}-{span.height}"),
+                                     id=URIRef(f"{self.vast.vastSegmentRectange}/{annotation._id}/{span.x}-{span.y}-{span.width}-{span.height}"),
                                      span_type=Literal(span.type, lang="en"),
                                      x=Literal(span.x,           datatype=XSD.integer),
                                      y=Literal(span.y,           datatype=XSD.integer),
@@ -202,7 +202,7 @@ class RDFStoreVAST:
                                     )
             case _:
                 obj = RDFStoreObject(type=self.vast.vastSegment,
-                                     id=URIRef(f"{self.vast.vastSegemnt}/{annotation._id}/{span.start}-{span.end}"),
+                                     id=URIRef(f"{self.vast.vastSegment}/{annotation._id}/{span.start}-{span.end}"),
                                      comment=Literal(span.segment, lang="en"),
                                      span_type=Literal("text", lang="en"),
                                      start=Literal(span.start, datatype=XSD.integer),
