@@ -44,6 +44,7 @@ urlpatterns = [
     path('api/user',                                                                                    ReturnStatistics.as_view(),                          name='api_user'),
     path('api/collections/<int:collection_id>/export',                                                  ExportCollectionView.as_view(),                      name='api_collection_export'),
     path('api/collections/exists/<str:collection_name>',                                                ExistCollection.as_view(),                           name='api_collection_exist'),
+    path('api/collections/export',                                                                      ExportAllCollectionsView.as_view(),                  name='api_collection_export_all'),
     path('api/collections/import',                                                                      ImportView.as_view(),                                name='api_collection_import'),
     path('api/collections/<int:collection_id>/documents/<int:document_id>/annotations/import',          ImportAnnotationsView.as_view(),                     name='api_collection_import_annotations'),
     path('api/collections/<int:collection_id>/documents/<int:document_id>/live',                        DocumentLiveUpdate.as_view(),                        name='document_live_update'),

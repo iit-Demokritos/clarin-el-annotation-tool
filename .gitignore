@@ -1,3 +1,8 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+# vim swap
+*.swp
 .idea
 frontend/clarin/bower_components
 backend/clarin/app/storage/sessions/*

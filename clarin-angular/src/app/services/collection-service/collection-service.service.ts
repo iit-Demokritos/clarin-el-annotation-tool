@@ -21,6 +21,17 @@ export class CollectionService {
     });
   }
 
+  exportAllCollections() {
+    return new Promise((resolve, reject) => {
+      this.http.get('./api/collections/export')
+        .subscribe((data) => {
+          resolve(data);
+        }, (error) => {
+          reject(error);
+        });
+    });
+  }; /* exportAllCollections */
+
   getData() {
     return new Promise((resolve, reject) => {
       this.http.get('./api/collections_data')

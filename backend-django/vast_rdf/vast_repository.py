@@ -41,7 +41,7 @@ class RDFStoreObject:
         if (self.rdf_graph_owner): graph.add((self.id, NAMESPACE_VAST.vastGraphObjectOwner,  self.rdf_graph_owner))
         if (self.type):        graph.add((self.id, RDF.type,  self.type))
         if (self.name):        graph.add((self.id, FOAF.name, self.name))
-        #if (self.text):       graph.add((self.id, NAMESPACE_VAST.vastText, self.text))
+        if (self.text):        graph.add((self.id, NAMESPACE_VAST.vastText, self.text))
         if (self.comment):     graph.add((self.id, RDFS.comment, self.comment))
         if (self.value):       graph.add((self.id, NAMESPACE_VAST.vastKeyword, self.value))
         if (self.created_at):  graph.add((self.id, NAMESPACE_VAST.vastCreatedAt, self.created_at))
@@ -100,11 +100,61 @@ class RDFStoreVAST:
         if self.store:
             self.store.commit()
 
+    def querySPARQL(self, *args, **kwargs):
+        return self.g.query(*args, **kwargs)
+
+    def queryObject(self, id):
+        if not self.store:
+            return []
+        return self.g.triples( (id, None, None),  )
+
+    def removeObject(self, id):
+        for triple in self.queryObject(id):
+            # logger.info(f"RDFStoreVAST(): removeObject(): Removing: {triple}")
+            self.g.remove(triple)
+        self.commit()
+
+    def delete(self, class_name, obj):
+        logger.info(f"RDFStoreVAST(): delete(): class: {class_name}, obj: {obj}")
+        T = self.classNameToRDFType(obj, class_name)
+        if T:
+            robj = RDFStoreObject(T=T, id=URIRef(f"{T}/{obj.name_md5}"))
+            self.removeObject(robj.id)
+            self.commit()
+
+    def save(self, class_name, obj, commit=True):
+        logger.info(f"RDFStoreVAST(): save(): class: {class_name}, obj: {obj}")
+        method = getattr(self, class_name, None)
+        logger.info(f"RDFStoreVAST(): save(): method: {method}")
+        result = None
+        if method:
+            result = method(obj)
+            if commit:
+                self.commit()
+        return result
+
+    def getURIRef(self, T, obj):
+        if obj:
+            return URIRef(f"{T}/{obj.name_md5}")
+        return None
+
+    def getLiteral(self, obj, lang="en"):
+        if obj:
+            if getattr(obj, 'name', None):
+                return Literal(obj.name, lang=lang)
+            return Literal(str(obj), lang=lang)
+        return None
+
+    def getIntegerLiteral(self, obj):
+        if obj:
+            return Literal(int(obj), datatype=XSD.integer)
+        return None
+
 
     def serialiseCollection(self, collection):
         obj = RDFStoreObject(type=self.vast.vastCollection,
                              id=URIRef(f"{self.vast.vastCollection}/{collection.id}"),
-                             name=Literal(collection.name, lang="en"))
+                             name=self.getLiteral(collection))
         total_anns = 0
         collection_serialised = False;
         for doc in collection.documents():
@@ -134,8 +184,8 @@ class RDFStoreVAST:
 
         obj = RDFStoreObject(type=self.vast.vastDocument,
                              id=URIRef(f"{self.vast.vastDocument}/{document.id}"),
-                             name=Literal(document.name, lang="en"),
-                             text=Literal(text_cm, lang="en"),
+                             name=self.getLiteral(document),
+                             text=self.getLiteral(text_cm),
                              created_by=cbobj.id if cbobj else cbobj,
                              updated_by=ubobj.id if ubobj else ubobj,
                             )
@@ -162,7 +212,7 @@ class RDFStoreVAST:
         # Generate a keyword object...
         kobj = RDFStoreObject(type=self.vast.vastKeyword,
                              id=URIRef(f"{self.vast.vastKeyword}/{value}"),
-                             comment=Literal(value, lang="en"))
+                             comment=self.getLiteral(value))
         kobj.add(self.g)
         # Generate expert objects...
         cbobj = self.serialiseVastExpert(annotation.created_by)

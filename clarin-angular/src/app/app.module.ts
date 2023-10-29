@@ -136,6 +136,7 @@ import { AutomaticAnnotatorComponent } from './components/controls/automatic-ann
 import { WavesurferAudioComponent } from './components/controls/wavesurfer-audio/wavesurfer-audio.component';
 import { WavesurferVideoComponent } from './components/controls/wavesurfer-video/wavesurfer-video.component';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { FileSaverModule } from 'ngx-filesaver';
 
 // Required for AOT compilation
 export function TranslateHttpLoaderFactory(http: HttpClient) {
@@ -290,7 +291,8 @@ import { faFile,
     MatTableExporterModule,
     DragDropModule,
     QueryBuilderModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    FileSaverModule
   ],
   exports:[
     ButtonAnnotatorValueListDirective,

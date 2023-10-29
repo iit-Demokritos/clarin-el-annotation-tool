@@ -418,3 +418,55 @@ class SharesViewList(ErrorLoggingAPIViewList, SharesView):
 )
 class SharesViewDetail(SharesView):
     http_method_names = ["get", "patch", "delete"]
+
+##############################################
+## Shares
+##############################################
+@method_decorator(ensure_csrf_cookie, name='dispatch')
+@extend_schema_view(
+    ## Method: list
+    get=extend_schema(request=None,responses={200: None},operation_id="export_all_collections",
+        description="Exports all Collections the user has access to (owned and shared). Requires an authenticated user.",
+    ),
+)
+class ExportAllCollectionsView(SQLDBAPIView):
+    """
+    Exports all user Collections
+    """
+    http_method_names = ["get"]
+
+    # List all instances. (GET)
+    def list(self, request):
+        self.ensureAuthenticatedUser(request)
+        result = []
+        for collection in self.getCollections(request.user):
+            data = {}
+            for attr, value in collection.__dict__.items():
+                if not attr == "_state":
+                    if (attr == "owner_id_id"):
+                        attr = "owner_id"
+                    data[attr] = value
+            documents = Documents.objects.filter(collection_id=collection)
+            doc_records = []
+            doc_record  = {}
+            document_annotations = []
+            exclude_keys = ["_state", "owner_id_id", "collection_id_id"]
+            for document in documents:
+                for attr, value in document.__dict__.items():
+                    if not (attr in exclude_keys):
+                        doc_record[attr] = value
+                annotation_cur = annotations.find({"document_id": document.pk})
+                for annotation in annotation_cur:
+                    annotation["_id"] = str(annotation["_id"])
+                    document_annotations.append(annotation)
+                doc_record["annotations"] = document_annotations
+                doc_records.append(doc_record)
+                document_annotations = []
+                doc_record = {}
+            data["documents"] = doc_records
+            result.append(data)
+        response = JsonResponse(data={"success": True, "message": "ok", "data": result},
+                                status=status.HTTP_200_OK, encoder=ExtendedJSONEncoder)
+        datetime_str = timezone.now().strftime("%Y-%m-%d-%H-%M-%S")
+        response['Content-Disposition'] = f'attachment; filename="ExportedCollections-{datetime_str}.json"'
+        return response

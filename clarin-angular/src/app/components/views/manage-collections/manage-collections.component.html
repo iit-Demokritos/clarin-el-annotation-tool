@@ -13,8 +13,12 @@
             <mat-icon>create_new_folder</mat-icon>
           </button>
           <button mat-icon-button color="primary" (click)="importDocuments()"
-            [matTooltip]="'Collections.Import'|translate">
+            [matTooltip]="'Collections.Import Collection'|translate">
             <mat-icon>cloud_upload</mat-icon>
+          </button>
+	  <button mat-icon-button color="primary" (click)="exportAllCollections()"
+            [matTooltip]="'Collections.Export All Collections'|translate">
+            <mat-icon>cloud_download</mat-icon>
           </button>
           <!--<button mat-icon-button color="primary" (click)="importDocuments()"
             [matTooltip]="'Collections.DeleteSelectedCollection'|translate">

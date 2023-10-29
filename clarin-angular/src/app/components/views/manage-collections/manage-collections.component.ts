@@ -192,6 +192,14 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
     });
   }; /* importDocuments */
 
+  /**
+   * Export all Collections owned/shared to the user.
+   */
+  exportAllCollections() {
+    this.collectionService.exportAllCollections().then((response) => {
+    });
+  }; /* exportAllCollections */
+
   //function to be called when a user wants to rename a document
   renameDocument() {
     if (this.selectedDocuments.length === 1) {

@@ -1,3 +1,17 @@
+29-October-2023 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * backend-django/clarin_backend/sql_views.py:
+ * backend-django/clarin_backend/urls.py:
+ * backend-django/clarin_backend/utils.py:
+ * backend-django/vast_rdf/vast_repository.py:
+ * clarin-angular/package.json
+ * clarin-angular/src/app/app.module.ts:
+ * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.html:
+ * clarin-angular/src/app/components/views/manage-collections/manage-collections.component.ts:
+ * clarin-angular/src/app/services/collection-service/collection-service.service.ts:
+ * clarin-angular/src/assets/i18n/el-GR.json:
+ * clarin-angular/src/assets/i18n/en-US.json: Added ability to export all
+ Collections.
+
 26-July-2023 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/controls/text-widget/text-widget.component.ts:
  * clarin-angular/src/app/components/views/annotation/annotation.component.html:

@@ -60,6 +60,27 @@ class ErrorLoggingAPIView(APIView):
         ErrorLoggingAPIView.userHasAccessToCollection(user, collection)
         return collection
 
+    @staticmethod
+    def getUserCollections(user):
+        collections        = Collections.objects.filter(owner_id=user)
+        return collections
+
+    @staticmethod
+    def getSharedToUserCollections(user):
+        collections        = SharedCollections.objects.filter((Q(tofield=user) & Q(confirmed=1)))
+        return collections
+
+    @staticmethod
+    def getSharedByUserCollections(user):
+        collections        = SharedCollections.objects.filter((Q(fromfield=user) & Q(confirmed=1)))
+        return collections
+
+    @staticmethod
+    def getCollections(user):
+        collections        = Collections.objects.filter(owner_id=user)
+        shared_collections = SharedCollections.objects.filter((Q(tofield=user) & Q(confirmed=1)))
+        return collections + shared_collections
+
     def logException(self, request, ex, method):
         print(self.__class__.__name__, "-", method+"() - Catch Exception:", ex)
         print(" User:", request.user, request.user.pk, request.user.email)
