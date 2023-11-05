@@ -3,6 +3,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.forms.models import model_to_dict
 from django.utils import timezone
+from django.http import JsonResponse
 from .handlers import HandlerClass
 from rest_framework import status
 
@@ -53,7 +54,7 @@ class DocumentsView(SQLDBAPIView):
     # List all instances. (GET)
     def list(self, request, cid): 
         collection = self.getCollection(request.user, cid)
-        documents  = Documents.objects.filter(collection_id=collection)
+        documents  = self.getCollectionDocuments(request.user, collection)
         docs = []
         for doc in documents:
             docs.append({
@@ -429,44 +430,47 @@ class SharesViewDetail(SharesView):
         description="Exports all Collections the user has access to (owned and shared). Requires an authenticated user.",
     ),
 )
-class ExportAllCollectionsView(SQLDBAPIView):
+class ExportAllCollectionsView(MongoDBAPIView, SQLDBAPIView):
     """
     Exports all user Collections
     """
     http_method_names = ["get"]
+    db_name = 'annotations'
 
     # List all instances. (GET)
     def list(self, request):
         self.ensureAuthenticatedUser(request)
         result = []
+        annotations = self.annotations
         for collection in self.getCollections(request.user):
-            data = {}
-            for attr, value in collection.__dict__.items():
-                if not attr == "_state":
-                    if (attr == "owner_id_id"):
-                        attr = "owner_id"
-                    data[attr] = value
-            documents = Documents.objects.filter(collection_id=collection)
+            data = model_to_dict(collection)
+            # for attr, value in collection.__dict__.items():
+            #     if not attr == "_state":
+            #         if (attr == "owner_id_id"):
+            #             attr = "owner_id"
+            #         data[attr] = value
+            documents = self.getCollectionDocuments(request.user, collection)
             doc_records = []
             doc_record  = {}
-            document_annotations = []
-            exclude_keys = ["_state", "owner_id_id", "collection_id_id"]
             for document in documents:
-                for attr, value in document.__dict__.items():
-                    if not (attr in exclude_keys):
-                        doc_record[attr] = value
-                annotation_cur = annotations.find({"document_id": document.pk})
-                for annotation in annotation_cur:
-                    annotation["_id"] = str(annotation["_id"])
-                    document_annotations.append(annotation)
-                doc_record["annotations"] = document_annotations
+                doc_record = model_to_dict(document)
+                doc_record['data_image']  = doc_record['data_image'].url if doc_record['data_image'].name else None
+                doc_record['data_file']   = doc_record['data_file'].url  if doc_record['data_file'].name  else None
+                ## Normalise newlines, as expected by codemirror:
+                ##   lineSeparator: string|null
+                ##   Explicitly set the line separator for the editor. By default (value null),
+                ##   the document will be split on CRLFs as well as lone CRs and LFs,
+                ##   and a single LF will be used as line separator in all output
+                doc_record['text']        = self.normaliseNewlines(doc_record['text'])
+                doc_record['data_text']   = self.normaliseNewlines(doc_record['data_text'])
+                doc_record["annotations"] = self.mongodb_find({"document_id": document.pk})
                 doc_records.append(doc_record)
-                document_annotations = []
                 doc_record = {}
             data["documents"] = doc_records
             result.append(data)
-        response = JsonResponse(data={"success": True, "message": "ok", "data": result},
-                                status=status.HTTP_200_OK, encoder=ExtendedJSONEncoder)
-        datetime_str = timezone.now().strftime("%Y-%m-%d-%H-%M-%S")
-        response['Content-Disposition'] = f'attachment; filename="ExportedCollections-{datetime_str}.json"'
-        return response
+        return result
+        # response = JsonResponse(data={"success": True, "message": "ok", "data": result},
+        #                         status=status.HTTP_200_OK, encoder=ExtendedJSONEncoder)
+        # datetime_str = timezone.now().strftime("%Y-%m-%d-%H-%M-%S")
+        # response['Content-Disposition'] = f'attachment; filename="ExportedCollections-{datetime_str}.json"'
+        # return response

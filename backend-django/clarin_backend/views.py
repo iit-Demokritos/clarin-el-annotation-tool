@@ -43,7 +43,7 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.urls import reverse
 from .models import Users, Collections, SharedCollections, OpenDocuments, Documents, ButtonAnnotators, \
     CoreferenceAnnotators
-from .utils import db_handle, mongo_client
+from .utils import db_handle, mongo_client, SQLModelAccess
 
 from bson.objectid import ObjectId
 from django.forms.models import model_to_dict
@@ -69,6 +69,9 @@ from allauth.socialaccount import providers as socialaccount_providers
 from allauth.socialaccount.models import SocialApp
 from allauth.socialaccount import app_settings as socialaccount_app_settings
 from django.contrib.sites.models import Site
+
+# For sorting...
+from django.db.models.functions import Lower
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class ObtainTokenPairView(TokenObtainPairView):
@@ -605,62 +608,75 @@ class HandleCollection(APIView):
 
 # 4 & 5
 @method_decorator(ensure_csrf_cookie, name='dispatch')
-class HandleCollections(APIView):
+class HandleCollections(APIView, SQLModelAccess):
     @extend_schema(request=None,responses={200: None},description="Returns  all data for the collections that user has access.")
     def get(self, request):
 
         collection_data = {}
         collections_lst = []
         try:
-            owner = Users.objects.get(email=request.user)
-            collections = Collections.objects.filter(owner_id=owner)
+            # owner = Users.objects.get(email=request.user)
+            # #collections = Collections.objects.filter(owner_id=owner)
 
-            myshared_collections = SharedCollections.objects.filter(
-                fromfield=owner)
-            shared_collections = SharedCollections.objects.filter(
-                tofield=owner)
-            print(shared_collections)
+            # myshared_collections = SharedCollections.objects.filter(
+            #     fromfield=request.user)
+            # shared_collections = SharedCollections.objects.filter(
+            #     tofield=request.user)
+            # print(shared_collections)
+            collections = self.getCollections(request.user)
+            for collection in collections:
+                collection_data = self.collectionToDict(collection)
+                if collection_data["owner_id"] == request.user.pk:
+                    # The user owns this collection...
+                    collection_data["confirmed"] = None
+                    collection_data["is_owner"] = 1
+                else:
+                    collection_data["confirmed"] = 1
+                    collection_data["is_owner"] = 0
+                collection_data["document_count"] = self.getCollectionDocumentCount(request.user, collection)
+                collections_lst.append(collection_data)
+
+
+            # collection_data["id"] = collection.pk
+            # collection_data["name"] = collection.name
+            # collection_data["handler"] = collection.handler
+            # collection_data["encoding"] = collection.encoding
+            # collection_data["owner_id"] = (collection.owner_id).pk
+            # confirmed = None
+
+            # sc = myshared_collections.filter(collection_id=collection)
+            # if (sc.exists()):
+            #     confirmed = 0
+            #     for scitem in sc:
+            #         if (scitem.confirmed == 1):
+            #             confirmed = 1
+            # else:
+            #     confirmed = None
+
+            # collection_data["confirmed"] = confirmed
+            # collection_data["is_owner"] = 1
+            # documents = Documents.objects.filter(collection_id=collection)
+            # collection_data["document_count"] = documents.count()
+            # collections_lst.append(collection_data)
+            # collection_data = {}
+        #for tsc in shared_collections:
+        #    if(tsc.confirmed == 0):
+        #        continue
+        #    c1 = Collections.objects.get(pk=tsc.collection_id.pk)
+        #    collection_data["id"] = c1.pk
+        #    collection_data["name"] = c1.name
+        #    collection_data["handler"] = c1.handler
+        #    collection_data["encoding"] = c1.encoding
+        #    collection_data["owner_id"] = (c1.owner_id).pk
+        #    collection_data["confirmed"] = 1
+        #    collection_data["is_owner"] = 0
+        #    documents = Documents.objects.filter(collection_id=c1)
+        #    collection_data["document_count"] = documents.count()
+        #    collections_lst.append(collection_data)
+        #    collection_data = {}
         except Exception as ex:
             print("HandleCollections (GET):" + str(ex))
             return Response(data={"success": False}, status=status.HTTP_400_BAD_REQUEST)
-        for collection in collections:
-            collection_data["id"] = collection.pk
-            collection_data["name"] = collection.name
-            collection_data["handler"] = collection.handler
-            collection_data["encoding"] = collection.encoding
-            collection_data["owner_id"] = (collection.owner_id).pk
-            confirmed = None
-
-            sc = myshared_collections.filter(collection_id=collection)
-            if (sc.exists()):
-                confirmed = 0
-                for scitem in sc:
-                    if (scitem.confirmed == 1):
-                        confirmed = 1
-            else:
-                confirmed = None
-
-            collection_data["confirmed"] = confirmed
-            collection_data["is_owner"] = 1
-            documents = Documents.objects.filter(collection_id=collection)
-            collection_data["document_count"] = documents.count()
-            collections_lst.append(collection_data)
-            collection_data = {}
-        for tsc in shared_collections:
-            if(tsc.confirmed == 0):
-                continue
-            c1 = Collections.objects.get(pk=tsc.collection_id.pk)
-            collection_data["id"] = c1.pk
-            collection_data["name"] = c1.name
-            collection_data["handler"] = c1.handler
-            collection_data["encoding"] = c1.encoding
-            collection_data["owner_id"] = (c1.owner_id).pk
-            collection_data["confirmed"] = 1
-            collection_data["is_owner"] = 0
-            documents = Documents.objects.filter(collection_id=c1)
-            collection_data["document_count"] = documents.count()
-            collections_lst.append(collection_data)
-            collection_data = {}
         return Response(data={"success": True, "data": collections_lst}, status=status.HTTP_200_OK)
 
     @extend_schema(request=None,responses={200: None},description="Gets data (name,encoding,handler,type) for creating  a collection along with a set of documents.")
@@ -1058,49 +1074,69 @@ class OpenDocumentView(APIView):
 
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')
-class CollectionDataView(APIView):
+class CollectionDataView(APIView, SQLModelAccess):
 
     @extend_schema(request=None,responses={200: None},description="Returns document id, document name, collection id, collection name, owner id, confirmed and is owner for all the documents that user has access.")
     def get(self, request):
 
         try:
-            user = Users.objects.get(email=request.user)
-            collections = Collections.objects.filter(owner_id=user)
-            shared_collections = SharedCollections.objects.filter(
-                fromfield=user)
             doc_records = []
-            confirmed = None
-
+            collections = self.getCollections(request.user)
             for collection in collections:
-                myshared_collection = shared_collections.filter(
-                    collection_id=collection)
-                if (myshared_collection.exists()):
-                    confirmed = 0
-                    for scitem in myshared_collection:
-                        if (scitem.confirmed == 1):
-                            confirmed = 1
-                documents = Documents.objects.filter(
-                    collection_id=collection, owner_id=user)
-                for document in documents:
-                    doc_records.append({"id": document.pk, "name": document.name, "collection_id": collection.pk,
-                                        "collection_name": collection.name,
-                                        "owner_id": (document.owner_id).pk,
-                                        "confirmed": confirmed, "is_owner": 1})
-                confirmed = None
+                if collection.owner_id == request.user:
+                    confirmed = None
+                    is_owner  = 1
+                else:
+                    confirmed = 1
+                    is_owner  = 0
+                for document in self.getCollectionDocuments(request.user, collection):
+                    doc_records.append({
+                        "id": document.pk,
+                        "name": document.name,
+                        "collection_id": collection.pk,
+                        "collection_name": collection.name,
+                        "owner_id": (document.owner_id).pk,
+                        "confirmed": confirmed,
+                        "is_owner": is_owner
+                })
 
-            shared_collections = SharedCollections.objects.filter(
-                tofield=user, confirmed=1)
+            # user = Users.objects.get(email=request.user)
+            # collections = Collections.objects.filter(owner_id=user)
+            # shared_collections = SharedCollections.objects.filter(
+            #     fromfield=user)
+            # doc_records = []
+            # confirmed = None
 
-            for shared_collection in shared_collections:
-                collection = Collections.objects.get(
-                    pk=(shared_collection.collection_id).pk)
+            # for collection in collections:
+            #     myshared_collection = shared_collections.filter(
+            #         collection_id=collection)
+            #     if (myshared_collection.exists()):
+            #         confirmed = 0
+            #         for scitem in myshared_collection:
+            #             if (scitem.confirmed == 1):
+            #                 confirmed = 1
+            #     documents = Documents.objects.filter(
+            #         collection_id=collection, owner_id=user)
+            #     for document in documents:
+            #         doc_records.append({"id": document.pk, "name": document.name, "collection_id": collection.pk,
+            #                             "collection_name": collection.name,
+            #                             "owner_id": (document.owner_id).pk,
+            #                             "confirmed": confirmed, "is_owner": 1})
+            #     confirmed = None
 
-                documents = Documents.objects.filter(collection_id=collection)
-                for document in documents:
-                    doc_records.append({"id": document.pk, "name": document.name, "collection_id": collection.pk,
-                                        "collection_name": collection.name,
-                                        "owner_id": (document.owner_id).pk,
-                                        "confirmed": 1, "is_owner": 0})
+            # shared_collections = SharedCollections.objects.filter(
+            #     tofield=user, confirmed=1)
+
+            # for shared_collection in shared_collections:
+            #     collection = Collections.objects.get(
+            #         pk=(shared_collection.collection_id).pk)
+
+            #     documents = Documents.objects.filter(collection_id=collection)
+            #     for document in documents:
+            #         doc_records.append({"id": document.pk, "name": document.name, "collection_id": collection.pk,
+            #                             "collection_name": collection.name,
+            #                             "owner_id": (document.owner_id).pk,
+            #                             "confirmed": 1, "is_owner": 0})
         except Exception as ex:
             print("CollectionDataView (get):" + str(ex))
             return Response(data={"success": False, "message": "An error occured!"},

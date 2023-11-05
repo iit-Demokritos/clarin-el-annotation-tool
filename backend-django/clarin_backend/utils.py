@@ -4,6 +4,104 @@ from pymongo import MongoClient
 from django.conf import settings
 from rest_framework.views import APIView
 
+from .models import Users, Collections, Documents, SharedCollections
+from django.db.models import Q
+from django.db.models.functions import Lower
+from django.forms.models import model_to_dict
+
+####################################################
+## SQL Model Access...
+####################################################
+
+class SQLModelAccess:
+    @staticmethod
+    def userHasAccessToCollection(user, collection):
+        # collection = Collections.objects.get(id=cid)
+        if collection.owner_id_id == user.id:
+            return True
+        if SharedCollections.objects \
+            .filter((Q(tofield = user) & Q(confirmed = 1)),
+                    collection_id = collection) \
+            .count():
+            return True
+        raise Exception("User does not have access to this Collection!")
+
+    @staticmethod
+    def getCollection(user, cid):
+        collection = Collections.objects.get(pk=cid)
+        SQLModelAccess.userHasAccessToCollection(user, collection)
+        return collection
+
+    @staticmethod
+    def getCollectionDocuments(user, collection):
+        return Documents.objects.filter(collection_id=collection).order_by(Lower('name'))
+
+    @staticmethod
+    def getCollectionDocumentCount(user, collection):
+        return Documents.objects.filter(collection_id=collection).count()
+
+    @staticmethod
+    def getUserCollections(user):
+        collections        = Collections.objects.filter(owner_id=user).order_by(Lower('name'))
+        return collections
+
+    @staticmethod
+    def getSharedToUserCollections(user):
+        collections        = SharedCollections.objects.filter((Q(tofield=user) & Q(confirmed=1))).order_by(Lower('name'))
+        return collections
+
+    @staticmethod
+    def getSharedByUserCollections(user):
+        collections        = SharedCollections.objects.filter((Q(fromfield=user) & Q(confirmed=1))).order_by(Lower('name'))
+        return collections
+
+    @staticmethod
+    def getCollections(user):
+        shared_collections = SharedCollections.objects.filter((Q(tofield=user) & Q(confirmed=1))).values("collection_id")
+        collections        = Collections.objects.filter(Q(owner_id=user) | Q(pk__in=shared_collections)).order_by(Lower('name'))
+        return collections
+
+    @staticmethod
+    def collectionToDict(object):
+        return model_to_dict(object)
+
+    @staticmethod
+    def documentToDict(object):
+        return model_to_dict(object)
+
+####################################################
+## MongoDB Access...
+####################################################
+def get_clarindb():
+    hostname    = settings.MONGO_DB_HOST
+    port_number = settings.MONGO_DB_PORT
+    db_auth     = settings.MONGO_DB_AUTH
+    user        = settings.MONGO_USERNAME
+    password    = settings.MONGO_PASSWORD
+    db_name     = settings.MONGO_DATABASE
+    clarindb    = None
+    mongoclient = None
+    try:
+        mongo_con=f"mongodb://{user}:{password}@{hostname}:{port_number}/?authSource={db_auth}"
+        mongoclient = MongoClient(mongo_con)
+        clarindb = mongoclient[db_name]
+    except Exception as ex:
+        print(ex)
+    return clarindb, mongoclient
+
+
+def get_collection_handle(db_handle, collection_name):
+    if db_handle is None:
+        return None
+    names = db_handle.list_collection_names()
+    if collection_name in names:
+        return db_handle[collection_name]
+    return None
+
+db_handle, mongo_client = get_clarindb()
+#annotations = get_collection_handle(db_handle, "annotations")
+#annotations_temp = get_collection_handle(db_handle, "annotations_temp")
+
 ####################################################
 ## ErrorLoggingAPIView
 ####################################################
@@ -11,8 +109,6 @@ from rest_framework.response import Response
 from rest_framework import status
 from inspect import signature
 import sys, os
-from .models import Users, Collections, SharedCollections
-from django.db.models import Q
 
 class ErrorLoggingAPIViewList:
     http_method_names = ["get", "post"]
@@ -20,7 +116,7 @@ class ErrorLoggingAPIViewList:
 class ErrorLoggingAPIViewDetail:
     http_method_names = ["get", "put", "patch", "delete"]
 
-class ErrorLoggingAPIView(APIView):
+class ErrorLoggingAPIView(APIView, SQLModelAccess):
     """
     Base class to implement an error logging APIView.
     """
@@ -38,48 +134,21 @@ class ErrorLoggingAPIView(APIView):
         # print("##############", self.arguments_list, self.arguments_retrieve)
 
     @staticmethod
+    def mongoDBHandle(db_name="annotations"):
+        return get_collection_handle(db_handle, db_name)
+
+    @property
+    def annotations(self):
+        return self.mongoDBHandle()
+
+    @property
+    def annotationsTemp(self):
+        return self.mongoDBHandle("annotations_temp")
+
+    @staticmethod
     def ensureAuthenticatedUser(request):
         if not request.user.is_authenticated:
             raise Exception("An authenticated user is required.")
-
-    @staticmethod
-    def userHasAccessToCollection(user, collection):
-        # collection = Collections.objects.get(id=cid)
-        if collection.owner_id_id == user.id:
-            return True
-        if SharedCollections.objects \
-            .filter((Q(tofield   = user) & Q(confirmed = 1)),
-                    collection_id = collection) \
-            .count():
-            return True
-        raise Exception("User does not have access to this Collection!")
-
-    @staticmethod
-    def getCollection(user, cid):
-        collection = Collections.objects.get(pk=cid)
-        ErrorLoggingAPIView.userHasAccessToCollection(user, collection)
-        return collection
-
-    @staticmethod
-    def getUserCollections(user):
-        collections        = Collections.objects.filter(owner_id=user)
-        return collections
-
-    @staticmethod
-    def getSharedToUserCollections(user):
-        collections        = SharedCollections.objects.filter((Q(tofield=user) & Q(confirmed=1)))
-        return collections
-
-    @staticmethod
-    def getSharedByUserCollections(user):
-        collections        = SharedCollections.objects.filter((Q(fromfield=user) & Q(confirmed=1)))
-        return collections
-
-    @staticmethod
-    def getCollections(user):
-        collections        = Collections.objects.filter(owner_id=user)
-        shared_collections = SharedCollections.objects.filter((Q(tofield=user) & Q(confirmed=1)))
-        return collections + shared_collections
 
     def logException(self, request, ex, method):
         print(self.__class__.__name__, "-", method+"() - Catch Exception:", ex)
@@ -106,6 +175,8 @@ class ErrorLoggingAPIView(APIView):
         return response
 
     def returnResponse(self, data, method):
+        if isinstance(data, Response):
+            return data
         if type(data) is tuple:
             # Expects two elements, data & status
             return Response(data=data[0], status=data[1])
@@ -202,34 +273,3 @@ class InvitationTokenGenerator(PasswordResetTokenGenerator):
 
 
 invitation_token = InvitationTokenGenerator()
-
-
-def get_clarindb():
-    hostname    = settings.MONGO_DB_HOST
-    port_number = settings.MONGO_DB_PORT
-    db_auth     = settings.MONGO_DB_AUTH
-    user        = settings.MONGO_USERNAME
-    password    = settings.MONGO_PASSWORD
-    db_name     = settings.MONGO_DATABASE
-    clarindb    = None
-    mongoclient = None
-    try:
-        mongo_con=f"mongodb://{user}:{password}@{hostname}:{port_number}/?authSource={db_auth}"
-        mongoclient = MongoClient(mongo_con)
-        clarindb = mongoclient[db_name]
-    except Exception as ex:
-        print(ex)
-    return clarindb, mongoclient
-
-
-def get_collection_handle(db_handle, collection_name):
-    if db_handle is None:
-        return None
-    names = db_handle.list_collection_names()
-    if collection_name in names:
-        return db_handle[collection_name]
-    return None
-
-db_handle, mongo_client = get_clarindb()
-#annotations = get_collection_handle(db_handle, "annotations")
-#annotations_temp = get_collection_handle(db_handle, "annotations_temp")

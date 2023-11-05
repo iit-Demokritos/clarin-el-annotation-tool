@@ -1,3 +1,10 @@
+06-November-2023 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * clarin_backend/sql_views.py:
+ * clarin_backend/utils.py:
+ * clarin_backend/views.py: Added ability to export all user Collections. Now
+ backend API returns all Collection data sorted by name (previously was sorted
+ by id).
+
 29-October-2023 Petasis Georgios <petasis@iit.demokritos.gr>:
  * backend-django/clarin_backend/sql_views.py:
  * backend-django/clarin_backend/urls.py:
