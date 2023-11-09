@@ -1,24 +1,10 @@
-import {
-  Component,
-  OnDestroy,
-  ViewChild,
-  HostBinding,
-  ElementRef,
-  Inject,
-  Optional,
-  ViewEncapsulation,
-} from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { Component, HostBinding, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
+import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
 import { NavigationEnd, Router } from '@angular/router';
+import { AppSettings, SettingsService } from '@core';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { BreakpointObserver, MediaMatcher } from '@angular/cdk/layout';
-import { OverlayContainer } from '@angular/cdk/overlay';
-import { Directionality } from '@angular/cdk/bidi';
-import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
-
-import { SettingsService, AppSettings } from '@core';
-import { AppDirectionality } from '@shared';
 
 const MOBILE_MEDIAQUERY = 'screen and (max-width: 599px)';
 const TABLET_MEDIAQUERY = 'screen and (min-width: 600px) and (max-width: 959px)';
@@ -34,9 +20,11 @@ export class AdminLayoutComponent implements OnDestroy {
   @ViewChild('sidenav', { static: true }) sidenav!: MatSidenav;
   @ViewChild('content', { static: true }) content!: MatSidenavContent;
 
-  options = this.settings.getOptions();
+  options = this.settings.options;
 
-  private layoutChangesSubscription: Subscription;
+  get themeColor() {
+    return this.settings.themeColor;
+  }
 
   get isOver(): boolean {
     return this.isMobileScreen;
@@ -64,19 +52,13 @@ export class AdminLayoutComponent implements OnDestroy {
 
   private isCollapsedWidthFixed = false;
 
+  private layoutChangesSubscription = Subscription.EMPTY;
+
   constructor(
     private router: Router,
-    private mediaMatcher: MediaMatcher,
     private breakpointObserver: BreakpointObserver,
-    private overlay: OverlayContainer,
-    private element: ElementRef,
-    private settings: SettingsService,
-    @Optional() @Inject(DOCUMENT) private document: Document,
-    @Inject(Directionality) public dir: AppDirectionality
+    private settings: SettingsService
   ) {
-    this.dir.value = this.options.dir!;
-    this.document.body.dir = this.dir.value;
-
     this.layoutChangesSubscription = this.breakpointObserver
       .observe([MOBILE_MEDIAQUERY, TABLET_MEDIAQUERY, MONITOR_MEDIAQUERY])
       .subscribe(state => {
@@ -92,22 +74,8 @@ export class AdminLayoutComponent implements OnDestroy {
       if (this.isOver) {
         this.sidenav.close();
       }
-
       this.content.scrollTo({ top: 0 });
     });
-
-    // Check whether the browser support `prefers-color-scheme`
-    if (this.mediaMatcher.matchMedia('(prefers-color-scheme)').media !== 'not all') {
-      const isSystemDark = this.mediaMatcher.matchMedia('(prefers-color-scheme: dark)').matches;
-      // Set theme to dark if `prefers-color-scheme` is dark. Otherwise, set it to light.
-      this.options.theme = isSystemDark ? 'dark' : 'light';
-    } else {
-      // If the browser does not support `prefers-color-scheme`, set the default to dark.
-      this.options.theme = 'light';
-    }
-
-    // Initialize project theme with options
-    this.receiveOptions(this.options);
   }
 
   ngOnDestroy() {
@@ -125,36 +93,20 @@ export class AdminLayoutComponent implements OnDestroy {
     setTimeout(() => this.settings.setOptions(this.options), timer);
   }
 
-  sidenavCloseStart() {
+  onSidenavClosedStart() {
     this.isContentWidthFixed = false;
   }
 
-  sidenavOpenedChange(isOpened: boolean) {
+  onSidenavOpenedChange(isOpened: boolean) {
     this.isCollapsedWidthFixed = !this.isOver;
     this.options.sidenavOpened = isOpened;
     this.settings.setOptions(this.options);
   }
 
-  // Demo purposes only
-
-  receiveOptions(options: AppSettings): void {
+  updateOptions(options: AppSettings) {
     this.options = options;
-    this.toggleDarkTheme(options);
-    this.toggleDirection(options);
-  }
-
-  toggleDarkTheme(options: AppSettings) {
-    if (options.theme === 'dark') {
-      this.element.nativeElement.classList.add('theme-dark');
-      this.overlay.getContainerElement().classList.add('theme-dark');
-    } else {
-      this.element.nativeElement.classList.remove('theme-dark');
-      this.overlay.getContainerElement().classList.remove('theme-dark');
-    }
-  }
-
-  toggleDirection(options: AppSettings) {
-    this.dir.value = options.dir!;
-    this.document.body.dir = this.dir.value;
+    this.settings.setOptions(options);
+    this.settings.setDirection();
+    this.settings.setTheme();
   }
 }

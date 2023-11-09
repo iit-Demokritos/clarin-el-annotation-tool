@@ -64,6 +64,15 @@ export class DashboardService {
       color: 'bg-green-500',
       footer: '',
     };
+  item_annotations_by_me = {
+      title: 'dashboard.AnnotationsByMe',
+      amount: '⏳',
+      progress: {
+        value: 100,
+      },
+      color: 'bg-light-green-500',
+      footer: 'dashboard.AnnotationsCreatedByMe',
+    };
   item_collectionsShared = {
       title: 'dashboard.CollectionsShared',
       amount: '⏳',
@@ -78,6 +87,7 @@ export class DashboardService {
     this.item_collections,
     this.item_documents,
     this.item_annotations,
+    this.item_annotations_by_me,
     this.item_collectionsShared,
   ];
 
@@ -94,7 +104,7 @@ export class DashboardService {
 
   statistics_total = [
      this.item_collections,
-     this.item_annotations,
+     this.item_annotations_by_me,
   ];
 
   charts = [
@@ -119,7 +129,8 @@ export class DashboardService {
 
   getStatistics() {
     let val = this.cloneArrayObjects(this.statistics);
-    val[0].footer = val[1].footer = val[2].footer = '\u00a0';
+    val[0].footer = val[1].footer = '\u00a0';
+    val[2].footer = 'dashboard.TotalAnnotations';
     return val;
   }
 
@@ -132,7 +143,9 @@ export class DashboardService {
   }
 
   getTotalStatistics() {
-    return this.cloneArrayObjects(this.statistics_total);
+    let val = this.cloneArrayObjects(this.statistics_total);
+    val[0].footer = '\u00a0';
+    return val;
   }
 
   getUserStatistics() {

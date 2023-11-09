@@ -1,9 +1,9 @@
 import {
   Component,
-  Output,
   EventEmitter,
+  HostBinding,
   Input,
-  ChangeDetectionStrategy,
+  Output,
   ViewEncapsulation,
 } from '@angular/core';
 import { SettingsService, AppSettings } from '@core';
@@ -11,15 +11,13 @@ import screenfull from 'screenfull';
 
 @Component({
   selector: 'app-header',
-  host: {
-    class: 'matero-header',
-  },
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
+  @HostBinding('class') class = 'matero-header';
+
   @Input() showToggle = true;
   @Input() showBranding = false;
 
@@ -28,8 +26,6 @@ export class HeaderComponent {
   @Output() toggleSettingsPanel = new EventEmitter<void>();
 
   options;
-
-  constructor() {}
 
   toggleFullscreen() {
     if (screenfull.isEnabled) {

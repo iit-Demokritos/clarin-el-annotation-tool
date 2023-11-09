@@ -1,386 +1,149 @@
-<mat-card>
-  <mat-tab-group class="m--16">
+<mat-card appearance="outlined">
+  <mat-tab-group>
     <mat-tab label="Edit Profile">
       <div class="m-16">
-        
+
         <div *ngIf="tabvalue==0">
           <flash-messages></flash-messages>
-       </div>
-       
-        
-        <mat-card>
-          <mat-card-title>Edit Profile</mat-card-title>
-        
-          <form [formGroup]="reactiveForm" class="form-field-full"  >
-            <div fxLayout="row wrap" fxLayoutGap="8px grid">
-        
-              <div fxFlex="50" fxFlex.lt-md="100">
-                <mat-form-field>
-                  <mat-label>First name</mat-label>
-                  <input matInput placeholder="Simple placeholder" formControlName="firstname" required>
-                  <mat-error *ngIf="reactiveForm.get('firstname')?.invalid">Please enter first name
-                  </mat-error>
-                </mat-form-field>
+        </div>
+
+        <mat-card appearance="outlined">
+          <mat-card-header class="m-b-16">
+            <mat-card-title>Edit Profile</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <form [formGroup]="reactiveForm" class="form-field-full">
+              <div class="row">
+                <div class="col-sm-6 col-xl-4">
+                  <mat-form-field>
+                    <mat-label>First name</mat-label>
+                    <input matInput placeholder="Please enter your first name" formControlName="firstname" required>
+                    <mat-error *ngIf="reactiveForm.get('firstname')?.invalid">Please enter your first name</mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-sm-6 col-xl-4">
+                  <mat-form-field>
+                    <mat-label>Last name</mat-label>
+                    <input matInput placeholder="Please enter your last name" formControlName="lastname" required>
+                    <mat-error *ngIf="reactiveForm.get('lastname')?.invalid">Please enter your last name</mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-sm-6 col-xl-4">
+                  <mat-form-field>
+                    <mat-label>Gender</mat-label>
+                    <mat-select formControlName="gender">
+                      <mat-option>-- None --</mat-option>
+                      <mat-option value="male">male</mat-option>
+                      <mat-option value="female">female</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="reactiveForm.get('gender')?.invalid">Please select gender</mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-sm-6 col-xl-4">
+                  <mat-form-field>
+                    <input matInput [matDatepicker]="picker2" placeholder="Choose birthdate"
+                      formControlName="birthdate">
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                    <mat-error *ngIf="reactiveForm.get('birthdate')?.invalid">Please choose birthdate</mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-sm-6 col-xl-4">
+                  <mat-form-field>
+                    <mat-label>City</mat-label>
+                    <input matInput placeholder="Please enter city" formControlName="city">
+                    <mat-error *ngIf="reactiveForm.get('city')?.invalid">Please enter city</mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-sm-6 col-xl-4">
+                  <mat-form-field>
+                    <mat-label>Address</mat-label>
+                    <input matInput placeholder="Please enter address" formControlName="address">
+                    <mat-error *ngIf="reactiveForm.get('address')?.invalid">Please enter address</mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-sm-6 col-xl-4">
+                  <mat-form-field>
+                    <mat-label>Company</mat-label>
+                    <input matInput placeholder="Please enter company" formControlName="company">
+                    <mat-error *ngIf="reactiveForm.get('company')?.invalid">Please enter company</mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-sm-6 col-xl-4">
+                  <mat-form-field>
+                    <mat-label>Email</mat-label>
+                    <input matInput placeholder="Please enter your e-mail" formControlName="email" required>
+                    <mat-error *ngIf="reactiveForm.get('email')?.invalid">
+                      {{getErrorMessage(reactiveForm)}}</mat-error>
+                  </mat-form-field>
+                </div>
               </div>
-        
-              <div fxFlex="50" fxFlex.lt-md="100">
-                <mat-form-field>
-                  <mat-label>Last name</mat-label>
-                  <input matInput placeholder="Simple placeholder" formControlName="lastname" required>
-                  <mat-error *ngIf="reactiveForm.get('lastname')?.invalid">Please enter last name
-                  </mat-error>
-                </mat-form-field>
+
+              <div class="d-flex justify-content-end">
+                <button mat-raised-button color="primary" (click)="UpdateProfile()">Save</button>
               </div>
-        
-             <!-- <div fxFlex="50" fxFlex.lt-md="100">
-                <mat-form-field>
-                  <mat-label>Last name</mat-label>
-                  <input matInput placeholder="Simple placeholder" formControlName=lastname" required>
-                  <mat-error *ngIf="reactiveForm.get('lastname')?.invalid">Please enter last name
-                  </mat-error>
-                </mat-form-field>
-              </div>
-        -->
-              
-        
-              <div fxFlex="50" fxFlex.lt-md="100">
-                <mat-form-field>
-                  <mat-label>Gender</mat-label>
-                  <mat-select formControlName="gender">
-                    <mat-option>-- None --</mat-option>
-                    <mat-option value="male">male</mat-option>
-                    <mat-option value="female">female</mat-option>
-                  </mat-select>
-                  <mat-error *ngIf="reactiveForm.get('gender')?.invalid">Please select gender</mat-error>
-                </mat-form-field>
-              </div>
-             
-              <div fxFlex="50" fxFlex.lt-md="100">
-                <mat-form-field>
-                  <input matInput [matDatepicker]="picker2" placeholder="Choose birthdate"
-                         formControlName="birthdate">
-                  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                  <mat-datepicker #picker2></mat-datepicker>
-                  <mat-error *ngIf="reactiveForm.get('birthdate')?.invalid">Please choose birthdate</mat-error>
-                </mat-form-field>
-              </div>
-        
-            
-        
-        
-              <div fxFlex="50" fxFlex.lt-md="100">
-                <mat-form-field>
-                  <mat-label>City</mat-label>
-                  <input matInput placeholder="Simple placeholder" formControlName="city">
-                  <mat-error *ngIf="reactiveForm.get('city')?.invalid">Please enter city</mat-error>
-                </mat-form-field>
-              </div>
-        
-              <div fxFlex="50" fxFlex.lt-md="100">
-                <mat-form-field>
-                  <mat-label>Address</mat-label>
-                  <input matInput placeholder="Simple placeholder" formControlName="address">
-                  <mat-error *ngIf="reactiveForm.get('address')?.invalid">Please enter address</mat-error>
-                </mat-form-field>
-              </div>
-        
-              <div fxFlex="50" fxFlex.lt-md="100">
-                <mat-form-field>
-                  <mat-label>Company</mat-label>
-                  <input matInput placeholder="Simple placeholder" formControlName="company">
-                  <mat-error *ngIf="reactiveForm.get('company')?.invalid">Please enter company</mat-error>
-                </mat-form-field>
-              </div>
-              <div fxFlex="50" fxFlex.lt-md="100">
-                <mat-form-field>
-                  <mat-label>Email</mat-label>
-                  <input matInput placeholder="Simple placeholder" formControlName="email" required>
-                  <mat-error *ngIf="reactiveForm.get('email')?.invalid">
-                    {{getErrorMessage(reactiveForm)}}</mat-error>
-                </mat-form-field>
-              </div>
-        
-        
-        <!--
-              <div fxFlex="50" fxFlex.lt-md="100">
-                <mat-form-field>
-                  <mat-label>Mobile</mat-label>
-                  <input matInput placeholder="Simple placeholder" type="number" formControlName="mobile"
-                         required>
-                  <mat-icon matSuffix>smartphone</mat-icon>
-                  <mat-error *ngIf="reactiveForm.get('mobile')?.invalid">Please enter mobile</mat-error>
-                </mat-form-field>
-              </div>
-        
-              <div fxFlex="50" fxFlex.lt-md="100">
-                <mat-form-field>
-                  <mat-label>Tele</mat-label>
-                  <input matInput placeholder="Simple placeholder" type="number" formControlName="tele"
-                         required>
-                  <mat-icon matSuffix>phone</mat-icon>
-                  <mat-error *ngIf="reactiveForm.get('tele')?.invalid">Please enter tele</mat-error>
-                </mat-form-field>
-              </div>
-        
-              <div fxFlex="50" fxFlex.lt-md="100">
-                <mat-form-field>
-                  <mat-label>Website</mat-label>
-                  <input matInput placeholder="Simple placeholder" formControlName="website" required>
-                  <mat-error *ngIf="reactiveForm.get('website')?.invalid">Please enter website</mat-error>
-                </mat-form-field>
-              </div>
-        -->
-              
-        
-            </div>
-        
-            <div fxLayout="row" fxLayoutAlign="end center">
-              <button mat-raised-button color="primary"  class="m-t-8" (click)="UpdateProfile()">Save</button>
-            </div>
-          </form>
-        
-          
-        
-        
-        
+            </form>
+          </mat-card-content>
         </mat-card>
-
-
-
-
       </div>
     </mat-tab>
     <mat-tab label="Update Password">
       <div class="m-16">
         <div *ngIf="tabvalue==1">
           <flash-messages></flash-messages>
-       </div>
-        <mat-card>
-          <mat-card-title>Update Password</mat-card-title>
-         
-
-
-        
-        <form [formGroup]="UpdatePasswordForm" class="form-field-full" >
-          <div fxLayout="row wrap" fxLayoutGap="8px grid">
-        
-            <div  fxFlex="100%" fxFlex.lt-md="200">
-         <mat-form-field appearance="outline">
-              <mat-label>Current Password</mat-label>
-              <input matInput type="password" formControlName="currentpassword" required>
-              <mat-error *ngIf="UpdatePasswordForm.get('currentpassword')?.invalid">Please enter your current password
-            </mat-error>
-          </mat-form-field>
         </div>
-        <div fxFlex="100%" fxFlex.lt-md="100">
-          <mat-form-field appearance="outline">
-            <mat-label>New Password</mat-label>
-            <input matInput type="password" formControlName="newpassword" required>
-            <mat-error *ngIf="UpdatePasswordForm.get('newpassword')?.invalid">Please enter  a new password
-          </mat-error>
-        </mat-form-field>
-        </div>
-        <div fxFlex="100%" fxFlex.lt-md="100">
-<mat-form-field appearance="outline">
-            <mat-label>Confirm New Password</mat-label>
-            <input matInput type="password" formControlName="confirmnewpassword" required>
-            <mat-error *ngIf="UpdatePasswordForm.get('confirmnewpassword').hasError('required')">
-              {{'validations.required' | translate}}
-            </mat-error>
-            <mat-error *ngIf="UpdatePasswordForm.get('confirmnewpassword').hasError('confirm')"
-                       translate [translateParams]="{value: 'login.password' | translate}">
-              {{'validations.inconsistent'}}
-            </mat-error>
+        <mat-card appearance="outlined">
+          <mat-card-header class="m-b-16">
+            <mat-card-title>Update Password</mat-card-title>
+          </mat-card-header>
 
-
-       
-       <!--
-       
-            <mat-error *ngIf="UpdatePasswordForm.hasError('confirm')">
-            Passwords do not match
-          </mat-error>  -->
-        </mat-form-field>
-        </div>
-          </div>
-          <div fxLayout="row" fxLayoutAlign="end center">
-            <button mat-raised-button color="primary"  class="m-t-8" (click)="updatePassword()" >Save</button>
-          </div>
-
-
- <!--
-             <mat-form-field appearance="outline">
-            <mat-label>New Password</mat-label>
-            <input matInput type="password" formControlName="newpassword" required>
-            <mat-error *ngIf="UpdatePasswordForm.get('newpassword')?.invalid">Please type a new password
-          </mat-error>
-        </mat-form-field>
-
-
-
-        <mat-form-field appearance="outline">
-          <mat-label>Confirm New Password</mat-label>
-          <input matInput type="password" formControlName="confirmnewpassword" required>
-          <mat-error *ngIf="UpdatePasswordForm.get('confirmnewpassword')?.invalid">Retype  new password
-        </mat-error>
-      </mat-form-field>
-    
-        </div>
-        
-        <div fxLayout="row" fxLayoutAlign="end center">
-          <button mat-raised-button color="primary"  class="m-t-8" >Save</button>-
-        </div> -->
-      </form>
-   
-    
-
-
-            
-
-
-
-           <!-- <div fxLayout="row wrap" fxLayoutGap="8px grid">
-        
-              <div fxFlex="50" fxFlex.lt-md="100">
-                <mat-form-field>
-                  <mat-label>First name</mat-label>
-                  <input matInput placeholder="Simple placeholder" formControlName="firstname" required>
-                  <mat-error *ngIf="reactiveForm.get('firstname')?.invalid">Please enter first name
-                  </mat-error>
-                </mat-form-field>
+          <mat-card-content>
+            <form [formGroup]="UpdatePasswordForm" class="form-field-full">
+              <div class="row">
+                <div class="col-sm-12 col-xl-4">
+                  <mat-form-field>
+                    <mat-label>Current Password</mat-label>
+                    <input matInput type="password" formControlName="currentpassword" required>
+                    <mat-error *ngIf="UpdatePasswordForm.get('currentpassword')?.invalid">Please enter your current
+                      password</mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-12 col-xl-4">
+                  <mat-form-field>
+                    <mat-label>New Password</mat-label>
+                    <input matInput type="password" formControlName="newpassword" required>
+                    <mat-error *ngIf="UpdatePasswordForm.get('newpassword')?.invalid">Please enter a new
+                      password</mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-12 col-xl-4">
+                  <mat-form-field>
+                    <mat-label>Confirm New Password</mat-label>
+                    <input matInput type="password" formControlName="confirmnewpassword" required>
+                    <mat-error *ngIf="UpdatePasswordForm.get('confirmnewpassword').hasError('required')">
+                      {{'validations.required' | translate}}
+                    </mat-error>
+                    <mat-error *ngIf="UpdatePasswordForm.get('confirmnewpassword').hasError('confirm')" translate
+                      [translateParams]="{value: 'login.password' | translate}">
+                      {{'validations.inconsistent'}}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
               </div>
-        
-              <div fxFlex="50" fxFlex.lt-md="100">
-                <mat-form-field>
-                  <mat-label>Last name</mat-label>
-                  <input matInput placeholder="Simple placeholder" formControlName="lastname" required>
-                  <mat-error *ngIf="reactiveForm.get('lastname')?.invalid">Please enter last name
-                  </mat-error>
-                </mat-form-field>
+              <div class="d-flex justify-content-end">
+                <button mat-raised-button color="primary" class="m-t-8" (click)="updatePassword()">Save</button>
               </div>
-        
-              <div fxFlex="50" fxFlex.lt-md="100">
-                <mat-form-field>
-                  <mat-label>Last name</mat-label>
-                  <input matInput placeholder="Simple placeholder" formControlName=lastname" required>
-                  <mat-error *ngIf="reactiveForm.get('lastname')?.invalid">Please enter last name
-                  </mat-error>
-                </mat-form-field>
-              </div>
-       
-              
-        
-              <div fxFlex="50" fxFlex.lt-md="100">
-                <mat-form-field>
-                  <mat-label>Gender</mat-label>
-                  <mat-select formControlName="gender">
-                    <mat-option>-- None --</mat-option>
-                    <mat-option value="male">male</mat-option>
-                    <mat-option value="female">female</mat-option>
-                  </mat-select>
-                  <mat-error *ngIf="reactiveForm.get('gender')?.invalid">Please select gender</mat-error>
-                </mat-form-field>
-              </div>
-             
-              <div fxFlex="50" fxFlex.lt-md="100">
-                <mat-form-field>
-                  <input matInput [matDatepicker]="picker2" placeholder="Choose birthdate"
-                         formControlName="birthdate">
-                  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                  <mat-datepicker #picker2></mat-datepicker>
-                  <mat-error *ngIf="reactiveForm.get('birthdate')?.invalid">Please choose birthdate</mat-error>
-                </mat-form-field>
-              </div>
-        
-            
-        
-        
-              <div fxFlex="50" fxFlex.lt-md="100">
-                <mat-form-field>
-                  <mat-label>City</mat-label>
-                  <input matInput placeholder="Simple placeholder" formControlName="city">
-                  <mat-error *ngIf="reactiveForm.get('city')?.invalid">Please enter city</mat-error>
-                </mat-form-field>
-              </div>
-        
-              <div fxFlex="50" fxFlex.lt-md="100">
-                <mat-form-field>
-                  <mat-label>Address</mat-label>
-                  <input matInput placeholder="Simple placeholder" formControlName="address">
-                  <mat-error *ngIf="reactiveForm.get('address')?.invalid">Please enter address</mat-error>
-                </mat-form-field>
-              </div>
-        
-              <div fxFlex="50" fxFlex.lt-md="100">
-                <mat-form-field>
-                  <mat-label>Company</mat-label>
-                  <input matInput placeholder="Simple placeholder" formControlName="company">
-                  <mat-error *ngIf="reactiveForm.get('company')?.invalid">Please enter company</mat-error>
-                </mat-form-field>
-              </div>
-              <div fxFlex="50" fxFlex.lt-md="100">
-                <mat-form-field>
-                  <mat-label>Email</mat-label>
-                  <input matInput placeholder="Simple placeholder" formControlName="email" required>
-                  <mat-error *ngIf="reactiveForm.get('email')?.invalid">
-                    {{getErrorMessage(reactiveForm)}}</mat-error>
-                </mat-form-field>
-              </div>
-        
-        
-        
-              <div fxFlex="50" fxFlex.lt-md="100">
-                <mat-form-field>
-                  <mat-label>Mobile</mat-label>
-                  <input matInput placeholder="Simple placeholder" type="number" formControlName="mobile"
-                         required>
-                  <mat-icon matSuffix>smartphone</mat-icon>
-                  <mat-error *ngIf="reactiveForm.get('mobile')?.invalid">Please enter mobile</mat-error>
-                </mat-form-field>
-              </div>
-        
-              <div fxFlex="50" fxFlex.lt-md="100">
-                <mat-form-field>
-                  <mat-label>Tele</mat-label>
-                  <input matInput placeholder="Simple placeholder" type="number" formControlName="tele"
-                         required>
-                  <mat-icon matSuffix>phone</mat-icon>
-                  <mat-error *ngIf="reactiveForm.get('tele')?.invalid">Please enter tele</mat-error>
-                </mat-form-field>
-              </div>
-        
-              <div fxFlex="50" fxFlex.lt-md="100">
-                <mat-form-field>
-                  <mat-label>Website</mat-label>
-                  <input matInput placeholder="Simple placeholder" formControlName="website" required>
-                  <mat-error *ngIf="reactiveForm.get('website')?.invalid">Please enter website</mat-error>
-                </mat-form-field>
-              </div>
-            -->
-              
-        
-           
-          
-        
-        
-        
+            </form>
+          </mat-card-content>
         </mat-card>
-
-
-
-
-
-
-        
-
       </div>
     </mat-tab>
-  
   </mat-tab-group>
 </mat-card>
-
-
-
-
-
-
-

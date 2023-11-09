@@ -8,7 +8,6 @@ import {
 } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
-
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
@@ -32,7 +31,7 @@ export class DefaultInterceptor implements HttpInterceptor {
         if (body.msg) {
           this.toast.error(body.msg);
         }
-        return throwError([]);
+        return throwError(() => []);
       }
     }
     // Pass down event if everything is OK

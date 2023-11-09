@@ -79,10 +79,14 @@ urlpatterns = [
     path('api/shares/<int:sid>',                                                                        SharesViewDetail.as_view(),                          name='shares_detail'),
     path('api/shares',                                                                                  SharesViewList.as_view(),                            name='shares_list'),
 
+    path('api/visualisation/annotation/<str:annotation_id>',                                            VisualiseAnnotationViewDetail.as_view(),             name='visualise_annotation_detail'),
+    #re_path(r'^visualise/.*$',                                                                          ObtainTokenPairView.as_view(),                       name='visualise'),
+
+
     #path('api/test/collections/<int:cid>/documents',                                                    DocumentsViewList.as_view(),                         name='api_test_collection_documents'),
     #path('api/test/collections/<int:cid>/documents/<int:did>',                                          DocumentsViewDetail.as_view(),                       name='current_document'),
     #path('api/test/email/send',                                                                         TestEmailSendView.as_view(),                         name='test_email_send'),
 
     #path('main/',                                                                                       MainView.as_view(),                                  name='main'),
-    re_path('.*',                                                                                       InitApp.as_view(),                                   name='any_path_index_view'),
+    re_path(r'.*',                                                                                       InitApp.as_view(),                                   name='any_path_index_view'),
 ]

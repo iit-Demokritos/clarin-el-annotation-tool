@@ -1,4 +1,4 @@
-@use 'functions' as *;
+@use 'functions';
 
 // Utility Map
 
@@ -9,6 +9,7 @@ $utilities: () !default;
 $spacer: 16px !default;
 $spacers: (
   0: 0,
+  2: $spacer * .125,
   4: $spacer * .25,
   8: $spacer * .5,
   12: $spacer * .75,
@@ -17,7 +18,7 @@ $spacers: (
   32: $spacer * 2,
   48: $spacer * 3
 ) !default;
-$negative-spacers: negativify-map($spacers) !default;
+$negative-spacers: functions.negativify-map($spacers) !default;
 
 // Border
 
@@ -29,6 +30,16 @@ $borders: (
   4: 4px solid $border-color,
   8: 8px solid $border-color
 ) !default;
+
+$border-widths: (
+  0: 0,
+  1: 1px,
+  2: 2px,
+  4: 4px,
+  8: 8px
+) !default;
+
+$border-styles: solid dashed dotted double hidden none !default;
 
 // Border radius
 

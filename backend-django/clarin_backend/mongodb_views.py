@@ -11,96 +11,14 @@ from deepdiff.helper import CannotCompare
 from .models import Users, Collections, SharedCollections, OpenDocuments, Documents, \
     ButtonAnnotators, CoreferenceAnnotators
 from .utils import ErrorLoggingAPIView, ErrorLoggingAPIViewList, ErrorLoggingAPIViewDetail, get_collection_handle
-from .utils import db_handle as mongodb_db_clarin
-from bson.objectid import ObjectId
+from .utils import MongoDBAccess, db_handle as mongodb_db_clarin
 from django.utils import timezone
 from drf_spectacular.utils import extend_schema_view, extend_schema
 
 import json
 
-class MongoDBAPIView(ErrorLoggingAPIView):
-    db_name = ''
-    
-    returnProperties = {
-        # You cannot change a property to '0', the property has to
-        # be commented out!
-        '_id':                1,
-        'collection_id':      1,
-        'document_id':        1,
-        'owner_id':           1,
-        'annotator_id':       1,
-        'document_attribute': 1,
-        'type':               1,
-        'spans':              1,
-        'attributes':         1,
-        'created_at':         1,
-        'created_by':         1,
-        'updated_at':         1,
-        'updated_by':         1,
-        'deleted_at':         1,
-        'deleted_by':         1,
-        'collection_setting': 1,
-        'document_setting':   1
-    }
-
-    @property
-    def db(self):
-        return get_collection_handle(mongodb_db_clarin, self.db_name)
-
-    @staticmethod
-    def mongodb_encode_id(id):
-        if type(id) is str:
-            # Decide if it is a UUID or an ObjectID:
-            if '-' in id:
-                # Leave it as a string...
-                return id
-            else:
-                return ObjectId(id)
-
-    @staticmethod
-    def mongodb_doc_fix_id(doc):
-        if '_id' in doc and type(doc['_id']) is not str:
-            doc['_id'] = str(doc['_id'])
-        return doc
-
-    @staticmethod
-    def mongodb_doc_add_id(doc):
-        if '_id' in doc and type(doc['_id']) is str:
-            doc['_id'] = MongoDBAPIView.mongodb_encode_id(doc['_id'])
-        return doc
-
-    @staticmethod
-    def add_timestamps(ann):
-        if 'created_at' in ann:
-            if 'updated_at' not in ann:
-                ann['updated_at'] = timezone.now()
-        else:
-            ann['created_at'] = timezone.now()
-            ann['updated_at'] = ann['created_at']
-        return ann
-
-    @staticmethod
-    def mongodb_doc_is_not_deleted(doc):
-        return 'deleted_at' not in doc
-
-    def mongodb_find(self, query, projection=returnProperties):
-        return map(self.mongodb_doc_fix_id, self.db.find(self.mongodb_doc_add_id(query), projection))
-
-    def mongodb_find_one(self, query, projection=returnProperties):
-        return self.mongodb_doc_fix_id(self.db.find_one(self.mongodb_doc_add_id(query), projection))
-
-    def mongodb_insert_one(self, ann):
-        return self.db.insert_one(self.add_timestamps(ann))
-
-    def mongodb_update_one(self, ann):
-        id = ann['_id']
-        del ann['_id']
-        return self.db.update_one(self.mongodb_doc_add_id({'_id': id}),
-                                  {"$set": self.add_timestamps(ann)})
-
-    def remove_deleted(self, docs):
-        return filter(self.mongodb_doc_is_not_deleted, docs)
-
+class MongoDBAPIView(MongoDBAccess, ErrorLoggingAPIView):
+    pass
 
 ##############################################
 ## Annotations

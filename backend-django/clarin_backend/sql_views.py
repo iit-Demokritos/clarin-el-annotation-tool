@@ -1,18 +1,19 @@
 import json
 from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.csrf import csrf_exempt, csrf_protect, ensure_csrf_cookie
 from django.forms.models import model_to_dict
 from django.utils import timezone
 from django.http import JsonResponse
 from .handlers import HandlerClass
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from .models import Users, Collections, SharedCollections, \
         OpenDocuments, Documents, \
         ButtonAnnotators, CoreferenceAnnotators
 from django.db.models import Q
 
-from .utils import ErrorLoggingAPIView, ErrorLoggingAPIViewList, ErrorLoggingAPIViewDetail
+from .utils import ErrorLoggingAPIView, ErrorLoggingAPIViewList, ErrorLoggingAPIViewDetail, MongoDBAccess
 from .mongodb_views import *
 from .serializers import *
 
@@ -33,13 +34,7 @@ from .encoders import ExtendedJSONEncoder
 from django.core.serializers import serialize
 
 class SQLDBAPIView(ErrorLoggingAPIView):
-
-    @staticmethod
-    def normaliseNewlines(text):
-        return text
-        if not text:
-            return text
-        return "\n".join(text.splitlines())
+    pass
 
 ##############################################
 ## Documents
@@ -111,6 +106,7 @@ class DocumentsView(SQLDBAPIView):
 
     # Create a new instance. (POST)
     def create(self, request, cid):
+        schemes = ("data:", "https://", "http://",)
         collection = self.getCollection(request.user, cid)
         duplicateCounter = -1;
         unique_identifier = 1;
@@ -129,10 +125,11 @@ class DocumentsView(SQLDBAPIView):
         ## disk, we must be sure it is an image!
         if (new_data["type"] != "text" and "data_image" in data and data["data_image"]):
             try:
-                if data["data_image"].startswith("data:"):
-                    response = urllib.request.urlopen(data["data_image"])
-                    raw_image_data = response.file.read()
-                    image = Image.open(io.BytesIO(raw_image_data))
+                if data["data_image"].startswith(schemes):
+                    with urllib.request.urlopen(data["data_image"]) as response:
+                        # raw_image_data = response.file.read()
+                        raw_image_data = response.read()
+                        image = Image.open(io.BytesIO(raw_image_data))
                 else:
                     raw_image_data = base64.b64decode(data["data_image"])
                     image = Image.open(io.BytesIO(raw_image_data))
@@ -154,9 +151,9 @@ class DocumentsView(SQLDBAPIView):
         if new_data["type"].lower().startswith("audio "):
             if "data_audio" in data and data["data_audio"]:
                 try:
-                    if data["data_audio"].startswith("data:"):
-                        response = urllib.request.urlopen(data["data_audio"])
-                        raw_data = response.file.read()
+                    if data["data_audio"].startswith(schemes):
+                        with urllib.request.urlopen(data["data_audio"]) as response:
+                            raw_data = response.file.read()
                     else:
                         raw_data = base64.b64decode(data["data_audio"])
                 except IOError:
@@ -173,9 +170,9 @@ class DocumentsView(SQLDBAPIView):
         if new_data["type"].lower().startswith("video "):
             if "data_video" in data and data["data_video"]:
                 try:
-                    if data["data_video"].startswith("data:"):
-                        response = urllib.request.urlopen(data["data_video"])
-                        raw_data = response.file.read()
+                    if data["data_video"].startswith(schemes):
+                        with urllib.request.urlopen(data["data_video"]) as response:
+                            raw_data = response.file.read()
                     else:
                         raw_data = base64.b64decode(data["data_video"])
                 except IOError:
@@ -421,7 +418,7 @@ class SharesViewDetail(SharesView):
     http_method_names = ["get", "patch", "delete"]
 
 ##############################################
-## Shares
+## Export All Collections
 ##############################################
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 @extend_schema_view(
@@ -430,7 +427,7 @@ class SharesViewDetail(SharesView):
         description="Exports all Collections the user has access to (owned and shared). Requires an authenticated user.",
     ),
 )
-class ExportAllCollectionsView(MongoDBAPIView, SQLDBAPIView):
+class ExportAllCollectionsView(MongoDBAccess, SQLDBAPIView):
     """
     Exports all user Collections
     """
@@ -441,7 +438,6 @@ class ExportAllCollectionsView(MongoDBAPIView, SQLDBAPIView):
     def list(self, request):
         self.ensureAuthenticatedUser(request)
         result = []
-        annotations = self.annotations
         for collection in self.getCollections(request.user):
             data = model_to_dict(collection)
             # for attr, value in collection.__dict__.items():
@@ -451,21 +447,10 @@ class ExportAllCollectionsView(MongoDBAPIView, SQLDBAPIView):
             #         data[attr] = value
             documents = self.getCollectionDocuments(request.user, collection)
             doc_records = []
-            doc_record  = {}
             for document in documents:
-                doc_record = model_to_dict(document)
-                doc_record['data_image']  = doc_record['data_image'].url if doc_record['data_image'].name else None
-                doc_record['data_file']   = doc_record['data_file'].url  if doc_record['data_file'].name  else None
-                ## Normalise newlines, as expected by codemirror:
-                ##   lineSeparator: string|null
-                ##   Explicitly set the line separator for the editor. By default (value null),
-                ##   the document will be split on CRLFs as well as lone CRs and LFs,
-                ##   and a single LF will be used as line separator in all output
-                doc_record['text']        = self.normaliseNewlines(doc_record['text'])
-                doc_record['data_text']   = self.normaliseNewlines(doc_record['data_text'])
+                doc_record = self.documentToDict(document, request)
                 doc_record["annotations"] = self.mongodb_find({"document_id": document.pk})
                 doc_records.append(doc_record)
-                doc_record = {}
             data["documents"] = doc_records
             result.append(data)
         return result
@@ -474,3 +459,41 @@ class ExportAllCollectionsView(MongoDBAPIView, SQLDBAPIView):
         # datetime_str = timezone.now().strftime("%Y-%m-%d-%H-%M-%S")
         # response['Content-Disposition'] = f'attachment; filename="ExportedCollections-{datetime_str}.json"'
         # return response
+
+##############################################
+## Visualise Annotation Data
+##############################################
+class VisualiseAnnotationView(MongoDBAccess, SQLDBAPIView):
+    """
+    Retrieves visualisation data for a single annotation
+    """
+    permission_classes = (AllowAny,)
+    http_method_names = ["get"]
+    db_name = 'annotations'
+
+    # Retrieve a single instance. (GET)
+    def retrieve(self, request, annotation_id):
+        annotation = self.mongodb_find_one({"_id": annotation_id})
+        if annotation:
+            # Get Collection...
+            collection = self.collectionToDict(Collections.objects.get(pk=annotation['collection_id']))
+            # Get Document...
+            document = self.documentToDict(Documents.objects.get(pk=annotation['document_id']))
+        else:
+            document = None
+        result = {
+            "collection": collection,
+            "document":   document,
+            "annotation": annotation,
+        }
+        return result
+
+@extend_schema_view(
+    ## Method: get
+    get=extend_schema(request=None,responses={200: None},operation_id="visualise_annotation_detail",
+        description="Retrieves visualisation data for a single annotation.",
+    ),
+)
+class VisualiseAnnotationViewDetail(VisualiseAnnotationView):
+    permission_classes = (AllowAny,)
+    http_method_names = ["get"]

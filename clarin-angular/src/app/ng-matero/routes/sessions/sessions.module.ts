@@ -10,8 +10,7 @@ const COMPONENTS: any[] = [Error404Component, Error403Component, Error500Compone
 const COMPONENTS_DYNAMIC: any[] = [];
 
 @NgModule({
-  imports: [SharedModule, SessionsRoutingModule],
-  declarations: [...COMPONENTS, ...COMPONENTS_DYNAMIC],
-  entryComponents: COMPONENTS_DYNAMIC,
+    imports: [SharedModule, SessionsRoutingModule],
+    declarations: [...COMPONENTS, ...COMPONENTS_DYNAMIC]
 })
 export class SessionsModule {}

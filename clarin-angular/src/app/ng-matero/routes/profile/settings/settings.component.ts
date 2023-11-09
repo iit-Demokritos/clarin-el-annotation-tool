@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms';
+import { UntypedFormGroup, Validators, UntypedFormBuilder, UntypedFormControl } from '@angular/forms';
 
 import { LoggingInterceptor } from '@core/interceptors/logging-interceptor';
 import { UserService } from 'src/app/services/user-service/user.service';
-import { FlashMessagesService } from 'flash-messages-angular';
+//import { FlashMessagesService } from 'flash-messages-angular';
+import { FlashMessagesService } from '@components/controls/flash-messages';
 import { LoginService } from '@core';//?
 /*import { ErrorStateMatcher } from '@angular/material/core';
 
@@ -28,16 +29,17 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 @Component({
   selector: 'app-profile-settings',
   templateUrl: './settings.component.html',
+  styleUrls: ['./settings.component.scss'],
 })
 export class ProfileSettingsComponent implements OnInit {
-  reactiveForm: FormGroup;
-  UpdatePasswordForm: FormGroup;
+  reactiveForm: UntypedFormGroup;
+  UpdatePasswordForm: UntypedFormGroup;
 
   tabvalue=0
  // public userService:UserService;
  // matcher = new MyErrorStateMatcher();
 
-  constructor(private fb: FormBuilder,public userService: UserService, public flashMessage: FlashMessagesService,public loginService: LoginService) {
+  constructor(private fb: UntypedFormBuilder,public userService: UserService, public flashMessage: FlashMessagesService,public loginService: LoginService) {
     this.reactiveForm = this.fb.group({
       firstname: ['', [Validators.required]],
       lastname: ['', [Validators.required]],
@@ -60,7 +62,7 @@ export class ProfileSettingsComponent implements OnInit {
 
   }
 
-  confirmValidator = (control: FormControl): { [k: string]: boolean } => {
+  confirmValidator = (control: UntypedFormControl): { [k: string]: boolean } => {
     if (!control.value) {
       return { error: true, required: true };
     } else if (control.value !== this.UpdatePasswordForm.controls.newpassword.value) {
@@ -179,7 +181,7 @@ export class ProfileSettingsComponent implements OnInit {
 
 
   
-  getErrorMessage(form: FormGroup) {
+  getErrorMessage(form: UntypedFormGroup) {
     return form.get('email')?.hasError('required')
       ? 'You must enter a value'
       : form.get('email')?.hasError('email')

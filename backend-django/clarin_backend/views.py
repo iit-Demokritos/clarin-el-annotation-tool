@@ -43,7 +43,7 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.urls import reverse
 from .models import Users, Collections, SharedCollections, OpenDocuments, Documents, ButtonAnnotators, \
     CoreferenceAnnotators
-from .utils import db_handle, mongo_client, SQLModelAccess
+from .utils import db_handle, mongo_client, SQLModelAccess, MongoDBAccess
 
 from bson.objectid import ObjectId
 from django.forms.models import model_to_dict
@@ -51,7 +51,7 @@ import jwt
 from django.db.models import Q
 from django.contrib.auth.hashers import check_password
 from django.http import JsonResponse
-from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.csrf import csrf_exempt, csrf_protect, ensure_csrf_cookie
 from django.middleware.csrf import get_token
 import json
 from django.conf import settings
@@ -446,6 +446,7 @@ class ReturnStatistics(APIView):
     @extend_schema(request=None,responses={200: None},description="Returns the total numbers of user's collections,documents and annotations.")
     def get(self, request):
         annotations_counter             = 0
+        annotations_by_me_counter       = 0
         collections_counter             = 0
         documents_counter               = 0
         collections_shared_byuser_count = 0
@@ -469,7 +470,8 @@ class ReturnStatistics(APIView):
 
             # Petasis, 21/10/2022: Filter annotations with the collections owned by the user...
             collection_ids = list(collections.values_list('id', flat=True))
-            annotations_counter = annotation_col.count_documents({"created_by": owner.email, "collection_id": { "$in": collection_ids }})
+            annotations_counter = annotation_col.count_documents({"collection_id": { "$in": collection_ids }})
+            annotations_by_me_counter = annotation_col.count_documents({"created_by": owner.email, "collection_id": { "$in": collection_ids }})
 
             ## Find the collections shared with the user...
             collections_shared = SharedCollections.objects.filter(tofield=owner.email)
@@ -505,6 +507,7 @@ class ReturnStatistics(APIView):
                 "data": {"collections":             collections_counter,
                          "documents":               documents_counter,
                          "annotations":             annotations_counter,
+                         "annotations_by_me":       annotations_by_me_counter,
                          "collections_user_shares": collections_shared_byuser_count,
                          "collections_shared":      collections_shared_counter,
                          "documents_shared":        documents_shared_counter,
@@ -519,6 +522,7 @@ class ReturnStatistics(APIView):
                               "data": {"collections":             collections_counter,
                                        "documents":               documents_counter,
                                        "annotations":             annotations_counter,
+                                       "annotations_by_me":       annotations_by_me_counter,
                                        "collections_user_shares": collections_shared_byuser_count,
                                        "collections_shared":      collections_shared_counter,
                                        "documents_shared":        documents_shared_counter,
@@ -1385,40 +1389,24 @@ class ImportAnnotationsView(APIView):
 
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')
-class ExportCollectionView(APIView):
+class ExportCollectionView(APIView, SQLModelAccess, MongoDBAccess):
 
     permission_classes = (permissions.AllowAny,)
     authentication_classes = ()
+    db_name = 'annotations'
 
     @extend_schema(request=None,responses={200: None},description="Gets collection id and exports the collection along with its documents and their annotations.")
     def get(self, request, collection_id):
         data = {}
         try:
             collection = Collections.objects.get(pk=collection_id)
-            annotations = get_collection_handle(db_handle, "annotations")
-            for attr, value in collection.__dict__.items():
-                if not attr == "_state":
-                    if (attr == "owner_id_id"):
-                        attr = "owner_id"
-                    data[attr] = value
-            documents = Documents.objects.filter(collection_id=collection)
+            data = model_to_dict(collection)
+            documents = self.getCollectionDocuments(request.user, collection)
             doc_records = []
-            doc_record = {}
-            document_annotations = []
-            exclude_keys = ["_state", "owner_id_id", "collection_id_id"]
             for document in documents:
-
-                for attr, value in document.__dict__.items():
-                    if not (attr in exclude_keys):
-                        doc_record[attr] = value
-                annotation_cur = annotations.find({"document_id": document.pk})
-                for annotation in annotation_cur:
-                    annotation["_id"] = str(annotation["_id"])
-                    document_annotations.append(annotation)
-                doc_record["annotations"] = document_annotations
+                doc_record = self.documentToDict(document, request)
+                doc_record["annotations"] = list(self.mongodb_find({"document_id": document.pk}))
                 doc_records.append(doc_record)
-                document_annotations = []
-                doc_record = {}
             data["documents"] = doc_records
         except Exception as ex:
             print("ExportCollectionView (get):" + str(ex))
@@ -1450,6 +1438,8 @@ def str2date(strdate):
 def transformdate(datetime_str):
     if ("." not in datetime_str):
         datetime_str = datetime_str+".000000"
+    if ("T" not in datetime_str) and (" " in datetime_str):
+        datetime_str = datetime_str.replace(" ", "T")
 
     datetime_parts = datetime_str.split("T")
     # print(datetime_parts)

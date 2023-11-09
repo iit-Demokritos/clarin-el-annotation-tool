@@ -31,12 +31,15 @@ export abstract class BaseToken {
   }
 
   needRefresh(): boolean {
-    return this.exp !== undefined && this.exp >= 0;
+    const exp = typeof this.exp === 'number' ? this.exp : 0; // Petasis
+    return exp >= 0;
+    //return (this.exp instanceof Object) && this.exp !== undefined && this.exp >= 0;
   }
 
   getRefreshTime(): number {
     const exp = typeof this.exp === 'number' ? this.exp : 0; // Petasis
     return timeLeft((/*this.*/exp ?? 0) - 5);
+    //return timeLeft((this.exp ?? 0) - 5);
   }
 
   private hasAccessToken(): boolean {
@@ -46,6 +49,7 @@ export abstract class BaseToken {
   private isExpired(): boolean {
     const exp = typeof this.exp === 'number' ? this.exp : 0; // Petasis
     return this.exp !== undefined && /*this.*/exp - currentTimestamp() <= 0;
+    //return this.exp !== undefined && this.exp - currentTimestamp() <= 0;
   }
 }
 

@@ -2,19 +2,23 @@
 <!--
   <breadcrumb></breadcrumb>
 -->
-
-<mat-card>
+<div class="dashboard-main">
+<mat-card appearance="outlined">
+<mat-card-header>
 <mat-card-title>{{'dashboard.MyCollections' | translate}}</mat-card-title>
 <mat-card-subtitle>{{'dashboard.MyCollectionsInfo' | translate}}</mat-card-subtitle>
+</mat-card-header>
 <mat-card-content>
-<div class="matero-row" fxLayout="row wrap">
+<div class="row">
 
   <!-- Statistics -->
-  <div class="matero-col" fxFlex.gt-sm="25" fxFlex.gt-xs="50" fxFlex="100"
-       *ngFor="let stat of myStatistics">
-    <mat-card [ngClass]="['text-white', stat.color]">
+  <div class="col-sm-6 col-md-3" *ngFor="let stat of myStatistics">
+    <mat-card appearance="outlined" [ngClass]="['text-white', stat.color]">
       <!--<mat-card-title class="f-s-12 f-w-100">{{stat.title}}</mat-card-title>-->
-      <mat-card-title class="text-center">{{stat.title | translate}}</mat-card-title>
+      <mat-card-header>
+        <mat-card-title class="text-center">{{stat.title | translate}}</mat-card-title>
+        <mat-card-subtitle>{{stat.subtitle | translate}}</mat-card-subtitle>
+      </mat-card-header>
       <mat-card-content>
         <h2 class="text-center">{{stat.amount}}</h2>
         <mtx-progress [value]="stat.progress.value"
@@ -32,18 +36,22 @@
 <mat-card-footer></mat-card-footer>
 </mat-card>
 
-<mat-card>
+<mat-card appearance="outlined">
+<mat-card-header>
 <mat-card-title>{{'dashboard.MySharedCollections' | translate}}</mat-card-title>
 <mat-card-subtitle>{{'dashboard.MySharedCollectionsInfo' | translate}}</mat-card-subtitle>
+</mat-card-header>
 <mat-card-content>
-<div class="matero-row" fxLayout="row wrap">
+<div class="row">
 
   <!-- Statistics -->
-  <div class="matero-col" fxFlex.gt-sm="25" fxFlex.gt-xs="50" fxFlex="100"
-       *ngFor="let stat of mySharedStatistics">
-    <mat-card [ngClass]="['text-white', stat.color]">
+  <div class="col-sm-6 col-md-3" *ngFor="let stat of mySharedStatistics">
+    <mat-card appearance="outlined" [ngClass]="['text-white', stat.color]">
       <!--<mat-card-title class="f-s-12 f-w-100">{{stat.title}}</mat-card-title>-->
-      <mat-card-title class="text-center">{{stat.title | translate}}</mat-card-title>
+      <mat-card-header>
+        <mat-card-title class="text-center">{{stat.title | translate}}</mat-card-title>
+        <mat-card-subtitle>{{stat.subtitle | translate}}</mat-card-subtitle>
+      </mat-card-header>
       <mat-card-content>
         <h2 class="text-center">{{stat.amount}}</h2>
         <mtx-progress [value]="stat.progress.value"
@@ -61,18 +69,22 @@
 <mat-card-footer></mat-card-footer>
 </mat-card>
 
-<mat-card>
+<mat-card appearance="outlined">
+<mat-card-header>
 <mat-card-title>{{'dashboard.MyUnsharedCollections' | translate}}</mat-card-title>
 <mat-card-subtitle>{{'dashboard.MyUnsharedCollectionsInfo' | translate}}</mat-card-subtitle>
+</mat-card-header>
 <mat-card-content>
-<div class="matero-row" fxLayout="row wrap">
+<div class="row">
 
   <!-- Statistics -->
-  <div class="matero-col" fxFlex.gt-sm="25" fxFlex.gt-xs="50" fxFlex="100"
-       *ngFor="let stat of myUnsharedStatistics">
-    <mat-card [ngClass]="['text-white', stat.color]">
+  <div class="col-sm-6 col-md-3" *ngFor="let stat of myUnsharedStatistics">
+    <mat-card appearance="outlined" [ngClass]="['text-white', stat.color]">
       <!--<mat-card-title class="f-s-12 f-w-100">{{stat.title}}</mat-card-title>-->
-      <mat-card-title class="text-center">{{stat.title | translate}}</mat-card-title>
+      <mat-card-header>
+        <mat-card-title class="text-center">{{stat.title | translate}}</mat-card-title>
+        <mat-card-subtitle>{{stat.subtitle | translate}}</mat-card-subtitle>
+      </mat-card-header>
       <mat-card-content>
         <h2 class="text-center">{{stat.amount}}</h2>
         <mtx-progress [value]="stat.progress.value"
@@ -90,18 +102,22 @@
 <mat-card-footer></mat-card-footer>
 </mat-card>
 
-<mat-card>
+<mat-card appearance="outlined">
+<mat-card-header>
 <mat-card-title>{{'dashboard.MyTotalStatistics' | translate}}</mat-card-title>
 <mat-card-subtitle>{{'dashboard.MyTotalStatisticsInfo' | translate}}</mat-card-subtitle>
+</mat-card-header>
 <mat-card-content>
-<div class="matero-row" fxLayout="row wrap">
+<div class="row">
 
   <!-- Statistics -->
-  <div class="matero-col" fxFlex.gt-sm="25" fxFlex.gt-xs="50" fxFlex="100"
-       *ngFor="let stat of myTotalStatistics">
-    <mat-card [ngClass]="['text-white', stat.color]">
+  <div class="col-sm-6 col-md-3" *ngFor="let stat of myTotalStatistics">
+    <mat-card appearance="outlined" [ngClass]="['text-white', stat.color]">
       <!--<mat-card-title class="f-s-12 f-w-100">{{stat.title}}</mat-card-title>-->
-      <mat-card-title class="text-center">{{stat.title | translate}}</mat-card-title>
+      <mat-card-header>
+        <mat-card-title class="text-center">{{stat.title | translate}}</mat-card-title>
+        <mat-card-subtitle>{{stat.subtitle | translate}}</mat-card-subtitle>
+      </mat-card-header>
       <mat-card-content>
         <h2 class="text-center">{{stat.amount}}</h2>
         <mtx-progress [value]="stat.progress.value"
@@ -118,3 +134,4 @@
 </mat-card-content>
 <mat-card-footer></mat-card-footer>
 </mat-card>
+</div>

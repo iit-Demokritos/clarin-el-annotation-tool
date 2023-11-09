@@ -1,3 +1,13 @@
+09-November-2023 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/styles/*:
+ * clarin-angular/src/app/ng-matero/*: Updated ng-matero to version 16.
+
+ * backend-django/clarin_backend/mongodb_views.py:
+ * backend-django/clarin_backend/sql_views.py:
+ * backend-django/clarin_backend/urls.py:
+ * backend-django/clarin_backend/utils.py:
+ * backend-django/clarin_backend/views.py: Added visualise annotation API.
+
 06-November-2023 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin_backend/sql_views.py:
  * clarin_backend/utils.py:

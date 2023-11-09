@@ -12,28 +12,6 @@ export class LoginService {
 
   constructor(protected http: HttpClient) {}
 
-  async getToken() {
-    return await this.http.get('api/auth/gettoken').toPromise();
-  }
-
-  refreshCSRFToken() {
-    return this.getToken();
-  }
-
-  getAccessToken(token) : string {
-    if (typeof token === 'string' /* || token instanceof String */) {
-      this.token_refresh = null;
-      return token;
-    } else {
-      this.token_refresh = token['refresh'];
-      return token['access'];
-    }
-  }; /* getAccessToken */
-
-  getRefreshToken() : string {
-    return this.token_refresh;
-  }; /* getRefreshToken */
-
   login(email: string, password: string, rememberMe: boolean = false) {
     /*
      * The caller to this method is AuthService::login(), which gets our response,
@@ -57,14 +35,6 @@ export class LoginService {
     );
   }; /* login */
 
-  reset(email: string) {
-    // Ensure we have a valid CSRF token...
-    this.refreshCSRFToken();
-    return this.http.post('/api/auth/reset', {
-      email
-    });
-  }; /* reset */
-
   refresh(params: Record<string, any>) {
     // return this.http.post<TokenResponse | any>('/auth/refresh', {});
     return this.http.post<Token | any>('/api/user/refresh-token', {
@@ -81,7 +51,7 @@ export class LoginService {
   }; /* refresh */
 
   logout() {
-    // return this.http.post('/auth/logout', {});
+    // return this.http.post<any>('/auth/logout', {});
     return this.http.get('/api/user/logout');
   }; /* logout */
 
@@ -99,6 +69,43 @@ export class LoginService {
     );
   }; /* me */
 
+  menu() {
+    //return this.http.get<{ menu: Menu[] }>('/me/menu').pipe(map(res => res.menu));
+    return this.http.get<{ menu: Menu[] }>('assets/data/menu.json?_t=' + Date.now()).pipe(map(res => res.menu));
+  }; /* menu */
+
+
+  async getToken() {
+    return await this.http.get('api/auth/gettoken').toPromise();
+  }
+
+  refreshCSRFToken() {
+    return this.getToken();
+  }
+
+  getAccessToken(token) : string {
+    if (typeof token === 'string' /* || token instanceof String */) {
+      this.token_refresh = null;
+      return token;
+    } else {
+      this.token_refresh = token['refresh'];
+      return token['access'];
+    }
+  }; /* getAccessToken */
+
+  getRefreshToken() : string {
+    return this.token_refresh;
+  }; /* getRefreshToken */
+
+  
+  reset(email: string) {
+    // Ensure we have a valid CSRF token...
+    this.refreshCSRFToken();
+    return this.http.post('/api/auth/reset', {
+      email
+    });
+  }; /* reset */
+
   authenticated() {
     // console.error("LoginService: authenticated()");
     // this.refreshCSRFToken();
@@ -110,9 +117,4 @@ export class LoginService {
     // this.refreshCSRFToken();
     return this.http.get<any>('/api/auth/loginsocialproviders');
   }; /* socialLoginProviders */
-
-  menu() {
-    //return this.http.get<{ menu: Menu[] }>('/me/menu').pipe(map(res => res.menu));
-    return this.http.get<{ menu: Menu[] }>('assets/data/menu.json?_t=' + Date.now()).pipe(map(res => res.menu));
-  }; /* menu */
 }

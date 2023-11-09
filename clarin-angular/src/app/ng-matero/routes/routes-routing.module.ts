@@ -7,14 +7,14 @@ import { AuthLayoutComponent } from '../theme/auth-layout/auth-layout.component'
 import { DashboardComponent } from './dashboard/dashboard.component';
 //import { LoginComponent } from './sessions/login/login.component';
 //import { RegisterComponent } from './sessions/register/register.component';
-import { AuthGuard } from '@core';
+import { authGuard } from '@core/authentication';
 
 const routes: Routes = [
   {
     path: '',
     component: AdminLayoutComponent,
-    canActivate: [AuthGuard],
-    canActivateChild: [AuthGuard],
+    canActivate: [authGuard],
+    canActivateChild: [authGuard],
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent },
@@ -38,9 +38,8 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
-    useHash: environment.useHash,
-    relativeLinkResolution: 'legacy'
-}),
+      useHash: environment.useHash,
+    }),
   ],
   exports: [RouterModule],
 })
