@@ -7,6 +7,7 @@ import { AddDocumentsDialogComponent } from '../../dialogs/add-documents-dialog/
 import { ConfirmDialogComponent } from '../../dialogs/confirm-dialog/confirm-dialog.component';
 import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
 import { ImportModalComponent } from '../../dialogs/import-modal/import-modal.component';
+import { ImportCollectionsModalComponent } from '../../dialogs/import-collections-modal/import-collections-modal.component';
 import { ImportDocumentsFromExportModalComponent } from '../../dialogs/import-documents-from-export-modal/import-documents-from-export-modal.component';
 import { RenameCollectionModalComponent } from '../../dialogs/rename-collection-modal/rename-collection-modal.component';
 import { ShareCollectionModalComponent } from '../../dialogs/share-collection-modal/share-collection-modal.component';
@@ -45,6 +46,7 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
   selectedCollectionIndexTmp = -1;
   selectedCollectionIndex = null;
   selectedDocuments = [];
+  dataForTheTreeAll: any = [];
   dataForTheTree: any = [];
   selectedCollection: any;
 
@@ -86,12 +88,21 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
             this.translate.instant("Collections.Error during the restoring of your collections. Please refresh the page and try again."))
         });
       } else {
-        this.dataForTheTree = response["data"]; //angular.copy(response.data); TODO:
+        this.dataForTheTreeAll = this.dataForTheTree = response["data"]; //angular.copy(response.data); TODO:
         // this.dataForTheTree.forEach((row, index) => {row.row_number = index;});
       }
     });
   }
 
+  onApplyCollectionFilter(event) {
+    let filterText = event.target.value;
+    let regexObj = new RegExp(filterText, 'i');
+    if (filterText) {
+      this.dataForTheTree = this.dataForTheTreeAll.filter(col => regexObj.test(col.name));
+    } else {
+      this.dataForTheTree = this.dataForTheTreeAll;
+    }
+  }; /* onApplyCollectionFilter */
 
   //refresh collection's data
   initializeCollectionData() {
@@ -192,11 +203,38 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
     });
   }; /* importDocuments */
 
+  importDocumentsFromExport() {
+    var dialogRef = this.dialog.open(ImportDocumentsFromExportModalComponent,
+      { width: this.dialogWidth,
+        data: {collection: this.selectedCollection, documents: this.selectedDocuments}});
+    dialogRef.afterClosed().subscribe(modalResult => {
+      this.initializeCollections();
+      this.initializeCollectionData();
+    });
+  }; /* importDocumentsFromExport */
+
+  /**
+   * Import multiple Collections
+   */
+  importCollections() {
+    var dialogRef = this.dialog.open(ImportCollectionsModalComponent,
+      { width: this.dialogWidth });
+    dialogRef.afterClosed().subscribe(modalResult => {
+      this.initializeCollections();
+      this.initializeCollectionData();
+    });
+  }; /* importCollections */
+
   /**
    * Export all Collections owned/shared to the user.
    */
   exportAllCollections() {
     this.collectionService.exportAllCollections().then((response) => {
+      if (response.success && response.data.length > 0) {
+        let filename = `ExportedCollections-${(new Date().toJSON().slice(0,10))}.json`
+        let data = new Blob([JSON.stringify(response.data)], { type: 'application/json;charset=utf-8' });
+        this.fileSaverService.save(data, filename);
+      }
     });
   }; /* exportAllCollections */
 
@@ -271,7 +309,7 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
     }
     this.changeDetectorRef.detectChanges();
     return true;
-  }; /* onCollectionDropEnter */
+  }; /* onCollectionDropOver */
 
   onCollectionDropExit(event=undefined) {
     this.dropTargetCollection = -1;
@@ -298,6 +336,7 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
     // console.error("ManageCollectionsComponent: onCollectionDrop():", doc, col);
     this.dragAndDropService.copy(doc.id, col.id);
     // TODO: Handle errors...
+    this.initializeCollections();
   }; /* onCollectionDrop */
 
   //function to be called when a user wants to delete selected documents
@@ -336,16 +375,6 @@ export class ManageCollectionsComponent extends MainComponent implements OnInit 
       }
     });
   };
-
-  importDocumentsFromExport() {
-    var dialogRef = this.dialog.open(ImportDocumentsFromExportModalComponent,
-      { width: this.dialogWidth,
-        data: {collection: this.selectedCollection, documents: this.selectedDocuments}});
-    dialogRef.afterClosed().subscribe(modalResult => {
-      this.initializeCollections();
-      this.initializeCollectionData();
-    });
-  }; /* importDocumentsFromExport */
 
   //function to be called when a user clicks on table documents
   documentClick(s) {

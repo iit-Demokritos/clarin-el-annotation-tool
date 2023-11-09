@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { MainDialogComponent } from '../main-dialog/main-dialog.component';
+import { AbstractControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { CollectionNamePattern } from '@models/collection';
 
 @Component({
   selector: 'rename-collection-modal',
@@ -9,17 +11,37 @@ import { MainDialogComponent } from '../main-dialog/main-dialog.component';
 })
 export class RenameCollectionModalComponent extends MainDialogComponent implements OnInit {
 
-  public renameForm: FormGroup;
+  public renameForm: UntypedFormGroup;
   collectionData: any = this.data;
   oldCollectionName = this.collectionData.data.collectionName;
+  collectionNamePattern = CollectionNamePattern;
 
   super() { }
 
   ngOnInit(): void {
     this.renameForm = this.formBuilder.group({
-      collectionName: [""]
+      collectionName: ["", [Validators.required,
+                            Validators.minLength(4),
+                            this.createCollectionNameValidator()]]
     });
+    this.collectionData.collectionName = this.oldCollectionName
   }; /* ngOnInit */
+
+  createCollectionNameValidator(): ValidatorFn {
+    return (control:AbstractControl) : ValidationErrors | null => {
+        const value = control.value;
+        if (!value) {
+          return null;
+        }
+        const hasChanged = value != this.oldCollectionName;
+        if (!hasChanged) {
+          return {collectionnameUnchanged: true}
+        }
+
+        const collectionnameValid = hasChanged;
+        return !collectionnameValid ? {collectionnameInvalid: true}: null;
+    }
+  }; /* createCollectionNameValidator */
 
   rename() {
     if (this.oldCollectionName === this.collectionData.collectionName) {

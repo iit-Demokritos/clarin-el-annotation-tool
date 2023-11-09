@@ -8,7 +8,7 @@
         <mat-label>{{'Collections.DocumentName' | translate}}</mat-label>
         <input matInput type="text" formControlName="documentName"
           placeholder="{{'Collections.Enter a new Document name' | translate}}"
-          [(ngModel)]="documentData.documentName" required minlength="4" pattern="[a-zA-Z0-9]+([a-zA-Z0-9_ -]+)*">
+          [(ngModel)]="documentData.documentName" required minlength="4" [pattern]="documentNamePattern">
         <mat-error *ngIf="renameForm.get('documentName').hasError('required')">
           {{'validations.required' | translate}}
         </mat-error>
@@ -18,6 +18,15 @@
         <mat-error translate [translateParams]="{number:'4'}"
           *ngIf="renameForm.get('documentName').hasError('minlength')">
           validations.minlength
+        </mat-error>
+        <mat-error *ngIf="renameForm.get('documentName').hasError('filenameUnchanged')">
+          {{'validations.filenameUnchanged' | translate}}
+        </mat-error>
+        <mat-error *ngIf="renameForm.get('documentName').hasError('filenameMissingExtension')">
+          {{'validations.filenameMissingExtension' | translate}}
+        </mat-error>
+        <mat-error *ngIf="renameForm.get('documentName').hasError('filenameInvalid')">
+          {{'validations.filenameInvalid' | translate}}
         </mat-error>
       </mat-form-field>
     </mat-dialog-content>

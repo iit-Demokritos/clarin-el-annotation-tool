@@ -1,10 +1,11 @@
 import { ChangeDetectorRef, Compiler, Component, Injector, NgModuleRef, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '@core/authentication/auth.service';
 import { TranslateService } from '@ngx-translate/core';
-import { FlashMessagesService } from 'flash-messages-angular';
+//import { FlashMessagesService } from 'flash-messages-angular';
+import { FlashMessagesService } from '@components/controls/flash-messages';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 import { AnnotationSchemaService } from 'src/app/services/annotation-schema-service/annotation-schema.service';
 import { AnnotationService } from 'src/app/services/annotation-service/annotation.service';
@@ -29,6 +30,7 @@ import { ToastrService } from 'ngx-toastr';
 import { LocalStorageService } from '@shared/services/storage.service';
 import { AutoannService } from '@services/autoann-service/autoann.service';
 import { Location } from '@angular/common'; 
+import { FileSaverService } from 'ngx-filesaver';
 
 @Component({
   selector: 'main',
@@ -64,14 +66,15 @@ export class MainComponent implements OnInit {
     public _m: NgModuleRef<any>,
     public changeDetectorRef: ChangeDetectorRef,
     public translate: TranslateService,
-    public formBuilder: FormBuilder,
+    public formBuilder: UntypedFormBuilder,
     public authService: AuthService,
     public analyticsService: AnalyticsService,
     public dragAndDropService: DragAndDropService,
     public messageService: MessageService,
     public toastrService: ToastrService,
     public localStorageService: LocalStorageService,
-    public autoannService: AutoannService) { }
+    public autoannService: AutoannService,
+    public fileSaverService: FileSaverService) { }
 
   ngOnInit(): void {
   }

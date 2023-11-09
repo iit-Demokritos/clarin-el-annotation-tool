@@ -1,7 +1,8 @@
 import { Component, Inject, Injector, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FlashMessagesService } from 'flash-messages-angular';
+//import { FlashMessagesService } from 'flash-messages-angular';
+import { FlashMessagesService } from '@components/controls/flash-messages';
 import { AnnotationSchemaService } from 'src/app/services/annotation-schema-service/annotation-schema.service';
 import { ButtonAnnotatorService } from 'src/app/services/button-annotator-service/button-annotator.service';
 import { CollectionService } from 'src/app/services/collection-service/collection-service.service';
@@ -40,7 +41,7 @@ export class MainDialogComponent implements OnInit {
     public annotationService: AnnotationService,
     public tempAnnotationService: TempAnnotationService,
     public messageService: MessageService,
-    public formBuilder: FormBuilder) {
+    public formBuilder: UntypedFormBuilder) {
   }
 
   flash: any = "";

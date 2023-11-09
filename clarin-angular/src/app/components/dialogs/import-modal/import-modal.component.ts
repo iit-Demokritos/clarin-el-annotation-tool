@@ -1,11 +1,13 @@
 import { Component, Inject, Injector, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FlashMessagesService } from 'flash-messages-angular';
+//import { FlashMessagesService } from 'flash-messages-angular';
+import { FlashMessagesService } from '@components/controls/flash-messages';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 import { CollectionImportService } from 'src/app/services/collection-import-service/collection-import-service.service';
 import { ConfirmDialogComponent } from '../../dialogs/confirm-dialog/confirm-dialog.component';
 import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
+import { CollectionNamePattern } from '@models/collection';
 
 @Component({
   selector: 'import-modal',
@@ -14,17 +16,18 @@ import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 })
 export class ImportModalComponent implements OnInit {
 
-  public importForm: FormGroup;
+  public importForm: UntypedFormGroup;
   userFiles: any[] = [];
-  collectionName: any = "";
+  _collectionName: any = "";
   allowedTypes = ["application/json"];
   flowAttributes = { accept: this.allowedTypes };
+  collectionNamePattern = CollectionNamePattern;
 
   constructor(
     public injector: Injector,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<any>,
-    public formBuilder: FormBuilder,
+    public formBuilder: UntypedFormBuilder,
     public collectionImportService: CollectionImportService,
     public flashMessage: FlashMessagesService,
     public dialog: MatDialog) {
@@ -32,8 +35,12 @@ export class ImportModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.importForm = this.formBuilder.group({
-      collectionName: [this.collectionName]
+      collectionName: [this._collectionName]
     });
+  }
+
+  get collectionName() {
+    return this.importForm.get('collectionName')!;
   }
 
   handleFileInputs(obj: any) {
@@ -50,7 +57,12 @@ export class ImportModalComponent implements OnInit {
   }; /* collectionExists */
 
   import() {
-    this.collectionImportService.exists(this.collectionName)
+    if (this.collectionName.value.length < 4) {
+      console.error("Collection name too short:", this.collectionName.value);
+      throw new Error("Collection name too short!");
+      return;
+    }
+    this.collectionImportService.exists(this.collectionName.value)
       .then((response) => {
         if (response["success"] && response["exists"]) {
           var collectionId;
@@ -63,7 +75,7 @@ export class ImportModalComponent implements OnInit {
           var modalOptions = new ConfirmDialogData();
           modalOptions.headerType = "warning";
           modalOptions.dialogTitle = 'Warning';
-          modalOptions.message = 'The collection "' + this.collectionName +
+          modalOptions.message = 'The collection "' + this.collectionName.value +
             '" already exists. What do you want to do?';
           modalOptions.buttons = ['Cancel', 'Overwrite'];
           var dialogRef = this.dialog.open(ConfirmDialogComponent, { data: modalOptions, width: '550px' });
@@ -86,7 +98,7 @@ export class ImportModalComponent implements OnInit {
 
   doImport(overwrite: boolean = false, collectionId = undefined) {
     // Import files
-    this.collectionImportService.importFiles(this.collectionName,
+    this.collectionImportService.importFiles(this.collectionName.value,
       this.userFiles, overwrite, collectionId)
       .then((responses) => {
         // console.error("promises:", responses);

@@ -1,4 +1,8 @@
 09-November-2023 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/*: Upgrade to Angular 16, added
+ Collection search in Collection Management, added visualisation of standalone
+ annotations, added Export/Import of all Collections of a user.
+
  * clarin-angular/src/styles/*:
  * clarin-angular/src/app/ng-matero/*: Updated ng-matero to version 16.
 

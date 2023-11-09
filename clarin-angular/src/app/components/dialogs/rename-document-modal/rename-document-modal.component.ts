@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { MainDialogComponent } from '../main-dialog/main-dialog.component';
+import { AbstractControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { DocumentNamePattern } from '@models/document';
 
 @Component({
   selector: 'rename-document-modal',
@@ -9,32 +11,60 @@ import { MainDialogComponent } from '../main-dialog/main-dialog.component';
 })
 export class RenameDocumentModalComponent extends MainDialogComponent implements OnInit {
 
-  public renameForm: FormGroup;
+  public renameForm: UntypedFormGroup;
   documentData: any = this.data;
   oldDocumentName = this.documentData.data.documentName;
+  documentNamePattern = DocumentNamePattern;
 
   super() { }
 
   ngOnInit(): void {
     this.renameForm = this.formBuilder.group({
-      documentName: [""]
+      documentName: ["", [Validators.required,
+                          Validators.minLength(4),
+                          this.createFilenameValidator()]]
     });
+    this.documentData.documentName = this.oldDocumentName
   }; /* ngOnInit */
 
+  createFilenameValidator(): ValidatorFn {
+    return (control:AbstractControl) : ValidationErrors | null => {
+        const value = control.value;
+        if (!value) {
+          return null;
+        }
+        const hasChanged = value != this.oldDocumentName;
+        if (!hasChanged) {
+          return {filenameUnchanged: true}
+        }
 
-getExtension(){
-  switch(this.documentData.data.documentType) {
-    case "text":
-    return ".txt";
-  
-    case "tei xml":
-      return ".tei.xml";
-    default:
-      return ".txt";
-  }
- 
-}
+        const hasExtensionTXT = /\.txt/.test(value);
+        const hasExtensionTEIXML = /\.tei\.xml/.test(value);
+        const hasExtensionImage = /\.((png)|(jpeg)|(jpg)|(gif)|(tiff)|(tif)|(webp)|(svg)|(bmp))/.test(value);
+        const hasExtensionAV = /\.((3gp)|(aac)|(flac)|(mpg)|(mpeg)|(mp3)|(mp4a)|(mp4)|(oga)|(ogv)|(ogg)|(wav)|(mov)|(webm))/.test(value);
+        const hasExtension = hasExtensionTXT || hasExtensionTEIXML || hasExtensionImage || hasExtensionAV;
 
+        if (!hasExtension) {
+          return {filenameMissingExtension: true}
+        }
+
+        const filenameValid = hasChanged && hasExtension;
+        return !filenameValid ? {filenameInvalid: true}: null;
+    }
+  }; /* createFilenameValidator */
+
+  getExtension(): string {
+    return "";
+    /*
+    switch(this.documentData.data.documentType) {
+      case "text":
+        return ".txt";
+      case "tei xml":
+        return ".tei.xml";
+      default:
+        return ".txt";
+    }*/
+  }; /* getExtension */
 
   rename() {
     if (this.oldDocumentName === (this.documentData.documentName+this.getExtension())) {

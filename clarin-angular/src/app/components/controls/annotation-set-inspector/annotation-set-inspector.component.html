@@ -1,13 +1,14 @@
 <div class="annotation-set-inspector">
   <as-split direction="vertical" class="h-full-minus-editor-panel">
     <as-split-area [size]="50" [minSize]="10" [maxSize]="90" class="annotation-list" (scroll)="onScrollAnnotations(annotationList)" #annotationList>
-      <div fxLayout fxLayoutAlign="start center">
-        <mat-form-field class="annotation-visualiser-filter-field" appearance="standard">
+      <!--<div fxLayout fxLayoutAlign="start center">-->
+      <div class="fxLayout fxLayoutAlign-start-center">
+        <mat-form-field class="annotation-visualiser-filter-field">
           <mat-label>{{'annotation.Filter Annotations'|translate}}</mat-label>
           <mat-icon matPrefix>search</mat-icon>
           <input matInput type="text" class="annotation-visualiser-filter-input" (keyup)="onApplyFilter($event)"
             placeholder="{{'annotation.FilterAnnotationsPlaceholder'|translate}}" #input [(ngModel)]="filter">
-          <button mat-button *ngIf="filter" matSuffix mat-icon-button aria-label="Clear"
+          <button mat-icon-button matSuffix *ngIf="filter" aria-label="Clear" class="mat-mdc-icon-button-small"
             (click)="filter=''; onApplyFilter($event)">
             <mat-icon>backspace</mat-icon>
           </button>

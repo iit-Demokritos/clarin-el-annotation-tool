@@ -10,36 +10,72 @@
     "module": "esnext",
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es2015",
+    "target": "ES2022",
     "lib": [
       "es2019",
       "dom",
       "ES2021.String"
     ],
     "paths": {
-      "@components": ["src/app/components"],
-      "@components/*": ["src/app/components/*"],
-      "@core": ["src/app/ng-matero/core"],
-      "@core/*": ["src/app/ng-matero/core/*"],
-      "@shared": ["src/app/ng-matero/shared"],
-      "@shared/*": ["src/app/ng-matero/shared/*"],
-      "@theme": ["src/app/ng-matero/theme"],
-      "@theme/*": ["src/app/ng-matero/theme/*"],
-      "@testing": ["testing"],
-      "@testing/*": ["testing/*"],
-      "@env": ["src/environments"],
-      "@env/*": ["src/environments/*"],
-      "@externals": ["externals"],
-      "@externals/*": ["externals/*"],
-      "@services": ["src/app/services"],
-      "@services/*": ["src/app/services/*"],
-      "@models": ["src/app/models"],
-      "@models/*": ["src/app/models/*"]
+      "@components": [
+        "src/app/components"
+      ],
+      "@components/*": [
+        "src/app/components/*"
+      ],
+      "@core": [
+        "src/app/ng-matero/core"
+      ],
+      "@core/*": [
+        "src/app/ng-matero/core/*"
+      ],
+      "@shared": [
+        "src/app/ng-matero/shared"
+      ],
+      "@shared/*": [
+        "src/app/ng-matero/shared/*"
+      ],
+      "@theme": [
+        "src/app/ng-matero/theme"
+      ],
+      "@theme/*": [
+        "src/app/ng-matero/theme/*"
+      ],
+      "@testing": [
+        "testing"
+      ],
+      "@testing/*": [
+        "testing/*"
+      ],
+      "@env": [
+        "src/environments"
+      ],
+      "@env/*": [
+        "src/environments/*"
+      ],
+      "@externals": [
+        "externals"
+      ],
+      "@externals/*": [
+        "externals/*"
+      ],
+      "@services": [
+        "src/app/services"
+      ],
+      "@services/*": [
+        "src/app/services/*"
+      ],
+      "@models": [
+        "src/app/models"
+      ],
+      "@models/*": [
+        "src/app/models/*"
+      ]
     },
-    "allowSyntheticDefaultImports":true,
+    "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
     "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true
+    "useDefineForClassFields": false
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

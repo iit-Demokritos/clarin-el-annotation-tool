@@ -1,6 +1,7 @@
 import { Component, Inject, Injector, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FlashMessagesService } from 'flash-messages-angular';
+//import { FlashMessagesService } from 'flash-messages-angular';
+import { FlashMessagesService } from '@components/controls/flash-messages';
 import { DocumentService } from 'src/app/services/document-service/document.service';
 
 @Component({

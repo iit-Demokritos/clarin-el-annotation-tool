@@ -35,6 +35,7 @@ export class SelectDocumentModalComponent extends MainDialogComponent implements
   dataForTheTree = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
   hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
+  collectionCount: number = 0;
 
   ngOnInit() {
     let annotationSchema = this.data.annotationSchema;
@@ -44,6 +45,7 @@ export class SelectDocumentModalComponent extends MainDialogComponent implements
     }
     this.dataForTheTree.data = this.data.collectionsData;
     this.initializeLanguages();
+    this.collectionCount = this.treeControl.dataNodes.filter(node => node.expandable == true).length;
     // Is there a request to annotated a specific document?
     if (this.messageService.requestToAnnotateDocument) {
       this.selectedDocument = this.messageService.requestToAnnotateDocument;

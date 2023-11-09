@@ -1,6 +1,6 @@
 <div class="automatic-annotator">
   <div *ngFor="let type of autoAnnotatorSpecs | keyvalue">
-    <mat-card class="autoann-card" *ngFor="let item of type.value">
+    <mat-card appearance="outlined" class="autoann-card" *ngFor="let item of type.value">
       <mat-card-header>
         <!--<div mat-card-avatar class="autoann-card-header-image"></div>-->
 	<mat-card-title>{{item.title}}</mat-card-title>

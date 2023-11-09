@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import WaveSurfer from "wavesurfer.js";
-import WaveSurferRegions from "wavesurfer.js/dist/plugin/wavesurfer.regions.js"
-import WaveSurferMinimap from "wavesurfer.js/dist/plugin/wavesurfer.minimap.js"
-import WaveSurferTimeline from "wavesurfer.js/dist/plugin/wavesurfer.timeline.js"
-import WaveSurferCursor from "wavesurfer.js/dist/plugin/wavesurfer.cursor.js"
+import WaveSurferRegions from "wavesurfer.js/dist/plugins/regions.js"
+import WaveSurferMinimap from "wavesurfer.js/dist/plugins/minimap.js"
+import WaveSurferTimeline from "wavesurfer.js/dist/plugins/timeline.js"
+//import WaveSurferCursor from "wavesurfer.js/dist/plugins/cursor.js"
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -21,6 +21,7 @@ export class WavesurferVideoComponent implements OnInit, OnDestroy, AfterViewIni
   @Output() event = new EventEmitter<string>();
 
   wavesurfer: any = null;
+  wsRegions: any = null;
 
   selection: any = null;
   editAnnotationId: string = null;
@@ -51,18 +52,19 @@ export class WavesurferVideoComponent implements OnInit, OnDestroy, AfterViewIni
       cursorWidth: 1,
       cursorColor: "rgb(51, 51, 51)",
       height: 128,
-      responsive: true,
+      //responsive: true,
       fillParent: true,
       //pixelRatio: 1,
       //minPxPerSec: 100,
       //scrollParent: true,
       //normalize: true,
-      splitChannels: false,
+      //splitChannels: false,
       backend: 'MediaElement',
-      barheight: 1,
+      barHeight: 1,
       plugins: [
           WaveSurferRegions.create(),
           WaveSurferMinimap.create({
+              container: this.waveform.nativeElement,
               height: 30,
               waveColor: '#ddd',
               progressColor: '#999'
@@ -70,19 +72,21 @@ export class WavesurferVideoComponent implements OnInit, OnDestroy, AfterViewIni
           WaveSurferTimeline.create({
               container: this.wavetimeline.nativeElement
           }),
-          WaveSurferCursor.create({
+          /*WaveSurferCursor.create({
             showTime: true,
             opacity: 1,
-          })
+          })*/
       ]
     });
+    this.wsRegions = this.wavesurfer.getActivePlugins()[0];
+    this.wavesurfer.empty();
     this.wavesurfer.on('error', (e) => {
       this.toastrService.error(e, "Waveform Creation Error");
       console.warn("WavesurferVideoComponent:", e);
     });
  
     this.wavesurfer.on('ready', () => {
-      this.wavesurfer.enableDragSelection({
+      this.wsRegions.enableDragSelection({
             color: "rgba(0, 0, 0, 0.1)"
         });
     });
@@ -91,7 +95,9 @@ export class WavesurferVideoComponent implements OnInit, OnDestroy, AfterViewIni
         // Play on click, loop on shift click
         e.shiftKey ? region.playLoop() : region.play();
     });
-    this.wavesurfer.drawer.on('click',      this.clearSelection.bind(this));
+    if (this.wavesurfer.drawer != undefined) {
+      this.wavesurfer.drawer.on('click',      this.clearSelection.bind(this));
+    }
     this.wavesurfer.on('region-created',    this.createSelection.bind(this));
     this.wavesurfer.on('region-click',      this.editAnnotation.bind(this));
     this.wavesurfer.on('region-update-end', this.updateEndRegion.bind(this));
@@ -124,7 +130,9 @@ export class WavesurferVideoComponent implements OnInit, OnDestroy, AfterViewIni
   }; /* ngAfterViewInit */
 
   ngOnDestroy() {
-    this.resizeObserver.disconnect();
+    if (this.resizeObserver != undefined) {
+      this.resizeObserver.disconnect();
+    }
   } /* ngOnDestroy */
 
   onVideoDataLoaded() {

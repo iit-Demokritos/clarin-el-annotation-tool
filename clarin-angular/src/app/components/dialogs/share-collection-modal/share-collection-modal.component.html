@@ -20,10 +20,10 @@
           <mat-list>
             <mat-list-item *ngFor="let invitation of invitations">
               {{invitation.to}}<div fxFlex></div>
-              <mat-chip-list>
-                <mat-chip class="bg-green-900 text-white" *ngIf="invitation.confirmed==1">{{'Collections.Accepted'|translate}}</mat-chip>
-                <mat-chip color="warn" *ngIf="invitation.confirmed!=1">{{'Collections.Pending'|translate}}</mat-chip>
-              </mat-chip-list>
+              <mat-chip-listbox>
+                <mat-chip-option class="bg-green-900 text-white" *ngIf="invitation.confirmed==1">{{'Collections.Accepted'|translate}}</mat-chip-option>
+                <mat-chip-option color="warn" *ngIf="invitation.confirmed!=1">{{'Collections.Pending'|translate}}</mat-chip-option>
+              </mat-chip-listbox>
               <button mat-icon-button color="warn" (click)="remove(invitation.collection_id, invitation.id)"
                 [matTooltip]="'Collections.Revoke Invitation'|translate">
                 <mat-icon>delete_forever</mat-icon>

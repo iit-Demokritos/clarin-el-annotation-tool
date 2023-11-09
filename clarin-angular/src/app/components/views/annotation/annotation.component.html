@@ -13,15 +13,14 @@
         </mat-button-toggle-group>
         <!--<div *ngIf="layout.showZoomControls">-->
           <mat-divider [vertical]="true" *ngIf="layout.showZoomControls"></mat-divider>
-          <button mat-button (click)="zoomOut()" [disabled]="state.zoom <= state.zoom_min" *ngIf="layout.showZoomControls" matTooltip="{{'Zoom.ZoomIn'|translate}}">
+          <button mat-icon-button (click)="zoomOut()" [disabled]="state.zoom <= state.zoom_min" *ngIf="layout.showZoomControls" matTooltip="{{'Zoom.ZoomIn'|translate}}">
             <mat-icon>zoom_out</mat-icon>
           </button>
-          <mat-slider discrete [min]="state.zoom_min" [max]="state.zoom_max" [step]="state.zoom_step"
-            [(ngModel)]="state.zoom"
-            (input)="onZoomChangeEnd($event)" *ngIf="layout.showZoomControls" matTooltip="{{'Zoom.ZoomAdjust'|translate}}">
-            <input matSliderThumb>
+          <mat-slider [min]="state.zoom_min" [max]="state.zoom_max" [step]="state.zoom_step"
+            *ngIf="layout.showZoomControls" matTooltip="{{'Zoom.ZoomAdjust'|translate}}" #ngSlider>
+            <input matSliderThumb [(ngModel)]="state.zoom" (input)="onZoomChangeEnd({source: ngSliderThumb, parent: ngSlider, value: ngSliderThumb.value})" #ngSliderThumb="matSliderThumb" />
           </mat-slider>
-          <button mat-button (click)="zoomIn()" [disabled]="state.zoom >= state.zoom_max" *ngIf="layout.showZoomControls" matTooltip="{{'Zoom.ZoomOut'|translate}}">
+          <button mat-icon-button (click)="zoomIn()" [disabled]="state.zoom >= state.zoom_max" *ngIf="layout.showZoomControls" matTooltip="{{'Zoom.ZoomOut'|translate}}">
             <mat-icon>zoom_in</mat-icon>
           </button>
           <button mat-button (click)="zoomReset()" [disabled]="state.zoom == state.zoom_default" *ngIf="layout.showZoomControls" matTooltip="{{'Zoom.ZoomReset'|translate}}">
@@ -60,7 +59,7 @@
         </table>
         <!-- Settings -->
         <div class="main-content-settings-wrapper" [hidden]="maincontentSelector!='settings'">
-          <mat-card class="main-content-settings">
+          <mat-card appearance="outlined" class="main-content-settings">
             <mat-card-header>
               <div mat-card-avatar>
                 <mat-icon>settings</mat-icon>
@@ -101,7 +100,7 @@
                   </section>
                 </mat-card-content>
               </mat-card>-->
-              <mat-card class="main-content-settings-document mat-card-fill-parent">
+              <mat-card appearance="outlined" class="main-content-settings-document mat-card-fill-parent">
                 <mat-card-header>
                   <div mat-card-avatar>
                     <mat-icon>description</mat-icon>

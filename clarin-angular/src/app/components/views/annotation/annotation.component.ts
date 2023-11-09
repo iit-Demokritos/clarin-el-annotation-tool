@@ -75,8 +75,8 @@ export class AnnotationComponent extends MainComponent implements OnInit {
     hideLinks: false
   };
   state = {
-    zoom: 1,
-    zoom_default: 1,
+    zoom: 1.0,
+    zoom_default: 1.0,
     zoom_min: 0.1,
     zoom_max: 5.0,
     zoom_step: 0.1
@@ -149,6 +149,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
      * components, which inherit BaseControlComponent
      * (app/components/controls/base-control/base-control.component.ts). */
     this.ObjectID = require("bson-objectid");
+    this.TextWidgetAPI.registerCurrentDocumentCallback(this.updateCurrentDocument.bind(this));
   }
 
   ObjectId() {
@@ -705,14 +706,21 @@ export class AnnotationComponent extends MainComponent implements OnInit {
     this.routerLocation.go(url);
   }; /* updateRouterLocation */
 
+  updateCurrentDocument() {
+    this.updateRouterLocation();
+  }; /* updateCurrentDocument */
+
   onZoomChangeEnd(event) {
     this.state.zoom = event.value;
     this.updateZoomLevel();
   }; /* onZoomChangeEnd */
 
   zoomOut() {
+	  console.error(this.state.zoom, (this.state.zoom < this.state.zoom_min));
     this.state.zoom -= 0.1;
+	  console.error(this.state.zoom, (this.state.zoom < this.state.zoom_min));
     if (this.state.zoom < this.state.zoom_min) this.state.zoom = this.state.zoom_min;
+	  console.error(this.state.zoom, (this.state.zoom < this.state.zoom_min));
     this.updateZoomLevel();
   }; /* zoomOut */
 
@@ -723,7 +731,7 @@ export class AnnotationComponent extends MainComponent implements OnInit {
   }; /* zoomIn */
 
   zoomReset() {
-    this.state.zoom = 1;
+    this.state.zoom = this.state.zoom_default;
     this.updateZoomLevel();
   }; /* zoomReset */
 

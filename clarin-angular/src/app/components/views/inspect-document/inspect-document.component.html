@@ -1,6 +1,6 @@
 <page-header title="{{'pageheader.Inspect Document'|translate}}" *ngIf="showPageHeader"></page-header>
 <div class="inspect-document" [ngClass]="{'has-page-header': showPageHeader, 'no-page-header': !showPageHeader}">
-  <mat-card class="mat-card-fill-parent">
+  <mat-card appearance="outlined" class="mat-card-fill-parent">
     <mat-card-header>
       <mat-card-subtitle>
         <toolbar-select-document *ngIf="showDocumentSelectionToolbar"

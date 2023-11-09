@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators } from '@angular/forms';
+import { UntypedFormGroup, Validators } from '@angular/forms';
 import { MainDialogComponent } from '../main-dialog/main-dialog.component';
 
 @Component({
@@ -10,7 +10,7 @@ import { MainDialogComponent } from '../main-dialog/main-dialog.component';
 export class AddCustomValueModalComponent extends MainDialogComponent implements OnInit {
 
   public breakpoint: number; // Breakpoint observer code
-  public addCustomValueForm: FormGroup;
+  public addCustomValueForm: UntypedFormGroup;
   public value: string = "";
   public label: string = "";
 
@@ -42,7 +42,7 @@ export class AddCustomValueModalComponent extends MainDialogComponent implements
     this.dialogRef.close();
   }; /* cancel */
 
-  private markAsDirty(group: FormGroup): void {
+  private markAsDirty(group: UntypedFormGroup): void {
     group.markAsDirty();
     // tslint:disable-next-line:forin
     for (const i in group.controls) {

@@ -8,7 +8,7 @@
         <mat-label>{{'Collections.CollectionName' | translate}}</mat-label>
         <input matInput type="text" formControlName="collectionName"
           placeholder="{{'Collections.Enter a new Collection name' | translate}}"
-          [(ngModel)]="collectionData.collectionName" required minlength="4" pattern="[a-zA-Z0-9]+([a-zA-Z0-9_ -]+)*">
+          [(ngModel)]="collectionData.collectionName" required minlength="4" [pattern]="collectionNamePattern">
         <mat-error *ngIf="renameForm.get('collectionName').hasError('required')">
           {{'validations.required' | translate}}
         </mat-error>
@@ -18,6 +18,12 @@
         <mat-error translate [translateParams]="{number:'4'}"
           *ngIf="renameForm.get('collectionName').hasError('minlength')">
           validations.minlength
+        </mat-error>
+        <mat-error *ngIf="renameForm.get('collectionName').hasError('collectionnameUnchanged')">
+          {{'validations.collectionnameUnchanged' | translate}}
+        </mat-error>
+        <mat-error *ngIf="renameForm.get('collectionName').hasError('collectionnameInvalid')">
+          {{'validations.collectionnameInvalid' | translate}}
         </mat-error>
       </mat-form-field>
     </mat-dialog-content>

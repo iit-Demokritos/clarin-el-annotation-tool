@@ -1,37 +1,45 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
+//import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@core/authentication/auth.service';
-import { FlashMessagesService } from 'flash-messages-angular';
+//import { FlashMessagesService } from 'flash-messages-angular';
+import { FlashMessagesService } from '@components/controls/flash-messages';
 import { filter } from 'rxjs/operators';
 import  packageJson from '@src/../package.json';
+import { VERSION } from '@angular/core';
 import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  loginForm: FormGroup;
+  isSubmitting = false;
   hide_password = true;
 
+  loginForm = this.fb.nonNullable.group({
+    username: ['', [Validators.required]],
+    password: ['', [Validators.required]],
+    rememberMe: [false],
+  });
+  
   socialLoginProvidersLength = 0;
   socialLoginProviders = {};
 
   public appVersion: string = packageJson.version;
+  public ngVersion:  any    = VERSION;
 
   constructor(public fb: FormBuilder,
               public router: Router,
               public auth: AuthService,
-              public flashMessage: FlashMessagesService) { }
+              public flashMessage: FlashMessagesService) {
+    // console.error("LoginComponent::constructor()", VERSION);
+  }; /* constructor */
 
   ngOnInit() {
-    this.loginForm = this.fb.group({
-      username: ['', [Validators.required]],
-      password: ['', [Validators.required]],
-      remember_me: [false],
-    });
     this.auth.socialLoginProviders().subscribe((data) => {
       // console.error("LoginComponent: ngOnInit(): socialLoginProviders(): data:", data);
       if (data["success"]) {
@@ -60,15 +68,15 @@ export class LoginComponent implements OnInit {
   }; /* ngOnInit */
 
   get username() {
-    return this.loginForm.get('username');
+    return this.loginForm.get('username')!;
   }
 
   get password() {
-    return this.loginForm.get('password');
+    return this.loginForm.get('password')!;
   }
 
   get rememberMe() {
-    return this.loginForm.get('remember_me');
+    return this.loginForm.get('rememberMe')!;
   }
 
   login() {

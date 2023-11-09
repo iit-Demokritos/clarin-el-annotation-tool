@@ -23,35 +23,38 @@
           [allowMultipleAnnotators]="allowMultipleAnnotators" [annotators]="annotators" [showApplyButton]="true"
           (selectedAnnotators)="onAnnotatorsChange(i, $event)" (onApply)="onApply(i, $event)">
         </toolbar-select-annotator>
-        <section *ngIf="showAnnotationSetFilter" [hidden]="!isOpenAnnotationsFilter[i]">
-          <mat-divider [inset]="true"></mat-divider>
-          <annotation-set-filter
-            [showApplyButton]="false" [collections]="collections" [documents]="documents"
-            (onApply)="onApplyFilter(i, $event)" (change)="annotationSetFilterModel[i].query = $event"
-            (valid)="annotationSetFilterModel[i].valid = $event">
-          </annotation-set-filter>
-          <mat-divider [inset]="true"></mat-divider>
-        </section>
-        <section [hidden]="!isOpenComparisonOptions[i]">
-          <mat-divider [inset]="true"></mat-divider>
-          <h2>Comparison Options</h2>
-          <p>These options affect how comparisons are performed, and are common for all components.</p>
-          <div class="annotation-set-comparator-options-container">
-            <div class="annotation-set-comparator-options-container-options">
-              <div>
-                <label class="annotation-set-comparator-options-label" for="overlap-slider">Span Overlap</label>
-                <mat-slider aria-label="Overlap" id="overlap-slider" min="1" max="100" tickInterval="1" thumbLabel
-                  [(ngModel)]="optionsSpanOverlapPercentage">
-                </mat-slider>
-                <mat-form-field class="annotation-set-comparator-options-form-field">
-                  <input matInput type="number" min="1" max="100" [(ngModel)]="optionsSpanOverlapPercentage">
-                </mat-form-field>
-                %
+        <div class="annotation-set-comparator-toolbar-expand">
+          <section *ngIf="showAnnotationSetFilter" [hidden]="!isOpenAnnotationsFilter[i]">
+            <mat-divider [inset]="true"></mat-divider>
+            <annotation-set-filter
+              [showApplyButton]="false" [collections]="collections" [documents]="documents"
+              (onApply)="onApplyFilter(i, $event)" (change)="annotationSetFilterModel[i].query = $event"
+              (valid)="annotationSetFilterModel[i].valid = $event">
+            </annotation-set-filter>
+            <mat-divider [inset]="true"></mat-divider>
+          </section>
+          <section [hidden]="!isOpenComparisonOptions[i]">
+            <mat-divider [inset]="true"></mat-divider>
+            <h2>Comparison Options</h2>
+            <p>These options affect how comparisons are performed, and are common for all components.</p>
+            <div class="annotation-set-comparator-options-container">
+              <div class="annotation-set-comparator-options-container-options">
+                <div class="row fxLayoutAlign-start-center">
+                  <label class="annotation-set-comparator-options-label" for="overlap-slider">Span Overlap</label>
+                  <!-- TODO: The 'tickInterval' property no longer exists -->
+                  <mat-slider aria-label="Overlap" id="overlap-slider" min="1" max="100" thumbLabel>
+                    <input matSliderThumb [(ngModel)]="optionsSpanOverlapPercentage"/>
+                  </mat-slider>
+                  <mat-form-field class="annotation-set-comparator-options-form-field">
+                    <input matInput type="number" min="1" max="100" [(ngModel)]="optionsSpanOverlapPercentage">
+                  </mat-form-field>
+                  %
+                </div>
               </div>
             </div>
-          </div>
-          <mat-divider [inset]="true"></mat-divider>
-        </section>
+            <mat-divider [inset]="true"></mat-divider>
+          </section>
+        </div>
         <annotation-set-inspector class="fill-space overflow-auto" [annotations]="annotationsShown[i]"
           [collections]="collections" [documents]="documents" (onScroll)="onScroll(i, $event)">
         </annotation-set-inspector>

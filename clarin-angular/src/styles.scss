@@ -2,7 +2,7 @@
 //@import '@angular/material/prebuilt-themes/indigo-pink.css';
 /*@import url(css/bootstrap.min.css);*/
 /* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';
+@import 'bootstrap/scss/bootstrap';
 
 /* ng-matero */
 @import 'app/ng-matero/theme/style';
@@ -14,8 +14,8 @@
 
 //@import 'css/yamm.css';
 //@import 'css/tree-control-attribute.css';
-@import '~codemirror/lib/codemirror';
-@import '~codemirror/theme/material';
+@import 'codemirror/lib/codemirror';
+@import 'codemirror/theme/material';
 //@import 'css/codemirror.css';
 //@import 'css/ui-layout.css';
 //@import 'css/datetimepicker.css';

@@ -6,7 +6,7 @@ import { Collection } from 'src/app/models/collection';
 import { Document } from 'src/app/models/document';
 import { Annotation } from 'src/app/models/annotation';
 
-import { FormBuilder, FormControl } from '@angular/forms';
+import { UntypedFormBuilder, FormControl } from '@angular/forms';
 import { QueryBuilderClassNames, QueryBuilderConfig } from 'angular2-query-builder';
 
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
@@ -99,7 +99,7 @@ export class AnnotationSetFilterComponent implements ControlValueAccessor, After
   super() { }
  
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private analyticsService: AnalyticsService,
     private changeDetectorRef: ChangeDetectorRef,
   ) {
@@ -204,13 +204,13 @@ export class AnnotationSetFilterComponent implements ControlValueAccessor, After
       if (mq) {
         // We have a query...
         if ('$and' in mq) {
-          mq['$and'].push({
+          (mq['$and'] as Array<any>).push({
             document_id: (Array.isArray(this.selectedDocumentIds) ?
               { $in: this.selectedDocumentIds } : this.selectedDocumentIds)
           });
-          mq['$and'].push({type:                 { $nin: ["setting annotation"] }});
-          mq['$and'].push({document_setting:     { $exists: false }});
-          mq['$and'].push({collection_setting:   { $exists: false }});
+          (mq['$and'] as Array<any>).push({type:                 { $nin: ["setting annotation"] }});
+          (mq['$and'] as Array<any>).push({document_setting:     { $exists: false }});
+          (mq['$and'] as Array<any>).push({collection_setting:   { $exists: false }});
           this.mongoQuery = mq;
         } else {
           this.mongoQuery = {

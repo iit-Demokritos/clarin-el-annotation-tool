@@ -132,9 +132,9 @@ export class AnnotatorWidgetComponent extends BaseControlComponent
           // console.error("Template:", annotatorsTemplate);
 
           // Try to see how many annotation types this schema involves...
-          var types = annotatorsTemplate.match(/\[annotationType\]=\"[^\"]+"/ig);
-          // console.error("types:", types);
-          types = types.map(value => value.substr(17).replace(/['"]+/g, ''));
+          var matches = annotatorsTemplate.match(/\[annotationType\]=\"[^\"]+"/ig);
+          // console.error("matches:", matches);
+          var types = matches.map(value => value.substr(17).replace(/['"]+/g, ''));
           // console.warn("types:", types);
           var types_unique = types.filter((value, index, self) => { return self.indexOf(value) === index; });
           // console.warn(types_unique);

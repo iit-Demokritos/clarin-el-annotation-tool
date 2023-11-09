@@ -1,5 +1,5 @@
 <div class="select-document-modal">
-  <h1 mat-dialog-title *ngIf="showSelectDocument">{{'Collections.Select Document'|translate}}...</h1>
+  <h1 mat-dialog-title *ngIf="showSelectDocument">{{'Collections.Select Document'|translate}}... ({{'Collections.Collections'|translate}}: {{collectionCount}})</h1>
   <h1 mat-dialog-title *ngIf="!showSelectDocument">{{'Collections.Select Annotation Characteristics'|translate}}...</h1>
   <mat-dialog-content>
     <flash-messages></flash-messages>
@@ -103,7 +103,7 @@
                 <mat-divider [vertical]="true"></mat-divider>
               </td>
               <td rowspan=4 valign="top">
-                <h4 *ngIf="subheader=='Button Annotator'">Values</h4>
+                <!--<h4 *ngIf="subheader=='Button Annotator'">Values</h4>-->
                 <h4 *ngIf="subheader=='Coreference Annotator'">Attributes</h4>
                 <mat-divider [vertical]="true"></mat-divider>
                 <div class="annotation-schema-values">
@@ -112,7 +112,13 @@
                     <mat-list-item>No available values</mat-list-item>
                   </mat-list>
                   <mat-list *ngIf="subheader!='Coreference Annotator' && groups!=undefined && groups.length > 0">
-                    <mat-list-item [buttonAnnotatorValueList]="groups"></mat-list-item>
+                    <!--<mat-list-item [buttonAnnotatorValueList]="groups"></mat-list-item>-->
+                    <h3 matSubheader>Values</h3>
+                    <mat-list-item *ngFor="let item of groups" lines="3">
+                      <span matListItemTitle matTooltip="{{item.group}}">{{item.group}}</span>
+                      <span matTooltip="{{item.values.join(', ')}}">{{item.values.join(", ")}}</span>
+                      <!--<p matListItemLine *ngFor="let value of item.values">{{value}}</p>-->
+                    </mat-list-item>
                   </mat-list>
                   <mat-list *ngIf="subheader!='Button Annotator' && attrs!=undefined && attrs.length > 0">
                     <mat-list-item [corefAnnotatorValueList]="attrs"></mat-list-item>

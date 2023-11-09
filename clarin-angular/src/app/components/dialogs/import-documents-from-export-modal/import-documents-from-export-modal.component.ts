@@ -1,12 +1,14 @@
 import { Component, Inject, Injector, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FlashMessagesService } from 'flash-messages-angular';
+//import { FlashMessagesService } from 'flash-messages-angular';
+import { FlashMessagesService } from '@components/controls/flash-messages';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 import { CollectionImportService } from 'src/app/services/collection-import-service/collection-import-service.service';
 import { ConfirmDialogComponent } from '../../dialogs/confirm-dialog/confirm-dialog.component';
 import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 import { AnnotationService } from 'src/app/services/annotation-service/annotation.service';
+import { CollectionNamePattern } from '@models/collection';
 
 @Component({
   selector: 'import-documents-from-export-modal',
@@ -15,17 +17,18 @@ import { AnnotationService } from 'src/app/services/annotation-service/annotatio
 })
 export class ImportDocumentsFromExportModalComponent implements OnInit {
 
-  public importForm: FormGroup;
+  public importForm: UntypedFormGroup;
   userFiles: any[] = [];
   collectionName: any = "";
   allowedTypes = ["application/json"];
   flowAttributes = { accept: this.allowedTypes };
+  collectionNamePattern = CollectionNamePattern;
 
   constructor(
     public injector: Injector,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<any>,
-    public formBuilder: FormBuilder,
+    public formBuilder: UntypedFormBuilder,
     public collectionImportService: CollectionImportService,
     public annotationService: AnnotationService,
     public flashMessage: FlashMessagesService,

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { MainDialogComponent } from '../main-dialog/main-dialog.component';
 
 @Component({
@@ -9,7 +9,7 @@ import { MainDialogComponent } from '../main-dialog/main-dialog.component';
 })
 export class ShareCollectionModalComponent extends MainDialogComponent implements OnInit {
 
-  public shareForm: FormGroup;
+  public shareForm: UntypedFormGroup;
   public invitations = [];
   public sharingData = {
     "cname": this.data.collectionName,

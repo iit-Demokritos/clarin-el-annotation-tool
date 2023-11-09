@@ -1,6 +1,6 @@
 <page-header title="{{'pageheader.Annotation Values'|translate}}" *ngIf="showPageHeader"></page-header>
 <div class="analytics-annotation-values" [ngClass]="{'has-page-header': showPageHeader, 'no-page-header': !showPageHeader}">
-  <mat-card class="mat-card-fill-parent">
+  <mat-card appearance="outlined" class="mat-card-fill-parent">
     <mat-card-header>
       <mat-card-subtitle>
         <toolbar-select-document *ngIf="showDocumentSelectionToolbar"

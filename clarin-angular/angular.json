@@ -31,11 +31,12 @@
               "src/assets"
             ],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "@angular/material/prebuilt-themes/indigo-pink.css",
               "./node_modules/codemirror/lib/codemirror.css",
               "./node_modules/codemirror/theme/material.css",
               "./node_modules/jointjs/css/layout.css",
-              "src/styles.scss"
+              "src/styles.scss",
+	      "./node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": [
               "./node_modules/jquery/dist/jquery.min.js",
@@ -135,11 +136,12 @@
               "src/assets"
             ],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "@angular/material/prebuilt-themes/indigo-pink.css",
               "./node_modules/codemirror/lib/codemirror.css",
               "./node_modules/codemirror/theme/material.css",
               "./node_modules/jointjs/css/layout.css",
-              "src/styles.scss"
+              "src/styles.scss",
+	      "./node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": [
               "./node_modules/jquery/dist/jquery.min.js",
@@ -176,6 +178,5 @@
         }
       }
     }
-  },
-  "defaultProject": "clarin-angular"
+  }
 }

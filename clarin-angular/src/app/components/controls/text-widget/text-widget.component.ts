@@ -3,6 +3,8 @@ import {
   OnDestroy, OnInit, AfterViewInit, Output, ViewEncapsulation
 } from '@angular/core';
 import * as CodeMirror from 'codemirror';
+//import * as CodeMirrorSearchCursor from 'codemirror/addon/search/searchcursor';
+import 'codemirror/addon/search/searchcursor';
 import * as joint from 'jointjs';
 import * as _ from 'lodash';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
@@ -235,7 +237,9 @@ export class TextWidgetComponent extends BaseControlComponent
   }; /* ngAfterViewInit */
 
   ngOnDestroy() {
-    this.resizeObserver.disconnect();
+    if (this.resizeObserver != undefined) {
+      this.resizeObserver.disconnect();
+    }
     // instead of scope.$on("$destroy",function(){})-new lines
     this.graph.clear()
     this.editor.off('refresh', this.overlayRefresh);
@@ -602,6 +606,8 @@ export class TextWidgetComponent extends BaseControlComponent
       case "gif":
       case "tiff":
       case "webp":
+      case "svg":
+      case "bmp":
         this.annotationMode = AnnotationMode.IMAGE;
         this.annotationImageURL = doc.data_image;
         this.hideOverlay = false;

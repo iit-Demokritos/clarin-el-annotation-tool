@@ -2,9 +2,11 @@
 <div class="content" [ngClass]="{'has-page-header': showPageHeader, 'no-page-header': !showPageHeader}">
   <as-split direction="vertical">
     <as-split-area [size]="50" [minSize]="10" [maxSize]="90" class="top-wrapper">
-      <mat-card class="mat-card-fill-parent">
+      <mat-card appearance="outlined" class="mat-card-fill-parent">
+        <mat-card-header>
         <mat-card-title>{{'dashboard.MyCollections' | translate}}</mat-card-title>
         <mat-card-subtitle>{{'dashboard.MyCollectionsInfo' | translate}}</mat-card-subtitle>
+	</mat-card-header>
         <mat-card-content>
           <div class="table-scroll">
             <table mat-table [dataSource]="dataSource_shared_by_me" matSort>
@@ -66,9 +68,11 @@
       </mat-card>
     </as-split-area>
     <as-split-area [size]="50" [minSize]="10" [maxSize]="90" class="bottom-wrapper">
-      <mat-card class="mat-card-fill-parent">
+      <mat-card appearance="outlined" class="mat-card-fill-parent">
+	<mat-card-header>
         <mat-card-title>{{'dashboard.MySharedCollections' | translate}}</mat-card-title>
         <mat-card-subtitle>{{'dashboard.MySharedCollectionsInfo' | translate}}</mat-card-subtitle>
+	</mat-card-header>
         <mat-card-content>
           <div class="table-scroll">
             <table mat-table [dataSource]="dataSource_shared_with_me" matSort>

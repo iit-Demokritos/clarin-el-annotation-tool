@@ -1,9 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { AuthService } from '@core/authentication/auth.service';
-import { FlashMessagesService } from 'flash-messages-angular';
+//import { FlashMessagesService } from 'flash-messages-angular';
+import { FlashMessagesService } from '@components/controls/flash-messages';
 import { filter } from 'rxjs/operators';
 import { LoginComponent }  from '@components/views/login/login.component';
 import { Token } from '@core/authentication/interface';
@@ -17,7 +18,7 @@ export class LoginSocialComponent extends LoginComponent implements OnInit {
   route_params: any;
   user_authenticated: any;
 
-  constructor(public fb: FormBuilder,
+  constructor(public fb: UntypedFormBuilder,
               public router: Router,
               public route: ActivatedRoute,
               public auth: AuthService,

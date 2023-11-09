@@ -1,21 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { FlashMessagesService } from 'flash-messages-angular';
+//import { FlashMessagesService } from 'flash-messages-angular';
+import { FlashMessagesService } from '@components/controls/flash-messages';
 import { UserService } from 'src/app/services/user-service/user.service';
 import  packageJson from '@src/../package.json';
+import { VERSION } from '@angular/core';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
 })
 export class RegisterComponent implements OnInit {
-  registerForm: FormGroup;
+  registerForm: UntypedFormGroup;
   hide_password = true;
 
   public appVersion: string = packageJson.version;
+  public ngVersion:  any    = VERSION;
 
-  constructor(private fb: FormBuilder,
+  constructor(private fb: UntypedFormBuilder,
     private user: UserService,
     private router: Router,
     private flashMessage: FlashMessagesService) { }
@@ -55,11 +58,11 @@ export class RegisterComponent implements OnInit {
     return this.registerForm.get("agree");
   }
 
-  termsFormControl = (control: FormControl) => {
+  termsFormControl = (control: UntypedFormControl) => {
     return !control.value ? { 'required': true } : null;
   };
 
-  confirmValidator = (control: FormControl): { [k: string]: boolean } => {
+  confirmValidator = (control: UntypedFormControl): { [k: string]: boolean } => {
     if (!control.value) {
       return { error: true, required: true };
     } else if (control.value !== this.registerForm.controls.password.value) {

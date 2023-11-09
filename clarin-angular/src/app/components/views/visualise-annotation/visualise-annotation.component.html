@@ -1,0 +1,15 @@
+<div class="visualise-annotation flex-column flex-column-fill-both">
+  <h2>Collection: “{{collectionName}}”, Document: “{{documentName}}”</h2>
+  <h2>Annotation id: {{annotation_id}}</h2>
+  <div class="visualise-annotation-viewer">
+    <text-widget-isolated></text-widget-isolated>
+  </div>
+  <div class="visualise-annotation-panel panel bottom">
+    <span class="panel caret" *ngIf="footer_caret_show">
+      {{'Line'|translate}}: {{footer_caret_line}},
+      {{'Column'|translate}}: {{footer_caret_column}},
+      {{'Offset'|translate}}: {{footer_caret_offset}},
+      {{'Selection'|translate}}: {{footer_caret_selection}}
+    </span>
+  </div>
+</div>

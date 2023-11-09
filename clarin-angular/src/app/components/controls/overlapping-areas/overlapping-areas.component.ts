@@ -32,7 +32,7 @@ export class OverlappingAreasComponent extends BaseControlComponent implements O
       this.selectedOverlappingAnnotation = overlaps[0]
     } else if (overlaps.length > 1) {
       var selected = this.TextWidgetAPI.getSelectedAnnotation();
-      if (!(typeof selected == "undefined" || selected == {})) {
+      if (!(typeof selected == "undefined" || Object.keys(selected).length == 0)) {
         // Locate the selected annotation in the overlaps list
         this.selectedOverlappingAnnotation = overlaps.find(item => item._id == selected['_id']);
       }

@@ -1,0 +1,46 @@
+<div class="import-collections-modal">
+  <h1 mat-dialog-title>{{'Collections.Import Collections'|translate}}</h1>
+  <form class="form-field-full" [formGroup]="importForm">
+    <div mat-dialog-content>
+      {{'Collections.Import Collections Explain'|translate}}
+      <flash-messages></flash-messages>
+      <!-- File selector -->
+      <div class="file-list">
+        <label>{{'Collections.Files to Import'|translate}}:</label>
+        <div class="file-list-component">
+          <div class="file-list-table">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>{{'Filename'|translate}}</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody *ngIf="userFiles.length!=undefined && userFiles.length>0">
+                <tr *ngFor="let file of userFiles;let index=index">
+                  <td>{{index+1}}</td>
+                  <td>{{file.name}}</td>
+                  <td>
+                    <button mat-icon-button (click)="userFiles.splice(index, 1)" [matTooltip]="'Remove'|translate">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="table-responsive">
+            <uploader [flowAttributes]="flowAttributes" [allowedTypes]="allowedTypes"
+              (handleFileInputs)="handleFileInputs($event)"></uploader>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div mat-dialog-actions align="end">
+      <button mat-button mat-dialog-close (click)="cancel()">{{'Cancel'|translate}}</button>
+      <button mat-button [disabled]="userFiles.length !=1 || importForm.invalid"
+        (click)="import()">{{'Import'|translate}}</button>
+    </div>
+  </form>
+</div>

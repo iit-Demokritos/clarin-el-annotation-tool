@@ -1,6 +1,6 @@
 <page-header title="{{'Compare Annotations'|translate}}" *ngIf="showPageHeader"></page-header>
 <div class="compare-annotations" [ngClass]="{'has-page-header': showPageHeader, 'no-page-header': !showPageHeader}">
-  <mat-card class="mat-card-fill-parent">
+  <mat-card appearance="outlined" class="mat-card-fill-parent">
     <mat-card-header>
       <mat-card-subtitle>
         <toolbar-select-document *ngIf="showDocumentSelectionToolbar"

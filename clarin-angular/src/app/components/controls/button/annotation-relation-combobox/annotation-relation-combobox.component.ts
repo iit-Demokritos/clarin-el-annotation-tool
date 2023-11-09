@@ -3,13 +3,13 @@ import { BaseControlComponent } from '../../base-control/base-control.component'
 import { Message } from 'src/app/models/services/message';
 import { MessageService } from 'src/app/services/message-service/message.service';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { UntypedFormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   public errorState = false;
 
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+  isErrorState(control: UntypedFormControl | null, form: FormGroupDirective | NgForm | null): boolean {
     return this.errorState;
   }
 }

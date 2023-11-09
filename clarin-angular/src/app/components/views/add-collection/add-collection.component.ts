@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 import { ErrorDialogData } from 'src/app/models/dialogs/error-dialog';
 import { ConfirmDialogComponent } from '../../dialogs/confirm-dialog/confirm-dialog.component';
 import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
 import { MainComponent } from '../main/main.component';
+import { CollectionNamePattern } from '@models/collection';
 
 @Component({
   selector: 'add-collection',
@@ -24,15 +25,15 @@ export class AddCollectionComponent extends MainComponent implements OnInit {
   @Output() filesChange = new EventEmitter<any[]>();
 
   public breakpoint: number; // Breakpoint observer code
-  public editCollectionForm: FormGroup;
+  public editCollectionForm: UntypedFormGroup;
   // sidebarSelector = "myCollections";
   allowedTypes = ["text/plain", "text/xml",
-                  "image/jpeg", "image/png", "image/gif", "image/tiff", "image/webp", "image/svg+xml",
+                  "image/jpeg", "image/png", "image/gif", "image/tiff", "image/webp", "image/svg+xml", "image/bmp",
                   "audio/mpeg", "audio/ogg", "audio/x-wav", "audio/mp4",
                   "video/mp4", "video/webm", "video/ogg",
                   "image/*", "audio/*", "video/*"];
   typeOptions = ["Text", "TEI XML",
-                 "JPEG", "PNG", "GIF", "TIFF", "WEBP", "SVG",
+                 "JPEG", "PNG", "GIF", "TIFF", "WEBP", "SVG", "BMP",
                  "AUDIO MP3", "AUDIO OGG", "AUDIO WAV", "AUDIO MP4",
                  "VIDEO MP4", "VIDEO WEBM", "VIDEO OGG",
                  "IMAGE", "AUDIO", "VIDEO"];
@@ -41,11 +42,15 @@ export class AddCollectionComponent extends MainComponent implements OnInit {
     { name: 'No Handler', value: 'none' },
     { name: 'TEI XML Import', value: 'tei' },
   ];
+  dataForTheTreeAll: any = [];
   dataForTheTree: any = [];
   collectionData: any = {};
   collectionDataUpdated: boolean;
   filterFiles = true;
   flowAttributes = { accept: this.allowedTypes };
+  selectedCollection: any = null;
+  selectedCollectionIndex = null;
+  collectionNamePattern = CollectionNamePattern;
 
   super() { };
 
@@ -82,10 +87,20 @@ export class AddCollectionComponent extends MainComponent implements OnInit {
           var dialogRef = this.dialog.open(ErrorDialogComponent, { data: new ErrorDialogData(this.translate,
             "ErrorDuringRetrievingCollections") });
         } else {
-          this.dataForTheTree = response["data"];
+          this.dataForTheTreeAll = this.dataForTheTree = response["data"];
         }
       });
   };
+
+  onApplyCollectionFilter(event) {
+    let filterText = event.target.value;
+    let regexObj = new RegExp(filterText, 'i');
+    if (filterText) {
+      this.dataForTheTree = this.dataForTheTreeAll.filter(col => regexObj.test(col.name));
+    } else {
+      this.dataForTheTree = this.dataForTheTreeAll;
+    }
+  }; /* onApplyCollectionFilter */
 
   validateCollection() {
     return new Promise((resolve, reject) => {
@@ -213,6 +228,13 @@ export class AddCollectionComponent extends MainComponent implements OnInit {
     this.filesChange.emit(this.userFiles);
   }
 
+  // Function to be called when a user selects a collection
+  // from the sidebar tree
+  showSelectedCollection(collection, index) {
+    this.selectedCollectionIndex = index;
+    this.selectedCollection = collection;
+    this.collectionData.name = collection.name;
+  }; /* showSelectedCollection */
 
   /*$scope.$on('flowEvent', function(event, data) {
     $scope.userFiles = data.userFiles;
