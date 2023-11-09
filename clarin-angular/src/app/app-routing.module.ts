@@ -1,5 +1,5 @@
-import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
 import { AddCollectionComponent } from './components/views/add-collection/add-collection.component';
 import { AnnotationComponent } from './components/views/annotation/annotation.component';
 import { ManageCollectionsComponent } from './components/views/manage-collections/manage-collections.component';
@@ -11,6 +11,7 @@ import { WelcomeComponent } from './components/views/welcome/welcome.component';
 import { SharedModule }                from '@shared/shared.module';
 import { AdminLayoutComponent }        from './ng-matero/theme/admin-layout/admin-layout.component';
 import { AuthLayoutComponent }         from './ng-matero/theme/auth-layout/auth-layout.component';
+import { VisualiseLayoutComponent }    from './components/layouts/visualise-layout/visualise-layout.component';
 import { DashboardComponent }          from './ng-matero/routes/dashboard/dashboard.component';
 //import { LoginComponent }            from './ng-matero/routes/sessions/login/login.component';
 import { AuthLayoutModComponent }      from './components/views/auth-layout-mod/auth-layout-mod.component';
@@ -18,7 +19,7 @@ import { LoginComponent }              from './components/views/login/login.comp
 import { LoginSocialComponent }        from './components/views/login-social/login-social.component';
 import { RegisterComponent }           from './components/views/register/register.component';
 import { ResetPasswordComponent }      from './components/views/reset-password/reset-password.component';
-import { AuthGuard }                   from '@core';
+import { authGuard }                   from '@core';
 
 import { InspectDocumentComponent }    from './components/views/inspect-document/inspect-document.component';
 import { CompareAnnotationsComponent } from './components/views/compare-annotations/compare-annotations.component';
@@ -26,6 +27,8 @@ import { CompareDocumentsComponent }   from './components/views/compare-document
 import { CompareCollectionsComponent } from './components/views/compare-collections/compare-collections.component';
 
 import { AnalyticsAnnotationValuesComponent } from './components/views/analytics-annotation-values/analytics-annotation-values.component';
+
+import { VisualiseAnnotationComponent }       from './components/views/visualise-annotation/visualise-annotation.component';
 
 
 const COMPONENTS = [];
@@ -40,8 +43,8 @@ const routes: Routes = [
   {
     path: 'app',
     component: AdminLayoutComponent,
-    canActivate: [AuthGuard],
-    canActivateChild: [AuthGuard],
+    canActivate: [authGuard],
+    canActivateChild: [authGuard],
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard',                     component: DashboardComponent },
@@ -69,6 +72,13 @@ const routes: Routes = [
       { path: 'login',       component: LoginComponent },
       { path: 'register',    component: RegisterComponent },
       { path: 'reset',       component: ResetPasswordComponent },
+    ],
+  },
+  {
+    path: 'visualise',
+    component: VisualiseLayoutComponent,
+    children: [
+      { path: 'annotation/:id', component: VisualiseAnnotationComponent },
     ],
   },
   { path: 'profile/overview', redirectTo: 'app/profile/overview' },
@@ -103,10 +113,8 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [SharedModule, RouterModule.forRoot(routes,
-    {enableTracing: true, relativeLinkResolution: 'legacy'})],
-  declarations: [...COMPONENTS, ...COMPONENTS_DYNAMIC],
-  entryComponents: COMPONENTS_DYNAMIC,
-  exports: [RouterModule]
+    imports: [SharedModule, RouterModule.forRoot(routes, { enableTracing: true })],
+    declarations: [...COMPONENTS, ...COMPONENTS_DYNAMIC],
+    exports: [RouterModule]
 })
 export class AppRoutingModule { }

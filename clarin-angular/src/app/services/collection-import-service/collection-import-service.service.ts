@@ -11,11 +11,15 @@ export class CollectionImportService implements OnInit {
   ObjectID;
   collectionData: any = {};
   collectionKeys = ['encoding', 'handler', 'created_at', 'updated_at'];
-  documentKeys = [/*'annotations',*/ 'created_at',
-    'data_binary', 'data_text', 'encoding', 'external_name',
-    'handler', 'metadata', 'name', 'text', 'type',
-    'updated_by', 'updated_at', 'version',
-    'visualisation_options'];
+  documentKeys = [/*'annotations',*/
+    'name', 'external_name',
+    'text', 'type',
+    'data_text', 'data_file', 'data_image', 'data_url',
+    'visualisation_options', 'metadata',
+    'encoding', 'handler',
+    'created_at', 'updated_at',
+    'version', 'updated_by'
+    ];
 
   constructor(
     public collectionService: CollectionService,
@@ -52,7 +56,7 @@ export class CollectionImportService implements OnInit {
   }; /* readFile */
 
   readFiles(documentFiles) {
-    return new Promise((resolve, reject) => {
+    return new Promise<string[]>((resolve, reject) => {
       var promises = [];
       documentFiles.forEach(element => {
         promises.push(this.readFile(element));
@@ -119,6 +123,28 @@ export class CollectionImportService implements OnInit {
     });
   }
 
+  extractCollectiondData(json_data, collectionData = {}) {
+    this.collectionKeys.forEach((key) => {
+      collectionData[key] = json_data[key];
+    });
+    return collectionData;
+  }; /* extractCollectiondData */
+
+  extractDocumentdData(json_data, documentData = {}) {
+    this.documentKeys.forEach((key) => {
+      documentData[key] = json_data[key];
+    });
+    // IMPORTANT: Change annotations' _id, or else they will
+    // overwite the original ones when saved!
+    var annotations = [];
+    json_data['annotations'].forEach((ann) => {
+      ann['_id'] = this.ObjectId().toString();
+      annotations.push(ann);
+    });
+    documentData['annotations'] = annotations;
+    return documentData;
+  }; /* extractDocumentdData */
+
   importJSON(name, files: string[], overwrite: boolean = false, collectionId = undefined) {
     this.collectionData.name = name;
     this.collectionData.overwrite = overwrite;
@@ -160,7 +186,7 @@ export class CollectionImportService implements OnInit {
   saveCollection(collectionData, documents) {
     // console.error(collectionData, documents);
     return new Promise((resolve, reject) => {
-      this.collectionService.save(this.collectionData)
+      this.collectionService.save(collectionData)
         .then((response) => {
           if (response["success"]) {
             var collectionId = response['collection_id'];

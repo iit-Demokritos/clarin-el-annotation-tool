@@ -133,13 +133,28 @@
 .annotation-relation-select {
   padding: 0px;
   font-size: 13px;
+  /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
+  /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
+  /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
+  /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
+  /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
   .mat-form-field-wrapper {
     padding: 0;
+    /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
+    /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
+    /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
+    /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
     .mat-form-field-flex {
       padding: 0px 4px 0px 4px;
+      /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
+      /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
+      /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
       .mat-form-field-infix {
         padding: 0px 0px 4px 0px;
+        /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
+        /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
         .mat-form-field-label-wrapper {
+          /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
           .mat-form-field-label.mat-form-field-empty {
             top: 0.98em;
           }
@@ -151,8 +166,8 @@
 
 .annotation-relation {
   font-weight: bold;
-  @extend .p-x-8;
-  @extend .r-4;
+  @extend .p-x-8 !optional;
+  @extend .r-4 !optional;
 }
 
 .annotation-relation-selected {
@@ -192,6 +207,7 @@ annotation-relation-import-btn {
   // The following two lines center the element...
   margin: 0 auto;
   display: block;
+  /*TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version.*/
   button,
   .annotation-relation-set-btn,
   .annotation-relation-import-btn,
@@ -246,6 +262,7 @@ coref-del-btn {
   // The following two lines center the element...
   margin: -2px auto 0px;
   display: block;
+  /*TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version.*/
   button,
   .coref-add-btn,
   .coref-del-btn,

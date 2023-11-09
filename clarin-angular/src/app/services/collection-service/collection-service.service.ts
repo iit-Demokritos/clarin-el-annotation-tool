@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { BackendResult } from '@models/backend';
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +23,8 @@ export class CollectionService {
   }
 
   exportAllCollections() {
-    return new Promise((resolve, reject) => {
-      this.http.get('./api/collections/export')
+    return new Promise<BackendResult<any>>((resolve, reject) => {
+      this.http.get<BackendResult<any>>('./api/collections/export')
         .subscribe((data) => {
           resolve(data);
         }, (error) => {

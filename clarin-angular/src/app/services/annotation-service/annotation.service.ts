@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { BackendResult, BackendResultAnnotatioVisualisationData } from "@models/backend";
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +34,17 @@ export class AnnotationService {
           reject();
         });
 
+    });
+  };
+
+  getVisualisationData(annotationId): Promise<BackendResult<BackendResultAnnotatioVisualisationData>> {
+    return new Promise<BackendResult<BackendResultAnnotatioVisualisationData>>((resolve, reject) => {
+      this.http.get<BackendResult<BackendResultAnnotatioVisualisationData>>('./api/visualisation/annotation/' + annotationId)
+        .subscribe(function (data) {
+          resolve(data);
+        }, (error) => {
+          reject();
+        });
     });
   };
 

@@ -1,6 +1,57 @@
+@use 'src/app/ng-matero/theme/style/variables';
 @import '@angular/material/theming';
 $background: map-get($theme, background);
 $foreground: map-get($theme, foreground);
+
+/* Dashboard */
+.dashboard-main {
+  .mat-mdc-card-header-text {
+    width: 100%;
+  }
+}
+
+/* Smaller widgets */
+.mat-mdc-icon-button-small {
+  padding: 0px 0px 0px 0px !important;
+  height: 24px !important;
+  width: 24px !important;
+  line-height: 24px;
+  font-size: 13px !important;
+  .mat-mdc-button-touch-target {
+    width: 24px !important;
+    height: 24px !important;
+  }
+}
+
+.mat-mdc-form-field-small {
+  font-size: 0.9em;
+  width: 100%;
+  padding: 0 12px 0 12px;
+  .mat-mdc-form-field-subscript-wrapper {
+    height: 6px !important;
+  }
+  .mat-mdc-form-field-icon-prefix > .mat-icon, .mat-mdc-form-field-icon-suffix > .mat-icon {
+    padding: 0 12px 0 12px;
+  }
+  .mat-mdc-text-field-wrapper {
+    padding: 0;
+    .mat-mdc-form-field-flex {
+      padding: 0px 4px 0px 4px;
+      margin-top: 10px;
+      .mat-mdc-floating-label {
+        top: 12px;
+      }
+      .mdc-floating-label--float-above {
+        --mat-mdc-form-field-label-transform: translateY( -18.75px) scale(var(--mat-mdc-form-field-floating-label-scale, 0.75));
+      }
+      .mat-mdc-form-field-infix {
+        padding: 0px 0px 0px 0px !important;
+        min-height: 24px !important;
+        font-size: 13px !important;
+      }
+    }
+  }
+}
 
 /* Used by all splitters: */
 // https://github.com/angular-split/angular-split/issues/224
@@ -18,7 +69,7 @@ $foreground: map-get($theme, foreground);
   width: 600px;
   height: 400px;
   overflow: auto;
-  .mat-button {
+  .mat-mdc-button {
     text-transform: none
   }
 }
@@ -44,16 +95,22 @@ $foreground: map-get($theme, foreground);
 }
 .select-document-modal .annotation-schema-values {
   width: 360px;
-  height: 260px;
+  height: 320px;
   overflow: auto;
+  .mdc-list-item {
+    //flex-direction: column;
+    //color: red;
+    //--bs-list-group-color: black;
+  }
 }
 
 /* Login screen */
 .login-component,
-.register-component {
+.register-component,
+.reset-password-component {
   // margin: 80px 0 0;
   padding: 10vh 0 0 0;
-  .mat-button, .mat-button-base {
+  .mat-mdc-button, .mat-mdc-button-base {
     text-transform: uppercase;
   }
   .login-card,
@@ -92,7 +149,7 @@ $foreground: map-get($theme, foreground);
       // font-size: 50px;
       height: 40px ;
       width: 80px;
-      margin-top:6px;
+      margin-top: 6px;
       margin-right: 20px;
       margin-bottom: 6px;
     }
@@ -107,26 +164,64 @@ $foreground: map-get($theme, foreground);
   background-size: cover;
 }
 
+/* Visualise Annotations */
+.visualise-annotation {
+  height: calc(100% - 0px);
+  padding: 4px;
+  .mat-mdc-card-content {
+    display: flex !important;
+  }
+  .visualise-annotation-viewer {
+    height: calc(100% - 0px);
+    overflow-x: auto;
+    overflow-y: auto;
+  }
+}
+
 /* Annotation Toolbar */
 .annotation-set-comparator-toolbar,
+.annotation-set-comparator-options-container-options,
 .select-document-toolbar,
 .app-toolbar,
 .annotation-toolbar {
   padding: 0px;
   //margin: -16px -16px 16px;
-  font-size: 13px;
-  line-height: 20px;
-  height: 46px;
+  font-size: 13px !important;
+  font-weight: normal !important;
+  line-height: 20px !important;
+  height: 36px !important;
+  .mat-toolbar {
+    height: 36px !important;
+  }
   mat-form-field {
     //transform: scale(0.80);
-    width: 200px;
-    .mat-form-field-wrapper {
+    min-width: 260px;
+    height: auto;
+    .mat-mdc-form-field-subscript-wrapper {
+      height: 0px !important;
+    }
+    /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+    .mat-form-field-wrapper, .mat-mdc-text-field-wrapper {
       padding: 0;
-      .mat-form-field-flex {
+      /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+      .mat-form-field-flex, .mat-mdc-form-field-flex {
         padding: 0px 4px 0px 4px;
-        .mat-form-field-infix {
-          padding: 0px 0px 4px 0px;
+        .mat-mdc-floating-label {
+          top: 12px;
+        }
+        .mdc-floating-label--float-above {
+          --mat-mdc-form-field-label-transform: translateY( -18.75px) scale(var(--mat-mdc-form-field-floating-label-scale, 0.75));
+        }
+        /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+        .mat-form-field-infix, .mat-mdc-form-field-infix {
+          padding: 0px 0px 0px 0px !important;
+          min-height: 24px !important;
+          .mat-mdc-select {
+            font-size: 13px !important;
+          }
+          /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
           .mat-form-field-label-wrapper {
+            /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
             .mat-form-field-label.mat-form-field-empty {
               top: 0.98em;
             }
@@ -141,13 +236,19 @@ $foreground: map-get($theme, foreground);
     margin: 6px;
   }
 
-  .mat-icon-button {
+  .mat-mdc-icon-button {
+    padding: 0px 0px 0px 0px !important;
     height: 24px;
     width: 24px;
     line-height: 24px;
+    font-size: 13px !important;
+    .mat-mdc-button-touch-target {
+      width: 24px !important;
+      height: 24px !important;
+    }
   }
 
-  .mat-stroked-button {
+  .mat-mdc-outlined-button {
     height: 24px;
     //width: 24px;
     line-height: 24px;
@@ -160,12 +261,27 @@ $foreground: map-get($theme, foreground);
       line-height: 18px;
     }
   }
-
+  /* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
   mat-button-toggle, .mat-button-toggle-label-content {
     height: 24px;
-    line-height: 24px;
+    line-height: 24px !important;
     font-size: 12px;
     padding: 0px 4px;
+  }
+
+  .mdc-slider {
+    height: 36px;
+    .mdc-slider__thumb {
+      left:  -18px;
+      width:  36px;
+      height: 36px;
+    }
+  }
+  .mat-mdc-slider {
+    margin-left:  18px;
+    margin-right: 18px;
+    //--mdc-slider-handle-height: 20px;
+    //--mdc-slider-handle-width:  20px;
   }
 
   .overlapping-areas-select {
@@ -173,31 +289,31 @@ $foreground: map-get($theme, foreground);
   }
 
   .mat-delete {
-    background-color: white;
-    color: red;
+    background-color: rgba(0,0,0,0);
+    color: red !important;
   }
   .mat-save {
-    background-color: white;
-    color: green;
+    background-color: rgba(0,0,0,0);
+    color: green !important;
   }
   .mat-autosave {
-    background-color: white;
-    color: blue;
+    background-color: rgba(0,0,0,0);
+    color: blue !important;
   }
   .mat-change {
-    background-color: white;
-    color: orange;
+    background-color: rgba(0,0,0,0);
+    color: orange !important;
   }
 }
 
 /* Document Annotation Area */
 .annotation-area {
-  height: calc(100% - 16px);
+  height: calc(100% - 6px);
   margin: -16px;
   width: calc(100% + 16px + 16px); // Add margin to width
 
   .main-content {
-    height: calc(100% - 46px - 46px); // Minus the two toolbars;
+    height: calc(100% - 36px - 36px); // Minus the two toolbars;
     overflow-x: auto;
     overflow-y: auto;
   }
@@ -248,7 +364,7 @@ $foreground: map-get($theme, foreground);
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      > .mat-card-content {
+      > .mat-mdc-card-content {
         overflow: auto;
       }
       .main-content-settings-content {
@@ -276,6 +392,7 @@ $foreground: map-get($theme, foreground);
       width: 100%;
       .side-content-header {
         flex-wrap: wrap;
+        /* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
         mat-button-toggle, .mat-button-toggle-label-content {
           height: 24px;
           line-height: 24px;
@@ -358,7 +475,7 @@ text-widget {
 .annotation-visualiser-table {
   .selected {
     background-color: mat-color($accent, default);
-    .mat-cell {
+    .mat-mdc-cell {
       color: mat-color($accent, default-contrast);
       // font-weight: bold;
     }
@@ -371,21 +488,21 @@ text-widget {
       background-color: mat-color($background, hover); //whitesmoke;
     }
   }
-  .mat-header-row {
+  .mat-mdc-header-row {
     height: 26px;
-    .mat-header-cell {
+    .mat-mdc-header-cell {
       text-align:  left;
       font-weight: bold;
       font-size:   14px;
       line-height: 14px;
     }
   }
-  .mat-row {
+  .mat-mdc-row {
     height: 24px;
     font-size:   14px;
     line-height: 14px;
   }
-  .mat-cell {
+  .mat-mdc-cell {
     text-align: left;
     font-size:   14px;
     line-height: 14px;
@@ -403,6 +520,41 @@ text-widget {
     font-size: 0.9em;
     width: 100%;
     padding: 0 12px 0 12px;
+    .mat-mdc-form-field-subscript-wrapper {
+      height: 6px !important;
+    }
+    .mat-mdc-form-field-icon-prefix > .mat-icon, .mat-mdc-form-field-icon-suffix > .mat-icon {
+      padding: 0 12px 0 12px;
+    }
+    .mat-mdc-text-field-wrapper {
+      padding: 0;
+      .mat-mdc-form-field-flex {
+        padding: 0px 4px 0px 4px;
+        margin-top: 10px;
+        .mat-mdc-floating-label {
+          top: 12px;
+        }
+        .mdc-floating-label--float-above {
+          --mat-mdc-form-field-label-transform: translateY( -18.75px) scale(var(--mat-mdc-form-field-floating-label-scale, 0.75));
+        }
+        .mat-mdc-form-field-infix {
+          padding: 0px 0px 0px 0px !important;
+          min-height: 24px !important;
+          font-size: 13px !important;
+        }
+      }
+    }
+    .mat-mdc-icon-button {
+      padding: 0px 0px 0px 0px !important;
+      height: 24px;
+      width: 24px;
+      line-height: 24px;
+      font-size: 13px !important;
+      .mat-mdc-button-touch-target {
+        width: 24px !important;
+        height: 24px !important;
+      }
+    }
   }
   .annotation-list,
   .annotation-info {
@@ -427,6 +579,7 @@ text-widget {
   width: 100%;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
 .mat-card-fill-parent {
   width: 100%;
   height: 100%;
@@ -435,17 +588,18 @@ text-widget {
   overflow: auto;
   display: flex !important;
   flex-direction: column;
-   > .mat-card-title-group {
+   > .mat-mdc-card-title-group {
      display: block;
    }
-   > .mat-card-content {
+   > .mat-mdc-card-content {
      overflow: auto;
      flex: 1 1 auto;
      //display: flex;
      //flex-direction:row;
      //align-items: stretch;
    }
-   .mat-card-header-text {
+   /* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
+   .mat-card-header-text, .mat-mdc-card-header-text {
     width: 100%;
     margin: 0;
   }
@@ -458,14 +612,27 @@ text-widget {
   .annotation-set-filter-builder {
     font-size: 13px;
     .q-arrow-icon-button,
-    .mat-icon-button {
+    .mat-mdc-icon-button {
+      padding: 0px 0px 0px 0px !important;
       height: 24px;
       width: 24px;
       line-height: 24px;
       margin: 0 !important;
+      font-size: 13px !important;
+      .mat-mdc-button-touch-target {
+        width: 24px !important;
+        height: 24px !important;
+      }
     }
-    .mat-radio-button {
+    .mat-mdc-radio-button {
       padding: 0px 10px;
+      .mdc-radio {
+        --mdc-radio-state-layer-size: 24px;
+        .mat-mdc-radio-touch-target {
+          width: 24px !important;
+          height: 24px !important;
+        }
+      }
     }
 
     .q-row {
@@ -475,13 +642,31 @@ text-widget {
       line-height: 20px;
       mat-form-field {
         //width: 200px;
-        .mat-form-field-wrapper {
+        .mat-mdc-form-field-subscript-wrapper {
+          height: 0px !important;
+        }
+        /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+        .mat-form-field-wrapper, .mat-mdc-text-field-wrapper {
           padding: 0;
-          .mat-form-field-flex {
+          /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+          .mat-form-field-flex, .mat-mdc-form-field-flex {
             padding: 0px 4px 0px 4px;
-            .mat-form-field-infix {
+            .mat-mdc-floating-label {
+              top: 12px;
+            }
+            .mdc-floating-label--float-above {
+              --mat-mdc-form-field-label-transform: translateY( -18.75px) scale(var(--mat-mdc-form-field-floating-label-scale, 0.75));
+            }
+            /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+            .mat-form-field-infix, .mat-mdc-form-field-infix {
               padding: 0px 0px 4px 0px;
+              min-height: 24px !important;
+              .mat-mdc-select {
+                font-size: 13px !important;
+              }
+              /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
               .mat-form-field-label-wrapper {
+                /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
                 .mat-form-field-label.mat-form-field-empty {
                   top: 0.98em;
                 }
@@ -509,21 +694,31 @@ text-widget {
 .inspect-document,
 .compare-documents,
 .compare-annotations {
-  .mat-card-subtitle {
+  .mat-mdc-card-header,
+  .mat-mdc-card-content {
+    padding: 0px !important;
+  }
+  .mat-mdc-card-header-text {
+    width: 100%;
+  }
+  .mat-mdc-card-subtitle {
     margin: 0px;
   }
   .mat-toolbar {
     background-color: inherit;
   }
-  .mat-tab-group {
+  .mat-mdc-tab-group {
       height: 100%;
+    /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
     .mat-tab-label {
       height: 24px;
     }
-    .mat-tab-body-wrapper {
+    /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
+    .mat-tab-body-wrapper, .mat-mdc-tab-body-wrapper {
       height: 100%;
+      /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
       .mat-tab-body-content {
-        .mat-card-content {
+        .mat-mdc-card-content {
           margin: 0px;
         }
       }
@@ -535,19 +730,31 @@ text-widget {
 }
 
 .annotation-set-comparator {
-  .mat-tab-labels:first-of-type .mat-tab-label:last-child {
+  /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
+  .mat-tab-labels:first-of-type .mat-tab-label:last-child,
+  .mat-mdc-tab-labels:first-of-type .mat-mdc-tab:last-child {
     min-width: 0px;
     padding: 0 12px;
     color: unset;
     opacity: unset;
+    .mdc-tab__content {
+      pointer-events: auto !important;
+    }
+  }
+  .annotation-set-comparator-toolbar-expand {
+    .mat-divider, .mat-divider-inset, .mat-divider.mat-divider-inset {
+      margin-left: 0px !important;
+      margin-top:  4px !important;
+    }
   }
   .annotation-set-comparator-options-label {
     display: inline-block;
-    width: 14ch;
+    width: 16ch;
   }
   .annotation-set-comparator-options-form-field {
     display: inline-block;
-    width: 6ch;
+    width: 12ch;
+    min-width: 12ch;
     margin: 0 4px;
   }
 }
@@ -569,18 +776,22 @@ text-widget {
 /* Analytics Routes */
 .analytics-annotation-values {
   height: calc(100% - 68px - 24px);
-  .mat-card-header-text {
+  /* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
+  .mat-card-header-text, .mat-mdc-card-header-text {
     width: 100%;
     margin: 0;
   }
-  .mat-tab-group,
-  .mat-card-content {
+  .mat-mdc-tab-group,
+  .mat-mdc-card-content {
     height: 100%;
   }
+  /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
   .mat-tab-body-content {
     display: flex;
     flex-direction:column;
   }
+  /* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
+  /* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
   .mat-card-fill-parent {
     width: 100%;
     height: 100%;
@@ -591,14 +802,15 @@ text-widget {
     //margin-bottom: 4px;
     display: flex;
     flex-direction: column;
-     > .mat-card-title-group {
+     > .mat-mdc-card-title-group {
        display: block;
      }
-     > .mat-card-content {
+     > .mat-mdc-card-content {
        overflow: auto;
      }
   }
-  .mat-tab-body-wrapper {
+  /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
+  .mat-tab-body-wrapper, .mat-mdc-tab-body-wrapper {
     flex-grow: 1;
   }
   .mat-toolbar {
@@ -617,6 +829,8 @@ text-widget {
     left: 5px;
     width: 100%;
   }
+  /* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
+  /* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
   .mat-card-fill-parent {
     width: 100%;
     height: 100%;
@@ -627,10 +841,10 @@ text-widget {
     //margin-bottom: 4px;
     display: flex;
     flex-direction: column;
-     > .mat-card-title-group {
+     > .mat-mdc-card-title-group {
        display: block;
      }
-     > .mat-card-content {
+     > .mat-mdc-card-content {
        overflow: auto;
      }
   }
@@ -641,15 +855,17 @@ text-widget {
   }
   .side-bar-wrapper,
   .main-content-wrapper {
-    .mat-card-header-text {
+    /* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
+    /* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
+    .mat-card-header-text, .mat-mdc-card-header-text {
       display: flex;
       align-items: center;
-      .mat-card-title {
+      .mat-mdc-card-title {
         margin: 0;
       }
       min-height: 40px;
     }
-    .mat-card-actions {
+    .mat-mdc-card-actions {
       margin: 0; // Default is -8 left/right, it overflows the buttons and a scrollbar gets shown...
     }
     .document-list-table {
@@ -666,14 +882,16 @@ text-widget {
     padding-right: 1em;
   }
   .main-content {
+    /* TODO(mdc-migration): The following rule targets internal classes of chips that may no longer apply for the MDC version. */
+    /* TODO(mdc-migration): The following rule targets internal classes of chips that may no longer apply for the MDC version. */
     .mat-chip-list-wrapper {
       margin: 0;
-      > .mat-chip {
+      > .mat-mdc-chip {
         margin:0;
         padding-top: 4px;
         padding-bottom: 4px;
       }
-      > .mat-standard-chip {
+      > .mat-mdc-standard-chip {
         min-height: 1.3em;
       }
     }
@@ -689,12 +907,16 @@ text-widget {
         line-height: inherit;
         vertical-align: top;
       }
-      .mat-icon-button {
+      .mat-mdc-icon-button {
         font-size: 20px;
         line-height: 20px;
         vertical-align: top;
         height: auto;
         width: auto;
+        padding-top: 0px;
+        padding-bottom: 0px;
+        padding-left: 0px;
+        padding-right: 4px;
       }
     }
     .mat-column-select {
@@ -759,17 +981,18 @@ text-widget {
 .add-collection-documents-modal,
 .detect-changes-dialog-model,
 .confirm-dialog-modal {
-  .mat-button {
+  .mat-mdc-button {
     text-transform: uppercase;
   }
 }
 .import-collection-modal,
+.import-collections-modal,
 .import-documents-from-export-modal,
 .rename-collection-modal {
   mat-form-field {
     width: 100%;
   }
-  .mat-button {
+  .mat-mdc-button {
     text-transform: uppercase;
   }
 }
@@ -779,12 +1002,12 @@ text-widget {
  */
 manage-shared-collections {
   .content {
-    .mat-card {
+    .mat-mdc-card {
       overflow: hidden;
       margin: 8px;
       height: calc(100% - 16px);
       width:  calc(100% - 16px);
-      .mat-card-content {
+      .mat-mdc-card-content {
         display: flex !important;
         flex-direction: column;
         .table-scroll {
@@ -925,4 +1148,55 @@ highcharts-chart {
 
 .hidden {
   display: none;
+}
+
+/*
+ * Package @angular/flex-layout was deprecated in angular 15.
+ * Quick alternatives...
+ * https://github.com/angular/flex-layout/wiki/Declarative-API-Overview
+ * https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+ * https://blog.angular.io/modern-css-in-angular-layouts-4a259dca9127
+ */
+.fxLayout {
+  display: flex;
+  flex-direction: row;         // fxLayout
+  flex-wrap: nowrap;           //fxLayout
+  box-sizing: border-box;
+}
+
+.fxLayout-row-wrap {
+  display: flex;
+  flex-direction: row;         // fxLayout
+  flex-wrap: wrap;             //fxLayout
+  box-sizing: border-box;
+}
+
+.fxLayout-column-wrap {
+  display: flex;
+  flex-direction: column;         // fxLayout
+  flex-wrap: wrap;             //fxLayout
+  box-sizing: border-box;
+}
+
+.fxLayoutAlign {
+  justify-content: flex-start; // fxLayoutAlign
+  align-items: stretch;        // fxLayoutAlign
+  align-content: normal;       // fxLayoutAlign
+}
+
+.fxLayoutAlign-start-center {
+  justify-content: flex-start; // fxLayoutAlign
+  align-items: center;         // fxLayoutAlign
+  align-content: center;       // fxLayoutAlign
+}
+
+.fxLayoutAlign-space-between-center {
+  justify-content: flex-start; // fxLayoutAlign
+  justify-content: space-between;
+  align-items: center;         // fxLayoutAlign
+  align-content: center;       // fxLayoutAlign
+}
+
+.fxLayoutGap-row-8px-grid {
+  margin-right: 8px;
 }

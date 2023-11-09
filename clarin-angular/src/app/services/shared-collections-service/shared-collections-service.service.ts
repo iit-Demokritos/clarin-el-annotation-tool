@@ -13,7 +13,7 @@ export class SharedCollectionsService {
     public http: HttpClient
   ) { }
 
-  getSharedCollectionsInfo() {
+  getSharedCollectionsInfo(): Promise<BackendResult<BackendResultSharedCollectionsInformation>> {
     return new Promise<BackendResult<BackendResultSharedCollectionsInformation>>((resolve, reject) => {
       this.http.get<BackendResult<BackendResultSharedCollectionsInformation>>('./api/shares')
         .subscribe((data) => {
@@ -24,7 +24,7 @@ export class SharedCollectionsService {
     });
   }
 
-  confirm(data: SharedCollectionInformation, confirmed=null) {
+  confirm(data: SharedCollectionInformation, confirmed=null): Promise<BackendResult<SharedCollectionInformation>> {
     var body = {
       id:                data.id,
       confirmed:         confirmed ? confirmed : data.confirmed,

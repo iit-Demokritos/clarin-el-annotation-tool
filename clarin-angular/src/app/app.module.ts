@@ -1,24 +1,26 @@
 import { NgModule } from '@angular/core';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 
 import { AppRoutingModule } from './app-routing.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainComponent } from './components/views/main/main.component';
 import { WelcomeComponent } from './components/views/welcome/welcome.component';
 import { FormsModule } from '@angular/forms';
-import { FlashMessagesModule } from 'flash-messages-angular';
+//import { FlashMessagesModule } from 'flash-messages-angular';
+import { FlashMessagesModule } from '@components/controls/flash-messages';
 import { ProfileComponent } from './components/views/profile/profile.component';
 import { NavbarComponent } from './components/views/navbar/navbar.component';
 import { ManageCollectionsComponent } from './components/views/manage-collections/manage-collections.component';
 import { SharedCollectionsComponent } from './components/views/shared-collections/shared-collections.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule} from '@angular/material/dialog';
 import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/confirm-dialog.component';
 import { MainDialogComponent } from './components/dialogs/main-dialog/main-dialog.component';
 import { AddDocumentsDialogComponent } from './components/dialogs/add-documents-dialog/add-documents-dialog.component';
 import { ImportModalComponent } from './components/dialogs/import-modal/import-modal.component';
+import { ImportCollectionsModalComponent } from './components/dialogs/import-collections-modal/import-collections-modal.component';
 import { ImportDocumentsFromExportModalComponent } from './components/dialogs/import-documents-from-export-modal/import-documents-from-export-modal.component';
 import { RenameCollectionModalComponent } from './components/dialogs/rename-collection-modal/rename-collection-modal.component';
 import { RenameDocumentModalComponent } from '@components/dialogs/rename-document-modal/rename-document-modal.component';
@@ -80,12 +82,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule} from '@angular/material/button';
 import { ValueAccessorComponent } from './components/controls/value-accessor/value-accessor.component';
 import { MatSelectModule } from '@angular/material/select';
-import { ButtonAnnotatorValueListDirective } from './directives/button-annotator-value-list/button-annotator-value-list.directive';
+// UNUSED: import { ButtonAnnotatorValueListDirective } from './directives/button-annotator-value-list/button-annotator-value-list.directive';
 // import { NgScrollbarModule } from 'ngx-scrollbar';
 
 /* Petasis, 17/6 */
 //import { MatMenuModule } from '@angular/material/menu';
-import { MatCardModule } from '@angular/material/card';
+import { MAT_CARD_CONFIG, MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -103,6 +105,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader }    from '@ngx-translate/http-loader';
 import { NgxPermissionsModule }   from 'ngx-permissions';
 import { AuthLayoutModComponent } from './components/views/auth-layout-mod/auth-layout-mod.component';
+import { VisualiseLayoutComponent } from './components/layouts/visualise-layout/visualise-layout.component';
 import { LoginComponent }         from './components/views/login/login.component';
 import { LoginSocialComponent }   from './components/views/login-social/login-social.component';
 import { RegisterComponent }      from './components/views/register/register.component';
@@ -112,7 +115,6 @@ import { environment } from '@env/environment';
 import { BASE_URL } from '@core/interceptors/base-url-interceptor';
 import { httpInterceptorProviders } from '@core/interceptors';
 import { appInitializerProviders } from '@core/initializers';
-// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 /* Petasis, 20/06/2021 */
 import { AngularSplitModule } from 'angular-split';
 import { InspectDocumentComponent } from './components/views/inspect-document/inspect-document.component';
@@ -135,6 +137,7 @@ import { AutoannTokenClassifierDirective } from './directives/autoann-token-clas
 import { AutomaticAnnotatorComponent } from './components/controls/automatic-annotator/automatic-annotator.component';
 import { WavesurferAudioComponent } from './components/controls/wavesurfer-audio/wavesurfer-audio.component';
 import { WavesurferVideoComponent } from './components/controls/wavesurfer-video/wavesurfer-video.component';
+import { VisualiseAnnotationComponent } from './components/views/visualise-annotation/visualise-annotation.component';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { FileSaverModule } from 'ngx-filesaver';
 
@@ -163,7 +166,7 @@ import { faFile,
 
 @NgModule({
   declarations: [
-    ButtonAnnotatorValueListDirective,
+    // ButtonAnnotatorValueListDirective,
     AppComponent,
     MainComponent,
     WelcomeComponent,
@@ -175,6 +178,7 @@ import { faFile,
     MainDialogComponent,
     AddDocumentsDialogComponent,
     ImportModalComponent,
+    ImportCollectionsModalComponent,
     ImportDocumentsFromExportModalComponent,
     RenameCollectionModalComponent,
     RenameDocumentModalComponent,
@@ -228,6 +232,7 @@ import { faFile,
     AnnotationTextTextComponent,
     AnnotationTextComponent,
     AuthLayoutModComponent,
+    VisualiseLayoutComponent,
     LoginComponent,
     RegisterComponent,
     ResetPasswordComponent,
@@ -247,14 +252,15 @@ import { faFile,
     AutomaticAnnotatorComponent,
     WavesurferAudioComponent,
     WavesurferVideoComponent,
+    VisualiseAnnotationComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
     FlashMessagesModule.forRoot(),
-    BrowserAnimationsModule,
     MatDialogModule,
     NgxFlowModule,
     MatTreeModule,
@@ -295,7 +301,7 @@ import { faFile,
     FileSaverModule
   ],
   exports:[
-    ButtonAnnotatorValueListDirective,
+    // ButtonAnnotatorValueListDirective,
     AppComponent,
     MainComponent,
     WelcomeComponent,
@@ -307,6 +313,7 @@ import { faFile,
     MainDialogComponent,
     AddDocumentsDialogComponent,
     ImportModalComponent,
+    ImportCollectionsModalComponent,
     ImportDocumentsFromExportModalComponent,
     RenameCollectionModalComponent,
     RenameDocumentModalComponent,

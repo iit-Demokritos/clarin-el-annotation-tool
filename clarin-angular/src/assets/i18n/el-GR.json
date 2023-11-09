@@ -95,6 +95,7 @@
     "Help.API Documentation": "API Documentation"
   },
   "Collections": {
+    "Collections": "Συλλογές",
     "MyCollections": "Οι Συλλογές Μου",
     "AddNewCollection": "Προσθήκη Νέας Συλλογής",
     "AddCollection": "Προσθήκη Συλλογής",
@@ -119,6 +120,8 @@
     "Files to Import": "Files to Import",
     "Import": "Import",
     "Import Collection": "Import Collection",
+    "Import Collections": "Import Collections",
+    "Import Collections Explain": "You need to have a JSON file, which has been exported through \"Export All Collections\".",
     "Accepted": "Accepted",
     "Pending": "Pending",
     "Send Invitation": "Send Invitation",
@@ -143,7 +146,9 @@
     "Enter a new Document name":"Enter a new Document name",
     "Import": "Εισαγωγή",
     "Rename": "Μετονομασια",
-    "Annotate Document": "Annotate Document"
+    "Annotate Document": "Annotate Document",
+    "Filter Collections": "Filter Collections",
+    "FilterCollectionsPlaceholder": "Type a string to filter Collections (case insensitive)"
   },
   "annotation": {
     "Collection": "Συλλογή",
@@ -165,7 +170,9 @@
     "Change Collection": "Αλλαγή Συλλογής",
     "Filter Annotations": "Φιλτράρισμα Επισημειώσεων",
     "FilterAnnotationsPlaceholder": "Π.χ. μια τιμή χαρακτηριστικού",
-    "Annotator": "Annotator"
+    "Annotator": "Annotator",
+    "Overlapping Areas": "Επικαλυπτόμενες Περιοχές",
+    "Please select an overlapping area...": "Παρακαλώ επιλέξτε μια επικαλυπτόμενη περιοχή..."
   },
   "validations": {
     "required": "This field is required",
@@ -176,7 +183,12 @@
     "exist": "The {{value}} exists",
     "inconsistent": "Inconsistent with {{value}}",
     "invalid_email": "Invalid e-mail",
-    "pattern": "Invalid value"
+    "pattern": "Invalid value",
+    "filenameUnchanged": "Filename has not changed",
+    "filenameMissingExtension": "Filename is missing an extension (i.e. '.txt')",
+    "filenameInvalid": "Filename is invalid",
+    "collectionnameUnchanged": "Collection name has not changed",
+    "collectionnameInvalid": "Collection name is invalid"
   },
   "user": {
     "profile": "προφίλ",
@@ -261,6 +273,9 @@
     "Collections": "Συλλογές",
     "Documents": "Έγγραφα",
     "Annotations": "Επισημειώσεις",
+    "AnnotationsByMe": "Επισημειώσεις ()",
+    "AnnotationsCreatedByMe": "Επισημειώσεις που μιορα εώ",
+    "TotalAnnotations": "Total Annotations",
     "MyCollections": "Οι Συλλογές μου",
     "MySharedCollections": "Συλλογές Κοινοποιημένες σε εμένα",
     "MyUnsharedCollections": "Συλλογές που δεν είναι πλέον Κοινοποιημένες σε εμένα",

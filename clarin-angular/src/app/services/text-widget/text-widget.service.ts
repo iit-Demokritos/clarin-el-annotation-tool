@@ -614,7 +614,7 @@ export class TextWidgetAPI {
       ann_id = ann_id + "_" + this.annotationSchema["annotation_type"];
     }
     if ("attribute" in this.annotationSchema &&
-        this.annotationSchema["attribute"].length > 0) {
+        (this.annotationSchema["attribute"] as string).length > 0) {
       ann_id = ann_id + "_" + this.annotationSchema["attribute"];
     }
     if ("alternative" in this.annotationSchema) {
@@ -725,17 +725,18 @@ export class TextWidgetAPI {
 
   setSelectedAnnotation(newSelectedAnnotation) {
     if (typeof newSelectedAnnotation == "undefined" ||
-      newSelectedAnnotation == {}) {
+      Object.keys(newSelectedAnnotation).length == 0) {
       return false;
     }
 
     //CHECK
-    if ((this.selectedAnnotation != {}))
+    if (Object.keys(this.selectedAnnotation).length > 0) {
       this.annotationsToBeAdded.push({
         "annotation": this.selectedAnnotation,
         "selected": false,
         "action": "deselect"
       });
+    }
     //console.log(this.selectedAnnotation)
     this.selectedAnnotation = _.cloneDeep(newSelectedAnnotation);
     this.annotationsToBeAdded.push({
@@ -780,7 +781,7 @@ export class TextWidgetAPI {
   }
 
   clearSelectedAnnotation() {
-    if (typeof (this.selectedAnnotation) != "undefined" && (this.selectedAnnotation != {})) {
+    if (typeof (this.selectedAnnotation) != "undefined" && Object.keys(this.selectedAnnotation).length > 0) {
       this.annotationsToBeAdded.push({
         "annotation": this.selectedAnnotation,
         "selected": false,

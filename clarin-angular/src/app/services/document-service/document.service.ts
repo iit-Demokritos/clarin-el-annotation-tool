@@ -27,6 +27,7 @@ export class DocumentService {
           case "tiff":
           case "webp":
           case "svg":
+          case "bmp":
             docData["data_image"] = reader.result;
             break;
           case "audio mp3":
@@ -57,6 +58,7 @@ export class DocumentService {
         case "tiff":
         case "webp":
         case "svg":
+        case "bmp":
         case "audio mp3":
         case "audio ogg":
         case "audio wav":

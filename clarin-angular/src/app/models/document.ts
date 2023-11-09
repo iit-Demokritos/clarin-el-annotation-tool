@@ -1,3 +1,5 @@
+export var DocumentNamePattern: string = "[a-zA-Z0-9]+[\\\-a-zA-Z0-9_ ,'\\\(\\\)\\\.]+"
+
 export interface Document {
   id:                     number;
   collection_id:          number;

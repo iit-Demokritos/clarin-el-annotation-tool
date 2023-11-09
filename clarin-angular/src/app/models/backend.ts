@@ -1,4 +1,6 @@
-import { SharedCollectionsInformation } from '@models/collection';
+import { Collection, SharedCollectionsInformation } from '@models/collection';
+import { Document } from '@models/document';
+import { Annotation } from '@models/annotation';
 
 export interface BackendResult<T> {
   success: boolean;
@@ -17,4 +19,10 @@ export interface BackendResultSharedCollectionsInformation {
   shared_with_me:         SharedCollectionsInformation,
   shared_by_me_pending:   SharedCollectionsInformation,
   shared_with_me_pending: SharedCollectionsInformation,
+}
+
+export interface BackendResultAnnotatioVisualisationData {
+  collection: Collection,
+  document:   Document,
+  annotation: Annotation,
 }

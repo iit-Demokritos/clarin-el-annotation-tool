@@ -95,6 +95,7 @@
     "Help.API Documentation": "API Documentation"
   },
   "Collections": {
+    "Collections": "Collections",
     "MyCollections": "My Collections",
     "AddNewCollection": "Add New Collection",
     "AddCollection": "Add Collection",
@@ -119,6 +120,8 @@
     "Files to Import": "Files to Import",
     "Import": "Import",
     "Import Collection": "Import Collection",
+    "Import Collections": "Import Collections",
+    "Import Collections Explain": "You need to have a JSON file, which has been exported through \"Export All Collections\".",
     "Accepted": "Accepted",
     "Pending": "Pending",
     "Send Invitation": "Send Invitation",
@@ -143,7 +146,9 @@
     "Enter a new Document name":"Enter a new Document name",
     "Import": "Import",
     "Rename": "Rename",
-    "Annotate Document": "Annotate Document"
+    "Annotate Document": "Annotate Document",
+    "Filter Collections": "Filter Collections",
+    "FilterCollectionsPlaceholder": "Type a string to filter Collections (case insensitive)"
   },
   "annotation": {
     "Collection": "Collection",
@@ -165,7 +170,9 @@
     "Change Collection": "Change Collection",
     "Filter Annotations": "Filter Annotations",
     "FilterAnnotationsPlaceholder": "Ex. an attribute value",
-    "Annotator": "Annotator"
+    "Annotator": "Annotator",
+    "Overlapping Areas": "Overlapping Areas",
+    "Please select an overlapping area...": "Please select an overlapping area..."
   },
   "validations": {
     "required": "This field is required",
@@ -176,7 +183,12 @@
     "exist": "The {{value}} exists",
     "inconsistent": "Inconsistent with {{value}}",
     "invalid_email": "Invalid e-mail",
-    "pattern": "Invalid value"
+    "pattern": "Invalid value",
+    "filenameUnchanged": "Filename has not changed",
+    "filenameMissingExtension": "Filename is missing an extension (i.e. '.txt')",
+    "filenameInvalid": "Filename is invalid",
+    "collectionnameUnchanged": "Collection name has not changed",
+    "collectionnameInvalid": "Collection name is invalid"
   },
   "user": {
     "profile": "profile",
@@ -261,6 +273,9 @@
     "Collections": "Collections",
     "Documents": "Documents",
     "Annotations": "Annotations",
+    "AnnotationsByMe": "Annotations (by Me)",
+    "AnnotationsCreatedByMe": "Annotations created by me",
+    "TotalAnnotations": "Total Annotations",
     "MyCollections": "My Collections",
     "MySharedCollections": "Collections Shared with me",
     "MyUnsharedCollections": "Collections no longer Shared with me",

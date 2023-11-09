@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { PreloaderService } from '@core';
+import { PreloaderService, SettingsService } from '@core';
 import ExportingModule from 'highcharts/modules/exporting';
 // import SunsetTheme from 'highcharts/themes/sunset.js';
 import * as Highcharts from 'highcharts';
@@ -25,15 +25,19 @@ export class AppComponent implements OnInit, AfterViewInit {
   // public version: string = packageJson.version;
 
   constructor(private preloader: PreloaderService,
-	      private matIconRegistry: MatIconRegistry,
-	      private domSanitizer: DomSanitizer) {
+              private matIconRegistry: MatIconRegistry,
+              private domSanitizer: DomSanitizer,
+              private settings: SettingsService) {
     this.matIconRegistry.addSvgIcon(
       `logo_vast`,
       this.domSanitizer.bypassSecurityTrustResourceUrl(`/assets/images/logo-vast-01.svg`)
     );
   }; /* constructor */
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.settings.setDirection();
+    this.settings.setTheme();
+  }
 
   ngAfterViewInit() {
     this.preloader.hide();

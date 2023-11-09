@@ -1,3 +1,5 @@
+export var CollectionNamePattern: string = "[a-zA-Z0-9]+[\\\-a-zA-Z0-9_ ,'\\\(\\\)\\\.]+";
+
 export interface Collection {
   confirmed?: any | null;
   document_count?: number;
