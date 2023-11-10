@@ -463,6 +463,7 @@ class ExportAllCollectionsView(MongoDBAccess, SQLDBAPIView):
 ##############################################
 ## Visualise Annotation Data
 ##############################################
+@method_decorator(csrf_exempt, name='dispatch')
 class VisualiseAnnotationView(MongoDBAccess, SQLDBAPIView):
     """
     Retrieves visualisation data for a single annotation
