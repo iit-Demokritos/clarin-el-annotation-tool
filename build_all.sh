@@ -80,7 +80,7 @@ cp --force -r src/css dist/$ANGULAR2_PROJECT_NAME/assets
 ##
 if [ -d "$HUGO_DIR" ]; then
   cd $HUGO_DIR
-  bash build.sh
+  #bash build.sh
   if [ -f "build.sh" ]; then
     bash build.sh
   fi

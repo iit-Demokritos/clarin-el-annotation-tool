@@ -29,6 +29,7 @@ import { CompareCollectionsComponent } from './components/views/compare-collecti
 import { AnalyticsAnnotationValuesComponent } from './components/views/analytics-annotation-values/analytics-annotation-values.component';
 
 import { VisualiseAnnotationComponent }       from './components/views/visualise-annotation/visualise-annotation.component';
+import { AnnotatorWidgetValuesSchwartzComponent } from './components/controls/annotator-widget-values-schwartz/annotator-widget-values-schwartz.component';
 
 
 const COMPONENTS = [];
@@ -79,6 +80,7 @@ const routes: Routes = [
     component: VisualiseLayoutComponent,
     children: [
       { path: 'annotation/:id', component: VisualiseAnnotationComponent },
+      { path: 'values/Schwartz/:nv', component: AnnotatorWidgetValuesSchwartzComponent },
     ],
   },
   { path: 'profile/overview', redirectTo: 'app/profile/overview' },

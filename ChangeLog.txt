@@ -1,3 +1,8 @@
+12-November-2023 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/components/controls/base-control/base-control.component.ts:
+ * clarin-angular/src/app/components/controls/annotator-widget-values-schwartz/*:
+ Added a component for annotation Documents with Schwartz model.
+
 09-November-2023 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/*: Upgrade to Angular 16, added
  Collection search in Collection Management, added visualisation of standalone

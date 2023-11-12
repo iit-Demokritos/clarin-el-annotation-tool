@@ -138,6 +138,7 @@ import { AutomaticAnnotatorComponent } from './components/controls/automatic-ann
 import { WavesurferAudioComponent } from './components/controls/wavesurfer-audio/wavesurfer-audio.component';
 import { WavesurferVideoComponent } from './components/controls/wavesurfer-video/wavesurfer-video.component';
 import { VisualiseAnnotationComponent } from './components/views/visualise-annotation/visualise-annotation.component';
+import { AnnotatorWidgetValuesSchwartzComponent } from './components/controls/annotator-widget-values-schwartz/annotator-widget-values-schwartz.component';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { FileSaverModule } from 'ngx-filesaver';
 
@@ -253,6 +254,7 @@ import { faFile,
     WavesurferAudioComponent,
     WavesurferVideoComponent,
     VisualiseAnnotationComponent,
+    AnnotatorWidgetValuesSchwartzComponent,
   ],
   imports: [
     BrowserModule,
@@ -366,6 +368,7 @@ import { faFile,
     AnnotationTextTextComponent,
     AnnotationTextComponent,
     AutoannTokenClassifierDirective,
+    AnnotatorWidgetValuesSchwartzComponent,
   ],
   providers: [
     /* Petasis, 12/12/2021: It does not work with the following enabled...*/

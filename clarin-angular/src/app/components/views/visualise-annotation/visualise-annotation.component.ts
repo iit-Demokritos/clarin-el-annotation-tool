@@ -107,12 +107,22 @@ export class VisualiseAnnotationComponent extends MainComponent implements OnIni
   addAnnotation(ann) {
     this.TWA.addAnnotation(ann, false);
     this.annotationsInEditor.push(ann);
+    setTimeout(() => {
+      this.textWidgetComponent.editorRefresh()
+      this.textWidgetComponent.overlayRefresh();
+    }, 0.1);
     return ann;
   }; /* addAnnotation */
 
   selectAnnotation(ann) {
     this.TWA.setSelectedAnnotation(ann);
-    this.textWidgetComponent.scrollToAnnotation(ann);
+    setTimeout(() => {
+      this.textWidgetComponent.editorRefresh()
+      this.textWidgetComponent.overlayRefresh();
+    }, 0.1);
+    setTimeout(() => {
+      this.textWidgetComponent.scrollToAnnotation(ann);
+    }, 0.1);
   }; /* selectAnnotation */
 
   clearAnnotations() {
