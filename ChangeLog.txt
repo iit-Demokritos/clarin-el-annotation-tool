@@ -16,6 +16,9 @@
  * backend-django/europeana/*: New backend app for providing an API for
  Europeana.
 
+ * clarin-angular/src/app/components/controls/annotation-set-comparator/annotation-set-comparator.component.ts:
+ Fixes for preventing exceptions in Krippendorff's alpha.
+
 12-November-2023 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/controls/base-control/base-control.component.ts:
  * clarin-angular/src/app/components/controls/annotator-widget-values-schwartz/*:
