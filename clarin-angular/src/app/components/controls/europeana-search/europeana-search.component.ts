@@ -10,7 +10,8 @@ import { PageEvent } from '@angular/material/paginator';
 })
 export class EuropeanaSearchComponent {
 
-  searchQuery = "Sophocles Antigone";
+  // searchQuery = "Sophocles Antigone";
+  searchQuery: string;
   images: ItemsEntity[] = [];
   totalResults: number = 0;
   rows: number = 4;

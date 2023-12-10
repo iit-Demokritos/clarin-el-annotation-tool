@@ -148,7 +148,8 @@
     "Rename": "Μετονομασια",
     "Annotate Document": "Annotate Document",
     "Filter Collections": "Filter Collections",
-    "FilterCollectionsPlaceholder": "Type a string to filter Collections (case insensitive)"
+    "FilterCollectionsPlaceholder": "Type a string to filter Collections (case insensitive)",
+    "Upload Files from this Computer": "Upload Files from this Computer"
   },
   "annotation": {
     "Collection": "Συλλογή",
@@ -302,6 +303,10 @@
     "ZoomOut": "Zoom Out",
     "ZoomReset": "Reset Zoom Level",
     "ZoomAdjust": "Adjust Zoom Level"
+  },
+  "Europeana": {
+     "Search": "Search",
+     "SearchPlaceholder": "Type here some search terms, like \"Sophocles Antigone\""
   },
   "Yes": "Ναι",
   "No": "Όχι",
