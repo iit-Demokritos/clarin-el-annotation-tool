@@ -1,0 +1,30 @@
+<div>
+  <div class="fxLayout fxLayoutAlign-start-center">
+    <mat-form-field>
+      <mat-label>{{'Europeana.Search'|translate}}</mat-label>
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput type="text" class="europeana-search-input" (keyup)="onSearch($event)"
+        placeholder="{{'Europeana.SearchPlaceholder'|translate}}" #input
+        [(ngModel)]="searchQuery">
+      <button matSuffix mat-icon-button *ngIf="searchQuery" type=button aria-label="Clear"
+        (click)="searchQuery=''; onSearch($event)">
+        <mat-icon>backspace</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+  <mat-paginator class="w-full" [length]="totalResults" [pageSize]="rows"
+              [pageSizeOptions]="pageSizeOptions"
+              [showFirstLastButtons]="showFirstLastButtons"
+              aria-label="Select page" *ngIf="totalResults"
+              [pageIndex]="pageIndex"
+              (page)="handlePageEvent($event)">
+  </mat-paginator>
+  <app-media-gallery [images]="images"></app-media-gallery>
+  <mat-paginator class="w-full" [length]="totalResults" [pageSize]="rows"
+              [pageSizeOptions]="pageSizeOptions"
+              [showFirstLastButtons]="showFirstLastButtons"
+              aria-label="Select page" *ngIf="totalResults"
+              [pageIndex]="pageIndex"
+              (page)="handlePageEvent($event)">
+  </mat-paginator>
+</div>

@@ -269,17 +269,35 @@ export class AnnotationSetComparatorComponent extends MainComponent implements O
     this.showTabIAA  = true;
     this.showTabDiff = true;
     // Fleiss’s Kappa...
-    this.kappaFleiss = fleissKappa(this.categoriesMatrix, this.annotationsShown.length);
-    console.error("Fleiss Kappa:", this.kappaFleiss);
+    try {
+      this.kappaFleiss = fleissKappa(this.categoriesMatrix, this.annotationsShown.length);
+      console.error("Fleiss Kappa:", this.kappaFleiss);
+    } catch (error) {
+      console.error("Fleiss Kappa:", error);
+    }
     // Krippendorff’s Alpha...
-    let kripCal = new Krippendorff();
-    kripCal.setArrayData(this.ratersMatrix, 'categorical');
-    kripCal.calculate();
-    this.alphaKrippendorff = kripCal._KrAlpha;
-    console.error("Krippendorff Alpha:", this.alphaKrippendorff);
+    try {
+      let kripCal = new Krippendorff();
+      // Try to predict if calculation will fail:
+      let filteredMatrix = kripCal._removeEmptyItem(this.ratersMatrix);
+      if (filteredMatrix.length) {
+        kripCal.setArrayData(filteredMatrix, 'categorical');
+        kripCal.calculate();
+        this.alphaKrippendorff = kripCal._KrAlpha;
+      } else {
+	this.alphaKrippendorff = 0;
+      }
+      console.error("Krippendorff Alpha:", this.alphaKrippendorff);
+    } catch (error) {
+      console.error("Krippendorff Alpha:", error);
+    }
     // Cohen’s Kappa...
-    this.kappaCohen = cohenKappa(this.annotationsShown[0].filter((ann) => 'type' in ann), this.annotationsShown[1].filter((ann) => 'type' in ann));
-    console.error("Cohen Kappa:", this.kappaCohen);
+    try {
+      this.kappaCohen = cohenKappa(this.annotationsShown[0].filter((ann) => 'type' in ann), this.annotationsShown[1].filter((ann) => 'type' in ann));
+      console.error("Cohen Kappa:", this.kappaCohen);
+    } catch (error) {
+      console.error("Cohen Kappa:", error);
+    }
   }; /* compareAnnotations */
 
   clearComparisons() {

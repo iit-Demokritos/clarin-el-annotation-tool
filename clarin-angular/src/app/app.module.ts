@@ -164,6 +164,8 @@ import { faFile,
          faFileCode,
          faFileLines
 } from '@fortawesome/free-solid-svg-icons';
+import { MediaGalleryComponent } from './components/controls/media-gallery/media-gallery.component';
+import { EuropeanaSearchComponent } from './components/controls/europeana-search/europeana-search.component';
 
 @NgModule({
   declarations: [
@@ -255,6 +257,8 @@ import { faFile,
     WavesurferVideoComponent,
     VisualiseAnnotationComponent,
     AnnotatorWidgetValuesSchwartzComponent,
+    MediaGalleryComponent,
+    EuropeanaSearchComponent,
   ],
   imports: [
     BrowserModule,

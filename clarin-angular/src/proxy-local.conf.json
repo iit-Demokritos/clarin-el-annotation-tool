@@ -1,7 +1,8 @@
 [
 {
   "context": ["/api", "/analytics", "/drag_and_drop", "/nlp",
-              "/media_data_lake", "/social_login", "/accounts"],
+              "/media_data_lake", "/social_login", "/accounts",
+              "/importapi"],
   "target": "http://127.0.0.1:8000",
   "secure": false,
   "changeOrigin": false,

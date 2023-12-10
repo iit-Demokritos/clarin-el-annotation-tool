@@ -1,0 +1,11 @@
+<mat-grid-list cols="4" rowHeight="1:1">
+  <mat-grid-tile *ngFor="let image of images; let i = index;">
+    <mat-grid-tile-header>
+      <span matLine>{{ image.title }}</span>
+    </mat-grid-tile-header>
+
+    <img class="w-full h-full object-contain cursor-pointer"
+         [src]="image.src" alt="{{ image.title }}"
+         (click)="preview(i)" />
+  </mat-grid-tile>
+</mat-grid-list>

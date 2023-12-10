@@ -15,34 +15,37 @@
             <mat-label>{{'Collections.Filter Collections'|translate}}</mat-label>
             <mat-icon matPrefix>search</mat-icon>
             <input matInput type="text" class="collection-list-filter-input" (keyup)="onApplyCollectionFilter($event)"
-                   placeholder="{{'Collections.FilterCollectionsPlaceholder'|translate}}" #input [(ngModel)]="collectionsFilter">
-            <button mat-icon-button matSuffix *ngIf="collectionsFilter" aria-label="Clear" class="mat-mdc-icon-button-small"
-                   (click)="collectionsFilter=''; onApplyCollectionFilter($event)">
+              placeholder="{{'Collections.FilterCollectionsPlaceholder'|translate}}" #input
+              [(ngModel)]="collectionsFilter">
+            <button mat-icon-button matSuffix *ngIf="collectionsFilter" aria-label="Clear"
+              class="mat-mdc-icon-button-small" (click)="collectionsFilter=''; onApplyCollectionFilter($event)">
               <mat-icon>backspace</mat-icon>
             </button>
           </mat-form-field>
         </div>
         <mat-card-content class="sidebar-main-content mat-card-fill-parent">
           <!-- SIDEBAR COLLECTION LIST -->
-          <mat-selection-list #collections="cdkDropList"
-            [multiple]="false" [hideSingleSelectionIndicator]="true"
+          <mat-selection-list #collections="cdkDropList" [multiple]="false" [hideSingleSelectionIndicator]="true"
             cdkDropList (cdkDropListDropped)="onCollectionDrop($event)"
             [cdkDropListSortPredicate]="onCollectionDropOver"
-            [cdkDropListAutoScrollDisabled]="disableCollectionDraggingAutoscroll"
-          >
-            <mat-list-option *ngFor="let collection of dataForTheTree;let index=index"
-              [value]="collection"
-              (click)="showSelectedCollection(collection, index)"
-              cdkDrag [cdkDragDisabled]="disableCollectionDragging"
-              [ngClass]="{'drop-target-allow': dropTargetCollection == index && dropTargetCollectionAllow, 'drop-target-deny': dropTargetCollection == index && !dropTargetCollectionAllow}"
-            >
-                <mat-icon *ngIf="collection.confirmed!=1" matListItemIcon matBadge="{{collection.document_count}}" matBadgeOverlap="true" matBadgeSize="small" matBadgeColor="accent" matBadgePosition="before">folder</mat-icon>
-                <mat-icon *ngIf="collection.confirmed==1 && collection.is_owner" matListItemIcon matBadge="{{collection.document_count}}" matBadgeOverlap="true" matBadgeSize="small" matBadgeColor="accent" matBadgePosition="before">folder_shared</mat-icon>
-                <mat-icon *ngIf="collection.confirmed==1 && !collection.is_owner" matListItemIcon matBadge="{{collection.document_count}}" matBadgeOverlap="true" matBadgeSize="small" matBadgeColor="accent" matBadgePosition="before">snippet_folder</mat-icon>
-                <span matListItemTitle matTooltip="{{collection.name}}">{{collection.name}}</span>
-                <span matListItemLine *ngIf="collection.confirmed==1 && collection.is_owner">({{'Collections.SharedByMe'|translate}})</span>
-                <span matListItemLine *ngIf="collection.confirmed==1 && !collection.is_owner" class="label label-info"
-                  title="The actions that can be performed on this collection are limited because it does not belong to you">({{'Collections.SharedWithMe'|translate}})</span>
+            [cdkDropListAutoScrollDisabled]="disableCollectionDraggingAutoscroll">
+            <mat-list-option *ngFor="let collection of dataForTheTree;let index=index" [value]="collection"
+              (click)="showSelectedCollection(collection, index)" cdkDrag [cdkDragDisabled]="disableCollectionDragging"
+              [ngClass]="{'drop-target-allow': dropTargetCollection == index && dropTargetCollectionAllow, 'drop-target-deny': dropTargetCollection == index && !dropTargetCollectionAllow}">
+              <mat-icon *ngIf="collection.confirmed!=1" matListItemIcon matBadge="{{collection.document_count}}"
+                matBadgeOverlap="true" matBadgeSize="small" matBadgeColor="accent"
+                matBadgePosition="before">folder</mat-icon>
+              <mat-icon *ngIf="collection.confirmed==1 && collection.is_owner" matListItemIcon
+                matBadge="{{collection.document_count}}" matBadgeOverlap="true" matBadgeSize="small"
+                matBadgeColor="accent" matBadgePosition="before">folder_shared</mat-icon>
+              <mat-icon *ngIf="collection.confirmed==1 && !collection.is_owner" matListItemIcon
+                matBadge="{{collection.document_count}}" matBadgeOverlap="true" matBadgeSize="small"
+                matBadgeColor="accent" matBadgePosition="before">snippet_folder</mat-icon>
+              <span matListItemTitle matTooltip="{{collection.name}}">{{collection.name}}</span>
+              <span matListItemLine
+                *ngIf="collection.confirmed==1 && collection.is_owner">({{'Collections.SharedByMe'|translate}})</span>
+              <span matListItemLine *ngIf="collection.confirmed==1 && !collection.is_owner" class="label label-info"
+                title="The actions that can be performed on this collection are limited because it does not belong to you">({{'Collections.SharedWithMe'|translate}})</span>
             </mat-list-option>
           </mat-selection-list>
           <!--
@@ -108,61 +111,76 @@
                 </mat-form-field>
               </mat-grid-tile>
             </mat-grid-list>
-            <div class="document-list">
-              <label>{{'Collections.FilesToBeAddedToTheCollection' | translate}}:</label>
-              <div class="document-list-component">
-                <div id="uploadTable" class="document-list-table">
-                  <table class="table table-bordered">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>{{'Filename'|translate}}</th>
-                        <th *ngIf="filterFiles !== false">{{'Type'|translate}}</th>
-                        <th *ngIf="filterFiles !== false">{{'Encoding'|translate}}</th>
-                        <th *ngIf="filterFiles !== false">{{'Handler'|translate}}</th>
-                        <th></th>
-                      </tr>
-                    </thead>
-                    <tbody *ngIf="userFiles.length!=undefined && userFiles.length>0">
-                      <tr *ngFor="let file of userFiles;let index=index">
-                        <td>{{index+1}}</td>
-                        <td>{{file.name}}</td>
-                        <td *ngIf="filterFiles !== false">
-                          <select id="type" class="form-control" [(ngModel)]="file.type"
-                            [ngModelOptions]="{standalone: true}">
-                            <option *ngFor="let o of typeOptions" [value]="o">{{o}}</option>
-                          </select>
-                        </td>
-                        <td *ngIf="filterFiles !== false">
-                          <select id="defaultEndoding" class="form-control" [(ngModel)]="file.encoding"
-                            [ngModelOptions]="{standalone: true}">
-                            <option *ngFor="let o of encodingOptions" [value]="o">{{o}}</option>
-                          </select>
-                        </td>
-                        <td *ngIf="filterFiles !== false">
-                          <select id="handler" class="form-control" [(ngModel)]="file.handler"
-                            [ngModelOptions]="{standalone: true}">
-                            <option *ngFor="let o of handlerOptions" [ngValue]="o">{{o.name}}</option>
-                          </select>
-                        </td>
-                        <td>
-                          <button mat-icon-button (click)="userFiles.splice(index, 1)"
-                            [matTooltip]="'Remove'|translate">
-                            <mat-icon>delete</mat-icon>
-                          </button>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+            <mat-tab-group>
+              <mat-tab>
+                <ng-template mat-tab-label>
+                  <mat-icon class="example-tab-icon">computer</mat-icon>
+                  {{'Collections.Upload Files from this Computer' | translate}}
+                </ng-template>
+                <div class="document-list">
+                  <label>{{'Collections.FilesToBeAddedToTheCollection' | translate}}:</label>
+                  <div class="document-list-component">
+                    <div id="uploadTable" class="document-list-table">
+                      <table class="table table-bordered">
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>{{'Filename'|translate}}</th>
+                            <th *ngIf="filterFiles !== false">{{'Type'|translate}}</th>
+                            <th *ngIf="filterFiles !== false">{{'Encoding'|translate}}</th>
+                            <th *ngIf="filterFiles !== false">{{'Handler'|translate}}</th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody *ngIf="userFiles.length!=undefined && userFiles.length>0">
+                          <tr *ngFor="let file of userFiles;let index=index">
+                            <td>{{index+1}}</td>
+                            <td>{{file.name}}</td>
+                            <td *ngIf="filterFiles !== false">
+                              <select id="type" class="form-control" [(ngModel)]="file.type"
+                                [ngModelOptions]="{standalone: true}">
+                                <option *ngFor="let o of typeOptions" [value]="o">{{o}}</option>
+                              </select>
+                            </td>
+                            <td *ngIf="filterFiles !== false">
+                              <select id="defaultEndoding" class="form-control" [(ngModel)]="file.encoding"
+                                [ngModelOptions]="{standalone: true}">
+                                <option *ngFor="let o of encodingOptions" [value]="o">{{o}}</option>
+                              </select>
+                            </td>
+                            <td *ngIf="filterFiles !== false">
+                              <select id="handler" class="form-control" [(ngModel)]="file.handler"
+                                [ngModelOptions]="{standalone: true}">
+                                <option *ngFor="let o of handlerOptions" [ngValue]="o">{{o.name}}</option>
+                              </select>
+                            </td>
+                            <td>
+                              <button mat-icon-button (click)="userFiles.splice(index, 1)"
+                                [matTooltip]="'Remove'|translate">
+                                <mat-icon>delete</mat-icon>
+                              </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
 
-                <!--uploader flow-init></uploader><hr-->
-                <uploader [allowedTypes]="allowedTypes" [fileTypeOptions]="typeOptions"
-                  [fileEncodingOptions]="encodingOptions" [fileHandlerOptions]="handlerOptions"
-                  [collectionData]="collectionData" [collectionDataUpdated]="collectionDataUpdated"
-                  [flowAttributes]="flowAttributes" (handleFileInputs)="handleFileInputs($event)"></uploader>
-              </div>
-            </div>
+                    <!--uploader flow-init></uploader><hr-->
+                    <uploader [allowedTypes]="allowedTypes" [fileTypeOptions]="typeOptions"
+                      [fileEncodingOptions]="encodingOptions" [fileHandlerOptions]="handlerOptions"
+                      [collectionData]="collectionData" [collectionDataUpdated]="collectionDataUpdated"
+                      [flowAttributes]="flowAttributes" (handleFileInputs)="handleFileInputs($event)"></uploader>
+                  </div>
+                </div>
+              </mat-tab>
+              <mat-tab>
+                <ng-template mat-tab-label>
+                  <mat-icon svgIcon="logo_europeana" class="example-tab-icon"></mat-icon>
+                  Europeana
+                </ng-template>
+                <app-europeana-search></app-europeana-search>
+              </mat-tab>
+            </mat-tab-group>
           </mat-card-content>
           <mat-card-actions align="end">
             <button type="submit" mat-button [disabled]="editCollectionForm.invalid" color="primary"

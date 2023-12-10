@@ -1,6 +1,7 @@
 {
   "context": ["/api", "/analytics", "/drag_and_drop", "/nlp",
 	      "/media_data_lake", "/social_login", "/accounts",
+              "/importapi",
               "/clarin-ellogon-services"],
   "target": {
       "host": "annotation.ellogon.org",

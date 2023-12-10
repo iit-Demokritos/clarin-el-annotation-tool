@@ -32,6 +32,10 @@ export class AppComponent implements OnInit, AfterViewInit {
       `logo_vast`,
       this.domSanitizer.bypassSecurityTrustResourceUrl(`/assets/images/logo-vast-01.svg`)
     );
+    this.matIconRegistry.addSvgIcon(
+      `logo_europeana`,
+      this.domSanitizer.bypassSecurityTrustResourceUrl(`/assets/images/Europeana_logo_2015_basic.svg`)
+    );
   }; /* constructor */
 
   ngOnInit() {

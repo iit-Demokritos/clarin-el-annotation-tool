@@ -96,6 +96,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'importapi',
     'nlp',
+    'europeana',
 
     'django_cleanup.apps.CleanupConfig', # This must be always at the end!
 ]
@@ -308,3 +309,5 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
+NOSE_ARGS = ['--nocapture',
+             '--nologcapture',]

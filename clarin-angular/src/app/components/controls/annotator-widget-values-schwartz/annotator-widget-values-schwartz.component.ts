@@ -18,7 +18,7 @@ export class AnnotatorWidgetValuesSchwartzComponent extends BaseControlComponent
   // Colors from: https://m2.material.io/design/color/the-color-system.html#tools-for-picking-colors
   moreNarrowlyDefinedValues = [];
   moreNarrowlyDefinedValueNames = [
-    {name: /*'Self-Direction-*/'Thought'   , color:'#FFCC80' /* Orange-200 */,      custom: {value: 'self_direction_thought',    tooltip: "<b>Self-Direction-Thought</b>: The freedom to cultivate one’s own ideas and abilities"}},
+    {name: /*'Self-Direction-*/'Thought',    color:'#FFCC80' /* Orange-200 */,      custom: {value: 'self_direction_thought',    tooltip: "<b>Self-Direction-Thought</b>: The freedom to cultivate one’s own ideas and abilities"}},
     {name: /*'Self-Direction-*/'Action',     color:'#FFB74D' /* Orange-300 */,      custom: {value: 'self_direction_action',     tooltip: "<b>Self-Direction-Action</b>: The freedom to determine one’s own actions"}},
     {name: 'Stimulation',                    color:'#FFA726' /* Orange-400 */,      custom: {value: 'stimulation',               tooltip: "<b>Stimulation</b>: Excitement, novelty, and challenge in life"}},
     {name: 'Hedonism',                       color:'#D4E157' /* Lime-400 */,        custom: {value: 'hedonism',                  tooltip: "<b>Hedonism</b>: Pleasure and sensuous gratification for oneself"}},
@@ -38,25 +38,45 @@ export class AnnotatorWidgetValuesSchwartzComponent extends BaseControlComponent
     {name: /*'Benevolence-*/'Caring',        color:'#90A4AE' /* Blue Gray-300 */,   custom: {value: 'benevolence_caring',        tooltip: "<b>Benevolence-Caring</b>: Devotion to the welfare of in-group members"}},
     {name: /*'Benevolence-*/'Dependability', color:'#78909C' /* Blue Gray-400 */,   custom: {value: 'benevolence_dependability', tooltip: "<b>Benevolence-Dependability</b>: Being a reliable and trustworthy member of the in-group"}},
   ];
+  // moreNarrowlyDefinedValueGroups = [
+  //   {name: 'Self-Direction',    y: 100./19.*2, dataLabels: {y: 18, rotation: 18},         color: '#FFE0B2' /* Orange-100 */},
+  //   {name: ''/*'Stimulation'*/, y: 100./19.*1, enabled: false, color: 'transparent'},
+  //   {name: ''/*'Hedonism'*/,    y: 100./19.*1, color: 'transparent'},
+  //   {name: ''/*'Achievement'*/, y: 100./19.*1, color: 'transparent'},
+  //   {name: 'Power',             y: 100./19.*2, dataLabels: {x: 8, y: 20, rotation: 294},  color: '#B2DFDB' /* Teal-100 */},
+  //   {name: ''/*'Face'*/,        y: 100./19.*1, color: 'transparent'},
+  //   {name: 'Security',          y: 100./19.*2, dataLabels: {x: 6, y: 18, rotation: -10},  color: '#F8BBD0' /* Pink-100 */},
+  //   {name: ''/*'Tradition'*/,   y: 100./19.*1, color: 'transparent'},
+  //   {name: 'Conformity',        y: 100./19.*2, dataLabels: {x: -6, y: 28, rotation: 50}, color: '#E1BEE7' /* Purple-100 */},
+  //   {name: ''/*'Humility'*/,    y: 100./19.*1, color: 'transparent'},
+  //   {name: 'Universalism',      y: 100./19.*3, dataLabels: {x: 2, y: 26, rotation: -64},  color: '#D7CCC8' /* Brown-100 */},
+  //   {name: 'Benevolence',       y: 100./19.*2, dataLabels: {y: 16, rotation: -20},        color: '#CFD8DC' /* Blue Gray-200 */},
+  // ];
   moreNarrowlyDefinedValueGroups = [
-    {name: 'Self-Direction', y: 100./19.*2, dataLabels: {y: 18, rotation: 18},         color: '#FFE0B2' /* Orange-100 */},
-    {name: ''/*'Stimulation'*/,    y: 100./19.*1, enabled: false, color: 'transparent'},
-    {name: ''/*'Hedonism'*/,       y: 100./19.*1, color: 'transparent'},
-    {name: ''/*'Achievement'*/,    y: 100./19.*1, color: 'transparent'},
-    {name: 'Power',          y: 100./19.*2, dataLabels: {x: 8, y: 20, rotation: 294},  color: '#B2DFDB' /* Teal-100 */},
-    {name: ''/*'Face'*/,           y: 100./19.*1, color: 'transparent'},
-    {name: 'Security',       y: 100./19.*2, dataLabels: {x: 6, y: 18, rotation: -10},  color: '#F8BBD0' /* Pink-100 */},
-    {name: ''/*'Tradition'*/,      y: 100./19.*1, color: 'transparent'},
-    {name: 'Conformity',     y: 100./19.*2, dataLabels: {x: -6, y: 28, rotation: 50}, color: '#E1BEE7' /* Purple-100 */},
-    {name: ''/*'Humility'*/,       y: 100./19.*1, color: 'transparent'},
-    {name: 'Universalism',   y: 100./19.*3, dataLabels: {x: 2, y: 26, rotation: -64},  color: '#D7CCC8' /* Brown-100 */},
-    {name: 'Benevolence',    y: 100./19.*2, dataLabels: {y: 16, rotation: -20},        color: '#CFD8DC' /* Blue Gray-200 */},
+    {name: 'Self-Direction',    y: 100./19.*2, dataLabels: {textPath: {attributes: {startOffset: '17'}}}, color: '#FFE0B2' /* Orange-100 */},
+    {name: ''/*'Stimulation'*/, y: 100./19.*1, enabled: false, color: 'transparent'},
+    {name: ''/*'Hedonism'*/,    y: 100./19.*1, color: 'transparent'},
+    {name: ''/*'Achievement'*/, y: 100./19.*1, color: 'transparent'},
+    {name: 'Power',             y: 100./19.*2, dataLabels: {textPath: {attributes: {startOffset: '37'}}}, color: '#B2DFDB' /* Teal-100 */},
+    {name: ''/*'Face'*/,        y: 100./19.*1, color: 'transparent'},
+    {name: 'Security',          y: 100./19.*2, dataLabels: {textPath: {attributes: {startOffset: '30'}}}, color: '#F8BBD0' /* Pink-100 */},
+    {name: ''/*'Tradition'*/,   y: 100./19.*1, color: 'transparent'},
+    {name: 'Conformity',        y: 100./19.*2, dataLabels: {textPath: {attributes: {startOffset: '26'}}}, color: '#E1BEE7' /* Purple-100 */},
+    {name: ''/*'Humility'*/,    y: 100./19.*1, color: 'transparent'},
+    {name: 'Universalism',      y: 100./19.*3, dataLabels: {textPath: {attributes: {startOffset: '45'}}}, color: '#D7CCC8' /* Brown-100 */},
+    {name: 'Benevolence',       y: 100./19.*2, dataLabels: {textPath: {attributes: {startOffset: '19'}}}, color: '#CFD8DC' /* Blue Gray-200 */},
   ];
+  // higherOrderValues = [
+  //   {name: 'Openness to change', y: 18.5, dataLabels: {y: 34, rotation: 34},          color: '#FFF3E0' /* Orange-50 */},
+  //   {name: 'Self-Enhancement',   y: 21,   dataLabels: {x: 10, y: 56, rotation: 286},  color: '#E0F2F1' /* Teal-50   */},
+  //   {name: 'Conservation',       y: 31.5, dataLabels: {y: 26, rotation: 18},          color: '#FCE4EC' /* Pink-50   */},
+  //   {name: 'Self-Transcentance', y: 29,   dataLabels: {x: 10, y: 26, rotation: 310},  color: '#EFEBE9' /* Brown-50  */},
+  // ];
   higherOrderValues = [
-    {name: 'Openness to change', y: 18.5, dataLabels: {y: 34, rotation: 34},          color: '#FFF3E0' /* Orange-50 */},
-    {name: 'Self-Enhancement',   y: 21,   dataLabels: {x: 10, y: 56, rotation: 286},  color: '#E0F2F1' /* Teal-50   */},
-    {name: 'Conservation',       y: 31.5, dataLabels: {y: 26, rotation: 18},          color: '#FCE4EC' /* Pink-50   */},
-    {name: 'Self-Transcentance', y: 29,   dataLabels: {x: 10, y: 26, rotation: -50},  color: '#EFEBE9' /* Brown-50  */},
+    {name: 'Openness to change', y: 18.5, dataLabels: {textPath: {attributes: {startOffset: '25%', textAnchor: 'middle'}}}, color: '#FFF3E0' /* Orange-50 */},
+    {name: 'Self-Enhancement',   y: 21,   dataLabels: {textPath: {attributes: {startOffset: '20%', textAnchor: 'middle'}}}, color: '#E0F2F1' /* Teal-50   */},
+    {name: 'Conservation',       y: 31.5, dataLabels: {textPath: {attributes: {startOffset: '25%', textAnchor: 'middle'}}}, color: '#FCE4EC' /* Pink-50   */},
+    {name: 'Self-Transcentance', y: 29,   dataLabels: {textPath: {attributes: {startOffset: '25%', textAnchor: 'middle'}}}, color: '#EFEBE9' /* Brown-50  */},
   ];
 
   ngOnInit(): void {
@@ -162,6 +182,9 @@ export class AnnotatorWidgetValuesSchwartzComponent extends BaseControlComponent
       //   },
       // },
     },
+    tooltip: {
+      pointFormat: '{point.custom.tooltip}'
+    },
     // tooltip: {
     //   //valueSuffix: '%'
     // },
@@ -201,15 +224,25 @@ export class AnnotatorWidgetValuesSchwartzComponent extends BaseControlComponent
       borderWidth: 0,
       // borderColor: 'rgba(0,0,0,0.5)',
       dataLabels: {
+        inside: true,
         shadow: false,
         color: 'rgba(0,0,0,0.8)',
         distance: '-10%',
         position: 'center',
+        verticalAlign: 'top',
         style: {
           fontWeight: 'normal',
           fontSize: this.fontSizes[1],
           textShadow: false,
           textOutline: 'none',
+        },
+        textPath: {
+          enabled: true,
+          attributes: {
+            startOffset: '10',
+            textAnchor: 'start',
+            dy: 14,
+          }
         }
       }
     }, {
@@ -220,16 +253,30 @@ export class AnnotatorWidgetValuesSchwartzComponent extends BaseControlComponent
       innerSize: '90%',
       borderWidth: 0,
       dataLabels: {
+        inside: true,
         shadow: false,
         color: 'rgba(0,0,0,0.8)',
-        distance: '-10%',
+        //distance: '-10%',
         position: 'center',
+        align: 'center',
+        verticalAlign: 'top',
+        width: 30,
         style: {
           fontWeight: 'normal',
           fontSize: this.fontSizes[2],
           textShadow: false,
           textOutline: 'none',
-        }
+          textOverflow: 'ellipsis',
+        },
+        textPath: {
+          enabled: true,
+          attributes: {
+            startOffset: '10',
+            textAnchor: 'start',
+            //textLength: '40em',
+            dy: 14,
+          }
+        },
       }
     }
   /*, {

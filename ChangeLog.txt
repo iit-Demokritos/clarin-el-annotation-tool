@@ -1,3 +1,21 @@
+10-December-2023 Petasis Georgios <petasis@iit.demokritos.gr>:
+ * clarin-angular/src/app/app.component.ts:
+ * clarin-angular/src/app/app.module.ts:
+ * clarin-angular/src/app/components/views/add-collection/add-collection.component.html:
+ * clarin-angular/src/css/clarin-material.scss:
+ * clarin-angular/src/app/components/controls/europeana-search/*:
+ * clarin-angular/src/app/components/controls/media-gallery/*:
+ * clarin-angular/src/app/models/services/europeana.ts:
+ * clarin-angular/src/app/services/europeana-service/*:
+ * clarin-angular/src/assets/images/Europeana_logo_2015_basic.svg: Added
+ components for searching Europeana.
+
+ * backend-django/DjangoClarin/settings.py:
+ * backend-django/DjangoClarin/urls.py:
+ * backend-django/requirements.txt:
+ * backend-django/europeana/*: New backend app for providing an API for
+ Europeana.
+
 12-November-2023 Petasis Georgios <petasis@iit.demokritos.gr>:
  * clarin-angular/src/app/components/controls/base-control/base-control.component.ts:
  * clarin-angular/src/app/components/controls/annotator-widget-values-schwartz/*:

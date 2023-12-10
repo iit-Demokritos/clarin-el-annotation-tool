@@ -874,7 +874,7 @@ text-widget {
       margin-bottom: 10px;
     }
   }
-  mat-form-field {
+  mat-form-field:not(.mat-mdc-paginator-page-size-select) {
     width: 100%;
   }
   .mat-grid-tile-content {
