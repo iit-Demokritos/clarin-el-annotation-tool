@@ -32,6 +32,9 @@ export class EuropeanaSearchComponent {
       return;
     }
     let query = event.target.value;
+    if (query.trim().length === 0) {
+      this.searchQuery = query = '*';
+    }
     // console.error("EuropeanaSearchComponent: onSearch():", query, event.key);
     this.pageIndex = 0;
     this.totalResults = 0;
@@ -39,7 +42,10 @@ export class EuropeanaSearchComponent {
     this.search(query);
   }; /* onSearch */
 
-  search(query) {
+  search(query: string) {
+    if (query.trim().length === 0) {
+      query = '*';
+    }
     let params = {
       'query': query,
       'qf': 'TYPE:IMAGE',
