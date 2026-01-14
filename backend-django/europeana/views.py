@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
-import pyeuropeana.apis as apis
+# import pyeuropeana.apis as apis
 
 class EuropeanaSearchView(APIView):
     permission_classes = (AllowAny,)
@@ -36,7 +36,8 @@ class EuropeanaSearchView(APIView):
             return Response(data={"success": False, "message": "query missng"}, status=status.HTTP_400_BAD_REQUEST)
         ## Prepare the query dict...
         print(params)
-        data = apis.search(**params)
+        # data = apis.search(**params)
+        data = {}
         return Response(
             data={"success": True, "data": data},
             status=status.HTTP_200_OK

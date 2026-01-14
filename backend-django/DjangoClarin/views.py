@@ -90,7 +90,7 @@ class CustomUserCreate(APIView):
                                "baseurl": request.build_absolute_uri("/")[:-1],
                                "ellogon_logo": "https://vast.ellogon.org/images/logo.jpg"}
                              #  "ellogon_logo": request.build_absolute_uri('/static/images/EllogonLogo.svg')}  # path?
-                    activation_alert = EmailAlert(request.data['email'], (user.first_name+" "+user.last_name), content)
+                    activation_alert = EmailAlert(request.data['email'], (user.first_name+" "+user.last_name), content, request)
                     activation_alert.send_activation_email()
                     json = {"success": True, "message": "You were successfully registered"}
                     return Response(json, status=status.HTTP_200_OK)
@@ -209,7 +209,7 @@ class InitPasswords(APIView):
             content = {"user": user_ref, "password": password, "email": user.email,
                        "baseurl": request.build_absolute_uri("/")[:-1],
                        "ellogon_logo": request.build_absolute_uri('/static/frontend/images/EllogonLogo.svg')}
-            reset_alert = EmailAlert(user.email, user.first_name, content)
+            reset_alert = EmailAlert(user.email, user.first_name, content, request)
             reset_alert.send_resetpassword_email()
         return Response(data={"success": True, "message": "All passwords reset"}, status=status.HTTP_200_OK)
         # except Exception as e:
@@ -239,7 +239,7 @@ class ResetPassword(APIView):
             content = {"user": user_ref, "password": password, "email": email,
                        "baseurl": request.build_absolute_uri("/")[:-1],
                        "ellogon_logo": "https://vast.ellogon.org/images/logo.jpg" }
-            reset_alert = EmailAlert(email,user_ref, content)
+            reset_alert = EmailAlert(email,user_ref, content, request)
             reset_alert.send_resetpassword_email()
             return Response(data={
               "success": True,
@@ -757,7 +757,7 @@ class ShareCollectionView(APIView):
                        "baseurl": request.build_absolute_uri("/")[:-1],
                        "ellogon_logo": "https://vast.ellogon.org/images/logo.jpg"}
                       # "ellogon_logo": request.build_absolute_uri('/static/images/EllogonLogo.svg')}
-            invitation_alert = EmailAlert(touser.email, touser.first_name, content)
+            invitation_alert = EmailAlert(touser.email, touser.first_name, content, request)
             invitation_alert.send_sharecollection_email()
             return Response(data={"success": True}, status=status.HTTP_200_OK)
         print(2)

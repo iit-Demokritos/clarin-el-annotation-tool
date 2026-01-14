@@ -32,7 +32,7 @@ class DocumentCopyView(MongoDBAPIView):
         # Make sure the document name is unique in the new collection
         #
         # Check if old name has already a "_<number>", and remove it...
-        parts = re.split('_(?=\d+$)', document.name)
+        parts = re.split('_(?=\\d+$)', document.name)
         name = parts[0]
         v = 1
         # Add an extension, untill the document is unique in collection...
