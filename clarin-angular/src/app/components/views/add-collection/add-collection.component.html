@@ -132,7 +132,7 @@
                             <th></th>
                           </tr>
                         </thead>
-                        <tbody *ngIf="userFiles.length!=undefined && userFiles.length>0">
+                        <tbody *ngIf="userFiles.length!=undefined && userFiles.length + europeanaFiles.length >0">
                           <tr *ngFor="let file of userFiles;let index=index">
                             <td>{{index+1}}</td>
                             <td>{{file.name}}</td>
@@ -161,6 +161,34 @@
                               </button>
                             </td>
                           </tr>
+                          <tr *ngFor="let file of europeanaFiles;let index=index">
+                            <td>{{userFiles.length+index+1}}</td>
+                            <td>{{file.name}}</td>
+                            <td *ngIf="filterFiles !== false">
+                              <select id="type" class="form-control" [(ngModel)]="file.type"
+                                [ngModelOptions]="{standalone: true}">
+                                <option *ngFor="let o of typeOptions" [value]="o">{{o}}</option>
+                              </select>
+                            </td>
+                            <td *ngIf="filterFiles !== false">
+                              <select id="defaultEndoding" class="form-control" [(ngModel)]="file.encoding"
+                                [ngModelOptions]="{standalone: true}">
+                                <option *ngFor="let o of encodingOptions" [value]="o">{{o}}</option>
+                              </select>
+                            </td>
+                            <td *ngIf="filterFiles !== false">
+                              <select id="handler" class="form-control" [(ngModel)]="file.handler"
+                                [ngModelOptions]="{standalone: true}">
+                                <option *ngFor="let o of handlerOptions" [ngValue]="o">{{o.name}}</option>
+                              </select>
+                            </td>
+                            <td>
+                              <button mat-icon-button (click)="europeanaFiles.splice(index, 1)"
+                                [matTooltip]="'Remove'|translate">
+                                <mat-icon>delete</mat-icon>
+                              </button>
+                            </td>
+                          </tr>
                         </tbody>
                       </table>
                     </div>
@@ -178,7 +206,7 @@
                   <mat-icon svgIcon="logo_europeana" class="example-tab-icon"></mat-icon>
                   Europeana
                 </ng-template>
-                <app-europeana-search></app-europeana-search>
+                <app-europeana-search (selected)="handleEuropeanaInputs($event)"></app-europeana-search>
               </mat-tab>
             </mat-tab-group>
           </mat-card-content>

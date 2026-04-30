@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
 import { EuropeanaService } from '@services/europeana-service/europeana.service';
 import { ItemsEntity } from "@models/services/europeana";
 import { PageEvent } from '@angular/material/paginator';
+import { MediaGalleryComponent } from '@components/controls/media-gallery/media-gallery.component';
 
 @Component({
   selector: 'app-europeana-search',
@@ -10,9 +11,13 @@ import { PageEvent } from '@angular/material/paginator';
 })
 export class EuropeanaSearchComponent {
 
+  @ViewChild(MediaGalleryComponent) gallery: MediaGalleryComponent;
+  @Output() selected = new EventEmitter<ItemsEntity[]>();
+
   // searchQuery = "Sophocles Antigone";
   searchQuery: string;
   images: ItemsEntity[] = [];
+  selectedImages: ItemsEntity[] = [];
   totalResults: number = 0;
   rows: number = 4;
   pageIndex = 0;
@@ -38,6 +43,7 @@ export class EuropeanaSearchComponent {
     // console.error("EuropeanaSearchComponent: onSearch():", query, event.key);
     this.pageIndex = 0;
     this.totalResults = 0;
+    this.gallery.clear();
     this.nextCursor = {0: '*'};
     this.search(query);
   }; /* onSearch */
@@ -59,12 +65,19 @@ export class EuropeanaSearchComponent {
     // console.error("EuropeanaSearchComponent: search():", this.pageIndex,
     //   this.nextCursor[this.pageIndex], this.nextCursor[this.pageIndex+1]);
 
+    /*
+     * Info about fields:
+     *
+     * https://github.com/jamesinealing/europeana-snippets/
+     * https://pro.europeana.eu/page/search
+     */
     this.europeanaService.search(params)
     .then((response) => {
       // console.error("EuropeanaSearchComponent: onSearch():", response);
       if (response.success && response.data.success) {
+        // console.error("EuropeanaSearchComponent: onSearch():", response.data.items);
         response.data.items.forEach((image) => {
-          image.src = image.edmPreview[0];
+          image.src  = image.edmPreview[0];
         });
         this.images = response.data.items;
         if (response.data.nextCursor) {
@@ -90,4 +103,10 @@ export class EuropeanaSearchComponent {
     this.pageIndex = e.pageIndex;
     this.search(this.searchQuery);
   }; /* handlePageEvent */
+
+  onSelectionChange(e) {
+    this.selectedImages = e;
+    this.selected.emit(this.selectedImages);
+  }; /* onSelectionChange */
+
 }

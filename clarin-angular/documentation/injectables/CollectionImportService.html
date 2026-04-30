@@ -1,0 +1,1728 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>The Ellogon Annotation Platform documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
+            <a href="../" class="navbar-brand">The Ellogon Annotation Platform documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Injectables</li>
+  <li class="breadcrumb-item" >CollectionImportService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/services/collection-import-service/collection-import-service.service.ts</code>
+        </p>
+
+
+
+
+
+            <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#annotationService" >annotationService</a>
+                            </li>
+                            <li>
+                                <a href="#collectionData" >collectionData</a>
+                            </li>
+                            <li>
+                                <a href="#collectionKeys" >collectionKeys</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#collectionService" >collectionService</a>
+                            </li>
+                            <li>
+                                <a href="#documentKeys" >documentKeys</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#documentService" >documentService</a>
+                            </li>
+                            <li>
+                                <a href="#ObjectID" >ObjectID</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#exists" >exists</a>
+                            </li>
+                            <li>
+                                <a href="#extractCollectiondData" >extractCollectiondData</a>
+                            </li>
+                            <li>
+                                <a href="#extractDocumentdData" >extractDocumentdData</a>
+                            </li>
+                            <li>
+                                <a href="#importFiles" >importFiles</a>
+                            </li>
+                            <li>
+                                <a href="#importJSON" >importJSON</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#ObjectId" >ObjectId</a>
+                            </li>
+                            <li>
+                                <a href="#readFile" >readFile</a>
+                            </li>
+                            <li>
+                                <a href="#readFiles" >readFiles</a>
+                            </li>
+                            <li>
+                                <a href="#readJSONFiles" >readJSONFiles</a>
+                            </li>
+                            <li>
+                                <a href="#saveAnnotations" >saveAnnotations</a>
+                            </li>
+                            <li>
+                                <a href="#saveCollection" >saveCollection</a>
+                            </li>
+                            <li>
+                                <a href="#saveDocuments" >saveDocuments</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(collectionService: <a href="../injectables/CollectionService.html" target="_self">CollectionService</a>, documentService: <a href="../injectables/DocumentService.html" target="_self">DocumentService</a>, annotationService: <a href="../injectables/AnnotationService.html" target="_self">AnnotationService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/services/collection-import-service/collection-import-service.service.ts:22</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>collectionService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/CollectionService.html" target="_self" >CollectionService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>documentService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/DocumentService.html" target="_self" >DocumentService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>annotationService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AnnotationService.html" target="_self" >AnnotationService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="exists"></a>
+                    <span class="name">
+                        <span ><b>exists</b></span>
+                        <a href="#exists"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>exists(collectionName)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="87"
+                                    class="link-to-prism">src/app/services/collection-import-service/collection-import-service.service.ts:87</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>collectionName</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="extractCollectiondData"></a>
+                    <span class="name">
+                        <span ><b>extractCollectiondData</b></span>
+                        <a href="#extractCollectiondData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>extractCollectiondData(json_data, collectionData: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank">object</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="126"
+                                    class="link-to-prism">src/app/services/collection-import-service/collection-import-service.service.ts:126</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>json_data</td>
+                                            <td>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>collectionData</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>{}</code>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>{}</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="extractDocumentdData"></a>
+                    <span class="name">
+                        <span ><b>extractDocumentdData</b></span>
+                        <a href="#extractDocumentdData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>extractDocumentdData(json_data, documentData: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank">object</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="133"
+                                    class="link-to-prism">src/app/services/collection-import-service/collection-import-service.service.ts:133</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>json_data</td>
+                                            <td>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>documentData</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>{}</code>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>{}</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="importFiles"></a>
+                    <span class="name">
+                        <span ><b>importFiles</b></span>
+                        <a href="#importFiles"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>importFiles(collectionName, documents, overwrite: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, collectionId)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="91"
+                                    class="link-to-prism">src/app/services/collection-import-service/collection-import-service.service.ts:91</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>collectionName</td>
+                                            <td>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>documents</td>
+                                            <td>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>overwrite</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>false</code>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>collectionId</td>
+                                            <td>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>undefined</code>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="importJSON"></a>
+                    <span class="name">
+                        <span ><b>importJSON</b></span>
+                        <a href="#importJSON"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>importJSON(name, files: string[], overwrite: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, collectionId)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="148"
+                                    class="link-to-prism">src/app/services/collection-import-service/collection-import-service.service.ts:148</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>name</td>
+                                            <td>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>files</td>
+                                            <td>
+                                                        <code>string[]</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>overwrite</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>false</code>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>collectionId</td>
+                                            <td>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>undefined</code>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="39"
+                                    class="link-to-prism">src/app/services/collection-import-service/collection-import-service.service.ts:39</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ObjectId"></a>
+                    <span class="name">
+                        <span ><b>ObjectId</b></span>
+                        <a href="#ObjectId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ObjectId()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="35"
+                                    class="link-to-prism">src/app/services/collection-import-service/collection-import-service.service.ts:35</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="readFile"></a>
+                    <span class="name">
+                        <span ><b>readFile</b></span>
+                        <a href="#readFile"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>readFile(documentFile)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="47"
+                                    class="link-to-prism">src/app/services/collection-import-service/collection-import-service.service.ts:47</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>documentFile</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="readFiles"></a>
+                    <span class="name">
+                        <span ><b>readFiles</b></span>
+                        <a href="#readFiles"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>readFiles(documentFiles)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="58"
+                                    class="link-to-prism">src/app/services/collection-import-service/collection-import-service.service.ts:58</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>documentFiles</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="readJSONFiles"></a>
+                    <span class="name">
+                        <span ><b>readJSONFiles</b></span>
+                        <a href="#readJSONFiles"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>readJSONFiles(documentFiles)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="73"
+                                    class="link-to-prism">src/app/services/collection-import-service/collection-import-service.service.ts:73</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>documentFiles</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="saveAnnotations"></a>
+                    <span class="name">
+                        <span ><b>saveAnnotations</b></span>
+                        <a href="#saveAnnotations"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>saveAnnotations(collectionId, documentId, anns)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="242"
+                                    class="link-to-prism">src/app/services/collection-import-service/collection-import-service.service.ts:242</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>collectionId</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>documentId</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>anns</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="saveCollection"></a>
+                    <span class="name">
+                        <span ><b>saveCollection</b></span>
+                        <a href="#saveCollection"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>saveCollection(collectionData, documents)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="186"
+                                    class="link-to-prism">src/app/services/collection-import-service/collection-import-service.service.ts:186</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>collectionData</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>documents</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="saveDocuments"></a>
+                    <span class="name">
+                        <span ><b>saveDocuments</b></span>
+                        <a href="#saveDocuments"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>saveDocuments(collectionId, docs)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="210"
+                                    class="link-to-prism">src/app/services/collection-import-service/collection-import-service.service.ts:210</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>collectionId</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>docs</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="annotationService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>annotationService</b></span>
+                        <a href="#annotationService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/AnnotationService.html" target="_self" >AnnotationService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/services/collection-import-service/collection-import-service.service.ts:27</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="collectionData"></a>
+                    <span class="name">
+                        <span ><b>collectionData</b></span>
+                        <a href="#collectionData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/app/services/collection-import-service/collection-import-service.service.ts:12</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="collectionKeys"></a>
+                    <span class="name">
+                        <span ><b>collectionKeys</b></span>
+                        <a href="#collectionKeys"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[&#x27;encoding&#x27;, &#x27;handler&#x27;, &#x27;created_at&#x27;, &#x27;updated_at&#x27;]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/services/collection-import-service/collection-import-service.service.ts:13</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="collectionService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>collectionService</b></span>
+                        <a href="#collectionService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/CollectionService.html" target="_self" >CollectionService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/services/collection-import-service/collection-import-service.service.ts:25</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="documentKeys"></a>
+                    <span class="name">
+                        <span ><b>documentKeys</b></span>
+                        <a href="#documentKeys"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[/*&#x27;annotations&#x27;,*/
+    &#x27;name&#x27;, &#x27;external_name&#x27;,
+    &#x27;text&#x27;, &#x27;type&#x27;,
+    &#x27;data_text&#x27;, &#x27;data_file&#x27;, &#x27;data_image&#x27;, &#x27;data_url&#x27;,
+    &#x27;visualisation_options&#x27;, &#x27;metadata&#x27;,
+    &#x27;encoding&#x27;, &#x27;handler&#x27;,
+    &#x27;created_at&#x27;, &#x27;updated_at&#x27;,
+    &#x27;version&#x27;, &#x27;updated_by&#x27;
+    ]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/services/collection-import-service/collection-import-service.service.ts:14</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="documentService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>documentService</b></span>
+                        <a href="#documentService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/DocumentService.html" target="_self" >DocumentService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/services/collection-import-service/collection-import-service.service.ts:26</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ObjectID"></a>
+                    <span class="name">
+                        <span ><b>ObjectID</b></span>
+                        <a href="#ObjectID"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/app/services/collection-import-service/collection-import-service.service.ts:11</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, OnInit } from &#x27;@angular/core&#x27;;
+import { CollectionService } from &#x27;src/app/services/collection-service/collection-service.service&#x27;;
+import { DocumentService } from &#x27;src/app/services/document-service/document.service&#x27;;
+import { AnnotationService } from &#x27;../annotation-service/annotation.service&#x27;;
+
+@Injectable({
+  providedIn: &#x27;root&#x27;
+})
+export class CollectionImportService implements OnInit {
+
+  ObjectID;
+  collectionData: any &#x3D; {};
+  collectionKeys &#x3D; [&#x27;encoding&#x27;, &#x27;handler&#x27;, &#x27;created_at&#x27;, &#x27;updated_at&#x27;];
+  documentKeys &#x3D; [/*&#x27;annotations&#x27;,*/
+    &#x27;name&#x27;, &#x27;external_name&#x27;,
+    &#x27;text&#x27;, &#x27;type&#x27;,
+    &#x27;data_text&#x27;, &#x27;data_file&#x27;, &#x27;data_image&#x27;, &#x27;data_url&#x27;,
+    &#x27;visualisation_options&#x27;, &#x27;metadata&#x27;,
+    &#x27;encoding&#x27;, &#x27;handler&#x27;,
+    &#x27;created_at&#x27;, &#x27;updated_at&#x27;,
+    &#x27;version&#x27;, &#x27;updated_by&#x27;
+    ];
+
+  constructor(
+    public collectionService: CollectionService,
+    public documentService: DocumentService,
+    public annotationService: AnnotationService
+  ) {
+    /* WARNING: annotation ids must be created the same way as in
+     * components, which inherit BaseControlComponent
+     * (app/components/controls/base-control/base-control.component.ts). */
+    this.ObjectID &#x3D; require(&quot;bson-objectid&quot;);
+  }
+
+  ObjectId() {
+    return this.ObjectID();
+  }
+
+  ngOnInit() {
+    this.collectionData &#x3D; {};
+    this.collectionData.name &#x3D; &quot;&quot;;
+    this.collectionData.encoding &#x3D; &quot;&quot;;
+    this.collectionData.handler &#x3D; &quot;&quot;;
+  }
+
+  // Read file contents from disk. Expects ..
+  readFile(documentFile) {
+    return new Promise((resolve, reject) &#x3D;&gt; {
+      var reader &#x3D; new FileReader();
+      reader.onloadend &#x3D; function () {
+        let data &#x3D; reader.result;
+        resolve(data);
+      };
+      reader.readAsText(documentFile.file);
+    });
+  }; /* readFile */
+
+  readFiles(documentFiles) {
+    return new Promise&lt;string[]&gt;((resolve, reject) &#x3D;&gt; {
+      var promises &#x3D; [];
+      documentFiles.forEach(element &#x3D;&gt; {
+        promises.push(this.readFile(element));
+      });
+      Promise.all(promises)
+      .then((files) &#x3D;&gt; {
+        resolve(files);
+      }, (error) &#x3D;&gt; {
+        reject(error);
+      });
+    });
+  }; /* readFiles */
+
+  readJSONFiles(documentFiles) {
+    return new Promise((resolve, reject) &#x3D;&gt; {
+      this.readFiles(documentFiles).then((files: string[]) &#x3D;&gt; {
+        var filesJSON &#x3D; []
+        files.forEach((file) &#x3D;&gt; {
+          filesJSON.push(JSON.parse(file));
+        });
+        resolve(filesJSON);
+      }, (error) &#x3D;&gt; {
+        reject(error);
+      });
+    });
+  }; /* readJSONFiles */
+
+  exists(collectionName) {
+    return this.collectionService.exists(collectionName);
+  }; /* exists */
+
+  importFiles(collectionName, documents,
+    overwrite: boolean &#x3D; false, collectionId &#x3D; undefined) {
+    return new Promise((resolve, reject) &#x3D;&gt; {
+      // Create promises to read files
+      var promises &#x3D; [];
+
+      documents.forEach(element &#x3D;&gt; {
+        promises.push(this.readFile(element));
+      });
+
+      // Read the files
+      Promise.all(promises)
+        .then((files) &#x3D;&gt; {
+          this.importJSON(
+            collectionName, files, overwrite, collectionId)
+            .then((response) &#x3D;&gt; {
+              resolve(response);
+            }, (error) &#x3D;&gt; {
+              reject(error);
+            });
+          // Send files to the import route
+          // this.http.post(&#x27;api/collections/import&#x27;, {
+          //   name: collectionName,
+          //   files: files
+          // }).subscribe((data) &#x3D;&gt; {
+          //   resolve(data);
+          // }, (error) &#x3D;&gt; {
+          //   reject(error);
+          // });
+        }, (error) &#x3D;&gt; {
+          reject(error);
+        });
+    });
+  }
+
+  extractCollectiondData(json_data, collectionData &#x3D; {}) {
+    this.collectionKeys.forEach((key) &#x3D;&gt; {
+      collectionData[key] &#x3D; json_data[key];
+    });
+    return collectionData;
+  }; /* extractCollectiondData */
+
+  extractDocumentdData(json_data, documentData &#x3D; {}) {
+    this.documentKeys.forEach((key) &#x3D;&gt; {
+      documentData[key] &#x3D; json_data[key];
+    });
+    // IMPORTANT: Change annotations&#x27; _id, or else they will
+    // overwite the original ones when saved!
+    var annotations &#x3D; [];
+    json_data[&#x27;annotations&#x27;].forEach((ann) &#x3D;&gt; {
+      ann[&#x27;_id&#x27;] &#x3D; this.ObjectId().toString();
+      annotations.push(ann);
+    });
+    documentData[&#x27;annotations&#x27;] &#x3D; annotations;
+    return documentData;
+  }; /* extractDocumentdData */
+
+  importJSON(name, files: string[], overwrite: boolean &#x3D; false, collectionId &#x3D; undefined) {
+    this.collectionData.name &#x3D; name;
+    this.collectionData.overwrite &#x3D; overwrite;
+    if (overwrite &amp;&amp; collectionId !&#x3D; undefined) {
+      this.collectionData.id &#x3D; collectionId;
+    }
+    var documents &#x3D; [];
+    var index &#x3D; 0;
+    files.forEach((file) &#x3D;&gt; {
+      var data &#x3D; JSON.parse(file);
+      if (index &#x3D;&#x3D; 0) {
+        // Collect Collection info...
+        this.collectionKeys.forEach((key) &#x3D;&gt; {
+          this.collectionData[key] &#x3D; data.data[key];
+        });
+      }
+      if (data.data.documents.length &gt; 0) {
+        data.data.documents.forEach((document) &#x3D;&gt; {
+          var doc &#x3D; {};
+          this.documentKeys.forEach((key) &#x3D;&gt; {
+            doc[key] &#x3D; document[key];
+          });
+          // IMPORTANT: Change annotations&#x27; _id, or else they will
+          // overwite the original ones when saved!
+          var annotations &#x3D; [];
+          document[&#x27;annotations&#x27;].forEach((ann) &#x3D;&gt; {
+            ann[&#x27;_id&#x27;] &#x3D; this.ObjectId().toString();
+            annotations.push(ann);
+          });
+          doc[&#x27;annotations&#x27;] &#x3D; annotations;
+          documents.push(doc);
+        });
+      }
+      index +&#x3D; 1;
+    });
+    return this.saveCollection(this.collectionData, documents);
+  }; /* importJSON */
+
+  saveCollection(collectionData, documents) {
+    // console.error(collectionData, documents);
+    return new Promise((resolve, reject) &#x3D;&gt; {
+      this.collectionService.save(collectionData)
+        .then((response) &#x3D;&gt; {
+          if (response[&quot;success&quot;]) {
+            var collectionId &#x3D; response[&#x27;collection_id&#x27;];
+            // console.error(&quot;CollectionImportService: saveCollection():&quot;, collectionId, response);
+            this.saveDocuments(collectionId, documents)
+              .then((data) &#x3D;&gt; {
+                resolve(data);
+              }, (error) &#x3D;&gt; {
+                reject(error);
+              });
+          } else {
+            // TODO: return an error message
+            reject(response);
+          }
+        }, (error) &#x3D;&gt; {
+          reject(error);
+        }); /* then */
+    }); /* new Promise */
+  }; /* saveCollection */
+
+  saveDocuments(collectionId, docs) {
+    var promises: any &#x3D; [];
+    docs.forEach(doc &#x3D;&gt; {
+      promises.push(new Promise&lt;any&gt;((resolve, reject) &#x3D;&gt; {
+        this.documentService.saveDocument(collectionId, doc)
+          .then((response) &#x3D;&gt; {
+            //console.error(&quot;CollectionImportService: saveDocument():&quot;, response);
+            if (response[&quot;success&quot;]) {
+              var documentId &#x3D; response[&#x27;data&#x27;][&#x27;document_id&#x27;];
+              this.saveAnnotations(collectionId, documentId, doc.annotations)
+                .then((response) &#x3D;&gt; {
+                  if (response[&quot;success&quot;]) {
+                    resolve(response);
+                  } else {
+                    reject(response);
+                  }
+                }, (error) &#x3D;&gt; {
+                  reject(error);
+                });
+              // resolve(response);
+            } else {
+              reject(response);
+            }
+          }, (error) &#x3D;&gt; {
+            console.error(&quot;CollectionImportService: saveDocuments(): Error:&quot;, error);
+            reject(error);
+          });
+      }));
+    });
+    return Promise.all(promises);
+  }; /* saveDocuments */
+
+  saveAnnotations(collectionId, documentId, anns) {
+    // console.error(&quot;CollectionImportService: saveAnnotations(): anns:&quot;, anns, collectionId, documentId);
+    return this.annotationService.import(collectionId, documentId, anns);
+  }; /* saveAnnotations */
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'CollectionImportService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

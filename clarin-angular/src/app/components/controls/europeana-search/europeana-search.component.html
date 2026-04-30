@@ -19,7 +19,7 @@
               [pageIndex]="pageIndex"
               (page)="handlePageEvent($event)">
   </mat-paginator>
-  <app-media-gallery [images]="images"></app-media-gallery>
+  <app-media-gallery [images]="images" (selected)="onSelectionChange($event)"></app-media-gallery>
   <mat-paginator class="w-full" [length]="totalResults" [pageSize]="rows"
               [pageSizeOptions]="pageSizeOptions"
               [showFirstLastButtons]="showFirstLastButtons"

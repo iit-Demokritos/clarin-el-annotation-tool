@@ -6,6 +6,7 @@ import { ConfirmDialogComponent } from '../../dialogs/confirm-dialog/confirm-dia
 import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
 import { MainComponent } from '../main/main.component';
 import { CollectionNamePattern } from '@models/collection';
+import { ItemsEntity } from "@models/services/europeana";
 
 @Component({
   selector: 'add-collection',
@@ -52,6 +53,9 @@ export class AddCollectionComponent extends MainComponent implements OnInit {
   selectedCollectionIndex = null;
   collectionNamePattern = CollectionNamePattern;
 
+  userFiles = [];
+  europeanaFiles = [];
+
   super() { };
 
   ngOnInit(): void {
@@ -68,6 +72,7 @@ export class AddCollectionComponent extends MainComponent implements OnInit {
 
   initializeForm() {
     this.userFiles = [];
+    this.europeanaFiles = [];
     this.collectionData = {};
     this.collectionData.name = "";
     this.collectionData.encoding = this.encodingOptions[0];
@@ -109,7 +114,7 @@ export class AddCollectionComponent extends MainComponent implements OnInit {
           data: new ConfirmDialogData("Error", 'Collections.NameMustBeAtLeast4CharactersLong.')
         });
         reject('Collections.NameMustBeAtLeast4CharactersLong.');
-      } else if (this.userFiles.length === 0) {
+      } else if (this.userFiles.length + this.europeanaFiles.length === 0) {
 
         var modalOptions = new ConfirmDialogData();
 
@@ -167,7 +172,7 @@ export class AddCollectionComponent extends MainComponent implements OnInit {
                     .then((newCollectionResponse: any) => {           // execute after saving collection
                       if (newCollectionResponse["success"]) {
                         this.collectionData.overwrite = false;
-                        return this.documentService.save(newCollectionResponse.collection_id, this.userFiles)
+                        return this.documentService.save(newCollectionResponse.collection_id, this.userFiles.concat(this.europeanaFiles))
                       } else {
                         //var modalOptions = { body: 'Error during collection save. Please refresh the page and try again.' };
                         //Dialog.error(modalOptions);
@@ -188,7 +193,7 @@ export class AddCollectionComponent extends MainComponent implements OnInit {
                 }
               });
             } else if (response["success"] && !response["exists"]) {        // new collection
-              this.documentService.save(response["collection_id"], this.userFiles)
+              this.documentService.save(response["collection_id"], this.userFiles.concat(this.europeanaFiles))
                 .then(() => {                    // all collection documents saved
                   this.initializeForm();
                   this.initializeCollections();
@@ -220,12 +225,21 @@ export class AddCollectionComponent extends MainComponent implements OnInit {
     this.sendFiles();
   };
 
+  handleEuropeanaInputs(event: ItemsEntity[]) {
+    this.europeanaFiles = event;
+    this.europeanaFiles.forEach(item => {
+      item.name     = item.title[0];
+      item.encoding = this.collectionData.encoding;
+      item.handler  = this.collectionData.handler;
+    });
+  }; /* handleEuropeanaInputs */
+
   public onResize(event: any): void {
     this.breakpoint = event.target.innerWidth <= 600 ? 1 : 2;
   }
 
   sendFiles() {
-    this.filesChange.emit(this.userFiles);
+    this.filesChange.emit(this.userFiles.concat(this.europeanaFiles));
   }
 
   // Function to be called when a user selects a collection
@@ -235,14 +249,5 @@ export class AddCollectionComponent extends MainComponent implements OnInit {
     this.selectedCollection = collection;
     this.collectionData.name = collection.name;
   }; /* showSelectedCollection */
-
-  /*$scope.$on('flowEvent', function(event, data) {
-    $scope.userFiles = data.userFiles;
-    if (data.msg !== "") {
-      var modalOptions = { body: data.msg };
-      Dialog.error(modalOptions);
-    }
-  }); TODO: Update uploader */
-
 
 }

@@ -1,0 +1,3968 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>The Ellogon Annotation Platform documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
+            <a href="../" class="navbar-brand">The Ellogon Annotation Platform documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  AnnotationSetInspectorComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Extends</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+    </p>
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code>AfterViewInit</code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+            <tr>
+                <td class="col-md-3">encapsulation</td>
+                <td class="col-md-9"><code>ViewEncapsulation.None</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>annotation-set-inspector</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./annotation-set-inspector.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./annotation-set-inspector.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#annotationList" >annotationList</a>
+                            </li>
+                            <li>
+                                <a href="#annotationListDisplayedColumns" >annotationListDisplayedColumns</a>
+                            </li>
+                            <li>
+                                <a href="#annotationsDataSource" >annotationsDataSource</a>
+                            </li>
+                            <li>
+                                <a href="#annotationsInEditor" >annotationsInEditor</a>
+                            </li>
+                            <li>
+                                <a href="#collapsed_status" >collapsed_status</a>
+                            </li>
+                            <li>
+                                <a href="#documentInEditor" >documentInEditor</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#documentViewer" >documentViewer</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#exporter" >exporter</a>
+                            </li>
+                            <li>
+                                <a href="#filter" >filter</a>
+                            </li>
+                            <li>
+                                <a href="#footer_caret_column" >footer_caret_column</a>
+                            </li>
+                            <li>
+                                <a href="#footer_caret_line" >footer_caret_line</a>
+                            </li>
+                            <li>
+                                <a href="#footer_caret_offset" >footer_caret_offset</a>
+                            </li>
+                            <li>
+                                <a href="#footer_caret_selection" >footer_caret_selection</a>
+                            </li>
+                            <li>
+                                <a href="#footer_caret_show" >footer_caret_show</a>
+                            </li>
+                            <li>
+                                <a href="#minimatchOptions" >minimatchOptions</a>
+                            </li>
+                            <li>
+                                <a href="#mm" >mm</a>
+                            </li>
+                            <li>
+                                <a href="#selectedAnnotation" >selectedAnnotation</a>
+                            </li>
+                            <li>
+                                <a href="#selectedAnnotationDataSource" >selectedAnnotationDataSource</a>
+                            </li>
+                            <li>
+                                <a href="#selectedIndex" >selectedIndex</a>
+                            </li>
+                            <li>
+                                <a href="#skipDetailRowsExporter" >skipDetailRowsExporter</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#sort" >sort</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#table" >table</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Private</span>
+                                <a href="#textWidgetComponent" >textWidgetComponent</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#TWA" >TWA</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#_m" >_m</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#activatedRoute" >activatedRoute</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#analyticsService" >analyticsService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#annotationSchemaService" >annotationSchemaService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#annotationService" >annotationService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#annotatorsTemplateService" >annotatorsTemplateService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#authService" >authService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#autoannService" >autoannService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#buttonAnnotatorService" >buttonAnnotatorService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#buttonColorService" >buttonColorService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#changeDetectorRef" >changeDetectorRef</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#collectionService" >collectionService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#compiler" >compiler</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#coreferenceAnnotatorService" >coreferenceAnnotatorService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#coreferenceColorService" >coreferenceColorService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#dialog" >dialog</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#documentService" >documentService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#dragAndDropService" >dragAndDropService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#fileSaverService" >fileSaverService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#flashMessage" >flashMessage</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#formBuilder" >formBuilder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#injector" >injector</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#localStorageService" >localStorageService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#messageService" >messageService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#openDocumentService" >openDocumentService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#restoreAnnotationService" >restoreAnnotationService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#router" >router</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#routerLocation" >routerLocation</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#sseService" >sseService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#tempAnnotationService" >tempAnnotationService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#TextWidgetAPI" >TextWidgetAPI</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#toastrService" >toastrService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#translate" >translate</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#userFiles" >userFiles</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#userService" >userService</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#clearAnnotations" >clearAnnotations</a>
+                            </li>
+                            <li>
+                                <a href="#collapseInit" >collapseInit</a>
+                            </li>
+                            <li>
+                                <a href="#filterAnnotations" >filterAnnotations</a>
+                            </li>
+                            <li>
+                                <a href="#getAndAddAnnotation" >getAndAddAnnotation</a>
+                            </li>
+                            <li>
+                                <a href="#getCaret" >getCaret</a>
+                            </li>
+                            <li>
+                                <a href="#ngAfterViewInit" >ngAfterViewInit</a>
+                            </li>
+                            <li>
+                                <a href="#onApply" >onApply</a>
+                            </li>
+                            <li>
+                                <a href="#onApplyFilter" >onApplyFilter</a>
+                            </li>
+                            <li>
+                                <a href="#onClear" >onClear</a>
+                            </li>
+                            <li>
+                                <a href="#onScrollAnnotations" >onScrollAnnotations</a>
+                            </li>
+                            <li>
+                                <a href="#onScrollDocument" >onScrollDocument</a>
+                            </li>
+                            <li>
+                                <a href="#onUpdate" >onUpdate</a>
+                            </li>
+                            <li>
+                                <a href="#setScrollStatus" >setScrollStatus</a>
+                            </li>
+                            <li>
+                                <a href="#setSelectedAnnotation" >setSelectedAnnotation</a>
+                            </li>
+                            <li>
+                                <a href="#super" >super</a>
+                            </li>
+                            <li>
+                                <a href="#handleFileInput" >handleFileInput</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#annotations" >annotations</a>
+                            </li>
+                            <li>
+                                <a href="#collections" >collections</a>
+                            </li>
+                            <li>
+                                <a href="#documents" >documents</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#onScroll" >onScroll</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="annotations"></a>
+                        <b>annotations</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>any[]</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:43</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="collections"></a>
+                        <b>collections</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Collection.html" target="_self" >Collection | Collection[]</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:40</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="documents"></a>
+                        <b>documents</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Document.html" target="_self" >Document | Document[]</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:41</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section data-compodoc="block-outputs">
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="onScroll"></a>
+                        <b>onScroll</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:47</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clearAnnotations"></a>
+                    <span class="name">
+                        <span ><b>clearAnnotations</b></span>
+                        <a href="#clearAnnotations"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>clearAnnotations()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="161"
+                                    class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:161</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="collapseInit"></a>
+                    <span class="name">
+                        <span ><b>collapseInit</b></span>
+                        <a href="#collapseInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>collapseInit(index)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="97"
+                                    class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:97</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>index</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="filterAnnotations"></a>
+                    <span class="name">
+                        <span ><b>filterAnnotations</b></span>
+                        <a href="#filterAnnotations"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>filterAnnotations(ann: <a href="../interfaces/Annotation.html" target="_self">Annotation</a>, filter: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="255"
+                                    class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:255</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>ann</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Annotation.html" target="_self" >Annotation</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>filter</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getAndAddAnnotation"></a>
+                    <span class="name">
+                        <span ><b>getAndAddAnnotation</b></span>
+                        <a href="#getAndAddAnnotation"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getAndAddAnnotation(id)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="166"
+                                    class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:166</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getCaret"></a>
+                    <span class="name">
+                        <span ><b>getCaret</b></span>
+                        <a href="#getCaret"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getCaret()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="81"
+                                    class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:81</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngAfterViewInit"></a>
+                    <span class="name">
+                        <span ><b>ngAfterViewInit</b></span>
+                        <a href="#ngAfterViewInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngAfterViewInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="113"
+                                    class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:113</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onApply"></a>
+                    <span class="name">
+                        <span ><b>onApply</b></span>
+                        <a href="#onApply"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onApply(event)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="149"
+                                    class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:149</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>undefined</code>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onApplyFilter"></a>
+                    <span class="name">
+                        <span ><b>onApplyFilter</b></span>
+                        <a href="#onApplyFilter"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onApplyFilter(event: Event)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="267"
+                                    class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:267</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>Event</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onClear"></a>
+                    <span class="name">
+                        <span ><b>onClear</b></span>
+                        <a href="#onClear"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onClear()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="123"
+                                    class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:123</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onScrollAnnotations"></a>
+                    <span class="name">
+                        <span ><b>onScrollAnnotations</b></span>
+                        <a href="#onScrollAnnotations"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onScrollAnnotations(element: HTMLElement)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="234"
+                                    class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:234</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>element</td>
+                                            <td>
+                                                        <code>HTMLElement</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onScrollDocument"></a>
+                    <span class="name">
+                        <span ><b>onScrollDocument</b></span>
+                        <a href="#onScrollDocument"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onScrollDocument(element: HTMLElement)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="239"
+                                    class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:239</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>element</td>
+                                            <td>
+                                                        <code>HTMLElement</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onUpdate"></a>
+                    <span class="name">
+                        <span ><b>onUpdate</b></span>
+                        <a href="#onUpdate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onUpdate()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="129"
+                                    class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:129</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setScrollStatus"></a>
+                    <span class="name">
+                        <span ><b>setScrollStatus</b></span>
+                        <a href="#setScrollStatus"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setScrollStatus(status: <a href="../interfaces/ScrollStatus.html" target="_self">ScrollStatus</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="244"
+                                    class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:244</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>status</td>
+                                            <td>
+                                                            <code><a href="../interfaces/ScrollStatus.html" target="_self" >ScrollStatus</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setSelectedAnnotation"></a>
+                    <span class="name">
+                        <span ><b>setSelectedAnnotation</b></span>
+                        <a href="#setSelectedAnnotation"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setSelectedAnnotation(selectedAnnotation)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="184"
+                                    class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:184</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>selectedAnnotation</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="super"></a>
+                    <span class="name">
+                        <span ><b>super</b></span>
+                        <a href="#super"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>super()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="79"
+                                    class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:79</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleFileInput"></a>
+                    <span class="name">
+                        <span ><b>handleFileInput</b></span>
+                        <a href="#handleFileInput"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>handleFileInput(obj: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:82</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>obj</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:79</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="annotationList"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>annotationList</b></span>
+                        <a href="#annotationList"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;annotationList&#x27;)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:57</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="annotationListDisplayedColumns"></a>
+                    <span class="name">
+                        <span ><b>annotationListDisplayedColumns</b></span>
+                        <a href="#annotationListDisplayedColumns"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[&#x27;id&#x27;, &#x27;type&#x27;, &#x27;value&#x27;, &#x27;spans&#x27;]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:62</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="annotationsDataSource"></a>
+                    <span class="name">
+                        <span ><b>annotationsDataSource</b></span>
+                        <a href="#annotationsDataSource"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new MatTableDataSource&lt;Annotation&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:61</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="annotationsInEditor"></a>
+                    <span class="name">
+                        <span ><b>annotationsInEditor</b></span>
+                        <a href="#annotationsInEditor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:64</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="collapsed_status"></a>
+                    <span class="name">
+                        <span ><b>collapsed_status</b></span>
+                        <a href="#collapsed_status"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>number[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:60</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="documentInEditor"></a>
+                    <span class="name">
+                        <span ><b>documentInEditor</b></span>
+                        <a href="#documentInEditor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Document.html" target="_self" >Document</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:65</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="documentViewer"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>documentViewer</b></span>
+                        <a href="#documentViewer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;documentViewer&#x27;)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:58</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="exporter"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>exporter</b></span>
+                        <a href="#exporter"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>MatTableExporterDirective</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(MatTableExporterDirective, {static: false})<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:59</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="filter"></a>
+                    <span class="name">
+                        <span ><b>filter</b></span>
+                        <a href="#filter"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;&quot;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:73</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="footer_caret_column"></a>
+                    <span class="name">
+                        <span ><b>footer_caret_column</b></span>
+                        <a href="#footer_caret_column"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;&quot;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:69</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="footer_caret_line"></a>
+                    <span class="name">
+                        <span ><b>footer_caret_line</b></span>
+                        <a href="#footer_caret_line"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;&quot;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:68</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="footer_caret_offset"></a>
+                    <span class="name">
+                        <span ><b>footer_caret_offset</b></span>
+                        <a href="#footer_caret_offset"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;&quot;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:70</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="footer_caret_selection"></a>
+                    <span class="name">
+                        <span ><b>footer_caret_selection</b></span>
+                        <a href="#footer_caret_selection"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;[]&quot;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:71</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="footer_caret_show"></a>
+                    <span class="name">
+                        <span ><b>footer_caret_show</b></span>
+                        <a href="#footer_caret_show"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:67</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="minimatchOptions"></a>
+                    <span class="name">
+                        <span ><b>minimatchOptions</b></span>
+                        <a href="#minimatchOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{ nocase: true, nocomment: true }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:74</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mm"></a>
+                    <span class="name">
+                        <span ><b>mm</b></span>
+                        <a href="#mm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:75</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedAnnotation"></a>
+                    <span class="name">
+                        <span ><b>selectedAnnotation</b></span>
+                        <a href="#selectedAnnotation"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Annotation.html" target="_self" >Annotation</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:48</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedAnnotationDataSource"></a>
+                    <span class="name">
+                        <span ><b>selectedAnnotationDataSource</b></span>
+                        <a href="#selectedAnnotationDataSource"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:50</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedIndex"></a>
+                    <span class="name">
+                        <span ><b>selectedIndex</b></span>
+                        <a href="#selectedIndex"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;&quot;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:49</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="skipDetailRowsExporter"></a>
+                    <span class="name">
+                        <span ><b>skipDetailRowsExporter</b></span>
+                        <a href="#skipDetailRowsExporter"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/SkipDetailRowsExporter.html" target="_self" >SkipDetailRowsExporter</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new SkipDetailRowsExporter()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:77</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sort"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>sort</b></span>
+                        <a href="#sort"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>MatSort</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(MatSort)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:56</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="table"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>table</b></span>
+                        <a href="#table"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>MatTable&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(MatTable)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:55</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="textWidgetComponent"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Private</span>
+                        <span ><b>textWidgetComponent</b></span>
+                        <a href="#textWidgetComponent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../components/TextWidgetIsolatedComponent.html" target="_self" >TextWidgetIsolatedComponent</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(TextWidgetIsolatedComponent)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:52</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="TWA"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>TWA</b></span>
+                        <a href="#TWA"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:54</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_m"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>_m</b></span>
+                        <a href="#_m"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>NgModuleRef&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:66</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="activatedRoute"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>activatedRoute</b></span>
+                        <a href="#activatedRoute"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ActivatedRoute</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:48</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="analyticsService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>analyticsService</b></span>
+                        <a href="#analyticsService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/AnalyticsService.html" target="_self" >AnalyticsService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:71</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="annotationSchemaService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>annotationSchemaService</b></span>
+                        <a href="#annotationSchemaService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/AnnotationSchemaService.html" target="_self" >AnnotationSchemaService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:63</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="annotationService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>annotationService</b></span>
+                        <a href="#annotationService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/AnnotationService.html" target="_self" >AnnotationService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:55</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="annotatorsTemplateService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>annotatorsTemplateService</b></span>
+                        <a href="#annotatorsTemplateService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/AnnotatorsTemplateService.html" target="_self" >AnnotatorsTemplateService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:62</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>authService</b></span>
+                        <a href="#authService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:70</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="autoannService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>autoannService</b></span>
+                        <a href="#autoannService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/AutoannService.html" target="_self" >AutoannService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:76</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="buttonAnnotatorService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>buttonAnnotatorService</b></span>
+                        <a href="#buttonAnnotatorService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/ButtonAnnotatorService.html" target="_self" >ButtonAnnotatorService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:58</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="buttonColorService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>buttonColorService</b></span>
+                        <a href="#buttonColorService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/ButtonColorService.html" target="_self" >ButtonColorService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:59</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="changeDetectorRef"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>changeDetectorRef</b></span>
+                        <a href="#changeDetectorRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ChangeDetectorRef</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:67</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="collectionService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>collectionService</b></span>
+                        <a href="#collectionService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/CollectionService.html" target="_self" >CollectionService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:49</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="compiler"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>compiler</b></span>
+                        <a href="#compiler"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Compiler</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:64</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="coreferenceAnnotatorService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>coreferenceAnnotatorService</b></span>
+                        <a href="#coreferenceAnnotatorService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/CoreferenceAnnotatorService.html" target="_self" >CoreferenceAnnotatorService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:60</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="coreferenceColorService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>coreferenceColorService</b></span>
+                        <a href="#coreferenceColorService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/CoreferenceColorService.html" target="_self" >CoreferenceColorService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:61</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dialog"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>dialog</b></span>
+                        <a href="#dialog"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>MatDialog</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:51</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="documentService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>documentService</b></span>
+                        <a href="#documentService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/DocumentService.html" target="_self" >DocumentService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:50</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dragAndDropService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>dragAndDropService</b></span>
+                        <a href="#dragAndDropService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/DragAndDropService.html" target="_self" >DragAndDropService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:72</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fileSaverService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>fileSaverService</b></span>
+                        <a href="#fileSaverService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>FileSaverService</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:77</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="flashMessage"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>flashMessage</b></span>
+                        <a href="#flashMessage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/FlashMessagesService.html" target="_self" >FlashMessagesService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:45</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="formBuilder"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>formBuilder</b></span>
+                        <a href="#formBuilder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>UntypedFormBuilder</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:69</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="injector"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>injector</b></span>
+                        <a href="#injector"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Injector</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:65</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="localStorageService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>localStorageService</b></span>
+                        <a href="#localStorageService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/LocalStorageService.html" target="_self" >LocalStorageService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:75</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="messageService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>messageService</b></span>
+                        <a href="#messageService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/MessageService.html" target="_self" >MessageService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:73</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openDocumentService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>openDocumentService</b></span>
+                        <a href="#openDocumentService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/OpenDocumentService.html" target="_self" >OpenDocumentService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:53</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="restoreAnnotationService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>restoreAnnotationService</b></span>
+                        <a href="#restoreAnnotationService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/RestoreAnnotationService.html" target="_self" >RestoreAnnotationService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:54</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="router"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>router</b></span>
+                        <a href="#router"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Router</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:46</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="routerLocation"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>routerLocation</b></span>
+                        <a href="#routerLocation"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Location</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:47</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sseService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>sseService</b></span>
+                        <a href="#sseService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/SseService.html" target="_self" >SseService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:57</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tempAnnotationService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>tempAnnotationService</b></span>
+                        <a href="#tempAnnotationService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/TempAnnotationService.html" target="_self" >TempAnnotationService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:56</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="TextWidgetAPI"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>TextWidgetAPI</b></span>
+                        <a href="#TextWidgetAPI"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/TextWidgetAPI.html" target="_self" >TextWidgetAPI</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:52</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toastrService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>toastrService</b></span>
+                        <a href="#toastrService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ToastrService</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:74</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="translate"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>translate</b></span>
+                        <a href="#translate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>TranslateService</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:68</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="userFiles"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>userFiles</b></span>
+                        <a href="#userFiles"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:42</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="userService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>userService</b></span>
+                        <a href="#userService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/UserService.html" target="_self" >UserService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:44</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, EventEmitter, Input, AfterViewInit, Output, ViewEncapsulation, ViewChild, ChangeDetectionStrategy, ElementRef } from &#x27;@angular/core&#x27;;
+import { MainComponent } from &#x27;src/app/components/views/main/main.component&#x27;;
+import { Collection } from &#x27;src/app/models/collection&#x27;;
+import { Document } from &#x27;src/app/models/document&#x27;;
+import { Annotation } from &#x27;src/app/models/annotation&#x27;;
+import { annotationSortingDataAccessor } from &#x27;src/app/helpers/annotation&#x27;;
+import { TextWidgetIsolatedComponent } from &#x27;../text-widget-isolated/text-widget-isolated.component&#x27;;
+import { MatTable, MatTableDataSource } from &#x27;@angular/material/table&#x27;;
+import { MatSort } from &#x27;@angular/material/sort&#x27;;
+import { AnnotationPropertyToDisplayObject } from &#x27;src/app/helpers/annotation&#x27;;
+import { animate, state, style, transition, trigger } from &#x27;@angular/animations&#x27;;
+import { AnnotationDetailComponent } from &#x27;../annotation-detail/annotation-detail.component&#x27;;
+import { ScrollStatus } from &#x27;src/app/models/services/scrollstatus&#x27;;
+import { Minimatch } from &quot;minimatch&quot;;
+import { MatTableExporterDirective, Exporter, Options } from &#x27;mat-table-exporter&#x27;;
+import ObjectID from &quot;bson-objectid&quot;;
+
+export class SkipDetailRowsExporter implements Exporter&lt;Options&gt; {
+  export(rows: Array&lt;any&gt;, options?: Options) {
+    console.log(rows);
+  }
+}
+
+
+@Component({
+  selector: &#x27;annotation-set-inspector&#x27;,
+  templateUrl: &#x27;./annotation-set-inspector.component.html&#x27;,
+  styleUrls: [&#x27;./annotation-set-inspector.component.scss&#x27;],
+  animations: [
+    trigger(&#x27;detailExpand&#x27;, [
+      state(&#x27;collapsed&#x27;, style({height: &#x27;0px&#x27;, minHeight: &#x27;0&#x27;})),
+      state(&#x27;expanded&#x27;, style({height: &#x27;*&#x27;})),
+      transition(&#x27;expanded &lt;&#x3D;&gt; collapsed&#x27;, animate(&#x27;225ms cubic-bezier(0.4, 0.0, 0.2, 1)&#x27;)),
+    ]),
+  ],
+  encapsulation: ViewEncapsulation.None,
+})
+export class AnnotationSetInspectorComponent extends MainComponent implements AfterViewInit  {
+
+  @Input() collections: Collection|Collection[];
+  @Input() documents:   Document|Document[];
+  // @Input() annotator:  any;
+  @Input() annotations: any[];
+  // annotatorType: string;
+
+  // @Output() selectedAnnotations &#x3D; new EventEmitter&lt;Annotation | Annotation[]&gt;();
+  @Output() onScroll &#x3D; new EventEmitter&lt;ScrollStatus&gt;();
+  selectedAnnotation: Annotation;
+  selectedIndex &#x3D; &quot;&quot;;
+  selectedAnnotationDataSource&#x3D;[];
+  @ViewChild(TextWidgetIsolatedComponent)
+  private textWidgetComponent!: TextWidgetIsolatedComponent;
+  /* Variable for isolated TextWidgetAPI of textWidgetComponent */
+  private TWA;
+  @ViewChild(MatTable) table: MatTable&lt;any&gt;;
+  @ViewChild(MatSort)  sort: MatSort;
+  @ViewChild(&#x27;annotationList&#x27;) annotationList: ElementRef;
+  @ViewChild(&#x27;documentViewer&#x27;) documentViewer: ElementRef;
+  @ViewChild(MatTableExporterDirective, { static: false }) exporter: MatTableExporterDirective;
+  collapsed_status:number[] &#x3D; [];
+  annotationsDataSource &#x3D; new MatTableDataSource&lt;Annotation&gt;();
+  annotationListDisplayedColumns: string[] &#x3D; [&#x27;id&#x27;, &#x27;type&#x27;, &#x27;value&#x27;, &#x27;spans&#x27;];
+
+  annotationsInEditor &#x3D; [];
+  documentInEditor: Document;
+
+  footer_caret_show      &#x3D; false;
+  footer_caret_line      &#x3D; &quot;&quot;;
+  footer_caret_column    &#x3D; &quot;&quot;;
+  footer_caret_offset    &#x3D; &quot;&quot;;
+  footer_caret_selection &#x3D; &quot;[]&quot;;
+
+  filter: string &#x3D; &quot;&quot;;
+  minimatchOptions &#x3D; { nocase: true, nocomment: true };
+  mm: any; // Minimatch object
+
+  skipDetailRowsExporter: SkipDetailRowsExporter &#x3D; new SkipDetailRowsExporter();
+
+  super() { }
+
+  getCaret() {
+    if (this.textWidgetComponent) {
+      let cursor    &#x3D; this.textWidgetComponent.editor.getCursor();
+      let selection &#x3D; this.textWidgetComponent.getSelectionInfo();
+      this.footer_caret_line &#x3D; cursor.line + 1;
+      this.footer_caret_column &#x3D; cursor.ch;
+      this.footer_caret_offset &#x3D; this.textWidgetComponent.editor.indexFromPos(cursor);
+      if (selection.segment) {
+        this.footer_caret_selection &#x3D; &quot;[&quot;+selection.startOffset+&quot;:&quot;+selection.endOffset+&quot;]&quot;;
+      } else {
+        this.footer_caret_selection &#x3D; &quot;[]&quot;;
+      }
+      this.footer_caret_show &#x3D; true;
+    }
+  }
+
+  collapseInit(index) {
+    var length &#x3D; this.annotations.length;
+    var temp   &#x3D; 0;
+    if (index &gt;&#x3D; 0) {
+      temp &#x3D; this.collapsed_status[index];
+    }
+    this.collapsed_status &#x3D; [];
+    for (let i &#x3D; 0; i &lt;length ; i++) {
+      if (index &#x3D;&#x3D; i) {
+        continue;
+      }
+      this.collapsed_status.push(0);
+    }
+    return temp;
+  }
+
+  ngAfterViewInit(): void {
+    this.TWA &#x3D; this.textWidgetComponent.TextWidgetAPI;
+    this.textWidgetComponent.editor.on(&quot;cursorActivity&quot;, () &#x3D;&gt; {
+      this.getCaret();
+    });
+    this.annotationsDataSource.sort &#x3D; this.sort;
+    this.annotationsDataSource.sortingDataAccessor &#x3D; annotationSortingDataAccessor;
+    this.annotationsDataSource.filterPredicate &#x3D; this.filterAnnotations.bind(this);
+  }
+
+  onClear() {
+    this.annotations &#x3D; [];
+    this.documentInEditor &#x3D; undefined;
+    this.onUpdate();
+  }; /* onClear */
+
+  onUpdate() {
+    if (this.documentInEditor) {
+      if (typeof this.documentInEditor.visualisation_options &#x3D;&#x3D; &quot;string&quot;) {
+        this.documentInEditor.visualisation_options &#x3D; JSON.parse(this.documentInEditor.visualisation_options);
+      }
+      this.textWidgetComponent.initialiseEditor({type: &quot;text&quot;, text: this.documentInEditor.text},
+                                                this.documentInEditor.visualisation_options);
+    } else {
+      this.textWidgetComponent.initialiseEditor({type: &quot;text&quot;, text: &quot;&quot;}, {});
+    }
+
+    // console.error(&quot;AnnotationSetInspectorComponent: onApply(): annotaions&quot;, this.annotations);
+    // this.TWA.addAnnotations(this.annotations /*, this.annotator._id*/);
+    // console.error(&quot;AnnotationSetInspectorComponent: onApply(): after match:&quot;, this.TWA.getAnnotations());
+
+    // this.annotatorType &#x3D; this.TWA.getAnnotatorTypeFromAnnotatorTypeId(this.annotator._id);
+    this.annotationsDataSource.data &#x3D; this.annotations;
+    this.table.renderRows();
+  }; /* onUpdate */
+
+  onApply(event &#x3D; undefined) {
+    //  console.error(&quot;AnnotationSetInspectorComponent: onApply():&quot;, this.annotator._id);
+
+    // Is there a single document, or many?
+    if (Array.isArray(this.documents)) {
+      this.documentInEditor &#x3D; this.documents[0];
+    } else {
+      this.documentInEditor &#x3D; this.documents;
+    }
+    this.onUpdate();
+  }; /* onApply */
+
+  clearAnnotations() {
+    this.textWidgetComponent.removeAnnotationsFromEditor(this.annotationsInEditor);
+    this.annotationsInEditor &#x3D; [];
+  }
+
+  getAndAddAnnotation(id) {
+    let ann &#x3D; this.annotations.find(e &#x3D;&gt; e._id &#x3D;&#x3D; id);
+    if (ann) {
+      this.TWA.addAnnotation(ann, false);
+      this.annotationsInEditor.push(ann);
+      return ann;
+    }
+    return new Promise((resolve, reject) &#x3D;&gt; {
+      this.analyticsService.findById(id)
+      .then((response) &#x3D;&gt; {
+        ann &#x3D; response[&#x27;data&#x27;][0];
+        this.TWA.addAnnotation(ann, false);
+        this.annotationsInEditor.push(ann);
+        resolve(ann);
+      }, (error) &#x3D;&gt; reject(error));
+    });
+  }
+
+  setSelectedAnnotation(selectedAnnotation) {
+    // console.error(&quot;AnnotationSetInspectorComponent: setSelectedAnnotation()&quot;,
+    //               selectedAnnotation);
+    // Is it an empty row?
+    if (Object.keys(selectedAnnotation).length &#x3D;&#x3D; 0) {
+      return;
+    }
+    this.clearAnnotations();
+    var previndex &#x3D; this.annotations.findIndex(item &#x3D;&gt; item._id &#x3D;&#x3D;&#x3D; this.selectedIndex);
+    var index     &#x3D; this.annotations.findIndex(item &#x3D;&gt; item._id &#x3D;&#x3D;&#x3D; selectedAnnotation._id);
+    var status    &#x3D; this.collapseInit(index);
+    if (status &gt; 2) {
+      this.collapsed_status[index] &#x3D; 0;
+    } else {
+      this.collapsed_status[index] &#x3D; status;
+    }
+    if (this.selectedIndex &#x3D;&#x3D; selectedAnnotation._id) {
+      this.collapsed_status[index]++;
+    }
+    //fixed bug: close other annotations when select other
+    if (previndex !&#x3D; index) {
+      this.collapsed_status[previndex] &#x3D; 0;
+    }
+    this.selectedIndex &#x3D; selectedAnnotation._id;
+    this.selectedAnnotationDataSource &#x3D; Object.entries(selectedAnnotation)
+        .map(AnnotationPropertyToDisplayObject)
+        .filter(e &#x3D;&gt; e !&#x3D; null);
+
+    // Are there any arguments in attributes?
+    let relation_args &#x3D; this.TWA.getAnnotationRelationLinks(selectedAnnotation);
+    let promises &#x3D; [];
+    if (relation_args.length) {
+      this.TWA.setAnnotationSchemaAnnotationTypes([selectedAnnotation.type]);
+      relation_args.forEach((attr) &#x3D;&gt; {
+        let p &#x3D; this.getAndAddAnnotation(attr.value);
+        if (p instanceof Promise) {promises.push(p);}
+      });
+    }
+    Promise.all(promises).then((data) &#x3D;&gt; {
+      this.TWA.addAnnotation(selectedAnnotation, false);
+      this.annotationsInEditor.push(selectedAnnotation);
+      this.TWA.setSelectedAnnotation(selectedAnnotation);
+      this.textWidgetComponent.scrollToAnnotation(selectedAnnotation);
+    });
+    if (this.collapsed_status[index] &lt; 1) {
+      return null;
+    }
+    return this.selectedAnnotation &#x3D; this.selectedAnnotation &#x3D;&#x3D;&#x3D; selectedAnnotation ? null : selectedAnnotation;
+  }
+
+  onScrollAnnotations(element: HTMLElement) {
+    // console.error(&quot;AnnotationSetInspectorComponent: onScroll():&quot;, element.scrollTop, element.scrollLeft, element.scrollBy);
+    this.onScroll.emit({widget: &quot;anns&quot;, scrollTop: element.scrollTop, scrollLeft: element.scrollLeft});
+  }; /* onScrollAnnotations */
+
+  onScrollDocument(element: HTMLElement) {
+    // console.error(&quot;AnnotationSetInspectorComponent: onScroll()&quot;, element.scrollTop, element.scrollLeft, element.scrollBy);
+    this.onScroll.emit({widget: &quot;doc&quot;, scrollTop: element.scrollTop, scrollLeft: element.scrollLeft});
+  }; /* onScrollDocument */
+
+  setScrollStatus(status: ScrollStatus) {
+    var widget;
+    if (status.widget &#x3D;&#x3D; &quot;anns&quot;) {
+      widget &#x3D; this.annotationList;
+    } else {
+      widget &#x3D; this.documentViewer;
+    }
+    widget.nativeElement.scrollTop  &#x3D; status.scrollTop;
+    widget.nativeElement.scrollLeft &#x3D; status.scrollLeft;
+  }; /* setScrollStatus */
+
+  filterAnnotations(ann: Annotation, filter: string) {
+    // console.error(&quot;AnnotationVisualizerComponent: filterAnnotations():&quot;, ann, filter, this.mm);
+    if (this.mm.empty) { return true; }
+    return ann.attributes.some((attr) &#x3D;&gt; {
+      // console.error(&quot;attr:&quot;, attr, attr.value, this.mm.match(attr.value));
+      if (attr.value.indexOf(filter) !&#x3D;&#x3D; -1) { return true; }
+      return this.mm.match(attr.value)
+    });
+  }; /* filterAnnotations */
+
+  // This method is called each time the user releases a key in
+  // the &quot;Filter Annotations&quot; search field.
+  onApplyFilter(event: Event) {
+    // const filterValue &#x3D; (event.target as HTMLInputElement).value;
+    this.mm &#x3D; new Minimatch(this.filter.trim(), this.minimatchOptions);
+    // console.error(&quot;AnnotationVisualizerComponent: applyFilter():&quot;,
+    //   this.mm, this.mm.pattern);
+    this.annotationsDataSource.filter &#x3D; this.mm.pattern;
+  }; /* onApplyFilter */
+
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;annotation-set-inspector&quot;&gt;
+  &lt;as-split direction&#x3D;&quot;vertical&quot; class&#x3D;&quot;h-full-minus-editor-panel&quot;&gt;
+    &lt;as-split-area [size]&#x3D;&quot;50&quot; [minSize]&#x3D;&quot;10&quot; [maxSize]&#x3D;&quot;90&quot; class&#x3D;&quot;annotation-list&quot; (scroll)&#x3D;&quot;onScrollAnnotations(annotationList)&quot; #annotationList&gt;
+      &lt;!--&lt;div fxLayout fxLayoutAlign&#x3D;&quot;start center&quot;&gt;--&gt;
+      &lt;div class&#x3D;&quot;fxLayout fxLayoutAlign-start-center&quot;&gt;
+        &lt;mat-form-field class&#x3D;&quot;annotation-visualiser-filter-field&quot;&gt;
+          &lt;mat-label&gt;{{&#x27;annotation.Filter Annotations&#x27;|translate}}&lt;/mat-label&gt;
+          &lt;mat-icon matPrefix&gt;search&lt;/mat-icon&gt;
+          &lt;input matInput type&#x3D;&quot;text&quot; class&#x3D;&quot;annotation-visualiser-filter-input&quot; (keyup)&#x3D;&quot;onApplyFilter($event)&quot;
+            placeholder&#x3D;&quot;{{&#x27;annotation.FilterAnnotationsPlaceholder&#x27;|translate}}&quot; #input [(ngModel)]&#x3D;&quot;filter&quot;&gt;
+          &lt;button mat-icon-button matSuffix *ngIf&#x3D;&quot;filter&quot; aria-label&#x3D;&quot;Clear&quot; class&#x3D;&quot;mat-mdc-icon-button-small&quot;
+            (click)&#x3D;&quot;filter&#x3D;&#x27;&#x27;; onApplyFilter($event)&quot;&gt;
+            &lt;mat-icon&gt;backspace&lt;/mat-icon&gt;
+          &lt;/button&gt;
+        &lt;/mat-form-field&gt;
+        &lt;button mat-icon-button [matMenuTriggerFor]&#x3D;&quot;table_menu&quot; aria-label&#x3D;&quot;Table menu&quot;&gt;
+          &lt;mat-icon&gt;more_vert&lt;/mat-icon&gt;
+        &lt;/button&gt;
+        &lt;mat-menu #table_menu&#x3D;&quot;matMenu&quot;&gt;
+          &lt;button mat-menu-item
+            (click)&#x3D;&quot;exporter.exportTable(&#x27;xlsx&#x27;, {fileName:&#x27;annotations&#x27;, sheet: &#x27;annotations&#x27;, Props: {Author: &#x27;The Ellogon Annotation Platform&#x27;}})&quot;
+            &gt;
+            &lt;mat-icon&gt;&lt;fa-icon icon&#x3D;&quot;file-excel&quot;&gt;&lt;/fa-icon&gt;&lt;/mat-icon&gt;
+            &lt;span&gt;{{&quot;Excel&quot;|translate}}&lt;/span&gt;
+          &lt;/button&gt;
+          &lt;button mat-menu-item (click)&#x3D;&quot;exporter.exportTable(&#x27;csv&#x27;, {fileName:&#x27;annotations&#x27;})&quot;&gt;
+            &lt;mat-icon&gt;&lt;fa-icon icon&#x3D;&quot;file-csv&quot;&gt;&lt;/fa-icon&gt;&lt;/mat-icon&gt;
+            &lt;span&gt;{{&quot;CSV&quot;|translate}}&lt;/span&gt;
+          &lt;/button&gt;
+          &lt;button mat-menu-item (click)&#x3D;&quot;exporter.exportTable(&#x27;json&#x27;, {fileName:&#x27;annotations&#x27;})&quot;&gt;
+            &lt;mat-icon&gt;&lt;fa-icon icon&#x3D;&quot;file-code&quot;&gt;&lt;/fa-icon&gt;&lt;/mat-icon&gt;
+            &lt;span&gt;{{&quot;JSON&quot;|translate}}&lt;/span&gt;
+          &lt;/button&gt;
+          &lt;button mat-menu-item (click)&#x3D;&quot;exporter.exportTable(&#x27;txt&#x27;, {fileName:&#x27;annotations&#x27;})&quot;&gt;
+            &lt;mat-icon&gt;&lt;fa-icon icon&#x3D;&quot;file-lines&quot;&gt;&lt;/fa-icon&gt;&lt;/mat-icon&gt;
+            &lt;span&gt;{{&quot;TXT&quot;|translate}}&lt;/span&gt;
+          &lt;/button&gt;
+&lt;button mat-menu-item (click)&#x3D;&quot;exporter.exportTable(&#x27;other&#x27;, {fileName:&#x27;annotations&#x27;})&quot;&gt;
+            &lt;mat-icon&gt;&lt;fa-icon icon&#x3D;&quot;file-lines&quot;&gt;&lt;/fa-icon&gt;&lt;/mat-icon&gt;
+            &lt;span&gt;{{&quot;TXT&quot;|translate}}&lt;/span&gt;
+          &lt;/button&gt;
+
+        &lt;/mat-menu&gt;
+      &lt;/div&gt;
+      &lt;table mat-table [dataSource]&#x3D;&quot;annotationsDataSource&quot; multiTemplateDataRows
+             class&#x3D;&quot;annotation-visualiser-container&quot; matSort
+             matTableExporter #exporter&#x3D;&quot;matTableExporter&quot; [exporter]&#x3D;&quot;skipDetailRowsExporter&quot;
+      &gt;
+        &lt;!--&lt;ng-container matColumnDef&#x3D;&quot;index&quot;&gt;
+          &lt;th mat-header-cell *matHeaderCellDef mat-sort-header&gt;#&lt;/th&gt;
+          &lt;td mat-cell *matCellDef&#x3D;&quot;let element; let i &#x3D; dataIndex&quot;&gt;{{i + 1}}&lt;/td&gt;
+        &lt;/ng-container&gt;--&gt;
+        &lt;ng-container matColumnDef&#x3D;&quot;id&quot;&gt;
+          &lt;th mat-header-cell *matHeaderCellDef mat-sort-header&gt;ID&lt;/th&gt;
+          &lt;td mat-cell *matCellDef&#x3D;&quot;let annotation&quot; class&#x3D;&quot;overflow-ellipsis&quot;&gt;
+            {{annotation._id}}
+          &lt;/td&gt;
+        &lt;/ng-container&gt;
+        &lt;ng-container matColumnDef&#x3D;&quot;value&quot;&gt;
+          &lt;th mat-header-cell *matHeaderCellDef mat-sort-header&gt;Value&lt;/th&gt;
+          &lt;td mat-cell *matCellDef&#x3D;&quot;let annotation&quot; class&#x3D;&quot;overflow-ellipsis&quot;&gt;
+            {{annotation.attributes ? annotation.attributes[0].value : &quot;&quot;}}
+          &lt;/td&gt;
+        &lt;/ng-container&gt;
+        &lt;ng-container matColumnDef&#x3D;&quot;type&quot;&gt;
+          &lt;th mat-header-cell *matHeaderCellDef mat-sort-header&gt;Type&lt;/th&gt;
+          &lt;td mat-cell *matCellDef&#x3D;&quot;let annotation&quot; class&#x3D;&quot;overflow-ellipsis&quot;&gt;
+            {{(annotation.type &#x3D;&#x3D; &#x27;setting annotation&#x27;) ? (&#x27;Setting&#x27;|translate) : (annotation.type)}}
+          &lt;/td&gt;
+        &lt;/ng-container&gt;
+        &lt;ng-container matColumnDef&#x3D;&quot;spans&quot;&gt;
+          &lt;th mat-header-cell *matHeaderCellDef mat-sort-header&gt;Spans&lt;/th&gt;
+          &lt;td mat-cell *matCellDef&#x3D;&quot;let annotation&quot; class&#x3D;&quot;overflow-ellipsis&quot;&gt;
+           {{annotation|annotationSpans: this.annotations}}
+          &lt;/td&gt;
+        &lt;/ng-container&gt;
+        &lt;ng-container matColumnDef&#x3D;&quot;expandedDetail&quot;&gt;
+          &lt;td mat-cell *matCellDef&#x3D;&quot;let annotation&quot; [attr.colspan]&#x3D;&quot;annotationListDisplayedColumns.length&quot;&gt;
+            &lt;div [@detailExpand]&#x3D;&quot; (annotation &#x3D;&#x3D; selectedAnnotation &amp;&amp; annotation._id &#x3D;&#x3D; selectedIndex) ? &#x27;expanded&#x27; : &#x27;collapsed&#x27;&quot; class&#x3D;&quot;annotation-detail&quot;&gt;
+               &lt;annotation-detail [selectedAnnotationDataSource]&#x3D;&quot;selectedAnnotationDataSource&quot; [showHeader]&#x3D;&quot;false&quot; class&#x3D;&quot;w-full&quot;&gt;&lt;/annotation-detail&gt;
+            &lt;/div&gt;
+          &lt;/td&gt;
+        &lt;/ng-container&gt;
+
+        &lt;tr mat-header-row *matHeaderRowDef&#x3D;&quot;annotationListDisplayedColumns; sticky: true&quot;&gt;&lt;/tr&gt;
+        &lt;tr mat-row (click)&#x3D;&quot;setSelectedAnnotation(row)&quot; [ngClass]&#x3D;&quot;{ &#x27;selected&#x27;: row._id &#x3D;&#x3D; selectedIndex, &#x27;diff-equal&#x27;: row.diff_class &#x3D;&#x3D; &#x27;diff-equal&#x27;, &#x27;diff-unequal&#x27;: row.diff_class &#x3D;&#x3D; &#x27;diff-unequal&#x27; }&quot;
+          *matRowDef&#x3D;&quot;let row; columns: annotationListDisplayedColumns;&quot; class&#x3D;&quot;annotation-row&quot;&gt;
+        &lt;tr mat-row *matRowDef&#x3D;&quot;let row; columns: [&#x27;expandedDetail&#x27;]&quot; style&#x3D;&quot;height: 0;&quot;&gt;&lt;/tr&gt;
+        &lt;tr class&#x3D;&quot;mat-row&quot; *matNoDataRow&gt;
+          &lt;td class&#x3D;&quot;mat-cell&quot; [attr.colspan]&#x3D;&quot;annotationListDisplayedColumns.length&quot;&gt;{{&#x27;No data matching the filter&#x27;|translate}}&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/table&gt;
+    &lt;/as-split-area&gt;
+    &lt;as-split-area [size]&#x3D;&quot;50&quot; [minSize]&#x3D;&quot;10&quot; [maxSize]&#x3D;&quot;90&quot; class&#x3D;&quot;annotation-info&quot;  (scroll)&#x3D;&quot;onScrollDocument(documentViewer)&quot; #documentViewer&gt;
+      &lt;text-widget-isolated&gt;&lt;/text-widget-isolated&gt;
+    &lt;/as-split-area&gt;
+  &lt;/as-split&gt;
+  &lt;div class&#x3D;&quot;panel bottom&quot;&gt;
+    &lt;span class&#x3D;&quot;panel caret&quot; *ngIf&#x3D;&quot;footer_caret_show&quot;&gt;
+      {{&#x27;Line&#x27;|translate}}: {{footer_caret_line}},
+      {{&#x27;Column&#x27;|translate}}: {{footer_caret_column}},
+      {{&#x27;Offset&#x27;|translate}}: {{footer_caret_offset}},
+      {{&#x27;Selection&#x27;|translate}}: {{footer_caret_selection}}
+    &lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./annotation-set-inspector.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss"></code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="annotation-set-inspector">  <as-split direction="vertical" class="h-full-minus-editor-panel">    <as-split-area [size]="50" [minSize]="10" [maxSize]="90" class="annotation-list" (scroll)="onScrollAnnotations(annotationList)" #annotationList>      <!--<div fxLayout fxLayoutAlign="start center">-->      <div class="fxLayout fxLayoutAlign-start-center">        <mat-form-field class="annotation-visualiser-filter-field">          <mat-label>{{\'annotation.Filter Annotations\'|translate}}</mat-label>          <mat-icon matPrefix>search</mat-icon>          <input matInput type="text" class="annotation-visualiser-filter-input" (keyup)="onApplyFilter($event)"            placeholder="{{\'annotation.FilterAnnotationsPlaceholder\'|translate}}" #input [(ngModel)]="filter">          <button mat-icon-button matSuffix *ngIf="filter" aria-label="Clear" class="mat-mdc-icon-button-small"            (click)="filter=\'\'; onApplyFilter($event)">            <mat-icon>backspace</mat-icon>          </button>        </mat-form-field>        <button mat-icon-button [matMenuTriggerFor]="table_menu" aria-label="Table menu">          <mat-icon>more_vert</mat-icon>        </button>        <mat-menu #table_menu="matMenu">          <button mat-menu-item            (click)="exporter.exportTable(\'xlsx\', {fileName:\'annotations\', sheet: \'annotations\', Props: {Author: \'The Ellogon Annotation Platform\'}})"            >            <mat-icon><fa-icon icon="file-excel"></fa-icon></mat-icon>            <span>{{"Excel"|translate}}</span>          </button>          <button mat-menu-item (click)="exporter.exportTable(\'csv\', {fileName:\'annotations\'})">            <mat-icon><fa-icon icon="file-csv"></fa-icon></mat-icon>            <span>{{"CSV"|translate}}</span>          </button>          <button mat-menu-item (click)="exporter.exportTable(\'json\', {fileName:\'annotations\'})">            <mat-icon><fa-icon icon="file-code"></fa-icon></mat-icon>            <span>{{"JSON"|translate}}</span>          </button>          <button mat-menu-item (click)="exporter.exportTable(\'txt\', {fileName:\'annotations\'})">            <mat-icon><fa-icon icon="file-lines"></fa-icon></mat-icon>            <span>{{"TXT"|translate}}</span>          </button><button mat-menu-item (click)="exporter.exportTable(\'other\', {fileName:\'annotations\'})">            <mat-icon><fa-icon icon="file-lines"></fa-icon></mat-icon>            <span>{{"TXT"|translate}}</span>          </button>        </mat-menu>      </div>      <table mat-table [dataSource]="annotationsDataSource" multiTemplateDataRows             class="annotation-visualiser-container" matSort             matTableExporter #exporter="matTableExporter" [exporter]="skipDetailRowsExporter"      >        <!--<ng-container matColumnDef="index">          <th mat-header-cell *matHeaderCellDef mat-sort-header>#</th>          <td mat-cell *matCellDef="let element; let i = dataIndex">{{i + 1}}</td>        </ng-container>-->        <ng-container matColumnDef="id">          <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>          <td mat-cell *matCellDef="let annotation" class="overflow-ellipsis">            {{annotation._id}}          </td>        </ng-container>        <ng-container matColumnDef="value">          <th mat-header-cell *matHeaderCellDef mat-sort-header>Value</th>          <td mat-cell *matCellDef="let annotation" class="overflow-ellipsis">            {{annotation.attributes ? annotation.attributes[0].value : ""}}          </td>        </ng-container>        <ng-container matColumnDef="type">          <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>          <td mat-cell *matCellDef="let annotation" class="overflow-ellipsis">            {{(annotation.type == \'setting annotation\') ? (\'Setting\'|translate) : (annotation.type)}}          </td>        </ng-container>        <ng-container matColumnDef="spans">          <th mat-header-cell *matHeaderCellDef mat-sort-header>Spans</th>          <td mat-cell *matCellDef="let annotation" class="overflow-ellipsis">           {{annotation|annotationSpans: this.annotations}}          </td>        </ng-container>        <ng-container matColumnDef="expandedDetail">          <td mat-cell *matCellDef="let annotation" [attr.colspan]="annotationListDisplayedColumns.length">            <div [@detailExpand]=" (annotation == selectedAnnotation && annotation._id == selectedIndex) ? \'expanded\' : \'collapsed\'" class="annotation-detail">               <annotation-detail [selectedAnnotationDataSource]="selectedAnnotationDataSource" [showHeader]="false" class="w-full"></annotation-detail>            </div>          </td>        </ng-container>        <tr mat-header-row *matHeaderRowDef="annotationListDisplayedColumns; sticky: true"></tr>        <tr mat-row (click)="setSelectedAnnotation(row)" [ngClass]="{ \'selected\': row._id == selectedIndex, \'diff-equal\': row.diff_class == \'diff-equal\', \'diff-unequal\': row.diff_class == \'diff-unequal\' }"          *matRowDef="let row; columns: annotationListDisplayedColumns;" class="annotation-row">        <tr mat-row *matRowDef="let row; columns: [\'expandedDetail\']" style="height: 0;"></tr>        <tr class="mat-row" *matNoDataRow>          <td class="mat-cell" [attr.colspan]="annotationListDisplayedColumns.length">{{\'No data matching the filter\'|translate}}</td>        </tr>      </table>    </as-split-area>    <as-split-area [size]="50" [minSize]="10" [maxSize]="90" class="annotation-info"  (scroll)="onScrollDocument(documentViewer)" #documentViewer>      <text-widget-isolated></text-widget-isolated>    </as-split-area>  </as-split>  <div class="panel bottom">    <span class="panel caret" *ngIf="footer_caret_show">      {{\'Line\'|translate}}: {{footer_caret_line}},      {{\'Column\'|translate}}: {{footer_caret_column}},      {{\'Offset\'|translate}}: {{footer_caret_offset}},      {{\'Selection\'|translate}}: {{footer_caret_selection}}    </span>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AddCollectionComponent', 'selector': 'add-collection'},{'name': 'AddCustomValueModalComponent', 'selector': 'add-custom-value-modal'},{'name': 'AddDocumentsDialogComponent', 'selector': 'add-documents-dialog'},{'name': 'AdminLayoutComponent', 'selector': 'app-admin-layout'},{'name': 'AnalyticsAnnotationValuesComponent', 'selector': 'analytics-annotation-values'},{'name': 'AnnotationButtonComponent', 'selector': 'annotation-button'},{'name': 'AnnotationButtonCustomValueAddComponent', 'selector': 'annotation-button-custom-value-add'},{'name': 'AnnotationComboboxComponent', 'selector': 'annotation-combobox'},{'name': 'AnnotationComponent', 'selector': 'annotation'},{'name': 'AnnotationDateentryComponent', 'selector': 'annotation-dateentry'},{'name': 'AnnotationDetailComponent', 'selector': 'annotation-detail'},{'name': 'AnnotationEntryComponent', 'selector': 'annotation-entry'},{'name': 'AnnotationIndicatorComponent', 'selector': 'annotation-indicator'},{'name': 'AnnotationRelationAnnotateBtnComponent', 'selector': 'annotation-relation-annotate-btn'},{'name': 'AnnotationRelationClearBtnComponent', 'selector': 'annotation-relation-clear-btn'},{'name': 'AnnotationRelationComboboxComponent', 'selector': 'annotation-relation-combobox'},{'name': 'AnnotationRelationComponent', 'selector': 'annotation-relation'},{'name': 'AnnotationRelationDelBtnComponent', 'selector': 'annotation-relation-del-btn'},{'name': 'AnnotationRelationImportBtnComponent', 'selector': 'annotation-relation-import-btn'},{'name': 'AnnotationRelationSetBtnComponent', 'selector': 'annotation-relation-set-btn'},{'name': 'AnnotationSetComparatorComponent', 'selector': 'app-annotation-set-comparator'},{'name': 'AnnotationSetFilterComponent', 'selector': 'annotation-set-filter'},{'name': 'AnnotationSetInspectorComponent', 'selector': 'annotation-set-inspector'},{'name': 'AnnotationTextComponent', 'selector': 'annotation-text'},{'name': 'AnnotationTextLabelComponent', 'selector': 'annotation-text-label'},{'name': 'AnnotationTextTextComponent', 'selector': 'annotation-text-text'},{'name': 'AnnotationVisualizerComponent', 'selector': 'annotation-visualizer'},{'name': 'AnnotatorWidgetComponent', 'selector': 'annotator-widget'},{'name': 'AnnotatorWidgetValuesSchwartzComponent', 'selector': 'app-annotator-widget-values-schwartz'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthLayoutComponent', 'selector': 'app-auth-layout'},{'name': 'AuthLayoutModComponent', 'selector': 'app-auth-layout'},{'name': 'AutomaticAnnotatorComponent', 'selector': 'automatic-annotator'},{'name': 'BaseControlComponent', 'selector': 'base-control'},{'name': 'BrandingComponent', 'selector': 'app-branding'},{'name': 'BreadcrumbComponent', 'selector': 'breadcrumb'},{'name': 'CompareAnnotationsComponent', 'selector': 'app-compare-annotations'},{'name': 'CompareCollectionsComponent', 'selector': 'app-compare-collections'},{'name': 'CompareDocumentsComponent', 'selector': 'app-compare-documents'},{'name': 'ConfirmDialogComponent', 'selector': 'confirm-dialog'},{'name': 'CorefAddBtnComponent', 'selector': 'coref-add-btn'},{'name': 'CorefAnnotateBtnComponent', 'selector': 'coref-annotate-btn'},{'name': 'CorefBtnComponent', 'selector': 'coref-btn'},{'name': 'CorefCheckboxComponent', 'selector': 'coref-checkbox'},{'name': 'CorefClearBtnComponent', 'selector': 'coref-clear-btn'},{'name': 'CorefComboboxComponent', 'selector': 'coref-combobox'},{'name': 'CorefDelBtnComponent', 'selector': 'coref-del-btn'},{'name': 'CorefEntryComponent', 'selector': 'coref-entry'},{'name': 'CorefImportBtnComponent', 'selector': 'coref-import-btn'},{'name': 'CorefMultiEntryComponent', 'selector': 'coref-multi-entry'},{'name': 'CorefSegmentEntryComponent', 'selector': 'coref-segment-entry'},{'name': 'CorefSpanEndComponent', 'selector': 'coref-span-end'},{'name': 'CorefSpanStartComponent', 'selector': 'coref-span-start'},{'name': 'CustomizerComponent', 'selector': 'app-customizer'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'DetectChangesModalComponent', 'selector': 'detect-changes-modal'},{'name': 'DetectOpenDocModalComponent', 'selector': 'detect-open-doc-modal'},{'name': 'Error403Component', 'selector': 'app-error-403'},{'name': 'Error404Component', 'selector': 'app-error-404'},{'name': 'Error500Component', 'selector': 'app-error-500'},{'name': 'ErrorCodeComponent', 'selector': 'error-code'},{'name': 'ErrorDialogComponent', 'selector': 'error-dialog'},{'name': 'EuropeanaSearchComponent', 'selector': 'app-europeana-search'},{'name': 'FlashMessagesComponent', 'selector': 'flash-messages'},{'name': 'FormlyFieldComboboxComponent', 'selector': 'formly-field-combobox'},{'name': 'FormlyWrapperCardComponent', 'selector': 'formly-wrapper-card'},{'name': 'FormlyWrapperDivComponent', 'selector': 'formly-wrapper-div'},{'name': 'GithubButtonComponent', 'selector': 'app-github-button'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'ImportCollectionsModalComponent', 'selector': 'import-collections-modal'},{'name': 'ImportDocumentsFromExportModalComponent', 'selector': 'import-documents-from-export-modal'},{'name': 'ImportModalComponent', 'selector': 'import-modal'},{'name': 'InspectDocumentComponent', 'selector': 'inspect-document'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LoginSocialComponent', 'selector': 'app-login-social'},{'name': 'MainComponent', 'selector': 'main'},{'name': 'MainDialogComponent', 'selector': 'main-dialog'},{'name': 'ManageCollectionsComponent', 'selector': 'manage-collections'},{'name': 'MediaGalleryComponent', 'selector': 'app-media-gallery'},{'name': 'NavbarComponent', 'selector': 'app-navbar'},{'name': 'NotificationComponent', 'selector': 'app-notification'},{'name': 'OverlappingAreasComponent', 'selector': 'overlapping-areas'},{'name': 'PageHeaderComponent', 'selector': 'page-header'},{'name': 'ProfileComponent', 'selector': 'profile'},{'name': 'ProfileLayoutComponent', 'selector': 'app-profile-layout'},{'name': 'ProfileOverviewComponent', 'selector': 'app-profile-overview'},{'name': 'ProfileSettingsComponent', 'selector': 'app-profile-settings'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RenameCollectionModalComponent', 'selector': 'rename-collection-modal'},{'name': 'RenameDocumentModalComponent', 'selector': 'rename-document-modal'},{'name': 'ResetPasswordComponent', 'selector': 'app-reset-password'},{'name': 'SelectDocumentModalComponent', 'selector': 'select-document-modal'},{'name': 'ShareCollectionModalComponent', 'selector': 'share-collection-modal'},{'name': 'SharedCollectionsComponent', 'selector': 'manage-shared-collections'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'},{'name': 'SidebarNoticeComponent', 'selector': 'app-sidebar-notice'},{'name': 'SidemenuComponent', 'selector': 'app-sidemenu'},{'name': 'TextWidgetComponent', 'selector': 'text-widget'},{'name': 'TextWidgetIsolatedComponent', 'selector': 'text-widget-isolated'},{'name': 'ToolbarSelectAnnotatorComponent', 'selector': 'toolbar-select-annotator'},{'name': 'ToolbarSelectDocumentComponent', 'selector': 'toolbar-select-document'},{'name': 'ToolbarWidgetComponent', 'selector': 'toolbar-widget'},{'name': 'TopmenuComponent', 'selector': 'app-topmenu'},{'name': 'TopmenuPanelComponent', 'selector': 'app-topmenu-panel'},{'name': 'TranslateComponent', 'selector': 'app-translate'},{'name': 'UploaderComponent', 'selector': 'uploader'},{'name': 'UserComponent', 'selector': 'app-user'},{'name': 'UserPanelComponent', 'selector': 'app-user-panel'},{'name': 'ValueAccessorComponent', 'selector': 'app-value-accessor'},{'name': 'VisualiseAnnotationComponent', 'selector': 'app-visualise-annotation'},{'name': 'VisualiseLayoutComponent', 'selector': 'app-visualise-layout'},{'name': 'WavesurferAudioComponent', 'selector': 'wavesurfer-audio'},{'name': 'WavesurferVideoComponent', 'selector': 'wavesurfer-video'},{'name': 'WelcomeComponent', 'selector': 'welcome'}];
+    var DIRECTIVES = [{'name': 'AutoannTokenClassifierDirective', 'selector': '[autoannTokenClassifier]'},{'name': 'ButtonAnnotatorValueListDirective', 'selector': '[buttonAnnotatorValueList]'},{'name': 'CorefAnnotatorValueListDirective', 'selector': '[corefAnnotatorValueList]'},{'name': 'DisableControlDirective', 'selector': '[disableControl]'},{'name': 'DocumentAttributesDirective', 'selector': '.document_attributes'},{'name': 'DomHelpersDirective', 'selector': '[appDomHelpers]'},{'name': 'FoundInCollectionDirective', 'selector': '[found-in-collection]'},{'name': 'NavAccordionDirective', 'selector': '[navAccordion]'},{'name': 'NavAccordionItemDirective', 'selector': '[navAccordionItem]'},{'name': 'NavAccordionToggleDirective', 'selector': '[navAccordionToggle]'}];
+    var ACTUAL_COMPONENT = {'name': 'AnnotationSetInspectorComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'AnnotationSetInspectorComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

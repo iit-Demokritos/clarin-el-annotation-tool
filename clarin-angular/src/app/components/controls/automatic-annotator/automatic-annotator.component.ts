@@ -21,24 +21,29 @@ export class AutomaticAnnotatorComponent extends BaseControlComponent implements
 
   onDocumentChange() {
     this.autoAnnotatorSpecs = this.TextWidgetAPI.getAnnotationSchemaAutoAnn();
+    console.log('AutomaticAnnotatorComponent:', this.autoAnnotatorSpecs);
   }
 
   callEndpoint(item) {
     this.progress_mode  = "determinate";
     this.progress_value = 0;
-    var currentDocument = this.TextWidgetAPI.getCurrentDocument();
+    var currentDocument: any = this.TextWidgetAPI.getCurrentDocument();
     if (!('id' in currentDocument)) {
       return;
     }
     this.autoannService.callAPIEndpoint(item.value, currentDocument)
     .then((response: any) => {
       var segments = response["data"];
+      const url = new URL(item.value);
+      const hostname: string = url.hostname;
       segments.forEach(segment => {
+        var model = segment["model"] ?? "unknown";
         var newAnnotation = {
           _id: this.ObjectId().toString(),
           document_id: currentDocument["id"],
           collection_id: currentDocument["collection_id"],
           annotator_id: currentDocument["annotator_id"],
+	  created_by: model + "@" + hostname,
           type: item.annotation,
           spans: [{
             segment: segment["segment"],
@@ -48,9 +53,22 @@ export class AutomaticAnnotatorComponent extends BaseControlComponent implements
           attributes: [{
             name: item.attribute,
             value: segment["type"]
-          }]
+          },
+	  {
+            name: "confidence",
+            value: segment["confidence"] ?? 0
+	  },
+	  {
+            name: "model",
+            value: model
+	  }]
         };
-	this.TextWidgetAPI.addAnnotation(newAnnotation);
+	this.tempAnnotationService.save(currentDocument.collection_id, currentDocument.id, newAnnotation)
+        .then((response: any) => {
+          if (response.success) {
+            this.TextWidgetAPI.addAnnotation(newAnnotation);
+          }
+	})
       });
     }, (error) => {
       console.error("error:", error);

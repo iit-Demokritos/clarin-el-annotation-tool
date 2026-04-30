@@ -1,0 +1,459 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>The Ellogon Annotation Platform documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
+            <a href="../" class="navbar-brand">The Ellogon Annotation Platform documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Injectables</li>
+  <li class="breadcrumb-item" >CoreferenceColorDataService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/services/coreference-color-data-service/coreference-color-data.service.ts</code>
+        </p>
+
+
+
+
+
+            <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#getColors" >getColors</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="6" class="link-to-prism">src/app/services/coreference-color-data-service/coreference-color-data.service.ts:6</a></div>
+                            </td>
+                        </tr>
+
+            </tbody>
+        </table>
+</section>
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getColors"></a>
+                    <span class="name">
+                        <span ><b>getColors</b></span>
+                        <a href="#getColors"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getColors()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="10"
+                                    class="link-to-prism">src/app/services/coreference-color-data-service/coreference-color-data.service.ts:10</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>{}</code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+
+@Injectable({
+  providedIn: &#x27;root&#x27;
+})
+export class CoreferenceColorDataService {
+
+  constructor() { }
+
+  getColors() {
+    return [
+      { &quot;background-colour&quot;: &quot;#DBF3AB&quot;, &quot;border-color&quot;: &quot;#a6e22d&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#C0EA6C&quot; },
+      { &quot;background-colour&quot;: &quot;#B3E8FD&quot;, &quot;border-color&quot;: &quot;#43c6fc&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#7BD7FC&quot; },
+      { &quot;background-colour&quot;: &quot;#ABE3DD&quot;, &quot;border-color&quot;: &quot;#2fbbab&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#6DCFC4&quot; },
+      { &quot;background-colour&quot;: &quot;#9999FF&quot;, &quot;border-color&quot;: &quot;#0000ff&quot;, &quot;font-color&quot;: &quot;#FFF&quot;, &quot;selected-background-colour&quot;: &quot;#4C4CFF&quot; },
+      { &quot;background-colour&quot;: &quot;#DBA9A9&quot;, &quot;border-color&quot;: &quot;#a52a2a&quot;, &quot;font-color&quot;: &quot;#FFF&quot;, &quot;selected-background-colour&quot;: &quot;#C06969&quot; },
+      { &quot;background-colour&quot;: &quot;#D9A5F9&quot;, &quot;border-color&quot;: &quot;#a020f0&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#BC62F4&quot; },
+      { &quot;background-colour&quot;: &quot;#FF9999&quot;, &quot;border-color&quot;: &quot;#ff0000&quot;, &quot;font-color&quot;: &quot;#FFF&quot;, &quot;selected-background-colour&quot;: &quot;#FF4C4C&quot; },
+      { &quot;background-colour&quot;: &quot;#FFE5EB&quot;, &quot;border-color&quot;: &quot;#ffc0cd&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FFD2DC&quot; },
+      { &quot;background-colour&quot;: &quot;#FFDB99&quot;, &quot;border-color&quot;: &quot;#ffa500&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FFC04C&quot; },
+      { &quot;background-colour&quot;: &quot;#99FF99&quot;, &quot;border-color&quot;: &quot;#00ff00&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#4CFF4C&quot; },
+      { &quot;background-colour&quot;: &quot;#FFFF99&quot;, &quot;border-color&quot;: &quot;#ffff00&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FFFF4C&quot; },
+      { &quot;background-colour&quot;: &quot;#E5E599&quot;, &quot;border-color&quot;: &quot;#C0C000&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#D2D24C&quot; },
+      { &quot;background-colour&quot;: &quot;#E5E5FF&quot;, &quot;border-color&quot;: &quot;#C0C0FF&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#D2D2FF&quot; },
+      { &quot;background-colour&quot;: &quot;#E5E5E5&quot;, &quot;border-color&quot;: &quot;#C0C0C0&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#D2D2D2&quot; },
+      { &quot;background-colour&quot;: &quot;#CC9999&quot;, &quot;border-color&quot;: &quot;#800000&quot;, &quot;font-color&quot;: &quot;#FFF&quot;, &quot;selected-background-colour&quot;: &quot;#A64C4C&quot; },
+      { &quot;background-colour&quot;: &quot;#99CC99&quot;, &quot;border-color&quot;: &quot;#008000&quot;, &quot;font-color&quot;: &quot;#FFF&quot;, &quot;selected-background-colour&quot;: &quot;#4CA64C&quot; },
+      { &quot;background-colour&quot;: &quot;#9999CC&quot;, &quot;border-color&quot;: &quot;#000080&quot;, &quot;font-color&quot;: &quot;#FFF&quot;, &quot;selected-background-colour&quot;: &quot;#4C4CA6&quot; },
+      { &quot;background-colour&quot;: &quot;#CCCC99&quot;, &quot;border-color&quot;: &quot;#808000&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#A6A64C&quot; },
+      { &quot;background-colour&quot;: &quot;#CC99CC&quot;, &quot;border-color&quot;: &quot;#800080&quot;, &quot;font-color&quot;: &quot;#FFF&quot;, &quot;selected-background-colour&quot;: &quot;#A64CA6&quot; },
+      { &quot;background-colour&quot;: &quot;#99CCCC&quot;, &quot;border-color&quot;: &quot;#008080&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#4CA6A6&quot; },
+      { &quot;background-colour&quot;: &quot;#CCCCCC&quot;, &quot;border-color&quot;: &quot;#808080&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#A6A6A6&quot; },
+      { &quot;background-colour&quot;: &quot;#E59999&quot;, &quot;border-color&quot;: &quot;#C00000&quot;, &quot;font-color&quot;: &quot;#FFF&quot;, &quot;selected-background-colour&quot;: &quot;#D24C4C&quot; },
+      { &quot;background-colour&quot;: &quot;#99E599&quot;, &quot;border-color&quot;: &quot;#00C000&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#4CD24C&quot; },
+      { &quot;background-colour&quot;: &quot;#9999E5&quot;, &quot;border-color&quot;: &quot;#0000C0&quot;, &quot;font-color&quot;: &quot;#FFF&quot;, &quot;selected-background-colour&quot;: &quot;#4C4CD2&quot; },
+      { &quot;background-colour&quot;: &quot;#E5E599&quot;, &quot;border-color&quot;: &quot;#C0C000&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#D2D24C&quot; },
+      { &quot;background-colour&quot;: &quot;#E599E5&quot;, &quot;border-color&quot;: &quot;#C000C0&quot;, &quot;font-color&quot;: &quot;#FFF&quot;, &quot;selected-background-colour&quot;: &quot;#D24CD2&quot; },
+      { &quot;background-colour&quot;: &quot;#99E5E5&quot;, &quot;border-color&quot;: &quot;#00C0C0&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#4CD2D2&quot; },
+      { &quot;background-colour&quot;: &quot;#E5E5E5&quot;, &quot;border-color&quot;: &quot;#C0C0C0&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#D2D2D2&quot; },
+      { &quot;background-colour&quot;: &quot;#E5F1E5&quot;, &quot;border-color&quot;: &quot;#C0DCC0&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#D2E6D2&quot; },
+      { &quot;background-colour&quot;: &quot;#DBE9F9&quot;, &quot;border-color&quot;: &quot;#A6CAF0&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#C0D9F4&quot; },
+      { &quot;background-colour&quot;: &quot;#99C1C3&quot;, &quot;border-color&quot;: &quot;#006669&quot;, &quot;font-color&quot;: &quot;#FFF&quot;, &quot;selected-background-colour&quot;: &quot;#4C9396&quot; },
+      { &quot;background-colour&quot;: &quot;#FFFFD6&quot;, &quot;border-color&quot;: &quot;#FFFF99&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FFFFB7&quot; },
+      { &quot;background-colour&quot;: &quot;#D9D9DA&quot;, &quot;border-color&quot;: &quot;#A0A0A4&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#BCBCBF&quot; },
+      { &quot;background-colour&quot;: &quot;#FFEAC1&quot;, &quot;border-color&quot;: &quot;#FFCC66&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FFDB93&quot; },
+      { &quot;background-colour&quot;: &quot;#EAC199&quot;, &quot;border-color&quot;: &quot;#CC6600&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#DB934C&quot; },
+      { &quot;background-colour&quot;: &quot;#D6C199&quot;, &quot;border-color&quot;: &quot;#996600&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#B7934C&quot; },
+      { &quot;background-colour&quot;: &quot;#C1EAB1&quot;, &quot;border-color&quot;: &quot;#66CC3C&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#93DB76&quot; },
+      { &quot;background-colour&quot;: &quot;#99C1D6&quot;, &quot;border-color&quot;: &quot;#006699&quot;, &quot;font-color&quot;: &quot;#FFF&quot;, &quot;selected-background-colour&quot;: &quot;#4C93B7&quot; },
+      { &quot;background-colour&quot;: &quot;#FFD699&quot;, &quot;border-color&quot;: &quot;#FF9900&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FFB74C&quot; },
+      { &quot;background-colour&quot;: &quot;#DBA9A9&quot;, &quot;border-color&quot;: &quot;#a52a2a&quot;, &quot;font-color&quot;: &quot;#FFF&quot;, &quot;selected-background-colour&quot;: &quot;#C06969&quot; },
+      { &quot;background-colour&quot;: &quot;#9999FF&quot;, &quot;border-color&quot;: &quot;#0000ff&quot;, &quot;font-color&quot;: &quot;#FFF&quot;, &quot;selected-background-colour&quot;: &quot;#4C4CFF&quot; },
+      { &quot;background-colour&quot;: &quot;#B2F2EC&quot;, &quot;border-color&quot;: &quot;#40e0d0&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#79E9DE&quot; },
+      { &quot;background-colour&quot;: &quot;#BFD8D9&quot;, &quot;border-color&quot;: &quot;#5f9ea0&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#8FBBBC&quot; },
+      { &quot;background-colour&quot;: &quot;#FFCBB9&quot;, &quot;border-color&quot;: &quot;#ff7f50&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FFA584&quot; },
+      { &quot;background-colour&quot;: &quot;#E4E2C3&quot;, &quot;border-color&quot;: &quot;#bdb76b&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#D0CC97&quot; },
+      { &quot;background-colour&quot;: &quot;#FF9999&quot;, &quot;border-color&quot;: &quot;#ff0000&quot;, &quot;font-color&quot;: &quot;#FFF&quot;, &quot;selected-background-colour&quot;: &quot;#FF4C4C&quot; },
+      { &quot;background-colour&quot;: &quot;#CAFD99&quot;, &quot;border-color&quot;: &quot;#7cfc00&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#A3FC4C&quot; },
+      { &quot;background-colour&quot;: &quot;#F9FFF9&quot;, &quot;border-color&quot;: &quot;#f0fff0&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#F4FFF4&quot; },
+      { &quot;background-colour&quot;: &quot;#CCCCCC&quot;, &quot;border-color&quot;: &quot;#808080&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#A6A6A6&quot; },
+      { &quot;background-colour&quot;: &quot;#FFDB99&quot;, &quot;border-color&quot;: &quot;#ffa500&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FFC04C&quot; },
+      { &quot;background-colour&quot;: &quot;#A3A3C5&quot;, &quot;border-color&quot;: &quot;#191970&quot;, &quot;font-color&quot;: &quot;#FFF&quot;, &quot;selected-background-colour&quot;: &quot;#5E5E9A&quot; },
+      { &quot;background-colour&quot;: &quot;#EFE5EF&quot;, &quot;border-color&quot;: &quot;#d8bfd8&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#E3D2E3&quot; },
+      { &quot;background-colour&quot;: &quot;#DEFFAB&quot;, &quot;border-color&quot;: &quot;#adff2f&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#C5FF6D&quot; },
+      { &quot;background-colour&quot;: &quot;#999999&quot;, &quot;border-color&quot;: &quot;#000000&quot;, &quot;font-color&quot;: &quot;#FFF&quot;, &quot;selected-background-colour&quot;: &quot;#4C4C4C&quot; },
+      { &quot;background-colour&quot;: &quot;#99E5FF&quot;, &quot;border-color&quot;: &quot;#00bfff&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#4CD2FF&quot; },
+      { &quot;background-colour&quot;: &quot;#C3C3C3&quot;, &quot;border-color&quot;: &quot;#696969&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#969696&quot; },
+      { &quot;background-colour&quot;: &quot;#FFD199&quot;, &quot;border-color&quot;: &quot;#ff8c00&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FFAE4C&quot; },
+      { &quot;background-colour&quot;: &quot;#FCFCFF&quot;, &quot;border-color&quot;: &quot;#f8f8ff&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FAFAFF&quot; },
+      { &quot;background-colour&quot;: &quot;#B3C3F3&quot;, &quot;border-color&quot;: &quot;#4169e1&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#7A96EA&quot; },
+      { &quot;background-colour&quot;: &quot;#E8A1CE&quot;, &quot;border-color&quot;: &quot;#c71585&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#D75BA9&quot; },
+      { &quot;background-colour&quot;: &quot;#EDEDED&quot;, &quot;border-color&quot;: &quot;#d3d3d3&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#E0E0E0&quot; },
+      { &quot;background-colour&quot;: &quot;#CC99CC&quot;, &quot;border-color&quot;: &quot;#800080&quot;, &quot;font-color&quot;: &quot;#FFF&quot;, &quot;selected-background-colour&quot;: &quot;#A64CA6&quot; },
+      { &quot;background-colour&quot;: &quot;#FFF1DE&quot;, &quot;border-color&quot;: &quot;#ffdead&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FFE7C5&quot; },
+      { &quot;background-colour&quot;: &quot;#FDCCC6&quot;, &quot;border-color&quot;: &quot;#fa8072&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FBA69C&quot; },
+      { &quot;background-colour&quot;: &quot;#B5ECEA&quot;, &quot;border-color&quot;: &quot;#48d1cc&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#7EDEDB&quot; },
+      { &quot;background-colour&quot;: &quot;#B799CD&quot;, &quot;border-color&quot;: &quot;#4b0082&quot;, &quot;font-color&quot;: &quot;#FFF&quot;, &quot;selected-background-colour&quot;: &quot;#814CA7&quot; },
+      { &quot;background-colour&quot;: &quot;#EDE1D1&quot;, &quot;border-color&quot;: &quot;#d2b48c&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#DFCAAE&quot; },
+      { &quot;background-colour&quot;: &quot;#99FFFF&quot;, &quot;border-color&quot;: &quot;#00ffff&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#4CFFFF&quot; },
+      { &quot;background-colour&quot;: &quot;#99C199&quot;, &quot;border-color&quot;: &quot;#006400&quot;, &quot;font-color&quot;: &quot;#FFF&quot;, &quot;selected-background-colour&quot;: &quot;#4C924C&quot; },
+      { &quot;background-colour&quot;: &quot;#99FFCB&quot;, &quot;border-color&quot;: &quot;#00ff7f&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#4CFFA5&quot; },
+      { &quot;background-colour&quot;: &quot;#FEFBF5&quot;, &quot;border-color&quot;: &quot;#fdf5e6&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FDF8ED&quot; },
+      { &quot;background-colour&quot;: &quot;#CC9999&quot;, &quot;border-color&quot;: &quot;#800000&quot;, &quot;font-color&quot;: &quot;#FFF&quot;, &quot;selected-background-colour&quot;: &quot;#A64C4C&quot; },
+      { &quot;background-colour&quot;: &quot;#C8CFD6&quot;, &quot;border-color&quot;: &quot;#778899&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#9FABB7&quot; },
+      { &quot;background-colour&quot;: &quot;#CBFFED&quot;, &quot;border-color&quot;: &quot;#7fffd4&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#A5FFE0&quot; },
+      { &quot;background-colour&quot;: &quot;#F6D5C9&quot;, &quot;border-color&quot;: &quot;#e9967a&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#EFB5A1&quot; },
+      { &quot;background-colour&quot;: &quot;#A6D0A6&quot;, &quot;border-color&quot;: &quot;#228b22&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#64AD64&quot; },
+      { &quot;background-colour&quot;: &quot;#D0B4A0&quot;, &quot;border-color&quot;: &quot;#8b4513&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#AD7C59&quot; },
+      { &quot;background-colour&quot;: &quot;#E4D2D2&quot;, &quot;border-color&quot;: &quot;#bc8f8f&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#D0B0B0&quot; },
+      { &quot;background-colour&quot;: &quot;#FF99FF&quot;, &quot;border-color&quot;: &quot;#ff00ff&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FF4CFF&quot; },
+      { &quot;background-colour&quot;: &quot;#A5D2FF&quot;, &quot;border-color&quot;: &quot;#1e90ff&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#61B1FF&quot; },
+      { &quot;background-colour&quot;: &quot;#9999CC&quot;, &quot;border-color&quot;: &quot;#000080&quot;, &quot;font-color&quot;: &quot;#FFF&quot;, &quot;selected-background-colour&quot;: &quot;#4C4CA6&quot; },
+      { &quot;background-colour&quot;: &quot;#F8F5DD&quot;, &quot;border-color&quot;: &quot;#eee8aa&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#F3EEC3&quot; },
+      { &quot;background-colour&quot;: &quot;#F9F5D1&quot;, &quot;border-color&quot;: &quot;#f0e68c&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#F4EDAE&quot; },
+      { &quot;background-colour&quot;: &quot;#FBF1E0&quot;, &quot;border-color&quot;: &quot;#f5deb3&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#F8E7C9&quot; },
+      { &quot;background-colour&quot;: &quot;#ABD0BB&quot;, &quot;border-color&quot;: &quot;#2e8b57&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#6CAD89&quot; },
+      { &quot;background-colour&quot;: &quot;#E3BBED&quot;, &quot;border-color&quot;: &quot;#ba55d3&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#CE88E0&quot; },
+      { &quot;background-colour&quot;: &quot;#FFE1E6&quot;, &quot;border-color&quot;: &quot;#ffb6c1&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FFCBD3&quot; },
+      { &quot;background-colour&quot;: &quot;#BBC3AB&quot;, &quot;border-color&quot;: &quot;#556b2f&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#88976D&quot; },
+      { &quot;background-colour&quot;: &quot;#B1E0C6&quot;, &quot;border-color&quot;: &quot;#3cb371&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#76C99B&quot; },
+      { &quot;background-colour&quot;: &quot;#E5E5E5&quot;, &quot;border-color&quot;: &quot;#c0c0c0&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#D2D2D2&quot; },
+      { &quot;background-colour&quot;: &quot;#DFE7F1&quot;, &quot;border-color&quot;: &quot;#b0c4de&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#C7D5E7&quot; },
+      { &quot;background-colour&quot;: &quot;#FFC3E1&quot;, &quot;border-color&quot;: &quot;#ff69b4&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FF96CA&quot; },
+      { &quot;background-colour&quot;: &quot;#D09999&quot;, &quot;border-color&quot;: &quot;#8b0000&quot;, &quot;font-color&quot;: &quot;#FFF&quot;, &quot;selected-background-colour&quot;: &quot;#AD4C4C&quot; },
+      { &quot;background-colour&quot;: &quot;#F9FFFF&quot;, &quot;border-color&quot;: &quot;#f0ffff&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#F4FFFF&quot; },
+      { &quot;background-colour&quot;: &quot;#FBFBFB&quot;, &quot;border-color&quot;: &quot;#f5f5f5&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#F8F8F8&quot; },
+      { &quot;background-colour&quot;: &quot;#99CC99&quot;, &quot;border-color&quot;: &quot;#008000&quot;, &quot;font-color&quot;: &quot;#FFF&quot;, &quot;selected-background-colour&quot;: &quot;#4CA64C&quot; },
+      { &quot;background-colour&quot;: &quot;#F1A1B1&quot;, &quot;border-color&quot;: &quot;#dc143c&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#E65A76&quot; },
+      { &quot;background-colour&quot;: &quot;#B5B1D0&quot;, &quot;border-color&quot;: &quot;#483d8b&quot;, &quot;font-color&quot;: &quot;#FFF&quot;, &quot;selected-background-colour&quot;: &quot;#7E77AD&quot; },
+      { &quot;background-colour&quot;: &quot;#EBCEB2&quot;, &quot;border-color&quot;: &quot;#cd853f&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#DCA978&quot; },
+      { &quot;background-colour&quot;: &quot;#FFF8EE&quot;, &quot;border-color&quot;: &quot;#ffefd5&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FFF3E1&quot; },
+      { &quot;background-colour&quot;: &quot;#FFFFF2&quot;, &quot;border-color&quot;: &quot;#ffffe0&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FFFFE9&quot; },
+      { &quot;background-colour&quot;: &quot;#FFF4E1&quot;, &quot;border-color&quot;: &quot;#ffe4b5&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FFECCB&quot; },
+      { &quot;background-colour&quot;: &quot;#C1EBDD&quot;, &quot;border-color&quot;: &quot;#66cdaa&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#93DCC3&quot; },
+      { &quot;background-colour&quot;: &quot;#99CCCC&quot;, &quot;border-color&quot;: &quot;#008080&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#4CA6A6&quot; },
+      { &quot;background-colour&quot;: &quot;#D9B9AB&quot;, &quot;border-color&quot;: &quot;#a0522d&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#BC856C&quot; },
+      { &quot;background-colour&quot;: &quot;#EBBDBD&quot;, &quot;border-color&quot;: &quot;#cd5c5c&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#DC8C8C&quot; },
+      { &quot;background-colour&quot;: &quot;#FFEF99&quot;, &quot;border-color&quot;: &quot;#ffd700&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FFE34C&quot; },
+      { &quot;background-colour&quot;: &quot;#ABB8B8&quot;, &quot;border-color&quot;: &quot;#2f4f4f&quot;, &quot;font-color&quot;: &quot;#FFF&quot;, &quot;selected-background-colour&quot;: &quot;#6D8383&quot; },
+      { &quot;background-colour&quot;: &quot;#CCCC99&quot;, &quot;border-color&quot;: &quot;#808000&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#A6A64C&quot; },
+      { &quot;background-colour&quot;: &quot;#CFEBFD&quot;, &quot;border-color&quot;: &quot;#87cefa&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#ABDCFB&quot; },
+      { &quot;background-colour&quot;: &quot;#D099D0&quot;, &quot;border-color&quot;: &quot;#8b008b&quot;, &quot;font-color&quot;: &quot;#FFF&quot;, &quot;selected-background-colour&quot;: &quot;#AD4CAD&quot; },
+      { &quot;background-colour&quot;: &quot;#F0C5D3&quot;, &quot;border-color&quot;: &quot;#db7093&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#E59AB3&quot; },
+      { &quot;background-colour&quot;: &quot;#C3D1A7&quot;, &quot;border-color&quot;: &quot;#6b8e23&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#97AF65&quot; },
+      { &quot;background-colour&quot;: &quot;#FBFFFD&quot;, &quot;border-color&quot;: &quot;#f5fffa&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#F8FFFB&quot; },
+      { &quot;background-colour&quot;: &quot;#DEEFF5&quot;, &quot;border-color&quot;: &quot;#add8e6&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#C5E3ED&quot; },
+      { &quot;background-colour&quot;: &quot;#E2E19D&quot;, &quot;border-color&quot;: &quot;#b8b60b&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#CDCB54&quot; },
+      { &quot;background-colour&quot;: &quot;#FFFBF8&quot;, &quot;border-color&quot;: &quot;#fff5ee&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FFF8F3&quot; },
+      { &quot;background-colour&quot;: &quot;#DFF2F5&quot;, &quot;border-color&quot;: &quot;#b0e0e6&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#C7E9ED&quot; },
+      { &quot;background-colour&quot;: &quot;#F0C5EE&quot;, &quot;border-color&quot;: &quot;#da70d6&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#E59AE2&quot; },
+      { &quot;background-colour&quot;: &quot;#9999EB&quot;, &quot;border-color&quot;: &quot;#0000cd&quot;, &quot;font-color&quot;: &quot;#FFF&quot;, &quot;selected-background-colour&quot;: &quot;#4C4CDC&quot; },
+      { &quot;background-colour&quot;: &quot;#F9CCCC&quot;, &quot;border-color&quot;: &quot;#f08080&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#F4A6A6&quot; },
+      { &quot;background-colour&quot;: &quot;#9999D0&quot;, &quot;border-color&quot;: &quot;#00008b&quot;, &quot;font-color&quot;: &quot;#FFF&quot;, &quot;selected-background-colour&quot;: &quot;#4C4CAD&quot; },
+      { &quot;background-colour&quot;: &quot;#DFF8F8&quot;, &quot;border-color&quot;: &quot;#afeeee&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#C7F3F3&quot; },
+      { &quot;background-colour&quot;: &quot;#D6ADEA&quot;, &quot;border-color&quot;: &quot;#9932cc&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#B76FDB&quot; },
+      { &quot;background-colour&quot;: &quot;#FF99FF&quot;, &quot;border-color&quot;: &quot;#ff00ff&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FF4CFF&quot; },
+      { &quot;background-colour&quot;: &quot;#FFF7EB&quot;, &quot;border-color&quot;: &quot;#ffebcd&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FFF1DC&quot; },
+      { &quot;background-colour&quot;: &quot;#99FDD6&quot;, &quot;border-color&quot;: &quot;#00fa9a&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#4CFBB8&quot; },
+      { &quot;background-colour&quot;: &quot;#FFFCF1&quot;, &quot;border-color&quot;: &quot;#fff8dc&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FFFAE6&quot; },
+      { &quot;background-colour&quot;: &quot;#DCDCDC&quot;, &quot;border-color&quot;: &quot;#a9a9a9&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#C2C2C2&quot; },
+      { &quot;background-colour&quot;: &quot;#F1D9F1&quot;, &quot;border-color&quot;: &quot;#dda0dd&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#E7BCE7&quot; },
+      { &quot;background-colour&quot;: &quot;#F9FCFF&quot;, &quot;border-color&quot;: &quot;#f0f8ff&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#F4FAFF&quot; },
+      { &quot;background-colour&quot;: &quot;#CBFF99&quot;, &quot;border-color&quot;: &quot;#7fff00&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#A5FF4C&quot; },
+      { &quot;background-colour&quot;: &quot;#FFFDFD&quot;, &quot;border-color&quot;: &quot;#fffafa&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FFFBFB&quot; },
+      { &quot;background-colour&quot;: &quot;#FFB499&quot;, &quot;border-color&quot;: &quot;#ff4500&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FF7C4C&quot; },
+      { &quot;background-colour&quot;: &quot;#FFA1D3&quot;, &quot;border-color&quot;: &quot;#ff1493&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FF5AB3&quot; },
+      { &quot;background-colour&quot;: &quot;#C3BDEB&quot;, &quot;border-color&quot;: &quot;#6a5acd&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#968BDC&quot; },
+      { &quot;background-colour&quot;: &quot;#F5F5FD&quot;, &quot;border-color&quot;: &quot;#e6e6fa&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#EDEDFB&quot; },
+      { &quot;background-colour&quot;: &quot;#FFFFF9&quot;, &quot;border-color&quot;: &quot;#fffff0&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FFFFF4&quot; },
+      { &quot;background-colour&quot;: &quot;#E0A6A6&quot;, &quot;border-color&quot;: &quot;#b22222&quot;, &quot;font-color&quot;: &quot;#FFF&quot;, &quot;selected-background-colour&quot;: &quot;#C96464&quot; },
+      { &quot;background-colour&quot;: &quot;#FFD9C9&quot;, &quot;border-color&quot;: &quot;#ffa07a&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FFBCA1&quot; },
+      { &quot;background-colour&quot;: &quot;#FDFDED&quot;, &quot;border-color&quot;: &quot;#fafad2&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FBFBDF&quot; },
+      { &quot;background-colour&quot;: &quot;#EDC3A5&quot;, &quot;border-color&quot;: &quot;#d2691e&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#DF9661&quot; },
+      { &quot;background-colour&quot;: &quot;#F2FFFF&quot;, &quot;border-color&quot;: &quot;#e0ffff&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#E9FFFF&quot; },
+      { &quot;background-colour&quot;: &quot;#C5CCD2&quot;, &quot;border-color&quot;: &quot;#708090&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#9AA6B1&quot; },
+      { &quot;background-colour&quot;: &quot;#F1F1F1&quot;, &quot;border-color&quot;: &quot;#dcdcdc&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#E6E6E6&quot; },
+      { &quot;background-colour&quot;: &quot;#99D0D0&quot;, &quot;border-color&quot;: &quot;#008b8b&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#4CADAD&quot; },
+      { &quot;background-colour&quot;: &quot;#F0DBA5&quot;, &quot;border-color&quot;: &quot;#daa520&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#E5C062&quot; },
+      { &quot;background-colour&quot;: &quot;#FADABF&quot;, &quot;border-color&quot;: &quot;#f4a460&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#F7BF8F&quot; },
+      { &quot;background-colour&quot;: &quot;#FFF4F3&quot;, &quot;border-color&quot;: &quot;#ffe4e1&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FFECEA&quot; },
+      { &quot;background-colour&quot;: &quot;#F1E2CF&quot;, &quot;border-color&quot;: &quot;#deb887&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#E7CDAB&quot; },
+      { &quot;background-colour&quot;: &quot;#ADEBAD&quot;, &quot;border-color&quot;: &quot;#32cd32&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#6FDC6F&quot; },
+      { &quot;background-colour&quot;: &quot;#FDF7EF&quot;, &quot;border-color&quot;: &quot;#faebd7&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FBF1E3&quot; },
+      { &quot;background-colour&quot;: &quot;#FFFFFF&quot;, &quot;border-color&quot;: &quot;#ffffff&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FFFFFF&quot; },
+      { &quot;background-colour&quot;: &quot;#FFFDF9&quot;, &quot;border-color&quot;: &quot;#fffaf0&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FFFBF4&quot; },
+      { &quot;background-colour&quot;: &quot;#FFE5EB&quot;, &quot;border-color&quot;: &quot;#ffc0cd&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FFD2DC&quot; },
+      { &quot;background-colour&quot;: &quot;#FFF0E3&quot;, &quot;border-color&quot;: &quot;#ffdab9&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FFE5CE&quot; },
+      { &quot;background-colour&quot;: &quot;#CAC2F8&quot;, &quot;border-color&quot;: &quot;#7b68ee&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#A295F3&quot; },
+      { &quot;background-colour&quot;: &quot;#A5E0DD&quot;, &quot;border-color&quot;: &quot;#20b2aa&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#62C9C3&quot; },
+      { &quot;background-colour&quot;: &quot;#F8CDF8&quot;, &quot;border-color&quot;: &quot;#ee82ee&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#F3A7F3&quot; },
+      { &quot;background-colour&quot;: &quot;#D0AAF3&quot;, &quot;border-color&quot;: &quot;#8a2be2&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#AD6AEA&quot; },
+      { &quot;background-colour&quot;: &quot;#99EBEC&quot;, &quot;border-color&quot;: &quot;#00ced1&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#4CDCDE&quot; },
+      { &quot;background-colour&quot;: &quot;#D2E4D2&quot;, &quot;border-color&quot;: &quot;#8fbc8f&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#B0D0B0&quot; },
+      { &quot;background-colour&quot;: &quot;#DCEBAD&quot;, &quot;border-color&quot;: &quot;#a9cd32&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#C2DC6F&quot; },
+      { &quot;background-colour&quot;: &quot;#B5CDE1&quot;, &quot;border-color&quot;: &quot;#4682b4&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#7DA7CA&quot; },
+      { &quot;background-colour&quot;: &quot;#D499ED&quot;, &quot;border-color&quot;: &quot;#9400d3&quot;, &quot;font-color&quot;: &quot;#FFF&quot;, &quot;selected-background-colour&quot;: &quot;#B44CE0&quot; },
+      { &quot;background-colour&quot;: &quot;#FDF9F5&quot;, &quot;border-color&quot;: &quot;#faf0e6&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FBF4ED&quot; },
+      { &quot;background-colour&quot;: &quot;#FFF9FB&quot;, &quot;border-color&quot;: &quot;#fff0f5&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FFF4F8&quot; },
+      { &quot;background-colour&quot;: &quot;#FFFDEB&quot;, &quot;border-color&quot;: &quot;#fffacd&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FFFBDC&quot; },
+      { &quot;background-colour&quot;: &quot;#99FFFF&quot;, &quot;border-color&quot;: &quot;#00ffff&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#4CFFFF&quot; },
+      { &quot;background-colour&quot;: &quot;#D3C5F0&quot;, &quot;border-color&quot;: &quot;#9370db&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#B39AE5&quot; },
+      { &quot;background-colour&quot;: &quot;#D2F8D2&quot;, &quot;border-color&quot;: &quot;#90ee90&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#B1F3B1&quot; },
+      { &quot;background-colour&quot;: &quot;#FFF4E7&quot;, &quot;border-color&quot;: &quot;#ffe4c4&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FFECD5&quot; },
+      { &quot;background-colour&quot;: &quot;#C1D4F7&quot;, &quot;border-color&quot;: &quot;#6495ed&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#92B4F2&quot; },
+      { &quot;background-colour&quot;: &quot;#D5FDD5&quot;, &quot;border-color&quot;: &quot;#98fb98&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#B6FCB6&quot; },
+      { &quot;background-colour&quot;: &quot;#FFFF99&quot;, &quot;border-color&quot;: &quot;#ffff00&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FFFF4C&quot; },
+      { &quot;background-colour&quot;: &quot;#FFC0B5&quot;, &quot;border-color&quot;: &quot;#ff6347&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FF917E&quot; },
+      { &quot;background-colour&quot;: &quot;#FBFBF1&quot;, &quot;border-color&quot;: &quot;#f5f5dc&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#F8F8E6&quot; },
+      { &quot;background-colour&quot;: &quot;#CFEBF7&quot;, &quot;border-color&quot;: &quot;#87ceed&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#ABDCF2&quot; },
+      { &quot;background-colour&quot;: &quot;#99FF99&quot;, &quot;border-color&quot;: &quot;#00ff00&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#4CFF4C&quot; },
+      { &quot;background-colour&quot;: &quot;#F9FCFF&quot;, &quot;border-color&quot;: &quot;#f0f8ff&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#F4FAFF&quot; },
+      { &quot;background-colour&quot;: &quot;#FDF7EF&quot;, &quot;border-color&quot;: &quot;#faebd7&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FBF1E3&quot; },
+      { &quot;background-colour&quot;: &quot;#99FFFF&quot;, &quot;border-color&quot;: &quot;#00ffff&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#4CFFFF&quot; },
+      { &quot;background-colour&quot;: &quot;#CBFFED&quot;, &quot;border-color&quot;: &quot;#7fffd4&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#A5FFE0&quot; },
+      { &quot;background-colour&quot;: &quot;#F9FFFF&quot;, &quot;border-color&quot;: &quot;#f0ffff&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#F4FFFF&quot; },
+      { &quot;background-colour&quot;: &quot;#FBFBF1&quot;, &quot;border-color&quot;: &quot;#f5f5dc&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#F8F8E6&quot; },
+      { &quot;background-colour&quot;: &quot;#FFF4E7&quot;, &quot;border-color&quot;: &quot;#ffe4c4&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FFECD5&quot; },
+      { &quot;background-colour&quot;: &quot;#999999&quot;, &quot;border-color&quot;: &quot;#000000&quot;, &quot;font-color&quot;: &quot;#FFF&quot;, &quot;selected-background-colour&quot;: &quot;#4C4C4C&quot; },
+      { &quot;background-colour&quot;: &quot;#FFF7EB&quot;, &quot;border-color&quot;: &quot;#ffebcd&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FFF1DC&quot; },
+      { &quot;background-colour&quot;: &quot;#9999FF&quot;, &quot;border-color&quot;: &quot;#0000ff&quot;, &quot;font-color&quot;: &quot;#FFF&quot;, &quot;selected-background-colour&quot;: &quot;#4C4CFF&quot; },
+      { &quot;background-colour&quot;: &quot;#D0AAF3&quot;, &quot;border-color&quot;: &quot;#8a2be2&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#AD6AEA&quot; },
+      { &quot;background-colour&quot;: &quot;#DBA9A9&quot;, &quot;border-color&quot;: &quot;#a52a2a&quot;, &quot;font-color&quot;: &quot;#FFF&quot;, &quot;selected-background-colour&quot;: &quot;#C06969&quot; },
+      { &quot;background-colour&quot;: &quot;#F1E2CF&quot;, &quot;border-color&quot;: &quot;#deb887&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#E7CDAB&quot; },
+      { &quot;background-colour&quot;: &quot;#BFD8D9&quot;, &quot;border-color&quot;: &quot;#5f9ea0&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#8FBBBC&quot; },
+      { &quot;background-colour&quot;: &quot;#CBFF99&quot;, &quot;border-color&quot;: &quot;#7fff00&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#A5FF4C&quot; },
+      { &quot;background-colour&quot;: &quot;#EDC3A5&quot;, &quot;border-color&quot;: &quot;#d2691e&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#DF9661&quot; },
+      { &quot;background-colour&quot;: &quot;#FFCBB9&quot;, &quot;border-color&quot;: &quot;#ff7f50&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FFA584&quot; },
+      { &quot;background-colour&quot;: &quot;#C1D4F7&quot;, &quot;border-color&quot;: &quot;#6495ed&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#92B4F2&quot; },
+      { &quot;background-colour&quot;: &quot;#FFFCF1&quot;, &quot;border-color&quot;: &quot;#fff8dc&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#FFFAE6&quot; },
+      { &quot;background-colour&quot;: &quot;#F1A1B1&quot;, &quot;border-color&quot;: &quot;#dc143c&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#E65A76&quot; },
+      { &quot;background-colour&quot;: &quot;#99FFFF&quot;, &quot;border-color&quot;: &quot;#00ffff&quot;, &quot;font-color&quot;: &quot;#000&quot;, &quot;selected-background-colour&quot;: &quot;#4CFFFF&quot; }
+    ];
+  }
+
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'CoreferenceColorDataService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

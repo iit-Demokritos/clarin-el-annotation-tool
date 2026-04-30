@@ -1,0 +1,2944 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>The Ellogon Annotation Platform documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
+            <a href="../" class="navbar-brand">The Ellogon Annotation Platform documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  AnnotationSetFilterComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code>ControlValueAccessor</code>
+                <code>AfterViewInit</code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+            <tr>
+                <td class="col-md-3">encapsulation</td>
+                <td class="col-md-9"><code>ViewEncapsulation.None</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">providers</td>
+                <td class="col-md-9">
+                                <code><a href="../interfaces/Annotation.html" target="_self" >{ provide: NG_VALUE_ACCESSOR, useExisting: AnnotationSetFilterComponent, multi: true }</a></code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>annotation-set-filter</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./annotation-set-filter.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./annotation-set-filter.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_collections" >_collections</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_documents" >_documents</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_query" >_query</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#allowCollapse" >allowCollapse</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#allowRuleset" >allowRuleset</a>
+                            </li>
+                            <li>
+                                <a href="#applyDisabled" >applyDisabled</a>
+                            </li>
+                            <li>
+                                <a href="#conditions" >conditions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#config" >config</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#default_query" >default_query</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#disabled" >disabled</a>
+                            </li>
+                            <li>
+                                <a href="#emittedApplyDisabled" >emittedApplyDisabled</a>
+                            </li>
+                            <li>
+                                <a href="#fields" >fields</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#mongoQuery" >mongoQuery</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#onChangeCallback" >onChangeCallback</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#onTouchedCallback" >onTouchedCallback</a>
+                            </li>
+                            <li>
+                                <a href="#operators" >operators</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#persistValueOnFieldChange" >persistValueOnFieldChange</a>
+                            </li>
+                            <li>
+                                <a href="#selectedDocumentIds" >selectedDocumentIds</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#getSchemaType" >getSchemaType</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#handleDataChange" >handleDataChange</a>
+                            </li>
+                            <li>
+                                <a href="#mapRule" >mapRule</a>
+                            </li>
+                            <li>
+                                <a href="#mapRuleSet" >mapRuleSet</a>
+                            </li>
+                            <li>
+                                <a href="#ngAfterViewInit" >ngAfterViewInit</a>
+                            </li>
+                            <li>
+                                <a href="#onCollectionsChange" >onCollectionsChange</a>
+                            </li>
+                            <li>
+                                <a href="#onDocumentsChange" >onDocumentsChange</a>
+                            </li>
+                            <li>
+                                <a href="#onQueryChange" >onQueryChange</a>
+                            </li>
+                            <li>
+                                <a href="#onQueryModelChange" >onQueryModelChange</a>
+                            </li>
+                            <li>
+                                <a href="#queryRuleValid" >queryRuleValid</a>
+                            </li>
+                            <li>
+                                <a href="#queryValid" >queryValid</a>
+                            </li>
+                            <li>
+                                <a href="#registerOnChange" >registerOnChange</a>
+                            </li>
+                            <li>
+                                <a href="#registerOnTouched" >registerOnTouched</a>
+                            </li>
+                            <li>
+                                <a href="#super" >super</a>
+                            </li>
+                            <li>
+                                <a href="#writeValue" >writeValue</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#ApplyButtonLabel" >ApplyButtonLabel</a>
+                            </li>
+                            <li>
+                                <a href="#collections" >collections</a>
+                            </li>
+                            <li>
+                                <a href="#documents" >documents</a>
+                            </li>
+                            <li>
+                                <a href="#fillWidth" >fillWidth</a>
+                            </li>
+                            <li>
+                                <a href="#ignoreCollectionAttributes" >ignoreCollectionAttributes</a>
+                            </li>
+                            <li>
+                                <a href="#ignoreDocumentAttributes" >ignoreDocumentAttributes</a>
+                            </li>
+                            <li>
+                                <a href="#ignoreQueryModelChangeEventsNumber" >ignoreQueryModelChangeEventsNumber</a>
+                            </li>
+                            <li>
+                                <a href="#showApplyButton" >showApplyButton</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#change" >change</a>
+                            </li>
+                            <li>
+                                <a href="#mongoDBQuery" >mongoDBQuery</a>
+                            </li>
+                            <li>
+                                <a href="#onApply" >onApply</a>
+                            </li>
+                            <li>
+                                <a href="#valid" >valid</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#query" >query</a>
+                                </li>
+                                <li>
+                                    <a href="#collections" >collections</a>
+                                </li>
+                                <li>
+                                    <a href="#documents" >documents</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(formBuilder: UntypedFormBuilder, analyticsService: <a href="../injectables/AnalyticsService.html" target="_self">AnalyticsService</a>, changeDetectorRef: ChangeDetectorRef)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="99" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:99</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>formBuilder</td>
+                                                  
+                                                        <td>
+                                                                    <code>UntypedFormBuilder</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>analyticsService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AnalyticsService.html" target="_self" >AnalyticsService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>changeDetectorRef</td>
+                                                  
+                                                        <td>
+                                                                    <code>ChangeDetectorRef</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ApplyButtonLabel"></a>
+                        <b>ApplyButtonLabel</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;Apply&quot;</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:63</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="collections"></a>
+                        <b>collections</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Collection.html" target="_self" >Collection | []</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:66</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="documents"></a>
+                        <b>documents</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Document.html" target="_self" >Document | []</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:79</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="fillWidth"></a>
+                        <b>fillWidth</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:61</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ignoreCollectionAttributes"></a>
+                        <b>ignoreCollectionAttributes</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:59</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ignoreDocumentAttributes"></a>
+                        <b>ignoreDocumentAttributes</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:58</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ignoreQueryModelChangeEventsNumber"></a>
+                        <b>ignoreQueryModelChangeEventsNumber</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>1</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:60</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="showApplyButton"></a>
+                        <b>showApplyButton</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:62</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section data-compodoc="block-outputs">
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="change"></a>
+                        <b>change</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="94" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:94</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="mongoDBQuery"></a>
+                        <b>mongoDBQuery</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="93" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:93</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="onApply"></a>
+                        <b>onApply</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:92</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="valid"></a>
+                        <b>valid</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="95" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:95</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getSchemaType"></a>
+                    <span class="name">
+                        <span ><b>getSchemaType</b></span>
+                        <a href="#getSchemaType"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getSchemaType(field)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="302"
+                                    class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:302</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>field</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleDataChange"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>handleDataChange</b></span>
+                        <a href="#handleDataChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>handleDataChange()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="387"
+                                    class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:387</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mapRule"></a>
+                    <span class="name">
+                        <span ><b>mapRule</b></span>
+                        <a href="#mapRule"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>mapRule(rule)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="307"
+                                    class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:307</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>rule</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mapRuleSet"></a>
+                    <span class="name">
+                        <span ><b>mapRuleSet</b></span>
+                        <a href="#mapRuleSet"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>mapRuleSet(ruleSet)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="355"
+                                    class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:355</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>ruleSet</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>{ [x: number]: any; }</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngAfterViewInit"></a>
+                    <span class="name">
+                        <span ><b>ngAfterViewInit</b></span>
+                        <a href="#ngAfterViewInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngAfterViewInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="110"
+                                    class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:110</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onCollectionsChange"></a>
+                    <span class="name">
+                        <span ><b>onCollectionsChange</b></span>
+                        <a href="#onCollectionsChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onCollectionsChange()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="126"
+                                    class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:126</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onDocumentsChange"></a>
+                    <span class="name">
+                        <span ><b>onDocumentsChange</b></span>
+                        <a href="#onDocumentsChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onDocumentsChange()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="131"
+                                    class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:131</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onQueryChange"></a>
+                    <span class="name">
+                        <span ><b>onQueryChange</b></span>
+                        <a href="#onQueryChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onQueryChange()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="197"
+                                    class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:197</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onQueryModelChange"></a>
+                    <span class="name">
+                        <span ><b>onQueryModelChange</b></span>
+                        <a href="#onQueryModelChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onQueryModelChange(event)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="116"
+                                    class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:116</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="queryRuleValid"></a>
+                    <span class="name">
+                        <span ><b>queryRuleValid</b></span>
+                        <a href="#queryRuleValid"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>queryRuleValid(rule)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="258"
+                                    class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:258</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>rule</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="queryValid"></a>
+                    <span class="name">
+                        <span ><b>queryValid</b></span>
+                        <a href="#queryValid"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>queryValid(query)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="270"
+                                    class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:270</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>query</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="registerOnChange"></a>
+                    <span class="name">
+                        <span ><b>registerOnChange</b></span>
+                        <a href="#registerOnChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>registerOnChange(fn: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="380"
+                                    class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:380</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>fn</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="registerOnTouched"></a>
+                    <span class="name">
+                        <span ><b>registerOnTouched</b></span>
+                        <a href="#registerOnTouched"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>registerOnTouched(fn: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="383"
+                                    class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:383</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>fn</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="super"></a>
+                    <span class="name">
+                        <span ><b>super</b></span>
+                        <a href="#super"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>super()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="99"
+                                    class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:99</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="writeValue"></a>
+                    <span class="name">
+                        <span ><b>writeValue</b></span>
+                        <a href="#writeValue"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>writeValue(value: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="372"
+                                    class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:372</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>value</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_collections"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>_collections</b></span>
+                        <a href="#_collections"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Collection.html" target="_self" >Collection[]</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:65</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_documents"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>_documents</b></span>
+                        <a href="#_documents"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Document.html" target="_self" >Document[]</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:78</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_query"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>_query</b></span>
+                        <a href="#_query"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{...this.default_query}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:43</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="allowCollapse"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>allowCollapse</b></span>
+                        <a href="#allowCollapse"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:54</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="allowRuleset"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>allowRuleset</b></span>
+                        <a href="#allowRuleset"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:53</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="applyDisabled"></a>
+                    <span class="name">
+                        <span ><b>applyDisabled</b></span>
+                        <a href="#applyDisabled"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="96" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:96</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="conditions"></a>
+                    <span class="name">
+                        <span ><b>conditions</b></span>
+                        <a href="#conditions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{ &quot;and&quot;: &quot;$and&quot;, &quot;or&quot;: &quot;$or&quot; }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="280" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:280</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="config"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>config</b></span>
+                        <a href="#config"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>QueryBuilderConfig</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    fields: {
+      annotator:  {name: &#x27;Annotator&#x27;,          type: &#x27;category&#x27;, options: []},
+      type:       {name: &#x27;Type&#x27;,               type: &#x27;category&#x27;, options: []},
+      attribute:  {name: &#x27;Attribute&#x27;,          type: &#x27;category&#x27;, options: []},
+      value:      {name: &#x27;Attribute Value&#x27;,    type: &#x27;category&#x27;, options: []},
+      doc_attr:   {name: &#x27;Document Attribute&#x27;, type: &#x27;category&#x27;, options: []},
+      created_by: {name: &#x27;Created by&#x27;,         type: &#x27;category&#x27;, options: []},
+      updated_by: {name: &#x27;Updated by&#x27;,         type: &#x27;category&#x27;, options: []}
+    }
+  }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:31</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="default_query"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>default_query</b></span>
+                        <a href="#default_query"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{condition: &#x27;and&#x27;, rules: []}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:29</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="disabled"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>disabled</b></span>
+                        <a href="#disabled"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:56</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="emittedApplyDisabled"></a>
+                    <span class="name">
+                        <span ><b>emittedApplyDisabled</b></span>
+                        <a href="#emittedApplyDisabled"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="97" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:97</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fields"></a>
+                    <span class="name">
+                        <span ><b>fields</b></span>
+                        <a href="#fields"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    annotator:  &quot;annotator_id&quot;,
+    type:       &quot;type&quot;,
+    attribute:  &quot;attributes.name&quot;,
+    value:      &quot;attributes.value&quot;,
+    doc_attr:   &quot;document_attribute&quot;,
+    created_by: &quot;created_by&quot;,
+    updated_by: &quot;updated_by&quot;
+  }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="292" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:292</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mongoQuery"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>mongoQuery</b></span>
+                        <a href="#mongoQuery"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onChangeCallback"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>onChangeCallback</b></span>
+                        <a href="#onChangeCallback"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="377" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:377</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onTouchedCallback"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>onTouchedCallback</b></span>
+                        <a href="#onTouchedCallback"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="378" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:378</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="operators"></a>
+                    <span class="name">
+                        <span ><b>operators</b></span>
+                        <a href="#operators"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    &quot;&#x3D;&quot;: &quot;$eq&quot;,
+    &quot;!&#x3D;&quot;: &quot;$ne&quot;,
+    &quot;&lt;&quot;: &quot;$lt&quot;,
+    &quot;&lt;&#x3D;&quot;: &quot;$lte&quot;,
+    &quot;&gt;&quot;: &quot;$gt&quot;,
+    &quot;&gt;&#x3D;&quot;: &quot;gte&quot;,
+    &quot;in&quot;: &quot;$in&quot;,
+    &quot;not in&quot;: &quot;$nin&quot;,
+    &quot;contains&quot;: &quot;$regex&quot;
+  }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="281" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:281</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="persistValueOnFieldChange"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>persistValueOnFieldChange</b></span>
+                        <a href="#persistValueOnFieldChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:55</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedDocumentIds"></a>
+                    <span class="name">
+                        <span ><b>selectedDocumentIds</b></span>
+                        <a href="#selectedDocumentIds"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>number[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:90</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-accessors">
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="query"></a>
+                        <span class="name"><b>query</b><a href="#query"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>query()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:50</a></div>
+                                </td>
+                            </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>set</b><code>query(val)</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:44</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <table class="params">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                    <td>Optional</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                            <td>val</td>
+                                                    
+                                                    
+                                                        <td>
+                                                                No
+                                                        </td>
+                                                        
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="collections"></a>
+                        <span class="name"><b>collections</b><a href="#collections"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>collections()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:76</a></div>
+                                </td>
+                            </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>set</b><code>collections(val: <a href="../interfaces/Collection.html" target="_self">Collection | Collection[]</a>)</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:66</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <table class="params">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                        <td>Type</td>
+                                                    <td>Optional</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                            <td>val</td>
+                                                    
+                                                            <td>
+                                                                            <code><a href="../interfaces/Collection.html" target="_self" >Collection | Collection[]</a></code>
+                                                            </td>
+                                                    
+                                                        <td>
+                                                                No
+                                                        </td>
+                                                        
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="documents"></a>
+                        <span class="name"><b>documents</b><a href="#documents"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>documents()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:89</a></div>
+                                </td>
+                            </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>set</b><code>documents(val: <a href="../interfaces/Document.html" target="_self">Document | Document[]</a>)</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts:79</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <table class="params">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                        <td>Type</td>
+                                                    <td>Optional</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                            <td>val</td>
+                                                    
+                                                            <td>
+                                                                            <code><a href="../interfaces/Document.html" target="_self" >Document | Document[]</a></code>
+                                                            </td>
+                                                    
+                                                        <td>
+                                                                No
+                                                        </td>
+                                                        
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+</section>
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, EventEmitter, Input, Output, ViewEncapsulation, ChangeDetectorRef, AfterViewInit } from &#x27;@angular/core&#x27;;
+import { MainComponent } from &#x27;src/app/components/views/main/main.component&#x27;;
+import { TextWidgetAPI } from &#x27;src/app/services/text-widget/text-widget.service&#x27;;
+import { AnalyticsService } from &#x27;src/app/services/analytics-service/analytics.service&#x27;;
+import { Collection } from &#x27;src/app/models/collection&#x27;;
+import { Document } from &#x27;src/app/models/document&#x27;;
+import { Annotation } from &#x27;src/app/models/annotation&#x27;;
+
+import { UntypedFormBuilder, FormControl } from &#x27;@angular/forms&#x27;;
+import { QueryBuilderClassNames, QueryBuilderConfig } from &#x27;angular2-query-builder&#x27;;
+
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from &#x27;@angular/forms&#x27;;
+
+@Component({
+  selector: &#x27;annotation-set-filter&#x27;,
+  templateUrl: &#x27;./annotation-set-filter.component.html&#x27;,
+  styleUrls: [&#x27;./annotation-set-filter.component.scss&#x27;],
+  // According to: https://stackoverflow.com/questions/60521315/how-to-replace-an-injected-service-in-angular-template-when-using-from-other-com
+  // This will inject a new object of TextWidgetAPI instead of reusing the same shared object
+  // providers: [{provide: TextWidgetAPI, useClass: TextWidgetAPI}],
+  encapsulation: ViewEncapsulation.None,
+  providers: [
+    { provide: NG_VALUE_ACCESSOR, useExisting: AnnotationSetFilterComponent, multi: true }
+  ]
+})
+export class AnnotationSetFilterComponent implements ControlValueAccessor, AfterViewInit {
+  // public queryCtrl: FormControl;
+
+  public default_query &#x3D; {condition: &#x27;and&#x27;, rules: []};
+
+  public config: QueryBuilderConfig &#x3D; {
+    fields: {
+      annotator:  {name: &#x27;Annotator&#x27;,          type: &#x27;category&#x27;, options: []},
+      type:       {name: &#x27;Type&#x27;,               type: &#x27;category&#x27;, options: []},
+      attribute:  {name: &#x27;Attribute&#x27;,          type: &#x27;category&#x27;, options: []},
+      value:      {name: &#x27;Attribute Value&#x27;,    type: &#x27;category&#x27;, options: []},
+      doc_attr:   {name: &#x27;Document Attribute&#x27;, type: &#x27;category&#x27;, options: []},
+      created_by: {name: &#x27;Created by&#x27;,         type: &#x27;category&#x27;, options: []},
+      updated_by: {name: &#x27;Updated by&#x27;,         type: &#x27;category&#x27;, options: []}
+    }
+  };
+
+  private _query &#x3D; {...this.default_query};
+  set query(val) {
+    this._query &#x3D; val;
+    this.onQueryChange();
+    this.handleDataChange();
+    this.change.emit(this.query);
+  };
+  get query() {return this._query;}
+  public mongoQuery;
+
+  public allowRuleset: boolean              &#x3D; true;
+  public allowCollapse: boolean             &#x3D; true;
+  public persistValueOnFieldChange: boolean &#x3D; false;
+  public disabled &#x3D; true;
+
+  @Input()  ignoreDocumentAttributes: boolean &#x3D; false;
+  @Input()  ignoreCollectionAttributes: boolean &#x3D; false;
+  @Input()  ignoreQueryModelChangeEventsNumber: number &#x3D; 1;
+  @Input()  fillWidth: boolean &#x3D; true;
+  @Input()  showApplyButton: boolean &#x3D; false;
+  @Input()  ApplyButtonLabel: string &#x3D; &quot;Apply&quot;;
+  /* Detect changes in &quot;collections&quot; by defining it as a property */
+  private   _collections: Collection[];
+  @Input()  set collections(val: Collection|Collection[]) {
+    if (Array.isArray(val)) {
+      this._collections &#x3D; val;
+    } else if (Object.keys(val).length) {
+      this._collections &#x3D; [val];
+    } else {
+      this._collections &#x3D; [];
+    }
+    this.onCollectionsChange();
+  }
+  get collections(): Collection[] { return this._collections; }
+  /* Detect changes in &quot;documents&quot; by defining it as a property */
+  private   _documents: Document[];
+  @Input()  set documents(val: Document|Document[]) {
+    if (Array.isArray(val)) {
+      this._documents &#x3D; val;
+    } else if (Object.keys(val).length) {
+      this._documents &#x3D; [val];
+    } else {
+      this._documents &#x3D; [];
+    }
+    this.onDocumentsChange();
+  }
+  get documents(): Document[] { return this._documents; }
+  selectedDocumentIds: number[] &#x3D; [];
+
+  @Output() onApply      &#x3D; new EventEmitter&lt;any&gt;();
+  @Output() mongoDBQuery &#x3D; new EventEmitter&lt;any&gt;();
+  @Output() change       &#x3D; new EventEmitter&lt;any&gt;();
+  @Output() valid        &#x3D; new EventEmitter&lt;boolean&gt;();
+  applyDisabled &#x3D; true;
+  emittedApplyDisabled &#x3D; true;
+
+  super() { }
+ 
+  constructor(
+    private formBuilder: UntypedFormBuilder,
+    private analyticsService: AnalyticsService,
+    private changeDetectorRef: ChangeDetectorRef,
+  ) {
+    // this.queryCtrl &#x3D; this.formBuilder.control(this.query);
+    this.disabled &#x3D; true;
+  }
+
+  ngAfterViewInit(): void {
+    if (this.ignoreDocumentAttributes) {
+      delete this.config.fields.doc_attr;
+    }
+  }
+
+  onQueryModelChange(event) {
+    console.error(&quot;HANDLER:&quot;, event, this.ignoreQueryModelChangeEventsNumber, this.query)
+    if (this.ignoreQueryModelChangeEventsNumber) {
+      this.ignoreQueryModelChangeEventsNumber--;
+    } else {
+      this.query &#x3D; event;
+    }
+    console.error(&quot;CONFIG:&quot;, this.config);
+  }
+
+  onCollectionsChange() {
+    this.selectedDocumentIds &#x3D; [];
+    this.disabled &#x3D; true;
+  }; /* onCollectionChange */
+
+  onDocumentsChange() {
+    this.selectedDocumentIds &#x3D; this.documents.map(obj &#x3D;&gt; obj.id);
+    this.disabled            &#x3D; this.selectedDocumentIds.length &#x3D;&#x3D; 0;
+    this.query               &#x3D; {...this.default_query};
+
+    this.analyticsService.getAnnotatorSchemas(this.selectedDocumentIds)
+    .then((annotators: any[]) &#x3D;&gt; {
+      this.config.fields.annotator.options &#x3D;
+        annotators.map(obj &#x3D;&gt; {
+          return {name: obj.name + &#x27; (&#x27; + obj.count + &#x27; Annotations)&#x27;, value: obj._id};
+      });
+      // this.changeDetectorRef.detectChanges(); // forces change detection to run
+    });
+    this.analyticsService.getAnnotationTypes(this.selectedDocumentIds)
+    .then((values: any[]) &#x3D;&gt; {
+      this.config.fields.type.options &#x3D;
+        values.map(obj &#x3D;&gt; {
+          return {name: obj.name + &#x27; (&#x27; + obj.count + &#x27; Annotations)&#x27;, value: obj._id};
+      });
+      // this.changeDetectorRef.markForCheck();
+    });
+    this.analyticsService.getAnnotationAttributes(this.selectedDocumentIds)
+    .then((values: any[]) &#x3D;&gt; {
+      this.config.fields.attribute.options &#x3D;
+        values.map(obj &#x3D;&gt; {
+          return {name: obj.name + &#x27; (&#x27; + obj.count + &#x27; Annotations)&#x27;, value: obj._id};
+      });
+      // this.changeDetectorRef.markForCheck();
+    });
+    this.analyticsService.getAnnotationAttributeValues(this.selectedDocumentIds)
+    .then((values: any[]) &#x3D;&gt; {
+      this.config.fields.value.options &#x3D;
+        values.map(obj &#x3D;&gt; {
+          return {name: obj.name + &#x27; (&#x27; + obj.count + &#x27; Annotations)&#x27;, value: obj._id};
+      });
+      // this.changeDetectorRef.markForCheck();
+    });
+    if (!this.ignoreDocumentAttributes) {
+      this.analyticsService.getDocumentAttributes(this.selectedDocumentIds)
+      .then((values: any[]) &#x3D;&gt; {
+        this.config.fields.doc_attr.options &#x3D;
+          values.map(obj &#x3D;&gt; {
+            return {name: obj.name + &#x27; (&#x27; + obj.count + &#x27; Annotations)&#x27;, value: obj._id};
+        });
+        // this.changeDetectorRef.markForCheck();
+      });
+    }
+    this.analyticsService.getAnnotationCreators(this.selectedDocumentIds)
+    .then((values: any[]) &#x3D;&gt; {
+      this.config.fields.created_by.options &#x3D;
+        values.map(obj &#x3D;&gt; {
+          return {name: obj.name + &#x27; (&#x27; + obj.count + &#x27; Annotations)&#x27;, value: obj._id};
+      });
+      // this.changeDetectorRef.markForCheck();
+    });
+    this.analyticsService.getAnnotationUpdaters(this.selectedDocumentIds)
+    .then((values: any[]) &#x3D;&gt; {
+      this.config.fields.updated_by.options &#x3D;
+        values.map(obj &#x3D;&gt; {
+          return {name: obj.name + &#x27; (&#x27; + obj.count + &#x27; Annotations)&#x27;, value: obj._id};
+      });
+      // this.changeDetectorRef.markForCheck();
+    });
+    // this.changeDetectorRef.markForCheck();
+  }; /* onDocumentChange */
+
+  onQueryChange() {
+    this.applyDisabled &#x3D; !this.queryValid(this.query) || this.selectedDocumentIds.length &#x3D;&#x3D; 0;
+    if (this.applyDisabled) {
+      this.mongoQuery &#x3D; undefined;
+    } else {
+      // this.mongoQuery &#x3D; this.mapRuleSet(this.query);
+      let mq &#x3D; this.mapRuleSet(this.query);
+      if (mq) {
+        // We have a query...
+        if (&#x27;$and&#x27; in mq) {
+          (mq[&#x27;$and&#x27;] as Array&lt;any&gt;).push({
+            document_id: (Array.isArray(this.selectedDocumentIds) ?
+              { $in: this.selectedDocumentIds } : this.selectedDocumentIds)
+          });
+          (mq[&#x27;$and&#x27;] as Array&lt;any&gt;).push({type:                 { $nin: [&quot;setting annotation&quot;] }});
+          (mq[&#x27;$and&#x27;] as Array&lt;any&gt;).push({document_setting:     { $exists: false }});
+          (mq[&#x27;$and&#x27;] as Array&lt;any&gt;).push({collection_setting:   { $exists: false }});
+          this.mongoQuery &#x3D; mq;
+        } else {
+          this.mongoQuery &#x3D; {
+            $and: [
+              {document_id: (Array.isArray(this.selectedDocumentIds) ?
+                { $in: this.selectedDocumentIds } : this.selectedDocumentIds)},
+              {type:                 { $nin: [&quot;setting annotation&quot;] }},
+              {document_setting:     { $exists: false }},
+              {collection_setting:   { $exists: false }},
+              mq
+            ]
+          };
+        }
+        if (this.ignoreDocumentAttributes) {
+          this.mongoQuery[&#x27;$and&#x27;].push({document_attribute:   { $exists: false }});
+        }
+        if (this.ignoreCollectionAttributes) {
+          this.mongoQuery[&#x27;$and&#x27;].push({collection_attribute: { $exists: false }});
+        }
+      } else {
+        // We do not have a query...
+        this.mongoQuery &#x3D; {
+          document_id:        (Array.isArray(this.selectedDocumentIds) ?
+                                { $in: this.selectedDocumentIds } :
+                                  this.selectedDocumentIds),
+          type:                 { $nin: [&quot;setting annotation&quot;] },
+          document_setting:     { $exists: false },
+          collection_setting:   { $exists: false }
+        };
+        if (this.ignoreDocumentAttributes) {
+          this.mongoQuery[&#x27;document_attribute&#x27;]   &#x3D; { $exists: false };
+        }
+        if (this.ignoreCollectionAttributes) {
+          this.mongoQuery[&#x27;collection_attribute&#x27;] &#x3D; { $exists: false };
+        }
+      }
+      this.mongoDBQuery.emit(this.mongoQuery);
+    }
+    if (this.emittedApplyDisabled !&#x3D; this.applyDisabled) {
+      this.emittedApplyDisabled &#x3D; this.applyDisabled;
+      this.valid.emit(!this.applyDisabled);
+    }
+  }; /* onQueryChange */
+
+  queryRuleValid(rule) {
+    if (&#x27;field&#x27; in rule) {
+      if (!(&#x27;operator&#x27; in rule)) return false;
+      if (!(&#x27;value&#x27;    in rule)) return false;
+      if (Array.isArray(rule.value)) return rule.value.every(val &#x3D;&gt; val !&#x3D; null);
+      return rule.value !&#x3D; null;
+    } else if (&#x27;rules&#x27; in rule) {
+      return this.queryValid(rule.rules);
+    }
+    return false;
+  }; /* queryRuleValid */
+
+  queryValid(query) {
+    // Do we have a condition?
+    if (query &#x3D;&#x3D; null || !(&#x27;condition&#x27; in query)) {return false;}
+    return query.rules.every(rule &#x3D;&gt; this.queryRuleValid(rule));
+  }; /* queryValid */
+
+  /*
+   * The following code was based on:
+   * https://stackoverflow.com/questions/57259343/convert-query-builder-conditions-to-mongodb-operations-including-nested-array-of
+   */
+  conditions &#x3D; { &quot;and&quot;: &quot;$and&quot;, &quot;or&quot;: &quot;$or&quot; };
+  operators &#x3D; {
+    &quot;&#x3D;&quot;: &quot;$eq&quot;,
+    &quot;!&#x3D;&quot;: &quot;$ne&quot;,
+    &quot;&lt;&quot;: &quot;$lt&quot;,
+    &quot;&lt;&#x3D;&quot;: &quot;$lte&quot;,
+    &quot;&gt;&quot;: &quot;$gt&quot;,
+    &quot;&gt;&#x3D;&quot;: &quot;gte&quot;,
+    &quot;in&quot;: &quot;$in&quot;,
+    &quot;not in&quot;: &quot;$nin&quot;,
+    &quot;contains&quot;: &quot;$regex&quot;
+  };
+  fields &#x3D; {
+    annotator:  &quot;annotator_id&quot;,
+    type:       &quot;type&quot;,
+    attribute:  &quot;attributes.name&quot;,
+    value:      &quot;attributes.value&quot;,
+    doc_attr:   &quot;document_attribute&quot;,
+    created_by: &quot;created_by&quot;,
+    updated_by: &quot;updated_by&quot;
+  };
+
+  getSchemaType(field) {
+    return &#x27;&#x27;;
+  }; /* getSchemaType */
+
+  // Map each rule to a MongoDB query
+  mapRule(rule) {
+    let field &#x3D; this.fields[rule.field];
+    let value &#x3D; rule.value;
+    if (!value) {
+      value &#x3D; null;
+    }
+
+    // Get schema type of current field
+    let schemaType &#x3D; this.getSchemaType(rule.field);
+
+    /*
+    // Check if schema type of current field is ObjectId
+    if (schemaType &#x3D;&#x3D;&#x3D; &#x27;ObjectID&#x27; &amp;&amp; value) {
+      // Convert string value to MongoDB ObjectId
+      if (Array.isArray(value)) {
+        value.map(val &#x3D;&gt; new ObjectId(val));
+      } else {
+        value &#x3D; new ObjectId(value);
+      }
+    // Check if schema type of current field is Date
+    } else if (schemaType &#x3D;&#x3D;&#x3D; &#x27;Date&#x27; &amp;&amp; value) {
+      // Convert string value to ISO date
+      value &#x3D; new Date(value);
+    }
+   */
+
+    // Set operator
+    let operator &#x3D; this.operators[rule.operator] ? this.operators[rule.operator] : &#x27;$eq&#x27;;
+
+    // Create a MongoDB query
+    let mongoDBQuery;
+
+    // Check if operator is $regex
+    if (operator &#x3D;&#x3D;&#x3D; &#x27;$regex&#x27;) {
+      // Set case insensitive option
+      mongoDBQuery &#x3D; {
+        [field]: {
+          [operator]: value,
+          &#x27;$options&#x27;: &#x27;i&#x27;
+        }
+      };
+    } else {
+      mongoDBQuery &#x3D; { [field]: { [operator]: value } };
+    }
+
+    return mongoDBQuery;
+  }; /* mapRule */
+
+  mapRuleSet(ruleSet) {
+    if (ruleSet.rules.length &lt; 1) {
+      return;
+    }
+
+    // Iterate Rule Set conditions recursively to build database query
+    return {
+      [this.conditions[ruleSet.condition]]: ruleSet.rules.map(
+        rule &#x3D;&gt; (rule.operator) ? this.mapRule(rule) : this.mapRuleSet(rule)
+      )
+    };
+  }; /* mapRuleSet */
+
+  /*
+   * ngModel implementation (ControlValueAccessor)
+   * Code from: https://unicorn-utterances.com/posts/angular-components-control-value-accessor
+   */
+  writeValue(value: any) {
+    this.query &#x3D; value;
+  }; /* writeValue */
+
+  // For ControlValueAccessor interface
+  public onChangeCallback:  (_: any) &#x3D;&gt; void &#x3D; () &#x3D;&gt; {};
+  public onTouchedCallback: ()       &#x3D;&gt; void &#x3D; () &#x3D;&gt; {};
+
+  registerOnChange(fn: any): void {
+    this.onChangeCallback &#x3D; fn;
+  }
+  registerOnTouched(fn: any): void {
+    this.onTouchedCallback &#x3D; fn;
+  }
+
+  private handleDataChange(): void {
+    this.changeDetectorRef.markForCheck();
+    if (this.onChangeCallback) {
+      this.onChangeCallback(this._query);
+    }
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;annotation-set-filter&quot; [ngClass]&#x3D;&quot;{&#x27;w-full&#x27; : fillWidth}&quot;&gt;
+  &lt;query-builder
+    class&#x3D;&quot;annotation-set-filter-builder&quot;
+    [(ngModel)]&#x3D;&#x27;query&#x27;
+    [config]&#x3D;&#x27;config&#x27;
+    [allowRuleset]&#x3D;&#x27;allowRuleset&#x27;
+    [allowCollapse]&#x3D;&#x27;allowCollapse&#x27;
+    [persistValueOnFieldChange]&#x3D;&#x27;persistValueOnFieldChange&#x27;
+  &gt;
+    &lt;ng-container
+      *queryButtonGroup&#x3D;&quot;let ruleset; let addRule&#x3D;addRule; let addRuleSet&#x3D;addRuleSet; let removeRuleSet&#x3D;removeRuleSet&quot;&gt;
+      &lt;button type&#x3D;&quot;button&quot; mat-icon-button color&#x3D;&quot;primary&quot; (click)&#x3D;&quot;addRule()&quot; [disabled]&#x3D;&quot;disabled&quot;&gt;
+        &lt;mat-icon&gt;add&lt;/mat-icon&gt;
+      &lt;/button&gt;
+      &lt;button type&#x3D;&quot;button&quot; mat-icon-button color&#x3D;&quot;primary&quot; *ngIf&#x3D;&quot;addRuleSet&quot; (click)&#x3D;&quot;addRuleSet()&quot; [disabled]&#x3D;&quot;disabled&quot;&gt;
+        &lt;mat-icon&gt;add_circle_outline&lt;/mat-icon&gt;
+      &lt;/button&gt;
+      &lt;button type&#x3D;&quot;button&quot; mat-icon-button color&#x3D;&quot;accent&quot; *ngIf&#x3D;&quot;removeRuleSet&quot; (click)&#x3D;&quot;removeRuleSet()&quot; [disabled]&#x3D;&quot;disabled&quot;&gt;
+        &lt;mat-icon&gt;remove_circle_outline&lt;/mat-icon&gt;
+      &lt;/button&gt;
+    &lt;/ng-container&gt;
+    &lt;ng-container *queryArrowIcon&gt;
+      &lt;mat-icon ngClass&#x3D;&quot;mat-arrow-icon&quot;&gt;chevron_right&lt;/mat-icon&gt;
+    &lt;/ng-container&gt;
+    &lt;ng-container *queryRemoveButton&#x3D;&quot;let rule; let removeRule&#x3D;removeRule&quot;&gt;
+      &lt;button type&#x3D;&quot;button&quot; mat-icon-button color&#x3D;&quot;accent&quot; (click)&#x3D;&quot;removeRule(rule)&quot; [disabled]&#x3D;&quot;disabled&quot;&gt;
+        &lt;mat-icon&gt;remove&lt;/mat-icon&gt;
+      &lt;/button&gt;
+    &lt;/ng-container&gt;
+    &lt;ng-container *querySwitchGroup&#x3D;&quot;let ruleset; let onChange&#x3D;onChange&quot;&gt;
+      &lt;mat-radio-group *ngIf&#x3D;&quot;ruleset&quot; [(ngModel)]&#x3D;&quot;ruleset.condition&quot; (ngModelChange)&#x3D;&quot;onChange($event)&quot;&gt;
+        &lt;mat-radio-button value&#x3D;&quot;and&quot; [disabled]&#x3D;&quot;disabled&quot;&gt;And&lt;/mat-radio-button&gt;
+        &lt;mat-radio-button value&#x3D;&quot;or&quot;  [disabled]&#x3D;&quot;disabled&quot;&gt;Or&lt;/mat-radio-button&gt;
+      &lt;/mat-radio-group&gt;
+    &lt;/ng-container&gt;
+    &lt;ng-container *queryEntity&#x3D;&quot;let rule; let entities&#x3D;entities; let onChange&#x3D;onChange&quot;&gt;
+      &lt;mat-form-field  appearance&#x3D;&quot;outline&quot;&gt;
+        &lt;mat-select [(ngModel)]&#x3D;&quot;rule.entity&quot; (ngModelChange)&#x3D;&quot;onChange($event, rule)&quot; [disabled]&#x3D;&quot;disabled&quot;&gt;
+          &lt;mat-option *ngFor&#x3D;&quot;let entity of entities&quot; [value]&#x3D;&quot;entity.value&quot;&gt;
+            {{entity.name}}
+          &lt;/mat-option&gt;
+        &lt;/mat-select&gt;
+      &lt;/mat-form-field&gt;
+    &lt;/ng-container&gt;
+    &lt;ng-container *queryField&#x3D;&quot;let rule; let fields&#x3D;fields; let onChange&#x3D;onChange; let getFields &#x3D; getFields&quot;&gt;
+      &lt;mat-form-field appearance&#x3D;&quot;outline&quot;&gt;
+        &lt;mat-select [(ngModel)]&#x3D;&quot;rule.field&quot; (ngModelChange)&#x3D;&quot;onChange($event, rule)&quot; [disabled]&#x3D;&quot;disabled&quot;&gt;
+          &lt;mat-option *ngFor&#x3D;&quot;let field of getFields(rule.entity)&quot; [value]&#x3D;&quot;field.value&quot;&gt;
+            {{ field.name }}
+          &lt;/mat-option&gt;
+        &lt;/mat-select&gt;
+      &lt;/mat-form-field&gt;
+    &lt;/ng-container&gt;
+    &lt;ng-container *queryOperator&#x3D;&quot;let rule; let operators&#x3D;operators; let onChange&#x3D;onChange&quot;&gt;
+      &lt;mat-form-field [style.width.px]&#x3D;&quot;80&quot; appearance&#x3D;&quot;outline&quot;&gt;
+        &lt;mat-select [(ngModel)]&#x3D;&quot;rule.operator&quot; (ngModelChange)&#x3D;&quot;onChange(rule)&quot; [disabled]&#x3D;&quot;disabled&quot;&gt;
+          &lt;mat-option *ngFor&#x3D;&quot;let value of operators&quot; [value]&#x3D;&quot;value&quot;&gt;
+            {{ value }}
+          &lt;/mat-option&gt;
+        &lt;/mat-select&gt;
+      &lt;/mat-form-field&gt;
+    &lt;/ng-container&gt;
+    &lt;ng-container *queryInput&#x3D;&quot;let rule; type: &#x27;boolean&#x27;; let onChange&#x3D;onChange&quot;&gt;
+      &lt;mat-checkbox [(ngModel)]&#x3D;&quot;rule.value&quot; (ngModelChange)&#x3D;&quot;onChange()&quot; [disabled]&#x3D;&quot;disabled&quot;&gt;&lt;/mat-checkbox&gt;
+    &lt;/ng-container&gt;
+    &lt;ng-container *queryInput&#x3D;&quot;let rule; let field&#x3D;field; let options&#x3D;options; type: &#x27;category&#x27;; let onChange&#x3D;onChange&quot;&gt;
+      &lt;mat-form-field  appearance&#x3D;&quot;outline&quot;&gt;
+        &lt;mat-select [(ngModel)]&#x3D;&quot;rule.value&quot; (ngModelChange)&#x3D;&quot;onChange()&quot; [disabled]&#x3D;&quot;disabled&quot;&gt;
+          &lt;mat-option *ngFor&#x3D;&quot;let opt of options&quot; [value]&#x3D;&quot;opt.value&quot;&gt;
+            {{ opt.name }}
+          &lt;/mat-option&gt;
+        &lt;/mat-select&gt;
+      &lt;/mat-form-field&gt;
+    &lt;/ng-container&gt;
+    &lt;ng-container *queryInput&#x3D;&quot;let rule; type: &#x27;date&#x27;; let onChange&#x3D;onChange&quot;&gt;
+      &lt;mat-form-field appearance&#x3D;&quot;outline&quot;&gt;
+        &lt;input matInput [matDatepicker]&#x3D;&quot;picker&quot; [(ngModel)]&#x3D;&quot;rule.value&quot; (ngModelChange)&#x3D;&quot;onChange()&quot; [disabled]&#x3D;&quot;disabled&quot;&gt;
+        &lt;mat-datepicker-toggle matSuffix [for]&#x3D;&quot;picker&quot; [disabled]&#x3D;&quot;disabled&quot;&gt;&lt;/mat-datepicker-toggle&gt;
+        &lt;mat-datepicker #picker [disabled]&#x3D;&quot;disabled&quot;&gt;&lt;/mat-datepicker&gt;
+      &lt;/mat-form-field&gt;
+    &lt;/ng-container&gt;
+    &lt;ng-container *queryInput&#x3D;&quot;let rule; let options&#x3D;options; type: &#x27;multiselect&#x27;; let onChange&#x3D;onChange&quot;&gt;
+      &lt;mat-form-field [style.width.px]&#x3D;&quot;300&quot; appearance&#x3D;&quot;outline&quot;&gt;
+        &lt;mat-select [(ngModel)]&#x3D;&quot;rule.value&quot; multiple (ngModelChange)&#x3D;&quot;onChange()&quot; [disabled]&#x3D;&quot;disabled&quot;&gt;
+          &lt;mat-option *ngFor&#x3D;&quot;let opt of options&quot; [value]&#x3D;&quot;opt.value&quot;&gt;
+            {{ opt.name }}
+          &lt;/mat-option&gt;
+        &lt;/mat-select&gt;
+      &lt;/mat-form-field&gt;
+    &lt;/ng-container&gt;
+    &lt;ng-container *queryInput&#x3D;&quot;let rule; let field&#x3D;field; type: &#x27;number&#x27;; let onChange&#x3D;onChange&quot;&gt;
+      &lt;mat-form-field [style.width.px]&#x3D;&quot;50&quot;&gt;
+        &lt;input matInput [(ngModel)]&#x3D;&quot;rule.value&quot; type&#x3D;&quot;number&quot; (ngModelChange)&#x3D;&quot;onChange()&quot; [disabled]&#x3D;&quot;disabled&quot;&gt;
+      &lt;/mat-form-field&gt;
+    &lt;/ng-container&gt;
+    &lt;ng-container *queryInput&#x3D;&quot;let rule; let field&#x3D;field; type: &#x27;string&#x27;; let onChange&#x3D;onChange&quot;&gt;
+      &lt;mat-form-field&gt;
+        &lt;input matInput [(ngModel)]&#x3D;&quot;rule.value&quot; (ngModelChange)&#x3D;&quot;onChange()&quot; [disabled]&#x3D;&quot;disabled&quot;&gt;
+      &lt;/mat-form-field&gt;
+    &lt;/ng-container&gt;
+    &lt;ng-container *queryInput&#x3D;&quot;let rule; let field&#x3D;field; type: &#x27;textarea&#x27;; let onChange&#x3D;onChange&quot;&gt;
+      &lt;mat-form-field&gt;
+        &lt;textarea matInput [(ngModel)]&#x3D;&quot;rule.value&quot; (ngModelChange)&#x3D;&quot;onChange()&quot; [disabled]&#x3D;&quot;disabled&quot;&gt;
+        &lt;/textarea&gt;
+      &lt;/mat-form-field&gt;
+    &lt;/ng-container&gt;
+  &lt;/query-builder&gt;
+  &lt;mat-divider [vertical]&#x3D;&quot;true&quot; *ngIf&#x3D;&quot;showApplyButton&quot;&gt;&lt;/mat-divider&gt;
+  &lt;button mat-raised-button color&#x3D;&quot;primary&quot; *ngIf&#x3D;&quot;showApplyButton&quot;
+    (click)&#x3D;&quot;onApply.emit(mongoQuery)&quot;
+    [disabled]&#x3D;&quot;applyDisabled&quot;&gt;{{ApplyButtonLabel|translate}}&lt;/button&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./annotation-set-filter.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss"></code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="annotation-set-filter" [ngClass]="{\'w-full\' : fillWidth}">  <query-builder    class="annotation-set-filter-builder"    [(ngModel)]=\'query\'    [config]=\'config\'    [allowRuleset]=\'allowRuleset\'    [allowCollapse]=\'allowCollapse\'    [persistValueOnFieldChange]=\'persistValueOnFieldChange\'  >    <ng-container      *queryButtonGroup="let ruleset; let addRule=addRule; let addRuleSet=addRuleSet; let removeRuleSet=removeRuleSet">      <button type="button" mat-icon-button color="primary" (click)="addRule()" [disabled]="disabled">        <mat-icon>add</mat-icon>      </button>      <button type="button" mat-icon-button color="primary" *ngIf="addRuleSet" (click)="addRuleSet()" [disabled]="disabled">        <mat-icon>add_circle_outline</mat-icon>      </button>      <button type="button" mat-icon-button color="accent" *ngIf="removeRuleSet" (click)="removeRuleSet()" [disabled]="disabled">        <mat-icon>remove_circle_outline</mat-icon>      </button>    </ng-container>    <ng-container *queryArrowIcon>      <mat-icon ngClass="mat-arrow-icon">chevron_right</mat-icon>    </ng-container>    <ng-container *queryRemoveButton="let rule; let removeRule=removeRule">      <button type="button" mat-icon-button color="accent" (click)="removeRule(rule)" [disabled]="disabled">        <mat-icon>remove</mat-icon>      </button>    </ng-container>    <ng-container *querySwitchGroup="let ruleset; let onChange=onChange">      <mat-radio-group *ngIf="ruleset" [(ngModel)]="ruleset.condition" (ngModelChange)="onChange($event)">        <mat-radio-button value="and" [disabled]="disabled">And</mat-radio-button>        <mat-radio-button value="or"  [disabled]="disabled">Or</mat-radio-button>      </mat-radio-group>    </ng-container>    <ng-container *queryEntity="let rule; let entities=entities; let onChange=onChange">      <mat-form-field  appearance="outline">        <mat-select [(ngModel)]="rule.entity" (ngModelChange)="onChange($event, rule)" [disabled]="disabled">          <mat-option *ngFor="let entity of entities" [value]="entity.value">            {{entity.name}}          </mat-option>        </mat-select>      </mat-form-field>    </ng-container>    <ng-container *queryField="let rule; let fields=fields; let onChange=onChange; let getFields = getFields">      <mat-form-field appearance="outline">        <mat-select [(ngModel)]="rule.field" (ngModelChange)="onChange($event, rule)" [disabled]="disabled">          <mat-option *ngFor="let field of getFields(rule.entity)" [value]="field.value">            {{ field.name }}          </mat-option>        </mat-select>      </mat-form-field>    </ng-container>    <ng-container *queryOperator="let rule; let operators=operators; let onChange=onChange">      <mat-form-field [style.width.px]="80" appearance="outline">        <mat-select [(ngModel)]="rule.operator" (ngModelChange)="onChange(rule)" [disabled]="disabled">          <mat-option *ngFor="let value of operators" [value]="value">            {{ value }}          </mat-option>        </mat-select>      </mat-form-field>    </ng-container>    <ng-container *queryInput="let rule; type: \'boolean\'; let onChange=onChange">      <mat-checkbox [(ngModel)]="rule.value" (ngModelChange)="onChange()" [disabled]="disabled"></mat-checkbox>    </ng-container>    <ng-container *queryInput="let rule; let field=field; let options=options; type: \'category\'; let onChange=onChange">      <mat-form-field  appearance="outline">        <mat-select [(ngModel)]="rule.value" (ngModelChange)="onChange()" [disabled]="disabled">          <mat-option *ngFor="let opt of options" [value]="opt.value">            {{ opt.name }}          </mat-option>        </mat-select>      </mat-form-field>    </ng-container>    <ng-container *queryInput="let rule; type: \'date\'; let onChange=onChange">      <mat-form-field appearance="outline">        <input matInput [matDatepicker]="picker" [(ngModel)]="rule.value" (ngModelChange)="onChange()" [disabled]="disabled">        <mat-datepicker-toggle matSuffix [for]="picker" [disabled]="disabled"></mat-datepicker-toggle>        <mat-datepicker #picker [disabled]="disabled"></mat-datepicker>      </mat-form-field>    </ng-container>    <ng-container *queryInput="let rule; let options=options; type: \'multiselect\'; let onChange=onChange">      <mat-form-field [style.width.px]="300" appearance="outline">        <mat-select [(ngModel)]="rule.value" multiple (ngModelChange)="onChange()" [disabled]="disabled">          <mat-option *ngFor="let opt of options" [value]="opt.value">            {{ opt.name }}          </mat-option>        </mat-select>      </mat-form-field>    </ng-container>    <ng-container *queryInput="let rule; let field=field; type: \'number\'; let onChange=onChange">      <mat-form-field [style.width.px]="50">        <input matInput [(ngModel)]="rule.value" type="number" (ngModelChange)="onChange()" [disabled]="disabled">      </mat-form-field>    </ng-container>    <ng-container *queryInput="let rule; let field=field; type: \'string\'; let onChange=onChange">      <mat-form-field>        <input matInput [(ngModel)]="rule.value" (ngModelChange)="onChange()" [disabled]="disabled">      </mat-form-field>    </ng-container>    <ng-container *queryInput="let rule; let field=field; type: \'textarea\'; let onChange=onChange">      <mat-form-field>        <textarea matInput [(ngModel)]="rule.value" (ngModelChange)="onChange()" [disabled]="disabled">        </textarea>      </mat-form-field>    </ng-container>  </query-builder>  <mat-divider [vertical]="true" *ngIf="showApplyButton"></mat-divider>  <button mat-raised-button color="primary" *ngIf="showApplyButton"    (click)="onApply.emit(mongoQuery)"    [disabled]="applyDisabled">{{ApplyButtonLabel|translate}}</button></div></div>'
+    var COMPONENTS = [{'name': 'AddCollectionComponent', 'selector': 'add-collection'},{'name': 'AddCustomValueModalComponent', 'selector': 'add-custom-value-modal'},{'name': 'AddDocumentsDialogComponent', 'selector': 'add-documents-dialog'},{'name': 'AdminLayoutComponent', 'selector': 'app-admin-layout'},{'name': 'AnalyticsAnnotationValuesComponent', 'selector': 'analytics-annotation-values'},{'name': 'AnnotationButtonComponent', 'selector': 'annotation-button'},{'name': 'AnnotationButtonCustomValueAddComponent', 'selector': 'annotation-button-custom-value-add'},{'name': 'AnnotationComboboxComponent', 'selector': 'annotation-combobox'},{'name': 'AnnotationComponent', 'selector': 'annotation'},{'name': 'AnnotationDateentryComponent', 'selector': 'annotation-dateentry'},{'name': 'AnnotationDetailComponent', 'selector': 'annotation-detail'},{'name': 'AnnotationEntryComponent', 'selector': 'annotation-entry'},{'name': 'AnnotationIndicatorComponent', 'selector': 'annotation-indicator'},{'name': 'AnnotationRelationAnnotateBtnComponent', 'selector': 'annotation-relation-annotate-btn'},{'name': 'AnnotationRelationClearBtnComponent', 'selector': 'annotation-relation-clear-btn'},{'name': 'AnnotationRelationComboboxComponent', 'selector': 'annotation-relation-combobox'},{'name': 'AnnotationRelationComponent', 'selector': 'annotation-relation'},{'name': 'AnnotationRelationDelBtnComponent', 'selector': 'annotation-relation-del-btn'},{'name': 'AnnotationRelationImportBtnComponent', 'selector': 'annotation-relation-import-btn'},{'name': 'AnnotationRelationSetBtnComponent', 'selector': 'annotation-relation-set-btn'},{'name': 'AnnotationSetComparatorComponent', 'selector': 'app-annotation-set-comparator'},{'name': 'AnnotationSetFilterComponent', 'selector': 'annotation-set-filter'},{'name': 'AnnotationSetInspectorComponent', 'selector': 'annotation-set-inspector'},{'name': 'AnnotationTextComponent', 'selector': 'annotation-text'},{'name': 'AnnotationTextLabelComponent', 'selector': 'annotation-text-label'},{'name': 'AnnotationTextTextComponent', 'selector': 'annotation-text-text'},{'name': 'AnnotationVisualizerComponent', 'selector': 'annotation-visualizer'},{'name': 'AnnotatorWidgetComponent', 'selector': 'annotator-widget'},{'name': 'AnnotatorWidgetValuesSchwartzComponent', 'selector': 'app-annotator-widget-values-schwartz'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthLayoutComponent', 'selector': 'app-auth-layout'},{'name': 'AuthLayoutModComponent', 'selector': 'app-auth-layout'},{'name': 'AutomaticAnnotatorComponent', 'selector': 'automatic-annotator'},{'name': 'BaseControlComponent', 'selector': 'base-control'},{'name': 'BrandingComponent', 'selector': 'app-branding'},{'name': 'BreadcrumbComponent', 'selector': 'breadcrumb'},{'name': 'CompareAnnotationsComponent', 'selector': 'app-compare-annotations'},{'name': 'CompareCollectionsComponent', 'selector': 'app-compare-collections'},{'name': 'CompareDocumentsComponent', 'selector': 'app-compare-documents'},{'name': 'ConfirmDialogComponent', 'selector': 'confirm-dialog'},{'name': 'CorefAddBtnComponent', 'selector': 'coref-add-btn'},{'name': 'CorefAnnotateBtnComponent', 'selector': 'coref-annotate-btn'},{'name': 'CorefBtnComponent', 'selector': 'coref-btn'},{'name': 'CorefCheckboxComponent', 'selector': 'coref-checkbox'},{'name': 'CorefClearBtnComponent', 'selector': 'coref-clear-btn'},{'name': 'CorefComboboxComponent', 'selector': 'coref-combobox'},{'name': 'CorefDelBtnComponent', 'selector': 'coref-del-btn'},{'name': 'CorefEntryComponent', 'selector': 'coref-entry'},{'name': 'CorefImportBtnComponent', 'selector': 'coref-import-btn'},{'name': 'CorefMultiEntryComponent', 'selector': 'coref-multi-entry'},{'name': 'CorefSegmentEntryComponent', 'selector': 'coref-segment-entry'},{'name': 'CorefSpanEndComponent', 'selector': 'coref-span-end'},{'name': 'CorefSpanStartComponent', 'selector': 'coref-span-start'},{'name': 'CustomizerComponent', 'selector': 'app-customizer'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'DetectChangesModalComponent', 'selector': 'detect-changes-modal'},{'name': 'DetectOpenDocModalComponent', 'selector': 'detect-open-doc-modal'},{'name': 'Error403Component', 'selector': 'app-error-403'},{'name': 'Error404Component', 'selector': 'app-error-404'},{'name': 'Error500Component', 'selector': 'app-error-500'},{'name': 'ErrorCodeComponent', 'selector': 'error-code'},{'name': 'ErrorDialogComponent', 'selector': 'error-dialog'},{'name': 'EuropeanaSearchComponent', 'selector': 'app-europeana-search'},{'name': 'FlashMessagesComponent', 'selector': 'flash-messages'},{'name': 'FormlyFieldComboboxComponent', 'selector': 'formly-field-combobox'},{'name': 'FormlyWrapperCardComponent', 'selector': 'formly-wrapper-card'},{'name': 'FormlyWrapperDivComponent', 'selector': 'formly-wrapper-div'},{'name': 'GithubButtonComponent', 'selector': 'app-github-button'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'ImportCollectionsModalComponent', 'selector': 'import-collections-modal'},{'name': 'ImportDocumentsFromExportModalComponent', 'selector': 'import-documents-from-export-modal'},{'name': 'ImportModalComponent', 'selector': 'import-modal'},{'name': 'InspectDocumentComponent', 'selector': 'inspect-document'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LoginSocialComponent', 'selector': 'app-login-social'},{'name': 'MainComponent', 'selector': 'main'},{'name': 'MainDialogComponent', 'selector': 'main-dialog'},{'name': 'ManageCollectionsComponent', 'selector': 'manage-collections'},{'name': 'MediaGalleryComponent', 'selector': 'app-media-gallery'},{'name': 'NavbarComponent', 'selector': 'app-navbar'},{'name': 'NotificationComponent', 'selector': 'app-notification'},{'name': 'OverlappingAreasComponent', 'selector': 'overlapping-areas'},{'name': 'PageHeaderComponent', 'selector': 'page-header'},{'name': 'ProfileComponent', 'selector': 'profile'},{'name': 'ProfileLayoutComponent', 'selector': 'app-profile-layout'},{'name': 'ProfileOverviewComponent', 'selector': 'app-profile-overview'},{'name': 'ProfileSettingsComponent', 'selector': 'app-profile-settings'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RenameCollectionModalComponent', 'selector': 'rename-collection-modal'},{'name': 'RenameDocumentModalComponent', 'selector': 'rename-document-modal'},{'name': 'ResetPasswordComponent', 'selector': 'app-reset-password'},{'name': 'SelectDocumentModalComponent', 'selector': 'select-document-modal'},{'name': 'ShareCollectionModalComponent', 'selector': 'share-collection-modal'},{'name': 'SharedCollectionsComponent', 'selector': 'manage-shared-collections'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'},{'name': 'SidebarNoticeComponent', 'selector': 'app-sidebar-notice'},{'name': 'SidemenuComponent', 'selector': 'app-sidemenu'},{'name': 'TextWidgetComponent', 'selector': 'text-widget'},{'name': 'TextWidgetIsolatedComponent', 'selector': 'text-widget-isolated'},{'name': 'ToolbarSelectAnnotatorComponent', 'selector': 'toolbar-select-annotator'},{'name': 'ToolbarSelectDocumentComponent', 'selector': 'toolbar-select-document'},{'name': 'ToolbarWidgetComponent', 'selector': 'toolbar-widget'},{'name': 'TopmenuComponent', 'selector': 'app-topmenu'},{'name': 'TopmenuPanelComponent', 'selector': 'app-topmenu-panel'},{'name': 'TranslateComponent', 'selector': 'app-translate'},{'name': 'UploaderComponent', 'selector': 'uploader'},{'name': 'UserComponent', 'selector': 'app-user'},{'name': 'UserPanelComponent', 'selector': 'app-user-panel'},{'name': 'ValueAccessorComponent', 'selector': 'app-value-accessor'},{'name': 'VisualiseAnnotationComponent', 'selector': 'app-visualise-annotation'},{'name': 'VisualiseLayoutComponent', 'selector': 'app-visualise-layout'},{'name': 'WavesurferAudioComponent', 'selector': 'wavesurfer-audio'},{'name': 'WavesurferVideoComponent', 'selector': 'wavesurfer-video'},{'name': 'WelcomeComponent', 'selector': 'welcome'}];
+    var DIRECTIVES = [{'name': 'AutoannTokenClassifierDirective', 'selector': '[autoannTokenClassifier]'},{'name': 'ButtonAnnotatorValueListDirective', 'selector': '[buttonAnnotatorValueList]'},{'name': 'CorefAnnotatorValueListDirective', 'selector': '[corefAnnotatorValueList]'},{'name': 'DisableControlDirective', 'selector': '[disableControl]'},{'name': 'DocumentAttributesDirective', 'selector': '.document_attributes'},{'name': 'DomHelpersDirective', 'selector': '[appDomHelpers]'},{'name': 'FoundInCollectionDirective', 'selector': '[found-in-collection]'},{'name': 'NavAccordionDirective', 'selector': '[navAccordion]'},{'name': 'NavAccordionItemDirective', 'selector': '[navAccordionItem]'},{'name': 'NavAccordionToggleDirective', 'selector': '[navAccordionToggle]'}];
+    var ACTUAL_COMPONENT = {'name': 'AnnotationSetFilterComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'AnnotationSetFilterComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

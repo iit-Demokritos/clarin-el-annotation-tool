@@ -1,0 +1,1449 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>The Ellogon Annotation Platform documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
+            <a href="../" class="navbar-brand">The Ellogon Annotation Platform documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  AdminLayoutComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/ng-matero/theme/admin-layout/admin-layout.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code>OnDestroy</code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+            <tr>
+                <td class="col-md-3">encapsulation</td>
+                <td class="col-md-9"><code>ViewEncapsulation.None</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-admin-layout</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./admin-layout.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./admin-layout.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#content" >content</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#isCollapsedWidthFixed" >isCollapsedWidthFixed</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#isContentWidthFixed" >isContentWidthFixed</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#isMobileScreen" >isMobileScreen</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#layoutChangesSubscription" >layoutChangesSubscription</a>
+                            </li>
+                            <li>
+                                <a href="#options" >options</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#sidenav" >sidenav</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#onSidenavClosedStart" >onSidenavClosedStart</a>
+                            </li>
+                            <li>
+                                <a href="#onSidenavOpenedChange" >onSidenavOpenedChange</a>
+                            </li>
+                            <li>
+                                <a href="#resetCollapsedState" >resetCollapsedState</a>
+                            </li>
+                            <li>
+                                <a href="#toggleCollapsed" >toggleCollapsed</a>
+                            </li>
+                            <li>
+                                <a href="#updateOptions" >updateOptions</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>HostBindings</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#class.matero-content-width-fix" >class.matero-content-width-fix</a>
+                            </li>
+                            <li>
+                                <a href="#class.matero-sidenav-collapsed-fix" >class.matero-sidenav-collapsed-fix</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#themeColor" >themeColor</a>
+                                </li>
+                                <li>
+                                    <a href="#isOver" >isOver</a>
+                                </li>
+                                <li>
+                                    <a href="#contentWidthFix" >contentWidthFix</a>
+                                </li>
+                                <li>
+                                    <a href="#collapsedWidthFix" >collapsedWidthFix</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(router: Router, breakpointObserver: BreakpointObserver, settings: <a href="../injectables/SettingsService.html" target="_self">SettingsService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/ng-matero/theme/admin-layout/admin-layout.component.ts:55</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>router</td>
+                                                  
+                                                        <td>
+                                                                    <code>Router</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>breakpointObserver</td>
+                                                  
+                                                        <td>
+                                                                    <code>BreakpointObserver</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>settings</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/SettingsService.html" target="_self" >SettingsService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section data-compodoc="block-properties">
+    <h3>HostBindings</h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="class.matero-content-width-fix"></a>
+                    <span class="name">
+                        <span ><b>class.matero-content-width-fix</b></span>
+                        <a href="#class.matero-content-width-fix"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/ng-matero/theme/admin-layout/admin-layout.component.ts:35</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="class.matero-sidenav-collapsed-fix"></a>
+                    <span class="name">
+                        <span ><b>class.matero-sidenav-collapsed-fix</b></span>
+                        <a href="#class.matero-sidenav-collapsed-fix"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/ng-matero/theme/admin-layout/admin-layout.component.ts:46</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="81"
+                                    class="link-to-prism">src/app/ng-matero/theme/admin-layout/admin-layout.component.ts:81</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onSidenavClosedStart"></a>
+                    <span class="name">
+                        <span ><b>onSidenavClosedStart</b></span>
+                        <a href="#onSidenavClosedStart"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onSidenavClosedStart()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="96"
+                                    class="link-to-prism">src/app/ng-matero/theme/admin-layout/admin-layout.component.ts:96</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onSidenavOpenedChange"></a>
+                    <span class="name">
+                        <span ><b>onSidenavOpenedChange</b></span>
+                        <a href="#onSidenavOpenedChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onSidenavOpenedChange(isOpened: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="100"
+                                    class="link-to-prism">src/app/ng-matero/theme/admin-layout/admin-layout.component.ts:100</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>isOpened</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resetCollapsedState"></a>
+                    <span class="name">
+                        <span ><b>resetCollapsedState</b></span>
+                        <a href="#resetCollapsedState"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>resetCollapsedState(timer: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="92"
+                                    class="link-to-prism">src/app/ng-matero/theme/admin-layout/admin-layout.component.ts:92</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>timer</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>400</code>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleCollapsed"></a>
+                    <span class="name">
+                        <span ><b>toggleCollapsed</b></span>
+                        <a href="#toggleCollapsed"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleCollapsed()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="85"
+                                    class="link-to-prism">src/app/ng-matero/theme/admin-layout/admin-layout.component.ts:85</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateOptions"></a>
+                    <span class="name">
+                        <span ><b>updateOptions</b></span>
+                        <a href="#updateOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateOptions(options: <a href="../interfaces/AppSettings.html" target="_self">AppSettings</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="106"
+                                    class="link-to-prism">src/app/ng-matero/theme/admin-layout/admin-layout.component.ts:106</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                            <code><a href="../interfaces/AppSettings.html" target="_self" >AppSettings</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="content"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>content</b></span>
+                        <a href="#content"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>MatSidenavContent</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;content&#x27;, {static: true})<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/app/ng-matero/theme/admin-layout/admin-layout.component.ts:21</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isCollapsedWidthFixed"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>isCollapsedWidthFixed</b></span>
+                        <a href="#isCollapsedWidthFixed"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/ng-matero/theme/admin-layout/admin-layout.component.ts:53</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isContentWidthFixed"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>isContentWidthFixed</b></span>
+                        <a href="#isContentWidthFixed"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/ng-matero/theme/admin-layout/admin-layout.component.ts:44</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isMobileScreen"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>isMobileScreen</b></span>
+                        <a href="#isMobileScreen"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/ng-matero/theme/admin-layout/admin-layout.component.ts:33</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="layoutChangesSubscription"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>layoutChangesSubscription</b></span>
+                        <a href="#layoutChangesSubscription"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>Subscription.EMPTY</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/ng-matero/theme/admin-layout/admin-layout.component.ts:55</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="options"></a>
+                    <span class="name">
+                        <span ><b>options</b></span>
+                        <a href="#options"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.settings.options</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/ng-matero/theme/admin-layout/admin-layout.component.ts:23</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sidenav"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>sidenav</b></span>
+                        <a href="#sidenav"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>MatSidenav</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;sidenav&#x27;, {static: true})<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/ng-matero/theme/admin-layout/admin-layout.component.ts:20</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-accessors">
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="themeColor"></a>
+                        <span class="name"><b>themeColor</b><a href="#themeColor"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>themeColor()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/ng-matero/theme/admin-layout/admin-layout.component.ts:25</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isOver"></a>
+                        <span class="name"><b>isOver</b><a href="#isOver"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>isOver()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/ng-matero/theme/admin-layout/admin-layout.component.ts:29</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="contentWidthFix"></a>
+                        <span class="name"><b>contentWidthFix</b><a href="#contentWidthFix"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>contentWidthFix()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/ng-matero/theme/admin-layout/admin-layout.component.ts:35</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="collapsedWidthFix"></a>
+                        <span class="name"><b>collapsedWidthFix</b><a href="#collapsedWidthFix"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>collapsedWidthFix()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/ng-matero/theme/admin-layout/admin-layout.component.ts:46</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { BreakpointObserver } from &#x27;@angular/cdk/layout&#x27;;
+import { Component, HostBinding, OnDestroy, ViewChild, ViewEncapsulation } from &#x27;@angular/core&#x27;;
+import { MatSidenav, MatSidenavContent } from &#x27;@angular/material/sidenav&#x27;;
+import { NavigationEnd, Router } from &#x27;@angular/router&#x27;;
+import { AppSettings, SettingsService } from &#x27;@core&#x27;;
+import { Subscription } from &#x27;rxjs&#x27;;
+import { filter } from &#x27;rxjs/operators&#x27;;
+
+const MOBILE_MEDIAQUERY &#x3D; &#x27;screen and (max-width: 599px)&#x27;;
+const TABLET_MEDIAQUERY &#x3D; &#x27;screen and (min-width: 600px) and (max-width: 959px)&#x27;;
+const MONITOR_MEDIAQUERY &#x3D; &#x27;screen and (min-width: 960px)&#x27;;
+
+@Component({
+  selector: &#x27;app-admin-layout&#x27;,
+  templateUrl: &#x27;./admin-layout.component.html&#x27;,
+  styleUrls: [&#x27;./admin-layout.component.scss&#x27;],
+  encapsulation: ViewEncapsulation.None,
+})
+export class AdminLayoutComponent implements OnDestroy {
+  @ViewChild(&#x27;sidenav&#x27;, { static: true }) sidenav!: MatSidenav;
+  @ViewChild(&#x27;content&#x27;, { static: true }) content!: MatSidenavContent;
+
+  options &#x3D; this.settings.options;
+
+  get themeColor() {
+    return this.settings.themeColor;
+  }
+
+  get isOver(): boolean {
+    return this.isMobileScreen;
+  }
+
+  private isMobileScreen &#x3D; false;
+
+  @HostBinding(&#x27;class.matero-content-width-fix&#x27;) get contentWidthFix() {
+    return (
+      this.isContentWidthFixed &amp;&amp;
+      this.options.navPos &#x3D;&#x3D;&#x3D; &#x27;side&#x27; &amp;&amp;
+      this.options.sidenavOpened &amp;&amp;
+      !this.isOver
+    );
+  }
+
+  private isContentWidthFixed &#x3D; true;
+
+  @HostBinding(&#x27;class.matero-sidenav-collapsed-fix&#x27;) get collapsedWidthFix() {
+    return (
+      this.isCollapsedWidthFixed &amp;&amp;
+      (this.options.navPos &#x3D;&#x3D;&#x3D; &#x27;top&#x27; || (this.options.sidenavOpened &amp;&amp; this.isOver))
+    );
+  }
+
+  private isCollapsedWidthFixed &#x3D; false;
+
+  private layoutChangesSubscription &#x3D; Subscription.EMPTY;
+
+  constructor(
+    private router: Router,
+    private breakpointObserver: BreakpointObserver,
+    private settings: SettingsService
+  ) {
+    this.layoutChangesSubscription &#x3D; this.breakpointObserver
+      .observe([MOBILE_MEDIAQUERY, TABLET_MEDIAQUERY, MONITOR_MEDIAQUERY])
+      .subscribe(state &#x3D;&gt; {
+        // SidenavOpened must be reset true when layout changes
+        this.options.sidenavOpened &#x3D; true;
+
+        this.isMobileScreen &#x3D; state.breakpoints[MOBILE_MEDIAQUERY];
+        this.options.sidenavCollapsed &#x3D; state.breakpoints[TABLET_MEDIAQUERY];
+        this.isContentWidthFixed &#x3D; state.breakpoints[MONITOR_MEDIAQUERY];
+      });
+
+    this.router.events.pipe(filter(event &#x3D;&gt; event instanceof NavigationEnd)).subscribe(e &#x3D;&gt; {
+      if (this.isOver) {
+        this.sidenav.close();
+      }
+      this.content.scrollTo({ top: 0 });
+    });
+  }
+
+  ngOnDestroy() {
+    this.layoutChangesSubscription.unsubscribe();
+  }
+
+  toggleCollapsed() {
+    this.isContentWidthFixed &#x3D; false;
+    this.options.sidenavCollapsed &#x3D; !this.options.sidenavCollapsed;
+    this.resetCollapsedState();
+  }
+
+  // TODO: Trigger when transition end
+  resetCollapsedState(timer &#x3D; 400) {
+    setTimeout(() &#x3D;&gt; this.settings.setOptions(this.options), timer);
+  }
+
+  onSidenavClosedStart() {
+    this.isContentWidthFixed &#x3D; false;
+  }
+
+  onSidenavOpenedChange(isOpened: boolean) {
+    this.isCollapsedWidthFixed &#x3D; !this.isOver;
+    this.options.sidenavOpened &#x3D; isOpened;
+    this.settings.setOptions(this.options);
+  }
+
+  updateOptions(options: AppSettings) {
+    this.options &#x3D; options;
+    this.settings.setOptions(options);
+    this.settings.setDirection();
+    this.settings.setTheme();
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;matero-container-wrap&quot;
+     [ngClass]&#x3D;&quot;{
+        &#x27;matero-sidenav-collapsed&#x27;: options.sidenavCollapsed &amp;&amp; options.navPos !&#x3D;&#x3D; &#x27;top&#x27;,
+        &#x27;matero-navbar-side&#x27;: options.navPos &#x3D;&#x3D;&#x3D; &#x27;side&#x27;,
+        &#x27;matero-navbar-top&#x27;: options.navPos &#x3D;&#x3D;&#x3D; &#x27;top&#x27;,
+        &#x27;matero-header-above&#x27;: options.headerPos &#x3D;&#x3D;&#x3D; &#x27;above&#x27;,
+        &#x27;matero-header-fixed&#x27;: options.headerPos &#x3D;&#x3D;&#x3D; &#x27;fixed&#x27;,
+        &#x27;matero-header-white&#x27;: themeColor !&#x3D;&#x3D; &#x27;dark&#x27;
+      }&quot;
+     [dir]&#x3D;&quot;options.dir&quot;&gt;
+  &lt;ng-progress&gt;&lt;/ng-progress&gt;
+
+  &lt;!-- Header Above --&gt;
+  &lt;app-header *ngIf&#x3D;&quot;options.showHeader &amp;&amp; options.headerPos &#x3D;&#x3D;&#x3D; &#x27;above&#x27;&quot;
+              (toggleSidenav)&#x3D;&quot;sidenav.toggle()&quot;
+              (toggleSidenavNotice)&#x3D;&quot;sidenavNotice.toggle()&quot;
+              [showBranding]&#x3D;&quot;true&quot;&gt;
+  &lt;/app-header&gt;
+
+  &lt;mat-sidenav-container class&#x3D;&quot;matero-container&quot; autosize autoFocus&gt;
+    &lt;mat-sidenav #sidenav class&#x3D;&quot;matero-sidenav&quot;
+                 [mode]&#x3D;&quot;isOver ? &#x27;over&#x27; : &#x27;side&#x27;&quot;
+                 [opened]&#x3D;&quot;options.navPos &#x3D;&#x3D;&#x3D; &#x27;side&#x27; &amp;&amp; options.sidenavOpened &amp;&amp; !isOver&quot;
+                 (openedChange)&#x3D;&quot;onSidenavOpenedChange($event)&quot;
+                 (closedStart)&#x3D;&quot;onSidenavClosedStart()&quot;&gt;
+      &lt;app-sidebar [showToggle]&#x3D;&quot;!isOver&quot;
+                   [showUser]&#x3D;&quot;!!options.showUserPanel&quot;
+                   [showHeader]&#x3D;&quot;options.headerPos !&#x3D;&#x3D; &#x27;above&#x27;&quot;
+                   (toggleCollapsed)&#x3D;&quot;toggleCollapsed()&quot;
+                   [toggleChecked]&#x3D;&quot;!!options.sidenavCollapsed&quot;&gt;
+      &lt;/app-sidebar&gt;
+    &lt;/mat-sidenav&gt;
+
+    &lt;mat-sidenav #sidenavNotice position&#x3D;&quot;end&quot; mode&#x3D;&quot;over&quot;&gt;
+      &lt;app-sidebar-notice&gt;&lt;/app-sidebar-notice&gt;
+    &lt;/mat-sidenav&gt;
+
+    &lt;mat-sidenav-content #content class&#x3D;&quot;matero-content-wrap&quot;&gt;
+      &lt;app-header *ngIf&#x3D;&quot;options.showHeader &amp;&amp; options.headerPos !&#x3D;&#x3D; &#x27;above&#x27;&quot;
+                  [showToggle]&#x3D;&quot;!options.sidenavCollapsed &amp;&amp; options.navPos !&#x3D;&#x3D; &#x27;top&#x27;&quot;
+                  [showBranding]&#x3D;&quot;options.navPos &#x3D;&#x3D;&#x3D; &#x27;top&#x27;&quot;
+                  (toggleSidenav)&#x3D;&quot;sidenav.toggle()&quot;
+                  (toggleSidenavNotice)&#x3D;&quot;sidenavNotice.toggle()&quot;
+                  (toggleSettingsPanel)&#x3D;&quot;appsettings.openPanelCmd()&quot;&gt;
+      &lt;/app-header&gt;
+
+      &lt;app-topmenu *ngIf&#x3D;&quot;options.navPos &#x3D;&#x3D;&#x3D; &#x27;top&#x27;&quot;&gt;&lt;/app-topmenu&gt;
+
+      &lt;div class&#x3D;&quot;matero-content&quot;&gt;
+        &lt;router-outlet&gt;&lt;/router-outlet&gt;
+      &lt;/div&gt;
+    &lt;/mat-sidenav-content&gt;
+  &lt;/mat-sidenav-container&gt;
+
+  &lt;!-- Demo purposes only --&gt;
+  &lt;app-customizer #appsettings (optionsChange)&#x3D;&quot;updateOptions($event)&quot;&gt;&lt;/app-customizer&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./admin-layout.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">@use &#x27;@angular/material&#x27; as mat;
+@use &#x27;../style/variables&#x27;;
+@use &#x27;../style/transitions&#x27;;
+@use &#x27;../style/breakpoints&#x27;;
+
+.matero-container-wrap,
+.matero-container {
+  height: 100%;
+}
+
+.matero-content {
+  position: relative;
+  padding: variables.$gutter;
+}
+
+.matero-sidenav {
+  position: absolute;
+  overflow-x: hidden;
+  transition: transitions.swift-ease-out(width); // Only set width property
+}
+
+// Layout control
+.matero-header-above {
+  .matero-container {
+    height: calc(100% - #{variables.$toolbar-height-desktop}) !important;
+  }
+
+  .matero-sidebar-main {
+    height: 100% !important;
+  }
+}
+
+// Layout control
+.matero-sidenav-collapsed,
+.matero-sidenav-collapsed-fix {
+  .matero-sidenav {
+    width: variables.$sidenav-collapsed-width;
+
+    .menu-name,
+    .menu-label,
+    .menu-badge,
+    .menu-caret,
+    .matero-user-panel-name,
+    .matero-user-panel-email,
+    .matero-user-panel-icons {
+      opacity: 0;
+    }
+
+    .matero-user-panel-avatar {
+      transform: scale(.5);
+    }
+
+    &amp;:hover {
+      width: variables.$sidenav-width;
+
+      .menu-name,
+      .menu-label,
+      .menu-badge,
+      .menu-caret,
+      .matero-user-panel-name,
+      .matero-user-panel-email,
+      .matero-user-panel-icons {
+        opacity: 1;
+      }
+
+      .matero-user-panel-avatar {
+        transform: scale(1);
+      }
+    }
+  }
+}
+
+// Layout control
+.matero-sidenav-collapsed {
+  .matero-content-wrap {
+    margin-left: variables.$sidenav-collapsed-width !important;
+
+    [dir&#x3D;&#x27;rtl&#x27;] &amp; {
+      margin-right: variables.$sidenav-collapsed-width !important;
+      margin-left: auto !important;
+    }
+  }
+
+  &amp;[dir&#x3D;&#x27;rtl&#x27;] .matero-content-wrap {
+    margin-right: variables.$sidenav-collapsed-width !important;
+    margin-left: auto !important;
+  }
+}
+
+// Layout control
+.matero-navbar-top {
+  .matero-topmenu {
+    top: 0;
+  }
+
+  .matero-branding {
+    margin-left: 16px;
+
+    [dir&#x3D;&#x27;rtl&#x27;] &amp; {
+      margin-right: 16px;
+      margin-left: auto;
+    }
+  }
+}
+
+// Layout control
+.matero-header-fixed {
+  .matero-header {
+    position: sticky;
+    top: 0;
+    // Fix header&#x27;s positioning problem on Firefox
+    // https://github.com/ng-matero/ng-matero/issues/522
+    display: block;
+  }
+
+  .matero-topmenu {
+    top: variables.$topmenu-sticky-position-desktop;
+
+    @include breakpoints.bp-lt(small) {
+      &amp; {
+        top: variables.$topmenu-sticky-position-mobile;
+      }
+    }
+  }
+}
+
+// Fix the init content width
+.matero-content-width-fix {
+  .matero-content-wrap {
+    margin-left: variables.$sidenav-width !important;
+
+    [dir&#x3D;&#x27;rtl&#x27;] &amp; {
+      margin-right: variables.$sidenav-width !important;
+      margin-left: auto !important;
+    }
+  }
+}
+
+// Colorful
+.matero-header-white {
+  .matero-toolbar,
+  .matero-topmenu {
+    background-color: white;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="matero-container-wrap"     [ngClass]="{        \'matero-sidenav-collapsed\': options.sidenavCollapsed && options.navPos !== \'top\',        \'matero-navbar-side\': options.navPos === \'side\',        \'matero-navbar-top\': options.navPos === \'top\',        \'matero-header-above\': options.headerPos === \'above\',        \'matero-header-fixed\': options.headerPos === \'fixed\',        \'matero-header-white\': themeColor !== \'dark\'      }"     [dir]="options.dir">  <ng-progress></ng-progress>  <!-- Header Above -->  <app-header *ngIf="options.showHeader && options.headerPos === \'above\'"              (toggleSidenav)="sidenav.toggle()"              (toggleSidenavNotice)="sidenavNotice.toggle()"              [showBranding]="true">  </app-header>  <mat-sidenav-container class="matero-container" autosize autoFocus>    <mat-sidenav #sidenav class="matero-sidenav"                 [mode]="isOver ? \'over\' : \'side\'"                 [opened]="options.navPos === \'side\' && options.sidenavOpened && !isOver"                 (openedChange)="onSidenavOpenedChange($event)"                 (closedStart)="onSidenavClosedStart()">      <app-sidebar [showToggle]="!isOver"                   [showUser]="!!options.showUserPanel"                   [showHeader]="options.headerPos !== \'above\'"                   (toggleCollapsed)="toggleCollapsed()"                   [toggleChecked]="!!options.sidenavCollapsed">      </app-sidebar>    </mat-sidenav>    <mat-sidenav #sidenavNotice position="end" mode="over">      <app-sidebar-notice></app-sidebar-notice>    </mat-sidenav>    <mat-sidenav-content #content class="matero-content-wrap">      <app-header *ngIf="options.showHeader && options.headerPos !== \'above\'"                  [showToggle]="!options.sidenavCollapsed && options.navPos !== \'top\'"                  [showBranding]="options.navPos === \'top\'"                  (toggleSidenav)="sidenav.toggle()"                  (toggleSidenavNotice)="sidenavNotice.toggle()"                  (toggleSettingsPanel)="appsettings.openPanelCmd()">      </app-header>      <app-topmenu *ngIf="options.navPos === \'top\'"></app-topmenu>      <div class="matero-content">        <router-outlet></router-outlet>      </div>    </mat-sidenav-content>  </mat-sidenav-container>  <!-- Demo purposes only -->  <app-customizer #appsettings (optionsChange)="updateOptions($event)"></app-customizer></div></div>'
+    var COMPONENTS = [{'name': 'AddCollectionComponent', 'selector': 'add-collection'},{'name': 'AddCustomValueModalComponent', 'selector': 'add-custom-value-modal'},{'name': 'AddDocumentsDialogComponent', 'selector': 'add-documents-dialog'},{'name': 'AdminLayoutComponent', 'selector': 'app-admin-layout'},{'name': 'AnalyticsAnnotationValuesComponent', 'selector': 'analytics-annotation-values'},{'name': 'AnnotationButtonComponent', 'selector': 'annotation-button'},{'name': 'AnnotationButtonCustomValueAddComponent', 'selector': 'annotation-button-custom-value-add'},{'name': 'AnnotationComboboxComponent', 'selector': 'annotation-combobox'},{'name': 'AnnotationComponent', 'selector': 'annotation'},{'name': 'AnnotationDateentryComponent', 'selector': 'annotation-dateentry'},{'name': 'AnnotationDetailComponent', 'selector': 'annotation-detail'},{'name': 'AnnotationEntryComponent', 'selector': 'annotation-entry'},{'name': 'AnnotationIndicatorComponent', 'selector': 'annotation-indicator'},{'name': 'AnnotationRelationAnnotateBtnComponent', 'selector': 'annotation-relation-annotate-btn'},{'name': 'AnnotationRelationClearBtnComponent', 'selector': 'annotation-relation-clear-btn'},{'name': 'AnnotationRelationComboboxComponent', 'selector': 'annotation-relation-combobox'},{'name': 'AnnotationRelationComponent', 'selector': 'annotation-relation'},{'name': 'AnnotationRelationDelBtnComponent', 'selector': 'annotation-relation-del-btn'},{'name': 'AnnotationRelationImportBtnComponent', 'selector': 'annotation-relation-import-btn'},{'name': 'AnnotationRelationSetBtnComponent', 'selector': 'annotation-relation-set-btn'},{'name': 'AnnotationSetComparatorComponent', 'selector': 'app-annotation-set-comparator'},{'name': 'AnnotationSetFilterComponent', 'selector': 'annotation-set-filter'},{'name': 'AnnotationSetInspectorComponent', 'selector': 'annotation-set-inspector'},{'name': 'AnnotationTextComponent', 'selector': 'annotation-text'},{'name': 'AnnotationTextLabelComponent', 'selector': 'annotation-text-label'},{'name': 'AnnotationTextTextComponent', 'selector': 'annotation-text-text'},{'name': 'AnnotationVisualizerComponent', 'selector': 'annotation-visualizer'},{'name': 'AnnotatorWidgetComponent', 'selector': 'annotator-widget'},{'name': 'AnnotatorWidgetValuesSchwartzComponent', 'selector': 'app-annotator-widget-values-schwartz'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthLayoutComponent', 'selector': 'app-auth-layout'},{'name': 'AuthLayoutModComponent', 'selector': 'app-auth-layout'},{'name': 'AutomaticAnnotatorComponent', 'selector': 'automatic-annotator'},{'name': 'BaseControlComponent', 'selector': 'base-control'},{'name': 'BrandingComponent', 'selector': 'app-branding'},{'name': 'BreadcrumbComponent', 'selector': 'breadcrumb'},{'name': 'CompareAnnotationsComponent', 'selector': 'app-compare-annotations'},{'name': 'CompareCollectionsComponent', 'selector': 'app-compare-collections'},{'name': 'CompareDocumentsComponent', 'selector': 'app-compare-documents'},{'name': 'ConfirmDialogComponent', 'selector': 'confirm-dialog'},{'name': 'CorefAddBtnComponent', 'selector': 'coref-add-btn'},{'name': 'CorefAnnotateBtnComponent', 'selector': 'coref-annotate-btn'},{'name': 'CorefBtnComponent', 'selector': 'coref-btn'},{'name': 'CorefCheckboxComponent', 'selector': 'coref-checkbox'},{'name': 'CorefClearBtnComponent', 'selector': 'coref-clear-btn'},{'name': 'CorefComboboxComponent', 'selector': 'coref-combobox'},{'name': 'CorefDelBtnComponent', 'selector': 'coref-del-btn'},{'name': 'CorefEntryComponent', 'selector': 'coref-entry'},{'name': 'CorefImportBtnComponent', 'selector': 'coref-import-btn'},{'name': 'CorefMultiEntryComponent', 'selector': 'coref-multi-entry'},{'name': 'CorefSegmentEntryComponent', 'selector': 'coref-segment-entry'},{'name': 'CorefSpanEndComponent', 'selector': 'coref-span-end'},{'name': 'CorefSpanStartComponent', 'selector': 'coref-span-start'},{'name': 'CustomizerComponent', 'selector': 'app-customizer'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'DetectChangesModalComponent', 'selector': 'detect-changes-modal'},{'name': 'DetectOpenDocModalComponent', 'selector': 'detect-open-doc-modal'},{'name': 'Error403Component', 'selector': 'app-error-403'},{'name': 'Error404Component', 'selector': 'app-error-404'},{'name': 'Error500Component', 'selector': 'app-error-500'},{'name': 'ErrorCodeComponent', 'selector': 'error-code'},{'name': 'ErrorDialogComponent', 'selector': 'error-dialog'},{'name': 'EuropeanaSearchComponent', 'selector': 'app-europeana-search'},{'name': 'FlashMessagesComponent', 'selector': 'flash-messages'},{'name': 'FormlyFieldComboboxComponent', 'selector': 'formly-field-combobox'},{'name': 'FormlyWrapperCardComponent', 'selector': 'formly-wrapper-card'},{'name': 'FormlyWrapperDivComponent', 'selector': 'formly-wrapper-div'},{'name': 'GithubButtonComponent', 'selector': 'app-github-button'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'ImportCollectionsModalComponent', 'selector': 'import-collections-modal'},{'name': 'ImportDocumentsFromExportModalComponent', 'selector': 'import-documents-from-export-modal'},{'name': 'ImportModalComponent', 'selector': 'import-modal'},{'name': 'InspectDocumentComponent', 'selector': 'inspect-document'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LoginSocialComponent', 'selector': 'app-login-social'},{'name': 'MainComponent', 'selector': 'main'},{'name': 'MainDialogComponent', 'selector': 'main-dialog'},{'name': 'ManageCollectionsComponent', 'selector': 'manage-collections'},{'name': 'MediaGalleryComponent', 'selector': 'app-media-gallery'},{'name': 'NavbarComponent', 'selector': 'app-navbar'},{'name': 'NotificationComponent', 'selector': 'app-notification'},{'name': 'OverlappingAreasComponent', 'selector': 'overlapping-areas'},{'name': 'PageHeaderComponent', 'selector': 'page-header'},{'name': 'ProfileComponent', 'selector': 'profile'},{'name': 'ProfileLayoutComponent', 'selector': 'app-profile-layout'},{'name': 'ProfileOverviewComponent', 'selector': 'app-profile-overview'},{'name': 'ProfileSettingsComponent', 'selector': 'app-profile-settings'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RenameCollectionModalComponent', 'selector': 'rename-collection-modal'},{'name': 'RenameDocumentModalComponent', 'selector': 'rename-document-modal'},{'name': 'ResetPasswordComponent', 'selector': 'app-reset-password'},{'name': 'SelectDocumentModalComponent', 'selector': 'select-document-modal'},{'name': 'ShareCollectionModalComponent', 'selector': 'share-collection-modal'},{'name': 'SharedCollectionsComponent', 'selector': 'manage-shared-collections'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'},{'name': 'SidebarNoticeComponent', 'selector': 'app-sidebar-notice'},{'name': 'SidemenuComponent', 'selector': 'app-sidemenu'},{'name': 'TextWidgetComponent', 'selector': 'text-widget'},{'name': 'TextWidgetIsolatedComponent', 'selector': 'text-widget-isolated'},{'name': 'ToolbarSelectAnnotatorComponent', 'selector': 'toolbar-select-annotator'},{'name': 'ToolbarSelectDocumentComponent', 'selector': 'toolbar-select-document'},{'name': 'ToolbarWidgetComponent', 'selector': 'toolbar-widget'},{'name': 'TopmenuComponent', 'selector': 'app-topmenu'},{'name': 'TopmenuPanelComponent', 'selector': 'app-topmenu-panel'},{'name': 'TranslateComponent', 'selector': 'app-translate'},{'name': 'UploaderComponent', 'selector': 'uploader'},{'name': 'UserComponent', 'selector': 'app-user'},{'name': 'UserPanelComponent', 'selector': 'app-user-panel'},{'name': 'ValueAccessorComponent', 'selector': 'app-value-accessor'},{'name': 'VisualiseAnnotationComponent', 'selector': 'app-visualise-annotation'},{'name': 'VisualiseLayoutComponent', 'selector': 'app-visualise-layout'},{'name': 'WavesurferAudioComponent', 'selector': 'wavesurfer-audio'},{'name': 'WavesurferVideoComponent', 'selector': 'wavesurfer-video'},{'name': 'WelcomeComponent', 'selector': 'welcome'}];
+    var DIRECTIVES = [{'name': 'AutoannTokenClassifierDirective', 'selector': '[autoannTokenClassifier]'},{'name': 'ButtonAnnotatorValueListDirective', 'selector': '[buttonAnnotatorValueList]'},{'name': 'CorefAnnotatorValueListDirective', 'selector': '[corefAnnotatorValueList]'},{'name': 'DisableControlDirective', 'selector': '[disableControl]'},{'name': 'DocumentAttributesDirective', 'selector': '.document_attributes'},{'name': 'DomHelpersDirective', 'selector': '[appDomHelpers]'},{'name': 'FoundInCollectionDirective', 'selector': '[found-in-collection]'},{'name': 'NavAccordionDirective', 'selector': '[navAccordion]'},{'name': 'NavAccordionItemDirective', 'selector': '[navAccordionItem]'},{'name': 'NavAccordionToggleDirective', 'selector': '[navAccordionToggle]'}];
+    var ACTUAL_COMPONENT = {'name': 'AdminLayoutComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'AdminLayoutComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

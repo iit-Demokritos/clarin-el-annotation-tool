@@ -1,0 +1,554 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>The Ellogon Annotation Platform documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
+            <a href="../" class="navbar-brand">The Ellogon Annotation Platform documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content class">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Classes</li>
+  <li class="breadcrumb-item" >SkipDetailRowsExporter</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts</code>
+        </p>
+
+
+
+
+            <p class="comment">
+                <h3>Implements</h3>
+            </p>
+            <p class="comment">
+                        <code>Exporter</code>
+            </p>
+
+
+            <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#export" >export</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="export"></a>
+                    <span class="name">
+                        <span ><b>export</b></span>
+                        <a href="#export"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>export(rows: Array<any>, options?: Options)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="19"
+                                    class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:19</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>rows</td>
+                                            <td>
+                                                        <code>Array&lt;any&gt;</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>options</td>
+                                            <td>
+                                                        <code>Options</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, EventEmitter, Input, AfterViewInit, Output, ViewEncapsulation, ViewChild, ChangeDetectionStrategy, ElementRef } from &#x27;@angular/core&#x27;;
+import { MainComponent } from &#x27;src/app/components/views/main/main.component&#x27;;
+import { Collection } from &#x27;src/app/models/collection&#x27;;
+import { Document } from &#x27;src/app/models/document&#x27;;
+import { Annotation } from &#x27;src/app/models/annotation&#x27;;
+import { annotationSortingDataAccessor } from &#x27;src/app/helpers/annotation&#x27;;
+import { TextWidgetIsolatedComponent } from &#x27;../text-widget-isolated/text-widget-isolated.component&#x27;;
+import { MatTable, MatTableDataSource } from &#x27;@angular/material/table&#x27;;
+import { MatSort } from &#x27;@angular/material/sort&#x27;;
+import { AnnotationPropertyToDisplayObject } from &#x27;src/app/helpers/annotation&#x27;;
+import { animate, state, style, transition, trigger } from &#x27;@angular/animations&#x27;;
+import { AnnotationDetailComponent } from &#x27;../annotation-detail/annotation-detail.component&#x27;;
+import { ScrollStatus } from &#x27;src/app/models/services/scrollstatus&#x27;;
+import { Minimatch } from &quot;minimatch&quot;;
+import { MatTableExporterDirective, Exporter, Options } from &#x27;mat-table-exporter&#x27;;
+import ObjectID from &quot;bson-objectid&quot;;
+
+export class SkipDetailRowsExporter implements Exporter&lt;Options&gt; {
+  export(rows: Array&lt;any&gt;, options?: Options) {
+    console.log(rows);
+  }
+}
+
+
+@Component({
+  selector: &#x27;annotation-set-inspector&#x27;,
+  templateUrl: &#x27;./annotation-set-inspector.component.html&#x27;,
+  styleUrls: [&#x27;./annotation-set-inspector.component.scss&#x27;],
+  animations: [
+    trigger(&#x27;detailExpand&#x27;, [
+      state(&#x27;collapsed&#x27;, style({height: &#x27;0px&#x27;, minHeight: &#x27;0&#x27;})),
+      state(&#x27;expanded&#x27;, style({height: &#x27;*&#x27;})),
+      transition(&#x27;expanded &lt;&#x3D;&gt; collapsed&#x27;, animate(&#x27;225ms cubic-bezier(0.4, 0.0, 0.2, 1)&#x27;)),
+    ]),
+  ],
+  encapsulation: ViewEncapsulation.None,
+})
+export class AnnotationSetInspectorComponent extends MainComponent implements AfterViewInit  {
+
+  @Input() collections: Collection|Collection[];
+  @Input() documents:   Document|Document[];
+  // @Input() annotator:  any;
+  @Input() annotations: any[];
+  // annotatorType: string;
+
+  // @Output() selectedAnnotations &#x3D; new EventEmitter&lt;Annotation | Annotation[]&gt;();
+  @Output() onScroll &#x3D; new EventEmitter&lt;ScrollStatus&gt;();
+  selectedAnnotation: Annotation;
+  selectedIndex &#x3D; &quot;&quot;;
+  selectedAnnotationDataSource&#x3D;[];
+  @ViewChild(TextWidgetIsolatedComponent)
+  private textWidgetComponent!: TextWidgetIsolatedComponent;
+  /* Variable for isolated TextWidgetAPI of textWidgetComponent */
+  private TWA;
+  @ViewChild(MatTable) table: MatTable&lt;any&gt;;
+  @ViewChild(MatSort)  sort: MatSort;
+  @ViewChild(&#x27;annotationList&#x27;) annotationList: ElementRef;
+  @ViewChild(&#x27;documentViewer&#x27;) documentViewer: ElementRef;
+  @ViewChild(MatTableExporterDirective, { static: false }) exporter: MatTableExporterDirective;
+  collapsed_status:number[] &#x3D; [];
+  annotationsDataSource &#x3D; new MatTableDataSource&lt;Annotation&gt;();
+  annotationListDisplayedColumns: string[] &#x3D; [&#x27;id&#x27;, &#x27;type&#x27;, &#x27;value&#x27;, &#x27;spans&#x27;];
+
+  annotationsInEditor &#x3D; [];
+  documentInEditor: Document;
+
+  footer_caret_show      &#x3D; false;
+  footer_caret_line      &#x3D; &quot;&quot;;
+  footer_caret_column    &#x3D; &quot;&quot;;
+  footer_caret_offset    &#x3D; &quot;&quot;;
+  footer_caret_selection &#x3D; &quot;[]&quot;;
+
+  filter: string &#x3D; &quot;&quot;;
+  minimatchOptions &#x3D; { nocase: true, nocomment: true };
+  mm: any; // Minimatch object
+
+  skipDetailRowsExporter: SkipDetailRowsExporter &#x3D; new SkipDetailRowsExporter();
+
+  super() { }
+
+  getCaret() {
+    if (this.textWidgetComponent) {
+      let cursor    &#x3D; this.textWidgetComponent.editor.getCursor();
+      let selection &#x3D; this.textWidgetComponent.getSelectionInfo();
+      this.footer_caret_line &#x3D; cursor.line + 1;
+      this.footer_caret_column &#x3D; cursor.ch;
+      this.footer_caret_offset &#x3D; this.textWidgetComponent.editor.indexFromPos(cursor);
+      if (selection.segment) {
+        this.footer_caret_selection &#x3D; &quot;[&quot;+selection.startOffset+&quot;:&quot;+selection.endOffset+&quot;]&quot;;
+      } else {
+        this.footer_caret_selection &#x3D; &quot;[]&quot;;
+      }
+      this.footer_caret_show &#x3D; true;
+    }
+  }
+
+  collapseInit(index) {
+    var length &#x3D; this.annotations.length;
+    var temp   &#x3D; 0;
+    if (index &gt;&#x3D; 0) {
+      temp &#x3D; this.collapsed_status[index];
+    }
+    this.collapsed_status &#x3D; [];
+    for (let i &#x3D; 0; i &lt;length ; i++) {
+      if (index &#x3D;&#x3D; i) {
+        continue;
+      }
+      this.collapsed_status.push(0);
+    }
+    return temp;
+  }
+
+  ngAfterViewInit(): void {
+    this.TWA &#x3D; this.textWidgetComponent.TextWidgetAPI;
+    this.textWidgetComponent.editor.on(&quot;cursorActivity&quot;, () &#x3D;&gt; {
+      this.getCaret();
+    });
+    this.annotationsDataSource.sort &#x3D; this.sort;
+    this.annotationsDataSource.sortingDataAccessor &#x3D; annotationSortingDataAccessor;
+    this.annotationsDataSource.filterPredicate &#x3D; this.filterAnnotations.bind(this);
+  }
+
+  onClear() {
+    this.annotations &#x3D; [];
+    this.documentInEditor &#x3D; undefined;
+    this.onUpdate();
+  }; /* onClear */
+
+  onUpdate() {
+    if (this.documentInEditor) {
+      if (typeof this.documentInEditor.visualisation_options &#x3D;&#x3D; &quot;string&quot;) {
+        this.documentInEditor.visualisation_options &#x3D; JSON.parse(this.documentInEditor.visualisation_options);
+      }
+      this.textWidgetComponent.initialiseEditor({type: &quot;text&quot;, text: this.documentInEditor.text},
+                                                this.documentInEditor.visualisation_options);
+    } else {
+      this.textWidgetComponent.initialiseEditor({type: &quot;text&quot;, text: &quot;&quot;}, {});
+    }
+
+    // console.error(&quot;AnnotationSetInspectorComponent: onApply(): annotaions&quot;, this.annotations);
+    // this.TWA.addAnnotations(this.annotations /*, this.annotator._id*/);
+    // console.error(&quot;AnnotationSetInspectorComponent: onApply(): after match:&quot;, this.TWA.getAnnotations());
+
+    // this.annotatorType &#x3D; this.TWA.getAnnotatorTypeFromAnnotatorTypeId(this.annotator._id);
+    this.annotationsDataSource.data &#x3D; this.annotations;
+    this.table.renderRows();
+  }; /* onUpdate */
+
+  onApply(event &#x3D; undefined) {
+    //  console.error(&quot;AnnotationSetInspectorComponent: onApply():&quot;, this.annotator._id);
+
+    // Is there a single document, or many?
+    if (Array.isArray(this.documents)) {
+      this.documentInEditor &#x3D; this.documents[0];
+    } else {
+      this.documentInEditor &#x3D; this.documents;
+    }
+    this.onUpdate();
+  }; /* onApply */
+
+  clearAnnotations() {
+    this.textWidgetComponent.removeAnnotationsFromEditor(this.annotationsInEditor);
+    this.annotationsInEditor &#x3D; [];
+  }
+
+  getAndAddAnnotation(id) {
+    let ann &#x3D; this.annotations.find(e &#x3D;&gt; e._id &#x3D;&#x3D; id);
+    if (ann) {
+      this.TWA.addAnnotation(ann, false);
+      this.annotationsInEditor.push(ann);
+      return ann;
+    }
+    return new Promise((resolve, reject) &#x3D;&gt; {
+      this.analyticsService.findById(id)
+      .then((response) &#x3D;&gt; {
+        ann &#x3D; response[&#x27;data&#x27;][0];
+        this.TWA.addAnnotation(ann, false);
+        this.annotationsInEditor.push(ann);
+        resolve(ann);
+      }, (error) &#x3D;&gt; reject(error));
+    });
+  }
+
+  setSelectedAnnotation(selectedAnnotation) {
+    // console.error(&quot;AnnotationSetInspectorComponent: setSelectedAnnotation()&quot;,
+    //               selectedAnnotation);
+    // Is it an empty row?
+    if (Object.keys(selectedAnnotation).length &#x3D;&#x3D; 0) {
+      return;
+    }
+    this.clearAnnotations();
+    var previndex &#x3D; this.annotations.findIndex(item &#x3D;&gt; item._id &#x3D;&#x3D;&#x3D; this.selectedIndex);
+    var index     &#x3D; this.annotations.findIndex(item &#x3D;&gt; item._id &#x3D;&#x3D;&#x3D; selectedAnnotation._id);
+    var status    &#x3D; this.collapseInit(index);
+    if (status &gt; 2) {
+      this.collapsed_status[index] &#x3D; 0;
+    } else {
+      this.collapsed_status[index] &#x3D; status;
+    }
+    if (this.selectedIndex &#x3D;&#x3D; selectedAnnotation._id) {
+      this.collapsed_status[index]++;
+    }
+    //fixed bug: close other annotations when select other
+    if (previndex !&#x3D; index) {
+      this.collapsed_status[previndex] &#x3D; 0;
+    }
+    this.selectedIndex &#x3D; selectedAnnotation._id;
+    this.selectedAnnotationDataSource &#x3D; Object.entries(selectedAnnotation)
+        .map(AnnotationPropertyToDisplayObject)
+        .filter(e &#x3D;&gt; e !&#x3D; null);
+
+    // Are there any arguments in attributes?
+    let relation_args &#x3D; this.TWA.getAnnotationRelationLinks(selectedAnnotation);
+    let promises &#x3D; [];
+    if (relation_args.length) {
+      this.TWA.setAnnotationSchemaAnnotationTypes([selectedAnnotation.type]);
+      relation_args.forEach((attr) &#x3D;&gt; {
+        let p &#x3D; this.getAndAddAnnotation(attr.value);
+        if (p instanceof Promise) {promises.push(p);}
+      });
+    }
+    Promise.all(promises).then((data) &#x3D;&gt; {
+      this.TWA.addAnnotation(selectedAnnotation, false);
+      this.annotationsInEditor.push(selectedAnnotation);
+      this.TWA.setSelectedAnnotation(selectedAnnotation);
+      this.textWidgetComponent.scrollToAnnotation(selectedAnnotation);
+    });
+    if (this.collapsed_status[index] &lt; 1) {
+      return null;
+    }
+    return this.selectedAnnotation &#x3D; this.selectedAnnotation &#x3D;&#x3D;&#x3D; selectedAnnotation ? null : selectedAnnotation;
+  }
+
+  onScrollAnnotations(element: HTMLElement) {
+    // console.error(&quot;AnnotationSetInspectorComponent: onScroll():&quot;, element.scrollTop, element.scrollLeft, element.scrollBy);
+    this.onScroll.emit({widget: &quot;anns&quot;, scrollTop: element.scrollTop, scrollLeft: element.scrollLeft});
+  }; /* onScrollAnnotations */
+
+  onScrollDocument(element: HTMLElement) {
+    // console.error(&quot;AnnotationSetInspectorComponent: onScroll()&quot;, element.scrollTop, element.scrollLeft, element.scrollBy);
+    this.onScroll.emit({widget: &quot;doc&quot;, scrollTop: element.scrollTop, scrollLeft: element.scrollLeft});
+  }; /* onScrollDocument */
+
+  setScrollStatus(status: ScrollStatus) {
+    var widget;
+    if (status.widget &#x3D;&#x3D; &quot;anns&quot;) {
+      widget &#x3D; this.annotationList;
+    } else {
+      widget &#x3D; this.documentViewer;
+    }
+    widget.nativeElement.scrollTop  &#x3D; status.scrollTop;
+    widget.nativeElement.scrollLeft &#x3D; status.scrollLeft;
+  }; /* setScrollStatus */
+
+  filterAnnotations(ann: Annotation, filter: string) {
+    // console.error(&quot;AnnotationVisualizerComponent: filterAnnotations():&quot;, ann, filter, this.mm);
+    if (this.mm.empty) { return true; }
+    return ann.attributes.some((attr) &#x3D;&gt; {
+      // console.error(&quot;attr:&quot;, attr, attr.value, this.mm.match(attr.value));
+      if (attr.value.indexOf(filter) !&#x3D;&#x3D; -1) { return true; }
+      return this.mm.match(attr.value)
+    });
+  }; /* filterAnnotations */
+
+  // This method is called each time the user releases a key in
+  // the &quot;Filter Annotations&quot; search field.
+  onApplyFilter(event: Event) {
+    // const filterValue &#x3D; (event.target as HTMLInputElement).value;
+    this.mm &#x3D; new Minimatch(this.filter.trim(), this.minimatchOptions);
+    // console.error(&quot;AnnotationVisualizerComponent: applyFilter():&quot;,
+    //   this.mm, this.mm.pattern);
+    this.annotationsDataSource.filter &#x3D; this.mm.pattern;
+  }; /* onApplyFilter */
+
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
+            var COMPODOC_CURRENT_PAGE_URL = 'SkipDetailRowsExporter.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

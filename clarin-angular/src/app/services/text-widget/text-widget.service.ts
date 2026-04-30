@@ -453,6 +453,17 @@ export class TextWidgetAPI {
     }
   }; /* belongsToSchema */
 
+  selectAttributesMatchingSchema(annotation) {
+    switch (this.annotatorType) {
+      case "Button Annotator":
+        return annotation.attributes.filter(attr =>
+          attr.name === this.annotationSchema["attribute"]);
+      case "Coreference Annotator":
+	return annotation.attributes;
+	throw new Error("Method not implemented.");
+    }
+  };
+
   selectAnnotationsMatchingSchema(Annotations, annotator_id) {
     var belong = [];
     for (var i = 0; i < Annotations.length; i++) {

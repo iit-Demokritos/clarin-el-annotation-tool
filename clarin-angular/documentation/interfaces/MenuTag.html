@@ -1,0 +1,405 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>The Ellogon Annotation Platform documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
+            <a href="../" class="navbar-brand">The Ellogon Annotation Platform documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Interfaces</li>
+  <li class="breadcrumb-item"
+  >
+  MenuTag</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/ng-matero/core/bootstrap/menu.service.ts</code>
+        </p>
+
+
+
+
+        <section data-compodoc="block-index">
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#color" 
+>
+                                            color
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#value" 
+>
+                                            value
+                                        </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section data-compodoc="block-properties">
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="color"></a>
+                                        <span class="name "><b>color</b>
+                                            <a href="#color">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>color:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="value"></a>
+                                        <span class="name "><b>value</b>
+                                            <a href="#value">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>value:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { BehaviorSubject, Observable } from &#x27;rxjs&#x27;;
+import { share } from &#x27;rxjs/operators&#x27;;
+
+export interface MenuTag {
+  color: string; // background color
+  value: string;
+}
+
+export interface MenuPermissions {
+  only?: string | string[];
+  except?: string | string[];
+}
+
+export interface MenuChildrenItem {
+  route: string;
+  name: string;
+  type: &#x27;link&#x27; | &#x27;sub&#x27; | &#x27;extLink&#x27; | &#x27;extTabLink&#x27;;
+  children?: MenuChildrenItem[];
+  permissions?: MenuPermissions;
+}
+
+export interface Menu {
+  route: string;
+  name: string;
+  type: &#x27;link&#x27; | &#x27;sub&#x27; | &#x27;extLink&#x27; | &#x27;extTabLink&#x27;;
+  icon: string;
+  label?: MenuTag;
+  badge?: MenuTag;
+  children?: MenuChildrenItem[];
+  permissions?: MenuPermissions;
+}
+
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+})
+export class MenuService {
+  private menu$: BehaviorSubject&lt;Menu[]&gt; &#x3D; new BehaviorSubject&lt;Menu[]&gt;([]);
+
+  /** Get all the menu data. */
+  getAll(): Observable&lt;Menu[]&gt; {
+    return this.menu$.asObservable();
+  }
+
+  /** Observe the change of menu data. */
+  change(): Observable&lt;Menu[]&gt; {
+    return this.menu$.pipe(share());
+  }
+
+  /** Initialize the menu data. */
+  set(menu: Menu[]): Observable&lt;Menu[]&gt; {
+    this.menu$.next(menu);
+    return this.menu$.asObservable();
+  }
+
+  /** Add one item to the menu data. */
+  add(menu: Menu) {
+    const tmpMenu &#x3D; this.menu$.value;
+    tmpMenu.push(menu);
+    this.menu$.next(tmpMenu);
+  }
+
+  /** Reset the menu data. */
+  reset() {
+    this.menu$.next([]);
+  }
+
+  /** Delete empty values and rebuild route. */
+  buildRoute(routeArr: string[]): string {
+    let route &#x3D; &#x27;&#x27;;
+    routeArr.forEach(item &#x3D;&gt; {
+      if (item &amp;&amp; item.trim()) {
+        route +&#x3D; &#x27;/&#x27; + item.replace(/^\/+|\/+$/g, &#x27;&#x27;);
+      }
+    });
+    return route;
+  }
+
+  /** Get the menu item name based on current route. */
+  getItemName(routeArr: string[]): string {
+    return this.getLevel(routeArr)[routeArr.length - 1];
+  }
+
+  // Whether is a leaf menu
+  private isLeafItem(item: MenuChildrenItem): boolean {
+    const cond0 &#x3D; item.route &#x3D;&#x3D;&#x3D; undefined;
+    const cond1 &#x3D; item.children &#x3D;&#x3D;&#x3D; undefined;
+    const cond2 &#x3D; !cond1 &amp;&amp; item.children?.length &#x3D;&#x3D;&#x3D; 0;
+    return cond0 || cond1 || cond2;
+  }
+
+  // Deep clone object could be jsonized
+  private deepClone(obj: any): any {
+    return JSON.parse(JSON.stringify(obj));
+  }
+
+  // Whether two objects could be jsonized equal
+  private isJsonObjEqual(obj0: any, obj1: any): boolean {
+    return JSON.stringify(obj0) &#x3D;&#x3D;&#x3D; JSON.stringify(obj1);
+  }
+
+  // Whether routeArr equals realRouteArr (after remove empty route element)
+  private isRouteEqual(routeArr: Array&lt;string&gt;, realRouteArr: Array&lt;string&gt;): boolean {
+    realRouteArr &#x3D; this.deepClone(realRouteArr);
+    realRouteArr &#x3D; realRouteArr.filter(r &#x3D;&gt; r !&#x3D;&#x3D; &#x27;&#x27;);
+    return this.isJsonObjEqual(routeArr, realRouteArr);
+  }
+
+  /** Get the menu level. */
+  getLevel(routeArr: string[]): string[] {
+    let tmpArr: any[] &#x3D; [];
+    this.menu$.value.forEach(item &#x3D;&gt; {
+      // Breadth-first traverse
+      let unhandledLayer &#x3D; [{ item, parentNamePathList: [], realRouteArr: [] }];
+      while (unhandledLayer.length &gt; 0) {
+        let nextUnhandledLayer: any[] &#x3D; [];
+        for (const ele of unhandledLayer) {
+          const eachItem &#x3D; ele.item;
+          const currentNamePathList &#x3D; this.deepClone(ele.parentNamePathList).concat(eachItem.name);
+          const currentRealRouteArr &#x3D; this.deepClone(ele.realRouteArr).concat(eachItem.route.split(&#x27;/&#x27;));
+          // Compare the full Array for expandable
+          if (this.isRouteEqual(routeArr, currentRealRouteArr)) {
+            tmpArr &#x3D; currentNamePathList;
+            break;
+          }
+          if (!this.isLeafItem(eachItem)) {
+            const wrappedChildren &#x3D; eachItem.children?.map(child &#x3D;&gt; ({
+              item: child,
+              parentNamePathList: currentNamePathList,
+              realRouteArr: currentRealRouteArr,
+            }));
+            nextUnhandledLayer &#x3D; nextUnhandledLayer.concat(wrappedChildren);
+          }
+        }
+        unhandledLayer &#x3D; nextUnhandledLayer;
+      }
+    });
+    return tmpArr;
+  }
+
+  /** Add namespace for translation. */
+  addNamespace(menu: Menu[] | MenuChildrenItem[], namespace: string) {
+    menu.forEach(menuItem &#x3D;&gt; {
+      menuItem.name &#x3D; &#x60;${namespace}.${menuItem.name}&#x60;;
+      if (menuItem.children &amp;&amp; menuItem.children.length &gt; 0) {
+        this.addNamespace(menuItem.children, menuItem.name);
+      }
+    });
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'MenuTag.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

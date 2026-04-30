@@ -1,0 +1,3710 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>The Ellogon Annotation Platform documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
+            <a href="../" class="navbar-brand">The Ellogon Annotation Platform documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  AddCollectionComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/components/views/add-collection/add-collection.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Extends</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+    </p>
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code>OnInit</code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+            <tr>
+                <td class="col-md-3">encapsulation</td>
+                <td class="col-md-9"><code>ViewEncapsulation.None</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>add-collection</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./add-collection.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./add-collection.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#allowedTypes" >allowedTypes</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#breakpoint" >breakpoint</a>
+                            </li>
+                            <li>
+                                <a href="#collectionData" >collectionData</a>
+                            </li>
+                            <li>
+                                <a href="#collectionDataUpdated" >collectionDataUpdated</a>
+                            </li>
+                            <li>
+                                <a href="#collectionNamePattern" >collectionNamePattern</a>
+                            </li>
+                            <li>
+                                <a href="#dataForTheTree" >dataForTheTree</a>
+                            </li>
+                            <li>
+                                <a href="#dataForTheTreeAll" >dataForTheTreeAll</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#editCollectionForm" >editCollectionForm</a>
+                            </li>
+                            <li>
+                                <a href="#encodingOptions" >encodingOptions</a>
+                            </li>
+                            <li>
+                                <a href="#europeanaFiles" >europeanaFiles</a>
+                            </li>
+                            <li>
+                                <a href="#filterFiles" >filterFiles</a>
+                            </li>
+                            <li>
+                                <a href="#flowAttributes" >flowAttributes</a>
+                            </li>
+                            <li>
+                                <a href="#handlerOptions" >handlerOptions</a>
+                            </li>
+                            <li>
+                                <a href="#selectedCollection" >selectedCollection</a>
+                            </li>
+                            <li>
+                                <a href="#selectedCollectionIndex" >selectedCollectionIndex</a>
+                            </li>
+                            <li>
+                                <a href="#typeOptions" >typeOptions</a>
+                            </li>
+                            <li>
+                                <a href="#userFiles" >userFiles</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#_m" >_m</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#activatedRoute" >activatedRoute</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#analyticsService" >analyticsService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#annotationSchemaService" >annotationSchemaService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#annotationService" >annotationService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#annotatorsTemplateService" >annotatorsTemplateService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#authService" >authService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#autoannService" >autoannService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#buttonAnnotatorService" >buttonAnnotatorService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#buttonColorService" >buttonColorService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#changeDetectorRef" >changeDetectorRef</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#collectionService" >collectionService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#compiler" >compiler</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#coreferenceAnnotatorService" >coreferenceAnnotatorService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#coreferenceColorService" >coreferenceColorService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#dialog" >dialog</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#documentService" >documentService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#dragAndDropService" >dragAndDropService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#fileSaverService" >fileSaverService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#flashMessage" >flashMessage</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#formBuilder" >formBuilder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#injector" >injector</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#localStorageService" >localStorageService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#messageService" >messageService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#openDocumentService" >openDocumentService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#restoreAnnotationService" >restoreAnnotationService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#router" >router</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#routerLocation" >routerLocation</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#sseService" >sseService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#tempAnnotationService" >tempAnnotationService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#TextWidgetAPI" >TextWidgetAPI</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#toastrService" >toastrService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#translate" >translate</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#userService" >userService</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#encodingChange" >encodingChange</a>
+                            </li>
+                            <li>
+                                <a href="#handleEuropeanaInputs" >handleEuropeanaInputs</a>
+                            </li>
+                            <li>
+                                <a href="#handleFileInputs" >handleFileInputs</a>
+                            </li>
+                            <li>
+                                <a href="#handlerChange" >handlerChange</a>
+                            </li>
+                            <li>
+                                <a href="#initializeCollections" >initializeCollections</a>
+                            </li>
+                            <li>
+                                <a href="#initializeForm" >initializeForm</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onApplyCollectionFilter" >onApplyCollectionFilter</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#onResize" >onResize</a>
+                            </li>
+                            <li>
+                                <a href="#sendFiles" >sendFiles</a>
+                            </li>
+                            <li>
+                                <a href="#showSelectedCollection" >showSelectedCollection</a>
+                            </li>
+                            <li>
+                                <a href="#submitCollection" >submitCollection</a>
+                            </li>
+                            <li>
+                                <a href="#super" >super</a>
+                            </li>
+                            <li>
+                                <a href="#validateCollection" >validateCollection</a>
+                            </li>
+                            <li>
+                                <a href="#handleFileInput" >handleFileInput</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#creatingNewCollection" >creatingNewCollection</a>
+                            </li>
+                            <li>
+                                <a href="#editingCollectionData" >editingCollectionData</a>
+                            </li>
+                            <li>
+                                <a href="#showHeader" >showHeader</a>
+                            </li>
+                            <li>
+                                <a href="#showMyCollections" >showMyCollections</a>
+                            </li>
+                            <li>
+                                <a href="#showNameField" >showNameField</a>
+                            </li>
+                            <li>
+                                <a href="#showPageHeader" >showPageHeader</a>
+                            </li>
+                            <li>
+                                <a href="#showSubmitButton" >showSubmitButton</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#filesChange" >filesChange</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="creatingNewCollection"></a>
+                        <b>creatingNewCollection</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:19</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="editingCollectionData"></a>
+                        <b>editingCollectionData</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{}</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:20</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="showHeader"></a>
+                        <b>showHeader</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:23</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="showMyCollections"></a>
+                        <b>showMyCollections</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:22</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="showNameField"></a>
+                        <b>showNameField</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:24</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="showPageHeader"></a>
+                        <b>showPageHeader</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:21</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="showSubmitButton"></a>
+                        <b>showSubmitButton</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:25</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section data-compodoc="block-outputs">
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="filesChange"></a>
+                        <b>filesChange</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:26</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="encodingChange"></a>
+                    <span class="name">
+                        <span ><b>encodingChange</b></span>
+                        <a href="#encodingChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>encodingChange()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="212"
+                                    class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:212</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleEuropeanaInputs"></a>
+                    <span class="name">
+                        <span ><b>handleEuropeanaInputs</b></span>
+                        <a href="#handleEuropeanaInputs"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>handleEuropeanaInputs(event: <a href="../interfaces/ItemsEntity.html" target="_self">ItemsEntity[]</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="228"
+                                    class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:228</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                            <code><a href="../interfaces/ItemsEntity.html" target="_self" >ItemsEntity[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleFileInputs"></a>
+                    <span class="name">
+                        <span ><b>handleFileInputs</b></span>
+                        <a href="#handleFileInputs"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>handleFileInputs(event)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="218"
+                                    class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:218</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handlerChange"></a>
+                    <span class="name">
+                        <span ><b>handlerChange</b></span>
+                        <a href="#handlerChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>handlerChange()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="215"
+                                    class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:215</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initializeCollections"></a>
+                    <span class="name">
+                        <span ><b>initializeCollections</b></span>
+                        <a href="#initializeCollections"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initializeCollections()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="86"
+                                    class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:86</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initializeForm"></a>
+                    <span class="name">
+                        <span ><b>initializeForm</b></span>
+                        <a href="#initializeForm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initializeForm()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="73"
+                                    class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:73</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:61</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onApplyCollectionFilter"></a>
+                    <span class="name">
+                        <span ><b>onApplyCollectionFilter</b></span>
+                        <a href="#onApplyCollectionFilter"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onApplyCollectionFilter(event)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="100"
+                                    class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:100</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onResize"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>onResize</b></span>
+                        <a href="#onResize"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onResize(event: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="237"
+                                    class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:237</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sendFiles"></a>
+                    <span class="name">
+                        <span ><b>sendFiles</b></span>
+                        <a href="#sendFiles"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>sendFiles()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="241"
+                                    class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:241</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showSelectedCollection"></a>
+                    <span class="name">
+                        <span ><b>showSelectedCollection</b></span>
+                        <a href="#showSelectedCollection"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>showSelectedCollection(collection, index)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="247"
+                                    class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:247</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>collection</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>index</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="submitCollection"></a>
+                    <span class="name">
+                        <span ><b>submitCollection</b></span>
+                        <a href="#submitCollection"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>submitCollection()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="143"
+                                    class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:143</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="super"></a>
+                    <span class="name">
+                        <span ><b>super</b></span>
+                        <a href="#super"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>super()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="59"
+                                    class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:59</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="validateCollection"></a>
+                    <span class="name">
+                        <span ><b>validateCollection</b></span>
+                        <a href="#validateCollection"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>validateCollection()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="110"
+                                    class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:110</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleFileInput"></a>
+                    <span class="name">
+                        <span ><b>handleFileInput</b></span>
+                        <a href="#handleFileInput"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>handleFileInput(obj: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:82</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>obj</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="allowedTypes"></a>
+                    <span class="name">
+                        <span ><b>allowedTypes</b></span>
+                        <a href="#allowedTypes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[&quot;text/plain&quot;, &quot;text/xml&quot;,
+                  &quot;image/jpeg&quot;, &quot;image/png&quot;, &quot;image/gif&quot;, &quot;image/tiff&quot;, &quot;image/webp&quot;, &quot;image/svg+xml&quot;, &quot;image/bmp&quot;,
+                  &quot;audio/mpeg&quot;, &quot;audio/ogg&quot;, &quot;audio/x-wav&quot;, &quot;audio/mp4&quot;,
+                  &quot;video/mp4&quot;, &quot;video/webm&quot;, &quot;video/ogg&quot;,
+                  &quot;image/*&quot;, &quot;audio/*&quot;, &quot;video/*&quot;]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:31</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="breakpoint"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>breakpoint</b></span>
+                        <a href="#breakpoint"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:28</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="collectionData"></a>
+                    <span class="name">
+                        <span ><b>collectionData</b></span>
+                        <a href="#collectionData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:48</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="collectionDataUpdated"></a>
+                    <span class="name">
+                        <span ><b>collectionDataUpdated</b></span>
+                        <a href="#collectionDataUpdated"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:49</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="collectionNamePattern"></a>
+                    <span class="name">
+                        <span ><b>collectionNamePattern</b></span>
+                        <a href="#collectionNamePattern"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>CollectionNamePattern</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:54</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dataForTheTree"></a>
+                    <span class="name">
+                        <span ><b>dataForTheTree</b></span>
+                        <a href="#dataForTheTree"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:47</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dataForTheTreeAll"></a>
+                    <span class="name">
+                        <span ><b>dataForTheTreeAll</b></span>
+                        <a href="#dataForTheTreeAll"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:46</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="editCollectionForm"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>editCollectionForm</b></span>
+                        <a href="#editCollectionForm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>UntypedFormGroup</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:29</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="encodingOptions"></a>
+                    <span class="name">
+                        <span ><b>encodingOptions</b></span>
+                        <a href="#encodingOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[&quot;UTF-8&quot;, &quot;Unicode&quot;]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:41</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="europeanaFiles"></a>
+                    <span class="name">
+                        <span ><b>europeanaFiles</b></span>
+                        <a href="#europeanaFiles"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:57</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="filterFiles"></a>
+                    <span class="name">
+                        <span ><b>filterFiles</b></span>
+                        <a href="#filterFiles"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:50</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="flowAttributes"></a>
+                    <span class="name">
+                        <span ><b>flowAttributes</b></span>
+                        <a href="#flowAttributes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{ accept: this.allowedTypes }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handlerOptions"></a>
+                    <span class="name">
+                        <span ><b>handlerOptions</b></span>
+                        <a href="#handlerOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+    { name: &#x27;No Handler&#x27;, value: &#x27;none&#x27; },
+    { name: &#x27;TEI XML Import&#x27;, value: &#x27;tei&#x27; },
+  ]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:42</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedCollection"></a>
+                    <span class="name">
+                        <span ><b>selectedCollection</b></span>
+                        <a href="#selectedCollection"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:52</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedCollectionIndex"></a>
+                    <span class="name">
+                        <span ><b>selectedCollectionIndex</b></span>
+                        <a href="#selectedCollectionIndex"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:53</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="typeOptions"></a>
+                    <span class="name">
+                        <span ><b>typeOptions</b></span>
+                        <a href="#typeOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[&quot;Text&quot;, &quot;TEI XML&quot;,
+                 &quot;JPEG&quot;, &quot;PNG&quot;, &quot;GIF&quot;, &quot;TIFF&quot;, &quot;WEBP&quot;, &quot;SVG&quot;, &quot;BMP&quot;,
+                 &quot;AUDIO MP3&quot;, &quot;AUDIO OGG&quot;, &quot;AUDIO WAV&quot;, &quot;AUDIO MP4&quot;,
+                 &quot;VIDEO MP4&quot;, &quot;VIDEO WEBM&quot;, &quot;VIDEO OGG&quot;,
+                 &quot;IMAGE&quot;, &quot;AUDIO&quot;, &quot;VIDEO&quot;]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/components/views/add-collection/add-collection.component.ts:36</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="userFiles"></a>
+                    <span class="name">
+                        <span ><b>userFiles</b></span>
+                        <a href="#userFiles"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:56</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_m"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>_m</b></span>
+                        <a href="#_m"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>NgModuleRef&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:66</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="activatedRoute"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>activatedRoute</b></span>
+                        <a href="#activatedRoute"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ActivatedRoute</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:48</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="analyticsService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>analyticsService</b></span>
+                        <a href="#analyticsService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/AnalyticsService.html" target="_self" >AnalyticsService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:71</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="annotationSchemaService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>annotationSchemaService</b></span>
+                        <a href="#annotationSchemaService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/AnnotationSchemaService.html" target="_self" >AnnotationSchemaService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:63</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="annotationService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>annotationService</b></span>
+                        <a href="#annotationService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/AnnotationService.html" target="_self" >AnnotationService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:55</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="annotatorsTemplateService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>annotatorsTemplateService</b></span>
+                        <a href="#annotatorsTemplateService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/AnnotatorsTemplateService.html" target="_self" >AnnotatorsTemplateService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:62</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>authService</b></span>
+                        <a href="#authService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:70</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="autoannService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>autoannService</b></span>
+                        <a href="#autoannService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/AutoannService.html" target="_self" >AutoannService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:76</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="buttonAnnotatorService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>buttonAnnotatorService</b></span>
+                        <a href="#buttonAnnotatorService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/ButtonAnnotatorService.html" target="_self" >ButtonAnnotatorService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:58</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="buttonColorService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>buttonColorService</b></span>
+                        <a href="#buttonColorService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/ButtonColorService.html" target="_self" >ButtonColorService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:59</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="changeDetectorRef"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>changeDetectorRef</b></span>
+                        <a href="#changeDetectorRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ChangeDetectorRef</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:67</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="collectionService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>collectionService</b></span>
+                        <a href="#collectionService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/CollectionService.html" target="_self" >CollectionService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:49</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="compiler"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>compiler</b></span>
+                        <a href="#compiler"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Compiler</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:64</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="coreferenceAnnotatorService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>coreferenceAnnotatorService</b></span>
+                        <a href="#coreferenceAnnotatorService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/CoreferenceAnnotatorService.html" target="_self" >CoreferenceAnnotatorService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:60</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="coreferenceColorService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>coreferenceColorService</b></span>
+                        <a href="#coreferenceColorService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/CoreferenceColorService.html" target="_self" >CoreferenceColorService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:61</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dialog"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>dialog</b></span>
+                        <a href="#dialog"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>MatDialog</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:51</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="documentService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>documentService</b></span>
+                        <a href="#documentService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/DocumentService.html" target="_self" >DocumentService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:50</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dragAndDropService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>dragAndDropService</b></span>
+                        <a href="#dragAndDropService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/DragAndDropService.html" target="_self" >DragAndDropService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:72</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fileSaverService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>fileSaverService</b></span>
+                        <a href="#fileSaverService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>FileSaverService</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:77</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="flashMessage"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>flashMessage</b></span>
+                        <a href="#flashMessage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/FlashMessagesService.html" target="_self" >FlashMessagesService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:45</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="formBuilder"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>formBuilder</b></span>
+                        <a href="#formBuilder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>UntypedFormBuilder</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:69</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="injector"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>injector</b></span>
+                        <a href="#injector"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Injector</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:65</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="localStorageService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>localStorageService</b></span>
+                        <a href="#localStorageService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/LocalStorageService.html" target="_self" >LocalStorageService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:75</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="messageService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>messageService</b></span>
+                        <a href="#messageService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/MessageService.html" target="_self" >MessageService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:73</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openDocumentService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>openDocumentService</b></span>
+                        <a href="#openDocumentService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/OpenDocumentService.html" target="_self" >OpenDocumentService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:53</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="restoreAnnotationService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>restoreAnnotationService</b></span>
+                        <a href="#restoreAnnotationService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/RestoreAnnotationService.html" target="_self" >RestoreAnnotationService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:54</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="router"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>router</b></span>
+                        <a href="#router"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Router</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:46</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="routerLocation"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>routerLocation</b></span>
+                        <a href="#routerLocation"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Location</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:47</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sseService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>sseService</b></span>
+                        <a href="#sseService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/SseService.html" target="_self" >SseService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:57</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tempAnnotationService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>tempAnnotationService</b></span>
+                        <a href="#tempAnnotationService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/TempAnnotationService.html" target="_self" >TempAnnotationService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:56</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="TextWidgetAPI"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>TextWidgetAPI</b></span>
+                        <a href="#TextWidgetAPI"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/TextWidgetAPI.html" target="_self" >TextWidgetAPI</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:52</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toastrService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>toastrService</b></span>
+                        <a href="#toastrService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ToastrService</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:74</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="translate"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>translate</b></span>
+                        <a href="#translate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>TranslateService</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:68</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="userService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>userService</b></span>
+                        <a href="#userService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/UserService.html" target="_self" >UserService</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/MainComponent.html" target="_self" >MainComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/MainComponent.html#source" target="_self" >MainComponent:44</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from &#x27;@angular/core&#x27;;
+import { UntypedFormGroup } from &#x27;@angular/forms&#x27;;
+import { ConfirmDialogData } from &#x27;src/app/models/dialogs/confirm-dialog&#x27;;
+import { ErrorDialogData } from &#x27;src/app/models/dialogs/error-dialog&#x27;;
+import { ConfirmDialogComponent } from &#x27;../../dialogs/confirm-dialog/confirm-dialog.component&#x27;;
+import { ErrorDialogComponent } from &#x27;../../dialogs/error-dialog/error-dialog.component&#x27;;
+import { MainComponent } from &#x27;../main/main.component&#x27;;
+import { CollectionNamePattern } from &#x27;@models/collection&#x27;;
+import { ItemsEntity } from &quot;@models/services/europeana&quot;;
+
+@Component({
+  selector: &#x27;add-collection&#x27;,
+  templateUrl: &#x27;./add-collection.component.html&#x27;,
+  styleUrls: [&#x27;./add-collection.component.scss&#x27;],
+  encapsulation: ViewEncapsulation.None
+})
+export class AddCollectionComponent extends MainComponent implements OnInit {
+
+  @Input() creatingNewCollection: boolean &#x3D; true;
+  @Input() editingCollectionData: any &#x3D; {};
+  @Input() showPageHeader: boolean &#x3D; true;
+  @Input() showMyCollections: boolean &#x3D; true;
+  @Input() showHeader: boolean &#x3D; true;
+  @Input() showNameField: boolean &#x3D; true;
+  @Input() showSubmitButton: boolean &#x3D; true;
+  @Output() filesChange &#x3D; new EventEmitter&lt;any[]&gt;();
+
+  public breakpoint: number; // Breakpoint observer code
+  public editCollectionForm: UntypedFormGroup;
+  // sidebarSelector &#x3D; &quot;myCollections&quot;;
+  allowedTypes &#x3D; [&quot;text/plain&quot;, &quot;text/xml&quot;,
+                  &quot;image/jpeg&quot;, &quot;image/png&quot;, &quot;image/gif&quot;, &quot;image/tiff&quot;, &quot;image/webp&quot;, &quot;image/svg+xml&quot;, &quot;image/bmp&quot;,
+                  &quot;audio/mpeg&quot;, &quot;audio/ogg&quot;, &quot;audio/x-wav&quot;, &quot;audio/mp4&quot;,
+                  &quot;video/mp4&quot;, &quot;video/webm&quot;, &quot;video/ogg&quot;,
+                  &quot;image/*&quot;, &quot;audio/*&quot;, &quot;video/*&quot;];
+  typeOptions &#x3D; [&quot;Text&quot;, &quot;TEI XML&quot;,
+                 &quot;JPEG&quot;, &quot;PNG&quot;, &quot;GIF&quot;, &quot;TIFF&quot;, &quot;WEBP&quot;, &quot;SVG&quot;, &quot;BMP&quot;,
+                 &quot;AUDIO MP3&quot;, &quot;AUDIO OGG&quot;, &quot;AUDIO WAV&quot;, &quot;AUDIO MP4&quot;,
+                 &quot;VIDEO MP4&quot;, &quot;VIDEO WEBM&quot;, &quot;VIDEO OGG&quot;,
+                 &quot;IMAGE&quot;, &quot;AUDIO&quot;, &quot;VIDEO&quot;];
+  encodingOptions &#x3D; [&quot;UTF-8&quot;, &quot;Unicode&quot;];
+  handlerOptions &#x3D; [
+    { name: &#x27;No Handler&#x27;, value: &#x27;none&#x27; },
+    { name: &#x27;TEI XML Import&#x27;, value: &#x27;tei&#x27; },
+  ];
+  dataForTheTreeAll: any &#x3D; [];
+  dataForTheTree: any &#x3D; [];
+  collectionData: any &#x3D; {};
+  collectionDataUpdated: boolean;
+  filterFiles &#x3D; true;
+  flowAttributes &#x3D; { accept: this.allowedTypes };
+  selectedCollection: any &#x3D; null;
+  selectedCollectionIndex &#x3D; null;
+  collectionNamePattern &#x3D; CollectionNamePattern;
+
+  userFiles &#x3D; [];
+  europeanaFiles &#x3D; [];
+
+  super() { };
+
+  ngOnInit(): void {
+    this.initializeForm();
+    this.initializeCollections();
+    this.editCollectionForm &#x3D; this.formBuilder.group({
+      collectionName: [this.collectionData.name],
+      collectionEncoding: [this.collectionData.encoding],
+      collectionHandler: [this.collectionData.handler],
+    });
+    // Breakpoint observer code
+    this.breakpoint &#x3D; window.innerWidth &lt;&#x3D; 600 ? 1 : 2;
+  }
+
+  initializeForm() {
+    this.userFiles &#x3D; [];
+    this.europeanaFiles &#x3D; [];
+    this.collectionData &#x3D; {};
+    this.collectionData.name &#x3D; &quot;&quot;;
+    this.collectionData.encoding &#x3D; this.encodingOptions[0];
+    this.collectionData.handler &#x3D; this.handlerOptions[0];
+    this.collectionData.type &#x3D; &quot;text&quot;;
+    this.collectionData.visualisation_options &#x3D; &quot;&quot;;
+    this.encodingChange();
+    this.sendFiles();
+  };
+
+  initializeCollections() {
+    if (!this.showMyCollections) return;
+
+    this.collectionService.getAll()
+      .then((response) &#x3D;&gt; {
+        if (!response[&quot;success&quot;]) {
+          var dialogRef &#x3D; this.dialog.open(ErrorDialogComponent, { data: new ErrorDialogData(this.translate,
+            &quot;ErrorDuringRetrievingCollections&quot;) });
+        } else {
+          this.dataForTheTreeAll &#x3D; this.dataForTheTree &#x3D; response[&quot;data&quot;];
+        }
+      });
+  };
+
+  onApplyCollectionFilter(event) {
+    let filterText &#x3D; event.target.value;
+    let regexObj &#x3D; new RegExp(filterText, &#x27;i&#x27;);
+    if (filterText) {
+      this.dataForTheTree &#x3D; this.dataForTheTreeAll.filter(col &#x3D;&gt; regexObj.test(col.name));
+    } else {
+      this.dataForTheTree &#x3D; this.dataForTheTreeAll;
+    }
+  }; /* onApplyCollectionFilter */
+
+  validateCollection() {
+    return new Promise((resolve, reject) &#x3D;&gt; {
+      if (this.collectionData.name.length &lt; 4) {
+        this.dialog.open(ErrorDialogComponent, {
+          data: new ConfirmDialogData(&quot;Error&quot;, &#x27;Collections.NameMustBeAtLeast4CharactersLong.&#x27;)
+        });
+        reject(&#x27;Collections.NameMustBeAtLeast4CharactersLong.&#x27;);
+      } else if (this.userFiles.length + this.europeanaFiles.length &#x3D;&#x3D;&#x3D; 0) {
+
+        var modalOptions &#x3D; new ConfirmDialogData();
+
+        modalOptions.headerType &#x3D; &quot;warning&quot;;
+        modalOptions.dialogTitle &#x3D; &#x27;Warning&#x27;;
+        modalOptions.message &#x3D; &#x27;The collection does not contain any documents. Do you want to proceed?&#x27;;
+        modalOptions.buttons &#x3D; [&#x27;No&#x27;, &#x27;Yes&#x27;];
+
+        var dialogRef &#x3D; this.dialog.open(ConfirmDialogComponent, { data: modalOptions, width: &#x27;550px&#x27; });
+
+        dialogRef.afterClosed().subscribe(modalResult &#x3D;&gt; {
+          resolve(modalResult);
+        });
+
+        /*Dialog.confirm(modalOptions).result.then(function (result) {
+          resolve(result);
+        }, function () {
+          reject();
+        });*/
+
+      } else
+        resolve(&quot;Yes&quot;);
+    });
+  }
+
+  submitCollection() {
+    this.validateCollection().then((modalResult) &#x3D;&gt; {
+      if (modalResult &#x3D;&#x3D;&#x3D; &quot;Yes&quot;) {
+        this.collectionData.overwrite &#x3D; false;
+
+        this.collectionService.save(this.collectionData)
+          .then((response) &#x3D;&gt; {
+            if (response[&quot;success&quot;] &amp;&amp; response[&quot;exists&quot;]) { // collection already exists
+
+              var modalOptions &#x3D; new ConfirmDialogData();
+
+              modalOptions.headerType &#x3D; &quot;warning&quot;;
+              modalOptions.dialogTitle &#x3D; &#x27;Warning&#x27;;
+              modalOptions.message &#x3D; &#x27;The collection &quot;&#x27; + this.collectionData.name + &#x27;&quot; already exists. What do you want to do?&#x27;;
+              modalOptions.buttons &#x3D; [&#x27;Rename&#x27;, &#x27;Overwrite&#x27;];
+
+              var dialogRef &#x3D; this.dialog.open(ConfirmDialogComponent, { data: modalOptions, width: &#x27;550px&#x27;, disableClose: true });
+
+              dialogRef.afterClosed().subscribe(modalResult &#x3D;&gt; {
+                //var modalInstance &#x3D; Dialog.confirm(modalOptions);
+                //modalInstance.result.then((modalResult) &#x3D;&gt; {
+                if (modalResult &#x3D;&#x3D;&#x3D; &quot;Rename&quot;) {
+                  //angular.element(document.querySelector(&#x27;#collectionName&#x27;)).focus();
+                  //angular.element(document.querySelector(&#x27;#collectionName&#x27;)).select();
+                  return false;
+                } else if (modalResult &#x3D;&#x3D;&#x3D; &quot;Overwrite&quot;) {
+                  this.collectionData.overwrite &#x3D; true;
+                  this.collectionData.id &#x3D; response[&quot;collection_id&quot;];
+                  this.collectionService.save(this.collectionData)
+                    .then((newCollectionResponse: any) &#x3D;&gt; {           // execute after saving collection
+                      if (newCollectionResponse[&quot;success&quot;]) {
+                        this.collectionData.overwrite &#x3D; false;
+                        return this.documentService.save(newCollectionResponse.collection_id, this.userFiles.concat(this.europeanaFiles))
+                      } else {
+                        //var modalOptions &#x3D; { body: &#x27;Error during collection save. Please refresh the page and try again.&#x27; };
+                        //Dialog.error(modalOptions);
+                        this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData(&quot;Error&quot;, &quot;Error during collection save. Please refresh the page and try again.&quot;) });
+                        //return false;
+                      }
+                    }).then(() &#x3D;&gt; {              // all collection documents saved
+                      this.initializeForm();
+                      this.initializeCollections()
+                      //$scope.$broadcast(&quot;initializeUploaderFiles&quot;); TODO: Update
+                    }, (error) &#x3D;&gt; {
+                      /*var modalOptions &#x3D; { body: &#x27;Error during collection save. Please refresh the page and try again.&#x27; };
+                      Dialog.error(modalOptions);*/
+                      this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData(&quot;Error&quot;, &quot;Error during collection save. Please refresh the page and try again.&quot;) });
+                    });
+                } else {
+                  return false;
+                }
+              });
+            } else if (response[&quot;success&quot;] &amp;&amp; !response[&quot;exists&quot;]) {        // new collection
+              this.documentService.save(response[&quot;collection_id&quot;], this.userFiles.concat(this.europeanaFiles))
+                .then(() &#x3D;&gt; {                    // all collection documents saved
+                  this.initializeForm();
+                  this.initializeCollections();
+                  //$scope.$broadcast(&quot;initializeUploaderFiles&quot;); TODO:Update
+                });
+            } else if (!response[&quot;success&quot;]) {
+              this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData(&quot;Error&quot;, &quot;Error in saving Collection. Please refresh the page and try again.&quot;) });
+            }
+          }, (error) &#x3D;&gt; {
+            this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData(&quot;Error&quot;, &quot;Error in saving Collection. Please refresh the page and try again.&quot;) });
+          });
+      }
+    });
+  };
+
+  encodingChange() {
+    this.collectionDataUpdated &#x3D; !this.collectionDataUpdated;
+  }
+  handlerChange() {
+    this.collectionDataUpdated &#x3D; !this.collectionDataUpdated;
+  }
+  handleFileInputs(event) {
+    event.files.forEach(file &#x3D;&gt; { this.userFiles.push(file); });
+    if (event.message !&#x3D; &quot;&quot;) {
+      this.dialog.open(ErrorDialogComponent, {
+        data: new ConfirmDialogData(&quot;Error&quot;, event.message)
+      });
+    }
+    this.sendFiles();
+  };
+
+  handleEuropeanaInputs(event: ItemsEntity[]) {
+    this.europeanaFiles &#x3D; event;
+    this.europeanaFiles.forEach(item &#x3D;&gt; {
+      item.name     &#x3D; item.title[0];
+      item.encoding &#x3D; this.collectionData.encoding;
+      item.handler  &#x3D; this.collectionData.handler;
+    });
+  }; /* handleEuropeanaInputs */
+
+  public onResize(event: any): void {
+    this.breakpoint &#x3D; event.target.innerWidth &lt;&#x3D; 600 ? 1 : 2;
+  }
+
+  sendFiles() {
+    this.filesChange.emit(this.userFiles.concat(this.europeanaFiles));
+  }
+
+  // Function to be called when a user selects a collection
+  // from the sidebar tree
+  showSelectedCollection(collection, index) {
+    this.selectedCollectionIndex &#x3D; index;
+    this.selectedCollection &#x3D; collection;
+    this.collectionData.name &#x3D; collection.name;
+  }; /* showSelectedCollection */
+
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;page-header title&#x3D;&quot;{{&#x27;pageheader.Add New Collection&#x27;|translate}}&quot; *ngIf&#x3D;&quot;showPageHeader&quot;&gt;&lt;/page-header&gt;
+&lt;div class&#x3D;&quot;collection-add-wrapper&quot;&gt;
+  &lt;as-split direction&#x3D;&quot;horizontal&quot; style&#x3D;&quot;height: 100%;&quot;&gt;
+    &lt;as-split-area order&#x3D;&quot;1&quot; [visible]&#x3D;&quot;showMyCollections&quot; [size]&#x3D;&quot;30&quot; [minSize]&#x3D;&quot;10&quot; [maxSize]&#x3D;&quot;60&quot;
+      class&#x3D;&quot;side-bar-wrapper&quot;&gt;
+      &lt;mat-card appearance&#x3D;&quot;outlined&quot; class&#x3D;&quot;mat-card-fill-parent&quot;&gt;
+        &lt;!-- SIDEBAR HEADER --&gt;
+        &lt;mat-card-header class&#x3D;&quot;sidebar-header&quot;&gt;
+          &lt;mat-card-title matBadge&#x3D;&quot;{{dataForTheTree.length}}&quot; matBadgeOverlap&#x3D;&quot;false&quot; matBadgeColor&#x3D;&quot;accent&quot;&gt;
+            {{&#x27;Collections.MyCollections&#x27;|translate}}&lt;/mat-card-title&gt;
+        &lt;/mat-card-header&gt;
+        &lt;!-- SEARCH COLLECTION LIST --&gt;
+        &lt;div class&#x3D;&quot;fxLayout fxLayoutAlign-start-center&quot;&gt;
+          &lt;mat-form-field class&#x3D;&quot;collection-list-filter-field mat-mdc-form-field-small&quot;&gt;
+            &lt;mat-label&gt;{{&#x27;Collections.Filter Collections&#x27;|translate}}&lt;/mat-label&gt;
+            &lt;mat-icon matPrefix&gt;search&lt;/mat-icon&gt;
+            &lt;input matInput type&#x3D;&quot;text&quot; class&#x3D;&quot;collection-list-filter-input&quot; (keyup)&#x3D;&quot;onApplyCollectionFilter($event)&quot;
+              placeholder&#x3D;&quot;{{&#x27;Collections.FilterCollectionsPlaceholder&#x27;|translate}}&quot; #input
+              [(ngModel)]&#x3D;&quot;collectionsFilter&quot;&gt;
+            &lt;button mat-icon-button matSuffix *ngIf&#x3D;&quot;collectionsFilter&quot; aria-label&#x3D;&quot;Clear&quot;
+              class&#x3D;&quot;mat-mdc-icon-button-small&quot; (click)&#x3D;&quot;collectionsFilter&#x3D;&#x27;&#x27;; onApplyCollectionFilter($event)&quot;&gt;
+              &lt;mat-icon&gt;backspace&lt;/mat-icon&gt;
+            &lt;/button&gt;
+          &lt;/mat-form-field&gt;
+        &lt;/div&gt;
+        &lt;mat-card-content class&#x3D;&quot;sidebar-main-content mat-card-fill-parent&quot;&gt;
+          &lt;!-- SIDEBAR COLLECTION LIST --&gt;
+          &lt;mat-selection-list #collections&#x3D;&quot;cdkDropList&quot; [multiple]&#x3D;&quot;false&quot; [hideSingleSelectionIndicator]&#x3D;&quot;true&quot;
+            cdkDropList (cdkDropListDropped)&#x3D;&quot;onCollectionDrop($event)&quot;
+            [cdkDropListSortPredicate]&#x3D;&quot;onCollectionDropOver&quot;
+            [cdkDropListAutoScrollDisabled]&#x3D;&quot;disableCollectionDraggingAutoscroll&quot;&gt;
+            &lt;mat-list-option *ngFor&#x3D;&quot;let collection of dataForTheTree;let index&#x3D;index&quot; [value]&#x3D;&quot;collection&quot;
+              (click)&#x3D;&quot;showSelectedCollection(collection, index)&quot; cdkDrag [cdkDragDisabled]&#x3D;&quot;disableCollectionDragging&quot;
+              [ngClass]&#x3D;&quot;{&#x27;drop-target-allow&#x27;: dropTargetCollection &#x3D;&#x3D; index &amp;&amp; dropTargetCollectionAllow, &#x27;drop-target-deny&#x27;: dropTargetCollection &#x3D;&#x3D; index &amp;&amp; !dropTargetCollectionAllow}&quot;&gt;
+              &lt;mat-icon *ngIf&#x3D;&quot;collection.confirmed!&#x3D;1&quot; matListItemIcon matBadge&#x3D;&quot;{{collection.document_count}}&quot;
+                matBadgeOverlap&#x3D;&quot;true&quot; matBadgeSize&#x3D;&quot;small&quot; matBadgeColor&#x3D;&quot;accent&quot;
+                matBadgePosition&#x3D;&quot;before&quot;&gt;folder&lt;/mat-icon&gt;
+              &lt;mat-icon *ngIf&#x3D;&quot;collection.confirmed&#x3D;&#x3D;1 &amp;&amp; collection.is_owner&quot; matListItemIcon
+                matBadge&#x3D;&quot;{{collection.document_count}}&quot; matBadgeOverlap&#x3D;&quot;true&quot; matBadgeSize&#x3D;&quot;small&quot;
+                matBadgeColor&#x3D;&quot;accent&quot; matBadgePosition&#x3D;&quot;before&quot;&gt;folder_shared&lt;/mat-icon&gt;
+              &lt;mat-icon *ngIf&#x3D;&quot;collection.confirmed&#x3D;&#x3D;1 &amp;&amp; !collection.is_owner&quot; matListItemIcon
+                matBadge&#x3D;&quot;{{collection.document_count}}&quot; matBadgeOverlap&#x3D;&quot;true&quot; matBadgeSize&#x3D;&quot;small&quot;
+                matBadgeColor&#x3D;&quot;accent&quot; matBadgePosition&#x3D;&quot;before&quot;&gt;snippet_folder&lt;/mat-icon&gt;
+              &lt;span matListItemTitle matTooltip&#x3D;&quot;{{collection.name}}&quot;&gt;{{collection.name}}&lt;/span&gt;
+              &lt;span matListItemLine
+                *ngIf&#x3D;&quot;collection.confirmed&#x3D;&#x3D;1 &amp;&amp; collection.is_owner&quot;&gt;({{&#x27;Collections.SharedByMe&#x27;|translate}})&lt;/span&gt;
+              &lt;span matListItemLine *ngIf&#x3D;&quot;collection.confirmed&#x3D;&#x3D;1 &amp;&amp; !collection.is_owner&quot; class&#x3D;&quot;label label-info&quot;
+                title&#x3D;&quot;The actions that can be performed on this collection are limited because it does not belong to you&quot;&gt;({{&#x27;Collections.SharedWithMe&#x27;|translate}})&lt;/span&gt;
+            &lt;/mat-list-option&gt;
+          &lt;/mat-selection-list&gt;
+          &lt;!--
+          &lt;mat-action-list&gt;
+            &lt;button mat-list-item *ngFor&#x3D;&quot;let collection of dataForTheTree&quot;&gt;
+              &lt;mat-icon class&#x3D;&quot;mat-icon-rtl-mirror&quot;&gt;folder&lt;/mat-icon&gt; {{collection.name}} &lt;span class&#x3D;&quot;right&quot;&gt;
+                &lt;span *ngIf&#x3D;&quot;collection.confirmed&#x3D;&#x3D;1 &amp;&amp; collection.is_owner&quot;
+                  class&#x3D;&quot;label label-info&quot;&gt;{{&#x27;Collections.SharedByMe&#x27;|translate}}&lt;/span&gt;
+                &lt;span *ngIf&#x3D;&quot;collection.confirmed&#x3D;&#x3D;1 &amp;&amp; !collection.is_owner&quot; class&#x3D;&quot;label label-info&quot;
+                  title&#x3D;&quot;The actions that can be performed on this collection are limited because it does not belong to you&quot;&gt;{{&#x27;Collections.SharedWithMe&#x27;|translate}}&lt;/span&gt;
+                ({{collection.document_count}} {{&#x27;Collections.Documents&#x27;|translate}})
+              &lt;/span&gt;
+            &lt;/button&gt;
+          &lt;/mat-action-list&gt;
+          --&gt;
+        &lt;/mat-card-content&gt;
+      &lt;/mat-card&gt;
+    &lt;/as-split-area&gt;
+    &lt;as-split-area order&#x3D;&quot;2&quot; [size]&#x3D;&quot;70&quot; [minSize]&#x3D;&quot;40&quot; [maxSize]&#x3D;&quot;90&quot; class&#x3D;&quot;main-content-wrapper&quot;&gt;
+      &lt;mat-card appearance&#x3D;&quot;outlined&quot; class&#x3D;&quot;mat-card-fill-parent&quot;&gt;
+        &lt;mat-card-header class&#x3D;&quot;main-content-header&quot; *ngIf&#x3D;&quot;showHeader&quot;&gt;
+          &lt;mat-card-title&gt;{{(creatingNewCollection ? &#x27;Collections.AddNewCollection&#x27; : &#x27;Collections.EditCollection&#x27;) |
+            translate}}&lt;/mat-card-title&gt;
+        &lt;/mat-card-header&gt;
+        &lt;form [formGroup]&#x3D;&quot;editCollectionForm&quot; (submit)&#x3D;&quot;submitCollection()&quot;&gt;
+          &lt;mat-card-content class&#x3D;&quot;main-content&quot;&gt;
+            &lt;mat-form-field appearance&#x3D;&quot;outline&quot; *ngIf&#x3D;&quot;showNameField&quot;&gt;
+              &lt;mat-label&gt;{{&#x27;Collections.CollectionName&#x27; | translate}}&lt;/mat-label&gt;
+              &lt;input matInput type&#x3D;&quot;text&quot; formControlName&#x3D;&quot;collectionName&quot;
+                placeholder&#x3D;&quot;{{&#x27;Collections.PleaseEnterTheNameOfTheCollection...&#x27; | translate}}&quot;
+                [(ngModel)]&#x3D;&quot;collectionData.name&quot; required minlength&#x3D;&quot;4&quot; [pattern]&#x3D;&quot;collectionNamePattern&quot;&gt;
+              &lt;mat-error *ngIf&#x3D;&quot;editCollectionForm.get(&#x27;collectionName&#x27;).hasError(&#x27;required&#x27;)&quot;&gt;
+                {{&#x27;validations.required&#x27; | translate}}
+              &lt;/mat-error&gt;
+              &lt;mat-error *ngIf&#x3D;&quot;editCollectionForm.get(&#x27;collectionName&#x27;).hasError(&#x27;pattern&#x27;)&quot;&gt;
+                {{&#x27;validations.pattern&#x27; | translate}}
+              &lt;/mat-error&gt;
+              &lt;mat-error translate [translateParams]&#x3D;&quot;{number:&#x27;4&#x27;}&quot;
+                *ngIf&#x3D;&quot;editCollectionForm.get(&#x27;collectionName&#x27;).hasError(&#x27;minlength&#x27;)&quot;&gt;
+                validations.minlength
+              &lt;/mat-error&gt;
+            &lt;/mat-form-field&gt;
+            &lt;mat-grid-list cols&#x3D;&quot;2&quot; [cols]&#x3D;&quot;breakpoint&quot; rowHeight&#x3D;&quot;6em&quot; (window:resize)&#x3D;&quot;onResize($event)&quot;&gt;
+              &lt;mat-grid-tile&gt;
+                &lt;mat-form-field appearance&#x3D;&quot;outline&quot;&gt;
+                  &lt;mat-label&gt;{{&#x27;Collections.DefaultEncoding&#x27; | translate}}&lt;/mat-label&gt;
+                  &lt;mat-select formControlName&#x3D;&quot;collectionEncoding&quot; [(ngModel)]&#x3D;&quot;collectionData.encoding&quot;
+                    (change)&#x3D;&quot;encodingChange()&quot;&gt;
+                    &lt;mat-option *ngFor&#x3D;&quot;let encodingOption of encodingOptions&quot; [value]&#x3D;&quot;encodingOption&quot;&gt;
+                      {{encodingOption}}
+                    &lt;/mat-option&gt;
+                  &lt;/mat-select&gt;
+                &lt;/mat-form-field&gt;
+              &lt;/mat-grid-tile&gt;
+              &lt;mat-grid-tile&gt;
+                &lt;mat-form-field appearance&#x3D;&quot;outline&quot;&gt;
+                  &lt;mat-label&gt;{{&#x27;Collections.DefaultHandler&#x27; | translate}}&lt;/mat-label&gt;
+                  &lt;mat-select formControlName&#x3D;&quot;collectionHandler&quot; [(ngModel)]&#x3D;&quot;collectionData.handler&quot;
+                    (change)&#x3D;&quot;handlerChange()&quot;&gt;
+                    &lt;mat-option *ngFor&#x3D;&quot;let handlerOption of handlerOptions&quot; [value]&#x3D;&quot;handlerOption&quot;&gt;
+                      {{handlerOption.name}}&lt;/mat-option&gt;
+                  &lt;/mat-select&gt;
+                &lt;/mat-form-field&gt;
+              &lt;/mat-grid-tile&gt;
+            &lt;/mat-grid-list&gt;
+            &lt;mat-tab-group&gt;
+              &lt;mat-tab&gt;
+                &lt;ng-template mat-tab-label&gt;
+                  &lt;mat-icon class&#x3D;&quot;example-tab-icon&quot;&gt;computer&lt;/mat-icon&gt;
+                  {{&#x27;Collections.Upload Files from this Computer&#x27; | translate}}
+                &lt;/ng-template&gt;
+                &lt;div class&#x3D;&quot;document-list&quot;&gt;
+                  &lt;label&gt;{{&#x27;Collections.FilesToBeAddedToTheCollection&#x27; | translate}}:&lt;/label&gt;
+                  &lt;div class&#x3D;&quot;document-list-component&quot;&gt;
+                    &lt;div id&#x3D;&quot;uploadTable&quot; class&#x3D;&quot;document-list-table&quot;&gt;
+                      &lt;table class&#x3D;&quot;table table-bordered&quot;&gt;
+                        &lt;thead&gt;
+                          &lt;tr&gt;
+                            &lt;th&gt;#&lt;/th&gt;
+                            &lt;th&gt;{{&#x27;Filename&#x27;|translate}}&lt;/th&gt;
+                            &lt;th *ngIf&#x3D;&quot;filterFiles !&#x3D;&#x3D; false&quot;&gt;{{&#x27;Type&#x27;|translate}}&lt;/th&gt;
+                            &lt;th *ngIf&#x3D;&quot;filterFiles !&#x3D;&#x3D; false&quot;&gt;{{&#x27;Encoding&#x27;|translate}}&lt;/th&gt;
+                            &lt;th *ngIf&#x3D;&quot;filterFiles !&#x3D;&#x3D; false&quot;&gt;{{&#x27;Handler&#x27;|translate}}&lt;/th&gt;
+                            &lt;th&gt;&lt;/th&gt;
+                          &lt;/tr&gt;
+                        &lt;/thead&gt;
+                        &lt;tbody *ngIf&#x3D;&quot;userFiles.length!&#x3D;undefined &amp;&amp; userFiles.length + europeanaFiles.length &gt;0&quot;&gt;
+                          &lt;tr *ngFor&#x3D;&quot;let file of userFiles;let index&#x3D;index&quot;&gt;
+                            &lt;td&gt;{{index+1}}&lt;/td&gt;
+                            &lt;td&gt;{{file.name}}&lt;/td&gt;
+                            &lt;td *ngIf&#x3D;&quot;filterFiles !&#x3D;&#x3D; false&quot;&gt;
+                              &lt;select id&#x3D;&quot;type&quot; class&#x3D;&quot;form-control&quot; [(ngModel)]&#x3D;&quot;file.type&quot;
+                                [ngModelOptions]&#x3D;&quot;{standalone: true}&quot;&gt;
+                                &lt;option *ngFor&#x3D;&quot;let o of typeOptions&quot; [value]&#x3D;&quot;o&quot;&gt;{{o}}&lt;/option&gt;
+                              &lt;/select&gt;
+                            &lt;/td&gt;
+                            &lt;td *ngIf&#x3D;&quot;filterFiles !&#x3D;&#x3D; false&quot;&gt;
+                              &lt;select id&#x3D;&quot;defaultEndoding&quot; class&#x3D;&quot;form-control&quot; [(ngModel)]&#x3D;&quot;file.encoding&quot;
+                                [ngModelOptions]&#x3D;&quot;{standalone: true}&quot;&gt;
+                                &lt;option *ngFor&#x3D;&quot;let o of encodingOptions&quot; [value]&#x3D;&quot;o&quot;&gt;{{o}}&lt;/option&gt;
+                              &lt;/select&gt;
+                            &lt;/td&gt;
+                            &lt;td *ngIf&#x3D;&quot;filterFiles !&#x3D;&#x3D; false&quot;&gt;
+                              &lt;select id&#x3D;&quot;handler&quot; class&#x3D;&quot;form-control&quot; [(ngModel)]&#x3D;&quot;file.handler&quot;
+                                [ngModelOptions]&#x3D;&quot;{standalone: true}&quot;&gt;
+                                &lt;option *ngFor&#x3D;&quot;let o of handlerOptions&quot; [ngValue]&#x3D;&quot;o&quot;&gt;{{o.name}}&lt;/option&gt;
+                              &lt;/select&gt;
+                            &lt;/td&gt;
+                            &lt;td&gt;
+                              &lt;button mat-icon-button (click)&#x3D;&quot;userFiles.splice(index, 1)&quot;
+                                [matTooltip]&#x3D;&quot;&#x27;Remove&#x27;|translate&quot;&gt;
+                                &lt;mat-icon&gt;delete&lt;/mat-icon&gt;
+                              &lt;/button&gt;
+                            &lt;/td&gt;
+                          &lt;/tr&gt;
+                          &lt;tr *ngFor&#x3D;&quot;let file of europeanaFiles;let index&#x3D;index&quot;&gt;
+                            &lt;td&gt;{{userFiles.length+index+1}}&lt;/td&gt;
+                            &lt;td&gt;{{file.name}}&lt;/td&gt;
+                            &lt;td *ngIf&#x3D;&quot;filterFiles !&#x3D;&#x3D; false&quot;&gt;
+                              &lt;select id&#x3D;&quot;type&quot; class&#x3D;&quot;form-control&quot; [(ngModel)]&#x3D;&quot;file.type&quot;
+                                [ngModelOptions]&#x3D;&quot;{standalone: true}&quot;&gt;
+                                &lt;option *ngFor&#x3D;&quot;let o of typeOptions&quot; [value]&#x3D;&quot;o&quot;&gt;{{o}}&lt;/option&gt;
+                              &lt;/select&gt;
+                            &lt;/td&gt;
+                            &lt;td *ngIf&#x3D;&quot;filterFiles !&#x3D;&#x3D; false&quot;&gt;
+                              &lt;select id&#x3D;&quot;defaultEndoding&quot; class&#x3D;&quot;form-control&quot; [(ngModel)]&#x3D;&quot;file.encoding&quot;
+                                [ngModelOptions]&#x3D;&quot;{standalone: true}&quot;&gt;
+                                &lt;option *ngFor&#x3D;&quot;let o of encodingOptions&quot; [value]&#x3D;&quot;o&quot;&gt;{{o}}&lt;/option&gt;
+                              &lt;/select&gt;
+                            &lt;/td&gt;
+                            &lt;td *ngIf&#x3D;&quot;filterFiles !&#x3D;&#x3D; false&quot;&gt;
+                              &lt;select id&#x3D;&quot;handler&quot; class&#x3D;&quot;form-control&quot; [(ngModel)]&#x3D;&quot;file.handler&quot;
+                                [ngModelOptions]&#x3D;&quot;{standalone: true}&quot;&gt;
+                                &lt;option *ngFor&#x3D;&quot;let o of handlerOptions&quot; [ngValue]&#x3D;&quot;o&quot;&gt;{{o.name}}&lt;/option&gt;
+                              &lt;/select&gt;
+                            &lt;/td&gt;
+                            &lt;td&gt;
+                              &lt;button mat-icon-button (click)&#x3D;&quot;europeanaFiles.splice(index, 1)&quot;
+                                [matTooltip]&#x3D;&quot;&#x27;Remove&#x27;|translate&quot;&gt;
+                                &lt;mat-icon&gt;delete&lt;/mat-icon&gt;
+                              &lt;/button&gt;
+                            &lt;/td&gt;
+                          &lt;/tr&gt;
+                        &lt;/tbody&gt;
+                      &lt;/table&gt;
+                    &lt;/div&gt;
+
+                    &lt;!--uploader flow-init&gt;&lt;/uploader&gt;&lt;hr--&gt;
+                    &lt;uploader [allowedTypes]&#x3D;&quot;allowedTypes&quot; [fileTypeOptions]&#x3D;&quot;typeOptions&quot;
+                      [fileEncodingOptions]&#x3D;&quot;encodingOptions&quot; [fileHandlerOptions]&#x3D;&quot;handlerOptions&quot;
+                      [collectionData]&#x3D;&quot;collectionData&quot; [collectionDataUpdated]&#x3D;&quot;collectionDataUpdated&quot;
+                      [flowAttributes]&#x3D;&quot;flowAttributes&quot; (handleFileInputs)&#x3D;&quot;handleFileInputs($event)&quot;&gt;&lt;/uploader&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/mat-tab&gt;
+              &lt;mat-tab&gt;
+                &lt;ng-template mat-tab-label&gt;
+                  &lt;mat-icon svgIcon&#x3D;&quot;logo_europeana&quot; class&#x3D;&quot;example-tab-icon&quot;&gt;&lt;/mat-icon&gt;
+                  Europeana
+                &lt;/ng-template&gt;
+                &lt;app-europeana-search (selected)&#x3D;&quot;handleEuropeanaInputs($event)&quot;&gt;&lt;/app-europeana-search&gt;
+              &lt;/mat-tab&gt;
+            &lt;/mat-tab-group&gt;
+          &lt;/mat-card-content&gt;
+          &lt;mat-card-actions align&#x3D;&quot;end&quot;&gt;
+            &lt;button type&#x3D;&quot;submit&quot; mat-button [disabled]&#x3D;&quot;editCollectionForm.invalid&quot; color&#x3D;&quot;primary&quot;
+              *ngIf&#x3D;&quot;showSubmitButton&quot;&gt;
+              {{&#x27;Collections.AddCollection&#x27; | translate}}
+            &lt;/button&gt;
+          &lt;/mat-card-actions&gt;
+        &lt;/form&gt;
+      &lt;/mat-card&gt;
+    &lt;/as-split-area&gt;
+  &lt;/as-split&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./add-collection.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">// https://github.com/angular-split/angular-split/issues/224
+.as-split-gutter {
+  height: revert !important;
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><page-header title="{{\'pageheader.Add New Collection\'|translate}}" *ngIf="showPageHeader"></page-header><div class="collection-add-wrapper">  <as-split direction="horizontal" style="height: 100%;">    <as-split-area order="1" [visible]="showMyCollections" [size]="30" [minSize]="10" [maxSize]="60"      class="side-bar-wrapper">      <mat-card appearance="outlined" class="mat-card-fill-parent">        <!-- SIDEBAR HEADER -->        <mat-card-header class="sidebar-header">          <mat-card-title matBadge="{{dataForTheTree.length}}" matBadgeOverlap="false" matBadgeColor="accent">            {{\'Collections.MyCollections\'|translate}}</mat-card-title>        </mat-card-header>        <!-- SEARCH COLLECTION LIST -->        <div class="fxLayout fxLayoutAlign-start-center">          <mat-form-field class="collection-list-filter-field mat-mdc-form-field-small">            <mat-label>{{\'Collections.Filter Collections\'|translate}}</mat-label>            <mat-icon matPrefix>search</mat-icon>            <input matInput type="text" class="collection-list-filter-input" (keyup)="onApplyCollectionFilter($event)"              placeholder="{{\'Collections.FilterCollectionsPlaceholder\'|translate}}" #input              [(ngModel)]="collectionsFilter">            <button mat-icon-button matSuffix *ngIf="collectionsFilter" aria-label="Clear"              class="mat-mdc-icon-button-small" (click)="collectionsFilter=\'\'; onApplyCollectionFilter($event)">              <mat-icon>backspace</mat-icon>            </button>          </mat-form-field>        </div>        <mat-card-content class="sidebar-main-content mat-card-fill-parent">          <!-- SIDEBAR COLLECTION LIST -->          <mat-selection-list #collections="cdkDropList" [multiple]="false" [hideSingleSelectionIndicator]="true"            cdkDropList (cdkDropListDropped)="onCollectionDrop($event)"            [cdkDropListSortPredicate]="onCollectionDropOver"            [cdkDropListAutoScrollDisabled]="disableCollectionDraggingAutoscroll">            <mat-list-option *ngFor="let collection of dataForTheTree;let index=index" [value]="collection"              (click)="showSelectedCollection(collection, index)" cdkDrag [cdkDragDisabled]="disableCollectionDragging"              [ngClass]="{\'drop-target-allow\': dropTargetCollection == index && dropTargetCollectionAllow, \'drop-target-deny\': dropTargetCollection == index && !dropTargetCollectionAllow}">              <mat-icon *ngIf="collection.confirmed!=1" matListItemIcon matBadge="{{collection.document_count}}"                matBadgeOverlap="true" matBadgeSize="small" matBadgeColor="accent"                matBadgePosition="before">folder</mat-icon>              <mat-icon *ngIf="collection.confirmed==1 && collection.is_owner" matListItemIcon                matBadge="{{collection.document_count}}" matBadgeOverlap="true" matBadgeSize="small"                matBadgeColor="accent" matBadgePosition="before">folder_shared</mat-icon>              <mat-icon *ngIf="collection.confirmed==1 && !collection.is_owner" matListItemIcon                matBadge="{{collection.document_count}}" matBadgeOverlap="true" matBadgeSize="small"                matBadgeColor="accent" matBadgePosition="before">snippet_folder</mat-icon>              <span matListItemTitle matTooltip="{{collection.name}}">{{collection.name}}</span>              <span matListItemLine                *ngIf="collection.confirmed==1 && collection.is_owner">({{\'Collections.SharedByMe\'|translate}})</span>              <span matListItemLine *ngIf="collection.confirmed==1 && !collection.is_owner" class="label label-info"                title="The actions that can be performed on this collection are limited because it does not belong to you">({{\'Collections.SharedWithMe\'|translate}})</span>            </mat-list-option>          </mat-selection-list>          <!--          <mat-action-list>            <button mat-list-item *ngFor="let collection of dataForTheTree">              <mat-icon class="mat-icon-rtl-mirror">folder</mat-icon> {{collection.name}} <span class="right">                <span *ngIf="collection.confirmed==1 && collection.is_owner"                  class="label label-info">{{\'Collections.SharedByMe\'|translate}}</span>                <span *ngIf="collection.confirmed==1 && !collection.is_owner" class="label label-info"                  title="The actions that can be performed on this collection are limited because it does not belong to you">{{\'Collections.SharedWithMe\'|translate}}</span>                ({{collection.document_count}} {{\'Collections.Documents\'|translate}})              </span>            </button>          </mat-action-list>          -->        </mat-card-content>      </mat-card>    </as-split-area>    <as-split-area order="2" [size]="70" [minSize]="40" [maxSize]="90" class="main-content-wrapper">      <mat-card appearance="outlined" class="mat-card-fill-parent">        <mat-card-header class="main-content-header" *ngIf="showHeader">          <mat-card-title>{{(creatingNewCollection ? \'Collections.AddNewCollection\' : \'Collections.EditCollection\') |            translate}}</mat-card-title>        </mat-card-header>        <form [formGroup]="editCollectionForm" (submit)="submitCollection()">          <mat-card-content class="main-content">            <mat-form-field appearance="outline" *ngIf="showNameField">              <mat-label>{{\'Collections.CollectionName\' | translate}}</mat-label>              <input matInput type="text" formControlName="collectionName"                placeholder="{{\'Collections.PleaseEnterTheNameOfTheCollection...\' | translate}}"                [(ngModel)]="collectionData.name" required minlength="4" [pattern]="collectionNamePattern">              <mat-error *ngIf="editCollectionForm.get(\'collectionName\').hasError(\'required\')">                {{\'validations.required\' | translate}}              </mat-error>              <mat-error *ngIf="editCollectionForm.get(\'collectionName\').hasError(\'pattern\')">                {{\'validations.pattern\' | translate}}              </mat-error>              <mat-error translate [translateParams]="{number:\'4\'}"                *ngIf="editCollectionForm.get(\'collectionName\').hasError(\'minlength\')">                validations.minlength              </mat-error>            </mat-form-field>            <mat-grid-list cols="2" [cols]="breakpoint" rowHeight="6em" (window:resize)="onResize($event)">              <mat-grid-tile>                <mat-form-field appearance="outline">                  <mat-label>{{\'Collections.DefaultEncoding\' | translate}}</mat-label>                  <mat-select formControlName="collectionEncoding" [(ngModel)]="collectionData.encoding"                    (change)="encodingChange()">                    <mat-option *ngFor="let encodingOption of encodingOptions" [value]="encodingOption">                      {{encodingOption}}                    </mat-option>                  </mat-select>                </mat-form-field>              </mat-grid-tile>              <mat-grid-tile>                <mat-form-field appearance="outline">                  <mat-label>{{\'Collections.DefaultHandler\' | translate}}</mat-label>                  <mat-select formControlName="collectionHandler" [(ngModel)]="collectionData.handler"                    (change)="handlerChange()">                    <mat-option *ngFor="let handlerOption of handlerOptions" [value]="handlerOption">                      {{handlerOption.name}}</mat-option>                  </mat-select>                </mat-form-field>              </mat-grid-tile>            </mat-grid-list>            <mat-tab-group>              <mat-tab>                <ng-template mat-tab-label>                  <mat-icon class="example-tab-icon">computer</mat-icon>                  {{\'Collections.Upload Files from this Computer\' | translate}}                </ng-template>                <div class="document-list">                  <label>{{\'Collections.FilesToBeAddedToTheCollection\' | translate}}:</label>                  <div class="document-list-component">                    <div id="uploadTable" class="document-list-table">                      <table class="table table-bordered">                        <thead>                          <tr>                            <th>#</th>                            <th>{{\'Filename\'|translate}}</th>                            <th *ngIf="filterFiles !== false">{{\'Type\'|translate}}</th>                            <th *ngIf="filterFiles !== false">{{\'Encoding\'|translate}}</th>                            <th *ngIf="filterFiles !== false">{{\'Handler\'|translate}}</th>                            <th></th>                          </tr>                        </thead>                        <tbody *ngIf="userFiles.length!=undefined && userFiles.length + europeanaFiles.length >0">                          <tr *ngFor="let file of userFiles;let index=index">                            <td>{{index+1}}</td>                            <td>{{file.name}}</td>                            <td *ngIf="filterFiles !== false">                              <select id="type" class="form-control" [(ngModel)]="file.type"                                [ngModelOptions]="{standalone: true}">                                <option *ngFor="let o of typeOptions" [value]="o">{{o}}</option>                              </select>                            </td>                            <td *ngIf="filterFiles !== false">                              <select id="defaultEndoding" class="form-control" [(ngModel)]="file.encoding"                                [ngModelOptions]="{standalone: true}">                                <option *ngFor="let o of encodingOptions" [value]="o">{{o}}</option>                              </select>                            </td>                            <td *ngIf="filterFiles !== false">                              <select id="handler" class="form-control" [(ngModel)]="file.handler"                                [ngModelOptions]="{standalone: true}">                                <option *ngFor="let o of handlerOptions" [ngValue]="o">{{o.name}}</option>                              </select>                            </td>                            <td>                              <button mat-icon-button (click)="userFiles.splice(index, 1)"                                [matTooltip]="\'Remove\'|translate">                                <mat-icon>delete</mat-icon>                              </button>                            </td>                          </tr>                          <tr *ngFor="let file of europeanaFiles;let index=index">                            <td>{{userFiles.length+index+1}}</td>                            <td>{{file.name}}</td>                            <td *ngIf="filterFiles !== false">                              <select id="type" class="form-control" [(ngModel)]="file.type"                                [ngModelOptions]="{standalone: true}">                                <option *ngFor="let o of typeOptions" [value]="o">{{o}}</option>                              </select>                            </td>                            <td *ngIf="filterFiles !== false">                              <select id="defaultEndoding" class="form-control" [(ngModel)]="file.encoding"                                [ngModelOptions]="{standalone: true}">                                <option *ngFor="let o of encodingOptions" [value]="o">{{o}}</option>                              </select>                            </td>                            <td *ngIf="filterFiles !== false">                              <select id="handler" class="form-control" [(ngModel)]="file.handler"                                [ngModelOptions]="{standalone: true}">                                <option *ngFor="let o of handlerOptions" [ngValue]="o">{{o.name}}</option>                              </select>                            </td>                            <td>                              <button mat-icon-button (click)="europeanaFiles.splice(index, 1)"                                [matTooltip]="\'Remove\'|translate">                                <mat-icon>delete</mat-icon>                              </button>                            </td>                          </tr>                        </tbody>                      </table>                    </div>                    <!--uploader flow-init></uploader><hr-->                    <uploader [allowedTypes]="allowedTypes" [fileTypeOptions]="typeOptions"                      [fileEncodingOptions]="encodingOptions" [fileHandlerOptions]="handlerOptions"                      [collectionData]="collectionData" [collectionDataUpdated]="collectionDataUpdated"                      [flowAttributes]="flowAttributes" (handleFileInputs)="handleFileInputs($event)"></uploader>                  </div>                </div>              </mat-tab>              <mat-tab>                <ng-template mat-tab-label>                  <mat-icon svgIcon="logo_europeana" class="example-tab-icon"></mat-icon>                  Europeana                </ng-template>                <app-europeana-search (selected)="handleEuropeanaInputs($event)"></app-europeana-search>              </mat-tab>            </mat-tab-group>          </mat-card-content>          <mat-card-actions align="end">            <button type="submit" mat-button [disabled]="editCollectionForm.invalid" color="primary"              *ngIf="showSubmitButton">              {{\'Collections.AddCollection\' | translate}}            </button>          </mat-card-actions>        </form>      </mat-card>    </as-split-area>  </as-split></div></div>'
+    var COMPONENTS = [{'name': 'AddCollectionComponent', 'selector': 'add-collection'},{'name': 'AddCustomValueModalComponent', 'selector': 'add-custom-value-modal'},{'name': 'AddDocumentsDialogComponent', 'selector': 'add-documents-dialog'},{'name': 'AdminLayoutComponent', 'selector': 'app-admin-layout'},{'name': 'AnalyticsAnnotationValuesComponent', 'selector': 'analytics-annotation-values'},{'name': 'AnnotationButtonComponent', 'selector': 'annotation-button'},{'name': 'AnnotationButtonCustomValueAddComponent', 'selector': 'annotation-button-custom-value-add'},{'name': 'AnnotationComboboxComponent', 'selector': 'annotation-combobox'},{'name': 'AnnotationComponent', 'selector': 'annotation'},{'name': 'AnnotationDateentryComponent', 'selector': 'annotation-dateentry'},{'name': 'AnnotationDetailComponent', 'selector': 'annotation-detail'},{'name': 'AnnotationEntryComponent', 'selector': 'annotation-entry'},{'name': 'AnnotationIndicatorComponent', 'selector': 'annotation-indicator'},{'name': 'AnnotationRelationAnnotateBtnComponent', 'selector': 'annotation-relation-annotate-btn'},{'name': 'AnnotationRelationClearBtnComponent', 'selector': 'annotation-relation-clear-btn'},{'name': 'AnnotationRelationComboboxComponent', 'selector': 'annotation-relation-combobox'},{'name': 'AnnotationRelationComponent', 'selector': 'annotation-relation'},{'name': 'AnnotationRelationDelBtnComponent', 'selector': 'annotation-relation-del-btn'},{'name': 'AnnotationRelationImportBtnComponent', 'selector': 'annotation-relation-import-btn'},{'name': 'AnnotationRelationSetBtnComponent', 'selector': 'annotation-relation-set-btn'},{'name': 'AnnotationSetComparatorComponent', 'selector': 'app-annotation-set-comparator'},{'name': 'AnnotationSetFilterComponent', 'selector': 'annotation-set-filter'},{'name': 'AnnotationSetInspectorComponent', 'selector': 'annotation-set-inspector'},{'name': 'AnnotationTextComponent', 'selector': 'annotation-text'},{'name': 'AnnotationTextLabelComponent', 'selector': 'annotation-text-label'},{'name': 'AnnotationTextTextComponent', 'selector': 'annotation-text-text'},{'name': 'AnnotationVisualizerComponent', 'selector': 'annotation-visualizer'},{'name': 'AnnotatorWidgetComponent', 'selector': 'annotator-widget'},{'name': 'AnnotatorWidgetValuesSchwartzComponent', 'selector': 'app-annotator-widget-values-schwartz'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthLayoutComponent', 'selector': 'app-auth-layout'},{'name': 'AuthLayoutModComponent', 'selector': 'app-auth-layout'},{'name': 'AutomaticAnnotatorComponent', 'selector': 'automatic-annotator'},{'name': 'BaseControlComponent', 'selector': 'base-control'},{'name': 'BrandingComponent', 'selector': 'app-branding'},{'name': 'BreadcrumbComponent', 'selector': 'breadcrumb'},{'name': 'CompareAnnotationsComponent', 'selector': 'app-compare-annotations'},{'name': 'CompareCollectionsComponent', 'selector': 'app-compare-collections'},{'name': 'CompareDocumentsComponent', 'selector': 'app-compare-documents'},{'name': 'ConfirmDialogComponent', 'selector': 'confirm-dialog'},{'name': 'CorefAddBtnComponent', 'selector': 'coref-add-btn'},{'name': 'CorefAnnotateBtnComponent', 'selector': 'coref-annotate-btn'},{'name': 'CorefBtnComponent', 'selector': 'coref-btn'},{'name': 'CorefCheckboxComponent', 'selector': 'coref-checkbox'},{'name': 'CorefClearBtnComponent', 'selector': 'coref-clear-btn'},{'name': 'CorefComboboxComponent', 'selector': 'coref-combobox'},{'name': 'CorefDelBtnComponent', 'selector': 'coref-del-btn'},{'name': 'CorefEntryComponent', 'selector': 'coref-entry'},{'name': 'CorefImportBtnComponent', 'selector': 'coref-import-btn'},{'name': 'CorefMultiEntryComponent', 'selector': 'coref-multi-entry'},{'name': 'CorefSegmentEntryComponent', 'selector': 'coref-segment-entry'},{'name': 'CorefSpanEndComponent', 'selector': 'coref-span-end'},{'name': 'CorefSpanStartComponent', 'selector': 'coref-span-start'},{'name': 'CustomizerComponent', 'selector': 'app-customizer'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'DetectChangesModalComponent', 'selector': 'detect-changes-modal'},{'name': 'DetectOpenDocModalComponent', 'selector': 'detect-open-doc-modal'},{'name': 'Error403Component', 'selector': 'app-error-403'},{'name': 'Error404Component', 'selector': 'app-error-404'},{'name': 'Error500Component', 'selector': 'app-error-500'},{'name': 'ErrorCodeComponent', 'selector': 'error-code'},{'name': 'ErrorDialogComponent', 'selector': 'error-dialog'},{'name': 'EuropeanaSearchComponent', 'selector': 'app-europeana-search'},{'name': 'FlashMessagesComponent', 'selector': 'flash-messages'},{'name': 'FormlyFieldComboboxComponent', 'selector': 'formly-field-combobox'},{'name': 'FormlyWrapperCardComponent', 'selector': 'formly-wrapper-card'},{'name': 'FormlyWrapperDivComponent', 'selector': 'formly-wrapper-div'},{'name': 'GithubButtonComponent', 'selector': 'app-github-button'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'ImportCollectionsModalComponent', 'selector': 'import-collections-modal'},{'name': 'ImportDocumentsFromExportModalComponent', 'selector': 'import-documents-from-export-modal'},{'name': 'ImportModalComponent', 'selector': 'import-modal'},{'name': 'InspectDocumentComponent', 'selector': 'inspect-document'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LoginSocialComponent', 'selector': 'app-login-social'},{'name': 'MainComponent', 'selector': 'main'},{'name': 'MainDialogComponent', 'selector': 'main-dialog'},{'name': 'ManageCollectionsComponent', 'selector': 'manage-collections'},{'name': 'MediaGalleryComponent', 'selector': 'app-media-gallery'},{'name': 'NavbarComponent', 'selector': 'app-navbar'},{'name': 'NotificationComponent', 'selector': 'app-notification'},{'name': 'OverlappingAreasComponent', 'selector': 'overlapping-areas'},{'name': 'PageHeaderComponent', 'selector': 'page-header'},{'name': 'ProfileComponent', 'selector': 'profile'},{'name': 'ProfileLayoutComponent', 'selector': 'app-profile-layout'},{'name': 'ProfileOverviewComponent', 'selector': 'app-profile-overview'},{'name': 'ProfileSettingsComponent', 'selector': 'app-profile-settings'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RenameCollectionModalComponent', 'selector': 'rename-collection-modal'},{'name': 'RenameDocumentModalComponent', 'selector': 'rename-document-modal'},{'name': 'ResetPasswordComponent', 'selector': 'app-reset-password'},{'name': 'SelectDocumentModalComponent', 'selector': 'select-document-modal'},{'name': 'ShareCollectionModalComponent', 'selector': 'share-collection-modal'},{'name': 'SharedCollectionsComponent', 'selector': 'manage-shared-collections'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'},{'name': 'SidebarNoticeComponent', 'selector': 'app-sidebar-notice'},{'name': 'SidemenuComponent', 'selector': 'app-sidemenu'},{'name': 'TextWidgetComponent', 'selector': 'text-widget'},{'name': 'TextWidgetIsolatedComponent', 'selector': 'text-widget-isolated'},{'name': 'ToolbarSelectAnnotatorComponent', 'selector': 'toolbar-select-annotator'},{'name': 'ToolbarSelectDocumentComponent', 'selector': 'toolbar-select-document'},{'name': 'ToolbarWidgetComponent', 'selector': 'toolbar-widget'},{'name': 'TopmenuComponent', 'selector': 'app-topmenu'},{'name': 'TopmenuPanelComponent', 'selector': 'app-topmenu-panel'},{'name': 'TranslateComponent', 'selector': 'app-translate'},{'name': 'UploaderComponent', 'selector': 'uploader'},{'name': 'UserComponent', 'selector': 'app-user'},{'name': 'UserPanelComponent', 'selector': 'app-user-panel'},{'name': 'ValueAccessorComponent', 'selector': 'app-value-accessor'},{'name': 'VisualiseAnnotationComponent', 'selector': 'app-visualise-annotation'},{'name': 'VisualiseLayoutComponent', 'selector': 'app-visualise-layout'},{'name': 'WavesurferAudioComponent', 'selector': 'wavesurfer-audio'},{'name': 'WavesurferVideoComponent', 'selector': 'wavesurfer-video'},{'name': 'WelcomeComponent', 'selector': 'welcome'}];
+    var DIRECTIVES = [{'name': 'AutoannTokenClassifierDirective', 'selector': '[autoannTokenClassifier]'},{'name': 'ButtonAnnotatorValueListDirective', 'selector': '[buttonAnnotatorValueList]'},{'name': 'CorefAnnotatorValueListDirective', 'selector': '[corefAnnotatorValueList]'},{'name': 'DisableControlDirective', 'selector': '[disableControl]'},{'name': 'DocumentAttributesDirective', 'selector': '.document_attributes'},{'name': 'DomHelpersDirective', 'selector': '[appDomHelpers]'},{'name': 'FoundInCollectionDirective', 'selector': '[found-in-collection]'},{'name': 'NavAccordionDirective', 'selector': '[navAccordion]'},{'name': 'NavAccordionItemDirective', 'selector': '[navAccordionItem]'},{'name': 'NavAccordionToggleDirective', 'selector': '[navAccordionToggle]'}];
+    var ACTUAL_COMPONENT = {'name': 'AddCollectionComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'AddCollectionComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -104,6 +104,8 @@ export class TextWidgetComponent extends BaseControlComponent
 
   // Settings
   settings: any[] = [];
+  annotatorType: any;
+  annotationSchema: any;
 
   eAnnotationMode = AnnotationMode; // Make AnnotationMode enum available in the HTML template
   annotationMode: AnnotationMode = AnnotationMode.UNKNOWN;
@@ -498,8 +500,10 @@ export class TextWidgetComponent extends BaseControlComponent
    * Bring the text and the annotations when a document changes
    */
   updateCurrentDocument() {
-    var newDocument: any = this.TextWidgetAPI.getCurrentDocument();
-    this.AnnotatorTypeId = newDocument.annotator_id;
+    this.annotatorType    = this.TextWidgetAPI.getAnnotatorType();
+    this.annotationSchema = this.TextWidgetAPI.getAnnotationSchema();
+    var newDocument: any  = this.TextWidgetAPI.getCurrentDocument();
+    this.AnnotatorTypeId  = newDocument.annotator_id;
     // console.error("TextWidgetComponent: updateCurrentDocument: newDoc:", newDocument,
     //               "annotator:", this.AnnotatorTypeId);
     return new Promise((resolve, reject) => {
@@ -1395,7 +1399,7 @@ export class TextWidgetComponent extends BaseControlComponent
     }
     // console.error("TextWidgetComponent: addVisualsForPlainAnnotation(): Annotation:", visAnnotation, visAnnotation.annotation.spans[0]);
 
-    var annotationAttributes = visAnnotation.annotation.attributes;
+    var annotationAttributes = this.TextWidgetAPI.selectAttributesMatchingSchema(visAnnotation.annotation);
     // Iterate through annotations spans
     for (var l = 0; l < visAnnotation.annotation.spans.length; l++) {
       var colorCombination: any = {};
@@ -1944,7 +1948,8 @@ export class TextWidgetComponent extends BaseControlComponent
     } else {
       return false;
     }
-    var annotatorType = this.TextWidgetAPI.getAnnotatorType();
+    this.annotatorType    = this.TextWidgetAPI.getAnnotatorType();
+    this.annotationSchema = this.TextWidgetAPI.getAnnotationSchema();
     // We have annotations in editor. Get all annotations, and
     // re-visualise them!
     var annotations = this.TextWidgetAPI.getAnnotations()
@@ -1956,7 +1961,7 @@ export class TextWidgetComponent extends BaseControlComponent
         };
       });
     if (annotations != undefined && annotations.length) {
-      this.visualiseAnnotations(annotations, annotatorType);
+      this.visualiseAnnotations(annotations, this.annotatorType);
     }
     this.TextWidgetAPI.disableIsRunning();
   }; /* updateSettings */
