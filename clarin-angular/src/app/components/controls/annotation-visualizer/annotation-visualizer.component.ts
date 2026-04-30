@@ -1,5 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { SelectionModel } from '@angular/cdk/collections';
 import { cloneDeep } from "lodash";
 import { Minimatch } from "minimatch";
 import { Subscription } from 'rxjs';
@@ -7,7 +9,7 @@ import { Annotation } from 'src/app/models/annotation';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
 import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
 import { BaseControlComponent } from '../base-control/base-control.component';
-import { AnnotationPropertyToDisplayObject } from 'src/app/helpers/annotation';
+import { AnnotationPropertyToDisplayObject, annotationSortingDataAccessor } from 'src/app/helpers/annotation';
 import { sortAnnotationSet } from 'src/app/helpers/annotation';
 
 @Component({
@@ -22,10 +24,14 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
   @ViewChild(MatTable, { static: true })
   table: MatTable<any>;
 
-  annotationListDisplayedColumns: string[] = ['id', 'type', 'spans'];
+  @ViewChild(MatSort, { static: true })
+  sort: MatSort;
+
+  annotationListDisplayedColumns: string[] = ['select', 'id', 'type', 'spans'];
   selectedAannotationDisplayedColumns: string[] = ['name', 'value'];
   annotations = [];
   annotationsDataSource = new MatTableDataSource<Annotation>(this.annotations);
+  selection = new SelectionModel<Annotation>(true, []);
   selectedAnnotation: any = {};
   selectedIndex;
   selectedAnnotationDataSource;
@@ -38,6 +44,13 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
 
   ngOnInit(): void {
     this.updateAnnotationList();
+    this.annotationsDataSource.sort = this.sort;
+    this.annotationsDataSource.sortingDataAccessor = (item, property) => {
+      if (property === 'id') {
+        return this.TextWidgetAPI.getAnnotationPresentableId(item);
+      }
+      return annotationSortingDataAccessor(item, property);
+    };
     //register callbacks for the annotation list and the selected annotation
     this.TextWidgetAPI.registerAnnotationSchemaCallback(
       this.annotationSchemaUpdate.bind(this));
@@ -48,6 +61,28 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
     if (this.sseEventSubscription) {
       this.sseEventSubscription.unsubscribe();
     }
+  }
+
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.annotationsDataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    this.isAllSelected() ?
+      this.selection.clear() :
+      this.annotationsDataSource.data.forEach(row => this.selection.select(row));
+  }
+
+  /** The label for the checkbox on the passed row */
+  checkboxLabel(row?: Annotation): string {
+    if (!row) {
+      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row._id}`;
   }
 
   filterAnnotations(ann: Annotation, filter: string) {
@@ -85,6 +120,7 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
       this.table.renderRows();
     } else {
       this.selectedAnnotationDataSource = undefined;
+      this.selection.clear();
     };
   };
 
@@ -100,6 +136,7 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
           .filter(e => e != null);
     } else {
       this.selectedIndex = "";
+      this.selectedAnnotationDataSource = undefined;
     }
   };
 
