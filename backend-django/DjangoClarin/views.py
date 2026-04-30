@@ -3,6 +3,7 @@ from datetime import datetime
 from re import I
 from time import time
 from django.utils.decorators import method_decorator
+from django.conf import settings
 
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -45,14 +46,11 @@ from django.middleware.csrf import get_token
 from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, OutstandingToken
 from bson.objectid import ObjectId
 import json 
+from django.utils.crypto import get_random_string
+
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class ObtainTokenPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
-
-
-
-
-
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class CustomUserCreate(APIView):
@@ -88,8 +86,7 @@ class CustomUserCreate(APIView):
 
                                "email": request.data['email'],
                                "baseurl": request.build_absolute_uri("/")[:-1],
-                               "ellogon_logo": "https://vast.ellogon.org/images/logo.jpg"}
-                             #  "ellogon_logo": request.build_absolute_uri('/static/images/EllogonLogo.svg')}  # path?
+                               "ellogon_logo": request.build_absolute_uri(settings.APP_LOGO)}
                     activation_alert = EmailAlert(request.data['email'], (user.first_name+" "+user.last_name), content, request)
                     activation_alert.send_activation_email()
                     json = {"success": True, "message": "You were successfully registered"}
@@ -202,7 +199,7 @@ class InitPasswords(APIView):
     def post(self, request):
         users=Users.objects.all()
         for user in users:
-            password = Users.objects.make_random_password()
+            password = get_random_string(length=12)
             user.set_password(password)
             user.save()
             user_ref=user.first_name+" "+user.last_name
@@ -228,7 +225,7 @@ class ResetPassword(APIView):
             print(email)
             user = Users.objects.get(email=email)
             print(user)
-            password = Users.objects.make_random_password()
+            password = get_random_string(length=12)
             user.set_password(password)
             user.save()
             if (user.first_name!=None and user.last_name!=None):
@@ -238,7 +235,7 @@ class ResetPassword(APIView):
           
             content = {"user": user_ref, "password": password, "email": email,
                        "baseurl": request.build_absolute_uri("/")[:-1],
-                       "ellogon_logo": "https://vast.ellogon.org/images/logo.jpg" }
+                       "ellogon_logo": request.build_absolute_uri(settings.APP_LOGO) }
             reset_alert = EmailAlert(email,user_ref, content, request)
             reset_alert.send_resetpassword_email()
             return Response(data={
@@ -755,7 +752,7 @@ class ShareCollectionView(APIView):
             content = {"user": touser.first_name, "link": invitation_link, "owner": fromuser.first_name,
                        "collection": collection.name, "email": touser.email,
                        "baseurl": request.build_absolute_uri("/")[:-1],
-                       "ellogon_logo": "https://vast.ellogon.org/images/logo.jpg"}
+                       "ellogon_logo": request.build_absolute_uri(settings.APP_LOGO)}
                       # "ellogon_logo": request.build_absolute_uri('/static/images/EllogonLogo.svg')}
             invitation_alert = EmailAlert(touser.email, touser.first_name, content, request)
             invitation_alert.send_sharecollection_email()

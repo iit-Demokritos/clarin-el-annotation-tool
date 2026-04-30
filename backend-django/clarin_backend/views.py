@@ -91,6 +91,8 @@ from django.contrib.sites.models import Site
 # For sorting...
 from django.db.models.functions import Lower
 
+from django.utils.crypto import get_random_string
+
 
 @method_decorator(ensure_csrf_cookie, name="dispatch")
 class ObtainTokenPairView(TokenObtainPairView):
@@ -219,7 +221,6 @@ class CustomUserCreate(APIView):
                         "link": activation_link,
                         "email": request.data["email"],
                         "baseurl": request.build_absolute_uri("/")[:-1],
-                        #  "ellogon_logo": "https://vast.ellogon.org/images/logo.jpg"}
                         "ellogon_logo": request.build_absolute_uri(settings.APP_LOGO),
                     }  # path?
                     activation_alert = EmailAlert(
@@ -394,7 +395,7 @@ class InitPasswords(APIView):
     def post(self, request):
         users = Users.objects.all()
         for user in users:
-            password = Users.objects.make_random_password()
+            password = get_random_string(length=12)
             user.set_password(password)
             user.save()
             user_ref = user.first_name + " " + user.last_name
@@ -430,7 +431,7 @@ class ResetPassword(APIView):
 
             user = Users.objects.get(email=email)
 
-            password = Users.objects.make_random_password()
+            password = get_random_string(length=12)
             user.set_password(password)
             user.save()
             if user.first_name != None and user.last_name != None:
@@ -1260,8 +1261,6 @@ class ShareCollectionView(APIView):
                 "baseurl": request.build_absolute_uri("/")[:-1],
                 "ellogon_logo": request.build_absolute_uri(settings.APP_LOGO),
             }
-            # "ellogon_logo": "https://vast.ellogon.org/images/logo.jpg"}
-            # "ellogon_logo": request.build_absolute_uri('/static/images/EllogonLogo.svg')}
             invitation_alert = EmailAlert(
                 touser.email, touser.first_name, content, request
             )
@@ -2241,7 +2240,6 @@ class TestEmailSendView(APIView):
             "baseurl": request.build_absolute_uri("/")[:-1],
             "ellogon_logo": request.build_absolute_uri(settings.APP_LOGO),
         }
-        # "ellogon_logo": "https://vast.ellogon.org/images/logo.jpg"}
         activation_alert = EmailAlert(
             content["email"], content["user"], content, request
         )

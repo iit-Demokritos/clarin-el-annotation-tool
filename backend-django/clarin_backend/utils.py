@@ -1,3 +1,4 @@
+import traceback
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from six import text_type
 from pymongo import MongoClient
@@ -172,7 +173,7 @@ class MongoDBAccess:
 
     @staticmethod
     def mongodb_doc_fix_id(doc):
-        if '_id' in doc and type(doc['_id']) is not str:
+        if doc and '_id' in doc and type(doc['_id']) is not str:
             doc['_id'] = str(doc['_id'])
         return doc
 
@@ -278,6 +279,10 @@ class ErrorLoggingAPIView(APIView, SQLModelAccess):
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             print(exc_type, fname, exc_tb.tb_lineno)
+        # Create a TracebackException from the caught error
+        tb_obj = traceback.TracebackException.from_exception(ex)
+        # Join the lines into a single formatted string
+        print("".join(tb_obj.format()))
         response = Response(data={
             "success": False,
             "message": str(ex),

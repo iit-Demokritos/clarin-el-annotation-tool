@@ -314,7 +314,8 @@ class TempAnnotationsView(MongoDBAPIView):
                          'deleted_at': tm}
             })
             ann = self.mongodb_find_one({'_id': self.mongodb_encode_id(param)})
-            annotator_id = ann.get('annotator_id', None)
+            if ann:
+                annotator_id = ann.get('annotator_id', None)
 
         if annotator_id:
             opendocuments = OpenDocuments.objects.filter(
