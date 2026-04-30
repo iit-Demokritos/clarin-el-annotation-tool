@@ -65,23 +65,24 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.annotationsDataSource.data.length;
-    return numSelected === numRows;
+    const numRows = this.annotationsDataSource.filteredData.length;
+    return numRows > 0 && this.annotationsDataSource.filteredData.every(row => this.selection.isSelected(row));
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
     if (this.isAllSelected()) {
-      this.selection.clear();
-      this.selectedIndex = "";
-      this.selectedAnnotation = {};
-      this.selectedAnnotationDataSource = undefined;
-      this.TextWidgetAPI.clearSelectedAnnotation();
+      this.annotationsDataSource.filteredData.forEach(row => this.selection.deselect(row));
+      if (this.selection.isEmpty()) {
+        this.selectedIndex = "";
+        this.selectedAnnotation = {};
+        this.selectedAnnotationDataSource = undefined;
+        this.TextWidgetAPI.clearSelectedAnnotation();
+      }
     } else {
-      this.annotationsDataSource.data.forEach(row => this.selection.select(row));
-      if (this.annotationsDataSource.data.length > 0) {
-        this.setSelectedAnnotation(this.annotationsDataSource.data[0], 'api');
+      this.annotationsDataSource.filteredData.forEach(row => this.selection.select(row));
+      if (this.annotationsDataSource.filteredData.length > 0) {
+        this.setSelectedAnnotation(this.annotationsDataSource.filteredData[0], 'api');
       }
     }
   }
@@ -117,6 +118,8 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
   // Function to be called when the document annotations being updated
   updateAnnotationList() {
     // console.error("AnnotationVisualizerComponent: updateAnnotationList()");
+    const selectedIds = this.selection.selected.map(s => s._id);
+
     this.annotations = this.TextWidgetAPI.getAnnotations()
       // Filter out setting annotations...  
       .filter((ann) => (!this.TextWidgetAPI.isSettingAnnotation(ann)) &&
@@ -124,28 +127,43 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
     this.annotations = sortAnnotationSet(this.annotations);
     // console.error("updateAnnotationList():", _.cloneDeep(this.annotations));
     this.annotationsDataSource.data = this.annotations;
+
+    // Refresh selection model with new object references
+    this.selection.clear();
+    this.annotationsDataSource.data.forEach(row => {
+      if (selectedIds.includes(row._id)) {
+        this.selection.select(row);
+      }
+    });
+
     if (this.annotations.length) {
       // console.log(this.annotations)
       this.table.renderRows();
     } else {
       this.selectedAnnotationDataSource = undefined;
-      this.selection.clear();
     };
   };
 
   updateSelectedAnnotationDetails() {
     //function to be called when the selected annotation being updated
-    this.selectedAnnotation = this.TextWidgetAPI.getSelectedAnnotation();
+    const ann: any = this.TextWidgetAPI.getSelectedAnnotation();
 
-    if (Object.keys(this.selectedAnnotation).length > 0) {
-      this.selectedIndex = this.selectedAnnotation._id;
+    if (ann && Object.keys(ann).length > 0) {
+      this.selectedAnnotation = ann;
+      this.selectedIndex = ann._id;
       this.selectedAnnotationDataSource =
         Object.entries(this.selectedAnnotation)
           .map(AnnotationPropertyToDisplayObject)
           .filter(e => e != null);
-      this.selection.select(this.selectedAnnotation);
+
+      // Ensure the row is selected in the selection model
+      const row = this.annotationsDataSource.data.find(r => r._id === ann._id);
+      if (row) {
+        this.selection.select(row);
+      }
     } else {
       this.selectedIndex = "";
+      this.selectedAnnotation = {};
       this.selectedAnnotationDataSource = undefined;
     }
   };
