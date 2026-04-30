@@ -72,9 +72,18 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
-    this.isAllSelected() ?
-      this.selection.clear() :
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      this.selectedIndex = "";
+      this.selectedAnnotation = {};
+      this.selectedAnnotationDataSource = undefined;
+      this.TextWidgetAPI.clearSelectedAnnotation();
+    } else {
       this.annotationsDataSource.data.forEach(row => this.selection.select(row));
+      if (this.annotationsDataSource.data.length > 0) {
+        this.setSelectedAnnotation(this.annotationsDataSource.data[0], 'api');
+      }
+    }
   }
 
   /** The label for the checkbox on the passed row */
@@ -134,25 +143,44 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
         Object.entries(this.selectedAnnotation)
           .map(AnnotationPropertyToDisplayObject)
           .filter(e => e != null);
+      this.selection.select(this.selectedAnnotation);
     } else {
       this.selectedIndex = "";
       this.selectedAnnotationDataSource = undefined;
     }
   };
 
-  setSelectedAnnotation(selectedAnnotation) {
-    // console.log("setSelectedAnnotation:", selectedAnnotation)
+  setSelectedAnnotation(selectedAnnotation, mode: 'row' | 'checkbox' | 'api' = 'row') {
+    // console.log("setSelectedAnnotation:", selectedAnnotation, mode)
     // function to visualize the annotation that the user selected from
     // the annotation list
     // console.log(this.TextWidgetAPI.getAnnotationPresentableId(selectedAnnotation))
-    this.selectedIndex = selectedAnnotation._id;
-    this.selectedAnnotation = cloneDeep(selectedAnnotation);
-    this.selectedAnnotationDataSource = Object.entries(selectedAnnotation)
-      .map(AnnotationPropertyToDisplayObject)
-      .filter(e => e != null);
-    this.TextWidgetAPI.setSelectedAnnotation(selectedAnnotation);
-    this.TextWidgetAPI.scrollToAnnotation(selectedAnnotation);
-    this.TextWidgetAPI.clearOverlappingAreas();
+    if (mode === 'row') {
+      this.selection.clear();
+      this.selection.select(selectedAnnotation);
+    } else if (mode === 'checkbox') {
+      this.selection.toggle(selectedAnnotation);
+    } else {
+      this.selection.select(selectedAnnotation);
+    }
+
+    if (this.selection.isSelected(selectedAnnotation)) {
+      this.selectedIndex = selectedAnnotation._id;
+      this.selectedAnnotation = cloneDeep(selectedAnnotation);
+      this.selectedAnnotationDataSource = Object.entries(selectedAnnotation)
+        .map(AnnotationPropertyToDisplayObject)
+        .filter(e => e != null);
+      this.TextWidgetAPI.setSelectedAnnotation(selectedAnnotation);
+      this.TextWidgetAPI.scrollToAnnotation(selectedAnnotation);
+      this.TextWidgetAPI.clearOverlappingAreas();
+    } else {
+      if (this.selectedIndex === selectedAnnotation._id) {
+        this.selectedIndex = "";
+        this.selectedAnnotation = {};
+        this.selectedAnnotationDataSource = undefined;
+        this.TextWidgetAPI.clearSelectedAnnotation();
+      }
+    }
   }
 
   liveUpdateDocument() {
