@@ -55,7 +55,7 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
     this.TextWidgetAPI.registerAnnotationSchemaCallback(
       this.annotationSchemaUpdate.bind(this));
     this.annotationsDataSource.filterPredicate = this.filterAnnotations.bind(this);
-  }
+  }i
 
   ngOnDestroy() {
     if (this.sseEventSubscription) {
@@ -149,6 +149,10 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
     const ann: any = this.TextWidgetAPI.getSelectedAnnotation();
 
     if (ann && Object.keys(ann).length > 0) {
+      if (this.selectedIndex != ann._id) {
+        // Selection originates from a different component. Clear selection...
+        this.selection.clear();
+      }
       this.selectedAnnotation = ann;
       this.selectedIndex = ann._id;
       this.selectedAnnotationDataSource =
