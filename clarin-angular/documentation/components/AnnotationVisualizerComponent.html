@@ -165,6 +165,9 @@
                                 <a href="#filter" >filter</a>
                             </li>
                             <li>
+                                <a href="#i" >i</a>
+                            </li>
+                            <li>
                                 <a href="#minimatchOptions" >minimatchOptions</a>
                             </li>
                             <li>
@@ -1249,8 +1252,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="292"
-                                    class="link-to-prism">src/app/components/controls/annotation-visualizer/annotation-visualizer.component.ts:292</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="297"
+                                    class="link-to-prism">src/app/components/controls/annotation-visualizer/annotation-visualizer.component.ts:297</a></div>
                         </td>
                     </tr>
 
@@ -1540,8 +1543,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="204"
-                                    class="link-to-prism">src/app/components/controls/annotation-visualizer/annotation-visualizer.component.ts:204</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="209"
+                                    class="link-to-prism">src/app/components/controls/annotation-visualizer/annotation-visualizer.component.ts:209</a></div>
                         </td>
                     </tr>
 
@@ -1702,8 +1705,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="171"
-                                    class="link-to-prism">src/app/components/controls/annotation-visualizer/annotation-visualizer.component.ts:171</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="176"
+                                    class="link-to-prism">src/app/components/controls/annotation-visualizer/annotation-visualizer.component.ts:176</a></div>
                         </td>
                     </tr>
 
@@ -2758,6 +2761,26 @@
                     <tr>
                         <td class="col-md-4">
                                 <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/components/controls/annotation-visualizer/annotation-visualizer.component.ts:39</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="i"></a>
+                    <span class="name">
+                        <span ><b>i</b></span>
+                        <a href="#i"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/components/controls/annotation-visualizer/annotation-visualizer.component.ts:58</a></div>
                         </td>
                     </tr>
 
@@ -4513,7 +4536,7 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
     this.TextWidgetAPI.registerAnnotationSchemaCallback(
       this.annotationSchemaUpdate.bind(this));
     this.annotationsDataSource.filterPredicate &#x3D; this.filterAnnotations.bind(this);
-  }
+  }i
 
   ngOnDestroy() {
     if (this.sseEventSubscription) {
@@ -4607,6 +4630,10 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
     const ann: any &#x3D; this.TextWidgetAPI.getSelectedAnnotation();
 
     if (ann &amp;&amp; Object.keys(ann).length &gt; 0) {
+      if (this.selectedIndex !&#x3D; ann._id) {
+        // Selection originates from a different component. Clear selection...
+        this.selection.clear();
+      }
       this.selectedAnnotation &#x3D; ann;
       this.selectedIndex &#x3D; ann._id;
       this.selectedAnnotationDataSource &#x3D;
@@ -4620,6 +4647,7 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
         this.selection.select(row);
       }
     } else {
+      this.selection.clear();
       this.selectedIndex &#x3D; &quot;&quot;;
       this.selectedAnnotation &#x3D; {};
       this.selectedAnnotationDataSource &#x3D; undefined;

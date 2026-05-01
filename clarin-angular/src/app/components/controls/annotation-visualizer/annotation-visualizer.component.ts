@@ -166,6 +166,7 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
         this.selection.select(row);
       }
     } else {
+      this.selection.clear();
       this.selectedIndex = "";
       this.selectedAnnotation = {};
       this.selectedAnnotationDataSource = undefined;
