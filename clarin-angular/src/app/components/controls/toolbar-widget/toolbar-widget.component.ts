@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import * as _ from 'lodash';
 import { ConfirmDialogData } from 'src/app/models/dialogs/confirm-dialog';
+import { ConfirmDialogComponent } from '../../dialogs/confirm-dialog/confirm-dialog.component';
 import { DetectOpenDocModalComponent } from '../../dialogs/detect-open-doc-modal/detect-open-doc-modal.component';
 import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
 import { BaseControlComponent } from '../base-control/base-control.component';
@@ -124,8 +125,27 @@ export class ToolbarWidgetComponent extends BaseControlComponent implements OnIn
 
     // Are multiple annotations selected?
     var selection = this.TextWidgetAPI.getSelectedAnnotations();
-    if (selection?.length) {
-      
+    if (selection?.length > 1) {
+      const modalOptions = new ConfirmDialogData("Confirm Delete", "Multiple annotations will be deleted. Are you sure?", "warning", ["No", "Yes"]);
+      let dialogRef = this.dialog.open(ConfirmDialogComponent, { data: modalOptions });
+      dialogRef.afterClosed().subscribe((response) => {
+        if (response === "Yes") {
+          this.TextWidgetAPI.clearSelectedAnnotations(false);
+          this.TextWidgetAPI.clearSelectedAnnotation();
+          selection.forEach(annotation => {
+            this.tempAnnotationService.destroy(annotation.collection_id, annotation.document_id, annotation._id)
+              .then((response: any) => {
+                if (!response.success) {
+                  this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Error during the deleting the annotation. Please refresh the page and try again.") })
+                } else
+                  this.TextWidgetAPI.deleteAnnotation(annotation._id);
+              }, (error) => {
+                this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "Error in delete Annotation. Please refresh the page and try again") })
+              });
+          });
+        }
+      });
+      return;
     }
 
     this.TextWidgetAPI.clearSelectedAnnotation();

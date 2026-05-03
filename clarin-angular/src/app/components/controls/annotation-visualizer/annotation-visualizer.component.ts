@@ -187,7 +187,8 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
       this.selection.select(selectedAnnotation);
     }
 
-    this.TextWidgetAPI.setSelectedAnnotations(this.selection.selected);
+    this.TextWidgetAPI.setSelectedAnnotations(this.selection.selected, false);
+    //console.log(this.selection.selected);
 
     if (this.selection.isSelected(selectedAnnotation)) {
       this.selectedIndex = selectedAnnotation._id;

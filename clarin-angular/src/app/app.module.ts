@@ -131,6 +131,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { QueryBuilderModule } from "angular2-query-builder";
 import { AnnotationSpansPipe } from './pipes/annotation-spans.pipe';
+import { AnnotationAttributeValuePipe } from './pipes/annotation-attribute-value.pipe';
 import { AnnotationDetailComponent } from './components/controls/annotation-detail/annotation-detail.component';
 import { AnnotationSetComparatorComponent } from './components/controls/annotation-set-comparator/annotation-set-comparator.component';
 import { AutoannTokenClassifierDirective } from './directives/autoann-token-classifier/autoann-token-classifier.directive';
@@ -250,6 +251,7 @@ import { EuropeanaSearchComponent } from './components/controls/europeana-search
     AnnotationSetFilterComponent,
     AnnotationDetailComponent,
     AnnotationSpansPipe,
+    AnnotationAttributeValuePipe,
     AnnotationSetComparatorComponent,
     AutoannTokenClassifierDirective,
     AutomaticAnnotatorComponent,

@@ -13,7 +13,7 @@ export class AnnotationSpansPipe implements PipeTransform {
       return ann.spans.map((s) => 
         '['+(s.start >= 0 ? s.start : s.x).toString()+':'+(s.end >=0 ? s.end : s.y).toString()+']').join(', ');
     }
-    // No spans. Do we have an array of spans as argument?
+    // No spans. Do we have an array of annotations as argument?
     if (!anns) {return "";}
     // The annotation does not have any spans. Check if we can
     // find some related annotations...

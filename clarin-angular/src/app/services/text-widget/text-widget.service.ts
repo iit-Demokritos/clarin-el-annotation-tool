@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
 import { Annotation } from 'src/app/models/annotation';
+import { COMMON_ATTRIBUTE_NAMES } from 'src/app/models/attribute';
 
 @Injectable({
   providedIn: 'root'
@@ -459,11 +460,16 @@ export class TextWidgetAPI {
   selectAttributesMatchingSchema(annotation) {
     switch (this.annotatorType) {
       case "Button Annotator":
-        return annotation.attributes.filter(attr =>
-          attr.name === this.annotationSchema["attribute"]);
+        if (this.annotationSchema["attribute"]) {
+          return annotation.attributes.filter(attr =>
+            attr.name === this.annotationSchema["attribute"]) ?? annotation.attributes.filter(attr => COMMON_ATTRIBUTE_NAMES.includes(attr["name"])) ?? annotation.attributes;
+        }
+	return annotation.attributes;
       case "Coreference Annotator":
 	return annotation.attributes;
 	throw new Error("Method not implemented.");
+      default:
+	return annotation.attributes.filter(attr => COMMON_ATTRIBUTE_NAMES.includes(attr["name"])) ?? annotation.attributes;
     }
   };
 
@@ -801,11 +807,15 @@ export class TextWidgetAPI {
   }; /* getSelectedAnnotations */
 
   setSelectedAnnotations(annotations: Annotation[], callCallbacks = true) {
-    this.selectedAnnotations = annotations;
+    this.selectedAnnotations = [... annotations];
     if (callCallbacks) {
       return this.notifyObservers(this.selectedAnnotationCallbacks);
     }
   }; /* setSelectedAnnotations */
+
+  clearSelectedAnnotations(callCallbacks = true) {
+    return this.setSelectedAnnotations([], callCallbacks);
+  }; /* clearSelectedAnnotations */
 
   /*** Overlapping Annotation Methods ***/
   registerOverlappingAreasCallback(callback) {

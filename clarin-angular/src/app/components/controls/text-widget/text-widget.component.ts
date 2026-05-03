@@ -1422,7 +1422,7 @@ export class TextWidgetComponent extends BaseControlComponent
       switch (annotatorType) {
         case "Button Annotator":
           // If it is Button Annotator get the required color combination
-          for (var m = 0; m < annotationAttributes.length; m++) {
+          for (var m = 0; m < annotationAttributes?.length ?? 0; m++) {
             colorCombination =
               this.buttonColorService.getColorCombination(annotationAttributes[m].value);
             // console.error("colorCombination:", annotationAttributes[m].value, colorCombination);
