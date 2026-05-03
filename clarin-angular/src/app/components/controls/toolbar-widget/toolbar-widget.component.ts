@@ -105,31 +105,27 @@ export class ToolbarWidgetComponent extends BaseControlComponent implements OnIn
 
 
   deleteAnnotation() {
-    if (this.TextWidgetAPI.checkIsRunning())
+    if (this.TextWidgetAPI.checkIsRunning()) {
       return false;
+    }
 
-    var annotationToBeDeleted: any = this.TextWidgetAPI.getSelectedAnnotation();
+    const annotationToBeDeleted: any = this.TextWidgetAPI.getSelectedAnnotation();
 
     if (Object.keys(annotationToBeDeleted).length == 0 /*&& !this.deleteAnnotationModalInstance */) {   //no annotation has been selected open error modal
       this.toastrService.error("No annotation has been selected.");
       return;
-
-      /*
-      let dialogRef = this.dialog.open(ErrorDialogComponent, { data: new ConfirmDialogData("Error", "No annotation has been selected.") })
-
-      dialogRef.afterClosed().subscribe((modalResult) => {
-        this.deleteAnnotationModalInstance = null;
-      });
-
-      return false;
-    } else if (this.deleteAnnotationModalInstance) {         //modal already open, return false
-      return false; */
     }
 
     if (!this.TextWidgetAPI.annotationCanBeDeleted(annotationToBeDeleted)) {
       this.toastrService.error(this.TextWidgetAPI.annotationCanBeDeletedMessage);
       // console.error("ToolbarWidgetComponent: deleteAnnotation(): Annotation cannot be deleted:", this.TextWidgetAPI.annotationCanBeDeletedMessage, annotationToBeDeleted);
       return false;
+    }
+
+    // Are multiple annotations selected?
+    var selection = this.TextWidgetAPI.getSelectedAnnotations();
+    if (selection?.length) {
+      
     }
 
     this.TextWidgetAPI.clearSelectedAnnotation();

@@ -187,6 +187,8 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
       this.selection.select(selectedAnnotation);
     }
 
+    this.TextWidgetAPI.setSelectedAnnotations(this.selection.selected);
+
     if (this.selection.isSelected(selectedAnnotation)) {
       this.selectedIndex = selectedAnnotation._id;
       this.selectedAnnotation = cloneDeep(selectedAnnotation);

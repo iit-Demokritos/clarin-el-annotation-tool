@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
+import { Annotation } from 'src/app/models/annotation';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,7 @@ export class TextWidgetAPI {
   annotationsCallbacks = []; //registered callbacks for the matching annotations of the current document
 
   selectedAnnotation = {}; //the annotation that is currently selected by the user
+  selectedAnnotations: Annotation[] = []; // A list of selected annotations
   selectedAnnotationCallbacks = []; //registered callbacks for the annotation that is currently selected by the user
 
   annotationsToBeAdded = []; //the annotations that are going to be added on the text-widget
@@ -107,6 +109,7 @@ export class TextWidgetAPI {
   resetData() {
     this.currentSelection = {};
     this.selectedAnnotation = {};
+    this.selectedAnnotations = [];
     this.annotations = [];
     this.annotationsToBeAdded = [];
     this.annotationsToBeDeleted = [];
@@ -772,23 +775,7 @@ export class TextWidgetAPI {
     }
 
     var newSelectedAnnotation = this.annotations.find(e => e._id == annotationId);
-
-    if (typeof (newSelectedAnnotation) == "undefined")
-      return false;
-
-    this.selectedAnnotation = _.cloneDeep(newSelectedAnnotation);
-    this.annotationsToBeAdded.push({
-      "annotation": newSelectedAnnotation,
-      "selected": true,
-      "action": "select"
-    });
-    this.currentSelection = {};
-    this.clearOverlappingAreas();
-
-    return [
-      ... this.notifyObservers(this.annotationsToBeAddedCallbacks),
-      ... this.notifyObservers(this.selectedAnnotationCallbacks)
-    ];
+    return this.setSelectedAnnotation(newSelectedAnnotation);
   }
 
   clearSelectedAnnotation() {
@@ -808,6 +795,17 @@ export class TextWidgetAPI {
       return promises;
     }
   }
+
+  getSelectedAnnotations() {
+    return this.selectedAnnotations;
+  }; /* getSelectedAnnotations */
+
+  setSelectedAnnotations(annotations: Annotation[], callCallbacks = true) {
+    this.selectedAnnotations = annotations;
+    if (callCallbacks) {
+      return this.notifyObservers(this.selectedAnnotationCallbacks);
+    }
+  }; /* setSelectedAnnotations */
 
   /*** Overlapping Annotation Methods ***/
   registerOverlappingAreasCallback(callback) {
