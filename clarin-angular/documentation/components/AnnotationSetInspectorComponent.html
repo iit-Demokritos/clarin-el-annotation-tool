@@ -12,10 +12,75 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
-            <a href="../" class="navbar-brand">The Ellogon Annotation Platform documentation</a>
-            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">The Ellogon Annotation Platform documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
@@ -24,12 +89,16 @@
 
         <div class="container-fluid main">
            <div class="row main">
-               <div class="hidden-xs menu">
+               <div class="d-none d-md-block menu">
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
                <div class="content component">
                    <div class="content-data">
+
+
+
+
 
 
 
@@ -85,7 +154,7 @@
         <h3>Implements</h3>
     </p>
     <p class="comment">
-                <code>AfterViewInit</code>
+                    <code><a href="https://angular.io/api/core/AfterViewInit" target="_blank" >AfterViewInit</a></code>
     </p>
 
 
@@ -559,7 +628,7 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>EventEmitter</code>
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
 
                     </td>
                 </tr>
@@ -628,7 +697,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>collapseInit(index)</code>
+<code>collapseInit(index: unknown)</code>
                 </td>
             </tr>
 
@@ -651,12 +720,16 @@
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>index</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -770,7 +843,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getAndAddAnnotation(id)</code>
+<code>getAndAddAnnotation(id: unknown)</code>
                 </td>
             </tr>
 
@@ -793,12 +866,16 @@
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>id</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -907,7 +984,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>onApply(event)</code>
+<code>onApply(event: unknown)</code>
                 </td>
             </tr>
 
@@ -930,6 +1007,7 @@
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                                 <td>Default value</td>
                                         </tr>
@@ -937,6 +1015,9 @@
                                     <tbody>
                                         <tr>
                                                 <td>event</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -974,7 +1055,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>onApplyFilter(event: Event)</code>
+<code>onApplyFilter(event: <a href="https://angular.io/api/router/Event" target="_blank">Event</a>)</code>
                 </td>
             </tr>
 
@@ -1005,7 +1086,7 @@
                                         <tr>
                                                 <td>event</td>
                                             <td>
-                                                        <code>Event</code>
+                                                            <code><a href="https://angular.io/api/router/Event" target="_blank" >Event</a></code>
                                             </td>
 
                                             <td>
@@ -1316,7 +1397,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>setSelectedAnnotation(selectedAnnotation)</code>
+<code>setSelectedAnnotation(selectedAnnotation: unknown)</code>
                 </td>
             </tr>
 
@@ -1339,12 +1420,16 @@
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>selectedAnnotation</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -1539,7 +1624,7 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>ElementRef</code>
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/ElementRef" target="_blank" >ElementRef</a></code>
 
                     </td>
                 </tr>
@@ -1603,6 +1688,12 @@
                     </span>
                 </td>
             </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>new MatTableDataSource&lt;Annotation&gt;()</code>
@@ -1719,7 +1810,7 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>ElementRef</code>
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/ElementRef" target="_blank" >ElementRef</a></code>
 
                     </td>
                 </tr>
@@ -1943,6 +2034,12 @@
                     </span>
                 </td>
             </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>false</code>
@@ -2254,6 +2351,12 @@
                     </span>
                 </td>
             </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
                     <tr>
                         <td class="col-md-4">
                                 <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts:54</a></div>
@@ -2311,7 +2414,7 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>ActivatedRoute</code>
+                        <i>Type : </i>        <code><a href="https://angular.io/api/router/ActivatedRoute" target="_blank" >ActivatedRoute</a></code>
 
                     </td>
                 </tr>
@@ -2617,7 +2720,7 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>ChangeDetectorRef</code>
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank" >ChangeDetectorRef</a></code>
 
                     </td>
                 </tr>
@@ -2685,7 +2788,7 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>Compiler</code>
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/Compiler" target="_blank" >Compiler</a></code>
 
                     </td>
                 </tr>
@@ -2991,7 +3094,7 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>Injector</code>
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/Injector" target="_blank" >Injector</a></code>
 
                     </td>
                 </tr>
@@ -3161,7 +3264,7 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>Router</code>
+                        <i>Type : </i>        <code><a href="https://angular.io/api/router/Router" target="_blank" >Router</a></code>
 
                     </td>
                 </tr>
@@ -3195,7 +3298,7 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>Location</code>
+                        <i>Type : </i>        <code><a href="https://angular.io/api/common/Location" target="_blank" >Location</a></code>
 
                     </td>
                 </tr>
@@ -3804,7 +3907,7 @@ export class AnnotationSetInspectorComponent extends MainComponent implements Af
         &lt;ng-container matColumnDef&#x3D;&quot;value&quot;&gt;
           &lt;th mat-header-cell *matHeaderCellDef mat-sort-header&gt;Value&lt;/th&gt;
           &lt;td mat-cell *matCellDef&#x3D;&quot;let annotation&quot; class&#x3D;&quot;overflow-ellipsis&quot;&gt;
-            {{annotation.attributes ? annotation.attributes[0].value : &quot;&quot;}}
+            {{ annotation | annotationAttributeValue }}
           &lt;/td&gt;
         &lt;/ng-container&gt;
         &lt;ng-container matColumnDef&#x3D;&quot;type&quot;&gt;
@@ -3880,11 +3983,11 @@ export class AnnotationSetInspectorComponent extends MainComponent implements Af
     
 </div>
 
-<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/vis-network.min.js"></script>
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="annotation-set-inspector">  <as-split direction="vertical" class="h-full-minus-editor-panel">    <as-split-area [size]="50" [minSize]="10" [maxSize]="90" class="annotation-list" (scroll)="onScrollAnnotations(annotationList)" #annotationList>      <!--<div fxLayout fxLayoutAlign="start center">-->      <div class="fxLayout fxLayoutAlign-start-center">        <mat-form-field class="annotation-visualiser-filter-field">          <mat-label>{{\'annotation.Filter Annotations\'|translate}}</mat-label>          <mat-icon matPrefix>search</mat-icon>          <input matInput type="text" class="annotation-visualiser-filter-input" (keyup)="onApplyFilter($event)"            placeholder="{{\'annotation.FilterAnnotationsPlaceholder\'|translate}}" #input [(ngModel)]="filter">          <button mat-icon-button matSuffix *ngIf="filter" aria-label="Clear" class="mat-mdc-icon-button-small"            (click)="filter=\'\'; onApplyFilter($event)">            <mat-icon>backspace</mat-icon>          </button>        </mat-form-field>        <button mat-icon-button [matMenuTriggerFor]="table_menu" aria-label="Table menu">          <mat-icon>more_vert</mat-icon>        </button>        <mat-menu #table_menu="matMenu">          <button mat-menu-item            (click)="exporter.exportTable(\'xlsx\', {fileName:\'annotations\', sheet: \'annotations\', Props: {Author: \'The Ellogon Annotation Platform\'}})"            >            <mat-icon><fa-icon icon="file-excel"></fa-icon></mat-icon>            <span>{{"Excel"|translate}}</span>          </button>          <button mat-menu-item (click)="exporter.exportTable(\'csv\', {fileName:\'annotations\'})">            <mat-icon><fa-icon icon="file-csv"></fa-icon></mat-icon>            <span>{{"CSV"|translate}}</span>          </button>          <button mat-menu-item (click)="exporter.exportTable(\'json\', {fileName:\'annotations\'})">            <mat-icon><fa-icon icon="file-code"></fa-icon></mat-icon>            <span>{{"JSON"|translate}}</span>          </button>          <button mat-menu-item (click)="exporter.exportTable(\'txt\', {fileName:\'annotations\'})">            <mat-icon><fa-icon icon="file-lines"></fa-icon></mat-icon>            <span>{{"TXT"|translate}}</span>          </button><button mat-menu-item (click)="exporter.exportTable(\'other\', {fileName:\'annotations\'})">            <mat-icon><fa-icon icon="file-lines"></fa-icon></mat-icon>            <span>{{"TXT"|translate}}</span>          </button>        </mat-menu>      </div>      <table mat-table [dataSource]="annotationsDataSource" multiTemplateDataRows             class="annotation-visualiser-container" matSort             matTableExporter #exporter="matTableExporter" [exporter]="skipDetailRowsExporter"      >        <!--<ng-container matColumnDef="index">          <th mat-header-cell *matHeaderCellDef mat-sort-header>#</th>          <td mat-cell *matCellDef="let element; let i = dataIndex">{{i + 1}}</td>        </ng-container>-->        <ng-container matColumnDef="id">          <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>          <td mat-cell *matCellDef="let annotation" class="overflow-ellipsis">            {{annotation._id}}          </td>        </ng-container>        <ng-container matColumnDef="value">          <th mat-header-cell *matHeaderCellDef mat-sort-header>Value</th>          <td mat-cell *matCellDef="let annotation" class="overflow-ellipsis">            {{annotation.attributes ? annotation.attributes[0].value : ""}}          </td>        </ng-container>        <ng-container matColumnDef="type">          <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>          <td mat-cell *matCellDef="let annotation" class="overflow-ellipsis">            {{(annotation.type == \'setting annotation\') ? (\'Setting\'|translate) : (annotation.type)}}          </td>        </ng-container>        <ng-container matColumnDef="spans">          <th mat-header-cell *matHeaderCellDef mat-sort-header>Spans</th>          <td mat-cell *matCellDef="let annotation" class="overflow-ellipsis">           {{annotation|annotationSpans: this.annotations}}          </td>        </ng-container>        <ng-container matColumnDef="expandedDetail">          <td mat-cell *matCellDef="let annotation" [attr.colspan]="annotationListDisplayedColumns.length">            <div [@detailExpand]=" (annotation == selectedAnnotation && annotation._id == selectedIndex) ? \'expanded\' : \'collapsed\'" class="annotation-detail">               <annotation-detail [selectedAnnotationDataSource]="selectedAnnotationDataSource" [showHeader]="false" class="w-full"></annotation-detail>            </div>          </td>        </ng-container>        <tr mat-header-row *matHeaderRowDef="annotationListDisplayedColumns; sticky: true"></tr>        <tr mat-row (click)="setSelectedAnnotation(row)" [ngClass]="{ \'selected\': row._id == selectedIndex, \'diff-equal\': row.diff_class == \'diff-equal\', \'diff-unequal\': row.diff_class == \'diff-unequal\' }"          *matRowDef="let row; columns: annotationListDisplayedColumns;" class="annotation-row">        <tr mat-row *matRowDef="let row; columns: [\'expandedDetail\']" style="height: 0;"></tr>        <tr class="mat-row" *matNoDataRow>          <td class="mat-cell" [attr.colspan]="annotationListDisplayedColumns.length">{{\'No data matching the filter\'|translate}}</td>        </tr>      </table>    </as-split-area>    <as-split-area [size]="50" [minSize]="10" [maxSize]="90" class="annotation-info"  (scroll)="onScrollDocument(documentViewer)" #documentViewer>      <text-widget-isolated></text-widget-isolated>    </as-split-area>  </as-split>  <div class="panel bottom">    <span class="panel caret" *ngIf="footer_caret_show">      {{\'Line\'|translate}}: {{footer_caret_line}},      {{\'Column\'|translate}}: {{footer_caret_column}},      {{\'Offset\'|translate}}: {{footer_caret_offset}},      {{\'Selection\'|translate}}: {{footer_caret_selection}}    </span>  </div></div></div>'
+        var COMPONENT_TEMPLATE = '<div><div class="annotation-set-inspector">  <as-split direction="vertical" class="h-full-minus-editor-panel">    <as-split-area [size]="50" [minSize]="10" [maxSize]="90" class="annotation-list" (scroll)="onScrollAnnotations(annotationList)" #annotationList>      <!--<div fxLayout fxLayoutAlign="start center">-->      <div class="fxLayout fxLayoutAlign-start-center">        <mat-form-field class="annotation-visualiser-filter-field">          <mat-label>{{\'annotation.Filter Annotations\'|translate}}</mat-label>          <mat-icon matPrefix>search</mat-icon>          <input matInput type="text" class="annotation-visualiser-filter-input" (keyup)="onApplyFilter($event)"            placeholder="{{\'annotation.FilterAnnotationsPlaceholder\'|translate}}" #input [(ngModel)]="filter">          <button mat-icon-button matSuffix *ngIf="filter" aria-label="Clear" class="mat-mdc-icon-button-small"            (click)="filter=\'\'; onApplyFilter($event)">            <mat-icon>backspace</mat-icon>          </button>        </mat-form-field>        <button mat-icon-button [matMenuTriggerFor]="table_menu" aria-label="Table menu">          <mat-icon>more_vert</mat-icon>        </button>        <mat-menu #table_menu="matMenu">          <button mat-menu-item            (click)="exporter.exportTable(\'xlsx\', {fileName:\'annotations\', sheet: \'annotations\', Props: {Author: \'The Ellogon Annotation Platform\'}})"            >            <mat-icon><fa-icon icon="file-excel"></fa-icon></mat-icon>            <span>{{"Excel"|translate}}</span>          </button>          <button mat-menu-item (click)="exporter.exportTable(\'csv\', {fileName:\'annotations\'})">            <mat-icon><fa-icon icon="file-csv"></fa-icon></mat-icon>            <span>{{"CSV"|translate}}</span>          </button>          <button mat-menu-item (click)="exporter.exportTable(\'json\', {fileName:\'annotations\'})">            <mat-icon><fa-icon icon="file-code"></fa-icon></mat-icon>            <span>{{"JSON"|translate}}</span>          </button>          <button mat-menu-item (click)="exporter.exportTable(\'txt\', {fileName:\'annotations\'})">            <mat-icon><fa-icon icon="file-lines"></fa-icon></mat-icon>            <span>{{"TXT"|translate}}</span>          </button><button mat-menu-item (click)="exporter.exportTable(\'other\', {fileName:\'annotations\'})">            <mat-icon><fa-icon icon="file-lines"></fa-icon></mat-icon>            <span>{{"TXT"|translate}}</span>          </button>        </mat-menu>      </div>      <table mat-table [dataSource]="annotationsDataSource" multiTemplateDataRows             class="annotation-visualiser-container" matSort             matTableExporter #exporter="matTableExporter" [exporter]="skipDetailRowsExporter"      >        <!--<ng-container matColumnDef="index">          <th mat-header-cell *matHeaderCellDef mat-sort-header>#</th>          <td mat-cell *matCellDef="let element; let i = dataIndex">{{i + 1}}</td>        </ng-container>-->        <ng-container matColumnDef="id">          <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>          <td mat-cell *matCellDef="let annotation" class="overflow-ellipsis">            {{annotation._id}}          </td>        </ng-container>        <ng-container matColumnDef="value">          <th mat-header-cell *matHeaderCellDef mat-sort-header>Value</th>          <td mat-cell *matCellDef="let annotation" class="overflow-ellipsis">            {{ annotation | annotationAttributeValue }}          </td>        </ng-container>        <ng-container matColumnDef="type">          <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>          <td mat-cell *matCellDef="let annotation" class="overflow-ellipsis">            {{(annotation.type == \'setting annotation\') ? (\'Setting\'|translate) : (annotation.type)}}          </td>        </ng-container>        <ng-container matColumnDef="spans">          <th mat-header-cell *matHeaderCellDef mat-sort-header>Spans</th>          <td mat-cell *matCellDef="let annotation" class="overflow-ellipsis">           {{annotation|annotationSpans: this.annotations}}          </td>        </ng-container>        <ng-container matColumnDef="expandedDetail">          <td mat-cell *matCellDef="let annotation" [attr.colspan]="annotationListDisplayedColumns.length">            <div [@detailExpand]=" (annotation == selectedAnnotation && annotation._id == selectedIndex) ? \'expanded\' : \'collapsed\'" class="annotation-detail">               <annotation-detail [selectedAnnotationDataSource]="selectedAnnotationDataSource" [showHeader]="false" class="w-full"></annotation-detail>            </div>          </td>        </ng-container>        <tr mat-header-row *matHeaderRowDef="annotationListDisplayedColumns; sticky: true"></tr>        <tr mat-row (click)="setSelectedAnnotation(row)" [ngClass]="{ \'selected\': row._id == selectedIndex, \'diff-equal\': row.diff_class == \'diff-equal\', \'diff-unequal\': row.diff_class == \'diff-unequal\' }"          *matRowDef="let row; columns: annotationListDisplayedColumns;" class="annotation-row">        <tr mat-row *matRowDef="let row; columns: [\'expandedDetail\']" style="height: 0;"></tr>        <tr class="mat-row" *matNoDataRow>          <td class="mat-cell" [attr.colspan]="annotationListDisplayedColumns.length">{{\'No data matching the filter\'|translate}}</td>        </tr>      </table>    </as-split-area>    <as-split-area [size]="50" [minSize]="10" [maxSize]="90" class="annotation-info"  (scroll)="onScrollDocument(documentViewer)" #documentViewer>      <text-widget-isolated></text-widget-isolated>    </as-split-area>  </as-split>  <div class="panel bottom">    <span class="panel caret" *ngIf="footer_caret_show">      {{\'Line\'|translate}}: {{footer_caret_line}},      {{\'Column\'|translate}}: {{footer_caret_column}},      {{\'Offset\'|translate}}: {{footer_caret_offset}},      {{\'Selection\'|translate}}: {{footer_caret_selection}}    </span>  </div></div></div>'
     var COMPONENTS = [{'name': 'AddCollectionComponent', 'selector': 'add-collection'},{'name': 'AddCustomValueModalComponent', 'selector': 'add-custom-value-modal'},{'name': 'AddDocumentsDialogComponent', 'selector': 'add-documents-dialog'},{'name': 'AdminLayoutComponent', 'selector': 'app-admin-layout'},{'name': 'AnalyticsAnnotationValuesComponent', 'selector': 'analytics-annotation-values'},{'name': 'AnnotationButtonComponent', 'selector': 'annotation-button'},{'name': 'AnnotationButtonCustomValueAddComponent', 'selector': 'annotation-button-custom-value-add'},{'name': 'AnnotationComboboxComponent', 'selector': 'annotation-combobox'},{'name': 'AnnotationComponent', 'selector': 'annotation'},{'name': 'AnnotationDateentryComponent', 'selector': 'annotation-dateentry'},{'name': 'AnnotationDetailComponent', 'selector': 'annotation-detail'},{'name': 'AnnotationEntryComponent', 'selector': 'annotation-entry'},{'name': 'AnnotationIndicatorComponent', 'selector': 'annotation-indicator'},{'name': 'AnnotationRelationAnnotateBtnComponent', 'selector': 'annotation-relation-annotate-btn'},{'name': 'AnnotationRelationClearBtnComponent', 'selector': 'annotation-relation-clear-btn'},{'name': 'AnnotationRelationComboboxComponent', 'selector': 'annotation-relation-combobox'},{'name': 'AnnotationRelationComponent', 'selector': 'annotation-relation'},{'name': 'AnnotationRelationDelBtnComponent', 'selector': 'annotation-relation-del-btn'},{'name': 'AnnotationRelationImportBtnComponent', 'selector': 'annotation-relation-import-btn'},{'name': 'AnnotationRelationSetBtnComponent', 'selector': 'annotation-relation-set-btn'},{'name': 'AnnotationSetComparatorComponent', 'selector': 'app-annotation-set-comparator'},{'name': 'AnnotationSetFilterComponent', 'selector': 'annotation-set-filter'},{'name': 'AnnotationSetInspectorComponent', 'selector': 'annotation-set-inspector'},{'name': 'AnnotationTextComponent', 'selector': 'annotation-text'},{'name': 'AnnotationTextLabelComponent', 'selector': 'annotation-text-label'},{'name': 'AnnotationTextTextComponent', 'selector': 'annotation-text-text'},{'name': 'AnnotationVisualizerComponent', 'selector': 'annotation-visualizer'},{'name': 'AnnotatorWidgetComponent', 'selector': 'annotator-widget'},{'name': 'AnnotatorWidgetValuesSchwartzComponent', 'selector': 'app-annotator-widget-values-schwartz'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthLayoutComponent', 'selector': 'app-auth-layout'},{'name': 'AuthLayoutModComponent', 'selector': 'app-auth-layout'},{'name': 'AutomaticAnnotatorComponent', 'selector': 'automatic-annotator'},{'name': 'BaseControlComponent', 'selector': 'base-control'},{'name': 'BrandingComponent', 'selector': 'app-branding'},{'name': 'BreadcrumbComponent', 'selector': 'breadcrumb'},{'name': 'CompareAnnotationsComponent', 'selector': 'app-compare-annotations'},{'name': 'CompareCollectionsComponent', 'selector': 'app-compare-collections'},{'name': 'CompareDocumentsComponent', 'selector': 'app-compare-documents'},{'name': 'ConfirmDialogComponent', 'selector': 'confirm-dialog'},{'name': 'CorefAddBtnComponent', 'selector': 'coref-add-btn'},{'name': 'CorefAnnotateBtnComponent', 'selector': 'coref-annotate-btn'},{'name': 'CorefBtnComponent', 'selector': 'coref-btn'},{'name': 'CorefCheckboxComponent', 'selector': 'coref-checkbox'},{'name': 'CorefClearBtnComponent', 'selector': 'coref-clear-btn'},{'name': 'CorefComboboxComponent', 'selector': 'coref-combobox'},{'name': 'CorefDelBtnComponent', 'selector': 'coref-del-btn'},{'name': 'CorefEntryComponent', 'selector': 'coref-entry'},{'name': 'CorefImportBtnComponent', 'selector': 'coref-import-btn'},{'name': 'CorefMultiEntryComponent', 'selector': 'coref-multi-entry'},{'name': 'CorefSegmentEntryComponent', 'selector': 'coref-segment-entry'},{'name': 'CorefSpanEndComponent', 'selector': 'coref-span-end'},{'name': 'CorefSpanStartComponent', 'selector': 'coref-span-start'},{'name': 'CustomizerComponent', 'selector': 'app-customizer'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'DetectChangesModalComponent', 'selector': 'detect-changes-modal'},{'name': 'DetectOpenDocModalComponent', 'selector': 'detect-open-doc-modal'},{'name': 'Error403Component', 'selector': 'app-error-403'},{'name': 'Error404Component', 'selector': 'app-error-404'},{'name': 'Error500Component', 'selector': 'app-error-500'},{'name': 'ErrorCodeComponent', 'selector': 'error-code'},{'name': 'ErrorDialogComponent', 'selector': 'error-dialog'},{'name': 'EuropeanaSearchComponent', 'selector': 'app-europeana-search'},{'name': 'FlashMessagesComponent', 'selector': 'flash-messages'},{'name': 'FormlyFieldComboboxComponent', 'selector': 'formly-field-combobox'},{'name': 'FormlyWrapperCardComponent', 'selector': 'formly-wrapper-card'},{'name': 'FormlyWrapperDivComponent', 'selector': 'formly-wrapper-div'},{'name': 'GithubButtonComponent', 'selector': 'app-github-button'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'ImportCollectionsModalComponent', 'selector': 'import-collections-modal'},{'name': 'ImportDocumentsFromExportModalComponent', 'selector': 'import-documents-from-export-modal'},{'name': 'ImportModalComponent', 'selector': 'import-modal'},{'name': 'InspectDocumentComponent', 'selector': 'inspect-document'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LoginSocialComponent', 'selector': 'app-login-social'},{'name': 'MainComponent', 'selector': 'main'},{'name': 'MainDialogComponent', 'selector': 'main-dialog'},{'name': 'ManageCollectionsComponent', 'selector': 'manage-collections'},{'name': 'MediaGalleryComponent', 'selector': 'app-media-gallery'},{'name': 'NavbarComponent', 'selector': 'app-navbar'},{'name': 'NotificationComponent', 'selector': 'app-notification'},{'name': 'OverlappingAreasComponent', 'selector': 'overlapping-areas'},{'name': 'PageHeaderComponent', 'selector': 'page-header'},{'name': 'ProfileComponent', 'selector': 'profile'},{'name': 'ProfileLayoutComponent', 'selector': 'app-profile-layout'},{'name': 'ProfileOverviewComponent', 'selector': 'app-profile-overview'},{'name': 'ProfileSettingsComponent', 'selector': 'app-profile-settings'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RenameCollectionModalComponent', 'selector': 'rename-collection-modal'},{'name': 'RenameDocumentModalComponent', 'selector': 'rename-document-modal'},{'name': 'ResetPasswordComponent', 'selector': 'app-reset-password'},{'name': 'SelectDocumentModalComponent', 'selector': 'select-document-modal'},{'name': 'ShareCollectionModalComponent', 'selector': 'share-collection-modal'},{'name': 'SharedCollectionsComponent', 'selector': 'manage-shared-collections'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'},{'name': 'SidebarNoticeComponent', 'selector': 'app-sidebar-notice'},{'name': 'SidemenuComponent', 'selector': 'app-sidemenu'},{'name': 'TextWidgetComponent', 'selector': 'text-widget'},{'name': 'TextWidgetIsolatedComponent', 'selector': 'text-widget-isolated'},{'name': 'ToolbarSelectAnnotatorComponent', 'selector': 'toolbar-select-annotator'},{'name': 'ToolbarSelectDocumentComponent', 'selector': 'toolbar-select-document'},{'name': 'ToolbarWidgetComponent', 'selector': 'toolbar-widget'},{'name': 'TopmenuComponent', 'selector': 'app-topmenu'},{'name': 'TopmenuPanelComponent', 'selector': 'app-topmenu-panel'},{'name': 'TranslateComponent', 'selector': 'app-translate'},{'name': 'UploaderComponent', 'selector': 'uploader'},{'name': 'UserComponent', 'selector': 'app-user'},{'name': 'UserPanelComponent', 'selector': 'app-user-panel'},{'name': 'ValueAccessorComponent', 'selector': 'app-value-accessor'},{'name': 'VisualiseAnnotationComponent', 'selector': 'app-visualise-annotation'},{'name': 'VisualiseLayoutComponent', 'selector': 'app-visualise-layout'},{'name': 'WavesurferAudioComponent', 'selector': 'wavesurfer-audio'},{'name': 'WavesurferVideoComponent', 'selector': 'wavesurfer-video'},{'name': 'WelcomeComponent', 'selector': 'welcome'}];
     var DIRECTIVES = [{'name': 'AutoannTokenClassifierDirective', 'selector': '[autoannTokenClassifier]'},{'name': 'ButtonAnnotatorValueListDirective', 'selector': '[buttonAnnotatorValueList]'},{'name': 'CorefAnnotatorValueListDirective', 'selector': '[corefAnnotatorValueList]'},{'name': 'DisableControlDirective', 'selector': '[disableControl]'},{'name': 'DocumentAttributesDirective', 'selector': '.document_attributes'},{'name': 'DomHelpersDirective', 'selector': '[appDomHelpers]'},{'name': 'FoundInCollectionDirective', 'selector': '[found-in-collection]'},{'name': 'NavAccordionDirective', 'selector': '[navAccordion]'},{'name': 'NavAccordionItemDirective', 'selector': '[navAccordionItem]'},{'name': 'NavAccordionToggleDirective', 'selector': '[navAccordionToggle]'}];
     var ACTUAL_COMPONENT = {'name': 'AnnotationSetInspectorComponent'};
@@ -3937,6 +4040,19 @@ export class AnnotationSetInspectorComponent extends MainComponent implements Af
             var MAX_SEARCH_RESULTS = 15;
        </script>
 
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
 
@@ -3948,7 +4064,6 @@ export class AnnotationSetInspectorComponent extends MainComponent implements Af
        <script src="../js/libs/es6-shim.min.js"></script>
        <script src="../js/libs/EventDispatcher.js"></script>
        <script src="../js/libs/promise.min.js"></script>
-       <script src="../js/libs/zepto.min.js"></script>
 
        <script src="../js/compodoc.js"></script>
 

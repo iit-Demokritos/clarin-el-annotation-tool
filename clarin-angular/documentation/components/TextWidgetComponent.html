@@ -12,10 +12,75 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
-            <a href="../" class="navbar-brand">The Ellogon Annotation Platform documentation</a>
-            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">The Ellogon Annotation Platform documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
@@ -24,12 +89,16 @@
 
         <div class="container-fluid main">
            <div class="row main">
-               <div class="hidden-xs menu">
+               <div class="d-none d-md-block menu">
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
                <div class="content component">
                    <div class="content-data">
+
+
+
+
 
 
 
@@ -85,9 +154,9 @@
         <h3>Implements</h3>
     </p>
     <p class="comment">
-                <code>OnInit</code>
-                <code>OnDestroy</code>
-                <code>AfterViewInit</code>
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+                    <code><a href="https://angular.io/api/core/AfterViewInit" target="_blank" >AfterViewInit</a></code>
     </p>
 
 
@@ -1559,7 +1628,7 @@ type of annotation</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>addVisualsForAnnotation(visAnnotation, annotatorType)</code>
+<code>addVisualsForAnnotation(visAnnotation: unknown, annotatorType: unknown)</code>
                 </td>
             </tr>
 
@@ -1582,6 +1651,7 @@ type of annotation</p>
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                                 <td>Default value</td>
                                         </tr>
@@ -1589,6 +1659,9 @@ type of annotation</p>
                                     <tbody>
                                         <tr>
                                                 <td>visAnnotation</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -1600,6 +1673,9 @@ type of annotation</p>
                                         </tr>
                                         <tr>
                                                 <td>annotatorType</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -1637,7 +1713,7 @@ type of annotation</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>addVisualsForPlainAnnotation(visAnnotation, annotatorType)</code>
+<code>addVisualsForPlainAnnotation(visAnnotation: unknown, annotatorType: unknown)</code>
                 </td>
             </tr>
 
@@ -1660,6 +1736,7 @@ type of annotation</p>
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                                 <td>Default value</td>
                                         </tr>
@@ -1667,6 +1744,9 @@ type of annotation</p>
                                     <tbody>
                                         <tr>
                                                 <td>visAnnotation</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -1678,6 +1758,9 @@ type of annotation</p>
                                         </tr>
                                         <tr>
                                                 <td>annotatorType</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -1715,7 +1798,7 @@ type of annotation</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>addVisualsForRelationAnnotation(annotation, annotatorType)</code>
+<code>addVisualsForRelationAnnotation(annotation: unknown, annotatorType: unknown)</code>
                 </td>
             </tr>
 
@@ -1738,6 +1821,7 @@ type of annotation</p>
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                                 <td>Default value</td>
                                         </tr>
@@ -1745,6 +1829,9 @@ type of annotation</p>
                                     <tbody>
                                         <tr>
                                                 <td>annotation</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -1756,6 +1843,9 @@ type of annotation</p>
                                         </tr>
                                         <tr>
                                                 <td>annotatorType</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -1793,7 +1883,7 @@ type of annotation</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>annotationCanBeDeleted(ann)</code>
+<code>annotationCanBeDeleted(ann: unknown)</code>
                 </td>
             </tr>
 
@@ -1816,12 +1906,16 @@ type of annotation</p>
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>ann</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -1856,7 +1950,7 @@ type of annotation</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>avComponentEvent(event)</code>
+<code>avComponentEvent(event: unknown)</code>
                 </td>
             </tr>
 
@@ -1879,12 +1973,16 @@ type of annotation</p>
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>event</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -1919,7 +2017,7 @@ type of annotation</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>clearDuplicateAnnotationsFromEditor(newAnnotations)</code>
+<code>clearDuplicateAnnotationsFromEditor(newAnnotations: unknown)</code>
                 </td>
             </tr>
 
@@ -1942,12 +2040,16 @@ type of annotation</p>
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>newAnnotations</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -1982,7 +2084,7 @@ type of annotation</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>computeSelectionFromOffsets(startOffset, endOffset)</code>
+<code>computeSelectionFromOffsets(startOffset: unknown, endOffset: unknown)</code>
                 </td>
             </tr>
 
@@ -2005,12 +2107,16 @@ type of annotation</p>
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>startOffset</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -2020,6 +2126,9 @@ type of annotation</p>
                                         </tr>
                                         <tr>
                                                 <td>endOffset</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -2237,7 +2346,7 @@ type of annotation</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getAnnotationFromMark(mark)</code>
+<code>getAnnotationFromMark(mark: unknown)</code>
                 </td>
             </tr>
 
@@ -2262,12 +2371,16 @@ type of annotation</p>
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>mark</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -2302,7 +2415,7 @@ type of annotation</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getLinksForAnnotation(annotation)</code>
+<code>getLinksForAnnotation(annotation: unknown)</code>
                 </td>
             </tr>
 
@@ -2325,12 +2438,16 @@ type of annotation</p>
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>annotation</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -2402,7 +2519,7 @@ type of annotation</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getSourceLinksForAnnotation(annotation)</code>
+<code>getSourceLinksForAnnotation(annotation: unknown)</code>
                 </td>
             </tr>
 
@@ -2425,12 +2542,16 @@ type of annotation</p>
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>annotation</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -2465,7 +2586,7 @@ type of annotation</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getTargetLinksForAnnotation(annotation)</code>
+<code>getTargetLinksForAnnotation(annotation: unknown)</code>
                 </td>
             </tr>
 
@@ -2488,12 +2609,16 @@ type of annotation</p>
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>annotation</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -2528,7 +2653,7 @@ type of annotation</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>imageOverlayCellMouseLeave(elementView)</code>
+<code>imageOverlayCellMouseLeave(elementView: unknown)</code>
                 </td>
             </tr>
 
@@ -2551,12 +2676,16 @@ type of annotation</p>
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>elementView</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -2591,7 +2720,7 @@ type of annotation</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>imageOverlayElementChange(element, opt)</code>
+<code>imageOverlayElementChange(element: unknown, opt: unknown)</code>
                 </td>
             </tr>
 
@@ -2614,12 +2743,16 @@ type of annotation</p>
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>element</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -2629,6 +2762,9 @@ type of annotation</p>
                                         </tr>
                                         <tr>
                                                 <td>opt</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -2663,7 +2799,7 @@ type of annotation</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>imageOverlayElementChangePosition(element, newPosition, opt)</code>
+<code>imageOverlayElementChangePosition(element: unknown, newPosition: unknown, opt: unknown)</code>
                 </td>
             </tr>
 
@@ -2686,12 +2822,16 @@ type of annotation</p>
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>element</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -2701,6 +2841,9 @@ type of annotation</p>
                                         </tr>
                                         <tr>
                                                 <td>newPosition</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -2710,6 +2853,9 @@ type of annotation</p>
                                         </tr>
                                         <tr>
                                                 <td>opt</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -2744,7 +2890,7 @@ type of annotation</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>imageOverlayElementMouseEnter(elementView)</code>
+<code>imageOverlayElementMouseEnter(elementView: unknown)</code>
                 </td>
             </tr>
 
@@ -2767,12 +2913,16 @@ type of annotation</p>
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>elementView</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -2807,7 +2957,7 @@ type of annotation</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>imageOverlayElementPointerClick(elementView, evt, x, y)</code>
+<code>imageOverlayElementPointerClick(elementView: unknown, evt: unknown, x: unknown, y: unknown)</code>
                 </td>
             </tr>
 
@@ -2830,12 +2980,16 @@ type of annotation</p>
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>elementView</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -2845,6 +2999,9 @@ type of annotation</p>
                                         </tr>
                                         <tr>
                                                 <td>evt</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -2854,6 +3011,9 @@ type of annotation</p>
                                         </tr>
                                         <tr>
                                                 <td>x</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -2863,6 +3023,9 @@ type of annotation</p>
                                         </tr>
                                         <tr>
                                                 <td>y</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -2897,7 +3060,7 @@ type of annotation</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>imageOverlayPointerDown(evt, x, y)</code>
+<code>imageOverlayPointerDown(evt: unknown, x: unknown, y: unknown)</code>
                 </td>
             </tr>
 
@@ -2920,12 +3083,16 @@ type of annotation</p>
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>evt</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -2935,6 +3102,9 @@ type of annotation</p>
                                         </tr>
                                         <tr>
                                                 <td>x</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -2944,6 +3114,9 @@ type of annotation</p>
                                         </tr>
                                         <tr>
                                                 <td>y</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -2978,7 +3151,7 @@ type of annotation</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>imageOverlayPointerMove(evt, x, y)</code>
+<code>imageOverlayPointerMove(evt: unknown, x: unknown, y: unknown)</code>
                 </td>
             </tr>
 
@@ -3001,12 +3174,16 @@ type of annotation</p>
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>evt</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -3016,6 +3193,9 @@ type of annotation</p>
                                         </tr>
                                         <tr>
                                                 <td>x</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -3025,6 +3205,9 @@ type of annotation</p>
                                         </tr>
                                         <tr>
                                                 <td>y</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -3059,7 +3242,7 @@ type of annotation</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>imageOverlayPointerUp(evt, x, y)</code>
+<code>imageOverlayPointerUp(evt: unknown, x: unknown, y: unknown)</code>
                 </td>
             </tr>
 
@@ -3082,12 +3265,16 @@ type of annotation</p>
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>evt</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -3097,6 +3284,9 @@ type of annotation</p>
                                         </tr>
                                         <tr>
                                                 <td>x</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -3106,6 +3296,9 @@ type of annotation</p>
                                         </tr>
                                         <tr>
                                                 <td>y</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -3140,7 +3333,7 @@ type of annotation</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>initialiseEditor(doc, visualisationOptions: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+<code>initialiseEditor(doc: unknown, visualisationOptions: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                 </td>
             </tr>
 
@@ -3171,6 +3364,7 @@ type of annotation</p>
                                         <tr>
                                                 <td>doc</td>
                                             <td>
+                                                        <code>unknown</code>
                                             </td>
 
                                             <td>
@@ -3218,7 +3412,7 @@ type of annotation</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>migrateOldSpans(anns)</code>
+<code>migrateOldSpans(anns: unknown)</code>
                 </td>
             </tr>
 
@@ -3241,12 +3435,16 @@ type of annotation</p>
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>anns</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -3281,7 +3479,7 @@ type of annotation</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>mouseDownUpHandler(args)</code>
+<code>mouseDownUpHandler(args: unknown)</code>
                 </td>
             </tr>
 
@@ -3304,12 +3502,16 @@ type of annotation</p>
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>args</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -3344,7 +3546,7 @@ type of annotation</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>mouseUpHandler(args)</code>
+<code>mouseUpHandler(args: unknown)</code>
                 </td>
             </tr>
 
@@ -3367,12 +3569,16 @@ type of annotation</p>
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>args</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -3530,7 +3736,7 @@ type of annotation</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>overlayAnnotationGetBoundingClientRect(annotation)</code>
+<code>overlayAnnotationGetBoundingClientRect(annotation: unknown)</code>
                 </td>
             </tr>
 
@@ -3553,12 +3759,16 @@ type of annotation</p>
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>annotation</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -3593,7 +3803,7 @@ type of annotation</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>overlayHighlight(annotation)</code>
+<code>overlayHighlight(annotation: unknown)</code>
                 </td>
             </tr>
 
@@ -3616,12 +3826,16 @@ type of annotation</p>
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>annotation</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -3656,7 +3870,7 @@ type of annotation</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>overlayLinkAdd(startId, endId, label, annotation)</code>
+<code>overlayLinkAdd(startId: unknown, endId: unknown, label: unknown, annotation: unknown)</code>
                 </td>
             </tr>
 
@@ -3682,12 +3896,16 @@ Joint.js (replacing LeaderLine) library</p>
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>startId</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -3697,6 +3915,9 @@ Joint.js (replacing LeaderLine) library</p>
                                         </tr>
                                         <tr>
                                                 <td>endId</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -3706,6 +3927,9 @@ Joint.js (replacing LeaderLine) library</p>
                                         </tr>
                                         <tr>
                                                 <td>label</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -3715,6 +3939,9 @@ Joint.js (replacing LeaderLine) library</p>
                                         </tr>
                                         <tr>
                                                 <td>annotation</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -3749,7 +3976,7 @@ Joint.js (replacing LeaderLine) library</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>overlayLinkAdjustVertices(cell)</code>
+<code>overlayLinkAdjustVertices(cell: unknown)</code>
                 </td>
             </tr>
 
@@ -3777,12 +4004,16 @@ Code from Joint.js tutorial:
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>cell</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -3854,7 +4085,7 @@ Code from Joint.js tutorial:
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>overlayLinksRouterSet(routername)</code>
+<code>overlayLinksRouterSet(routername: unknown)</code>
                 </td>
             </tr>
 
@@ -3877,12 +4108,16 @@ Code from Joint.js tutorial:
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>routername</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -3917,7 +4152,7 @@ Code from Joint.js tutorial:
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>overlayMarkAdd(spanIndex, startPos, endPos, annotation)</code>
+<code>overlayMarkAdd(spanIndex: unknown, startPos: unknown, endPos: unknown, annotation: unknown)</code>
                 </td>
             </tr>
 
@@ -3940,12 +4175,16 @@ Code from Joint.js tutorial:
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>spanIndex</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -3955,6 +4194,9 @@ Code from Joint.js tutorial:
                                         </tr>
                                         <tr>
                                                 <td>startPos</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -3964,6 +4206,9 @@ Code from Joint.js tutorial:
                                         </tr>
                                         <tr>
                                                 <td>endPos</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -3973,6 +4218,9 @@ Code from Joint.js tutorial:
                                         </tr>
                                         <tr>
                                                 <td>annotation</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -4007,7 +4255,7 @@ Code from Joint.js tutorial:
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>overlayMarkRemove(annotation)</code>
+<code>overlayMarkRemove(annotation: unknown)</code>
                 </td>
             </tr>
 
@@ -4030,12 +4278,16 @@ Code from Joint.js tutorial:
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>annotation</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -4107,7 +4359,7 @@ Code from Joint.js tutorial:
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>removeAnnotationsFromEditor(annotationsToBeDeleted)</code>
+<code>removeAnnotationsFromEditor(annotationsToBeDeleted: unknown)</code>
                 </td>
             </tr>
 
@@ -4130,12 +4382,16 @@ Code from Joint.js tutorial:
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>annotationsToBeDeleted</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -4170,7 +4426,7 @@ Code from Joint.js tutorial:
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>removeConnectedAnnotation(annotation)</code>
+<code>removeConnectedAnnotation(annotation: unknown)</code>
                 </td>
             </tr>
 
@@ -4196,12 +4452,16 @@ remove it from the connectedAnnotations list</p>
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>annotation</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -4273,7 +4533,7 @@ remove it from the connectedAnnotations list</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>scrollToAnnotation(annotation)</code>
+<code>scrollToAnnotation(annotation: unknown)</code>
                 </td>
             </tr>
 
@@ -4296,6 +4556,7 @@ remove it from the connectedAnnotations list</p>
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                                 <td>Default value</td>
                                         </tr>
@@ -4303,6 +4564,9 @@ remove it from the connectedAnnotations list</p>
                                     <tbody>
                                         <tr>
                                                 <td>annotation</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -4416,7 +4680,7 @@ remove it from the connectedAnnotations list</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>updateLinkRouter(routerName)</code>
+<code>updateLinkRouter(routerName: unknown)</code>
                 </td>
             </tr>
 
@@ -4439,12 +4703,16 @@ remove it from the connectedAnnotations list</p>
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>routerName</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -4479,7 +4747,7 @@ remove it from the connectedAnnotations list</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>updateLinkVisibility(hide)</code>
+<code>updateLinkVisibility(hide: unknown)</code>
                 </td>
             </tr>
 
@@ -4502,12 +4770,16 @@ remove it from the connectedAnnotations list</p>
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>hide</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -4579,7 +4851,7 @@ remove it from the connectedAnnotations list</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>updateZoomLevel(zoom)</code>
+<code>updateZoomLevel(zoom: unknown)</code>
                 </td>
             </tr>
 
@@ -4602,12 +4874,16 @@ remove it from the connectedAnnotations list</p>
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>zoom</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -4642,7 +4918,7 @@ remove it from the connectedAnnotations list</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>visualiseAnnotations(newAnnotations, annotatorType)</code>
+<code>visualiseAnnotations(newAnnotations: unknown, annotatorType: unknown)</code>
                 </td>
             </tr>
 
@@ -4667,12 +4943,16 @@ remove it from the connectedAnnotations list</p>
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>newAnnotations</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -4682,6 +4962,9 @@ remove it from the connectedAnnotations list</p>
                                         </tr>
                                         <tr>
                                                 <td>annotatorType</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -4716,7 +4999,7 @@ remove it from the connectedAnnotations list</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>visualiseVisualisationOptions(options)</code>
+<code>visualiseVisualisationOptions(options: unknown)</code>
                 </td>
             </tr>
 
@@ -4739,12 +5022,16 @@ remove it from the connectedAnnotations list</p>
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>options</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -4779,7 +5066,7 @@ remove it from the connectedAnnotations list</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>addOrUpdateAnnotation(annotationType, annotationAttribute, annotationValue)</code>
+<code>addOrUpdateAnnotation(annotationType: unknown, annotationAttribute: unknown, annotationValue: unknown)</code>
                 </td>
             </tr>
 
@@ -4808,12 +5095,16 @@ remove it from the connectedAnnotations list</p>
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>annotationType</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -4823,6 +5114,9 @@ remove it from the connectedAnnotations list</p>
                                         </tr>
                                         <tr>
                                                 <td>annotationAttribute</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -4832,6 +5126,9 @@ remove it from the connectedAnnotations list</p>
                                         </tr>
                                         <tr>
                                                 <td>annotationValue</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -5921,6 +6218,12 @@ remove it from the connectedAnnotations list</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
                         <i>Default value : </i><code>AnnotationMode</code>
                     </td>
                 </tr>
@@ -5972,6 +6275,12 @@ remove it from the connectedAnnotations list</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
                         <i>Default value : </i><code>new joint.dia.Graph</code>
                     </td>
                 </tr>
@@ -5995,6 +6304,12 @@ remove it from the connectedAnnotations list</p>
                     </span>
                 </td>
             </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
                     <tr>
                         <td class="col-md-4">
                                 <div class="io-line">Defined in <a href="" data-line="94" class="link-to-prism">src/app/components/controls/text-widget/text-widget.component.ts:94</a></div>
@@ -6082,7 +6397,7 @@ remove it from the connectedAnnotations list</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>ElementRef</code>
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/ElementRef" target="_blank" >ElementRef</a></code>
 
                     </td>
                 </tr>
@@ -6149,7 +6464,7 @@ remove it from the connectedAnnotations list</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>ElementRef</code>
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/ElementRef" target="_blank" >ElementRef</a></code>
 
                     </td>
                 </tr>
@@ -6213,6 +6528,12 @@ remove it from the connectedAnnotations list</p>
                     </span>
                 </td>
             </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
                     <tr>
                         <td class="col-md-4">
                                 <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/components/controls/text-widget/text-widget.component.ts:51</a></div>
@@ -6400,6 +6721,12 @@ remove it from the connectedAnnotations list</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
                         <i>Default value : </i><code>false</code>
                     </td>
                 </tr>
@@ -6423,6 +6750,12 @@ remove it from the connectedAnnotations list</p>
                     </span>
                 </td>
             </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>false</code>
@@ -6512,6 +6845,12 @@ remove it from the connectedAnnotations list</p>
                     </span>
                 </td>
             </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
                     <tr>
                         <td class="col-md-4">
                                 <div class="io-line">Defined in <a href="" data-line="93" class="link-to-prism">src/app/components/controls/text-widget/text-widget.component.ts:93</a></div>
@@ -6535,7 +6874,7 @@ remove it from the connectedAnnotations list</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>ElementRef</code>
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/ElementRef" target="_blank" >ElementRef</a></code>
 
                     </td>
                 </tr>
@@ -6597,7 +6936,7 @@ remove it from the connectedAnnotations list</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>ElementRef</code>
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/ElementRef" target="_blank" >ElementRef</a></code>
 
                     </td>
                 </tr>
@@ -6706,6 +7045,12 @@ remove it from the connectedAnnotations list</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
                         <i>Default value : </i><code>require(&quot;bson-objectid&quot;)</code>
                     </td>
                 </tr>
@@ -6737,6 +7082,12 @@ remove it from the connectedAnnotations list</p>
                     </span>
                 </td>
             </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>new Array&lt;(value: T) &#x3D;&gt; void&gt;()</code>
@@ -6845,6 +7196,12 @@ remove it from the connectedAnnotations list</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
                         <i>Default value : </i><code>new Array&lt;() &#x3D;&gt; void&gt;()</code>
                     </td>
                 </tr>
@@ -6912,7 +7269,7 @@ remove it from the connectedAnnotations list</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>ActivatedRoute</code>
+                        <i>Type : </i>        <code><a href="https://angular.io/api/router/ActivatedRoute" target="_blank" >ActivatedRoute</a></code>
 
                     </td>
                 </tr>
@@ -7218,7 +7575,7 @@ remove it from the connectedAnnotations list</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>ChangeDetectorRef</code>
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank" >ChangeDetectorRef</a></code>
 
                     </td>
                 </tr>
@@ -7286,7 +7643,7 @@ remove it from the connectedAnnotations list</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>Compiler</code>
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/Compiler" target="_blank" >Compiler</a></code>
 
                     </td>
                 </tr>
@@ -7592,7 +7949,7 @@ remove it from the connectedAnnotations list</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>Injector</code>
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/Injector" target="_blank" >Injector</a></code>
 
                     </td>
                 </tr>
@@ -7762,7 +8119,7 @@ remove it from the connectedAnnotations list</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>Router</code>
+                        <i>Type : </i>        <code><a href="https://angular.io/api/router/Router" target="_blank" >Router</a></code>
 
                     </td>
                 </tr>
@@ -7796,7 +8153,7 @@ remove it from the connectedAnnotations list</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>Location</code>
+                        <i>Type : </i>        <code><a href="https://angular.io/api/common/Location" target="_blank" >Location</a></code>
 
                     </td>
                 </tr>
@@ -9489,7 +9846,7 @@ export class TextWidgetComponent extends BaseControlComponent
       switch (annotatorType) {
         case &quot;Button Annotator&quot;:
           // If it is Button Annotator get the required color combination
-          for (var m &#x3D; 0; m &lt; annotationAttributes.length; m++) {
+          for (var m &#x3D; 0; m &lt; annotationAttributes?.length ?? 0; m++) {
             colorCombination &#x3D;
               this.buttonColorService.getColorCombination(annotationAttributes[m].value);
             // console.error(&quot;colorCombination:&quot;, annotationAttributes[m].value, colorCombination);
@@ -10296,7 +10653,7 @@ export class TextWidgetComponent extends BaseControlComponent
     
 </div>
 
-<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/vis-network.min.js"></script>
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
@@ -10353,6 +10710,19 @@ export class TextWidgetComponent extends BaseControlComponent
             var MAX_SEARCH_RESULTS = 15;
        </script>
 
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
 
@@ -10364,7 +10734,6 @@ export class TextWidgetComponent extends BaseControlComponent
        <script src="../js/libs/es6-shim.min.js"></script>
        <script src="../js/libs/EventDispatcher.js"></script>
        <script src="../js/libs/promise.min.js"></script>
-       <script src="../js/libs/zepto.min.js"></script>
 
        <script src="../js/compodoc.js"></script>
 

@@ -12,10 +12,75 @@
         <link rel="stylesheet" href="./styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
-            <a href="./" class="navbar-brand">The Ellogon Annotation Platform documentation</a>
-            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="./" class="navbar-brand">The Ellogon Annotation Platform documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
@@ -24,12 +89,16 @@
 
         <div class="container-fluid main">
            <div class="row main">
-               <div class="hidden-xs menu">
+               <div class="d-none d-md-block menu">
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
                <div class="content coverage">
                    <div class="content-data">
+
+
+
+
 
 
 
@@ -70,7 +139,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#COMPONENTS">src/app/app-routing.module.ts</a>
+                        <a href="./miscellaneous/variables.html#COMPONENTS">src/app/app-routing.module.ts</a>
             </td>
             <td>variable</td>
             <td>COMPONENTS</td>
@@ -82,7 +151,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#COMPONENTS_DYNAMIC">src/app/app-routing.module.ts</a>
+                        <a href="./miscellaneous/variables.html#COMPONENTS_DYNAMIC">src/app/app-routing.module.ts</a>
             </td>
             <td>variable</td>
             <td>COMPONENTS_DYNAMIC</td>
@@ -94,7 +163,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/AppComponent.html">src/app/app.component.ts</a>
+                        <a href="./components/AppComponent.html">src/app/app.component.ts</a>
             </td>
             <td>component</td>
             <td>AppComponent</td>
@@ -106,7 +175,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#TranslateHttpLoaderFactory">src/app/app.module.ts</a>
+                        <a href="./miscellaneous/functions.html#TranslateHttpLoaderFactory">src/app/app.module.ts</a>
             </td>
             <td>function</td>
             <td>TranslateHttpLoaderFactory</td>
@@ -118,7 +187,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/AnnotationDetailComponent.html">src/app/components/controls/annotation-detail/annotation-detail.component.ts</a>
+                        <a href="./components/AnnotationDetailComponent.html">src/app/components/controls/annotation-detail/annotation-detail.component.ts</a>
             </td>
             <td>component</td>
             <td>AnnotationDetailComponent</td>
@@ -130,7 +199,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/AnnotationSetComparatorComponent.html">src/app/components/controls/annotation-set-comparator/annotation-set-comparator.component.ts</a>
+                        <a href="./components/AnnotationSetComparatorComponent.html">src/app/components/controls/annotation-set-comparator/annotation-set-comparator.component.ts</a>
             </td>
             <td>component</td>
             <td>AnnotationSetComparatorComponent</td>
@@ -142,7 +211,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/AnnotationSetFilterComponent.html">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts</a>
+                        <a href="./components/AnnotationSetFilterComponent.html">src/app/components/controls/annotation-set-filter/annotation-set-filter.component.ts</a>
             </td>
             <td>component</td>
             <td>AnnotationSetFilterComponent</td>
@@ -154,7 +223,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/AnnotationSetInspectorComponent.html">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts</a>
+                        <a href="./components/AnnotationSetInspectorComponent.html">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts</a>
             </td>
             <td>component</td>
             <td>AnnotationSetInspectorComponent</td>
@@ -166,7 +235,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/SkipDetailRowsExporter.html">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts</a>
+                        <a href="./classes/SkipDetailRowsExporter.html">src/app/components/controls/annotation-set-inspector/annotation-set-inspector.component.ts</a>
             </td>
             <td>class</td>
             <td>SkipDetailRowsExporter</td>
@@ -178,7 +247,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/AnnotationVisualizerComponent.html">src/app/components/controls/annotation-visualizer/annotation-visualizer.component.ts</a>
+                        <a href="./components/AnnotationVisualizerComponent.html">src/app/components/controls/annotation-visualizer/annotation-visualizer.component.ts</a>
             </td>
             <td>component</td>
             <td>AnnotationVisualizerComponent</td>
@@ -190,7 +259,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/AnnotatorWidgetValuesSchwartzComponent.html">src/app/components/controls/annotator-widget-values-schwartz/annotator-widget-values-schwartz.component.ts</a>
+                        <a href="./components/AnnotatorWidgetValuesSchwartzComponent.html">src/app/components/controls/annotator-widget-values-schwartz/annotator-widget-values-schwartz.component.ts</a>
             </td>
             <td>component</td>
             <td>AnnotatorWidgetValuesSchwartzComponent</td>
@@ -202,7 +271,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/AnnotatorWidgetComponent.html">src/app/components/controls/annotator-widget/annotator-widget.component.ts</a>
+                        <a href="./components/AnnotatorWidgetComponent.html">src/app/components/controls/annotator-widget/annotator-widget.component.ts</a>
             </td>
             <td>component</td>
             <td>AnnotatorWidgetComponent</td>
@@ -214,7 +283,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/AutomaticAnnotatorComponent.html">src/app/components/controls/automatic-annotator/automatic-annotator.component.ts</a>
+                        <a href="./components/AutomaticAnnotatorComponent.html">src/app/components/controls/automatic-annotator/automatic-annotator.component.ts</a>
             </td>
             <td>component</td>
             <td>AutomaticAnnotatorComponent</td>
@@ -226,7 +295,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/BaseControlComponent.html">src/app/components/controls/base-control/base-control.component.ts</a>
+                        <a href="./components/BaseControlComponent.html">src/app/components/controls/base-control/base-control.component.ts</a>
             </td>
             <td>component</td>
             <td>BaseControlComponent</td>
@@ -238,7 +307,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/AnnotationButtonCustomValueAddComponent.html">src/app/components/controls/button/annotation-button-custom-value-add/annotation-button-custom-value-add.component.ts</a>
+                        <a href="./components/AnnotationButtonCustomValueAddComponent.html">src/app/components/controls/button/annotation-button-custom-value-add/annotation-button-custom-value-add.component.ts</a>
             </td>
             <td>component</td>
             <td>AnnotationButtonCustomValueAddComponent</td>
@@ -250,7 +319,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/AnnotationButtonComponent.html">src/app/components/controls/button/annotation-button/annotation-button.component.ts</a>
+                        <a href="./components/AnnotationButtonComponent.html">src/app/components/controls/button/annotation-button/annotation-button.component.ts</a>
             </td>
             <td>component</td>
             <td>AnnotationButtonComponent</td>
@@ -262,7 +331,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/AnnotationComboboxComponent.html">src/app/components/controls/button/annotation-combobox/annotation-combobox.component.ts</a>
+                        <a href="./components/AnnotationComboboxComponent.html">src/app/components/controls/button/annotation-combobox/annotation-combobox.component.ts</a>
             </td>
             <td>component</td>
             <td>AnnotationComboboxComponent</td>
@@ -274,7 +343,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/AnnotationDateentryComponent.html">src/app/components/controls/button/annotation-dateentry/annotation-dateentry.component.ts</a>
+                        <a href="./components/AnnotationDateentryComponent.html">src/app/components/controls/button/annotation-dateentry/annotation-dateentry.component.ts</a>
             </td>
             <td>component</td>
             <td>AnnotationDateentryComponent</td>
@@ -286,7 +355,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/AnnotationEntryComponent.html">src/app/components/controls/button/annotation-entry/annotation-entry.component.ts</a>
+                        <a href="./components/AnnotationEntryComponent.html">src/app/components/controls/button/annotation-entry/annotation-entry.component.ts</a>
             </td>
             <td>component</td>
             <td>AnnotationEntryComponent</td>
@@ -298,7 +367,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/AnnotationIndicatorComponent.html">src/app/components/controls/button/annotation-indicator/annotation-indicator.component.ts</a>
+                        <a href="./components/AnnotationIndicatorComponent.html">src/app/components/controls/button/annotation-indicator/annotation-indicator.component.ts</a>
             </td>
             <td>component</td>
             <td>AnnotationIndicatorComponent</td>
@@ -310,7 +379,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/AnnotationRelationAnnotateBtnComponent.html">src/app/components/controls/button/annotation-relation-annotate-btn/annotation-relation-annotate-btn.component.ts</a>
+                        <a href="./components/AnnotationRelationAnnotateBtnComponent.html">src/app/components/controls/button/annotation-relation-annotate-btn/annotation-relation-annotate-btn.component.ts</a>
             </td>
             <td>component</td>
             <td>AnnotationRelationAnnotateBtnComponent</td>
@@ -322,7 +391,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/AnnotationRelationClearBtnComponent.html">src/app/components/controls/button/annotation-relation-clear-btn/annotation-relation-clear-btn.component.ts</a>
+                        <a href="./components/AnnotationRelationClearBtnComponent.html">src/app/components/controls/button/annotation-relation-clear-btn/annotation-relation-clear-btn.component.ts</a>
             </td>
             <td>component</td>
             <td>AnnotationRelationClearBtnComponent</td>
@@ -334,7 +403,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/AnnotationRelationComboboxComponent.html">src/app/components/controls/button/annotation-relation-combobox/annotation-relation-combobox.component.ts</a>
+                        <a href="./components/AnnotationRelationComboboxComponent.html">src/app/components/controls/button/annotation-relation-combobox/annotation-relation-combobox.component.ts</a>
             </td>
             <td>component</td>
             <td>AnnotationRelationComboboxComponent</td>
@@ -346,7 +415,7 @@
         <tr class="medium">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/MyErrorStateMatcher.html">src/app/components/controls/button/annotation-relation-combobox/annotation-relation-combobox.component.ts</a>
+                        <a href="./classes/MyErrorStateMatcher.html">src/app/components/controls/button/annotation-relation-combobox/annotation-relation-combobox.component.ts</a>
             </td>
             <td>class</td>
             <td>MyErrorStateMatcher</td>
@@ -358,7 +427,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/AnnotationRelationDelBtnComponent.html">src/app/components/controls/button/annotation-relation-del-btn/annotation-relation-del-btn.component.ts</a>
+                        <a href="./components/AnnotationRelationDelBtnComponent.html">src/app/components/controls/button/annotation-relation-del-btn/annotation-relation-del-btn.component.ts</a>
             </td>
             <td>component</td>
             <td>AnnotationRelationDelBtnComponent</td>
@@ -370,7 +439,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/AnnotationRelationImportBtnComponent.html">src/app/components/controls/button/annotation-relation-import-btn/annotation-relation-import-btn.component.ts</a>
+                        <a href="./components/AnnotationRelationImportBtnComponent.html">src/app/components/controls/button/annotation-relation-import-btn/annotation-relation-import-btn.component.ts</a>
             </td>
             <td>component</td>
             <td>AnnotationRelationImportBtnComponent</td>
@@ -382,7 +451,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/AnnotationRelationSetBtnComponent.html">src/app/components/controls/button/annotation-relation-set-btn/annotation-relation-set-btn.component.ts</a>
+                        <a href="./components/AnnotationRelationSetBtnComponent.html">src/app/components/controls/button/annotation-relation-set-btn/annotation-relation-set-btn.component.ts</a>
             </td>
             <td>component</td>
             <td>AnnotationRelationSetBtnComponent</td>
@@ -394,7 +463,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/AnnotationRelationComponent.html">src/app/components/controls/button/annotation-relation/annotation-relation.component.ts</a>
+                        <a href="./components/AnnotationRelationComponent.html">src/app/components/controls/button/annotation-relation/annotation-relation.component.ts</a>
             </td>
             <td>component</td>
             <td>AnnotationRelationComponent</td>
@@ -406,7 +475,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/CorefAddBtnComponent.html">src/app/components/controls/coref/coref-add-btn/coref-add-btn.component.ts</a>
+                        <a href="./components/CorefAddBtnComponent.html">src/app/components/controls/coref/coref-add-btn/coref-add-btn.component.ts</a>
             </td>
             <td>component</td>
             <td>CorefAddBtnComponent</td>
@@ -418,7 +487,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/CorefAnnotateBtnComponent.html">src/app/components/controls/coref/coref-annotate-btn/coref-annotate-btn.component.ts</a>
+                        <a href="./components/CorefAnnotateBtnComponent.html">src/app/components/controls/coref/coref-annotate-btn/coref-annotate-btn.component.ts</a>
             </td>
             <td>component</td>
             <td>CorefAnnotateBtnComponent</td>
@@ -430,7 +499,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/CorefBtnComponent.html">src/app/components/controls/coref/coref-btn/coref-btn.component.ts</a>
+                        <a href="./components/CorefBtnComponent.html">src/app/components/controls/coref/coref-btn/coref-btn.component.ts</a>
             </td>
             <td>component</td>
             <td>CorefBtnComponent</td>
@@ -442,7 +511,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/CorefCheckboxComponent.html">src/app/components/controls/coref/coref-checkbox/coref-checkbox.component.ts</a>
+                        <a href="./components/CorefCheckboxComponent.html">src/app/components/controls/coref/coref-checkbox/coref-checkbox.component.ts</a>
             </td>
             <td>component</td>
             <td>CorefCheckboxComponent</td>
@@ -454,7 +523,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/CorefClearBtnComponent.html">src/app/components/controls/coref/coref-clear-btn/coref-clear-btn.component.ts</a>
+                        <a href="./components/CorefClearBtnComponent.html">src/app/components/controls/coref/coref-clear-btn/coref-clear-btn.component.ts</a>
             </td>
             <td>component</td>
             <td>CorefClearBtnComponent</td>
@@ -466,7 +535,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/CorefComboboxComponent.html">src/app/components/controls/coref/coref-combobox/coref-combobox.component.ts</a>
+                        <a href="./components/CorefComboboxComponent.html">src/app/components/controls/coref/coref-combobox/coref-combobox.component.ts</a>
             </td>
             <td>component</td>
             <td>CorefComboboxComponent</td>
@@ -478,7 +547,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/CorefDelBtnComponent.html">src/app/components/controls/coref/coref-del-btn/coref-del-btn.component.ts</a>
+                        <a href="./components/CorefDelBtnComponent.html">src/app/components/controls/coref/coref-del-btn/coref-del-btn.component.ts</a>
             </td>
             <td>component</td>
             <td>CorefDelBtnComponent</td>
@@ -490,7 +559,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/CorefEntryComponent.html">src/app/components/controls/coref/coref-entry/coref-entry.component.ts</a>
+                        <a href="./components/CorefEntryComponent.html">src/app/components/controls/coref/coref-entry/coref-entry.component.ts</a>
             </td>
             <td>component</td>
             <td>CorefEntryComponent</td>
@@ -502,7 +571,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/CorefImportBtnComponent.html">src/app/components/controls/coref/coref-import-btn/coref-import-btn.component.ts</a>
+                        <a href="./components/CorefImportBtnComponent.html">src/app/components/controls/coref/coref-import-btn/coref-import-btn.component.ts</a>
             </td>
             <td>component</td>
             <td>CorefImportBtnComponent</td>
@@ -514,7 +583,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/CorefMultiEntryComponent.html">src/app/components/controls/coref/coref-multi-entry/coref-multi-entry.component.ts</a>
+                        <a href="./components/CorefMultiEntryComponent.html">src/app/components/controls/coref/coref-multi-entry/coref-multi-entry.component.ts</a>
             </td>
             <td>component</td>
             <td>CorefMultiEntryComponent</td>
@@ -526,7 +595,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/CorefSegmentEntryComponent.html">src/app/components/controls/coref/coref-segment-entry/coref-segment-entry.component.ts</a>
+                        <a href="./components/CorefSegmentEntryComponent.html">src/app/components/controls/coref/coref-segment-entry/coref-segment-entry.component.ts</a>
             </td>
             <td>component</td>
             <td>CorefSegmentEntryComponent</td>
@@ -538,7 +607,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/CorefSpanEndComponent.html">src/app/components/controls/coref/coref-span-end/coref-span-end.component.ts</a>
+                        <a href="./components/CorefSpanEndComponent.html">src/app/components/controls/coref/coref-span-end/coref-span-end.component.ts</a>
             </td>
             <td>component</td>
             <td>CorefSpanEndComponent</td>
@@ -550,7 +619,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/CorefSpanStartComponent.html">src/app/components/controls/coref/coref-span-start/coref-span-start.component.ts</a>
+                        <a href="./components/CorefSpanStartComponent.html">src/app/components/controls/coref/coref-span-start/coref-span-start.component.ts</a>
             </td>
             <td>component</td>
             <td>CorefSpanStartComponent</td>
@@ -562,7 +631,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/AnnotationTextLabelComponent.html">src/app/components/controls/document/annotation-text-label/annotation-text-label.component.ts</a>
+                        <a href="./components/AnnotationTextLabelComponent.html">src/app/components/controls/document/annotation-text-label/annotation-text-label.component.ts</a>
             </td>
             <td>component</td>
             <td>AnnotationTextLabelComponent</td>
@@ -574,7 +643,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/AnnotationTextTextComponent.html">src/app/components/controls/document/annotation-text-text/annotation-text-text.component.ts</a>
+                        <a href="./components/AnnotationTextTextComponent.html">src/app/components/controls/document/annotation-text-text/annotation-text-text.component.ts</a>
             </td>
             <td>component</td>
             <td>AnnotationTextTextComponent</td>
@@ -586,7 +655,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/AnnotationTextComponent.html">src/app/components/controls/document/annotation-text/annotation-text.component.ts</a>
+                        <a href="./components/AnnotationTextComponent.html">src/app/components/controls/document/annotation-text/annotation-text.component.ts</a>
             </td>
             <td>component</td>
             <td>AnnotationTextComponent</td>
@@ -598,7 +667,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/EuropeanaSearchComponent.html">src/app/components/controls/europeana-search/europeana-search.component.ts</a>
+                        <a href="./components/EuropeanaSearchComponent.html">src/app/components/controls/europeana-search/europeana-search.component.ts</a>
             </td>
             <td>component</td>
             <td>EuropeanaSearchComponent</td>
@@ -610,7 +679,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/FlashMessageInterface.html">src/app/components/controls/flash-messages/flash-message.interface.ts</a>
+                        <a href="./interfaces/FlashMessageInterface.html">src/app/components/controls/flash-messages/flash-message.interface.ts</a>
             </td>
             <td>interface</td>
             <td>FlashMessageInterface</td>
@@ -622,7 +691,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/FlashMessage.html">src/app/components/controls/flash-messages/flash-message.ts</a>
+                        <a href="./classes/FlashMessage.html">src/app/components/controls/flash-messages/flash-message.ts</a>
             </td>
             <td>class</td>
             <td>FlashMessage</td>
@@ -634,7 +703,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/FlashMessagesComponent.html">src/app/components/controls/flash-messages/flash-messages.component.ts</a>
+                        <a href="./components/FlashMessagesComponent.html">src/app/components/controls/flash-messages/flash-messages.component.ts</a>
             </td>
             <td>component</td>
             <td>FlashMessagesComponent</td>
@@ -646,7 +715,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/FlashMessagesService.html">src/app/components/controls/flash-messages/flash-messages.service.ts</a>
+                        <a href="./injectables/FlashMessagesService.html">src/app/components/controls/flash-messages/flash-messages.service.ts</a>
             </td>
             <td>injectable</td>
             <td>FlashMessagesService</td>
@@ -658,7 +727,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/MediaGalleryComponent.html">src/app/components/controls/media-gallery/media-gallery.component.ts</a>
+                        <a href="./components/MediaGalleryComponent.html">src/app/components/controls/media-gallery/media-gallery.component.ts</a>
             </td>
             <td>component</td>
             <td>MediaGalleryComponent</td>
@@ -670,7 +739,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/OverlappingAreasComponent.html">src/app/components/controls/overlapping-areas/overlapping-areas.component.ts</a>
+                        <a href="./components/OverlappingAreasComponent.html">src/app/components/controls/overlapping-areas/overlapping-areas.component.ts</a>
             </td>
             <td>component</td>
             <td>OverlappingAreasComponent</td>
@@ -682,7 +751,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/TextWidgetIsolatedComponent.html">src/app/components/controls/text-widget-isolated/text-widget-isolated.component.ts</a>
+                        <a href="./components/TextWidgetIsolatedComponent.html">src/app/components/controls/text-widget-isolated/text-widget-isolated.component.ts</a>
             </td>
             <td>component</td>
             <td>TextWidgetIsolatedComponent</td>
@@ -694,7 +763,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/TextWidgetComponent.html">src/app/components/controls/text-widget/text-widget.component.ts</a>
+                        <a href="./components/TextWidgetComponent.html">src/app/components/controls/text-widget/text-widget.component.ts</a>
             </td>
             <td>component</td>
             <td>TextWidgetComponent</td>
@@ -706,7 +775,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/ToolbarSelectAnnotatorComponent.html">src/app/components/controls/toolbar-select-annotator/toolbar-select-annotator.component.ts</a>
+                        <a href="./components/ToolbarSelectAnnotatorComponent.html">src/app/components/controls/toolbar-select-annotator/toolbar-select-annotator.component.ts</a>
             </td>
             <td>component</td>
             <td>ToolbarSelectAnnotatorComponent</td>
@@ -718,7 +787,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/ToolbarSelectDocumentComponent.html">src/app/components/controls/toolbar-select-document/toolbar-select-document.component.ts</a>
+                        <a href="./components/ToolbarSelectDocumentComponent.html">src/app/components/controls/toolbar-select-document/toolbar-select-document.component.ts</a>
             </td>
             <td>component</td>
             <td>ToolbarSelectDocumentComponent</td>
@@ -730,7 +799,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/ToolbarWidgetComponent.html">src/app/components/controls/toolbar-widget/toolbar-widget.component.ts</a>
+                        <a href="./components/ToolbarWidgetComponent.html">src/app/components/controls/toolbar-widget/toolbar-widget.component.ts</a>
             </td>
             <td>component</td>
             <td>ToolbarWidgetComponent</td>
@@ -742,7 +811,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/UploaderComponent.html">src/app/components/controls/uploader/uploader.component.ts</a>
+                        <a href="./components/UploaderComponent.html">src/app/components/controls/uploader/uploader.component.ts</a>
             </td>
             <td>component</td>
             <td>UploaderComponent</td>
@@ -754,7 +823,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/ValueAccessorComponent.html">src/app/components/controls/value-accessor/value-accessor.component.ts</a>
+                        <a href="./components/ValueAccessorComponent.html">src/app/components/controls/value-accessor/value-accessor.component.ts</a>
             </td>
             <td>component</td>
             <td>ValueAccessorComponent</td>
@@ -766,7 +835,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/WavesurferAudioComponent.html">src/app/components/controls/wavesurfer-audio/wavesurfer-audio.component.ts</a>
+                        <a href="./components/WavesurferAudioComponent.html">src/app/components/controls/wavesurfer-audio/wavesurfer-audio.component.ts</a>
             </td>
             <td>component</td>
             <td>WavesurferAudioComponent</td>
@@ -778,7 +847,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/WavesurferVideoComponent.html">src/app/components/controls/wavesurfer-video/wavesurfer-video.component.ts</a>
+                        <a href="./components/WavesurferVideoComponent.html">src/app/components/controls/wavesurfer-video/wavesurfer-video.component.ts</a>
             </td>
             <td>component</td>
             <td>WavesurferVideoComponent</td>
@@ -790,7 +859,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/AddCustomValueModalComponent.html">src/app/components/dialogs/add-custom-value-modal/add-custom-value-modal.component.ts</a>
+                        <a href="./components/AddCustomValueModalComponent.html">src/app/components/dialogs/add-custom-value-modal/add-custom-value-modal.component.ts</a>
             </td>
             <td>component</td>
             <td>AddCustomValueModalComponent</td>
@@ -802,7 +871,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/AddDocumentsDialogComponent.html">src/app/components/dialogs/add-documents-dialog/add-documents-dialog.component.ts</a>
+                        <a href="./components/AddDocumentsDialogComponent.html">src/app/components/dialogs/add-documents-dialog/add-documents-dialog.component.ts</a>
             </td>
             <td>component</td>
             <td>AddDocumentsDialogComponent</td>
@@ -814,7 +883,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/ConfirmDialogComponent.html">src/app/components/dialogs/confirm-dialog/confirm-dialog.component.ts</a>
+                        <a href="./components/ConfirmDialogComponent.html">src/app/components/dialogs/confirm-dialog/confirm-dialog.component.ts</a>
             </td>
             <td>component</td>
             <td>ConfirmDialogComponent</td>
@@ -826,7 +895,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/DetectChangesModalComponent.html">src/app/components/dialogs/detect-changes-modal/detect-changes-modal.component.ts</a>
+                        <a href="./components/DetectChangesModalComponent.html">src/app/components/dialogs/detect-changes-modal/detect-changes-modal.component.ts</a>
             </td>
             <td>component</td>
             <td>DetectChangesModalComponent</td>
@@ -838,7 +907,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/DetectOpenDocModalComponent.html">src/app/components/dialogs/detect-open-doc-modal/detect-open-doc-modal.component.ts</a>
+                        <a href="./components/DetectOpenDocModalComponent.html">src/app/components/dialogs/detect-open-doc-modal/detect-open-doc-modal.component.ts</a>
             </td>
             <td>component</td>
             <td>DetectOpenDocModalComponent</td>
@@ -850,7 +919,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/ErrorDialogComponent.html">src/app/components/dialogs/error-dialog/error-dialog.component.ts</a>
+                        <a href="./components/ErrorDialogComponent.html">src/app/components/dialogs/error-dialog/error-dialog.component.ts</a>
             </td>
             <td>component</td>
             <td>ErrorDialogComponent</td>
@@ -862,7 +931,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/ImportCollectionsModalComponent.html">src/app/components/dialogs/import-collections-modal/import-collections-modal.component.ts</a>
+                        <a href="./components/ImportCollectionsModalComponent.html">src/app/components/dialogs/import-collections-modal/import-collections-modal.component.ts</a>
             </td>
             <td>component</td>
             <td>ImportCollectionsModalComponent</td>
@@ -874,7 +943,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/ImportDocumentsFromExportModalComponent.html">src/app/components/dialogs/import-documents-from-export-modal/import-documents-from-export-modal.component.ts</a>
+                        <a href="./components/ImportDocumentsFromExportModalComponent.html">src/app/components/dialogs/import-documents-from-export-modal/import-documents-from-export-modal.component.ts</a>
             </td>
             <td>component</td>
             <td>ImportDocumentsFromExportModalComponent</td>
@@ -886,7 +955,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/ImportModalComponent.html">src/app/components/dialogs/import-modal/import-modal.component.ts</a>
+                        <a href="./components/ImportModalComponent.html">src/app/components/dialogs/import-modal/import-modal.component.ts</a>
             </td>
             <td>component</td>
             <td>ImportModalComponent</td>
@@ -898,7 +967,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/MainDialogComponent.html">src/app/components/dialogs/main-dialog/main-dialog.component.ts</a>
+                        <a href="./components/MainDialogComponent.html">src/app/components/dialogs/main-dialog/main-dialog.component.ts</a>
             </td>
             <td>component</td>
             <td>MainDialogComponent</td>
@@ -910,7 +979,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/RenameCollectionModalComponent.html">src/app/components/dialogs/rename-collection-modal/rename-collection-modal.component.ts</a>
+                        <a href="./components/RenameCollectionModalComponent.html">src/app/components/dialogs/rename-collection-modal/rename-collection-modal.component.ts</a>
             </td>
             <td>component</td>
             <td>RenameCollectionModalComponent</td>
@@ -922,7 +991,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/RenameDocumentModalComponent.html">src/app/components/dialogs/rename-document-modal/rename-document-modal.component.ts</a>
+                        <a href="./components/RenameDocumentModalComponent.html">src/app/components/dialogs/rename-document-modal/rename-document-modal.component.ts</a>
             </td>
             <td>component</td>
             <td>RenameDocumentModalComponent</td>
@@ -934,7 +1003,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/SelectDocumentModalComponent.html">src/app/components/dialogs/select-document-modal/select-document-modal.component.ts</a>
+                        <a href="./components/SelectDocumentModalComponent.html">src/app/components/dialogs/select-document-modal/select-document-modal.component.ts</a>
             </td>
             <td>component</td>
             <td>SelectDocumentModalComponent</td>
@@ -946,7 +1015,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/ExampleFlatNode.html">src/app/components/dialogs/select-document-modal/select-document-modal.component.ts</a>
+                        <a href="./interfaces/ExampleFlatNode.html">src/app/components/dialogs/select-document-modal/select-document-modal.component.ts</a>
             </td>
             <td>interface</td>
             <td>ExampleFlatNode</td>
@@ -958,7 +1027,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/ShareCollectionModalComponent.html">src/app/components/dialogs/share-collection-modal/share-collection-modal.component.ts</a>
+                        <a href="./components/ShareCollectionModalComponent.html">src/app/components/dialogs/share-collection-modal/share-collection-modal.component.ts</a>
             </td>
             <td>component</td>
             <td>ShareCollectionModalComponent</td>
@@ -970,7 +1039,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/VisualiseLayoutComponent.html">src/app/components/layouts/visualise-layout/visualise-layout.component.ts</a>
+                        <a href="./components/VisualiseLayoutComponent.html">src/app/components/layouts/visualise-layout/visualise-layout.component.ts</a>
             </td>
             <td>component</td>
             <td>VisualiseLayoutComponent</td>
@@ -982,7 +1051,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/AddCollectionComponent.html">src/app/components/views/add-collection/add-collection.component.ts</a>
+                        <a href="./components/AddCollectionComponent.html">src/app/components/views/add-collection/add-collection.component.ts</a>
             </td>
             <td>component</td>
             <td>AddCollectionComponent</td>
@@ -994,7 +1063,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/AnalyticsAnnotationValuesComponent.html">src/app/components/views/analytics-annotation-values/analytics-annotation-values.component.ts</a>
+                        <a href="./components/AnalyticsAnnotationValuesComponent.html">src/app/components/views/analytics-annotation-values/analytics-annotation-values.component.ts</a>
             </td>
             <td>component</td>
             <td>AnalyticsAnnotationValuesComponent</td>
@@ -1006,7 +1075,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/AnnotationComponent.html">src/app/components/views/annotation/annotation.component.ts</a>
+                        <a href="./components/AnnotationComponent.html">src/app/components/views/annotation/annotation.component.ts</a>
             </td>
             <td>component</td>
             <td>AnnotationComponent</td>
@@ -1018,7 +1087,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/AuthLayoutModComponent.html">src/app/components/views/auth-layout-mod/auth-layout-mod.component.ts</a>
+                        <a href="./components/AuthLayoutModComponent.html">src/app/components/views/auth-layout-mod/auth-layout-mod.component.ts</a>
             </td>
             <td>component</td>
             <td>AuthLayoutModComponent</td>
@@ -1030,7 +1099,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/CompareAnnotationsComponent.html">src/app/components/views/compare-annotations/compare-annotations.component.ts</a>
+                        <a href="./components/CompareAnnotationsComponent.html">src/app/components/views/compare-annotations/compare-annotations.component.ts</a>
             </td>
             <td>component</td>
             <td>CompareAnnotationsComponent</td>
@@ -1042,7 +1111,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/CompareCollectionsComponent.html">src/app/components/views/compare-collections/compare-collections.component.ts</a>
+                        <a href="./components/CompareCollectionsComponent.html">src/app/components/views/compare-collections/compare-collections.component.ts</a>
             </td>
             <td>component</td>
             <td>CompareCollectionsComponent</td>
@@ -1054,7 +1123,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/CompareDocumentsComponent.html">src/app/components/views/compare-documents/compare-documents.component.ts</a>
+                        <a href="./components/CompareDocumentsComponent.html">src/app/components/views/compare-documents/compare-documents.component.ts</a>
             </td>
             <td>component</td>
             <td>CompareDocumentsComponent</td>
@@ -1066,7 +1135,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/InspectDocumentComponent.html">src/app/components/views/inspect-document/inspect-document.component.ts</a>
+                        <a href="./components/InspectDocumentComponent.html">src/app/components/views/inspect-document/inspect-document.component.ts</a>
             </td>
             <td>component</td>
             <td>InspectDocumentComponent</td>
@@ -1078,7 +1147,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/LoginSocialComponent.html">src/app/components/views/login-social/login-social.component.ts</a>
+                        <a href="./components/LoginSocialComponent.html">src/app/components/views/login-social/login-social.component.ts</a>
             </td>
             <td>component</td>
             <td>LoginSocialComponent</td>
@@ -1090,7 +1159,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/LoginComponent.html">src/app/components/views/login/login.component.ts</a>
+                        <a href="./components/LoginComponent.html">src/app/components/views/login/login.component.ts</a>
             </td>
             <td>component</td>
             <td>LoginComponent</td>
@@ -1102,7 +1171,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/MainComponent.html">src/app/components/views/main/main.component.ts</a>
+                        <a href="./components/MainComponent.html">src/app/components/views/main/main.component.ts</a>
             </td>
             <td>component</td>
             <td>MainComponent</td>
@@ -1114,7 +1183,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/ManageCollectionsComponent.html">src/app/components/views/manage-collections/manage-collections.component.ts</a>
+                        <a href="./components/ManageCollectionsComponent.html">src/app/components/views/manage-collections/manage-collections.component.ts</a>
             </td>
             <td>component</td>
             <td>ManageCollectionsComponent</td>
@@ -1126,7 +1195,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/DocumentInformation.html">src/app/components/views/manage-collections/manage-collections.component.ts</a>
+                        <a href="./interfaces/DocumentInformation.html">src/app/components/views/manage-collections/manage-collections.component.ts</a>
             </td>
             <td>interface</td>
             <td>DocumentInformation</td>
@@ -1138,7 +1207,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/NavbarComponent.html">src/app/components/views/navbar/navbar.component.ts</a>
+                        <a href="./components/NavbarComponent.html">src/app/components/views/navbar/navbar.component.ts</a>
             </td>
             <td>component</td>
             <td>NavbarComponent</td>
@@ -1150,7 +1219,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/ProfileComponent.html">src/app/components/views/profile/profile.component.ts</a>
+                        <a href="./components/ProfileComponent.html">src/app/components/views/profile/profile.component.ts</a>
             </td>
             <td>component</td>
             <td>ProfileComponent</td>
@@ -1162,7 +1231,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/RegisterComponent.html">src/app/components/views/register/register.component.ts</a>
+                        <a href="./components/RegisterComponent.html">src/app/components/views/register/register.component.ts</a>
             </td>
             <td>component</td>
             <td>RegisterComponent</td>
@@ -1174,7 +1243,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/ResetPasswordComponent.html">src/app/components/views/reset-password/reset-password.component.ts</a>
+                        <a href="./components/ResetPasswordComponent.html">src/app/components/views/reset-password/reset-password.component.ts</a>
             </td>
             <td>component</td>
             <td>ResetPasswordComponent</td>
@@ -1186,7 +1255,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/SharedCollectionsComponent.html">src/app/components/views/shared-collections/shared-collections.component.ts</a>
+                        <a href="./components/SharedCollectionsComponent.html">src/app/components/views/shared-collections/shared-collections.component.ts</a>
             </td>
             <td>component</td>
             <td>SharedCollectionsComponent</td>
@@ -1198,7 +1267,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/VisualiseAnnotationComponent.html">src/app/components/views/visualise-annotation/visualise-annotation.component.ts</a>
+                        <a href="./components/VisualiseAnnotationComponent.html">src/app/components/views/visualise-annotation/visualise-annotation.component.ts</a>
             </td>
             <td>component</td>
             <td>VisualiseAnnotationComponent</td>
@@ -1210,7 +1279,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/WelcomeComponent.html">src/app/components/views/welcome/welcome.component.ts</a>
+                        <a href="./components/WelcomeComponent.html">src/app/components/views/welcome/welcome.component.ts</a>
             </td>
             <td>component</td>
             <td>WelcomeComponent</td>
@@ -1222,7 +1291,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./directives/AutoannTokenClassifierDirective.html">src/app/directives/autoann-token-classifier/autoann-token-classifier.directive.ts</a>
+                        <a href="./directives/AutoannTokenClassifierDirective.html">src/app/directives/autoann-token-classifier/autoann-token-classifier.directive.ts</a>
             </td>
             <td>directive</td>
             <td>AutoannTokenClassifierDirective</td>
@@ -1234,7 +1303,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./directives/CorefAnnotatorValueListDirective.html">src/app/directives/coref-annotator-value-list/coref-annotator-value-list.directive.ts</a>
+                        <a href="./directives/CorefAnnotatorValueListDirective.html">src/app/directives/coref-annotator-value-list/coref-annotator-value-list.directive.ts</a>
             </td>
             <td>directive</td>
             <td>CorefAnnotatorValueListDirective</td>
@@ -1246,7 +1315,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./directives/DocumentAttributesDirective.html">src/app/directives/document-attributes/document-attributes.directive.ts</a>
+                        <a href="./directives/DocumentAttributesDirective.html">src/app/directives/document-attributes/document-attributes.directive.ts</a>
             </td>
             <td>directive</td>
             <td>DocumentAttributesDirective</td>
@@ -1258,7 +1327,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./directives/DomHelpersDirective.html">src/app/directives/dom-helpers/dom-helpers.directive.ts</a>
+                        <a href="./directives/DomHelpersDirective.html">src/app/directives/dom-helpers/dom-helpers.directive.ts</a>
             </td>
             <td>directive</td>
             <td>DomHelpersDirective</td>
@@ -1270,7 +1339,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./directives/FoundInCollectionDirective.html">src/app/directives/found-in-collection/found-in-collection.directive.ts</a>
+                        <a href="./directives/FoundInCollectionDirective.html">src/app/directives/found-in-collection/found-in-collection.directive.ts</a>
             </td>
             <td>directive</td>
             <td>FoundInCollectionDirective</td>
@@ -1282,7 +1351,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./directives/ButtonAnnotatorValueListDirective.html">src/app/directives/unused/button-annotator-value-list/button-annotator-value-list.directive.ts</a>
+                        <a href="./directives/ButtonAnnotatorValueListDirective.html">src/app/directives/unused/button-annotator-value-list/button-annotator-value-list.directive.ts</a>
             </td>
             <td>directive</td>
             <td>ButtonAnnotatorValueListDirective</td>
@@ -1294,7 +1363,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/AnnotationSpansIndexer.html">src/app/helpers/annotation.ts</a>
+                        <a href="./interfaces/AnnotationSpansIndexer.html">src/app/helpers/annotation.ts</a>
             </td>
             <td>interface</td>
             <td>AnnotationSpansIndexer</td>
@@ -1306,7 +1375,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/diffAnnotationSetsOptions.html">src/app/helpers/annotation.ts</a>
+                        <a href="./interfaces/diffAnnotationSetsOptions.html">src/app/helpers/annotation.ts</a>
             </td>
             <td>interface</td>
             <td>diffAnnotationSetsOptions</td>
@@ -1318,7 +1387,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#AnnotationPropertyToDisplayObject">src/app/helpers/annotation.ts</a>
+                        <a href="./miscellaneous/functions.html#AnnotationPropertyToDisplayObject">src/app/helpers/annotation.ts</a>
             </td>
             <td>function</td>
             <td>AnnotationPropertyToDisplayObject</td>
@@ -1330,7 +1399,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#annotationsEqual">src/app/helpers/annotation.ts</a>
+                        <a href="./miscellaneous/functions.html#annotationsEqual">src/app/helpers/annotation.ts</a>
             </td>
             <td>function</td>
             <td>annotationsEqual</td>
@@ -1342,7 +1411,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#annotationSetToSpanIndexes">src/app/helpers/annotation.ts</a>
+                        <a href="./miscellaneous/functions.html#annotationSetToSpanIndexes">src/app/helpers/annotation.ts</a>
             </td>
             <td>function</td>
             <td>annotationSetToSpanIndexes</td>
@@ -1354,7 +1423,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#annotationSortingDataAccessor">src/app/helpers/annotation.ts</a>
+                        <a href="./miscellaneous/functions.html#annotationSortingDataAccessor">src/app/helpers/annotation.ts</a>
             </td>
             <td>function</td>
             <td>annotationSortingDataAccessor</td>
@@ -1366,7 +1435,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#cohenKappa">src/app/helpers/annotation.ts</a>
+                        <a href="./miscellaneous/functions.html#cohenKappa">src/app/helpers/annotation.ts</a>
             </td>
             <td>function</td>
             <td>cohenKappa</td>
@@ -1378,7 +1447,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#compareAnnotations">src/app/helpers/annotation.ts</a>
+                        <a href="./miscellaneous/functions.html#compareAnnotations">src/app/helpers/annotation.ts</a>
             </td>
             <td>function</td>
             <td>compareAnnotations</td>
@@ -1390,7 +1459,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#compareAnnotationsAttributes">src/app/helpers/annotation.ts</a>
+                        <a href="./miscellaneous/functions.html#compareAnnotationsAttributes">src/app/helpers/annotation.ts</a>
             </td>
             <td>function</td>
             <td>compareAnnotationsAttributes</td>
@@ -1402,7 +1471,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#compareAnnotationsOverlap">src/app/helpers/annotation.ts</a>
+                        <a href="./miscellaneous/functions.html#compareAnnotationsOverlap">src/app/helpers/annotation.ts</a>
             </td>
             <td>function</td>
             <td>compareAnnotationsOverlap</td>
@@ -1414,7 +1483,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#compareAnnotationsSpanOverlap">src/app/helpers/annotation.ts</a>
+                        <a href="./miscellaneous/functions.html#compareAnnotationsSpanOverlap">src/app/helpers/annotation.ts</a>
             </td>
             <td>function</td>
             <td>compareAnnotationsSpanOverlap</td>
@@ -1426,7 +1495,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#compareAnnotationsSpans">src/app/helpers/annotation.ts</a>
+                        <a href="./miscellaneous/functions.html#compareAnnotationsSpans">src/app/helpers/annotation.ts</a>
             </td>
             <td>function</td>
             <td>compareAnnotationsSpans</td>
@@ -1438,7 +1507,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#countAnnotation">src/app/helpers/annotation.ts</a>
+                        <a href="./miscellaneous/functions.html#countAnnotation">src/app/helpers/annotation.ts</a>
             </td>
             <td>function</td>
             <td>countAnnotation</td>
@@ -1450,7 +1519,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#diffAnnotationSets">src/app/helpers/annotation.ts</a>
+                        <a href="./miscellaneous/functions.html#diffAnnotationSets">src/app/helpers/annotation.ts</a>
             </td>
             <td>function</td>
             <td>diffAnnotationSets</td>
@@ -1462,7 +1531,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#diffAnnotationSetsAddClasses">src/app/helpers/annotation.ts</a>
+                        <a href="./miscellaneous/functions.html#diffAnnotationSetsAddClasses">src/app/helpers/annotation.ts</a>
             </td>
             <td>function</td>
             <td>diffAnnotationSetsAddClasses</td>
@@ -1474,7 +1543,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#diffedAnnotationSetsCategories">src/app/helpers/annotation.ts</a>
+                        <a href="./miscellaneous/functions.html#diffedAnnotationSetsCategories">src/app/helpers/annotation.ts</a>
             </td>
             <td>function</td>
             <td>diffedAnnotationSetsCategories</td>
@@ -1486,7 +1555,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#diffedAnnotationSetsRaters">src/app/helpers/annotation.ts</a>
+                        <a href="./miscellaneous/functions.html#diffedAnnotationSetsRaters">src/app/helpers/annotation.ts</a>
             </td>
             <td>function</td>
             <td>diffedAnnotationSetsRaters</td>
@@ -1498,7 +1567,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#diffedAnnotationSetsToCategoriesMatrix">src/app/helpers/annotation.ts</a>
+                        <a href="./miscellaneous/functions.html#diffedAnnotationSetsToCategoriesMatrix">src/app/helpers/annotation.ts</a>
             </td>
             <td>function</td>
             <td>diffedAnnotationSetsToCategoriesMatrix</td>
@@ -1510,7 +1579,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#diffedAnnotationSetsToRatersMatrix">src/app/helpers/annotation.ts</a>
+                        <a href="./miscellaneous/functions.html#diffedAnnotationSetsToRatersMatrix">src/app/helpers/annotation.ts</a>
             </td>
             <td>function</td>
             <td>diffedAnnotationSetsToRatersMatrix</td>
@@ -1522,7 +1591,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#excludeFields">src/app/helpers/annotation.ts</a>
+                        <a href="./miscellaneous/functions.html#excludeFields">src/app/helpers/annotation.ts</a>
             </td>
             <td>function</td>
             <td>excludeFields</td>
@@ -1534,7 +1603,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#fleissKappa">src/app/helpers/annotation.ts</a>
+                        <a href="./miscellaneous/functions.html#fleissKappa">src/app/helpers/annotation.ts</a>
             </td>
             <td>function</td>
             <td>fleissKappa</td>
@@ -1546,7 +1615,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#getDistinctAnnotations">src/app/helpers/annotation.ts</a>
+                        <a href="./miscellaneous/functions.html#getDistinctAnnotations">src/app/helpers/annotation.ts</a>
             </td>
             <td>function</td>
             <td>getDistinctAnnotations</td>
@@ -1558,7 +1627,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#segmentsIntersect">src/app/helpers/annotation.ts</a>
+                        <a href="./miscellaneous/functions.html#segmentsIntersect">src/app/helpers/annotation.ts</a>
             </td>
             <td>function</td>
             <td>segmentsIntersect</td>
@@ -1570,7 +1639,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#segmentsOverlap">src/app/helpers/annotation.ts</a>
+                        <a href="./miscellaneous/functions.html#segmentsOverlap">src/app/helpers/annotation.ts</a>
             </td>
             <td>function</td>
             <td>segmentsOverlap</td>
@@ -1582,7 +1651,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#segmentsOverlapPercentage">src/app/helpers/annotation.ts</a>
+                        <a href="./miscellaneous/functions.html#segmentsOverlapPercentage">src/app/helpers/annotation.ts</a>
             </td>
             <td>function</td>
             <td>segmentsOverlapPercentage</td>
@@ -1594,7 +1663,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#sortAnnotationSet">src/app/helpers/annotation.ts</a>
+                        <a href="./miscellaneous/functions.html#sortAnnotationSet">src/app/helpers/annotation.ts</a>
             </td>
             <td>function</td>
             <td>sortAnnotationSet</td>
@@ -1606,7 +1675,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#attributeEqual">src/app/helpers/attribute.ts</a>
+                        <a href="./miscellaneous/functions.html#attributeEqual">src/app/helpers/attribute.ts</a>
             </td>
             <td>function</td>
             <td>attributeEqual</td>
@@ -1618,7 +1687,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#attributesetEqual">src/app/helpers/attribute.ts</a>
+                        <a href="./miscellaneous/functions.html#attributesetEqual">src/app/helpers/attribute.ts</a>
             </td>
             <td>function</td>
             <td>attributesetEqual</td>
@@ -1630,7 +1699,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#compareAttributes">src/app/helpers/attribute.ts</a>
+                        <a href="./miscellaneous/functions.html#compareAttributes">src/app/helpers/attribute.ts</a>
             </td>
             <td>function</td>
             <td>compareAttributes</td>
@@ -1642,7 +1711,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#compareAttributeSets">src/app/helpers/attribute.ts</a>
+                        <a href="./miscellaneous/functions.html#compareAttributeSets">src/app/helpers/attribute.ts</a>
             </td>
             <td>function</td>
             <td>compareAttributeSets</td>
@@ -1654,7 +1723,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/CLARIN_CONSTANTS.html">src/app/helpers/constants.ts</a>
+                        <a href="./classes/CLARIN_CONSTANTS.html">src/app/helpers/constants.ts</a>
             </td>
             <td>class</td>
             <td>CLARIN_CONSTANTS</td>
@@ -1666,7 +1735,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#findWhere">src/app/helpers/globalFunctions.ts</a>
+                        <a href="./miscellaneous/functions.html#findWhere">src/app/helpers/globalFunctions.ts</a>
             </td>
             <td>function</td>
             <td>findWhere</td>
@@ -1678,7 +1747,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#onlyUnique">src/app/helpers/globalFunctions.ts</a>
+                        <a href="./miscellaneous/functions.html#onlyUnique">src/app/helpers/globalFunctions.ts</a>
             </td>
             <td>function</td>
             <td>onlyUnique</td>
@@ -1690,7 +1759,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#pickFromObject">src/app/helpers/globalFunctions.ts</a>
+                        <a href="./miscellaneous/functions.html#pickFromObject">src/app/helpers/globalFunctions.ts</a>
             </td>
             <td>function</td>
             <td>pickFromObject</td>
@@ -1702,7 +1771,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#where">src/app/helpers/globalFunctions.ts</a>
+                        <a href="./miscellaneous/functions.html#where">src/app/helpers/globalFunctions.ts</a>
             </td>
             <td>function</td>
             <td>where</td>
@@ -1714,7 +1783,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/ShapeBControl.html">src/app/helpers/jointjsControls.ts</a>
+                        <a href="./classes/ShapeBControl.html">src/app/helpers/jointjsControls.ts</a>
             </td>
             <td>class</td>
             <td>ShapeBControl</td>
@@ -1726,7 +1795,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/ShapeLBControl.html">src/app/helpers/jointjsControls.ts</a>
+                        <a href="./classes/ShapeLBControl.html">src/app/helpers/jointjsControls.ts</a>
             </td>
             <td>class</td>
             <td>ShapeLBControl</td>
@@ -1738,7 +1807,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/ShapeLControl.html">src/app/helpers/jointjsControls.ts</a>
+                        <a href="./classes/ShapeLControl.html">src/app/helpers/jointjsControls.ts</a>
             </td>
             <td>class</td>
             <td>ShapeLControl</td>
@@ -1750,7 +1819,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/ShapeLTControl.html">src/app/helpers/jointjsControls.ts</a>
+                        <a href="./classes/ShapeLTControl.html">src/app/helpers/jointjsControls.ts</a>
             </td>
             <td>class</td>
             <td>ShapeLTControl</td>
@@ -1762,7 +1831,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/ShapeRBControl.html">src/app/helpers/jointjsControls.ts</a>
+                        <a href="./classes/ShapeRBControl.html">src/app/helpers/jointjsControls.ts</a>
             </td>
             <td>class</td>
             <td>ShapeRBControl</td>
@@ -1774,7 +1843,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/ShapeRControl.html">src/app/helpers/jointjsControls.ts</a>
+                        <a href="./classes/ShapeRControl.html">src/app/helpers/jointjsControls.ts</a>
             </td>
             <td>class</td>
             <td>ShapeRControl</td>
@@ -1786,7 +1855,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/ShapeRotateControl.html">src/app/helpers/jointjsControls.ts</a>
+                        <a href="./classes/ShapeRotateControl.html">src/app/helpers/jointjsControls.ts</a>
             </td>
             <td>class</td>
             <td>ShapeRotateControl</td>
@@ -1798,7 +1867,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/ShapeRTControl.html">src/app/helpers/jointjsControls.ts</a>
+                        <a href="./classes/ShapeRTControl.html">src/app/helpers/jointjsControls.ts</a>
             </td>
             <td>class</td>
             <td>ShapeRTControl</td>
@@ -1810,7 +1879,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/ShapeTControl.html">src/app/helpers/jointjsControls.ts</a>
+                        <a href="./classes/ShapeTControl.html">src/app/helpers/jointjsControls.ts</a>
             </td>
             <td>class</td>
             <td>ShapeTControl</td>
@@ -1822,7 +1891,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#spanEqual">src/app/helpers/span.ts</a>
+                        <a href="./miscellaneous/functions.html#spanEqual">src/app/helpers/span.ts</a>
             </td>
             <td>function</td>
             <td>spanEqual</td>
@@ -1834,7 +1903,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#spansetEqual">src/app/helpers/span.ts</a>
+                        <a href="./miscellaneous/functions.html#spansetEqual">src/app/helpers/span.ts</a>
             </td>
             <td>function</td>
             <td>spansetEqual</td>
@@ -1846,7 +1915,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#spanToString">src/app/helpers/span.ts</a>
+                        <a href="./miscellaneous/functions.html#spanToString">src/app/helpers/span.ts</a>
             </td>
             <td>function</td>
             <td>spanToString</td>
@@ -1858,7 +1927,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#annotations1">src/app/helpers/test.ts</a>
+                        <a href="./miscellaneous/variables.html#annotations1">src/app/helpers/test.ts</a>
             </td>
             <td>variable</td>
             <td>annotations1</td>
@@ -1870,7 +1939,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#annotations2">src/app/helpers/test.ts</a>
+                        <a href="./miscellaneous/variables.html#annotations2">src/app/helpers/test.ts</a>
             </td>
             <td>variable</td>
             <td>annotations2</td>
@@ -1882,7 +1951,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#annotationSets">src/app/helpers/test.ts</a>
+                        <a href="./miscellaneous/variables.html#annotationSets">src/app/helpers/test.ts</a>
             </td>
             <td>variable</td>
             <td>annotationSets</td>
@@ -1894,7 +1963,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#util">src/app/helpers/test.ts</a>
+                        <a href="./miscellaneous/variables.html#util">src/app/helpers/test.ts</a>
             </td>
             <td>variable</td>
             <td>util</td>
@@ -1906,7 +1975,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#textToString">src/app/helpers/text.ts</a>
+                        <a href="./miscellaneous/functions.html#textToString">src/app/helpers/text.ts</a>
             </td>
             <td>function</td>
             <td>textToString</td>
@@ -1918,7 +1987,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/Annotation.html">src/app/models/annotation.ts</a>
+                        <a href="./interfaces/Annotation.html">src/app/models/annotation.ts</a>
             </td>
             <td>interface</td>
             <td>Annotation</td>
@@ -1930,7 +1999,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/Attribute.html">src/app/models/attribute.ts</a>
+                        <a href="./interfaces/Attribute.html">src/app/models/attribute.ts</a>
             </td>
             <td>interface</td>
             <td>Attribute</td>
@@ -1942,7 +2011,19 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/BackendResult.html">src/app/models/backend.ts</a>
+                        <a href="./miscellaneous/variables.html#COMMON_ATTRIBUTE_NAMES">src/app/models/attribute.ts</a>
+            </td>
+            <td>variable</td>
+            <td>COMMON_ATTRIBUTE_NAMES</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./interfaces/BackendResult.html">src/app/models/backend.ts</a>
             </td>
             <td>interface</td>
             <td>BackendResult</td>
@@ -1954,7 +2035,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/BackendResultAnnotatioVisualisationData.html">src/app/models/backend.ts</a>
+                        <a href="./interfaces/BackendResultAnnotatioVisualisationData.html">src/app/models/backend.ts</a>
             </td>
             <td>interface</td>
             <td>BackendResultAnnotatioVisualisationData</td>
@@ -1966,7 +2047,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/BackendResultArray.html">src/app/models/backend.ts</a>
+                        <a href="./interfaces/BackendResultArray.html">src/app/models/backend.ts</a>
             </td>
             <td>interface</td>
             <td>BackendResultArray</td>
@@ -1978,7 +2059,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/BackendResultSharedCollectionsInformation.html">src/app/models/backend.ts</a>
+                        <a href="./interfaces/BackendResultSharedCollectionsInformation.html">src/app/models/backend.ts</a>
             </td>
             <td>interface</td>
             <td>BackendResultSharedCollectionsInformation</td>
@@ -1990,7 +2071,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/Collection.html">src/app/models/collection.ts</a>
+                        <a href="./interfaces/Collection.html">src/app/models/collection.ts</a>
             </td>
             <td>interface</td>
             <td>Collection</td>
@@ -2002,7 +2083,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/SharedCollectionInformation.html">src/app/models/collection.ts</a>
+                        <a href="./interfaces/SharedCollectionInformation.html">src/app/models/collection.ts</a>
             </td>
             <td>interface</td>
             <td>SharedCollectionInformation</td>
@@ -2014,7 +2095,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/SharedCollectionsInformation.html">src/app/models/collection.ts</a>
+                        <a href="./interfaces/SharedCollectionsInformation.html">src/app/models/collection.ts</a>
             </td>
             <td>interface</td>
             <td>SharedCollectionsInformation</td>
@@ -2026,7 +2107,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#CollectionNamePattern">src/app/models/collection.ts</a>
+                        <a href="./miscellaneous/variables.html#CollectionNamePattern">src/app/models/collection.ts</a>
             </td>
             <td>variable</td>
             <td>CollectionNamePattern</td>
@@ -2038,7 +2119,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/ConfirmDialogData.html">src/app/models/dialogs/confirm-dialog.ts</a>
+                        <a href="./classes/ConfirmDialogData.html">src/app/models/dialogs/confirm-dialog.ts</a>
             </td>
             <td>class</td>
             <td>ConfirmDialogData</td>
@@ -2050,7 +2131,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/DialogData.html">src/app/models/dialogs/dialog-data.ts</a>
+                        <a href="./interfaces/DialogData.html">src/app/models/dialogs/dialog-data.ts</a>
             </td>
             <td>interface</td>
             <td>DialogData</td>
@@ -2062,7 +2143,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/ErrorDialogData.html">src/app/models/dialogs/error-dialog.ts</a>
+                        <a href="./classes/ErrorDialogData.html">src/app/models/dialogs/error-dialog.ts</a>
             </td>
             <td>class</td>
             <td>ErrorDialogData</td>
@@ -2074,7 +2155,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/RenameDialogData.html">src/app/models/dialogs/rename-dialog-data.ts</a>
+                        <a href="./classes/RenameDialogData.html">src/app/models/dialogs/rename-dialog-data.ts</a>
             </td>
             <td>class</td>
             <td>RenameDialogData</td>
@@ -2086,7 +2167,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/Document.html">src/app/models/document.ts</a>
+                        <a href="./interfaces/Document.html">src/app/models/document.ts</a>
             </td>
             <td>interface</td>
             <td>Document</td>
@@ -2098,7 +2179,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/DocumentGroup.html">src/app/models/document.ts</a>
+                        <a href="./interfaces/DocumentGroup.html">src/app/models/document.ts</a>
             </td>
             <td>interface</td>
             <td>DocumentGroup</td>
@@ -2110,7 +2191,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#DocumentNamePattern">src/app/models/document.ts</a>
+                        <a href="./miscellaneous/variables.html#DocumentNamePattern">src/app/models/document.ts</a>
             </td>
             <td>variable</td>
             <td>DocumentNamePattern</td>
@@ -2122,7 +2203,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/Guid.html">src/app/models/guid.ts</a>
+                        <a href="./classes/Guid.html">src/app/models/guid.ts</a>
             </td>
             <td>class</td>
             <td>Guid</td>
@@ -2134,7 +2215,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/Selection.html">src/app/models/selection.ts</a>
+                        <a href="./interfaces/Selection.html">src/app/models/selection.ts</a>
             </td>
             <td>interface</td>
             <td>Selection</td>
@@ -2146,7 +2227,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#SelectionDefaults">src/app/models/selection.ts</a>
+                        <a href="./miscellaneous/variables.html#SelectionDefaults">src/app/models/selection.ts</a>
             </td>
             <td>variable</td>
             <td>SelectionDefaults</td>
@@ -2158,7 +2239,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/DcCreatorLangAware.html">src/app/models/services/europeana.ts</a>
+                        <a href="./interfaces/DcCreatorLangAware.html">src/app/models/services/europeana.ts</a>
             </td>
             <td>interface</td>
             <td>DcCreatorLangAware</td>
@@ -2170,7 +2251,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/DcCreatorLangAwareOrDcDescriptionLangAware.html">src/app/models/services/europeana.ts</a>
+                        <a href="./interfaces/DcCreatorLangAwareOrDcDescriptionLangAware.html">src/app/models/services/europeana.ts</a>
             </td>
             <td>interface</td>
             <td>DcCreatorLangAwareOrDcDescriptionLangAware</td>
@@ -2182,7 +2263,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/DcTitleLangAware.html">src/app/models/services/europeana.ts</a>
+                        <a href="./interfaces/DcTitleLangAware.html">src/app/models/services/europeana.ts</a>
             </td>
             <td>interface</td>
             <td>DcTitleLangAware</td>
@@ -2194,7 +2275,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/EuropeanaSearchParameters.html">src/app/models/services/europeana.ts</a>
+                        <a href="./interfaces/EuropeanaSearchParameters.html">src/app/models/services/europeana.ts</a>
             </td>
             <td>interface</td>
             <td>EuropeanaSearchParameters</td>
@@ -2206,7 +2287,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/EuropeanaSearchResults.html">src/app/models/services/europeana.ts</a>
+                        <a href="./interfaces/EuropeanaSearchResults.html">src/app/models/services/europeana.ts</a>
             </td>
             <td>interface</td>
             <td>EuropeanaSearchResults</td>
@@ -2218,7 +2299,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/ItemsEntity.html">src/app/models/services/europeana.ts</a>
+                        <a href="./interfaces/ItemsEntity.html">src/app/models/services/europeana.ts</a>
             </td>
             <td>interface</td>
             <td>ItemsEntity</td>
@@ -2230,7 +2311,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/Params.html">src/app/models/services/europeana.ts</a>
+                        <a href="./interfaces/Params.html">src/app/models/services/europeana.ts</a>
             </td>
             <td>interface</td>
             <td>Params</td>
@@ -2242,7 +2323,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/AnnotationRelationComboboxStatus.html">src/app/models/services/message.ts</a>
+                        <a href="./interfaces/AnnotationRelationComboboxStatus.html">src/app/models/services/message.ts</a>
             </td>
             <td>interface</td>
             <td>AnnotationRelationComboboxStatus</td>
@@ -2254,7 +2335,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/AnnotationRelationComboboxStatusEntry.html">src/app/models/services/message.ts</a>
+                        <a href="./interfaces/AnnotationRelationComboboxStatusEntry.html">src/app/models/services/message.ts</a>
             </td>
             <td>interface</td>
             <td>AnnotationRelationComboboxStatusEntry</td>
@@ -2266,7 +2347,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/AttributeValueMemory.html">src/app/models/services/message.ts</a>
+                        <a href="./interfaces/AttributeValueMemory.html">src/app/models/services/message.ts</a>
             </td>
             <td>interface</td>
             <td>AttributeValueMemory</td>
@@ -2278,7 +2359,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/AttributeValueMemoryValue.html">src/app/models/services/message.ts</a>
+                        <a href="./interfaces/AttributeValueMemoryValue.html">src/app/models/services/message.ts</a>
             </td>
             <td>interface</td>
             <td>AttributeValueMemoryValue</td>
@@ -2290,7 +2371,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/Message.html">src/app/models/services/message.ts</a>
+                        <a href="./interfaces/Message.html">src/app/models/services/message.ts</a>
             </td>
             <td>interface</td>
             <td>Message</td>
@@ -2302,7 +2383,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/ScrollStatus.html">src/app/models/services/scrollstatus.ts</a>
+                        <a href="./interfaces/ScrollStatus.html">src/app/models/services/scrollstatus.ts</a>
             </td>
             <td>interface</td>
             <td>ScrollStatus</td>
@@ -2314,7 +2395,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/Setting.html">src/app/models/services/setting.ts</a>
+                        <a href="./interfaces/Setting.html">src/app/models/services/setting.ts</a>
             </td>
             <td>interface</td>
             <td>Setting</td>
@@ -2326,7 +2407,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/Span.html">src/app/models/span.ts</a>
+                        <a href="./interfaces/Span.html">src/app/models/span.ts</a>
             </td>
             <td>interface</td>
             <td>Span</td>
@@ -2338,7 +2419,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#authGuard">src/app/ng-matero/core/authentication/auth.guard.ts</a>
+                        <a href="./miscellaneous/variables.html#authGuard">src/app/ng-matero/core/authentication/auth.guard.ts</a>
             </td>
             <td>variable</td>
             <td>authGuard</td>
@@ -2350,7 +2431,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/AuthService.html">src/app/ng-matero/core/authentication/auth.service.ts</a>
+                        <a href="./injectables/AuthService.html">src/app/ng-matero/core/authentication/auth.service.ts</a>
             </td>
             <td>injectable</td>
             <td>AuthService</td>
@@ -2362,7 +2443,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/Base64.html">src/app/ng-matero/core/authentication/helpers.ts</a>
+                        <a href="./classes/Base64.html">src/app/ng-matero/core/authentication/helpers.ts</a>
             </td>
             <td>class</td>
             <td>Base64</td>
@@ -2374,7 +2455,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#capitalize">src/app/ng-matero/core/authentication/helpers.ts</a>
+                        <a href="./miscellaneous/functions.html#capitalize">src/app/ng-matero/core/authentication/helpers.ts</a>
             </td>
             <td>function</td>
             <td>capitalize</td>
@@ -2386,7 +2467,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#currentTimestamp">src/app/ng-matero/core/authentication/helpers.ts</a>
+                        <a href="./miscellaneous/functions.html#currentTimestamp">src/app/ng-matero/core/authentication/helpers.ts</a>
             </td>
             <td>function</td>
             <td>currentTimestamp</td>
@@ -2398,7 +2479,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#filterObject">src/app/ng-matero/core/authentication/helpers.ts</a>
+                        <a href="./miscellaneous/functions.html#filterObject">src/app/ng-matero/core/authentication/helpers.ts</a>
             </td>
             <td>function</td>
             <td>filterObject</td>
@@ -2410,7 +2491,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#isEmptyObject">src/app/ng-matero/core/authentication/helpers.ts</a>
+                        <a href="./miscellaneous/functions.html#isEmptyObject">src/app/ng-matero/core/authentication/helpers.ts</a>
             </td>
             <td>function</td>
             <td>isEmptyObject</td>
@@ -2422,7 +2503,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#pack">src/app/ng-matero/core/authentication/helpers.ts</a>
+                        <a href="./miscellaneous/functions.html#pack">src/app/ng-matero/core/authentication/helpers.ts</a>
             </td>
             <td>function</td>
             <td>pack</td>
@@ -2434,7 +2515,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#timeLeft">src/app/ng-matero/core/authentication/helpers.ts</a>
+                        <a href="./miscellaneous/functions.html#timeLeft">src/app/ng-matero/core/authentication/helpers.ts</a>
             </td>
             <td>function</td>
             <td>timeLeft</td>
@@ -2446,7 +2527,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#unpack">src/app/ng-matero/core/authentication/helpers.ts</a>
+                        <a href="./miscellaneous/functions.html#unpack">src/app/ng-matero/core/authentication/helpers.ts</a>
             </td>
             <td>function</td>
             <td>unpack</td>
@@ -2458,7 +2539,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#base64">src/app/ng-matero/core/authentication/helpers.ts</a>
+                        <a href="./miscellaneous/variables.html#base64">src/app/ng-matero/core/authentication/helpers.ts</a>
             </td>
             <td>variable</td>
             <td>base64</td>
@@ -2470,7 +2551,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/BackendUser.html">src/app/ng-matero/core/authentication/interface.ts</a>
+                        <a href="./interfaces/BackendUser.html">src/app/ng-matero/core/authentication/interface.ts</a>
             </td>
             <td>interface</td>
             <td>BackendUser</td>
@@ -2482,7 +2563,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/LoginData.html">src/app/ng-matero/core/authentication/interface.ts</a>
+                        <a href="./interfaces/LoginData.html">src/app/ng-matero/core/authentication/interface.ts</a>
             </td>
             <td>interface</td>
             <td>LoginData</td>
@@ -2494,7 +2575,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/Token.html">src/app/ng-matero/core/authentication/interface.ts</a>
+                        <a href="./interfaces/Token.html">src/app/ng-matero/core/authentication/interface.ts</a>
             </td>
             <td>interface</td>
             <td>Token</td>
@@ -2506,7 +2587,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/User.html">src/app/ng-matero/core/authentication/interface.ts</a>
+                        <a href="./interfaces/User.html">src/app/ng-matero/core/authentication/interface.ts</a>
             </td>
             <td>interface</td>
             <td>User</td>
@@ -2518,7 +2599,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/LoginService.html">src/app/ng-matero/core/authentication/login.service.ts</a>
+                        <a href="./injectables/LoginService.html">src/app/ng-matero/core/authentication/login.service.ts</a>
             </td>
             <td>injectable</td>
             <td>LoginService</td>
@@ -2530,7 +2611,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/TokenFactory.html">src/app/ng-matero/core/authentication/token-factory.service.ts</a>
+                        <a href="./injectables/TokenFactory.html">src/app/ng-matero/core/authentication/token-factory.service.ts</a>
             </td>
             <td>injectable</td>
             <td>TokenFactory</td>
@@ -2542,7 +2623,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/TokenService.html">src/app/ng-matero/core/authentication/token.service.ts</a>
+                        <a href="./injectables/TokenService.html">src/app/ng-matero/core/authentication/token.service.ts</a>
             </td>
             <td>injectable</td>
             <td>TokenService</td>
@@ -2554,7 +2635,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/BaseToken.html">src/app/ng-matero/core/authentication/token.ts</a>
+                        <a href="./classes/BaseToken.html">src/app/ng-matero/core/authentication/token.ts</a>
             </td>
             <td>class</td>
             <td>BaseToken</td>
@@ -2566,7 +2647,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/JwtToken.html">src/app/ng-matero/core/authentication/token.ts</a>
+                        <a href="./classes/JwtToken.html">src/app/ng-matero/core/authentication/token.ts</a>
             </td>
             <td>class</td>
             <td>JwtToken</td>
@@ -2578,7 +2659,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/SimpleToken.html">src/app/ng-matero/core/authentication/token.ts</a>
+                        <a href="./classes/SimpleToken.html">src/app/ng-matero/core/authentication/token.ts</a>
             </td>
             <td>class</td>
             <td>SimpleToken</td>
@@ -2590,7 +2671,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#admin">src/app/ng-matero/core/authentication/user.ts</a>
+                        <a href="./miscellaneous/variables.html#admin">src/app/ng-matero/core/authentication/user.ts</a>
             </td>
             <td>variable</td>
             <td>admin</td>
@@ -2602,7 +2683,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#guest">src/app/ng-matero/core/authentication/user.ts</a>
+                        <a href="./miscellaneous/variables.html#guest">src/app/ng-matero/core/authentication/user.ts</a>
             </td>
             <td>variable</td>
             <td>guest</td>
@@ -2614,7 +2695,7 @@
         <tr class="good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/MenuService.html">src/app/ng-matero/core/bootstrap/menu.service.ts</a>
+                        <a href="./injectables/MenuService.html">src/app/ng-matero/core/bootstrap/menu.service.ts</a>
             </td>
             <td>injectable</td>
             <td>MenuService</td>
@@ -2626,7 +2707,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/Menu.html">src/app/ng-matero/core/bootstrap/menu.service.ts</a>
+                        <a href="./interfaces/Menu.html">src/app/ng-matero/core/bootstrap/menu.service.ts</a>
             </td>
             <td>interface</td>
             <td>Menu</td>
@@ -2638,7 +2719,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/MenuChildrenItem.html">src/app/ng-matero/core/bootstrap/menu.service.ts</a>
+                        <a href="./interfaces/MenuChildrenItem.html">src/app/ng-matero/core/bootstrap/menu.service.ts</a>
             </td>
             <td>interface</td>
             <td>MenuChildrenItem</td>
@@ -2650,7 +2731,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/MenuPermissions.html">src/app/ng-matero/core/bootstrap/menu.service.ts</a>
+                        <a href="./interfaces/MenuPermissions.html">src/app/ng-matero/core/bootstrap/menu.service.ts</a>
             </td>
             <td>interface</td>
             <td>MenuPermissions</td>
@@ -2662,7 +2743,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/MenuTag.html">src/app/ng-matero/core/bootstrap/menu.service.ts</a>
+                        <a href="./interfaces/MenuTag.html">src/app/ng-matero/core/bootstrap/menu.service.ts</a>
             </td>
             <td>interface</td>
             <td>MenuTag</td>
@@ -2674,7 +2755,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/PreloaderService.html">src/app/ng-matero/core/bootstrap/preloader.service.ts</a>
+                        <a href="./injectables/PreloaderService.html">src/app/ng-matero/core/bootstrap/preloader.service.ts</a>
             </td>
             <td>injectable</td>
             <td>PreloaderService</td>
@@ -2686,7 +2767,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/SanctumService.html">src/app/ng-matero/core/bootstrap/sanctum.service.ts</a>
+                        <a href="./injectables/SanctumService.html">src/app/ng-matero/core/bootstrap/sanctum.service.ts</a>
             </td>
             <td>injectable</td>
             <td>SanctumService</td>
@@ -2698,7 +2779,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#SANCTUM_PREFIX">src/app/ng-matero/core/bootstrap/sanctum.service.ts</a>
+                        <a href="./miscellaneous/variables.html#SANCTUM_PREFIX">src/app/ng-matero/core/bootstrap/sanctum.service.ts</a>
             </td>
             <td>variable</td>
             <td>SANCTUM_PREFIX</td>
@@ -2710,7 +2791,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/SettingsService.html">src/app/ng-matero/core/bootstrap/settings.service.ts</a>
+                        <a href="./injectables/SettingsService.html">src/app/ng-matero/core/bootstrap/settings.service.ts</a>
             </td>
             <td>injectable</td>
             <td>SettingsService</td>
@@ -2722,7 +2803,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/StartupService.html">src/app/ng-matero/core/bootstrap/startup.service.ts</a>
+                        <a href="./injectables/StartupService.html">src/app/ng-matero/core/bootstrap/startup.service.ts</a>
             </td>
             <td>injectable</td>
             <td>StartupService</td>
@@ -2734,7 +2815,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/TranslateLangService.html">src/app/ng-matero/core/bootstrap/translate-lang.service.ts</a>
+                        <a href="./injectables/TranslateLangService.html">src/app/ng-matero/core/bootstrap/translate-lang.service.ts</a>
             </td>
             <td>injectable</td>
             <td>TranslateLangService</td>
@@ -2746,7 +2827,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#StartupServiceFactory">src/app/ng-matero/core/initializers.ts</a>
+                        <a href="./miscellaneous/functions.html#StartupServiceFactory">src/app/ng-matero/core/initializers.ts</a>
             </td>
             <td>function</td>
             <td>StartupServiceFactory</td>
@@ -2758,7 +2839,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#TranslateLangServiceFactory">src/app/ng-matero/core/initializers.ts</a>
+                        <a href="./miscellaneous/functions.html#TranslateLangServiceFactory">src/app/ng-matero/core/initializers.ts</a>
             </td>
             <td>function</td>
             <td>TranslateLangServiceFactory</td>
@@ -2770,7 +2851,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#appInitializerProviders">src/app/ng-matero/core/initializers.ts</a>
+                        <a href="./miscellaneous/variables.html#appInitializerProviders">src/app/ng-matero/core/initializers.ts</a>
             </td>
             <td>variable</td>
             <td>appInitializerProviders</td>
@@ -2782,7 +2863,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interceptors/BaseUrlInterceptor.html">src/app/ng-matero/core/interceptors/base-url-interceptor.ts</a>
+                        <a href="./interceptors/BaseUrlInterceptor.html">src/app/ng-matero/core/interceptors/base-url-interceptor.ts</a>
             </td>
             <td>interceptor</td>
             <td>BaseUrlInterceptor</td>
@@ -2794,7 +2875,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#BASE_URL">src/app/ng-matero/core/interceptors/base-url-interceptor.ts</a>
+                        <a href="./miscellaneous/variables.html#BASE_URL">src/app/ng-matero/core/interceptors/base-url-interceptor.ts</a>
             </td>
             <td>variable</td>
             <td>BASE_URL</td>
@@ -2806,7 +2887,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interceptors/DefaultInterceptor.html">src/app/ng-matero/core/interceptors/default-interceptor.ts</a>
+                        <a href="./interceptors/DefaultInterceptor.html">src/app/ng-matero/core/interceptors/default-interceptor.ts</a>
             </td>
             <td>interceptor</td>
             <td>DefaultInterceptor</td>
@@ -2818,7 +2899,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interceptors/ErrorInterceptor.html">src/app/ng-matero/core/interceptors/error-interceptor.ts</a>
+                        <a href="./interceptors/ErrorInterceptor.html">src/app/ng-matero/core/interceptors/error-interceptor.ts</a>
             </td>
             <td>interceptor</td>
             <td>ErrorInterceptor</td>
@@ -2830,7 +2911,7 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#httpInterceptorProviders">src/app/ng-matero/core/interceptors/index.ts</a>
+                        <a href="./miscellaneous/variables.html#httpInterceptorProviders">src/app/ng-matero/core/interceptors/index.ts</a>
             </td>
             <td>variable</td>
             <td>httpInterceptorProviders</td>
@@ -2842,7 +2923,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interceptors/LoggingInterceptor.html">src/app/ng-matero/core/interceptors/logging-interceptor.ts</a>
+                        <a href="./interceptors/LoggingInterceptor.html">src/app/ng-matero/core/interceptors/logging-interceptor.ts</a>
             </td>
             <td>interceptor</td>
             <td>LoggingInterceptor</td>
@@ -2854,7 +2935,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interceptors/NoopInterceptor.html">src/app/ng-matero/core/interceptors/noop-interceptor.ts</a>
+                        <a href="./interceptors/NoopInterceptor.html">src/app/ng-matero/core/interceptors/noop-interceptor.ts</a>
             </td>
             <td>interceptor</td>
             <td>NoopInterceptor</td>
@@ -2866,7 +2947,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interceptors/SanctumInterceptor.html">src/app/ng-matero/core/interceptors/sanctum-interceptor.ts</a>
+                        <a href="./interceptors/SanctumInterceptor.html">src/app/ng-matero/core/interceptors/sanctum-interceptor.ts</a>
             </td>
             <td>interceptor</td>
             <td>SanctumInterceptor</td>
@@ -2878,7 +2959,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interceptors/SettingsInterceptor.html">src/app/ng-matero/core/interceptors/settings-interceptor.ts</a>
+                        <a href="./interceptors/SettingsInterceptor.html">src/app/ng-matero/core/interceptors/settings-interceptor.ts</a>
             </td>
             <td>interceptor</td>
             <td>SettingsInterceptor</td>
@@ -2890,7 +2971,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interceptors/TokenInterceptor.html">src/app/ng-matero/core/interceptors/token-interceptor.ts</a>
+                        <a href="./interceptors/TokenInterceptor.html">src/app/ng-matero/core/interceptors/token-interceptor.ts</a>
             </td>
             <td>interceptor</td>
             <td>TokenInterceptor</td>
@@ -2902,7 +2983,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#throwIfAlreadyLoaded">src/app/ng-matero/core/module-import-guard.ts</a>
+                        <a href="./miscellaneous/functions.html#throwIfAlreadyLoaded">src/app/ng-matero/core/module-import-guard.ts</a>
             </td>
             <td>function</td>
             <td>throwIfAlreadyLoaded</td>
@@ -2914,7 +2995,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/AppSettings.html">src/app/ng-matero/core/settings.ts</a>
+                        <a href="./interfaces/AppSettings.html">src/app/ng-matero/core/settings.ts</a>
             </td>
             <td>interface</td>
             <td>AppSettings</td>
@@ -2926,7 +3007,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#defaults">src/app/ng-matero/core/settings.ts</a>
+                        <a href="./miscellaneous/variables.html#defaults">src/app/ng-matero/core/settings.ts</a>
             </td>
             <td>variable</td>
             <td>defaults</td>
@@ -2935,10 +3016,22 @@
                 <span class="coverage-count">(0/1)</span>
             </td>
         </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/typealiases.html#AppTheme">src/app/ng-matero/core/settings.ts</a>
+            </td>
+            <td>type alias</td>
+            <td>AppTheme</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#formlyModuleProviders">src/app/ng-matero/formly-config.module.ts</a>
+                        <a href="./miscellaneous/variables.html#formlyModuleProviders">src/app/ng-matero/formly-config.module.ts</a>
             </td>
             <td>variable</td>
             <td>formlyModuleProviders</td>
@@ -2950,7 +3043,7 @@
         <tr class="medium">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/FormlyFieldComboboxComponent.html">src/app/ng-matero/formly-templates.ts</a>
+                        <a href="./components/FormlyFieldComboboxComponent.html">src/app/ng-matero/formly-templates.ts</a>
             </td>
             <td>component</td>
             <td>FormlyFieldComboboxComponent</td>
@@ -2962,7 +3055,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/FormlyValidations.html">src/app/ng-matero/formly-validations.ts</a>
+                        <a href="./injectables/FormlyValidations.html">src/app/ng-matero/formly-validations.ts</a>
             </td>
             <td>injectable</td>
             <td>FormlyValidations</td>
@@ -2974,7 +3067,7 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/FormlyWrapperCardComponent.html">src/app/ng-matero/formly-wrappers.ts</a>
+                        <a href="./components/FormlyWrapperCardComponent.html">src/app/ng-matero/formly-wrappers.ts</a>
             </td>
             <td>component</td>
             <td>FormlyWrapperCardComponent</td>
@@ -2986,7 +3079,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/FormlyWrapperDivComponent.html">src/app/ng-matero/formly-wrappers.ts</a>
+                        <a href="./components/FormlyWrapperDivComponent.html">src/app/ng-matero/formly-wrappers.ts</a>
             </td>
             <td>component</td>
             <td>FormlyWrapperDivComponent</td>
@@ -2998,7 +3091,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/DashboardComponent.html">src/app/ng-matero/routes/dashboard/dashboard.component.ts</a>
+                        <a href="./components/DashboardComponent.html">src/app/ng-matero/routes/dashboard/dashboard.component.ts</a>
             </td>
             <td>component</td>
             <td>DashboardComponent</td>
@@ -3010,7 +3103,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/DashboardService.html">src/app/ng-matero/routes/dashboard/dashboard.service.ts</a>
+                        <a href="./injectables/DashboardService.html">src/app/ng-matero/routes/dashboard/dashboard.service.ts</a>
             </td>
             <td>injectable</td>
             <td>DashboardService</td>
@@ -3022,7 +3115,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#MESSAGES">src/app/ng-matero/routes/dashboard/dashboard.service.ts</a>
+                        <a href="./miscellaneous/variables.html#MESSAGES">src/app/ng-matero/routes/dashboard/dashboard.service.ts</a>
             </td>
             <td>variable</td>
             <td>MESSAGES</td>
@@ -3034,7 +3127,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/ProfileLayoutComponent.html">src/app/ng-matero/routes/profile/layout/layout.component.ts</a>
+                        <a href="./components/ProfileLayoutComponent.html">src/app/ng-matero/routes/profile/layout/layout.component.ts</a>
             </td>
             <td>component</td>
             <td>ProfileLayoutComponent</td>
@@ -3046,7 +3139,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/ProfileOverviewComponent.html">src/app/ng-matero/routes/profile/overview/overview.component.ts</a>
+                        <a href="./components/ProfileOverviewComponent.html">src/app/ng-matero/routes/profile/overview/overview.component.ts</a>
             </td>
             <td>component</td>
             <td>ProfileOverviewComponent</td>
@@ -3058,7 +3151,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#COMPONENTS">src/app/ng-matero/routes/profile/profile.module.ts</a>
+                        <a href="./miscellaneous/variables.html#COMPONENTS">src/app/ng-matero/routes/profile/profile.module.ts</a>
             </td>
             <td>variable</td>
             <td>COMPONENTS</td>
@@ -3070,7 +3163,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#COMPONENTS_DYNAMIC">src/app/ng-matero/routes/profile/profile.module.ts</a>
+                        <a href="./miscellaneous/variables.html#COMPONENTS_DYNAMIC">src/app/ng-matero/routes/profile/profile.module.ts</a>
             </td>
             <td>variable</td>
             <td>COMPONENTS_DYNAMIC</td>
@@ -3082,7 +3175,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/ProfileSettingsComponent.html">src/app/ng-matero/routes/profile/settings/settings.component.ts</a>
+                        <a href="./components/ProfileSettingsComponent.html">src/app/ng-matero/routes/profile/settings/settings.component.ts</a>
             </td>
             <td>component</td>
             <td>ProfileSettingsComponent</td>
@@ -3094,7 +3187,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#COMPONENTS">src/app/ng-matero/routes/routes.module.ts</a>
+                        <a href="./miscellaneous/variables.html#COMPONENTS">src/app/ng-matero/routes/routes.module.ts</a>
             </td>
             <td>variable</td>
             <td>COMPONENTS</td>
@@ -3106,7 +3199,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#COMPONENTS_DYNAMIC">src/app/ng-matero/routes/routes.module.ts</a>
+                        <a href="./miscellaneous/variables.html#COMPONENTS_DYNAMIC">src/app/ng-matero/routes/routes.module.ts</a>
             </td>
             <td>variable</td>
             <td>COMPONENTS_DYNAMIC</td>
@@ -3118,7 +3211,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/Error403Component.html">src/app/ng-matero/routes/sessions/403.component.ts</a>
+                        <a href="./components/Error403Component.html">src/app/ng-matero/routes/sessions/403.component.ts</a>
             </td>
             <td>component</td>
             <td>Error403Component</td>
@@ -3130,7 +3223,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/Error404Component.html">src/app/ng-matero/routes/sessions/404.component.ts</a>
+                        <a href="./components/Error404Component.html">src/app/ng-matero/routes/sessions/404.component.ts</a>
             </td>
             <td>component</td>
             <td>Error404Component</td>
@@ -3142,7 +3235,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/Error500Component.html">src/app/ng-matero/routes/sessions/500.component.ts</a>
+                        <a href="./components/Error500Component.html">src/app/ng-matero/routes/sessions/500.component.ts</a>
             </td>
             <td>component</td>
             <td>Error500Component</td>
@@ -3154,7 +3247,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/LoginComponent.html">src/app/ng-matero/routes/sessions/login/login.component.ts</a>
+                        <a href="./components/LoginComponent.html">src/app/ng-matero/routes/sessions/login/login.component.ts</a>
             </td>
             <td>component</td>
             <td>LoginComponent</td>
@@ -3166,7 +3259,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/RegisterComponent.html">src/app/ng-matero/routes/sessions/register/register.component.ts</a>
+                        <a href="./components/RegisterComponent.html">src/app/ng-matero/routes/sessions/register/register.component.ts</a>
             </td>
             <td>component</td>
             <td>RegisterComponent</td>
@@ -3178,7 +3271,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#COMPONENTS">src/app/ng-matero/routes/sessions/sessions.module.ts</a>
+                        <a href="./miscellaneous/variables.html#COMPONENTS">src/app/ng-matero/routes/sessions/sessions.module.ts</a>
             </td>
             <td>variable</td>
             <td>COMPONENTS</td>
@@ -3190,7 +3283,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#COMPONENTS_DYNAMIC">src/app/ng-matero/routes/sessions/sessions.module.ts</a>
+                        <a href="./miscellaneous/variables.html#COMPONENTS_DYNAMIC">src/app/ng-matero/routes/sessions/sessions.module.ts</a>
             </td>
             <td>variable</td>
             <td>COMPONENTS_DYNAMIC</td>
@@ -3202,7 +3295,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/BreadcrumbComponent.html">src/app/ng-matero/shared/components/breadcrumb/breadcrumb.component.ts</a>
+                        <a href="./components/BreadcrumbComponent.html">src/app/ng-matero/shared/components/breadcrumb/breadcrumb.component.ts</a>
             </td>
             <td>component</td>
             <td>BreadcrumbComponent</td>
@@ -3214,7 +3307,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/ErrorCodeComponent.html">src/app/ng-matero/shared/components/error-code/error-code.component.ts</a>
+                        <a href="./components/ErrorCodeComponent.html">src/app/ng-matero/shared/components/error-code/error-code.component.ts</a>
             </td>
             <td>component</td>
             <td>ErrorCodeComponent</td>
@@ -3226,7 +3319,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/PageHeaderComponent.html">src/app/ng-matero/shared/components/page-header/page-header.component.ts</a>
+                        <a href="./components/PageHeaderComponent.html">src/app/ng-matero/shared/components/page-header/page-header.component.ts</a>
             </td>
             <td>component</td>
             <td>PageHeaderComponent</td>
@@ -3238,7 +3331,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./directives/DisableControlDirective.html">src/app/ng-matero/shared/directives/disable-control.directive.ts</a>
+                        <a href="./directives/DisableControlDirective.html">src/app/ng-matero/shared/directives/disable-control.directive.ts</a>
             </td>
             <td>directive</td>
             <td>DisableControlDirective</td>
@@ -3250,7 +3343,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/JWT.html">src/app/ng-matero/shared/in-mem/in-mem-data.service.ts</a>
+                        <a href="./classes/JWT.html">src/app/ng-matero/shared/in-mem/in-mem-data.service.ts</a>
             </td>
             <td>class</td>
             <td>JWT</td>
@@ -3262,7 +3355,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/InMemDataService.html">src/app/ng-matero/shared/in-mem/in-mem-data.service.ts</a>
+                        <a href="./injectables/InMemDataService.html">src/app/ng-matero/shared/in-mem/in-mem-data.service.ts</a>
             </td>
             <td>injectable</td>
             <td>InMemDataService</td>
@@ -3274,7 +3367,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#is">src/app/ng-matero/shared/in-mem/in-mem-data.service.ts</a>
+                        <a href="./miscellaneous/functions.html#is">src/app/ng-matero/shared/in-mem/in-mem-data.service.ts</a>
             </td>
             <td>function</td>
             <td>is</td>
@@ -3286,7 +3379,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#jwt">src/app/ng-matero/shared/in-mem/in-mem-data.service.ts</a>
+                        <a href="./miscellaneous/variables.html#jwt">src/app/ng-matero/shared/in-mem/in-mem-data.service.ts</a>
             </td>
             <td>variable</td>
             <td>jwt</td>
@@ -3298,7 +3391,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/IProfile.html">src/app/ng-matero/shared/interfaces/index.ts</a>
+                        <a href="./interfaces/IProfile.html">src/app/ng-matero/shared/interfaces/index.ts</a>
             </td>
             <td>interface</td>
             <td>IProfile</td>
@@ -3310,7 +3403,19 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./pipes/SafeUrlPipe.html">src/app/ng-matero/shared/pipes/safe-url.pipe.ts</a>
+                        <a href="./miscellaneous/typealiases.html#ControlsOf">src/app/ng-matero/shared/interfaces/index.ts</a>
+            </td>
+            <td>type alias</td>
+            <td>ControlsOf</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./pipes/SafeUrlPipe.html">src/app/ng-matero/shared/pipes/safe-url.pipe.ts</a>
             </td>
             <td>pipe</td>
             <td>SafeUrlPipe</td>
@@ -3322,7 +3427,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./pipes/ToObservablePipe.html">src/app/ng-matero/shared/pipes/to-observable.pipe.ts</a>
+                        <a href="./pipes/ToObservablePipe.html">src/app/ng-matero/shared/pipes/to-observable.pipe.ts</a>
             </td>
             <td>pipe</td>
             <td>ToObservablePipe</td>
@@ -3334,7 +3439,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/AppDirectionality.html">src/app/ng-matero/shared/services/directionality.service.ts</a>
+                        <a href="./injectables/AppDirectionality.html">src/app/ng-matero/shared/services/directionality.service.ts</a>
             </td>
             <td>injectable</td>
             <td>AppDirectionality</td>
@@ -3346,7 +3451,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/MessageService.html">src/app/ng-matero/shared/services/message.service.ts</a>
+                        <a href="./injectables/MessageService.html">src/app/ng-matero/shared/services/message.service.ts</a>
             </td>
             <td>injectable</td>
             <td>MessageService</td>
@@ -3358,7 +3463,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/PaginatorI18nService.html">src/app/ng-matero/shared/services/paginator-i18n.service.ts</a>
+                        <a href="./injectables/PaginatorI18nService.html">src/app/ng-matero/shared/services/paginator-i18n.service.ts</a>
             </td>
             <td>injectable</td>
             <td>PaginatorI18nService</td>
@@ -3370,7 +3475,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./classes/MemoryStorageService.html">src/app/ng-matero/shared/services/storage.service.ts</a>
+                        <a href="./classes/MemoryStorageService.html">src/app/ng-matero/shared/services/storage.service.ts</a>
             </td>
             <td>class</td>
             <td>MemoryStorageService</td>
@@ -3382,7 +3487,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/LocalStorageService.html">src/app/ng-matero/shared/services/storage.service.ts</a>
+                        <a href="./injectables/LocalStorageService.html">src/app/ng-matero/shared/services/storage.service.ts</a>
             </td>
             <td>injectable</td>
             <td>LocalStorageService</td>
@@ -3394,7 +3499,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#COMPONENTS">src/app/ng-matero/shared/shared.module.ts</a>
+                        <a href="./miscellaneous/variables.html#COMPONENTS">src/app/ng-matero/shared/shared.module.ts</a>
             </td>
             <td>variable</td>
             <td>COMPONENTS</td>
@@ -3406,7 +3511,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#COMPONENTS_DYNAMIC">src/app/ng-matero/shared/shared.module.ts</a>
+                        <a href="./miscellaneous/variables.html#COMPONENTS_DYNAMIC">src/app/ng-matero/shared/shared.module.ts</a>
             </td>
             <td>variable</td>
             <td>COMPONENTS_DYNAMIC</td>
@@ -3418,7 +3523,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#DIRECTIVES">src/app/ng-matero/shared/shared.module.ts</a>
+                        <a href="./miscellaneous/variables.html#DIRECTIVES">src/app/ng-matero/shared/shared.module.ts</a>
             </td>
             <td>variable</td>
             <td>DIRECTIVES</td>
@@ -3430,7 +3535,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#MODULES">src/app/ng-matero/shared/shared.module.ts</a>
+                        <a href="./miscellaneous/variables.html#MODULES">src/app/ng-matero/shared/shared.module.ts</a>
             </td>
             <td>variable</td>
             <td>MODULES</td>
@@ -3442,7 +3547,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#PIPES">src/app/ng-matero/shared/shared.module.ts</a>
+                        <a href="./miscellaneous/variables.html#PIPES">src/app/ng-matero/shared/shared.module.ts</a>
             </td>
             <td>variable</td>
             <td>PIPES</td>
@@ -3454,7 +3559,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#MAT_COLORS">src/app/ng-matero/shared/utils/colors.ts</a>
+                        <a href="./miscellaneous/variables.html#MAT_COLORS">src/app/ng-matero/shared/utils/colors.ts</a>
             </td>
             <td>variable</td>
             <td>MAT_COLORS</td>
@@ -3466,7 +3571,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#MAT_ICONS">src/app/ng-matero/shared/utils/icons.ts</a>
+                        <a href="./miscellaneous/variables.html#MAT_ICONS">src/app/ng-matero/shared/utils/icons.ts</a>
             </td>
             <td>variable</td>
             <td>MAT_ICONS</td>
@@ -3478,7 +3583,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/AdminLayoutComponent.html">src/app/ng-matero/theme/admin-layout/admin-layout.component.ts</a>
+                        <a href="./components/AdminLayoutComponent.html">src/app/ng-matero/theme/admin-layout/admin-layout.component.ts</a>
             </td>
             <td>component</td>
             <td>AdminLayoutComponent</td>
@@ -3490,7 +3595,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#MOBILE_MEDIAQUERY">src/app/ng-matero/theme/admin-layout/admin-layout.component.ts</a>
+                        <a href="./miscellaneous/variables.html#MOBILE_MEDIAQUERY">src/app/ng-matero/theme/admin-layout/admin-layout.component.ts</a>
             </td>
             <td>variable</td>
             <td>MOBILE_MEDIAQUERY</td>
@@ -3502,7 +3607,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#MONITOR_MEDIAQUERY">src/app/ng-matero/theme/admin-layout/admin-layout.component.ts</a>
+                        <a href="./miscellaneous/variables.html#MONITOR_MEDIAQUERY">src/app/ng-matero/theme/admin-layout/admin-layout.component.ts</a>
             </td>
             <td>variable</td>
             <td>MONITOR_MEDIAQUERY</td>
@@ -3514,7 +3619,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#TABLET_MEDIAQUERY">src/app/ng-matero/theme/admin-layout/admin-layout.component.ts</a>
+                        <a href="./miscellaneous/variables.html#TABLET_MEDIAQUERY">src/app/ng-matero/theme/admin-layout/admin-layout.component.ts</a>
             </td>
             <td>variable</td>
             <td>TABLET_MEDIAQUERY</td>
@@ -3526,7 +3631,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/AuthLayoutComponent.html">src/app/ng-matero/theme/auth-layout/auth-layout.component.ts</a>
+                        <a href="./components/AuthLayoutComponent.html">src/app/ng-matero/theme/auth-layout/auth-layout.component.ts</a>
             </td>
             <td>component</td>
             <td>AuthLayoutComponent</td>
@@ -3538,7 +3643,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/CustomizerComponent.html">src/app/ng-matero/theme/customizer/customizer.component.ts</a>
+                        <a href="./components/CustomizerComponent.html">src/app/ng-matero/theme/customizer/customizer.component.ts</a>
             </td>
             <td>component</td>
             <td>CustomizerComponent</td>
@@ -3550,7 +3655,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/HeaderComponent.html">src/app/ng-matero/theme/header/header.component.ts</a>
+                        <a href="./components/HeaderComponent.html">src/app/ng-matero/theme/header/header.component.ts</a>
             </td>
             <td>component</td>
             <td>HeaderComponent</td>
@@ -3562,7 +3667,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/SidebarNoticeComponent.html">src/app/ng-matero/theme/sidebar-notice/sidebar-notice.component.ts</a>
+                        <a href="./components/SidebarNoticeComponent.html">src/app/ng-matero/theme/sidebar-notice/sidebar-notice.component.ts</a>
             </td>
             <td>component</td>
             <td>SidebarNoticeComponent</td>
@@ -3574,7 +3679,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/SidebarComponent.html">src/app/ng-matero/theme/sidebar/sidebar.component.ts</a>
+                        <a href="./components/SidebarComponent.html">src/app/ng-matero/theme/sidebar/sidebar.component.ts</a>
             </td>
             <td>component</td>
             <td>SidebarComponent</td>
@@ -3586,7 +3691,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/UserPanelComponent.html">src/app/ng-matero/theme/sidebar/user-panel.component.ts</a>
+                        <a href="./components/UserPanelComponent.html">src/app/ng-matero/theme/sidebar/user-panel.component.ts</a>
             </td>
             <td>component</td>
             <td>UserPanelComponent</td>
@@ -3598,7 +3703,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./directives/NavAccordionItemDirective.html">src/app/ng-matero/theme/sidemenu/nav-accordion-item.directive.ts</a>
+                        <a href="./directives/NavAccordionItemDirective.html">src/app/ng-matero/theme/sidemenu/nav-accordion-item.directive.ts</a>
             </td>
             <td>directive</td>
             <td>NavAccordionItemDirective</td>
@@ -3610,7 +3715,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./directives/NavAccordionToggleDirective.html">src/app/ng-matero/theme/sidemenu/nav-accordion-toggle.directive.ts</a>
+                        <a href="./directives/NavAccordionToggleDirective.html">src/app/ng-matero/theme/sidemenu/nav-accordion-toggle.directive.ts</a>
             </td>
             <td>directive</td>
             <td>NavAccordionToggleDirective</td>
@@ -3622,7 +3727,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./directives/NavAccordionDirective.html">src/app/ng-matero/theme/sidemenu/nav-accordion.directive.ts</a>
+                        <a href="./directives/NavAccordionDirective.html">src/app/ng-matero/theme/sidemenu/nav-accordion.directive.ts</a>
             </td>
             <td>directive</td>
             <td>NavAccordionDirective</td>
@@ -3634,7 +3739,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/SidemenuComponent.html">src/app/ng-matero/theme/sidemenu/sidemenu.component.ts</a>
+                        <a href="./components/SidemenuComponent.html">src/app/ng-matero/theme/sidemenu/sidemenu.component.ts</a>
             </td>
             <td>component</td>
             <td>SidemenuComponent</td>
@@ -3646,7 +3751,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/TopmenuPanelComponent.html">src/app/ng-matero/theme/topmenu/topmenu-panel.component.ts</a>
+                        <a href="./components/TopmenuPanelComponent.html">src/app/ng-matero/theme/topmenu/topmenu-panel.component.ts</a>
             </td>
             <td>component</td>
             <td>TopmenuPanelComponent</td>
@@ -3658,7 +3763,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/TopmenuComponent.html">src/app/ng-matero/theme/topmenu/topmenu.component.ts</a>
+                        <a href="./components/TopmenuComponent.html">src/app/ng-matero/theme/topmenu/topmenu.component.ts</a>
             </td>
             <td>component</td>
             <td>TopmenuComponent</td>
@@ -3670,7 +3775,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/TopmenuState.html">src/app/ng-matero/theme/topmenu/topmenu.component.ts</a>
+                        <a href="./interfaces/TopmenuState.html">src/app/ng-matero/theme/topmenu/topmenu.component.ts</a>
             </td>
             <td>interface</td>
             <td>TopmenuState</td>
@@ -3682,7 +3787,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/BrandingComponent.html">src/app/ng-matero/theme/widgets/branding.component.ts</a>
+                        <a href="./components/BrandingComponent.html">src/app/ng-matero/theme/widgets/branding.component.ts</a>
             </td>
             <td>component</td>
             <td>BrandingComponent</td>
@@ -3694,7 +3799,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/GithubButtonComponent.html">src/app/ng-matero/theme/widgets/github.component.ts</a>
+                        <a href="./components/GithubButtonComponent.html">src/app/ng-matero/theme/widgets/github.component.ts</a>
             </td>
             <td>component</td>
             <td>GithubButtonComponent</td>
@@ -3706,7 +3811,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/NotificationComponent.html">src/app/ng-matero/theme/widgets/notification.component.ts</a>
+                        <a href="./components/NotificationComponent.html">src/app/ng-matero/theme/widgets/notification.component.ts</a>
             </td>
             <td>component</td>
             <td>NotificationComponent</td>
@@ -3718,7 +3823,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/TranslateComponent.html">src/app/ng-matero/theme/widgets/translate.component.ts</a>
+                        <a href="./components/TranslateComponent.html">src/app/ng-matero/theme/widgets/translate.component.ts</a>
             </td>
             <td>component</td>
             <td>TranslateComponent</td>
@@ -3730,7 +3835,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/UserComponent.html">src/app/ng-matero/theme/widgets/user.component.ts</a>
+                        <a href="./components/UserComponent.html">src/app/ng-matero/theme/widgets/user.component.ts</a>
             </td>
             <td>component</td>
             <td>UserComponent</td>
@@ -3742,7 +3847,19 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./pipes/AnnotationSpansPipe.html">src/app/pipes/annotation-spans.pipe.ts</a>
+                        <a href="./pipes/AnnotationAttributeValuePipe.html">src/app/pipes/annotation-attribute-value.pipe.ts</a>
+            </td>
+            <td>pipe</td>
+            <td>AnnotationAttributeValuePipe</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./pipes/AnnotationSpansPipe.html">src/app/pipes/annotation-spans.pipe.ts</a>
             </td>
             <td>pipe</td>
             <td>AnnotationSpansPipe</td>
@@ -3754,7 +3871,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/AnalyticsService.html">src/app/services/analytics-service/analytics.service.ts</a>
+                        <a href="./injectables/AnalyticsService.html">src/app/services/analytics-service/analytics.service.ts</a>
             </td>
             <td>injectable</td>
             <td>AnalyticsService</td>
@@ -3766,7 +3883,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/AnnotationSchemaService.html">src/app/services/annotation-schema-service/annotation-schema.service.ts</a>
+                        <a href="./injectables/AnnotationSchemaService.html">src/app/services/annotation-schema-service/annotation-schema.service.ts</a>
             </td>
             <td>injectable</td>
             <td>AnnotationSchemaService</td>
@@ -3778,7 +3895,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/AnnotationService.html">src/app/services/annotation-service/annotation.service.ts</a>
+                        <a href="./injectables/AnnotationService.html">src/app/services/annotation-service/annotation.service.ts</a>
             </td>
             <td>injectable</td>
             <td>AnnotationService</td>
@@ -3790,7 +3907,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/AnnotatorsTemplateService.html">src/app/services/annotators-template-service/annotators-template.service.ts</a>
+                        <a href="./injectables/AnnotatorsTemplateService.html">src/app/services/annotators-template-service/annotators-template.service.ts</a>
             </td>
             <td>injectable</td>
             <td>AnnotatorsTemplateService</td>
@@ -3802,7 +3919,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/AutoannService.html">src/app/services/autoann-service/autoann.service.ts</a>
+                        <a href="./injectables/AutoannService.html">src/app/services/autoann-service/autoann.service.ts</a>
             </td>
             <td>injectable</td>
             <td>AutoannService</td>
@@ -3814,7 +3931,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/ButtonAnnotatorService.html">src/app/services/button-annotator-service/button-annotator.service.ts</a>
+                        <a href="./injectables/ButtonAnnotatorService.html">src/app/services/button-annotator-service/button-annotator.service.ts</a>
             </td>
             <td>injectable</td>
             <td>ButtonAnnotatorService</td>
@@ -3826,7 +3943,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/ButtonColorService.html">src/app/services/button-color-service/button-color.service.ts</a>
+                        <a href="./injectables/ButtonColorService.html">src/app/services/button-color-service/button-color.service.ts</a>
             </td>
             <td>injectable</td>
             <td>ButtonColorService</td>
@@ -3838,7 +3955,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/CollectionImportService.html">src/app/services/collection-import-service/collection-import-service.service.ts</a>
+                        <a href="./injectables/CollectionImportService.html">src/app/services/collection-import-service/collection-import-service.service.ts</a>
             </td>
             <td>injectable</td>
             <td>CollectionImportService</td>
@@ -3850,7 +3967,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/CollectionService.html">src/app/services/collection-service/collection-service.service.ts</a>
+                        <a href="./injectables/CollectionService.html">src/app/services/collection-service/collection-service.service.ts</a>
             </td>
             <td>injectable</td>
             <td>CollectionService</td>
@@ -3862,7 +3979,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/CoreferenceAnnotatorService.html">src/app/services/coreference-annotator-service/coreference-annotator.service.ts</a>
+                        <a href="./injectables/CoreferenceAnnotatorService.html">src/app/services/coreference-annotator-service/coreference-annotator.service.ts</a>
             </td>
             <td>injectable</td>
             <td>CoreferenceAnnotatorService</td>
@@ -3874,7 +3991,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/CoreferenceColorDataService.html">src/app/services/coreference-color-data-service/coreference-color-data.service.ts</a>
+                        <a href="./injectables/CoreferenceColorDataService.html">src/app/services/coreference-color-data-service/coreference-color-data.service.ts</a>
             </td>
             <td>injectable</td>
             <td>CoreferenceColorDataService</td>
@@ -3886,7 +4003,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/CoreferenceColorService.html">src/app/services/coreference-color-service/coreference-color.service.ts</a>
+                        <a href="./injectables/CoreferenceColorService.html">src/app/services/coreference-color-service/coreference-color.service.ts</a>
             </td>
             <td>injectable</td>
             <td>CoreferenceColorService</td>
@@ -3898,7 +4015,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/DialogService.html">src/app/services/dialog-service/dialog.service.ts</a>
+                        <a href="./injectables/DialogService.html">src/app/services/dialog-service/dialog.service.ts</a>
             </td>
             <td>injectable</td>
             <td>DialogService</td>
@@ -3910,7 +4027,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/DocumentService.html">src/app/services/document-service/document.service.ts</a>
+                        <a href="./injectables/DocumentService.html">src/app/services/document-service/document.service.ts</a>
             </td>
             <td>injectable</td>
             <td>DocumentService</td>
@@ -3922,7 +4039,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/DragAndDropService.html">src/app/services/drag-and-drop-service/drag-and-drop.service.ts</a>
+                        <a href="./injectables/DragAndDropService.html">src/app/services/drag-and-drop-service/drag-and-drop.service.ts</a>
             </td>
             <td>injectable</td>
             <td>DragAndDropService</td>
@@ -3934,7 +4051,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/EuropeanaService.html">src/app/services/europeana-service/europeana.service.ts</a>
+                        <a href="./injectables/EuropeanaService.html">src/app/services/europeana-service/europeana.service.ts</a>
             </td>
             <td>injectable</td>
             <td>EuropeanaService</td>
@@ -3946,7 +4063,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/MainService.html">src/app/services/main/main.service.ts</a>
+                        <a href="./injectables/MainService.html">src/app/services/main/main.service.ts</a>
             </td>
             <td>injectable</td>
             <td>MainService</td>
@@ -3958,7 +4075,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/MessageService.html">src/app/services/message-service/message.service.ts</a>
+                        <a href="./injectables/MessageService.html">src/app/services/message-service/message.service.ts</a>
             </td>
             <td>injectable</td>
             <td>MessageService</td>
@@ -3970,7 +4087,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/VAST_OauthService.html">src/app/services/oauth-services/vast-oauth-service.service.ts</a>
+                        <a href="./injectables/VAST_OauthService.html">src/app/services/oauth-services/vast-oauth-service.service.ts</a>
             </td>
             <td>injectable</td>
             <td>VAST_OauthService</td>
@@ -3982,7 +4099,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#VAST_AuthCodeFlowConfig">src/app/services/oauth-services/vast-oauth-service.service.ts</a>
+                        <a href="./miscellaneous/variables.html#VAST_AuthCodeFlowConfig">src/app/services/oauth-services/vast-oauth-service.service.ts</a>
             </td>
             <td>variable</td>
             <td>VAST_AuthCodeFlowConfig</td>
@@ -3994,7 +4111,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/ObjectIdService.html">src/app/services/object-id/object-id.service.ts</a>
+                        <a href="./injectables/ObjectIdService.html">src/app/services/object-id/object-id.service.ts</a>
             </td>
             <td>injectable</td>
             <td>ObjectIdService</td>
@@ -4006,7 +4123,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/OpenDocumentService.html">src/app/services/open-document/open-document.service.ts</a>
+                        <a href="./injectables/OpenDocumentService.html">src/app/services/open-document/open-document.service.ts</a>
             </td>
             <td>injectable</td>
             <td>OpenDocumentService</td>
@@ -4018,7 +4135,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/RestoreAnnotationService.html">src/app/services/restore-annotation-service/restore-annotation.service.ts</a>
+                        <a href="./injectables/RestoreAnnotationService.html">src/app/services/restore-annotation-service/restore-annotation.service.ts</a>
             </td>
             <td>injectable</td>
             <td>RestoreAnnotationService</td>
@@ -4030,7 +4147,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/SharedCollectionService.html">src/app/services/shared-collection/shared-collection.service.ts</a>
+                        <a href="./injectables/SharedCollectionService.html">src/app/services/shared-collection/shared-collection.service.ts</a>
             </td>
             <td>injectable</td>
             <td>SharedCollectionService</td>
@@ -4042,7 +4159,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/SharedCollectionsService.html">src/app/services/shared-collections-service/shared-collections-service.service.ts</a>
+                        <a href="./injectables/SharedCollectionsService.html">src/app/services/shared-collections-service/shared-collections-service.service.ts</a>
             </td>
             <td>injectable</td>
             <td>SharedCollectionsService</td>
@@ -4054,7 +4171,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/SseService.html">src/app/services/sse-service/sse.service.ts</a>
+                        <a href="./injectables/SseService.html">src/app/services/sse-service/sse.service.ts</a>
             </td>
             <td>injectable</td>
             <td>SseService</td>
@@ -4066,7 +4183,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/TempAnnotationService.html">src/app/services/temp-annotation-service/temp-annotation.service.ts</a>
+                        <a href="./injectables/TempAnnotationService.html">src/app/services/temp-annotation-service/temp-annotation.service.ts</a>
             </td>
             <td>injectable</td>
             <td>TempAnnotationService</td>
@@ -4078,19 +4195,19 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/TextWidgetAPI.html">src/app/services/text-widget/text-widget.service.ts</a>
+                        <a href="./injectables/TextWidgetAPI.html">src/app/services/text-widget/text-widget.service.ts</a>
             </td>
             <td>injectable</td>
             <td>TextWidgetAPI</td>
             <td align="right" data-sort="13">
                 <span class="coverage-percent">13 %</span>
-                <span class="coverage-count">(18/133)</span>
+                <span class="coverage-count">(18/137)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./injectables/UserService.html">src/app/services/user-service/user.service.ts</a>
+                        <a href="./injectables/UserService.html">src/app/services/user-service/user.service.ts</a>
             </td>
             <td>injectable</td>
             <td>UserService</td>
@@ -4102,7 +4219,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#environment">src/environments/environment.hmr.ts</a>
+                        <a href="./miscellaneous/variables.html#environment">src/environments/environment.hmr.ts</a>
             </td>
             <td>variable</td>
             <td>environment</td>
@@ -4114,7 +4231,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#environment">src/environments/environment.prod.ts</a>
+                        <a href="./miscellaneous/variables.html#environment">src/environments/environment.prod.ts</a>
             </td>
             <td>variable</td>
             <td>environment</td>
@@ -4126,7 +4243,7 @@
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#environment">src/environments/environment.ts</a>
+                        <a href="./miscellaneous/variables.html#environment">src/environments/environment.ts</a>
             </td>
             <td>variable</td>
             <td>environment</td>
@@ -4174,6 +4291,19 @@
             var MAX_SEARCH_RESULTS = 15;
        </script>
 
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
        <script src="./js/libs/custom-elements.min.js"></script>
        <script src="./js/libs/lit-html.js"></script>
 
@@ -4185,7 +4315,6 @@
        <script src="./js/libs/es6-shim.min.js"></script>
        <script src="./js/libs/EventDispatcher.js"></script>
        <script src="./js/libs/promise.min.js"></script>
-       <script src="./js/libs/zepto.min.js"></script>
 
        <script src="./js/compodoc.js"></script>
 

@@ -12,10 +12,75 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
-            <a href="../" class="navbar-brand">The Ellogon Annotation Platform documentation</a>
-            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">The Ellogon Annotation Platform documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
@@ -24,12 +89,16 @@
 
         <div class="container-fluid main">
            <div class="row main">
-               <div class="hidden-xs menu">
+               <div class="d-none d-md-block menu">
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
                <div class="content injectable">
                    <div class="content-data">
+
+
+
+
 
 
 
@@ -261,7 +330,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>exists(collectionName)</code>
+<code>exists(collectionName: unknown)</code>
                 </td>
             </tr>
 
@@ -284,12 +353,16 @@
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>collectionName</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -324,7 +397,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>extractCollectiondData(json_data, collectionData: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank">object</a>)</code>
+<code>extractCollectiondData(json_data: unknown, collectionData: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank">object</a>)</code>
                 </td>
             </tr>
 
@@ -356,6 +429,7 @@
                                         <tr>
                                                 <td>json_data</td>
                                             <td>
+                                                        <code>unknown</code>
                                             </td>
 
                                             <td>
@@ -408,7 +482,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>extractDocumentdData(json_data, documentData: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank">object</a>)</code>
+<code>extractDocumentdData(json_data: unknown, documentData: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank">object</a>)</code>
                 </td>
             </tr>
 
@@ -440,6 +514,7 @@
                                         <tr>
                                                 <td>json_data</td>
                                             <td>
+                                                        <code>unknown</code>
                                             </td>
 
                                             <td>
@@ -492,7 +567,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>importFiles(collectionName, documents, overwrite: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, collectionId)</code>
+<code>importFiles(collectionName: unknown, documents: unknown, overwrite: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, collectionId: unknown)</code>
                 </td>
             </tr>
 
@@ -524,6 +599,7 @@
                                         <tr>
                                                 <td>collectionName</td>
                                             <td>
+                                                        <code>unknown</code>
                                             </td>
 
                                             <td>
@@ -537,6 +613,7 @@
                                         <tr>
                                                 <td>documents</td>
                                             <td>
+                                                        <code>unknown</code>
                                             </td>
 
                                             <td>
@@ -565,6 +642,7 @@
                                         <tr>
                                                 <td>collectionId</td>
                                             <td>
+                                                        <code>unknown</code>
                                             </td>
 
                                             <td>
@@ -603,7 +681,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>importJSON(name, files: string[], overwrite: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, collectionId)</code>
+<code>importJSON(name: unknown, files: string[], overwrite: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, collectionId: unknown)</code>
                 </td>
             </tr>
 
@@ -635,6 +713,7 @@
                                         <tr>
                                                 <td>name</td>
                                             <td>
+                                                        <code>unknown</code>
                                             </td>
 
                                             <td>
@@ -677,6 +756,7 @@
                                         <tr>
                                                 <td>collectionId</td>
                                             <td>
+                                                        <code>unknown</code>
                                             </td>
 
                                             <td>
@@ -789,7 +869,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>readFile(documentFile)</code>
+<code>readFile(documentFile: unknown)</code>
                 </td>
             </tr>
 
@@ -812,12 +892,16 @@
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>documentFile</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -852,7 +936,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>readFiles(documentFiles)</code>
+<code>readFiles(documentFiles: unknown)</code>
                 </td>
             </tr>
 
@@ -875,12 +959,16 @@
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>documentFiles</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -915,7 +1003,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>readJSONFiles(documentFiles)</code>
+<code>readJSONFiles(documentFiles: unknown)</code>
                 </td>
             </tr>
 
@@ -938,12 +1026,16 @@
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>documentFiles</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -978,7 +1070,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>saveAnnotations(collectionId, documentId, anns)</code>
+<code>saveAnnotations(collectionId: unknown, documentId: unknown, anns: unknown)</code>
                 </td>
             </tr>
 
@@ -1001,12 +1093,16 @@
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>collectionId</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -1016,6 +1112,9 @@
                                         </tr>
                                         <tr>
                                                 <td>documentId</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -1025,6 +1124,9 @@
                                         </tr>
                                         <tr>
                                                 <td>anns</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -1059,7 +1161,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>saveCollection(collectionData, documents)</code>
+<code>saveCollection(collectionData: unknown, documents: unknown)</code>
                 </td>
             </tr>
 
@@ -1082,12 +1184,16 @@
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>collectionData</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -1097,6 +1203,9 @@
                                         </tr>
                                         <tr>
                                                 <td>documents</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -1131,7 +1240,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>saveDocuments(collectionId, docs)</code>
+<code>saveDocuments(collectionId: unknown, docs: unknown)</code>
                 </td>
             </tr>
 
@@ -1154,12 +1263,16 @@
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>collectionId</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -1169,6 +1282,9 @@
                                         </tr>
                                         <tr>
                                                 <td>docs</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -1389,6 +1505,12 @@
                     </span>
                 </td>
             </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
                     <tr>
                         <td class="col-md-4">
                                 <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/app/services/collection-import-service/collection-import-service.service.ts:11</a></div>
@@ -1697,6 +1819,19 @@ export class CollectionImportService implements OnInit {
             var MAX_SEARCH_RESULTS = 15;
        </script>
 
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
 
@@ -1708,7 +1843,6 @@ export class CollectionImportService implements OnInit {
        <script src="../js/libs/es6-shim.min.js"></script>
        <script src="../js/libs/EventDispatcher.js"></script>
        <script src="../js/libs/promise.min.js"></script>
-       <script src="../js/libs/zepto.min.js"></script>
 
        <script src="../js/compodoc.js"></script>
 

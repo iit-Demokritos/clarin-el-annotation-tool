@@ -12,10 +12,75 @@
         <link rel="stylesheet" href="./styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
-            <a href="./" class="navbar-brand">The Ellogon Annotation Platform documentation</a>
-            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="./" class="navbar-brand">The Ellogon Annotation Platform documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
@@ -24,12 +89,16 @@
 
         <div class="container-fluid main">
            <div class="row main">
-               <div class="hidden-xs menu">
+               <div class="d-none d-md-block menu">
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
                <div class="content package-dependencies">
                    <div class="content-data">
+
+
+
+
 
 
 
@@ -60,21 +129,21 @@
         <li>
             <b>@angular/core</b> : ^16.2.11</li>
         <li>
-            <b>@angular/forms</b> : ^16.2.11</li>
+            <b>@angular/forms</b> : ^16.2.12</li>
         <li>
-            <b>@angular/localize</b> : ^16.2.11</li>
+            <b>@angular/localize</b> : ^16.2.12</li>
         <li>
             <b>@angular/material</b> : ^16.2.10</li>
         <li>
-            <b>@angular/material-moment-adapter</b> : ^16.2.10</li>
+            <b>@angular/material-moment-adapter</b> : ^16.2.14</li>
         <li>
             <b>@angular/platform-browser</b> : ^16.2.11</li>
         <li>
-            <b>@angular/platform-browser-dynamic</b> : ^16.2.11</li>
+            <b>@angular/platform-browser-dynamic</b> : ^16.2.12</li>
         <li>
-            <b>@angular/router</b> : ^16.2.11</li>
+            <b>@angular/router</b> : ^16.2.12</li>
         <li>
-            <b>@compodoc/compodoc</b> : ^1.1.22</li>
+            <b>@compodoc/compodoc</b> : ^1.2.1</li>
         <li>
             <b>@flowjs/flow.js</b> : ^2.14.1</li>
         <li>
@@ -82,9 +151,9 @@
         <li>
             <b>@fortawesome/angular-fontawesome</b> : ^0.13.0</li>
         <li>
-            <b>@fortawesome/fontawesome-svg-core</b> : ^6.4.2</li>
+            <b>@fortawesome/fontawesome-svg-core</b> : ^6.7.2</li>
         <li>
-            <b>@fortawesome/free-solid-svg-icons</b> : ^6.4.2</li>
+            <b>@fortawesome/free-solid-svg-icons</b> : ^6.7.2</li>
         <li>
             <b>@mat-datetimepicker/core</b> : ^12.0.1</li>
         <li>
@@ -92,13 +161,13 @@
         <li>
             <b>@ng-bootstrap/ng-bootstrap</b> : ^15.1.2</li>
         <li>
-            <b>@ng-matero/extensions</b> : ^16.1.2</li>
+            <b>@ng-matero/extensions</b> : ^16.3.11</li>
         <li>
             <b>@ng-matero/extensions-moment-adapter</b> : ^16.0.0</li>
         <li>
             <b>@ngx-formly/core</b> : ^6.2.2</li>
         <li>
-            <b>@ngx-formly/material</b> : ^6.2.2</li>
+            <b>@ngx-formly/material</b> : ^6.3.12</li>
         <li>
             <b>@ngx-translate/core</b> : ^15.0.0</li>
         <li>
@@ -110,37 +179,37 @@
         <li>
             <b>angular2-query-builder</b> : ^0.6.2</li>
         <li>
-            <b>backbone</b> : ^1.5.0</li>
+            <b>backbone</b> : ^1.6.1</li>
         <li>
-            <b>bootstrap</b> : ^5.3.2</li>
+            <b>bootstrap</b> : ^5.3.8</li>
         <li>
             <b>bson-objectid</b> : ^2.0.4</li>
         <li>
-            <b>codemirror</b> : ^5.65.14</li>
+            <b>codemirror</b> : ^5.65.21</li>
         <li>
             <b>file-saver</b> : ^2.0.5</li>
         <li>
-            <b>highcharts</b> : ^11.1.0</li>
+            <b>highcharts</b> : ^11.4.8</li>
         <li>
             <b>highcharts-angular</b> : ^3.1.2</li>
         <li>
-            <b>jointjs</b> : ^3.7.6</li>
+            <b>jointjs</b> : ^3.7.7</li>
         <li>
             <b>jquery</b> : ^3.7.1</li>
         <li>
-            <b>lodash</b> : ^4.17.21</li>
+            <b>lodash</b> : ^4.18.1</li>
         <li>
-            <b>lodash-es</b> : ^4.17.21</li>
+            <b>lodash-es</b> : ^4.18.1</li>
         <li>
             <b>mat-table-exporter</b> : ^15.0.0</li>
         <li>
-            <b>mathjs</b> : ^12.0.0</li>
+            <b>mathjs</b> : ^12.4.3</li>
         <li>
-            <b>minimatch</b> : ^9.0.3</li>
+            <b>minimatch</b> : ^9.0.9</li>
         <li>
-            <b>moment</b> : ^2.29.3</li>
+            <b>moment</b> : ^2.30.1</li>
         <li>
-            <b>ng-matero</b> : ^16.1.3</li>
+            <b>ng-matero</b> : ^16.3.0</li>
         <li>
             <b>ngx-filesaver</b> : ^16.0.0</li>
         <li>
@@ -154,17 +223,17 @@
         <li>
             <b>ngx-ui-tour-md-menu</b> : ^11.0.6</li>
         <li>
-            <b>photoviewer</b> : ^3.8.1</li>
+            <b>photoviewer</b> : ^3.11.1</li>
         <li>
             <b>rxjs</b> : ~7.8.1</li>
         <li>
-            <b>screenfull</b> : ^6.0.1</li>
+            <b>screenfull</b> : ^6.0.2</li>
         <li>
-            <b>tslib</b> : ^2.6.2</li>
+            <b>tslib</b> : ^2.8.1</li>
         <li>
-            <b>wavesurfer.js</b> : ^7.4.2</li>
+            <b>wavesurfer.js</b> : ^7.12.6</li>
         <li>
-            <b>zone.js</b> : ~0.13.3</li>
+            <b>zone.js</b> : ^0.13.3</li>
     </ul>
 
 
@@ -203,6 +272,19 @@
             var MAX_SEARCH_RESULTS = 15;
        </script>
 
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
        <script src="./js/libs/custom-elements.min.js"></script>
        <script src="./js/libs/lit-html.js"></script>
 
@@ -214,7 +296,6 @@
        <script src="./js/libs/es6-shim.min.js"></script>
        <script src="./js/libs/EventDispatcher.js"></script>
        <script src="./js/libs/promise.min.js"></script>
-       <script src="./js/libs/zepto.min.js"></script>
 
        <script src="./js/compodoc.js"></script>
 

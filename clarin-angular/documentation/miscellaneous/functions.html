@@ -12,10 +12,75 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
-            <a href="../" class="navbar-brand">The Ellogon Annotation Platform documentation</a>
-            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">The Ellogon Annotation Platform documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
@@ -24,12 +89,16 @@
 
         <div class="container-fluid main">
            <div class="row main">
-               <div class="hidden-xs menu">
+               <div class="d-none d-md-block menu">
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
                <div class="content miscellaneous-functions">
                    <div class="content-data">
+
+
+
+
 
 
 
@@ -226,7 +295,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>AnnotationPropertyToDisplayObject(p)</code>
+<code>AnnotationPropertyToDisplayObject(p: unknown)</code>
                 </td>
             </tr>
 
@@ -243,12 +312,16 @@
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>p</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -276,7 +349,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>annotationsEqual(ann1, ann2)</code>
+<code>annotationsEqual(ann1: unknown, ann2: unknown)</code>
                 </td>
             </tr>
 
@@ -293,12 +366,16 @@
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>ann1</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -308,6 +385,9 @@
                                         </tr>
                                         <tr>
                                                 <td>ann2</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -465,7 +545,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>cohenKappa(sortedAnn1, sortedAnn2)</code>
+<code>cohenKappa(sortedAnn1: unknown, sortedAnn2: unknown)</code>
                 </td>
             </tr>
 
@@ -482,12 +562,16 @@
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>sortedAnn1</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -497,6 +581,9 @@
                                         </tr>
                                         <tr>
                                                 <td>sortedAnn2</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -996,7 +1083,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>countAnnotation(annotations, ann)</code>
+<code>countAnnotation(annotations: unknown, ann: unknown)</code>
                 </td>
             </tr>
 
@@ -1013,12 +1100,16 @@
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>annotations</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -1028,6 +1119,9 @@
                                         </tr>
                                         <tr>
                                                 <td>ann</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -1669,7 +1763,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getDistinctAnnotations(annotations)</code>
+<code>getDistinctAnnotations(annotations: unknown)</code>
                 </td>
             </tr>
 
@@ -1686,12 +1780,16 @@
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>annotations</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -1719,7 +1817,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>segmentsIntersect(x1, x2, y1, y2)</code>
+<code>segmentsIntersect(x1: unknown, x2: unknown, y1: unknown, y2: unknown)</code>
                 </td>
             </tr>
 
@@ -1736,12 +1834,16 @@
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>x1</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -1751,6 +1853,9 @@
                                         </tr>
                                         <tr>
                                                 <td>x2</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -1760,6 +1865,9 @@
                                         </tr>
                                         <tr>
                                                 <td>y1</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -1769,6 +1877,9 @@
                                         </tr>
                                         <tr>
                                                 <td>y2</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -1796,7 +1907,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>segmentsOverlap(x1, x2, y1, y2)</code>
+<code>segmentsOverlap(x1: unknown, x2: unknown, y1: unknown, y2: unknown)</code>
                 </td>
             </tr>
 
@@ -1813,12 +1924,16 @@
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>x1</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -1828,6 +1943,9 @@
                                         </tr>
                                         <tr>
                                                 <td>x2</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -1837,6 +1955,9 @@
                                         </tr>
                                         <tr>
                                                 <td>y1</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -1846,6 +1967,9 @@
                                         </tr>
                                         <tr>
                                                 <td>y2</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -1873,7 +1997,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>segmentsOverlapPercentage(x1, x2, y1, y2)</code>
+<code>segmentsOverlapPercentage(x1: unknown, x2: unknown, y1: unknown, y2: unknown)</code>
                 </td>
             </tr>
 
@@ -1890,12 +2014,16 @@
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>x1</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -1905,6 +2033,9 @@
                                         </tr>
                                         <tr>
                                                 <td>x2</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -1914,6 +2045,9 @@
                                         </tr>
                                         <tr>
                                                 <td>y1</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -1923,6 +2057,9 @@
                                         </tr>
                                         <tr>
                                                 <td>y2</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -2675,7 +2812,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>findWhere(array, criteria)</code>
+<code>findWhere(array: unknown, criteria: unknown)</code>
                 </td>
             </tr>
 
@@ -2692,12 +2829,16 @@
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>array</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -2707,6 +2848,9 @@
                                         </tr>
                                         <tr>
                                                 <td>criteria</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -2734,7 +2878,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>onlyUnique(value, index, self)</code>
+<code>onlyUnique(value: unknown, index: unknown, self: unknown)</code>
                 </td>
             </tr>
 
@@ -2751,12 +2895,16 @@
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>value</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -2766,6 +2914,9 @@
                                         </tr>
                                         <tr>
                                                 <td>index</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -2775,6 +2926,9 @@
                                         </tr>
                                         <tr>
                                                 <td>self</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -2874,7 +3028,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>where(array, object)</code>
+<code>where(array: unknown, object: unknown)</code>
                 </td>
             </tr>
 
@@ -2891,12 +3045,16 @@
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>array</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -2906,6 +3064,9 @@
                                         </tr>
                                         <tr>
                                                 <td>object</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -3468,7 +3629,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>TranslateHttpLoaderFactory(http: HttpClient)</code>
+<code>TranslateHttpLoaderFactory(http: <a href="https://angular.io/api/common/http/HttpClient" target="_blank">HttpClient</a>)</code>
                 </td>
             </tr>
 
@@ -3493,7 +3654,7 @@
                                         <tr>
                                                 <td>http</td>
                                             <td>
-                                                        <code>HttpClient</code>
+                                                            <code><a href="https://angular.io/api/common/http/HttpClient" target="_blank" >HttpClient</a></code>
                                             </td>
 
                                             <td>
@@ -3542,6 +3703,19 @@
             var MAX_SEARCH_RESULTS = 15;
        </script>
 
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
 
@@ -3553,7 +3727,6 @@
        <script src="../js/libs/es6-shim.min.js"></script>
        <script src="../js/libs/EventDispatcher.js"></script>
        <script src="../js/libs/promise.min.js"></script>
-       <script src="../js/libs/zepto.min.js"></script>
 
        <script src="../js/compodoc.js"></script>
 
