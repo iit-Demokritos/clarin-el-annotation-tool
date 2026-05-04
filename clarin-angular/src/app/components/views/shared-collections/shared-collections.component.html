@@ -4,9 +4,9 @@
     <as-split-area [size]="50" [minSize]="10" [maxSize]="90" class="top-wrapper">
       <mat-card appearance="outlined" class="mat-card-fill-parent">
         <mat-card-header>
-        <mat-card-title>{{'dashboard.MyCollections' | translate}}</mat-card-title>
-        <mat-card-subtitle>{{'dashboard.MyCollectionsInfo' | translate}}</mat-card-subtitle>
-	</mat-card-header>
+          <mat-card-title>{{'dashboard.MyCollections' | translate}}</mat-card-title>
+          <mat-card-subtitle>{{'dashboard.MyCollectionsInfo' | translate}}</mat-card-subtitle>
+        </mat-card-header>
         <mat-card-content>
           <div class="table-scroll">
             <table mat-table [dataSource]="dataSource_shared_by_me" matSort>
@@ -38,22 +38,30 @@
               <ng-container matColumnDef="confirmed">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'Confirmed' | translate}}</th>
                 <td mat-cell *matCellDef="let element">
-                  <mat-icon color="primary" *ngIf="element.confirmed" matTooltip="{{'Created' | translate}}: {{element.created_at_str}},
+                  @if (element.confirmed) {
+<mat-icon color="primary" matTooltip="{{'Created' | translate}}: {{element.created_at_str}},
  {{'Accepted' | translate}}: {{element.updated_at_str}}">check_circle</mat-icon>
-                  <mat-icon color="warn" *ngIf="!element.confirmed" matTooltip="{{'Created' | translate}}: {{element.created_at_str}}">cancel</mat-icon>
+                  }
+                  @if (!element.confirmed) {
+                    <mat-icon color="warn" matTooltip="{{'Created' | translate}}: {{element.created_at_str}}">cancel</mat-icon>
+                  }
                 </td>
               </ng-container>
               <!-- Actions Column -->
               <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'Actions' | translate}}</th>
                 <td mat-cell *matCellDef="let element">
-                  <button mat-icon-button color="warn" *ngIf="element.confirmed" (click)="onDeleteSharing(element)"  matTooltip="{{'Stop Collection Sharing' | translate}}">
-                    <mat-icon>delete_forever</mat-icon>
-                  </button>
-                  <button mat-icon-button class="text-green-900" *ngIf="!element.confirmed"
-                    (click)="onConfirmSharing(element)" matTooltip="{{'Force Invitation Acceptance' | translate}}">
-                    <mat-icon>library_add</mat-icon>
-                  </button>
+                  @if (element.confirmed) {
+                    <button mat-icon-button color="warn" (click)="onDeleteSharing(element)"  matTooltip="{{'Stop Collection Sharing' | translate}}">
+                      <mat-icon>delete_forever</mat-icon>
+                    </button>
+                  }
+                  @if (!element.confirmed) {
+                    <button mat-icon-button class="text-green-900"
+                      (click)="onConfirmSharing(element)" matTooltip="{{'Force Invitation Acceptance' | translate}}">
+                      <mat-icon>library_add</mat-icon>
+                    </button>
+                  }
                 </td>
               </ng-container>
 
@@ -69,10 +77,10 @@
     </as-split-area>
     <as-split-area [size]="50" [minSize]="10" [maxSize]="90" class="bottom-wrapper">
       <mat-card appearance="outlined" class="mat-card-fill-parent">
-	<mat-card-header>
-        <mat-card-title>{{'dashboard.MySharedCollections' | translate}}</mat-card-title>
-        <mat-card-subtitle>{{'dashboard.MySharedCollectionsInfo' | translate}}</mat-card-subtitle>
-	</mat-card-header>
+        <mat-card-header>
+          <mat-card-title>{{'dashboard.MySharedCollections' | translate}}</mat-card-title>
+          <mat-card-subtitle>{{'dashboard.MySharedCollectionsInfo' | translate}}</mat-card-subtitle>
+        </mat-card-header>
         <mat-card-content>
           <div class="table-scroll">
             <table mat-table [dataSource]="dataSource_shared_with_me" matSort>
@@ -104,22 +112,30 @@
               <ng-container matColumnDef="confirmed">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'Confirmed' | translate}}</th>
                 <td mat-cell *matCellDef="let element">
-                <mat-icon color="primary" *ngIf="element.confirmed" matTooltip="{{'Created' | translate}}: {{element.created_at_str}},
+                  @if (element.confirmed) {
+<mat-icon color="primary" matTooltip="{{'Created' | translate}}: {{element.created_at_str}},
  {{'Accepted' | translate}}: {{element.updated_at_str}}">check_circle</mat-icon>
-                  <mat-icon color="warn" *ngIf="!element.confirmed" matTooltip="{{'Created' | translate}}: {{element.created_at_str}}">cancel</mat-icon>
+                  }
+                  @if (!element.confirmed) {
+                    <mat-icon color="warn" matTooltip="{{'Created' | translate}}: {{element.created_at_str}}">cancel</mat-icon>
+                  }
                 </td>
               </ng-container>
               <!-- Actions Column -->
               <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'Actions' | translate}}</th>
                 <td mat-cell *matCellDef="let element">
-                  <button mat-icon-button color="warn" *ngIf="element.confirmed" (click)="onRevokeSharing(element)" matTooltip="{{'Revoke Invitation Acceptance' | translate}}">
-                    <mat-icon>delete</mat-icon>
-                  </button>
-                  <button mat-icon-button class="text-green-900" *ngIf="!element.confirmed"
-                    (click)="onConfirmSharing(element)"  matTooltip="{{'Accept Invitation' | translate}}">
-                    <mat-icon>library_add</mat-icon>
-                  </button>
+                  @if (element.confirmed) {
+                    <button mat-icon-button color="warn" (click)="onRevokeSharing(element)" matTooltip="{{'Revoke Invitation Acceptance' | translate}}">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  }
+                  @if (!element.confirmed) {
+                    <button mat-icon-button class="text-green-900"
+                      (click)="onConfirmSharing(element)"  matTooltip="{{'Accept Invitation' | translate}}">
+                      <mat-icon>library_add</mat-icon>
+                    </button>
+                  }
                 </td>
               </ng-container>
 

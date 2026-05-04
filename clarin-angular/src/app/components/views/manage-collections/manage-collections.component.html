@@ -6,7 +6,7 @@
         <!-- SIDEBAR HEADER -->
         <mat-card-header class="sidebar-header">
           <mat-card-title matBadge="{{dataForTheTree.length}}" matBadgeOverlap="false" matBadgeColor="accent">
-            {{'Collections.MyCollections'|translate}}</mat-card-title>
+          {{'Collections.MyCollections'|translate}}</mat-card-title>
           <!--<div fxFlex></div>-->
           <span class="flex-fill"></span>
           <button mat-icon-button color="primary" [routerLink]="['/app/collections/add']"
@@ -22,226 +22,244 @@
             <mat-icon>cloud_download</mat-icon>
           </button>
           <!--<button mat-icon-button color="primary" (click)="importDocuments()"
-            [matTooltip]="'Collections.DeleteSelectedCollection'|translate">
-            <mat-icon>delete_forever</mat-icon>
-          </button>-->
-        </mat-card-header>
-        <!-- SEARCH COLLECTION LIST -->
-        <div class="fxLayout fxLayoutAlign-start-center">
-          <mat-form-field class="collection-list-filter-field mat-mdc-form-field-small">
-            <mat-label>{{'Collections.Filter Collections'|translate}}</mat-label>
-            <mat-icon matPrefix>search</mat-icon>
-            <input matInput type="text" class="collection-list-filter-input" (keyup)="onApplyCollectionFilter($event)"
-                   placeholder="{{'Collections.FilterCollectionsPlaceholder'|translate}}" #input [(ngModel)]="collectionsFilter">
-            <button mat-icon-button matSuffix *ngIf="collectionsFilter" aria-label="Clear" class="mat-mdc-icon-button-small"
-                   (click)="collectionsFilter=''; onApplyCollectionFilter($event)">
+          [matTooltip]="'Collections.DeleteSelectedCollection'|translate">
+          <mat-icon>delete_forever</mat-icon>
+        </button>-->
+      </mat-card-header>
+      <!-- SEARCH COLLECTION LIST -->
+      <div class="fxLayout fxLayoutAlign-start-center">
+        <mat-form-field class="collection-list-filter-field mat-mdc-form-field-small">
+          <mat-label>{{'Collections.Filter Collections'|translate}}</mat-label>
+          <mat-icon matPrefix>search</mat-icon>
+          <input matInput type="text" class="collection-list-filter-input" (keyup)="onApplyCollectionFilter($event)"
+            placeholder="{{'Collections.FilterCollectionsPlaceholder'|translate}}" #input [(ngModel)]="collectionsFilter">
+          @if (collectionsFilter) {
+            <button mat-icon-button matSuffix aria-label="Clear" class="mat-mdc-icon-button-small"
+              (click)="collectionsFilter=''; onApplyCollectionFilter($event)">
               <mat-icon>backspace</mat-icon>
             </button>
-          </mat-form-field>
-        </div>
-        <mat-card-content class="sidebar-main-content mat-card-fill-parent">
-          <!-- SIDEBAR COLLECTION LIST -->
-          <mat-selection-list #collections="cdkDropList"
-            [multiple]="false" [hideSingleSelectionIndicator]="true"
-            cdkDropList (cdkDropListDropped)="onCollectionDrop($event)"
-            [cdkDropListSortPredicate]="onCollectionDropOver"
-            [cdkDropListAutoScrollDisabled]="disableCollectionDraggingAutoscroll"
+          }
+        </mat-form-field>
+      </div>
+      <mat-card-content class="sidebar-main-content mat-card-fill-parent">
+        <!-- SIDEBAR COLLECTION LIST -->
+        <mat-selection-list #collections="cdkDropList"
+          [multiple]="false" [hideSingleSelectionIndicator]="true"
+          cdkDropList (cdkDropListDropped)="onCollectionDrop($event)"
+          [cdkDropListSortPredicate]="onCollectionDropOver"
+          [cdkDropListAutoScrollDisabled]="disableCollectionDraggingAutoscroll"
           >
-            <mat-list-option *ngFor="let collection of dataForTheTree;let index=index"
+          @for (collection of dataForTheTree; track collection; let index = $index) {
+            <mat-list-option
               [value]="collection"
               (click)="showSelectedCollection(collection, index)"
               cdkDrag [cdkDragDisabled]="disableCollectionDragging"
               [ngClass]="{'drop-target-allow': dropTargetCollection == index && dropTargetCollectionAllow, 'drop-target-deny': dropTargetCollection == index && !dropTargetCollectionAllow}"
-            >
-                <mat-icon *ngIf="collection.confirmed!=1" matListItemIcon matBadge="{{collection.document_count}}" matBadgeOverlap="true" matBadgeSize="small" matBadgeColor="accent" matBadgePosition="before">folder</mat-icon>
-                <mat-icon *ngIf="collection.confirmed==1 && collection.is_owner" matListItemIcon matBadge="{{collection.document_count}}" matBadgeOverlap="true" matBadgeSize="small" matBadgeColor="accent" matBadgePosition="before">folder_shared</mat-icon>
-                <mat-icon *ngIf="collection.confirmed==1 && !collection.is_owner" matListItemIcon matBadge="{{collection.document_count}}" matBadgeOverlap="true" matBadgeSize="small" matBadgeColor="accent" matBadgePosition="before">snippet_folder</mat-icon>
-                <span matListItemTitle matTooltip="{{collection.name}}">{{collection.name}}</span>
-                <span matListItemLine *ngIf="collection.confirmed==1 && collection.is_owner">({{'Collections.SharedByMe'|translate}})</span>
-                <span matListItemLine *ngIf="collection.confirmed==1 && !collection.is_owner" class="label label-info"
-                  title="The actions that can be performed on this collection are limited because it does not belong to you">({{'Collections.SharedWithMe'|translate}})</span>
+              >
+              @if (collection.confirmed!=1) {
+                <mat-icon matListItemIcon matBadge="{{collection.document_count}}" matBadgeOverlap="true" matBadgeSize="small" matBadgeColor="accent" matBadgePosition="before">folder</mat-icon>
+              }
+              @if (collection.confirmed==1 && collection.is_owner) {
+                <mat-icon matListItemIcon matBadge="{{collection.document_count}}" matBadgeOverlap="true" matBadgeSize="small" matBadgeColor="accent" matBadgePosition="before">folder_shared</mat-icon>
+              }
+              @if (collection.confirmed==1 && !collection.is_owner) {
+                <mat-icon matListItemIcon matBadge="{{collection.document_count}}" matBadgeOverlap="true" matBadgeSize="small" matBadgeColor="accent" matBadgePosition="before">snippet_folder</mat-icon>
+              }
+              <span matListItemTitle matTooltip="{{collection.name}}">{{collection.name}}</span>
+              @if (collection.confirmed==1 && collection.is_owner) {
+                <span matListItemLine>({{'Collections.SharedByMe'|translate}})</span>
+              }
+              @if (collection.confirmed==1 && !collection.is_owner) {
+                <span matListItemLine class="label label-info"
+                title="The actions that can be performed on this collection are limited because it does not belong to you">({{'Collections.SharedWithMe'|translate}})</span>
+              }
             </mat-list-option>
-          </mat-selection-list>
-          <!--
-          <mat-action-list>
-            <button mat-list-item class="cursor" *ngFor="let collection of dataForTheTree;let index=index"
-              (click)="showSelectedCollection(collection, index)"
-              [ngClass]="{selectedCollection: index==selectedCollectionIndex}">
-              <mat-icon class="mat-icon-rtl-mirror">folder</mat-icon> {{collection.name}} <span class="right">
-                <span *ngIf="collection.confirmed==1 && collection.is_owner"
-                  class="label label-info">{{'Collections.SharedByMe'|translate}}</span>
-                <span *ngIf="collection.confirmed==1 && !collection.is_owner" class="label label-info"
-                  title="The actions that can be performed on this collection are limited because it does not belong to you">{{'Collections.SharedWithMe'|translate}}</span>
-                ({{collection.document_count}} {{'Collections.Documents'|translate}})
-              </span>
-            </button>
-          </mat-action-list>
-          -->
-        </mat-card-content>
-      </mat-card>
-    </as-split-area>
-    <as-split-area [size]="70" [minSize]="40" [maxSize]="90" class="main-content-wrapper">
-      <mat-card appearance="outlined" class="mat-card-fill-parent">
-        <mat-card-header *ngIf="showStaticHeader==true">
-          <mat-card-title>Manage Collections</mat-card-title>
-          <!--<div fxFlex></div>-->
-          <span class="flex-fill"></span>
-          <button mat-stroked-button color="primary" (click)="importDocuments()" [matTooltip]="'Collections.Import Collection'|translate">
-            <mat-icon>cloud_upload</mat-icon>{{'Collections.Import'|translate}}
-          </button>
-          <button mat-stroked-button color="primary" (click)="importCollections()"
-              [matTooltip]="'Collections.Import Collections'|translate">
-            <mat-icon>input</mat-icon>{{'Collections.Import Collections'|translate}}
-          </button>
-        </mat-card-header>
-        <!--download="{{selectedCollection.name}}_export.json"-->
-        <mat-card-header *ngIf="showStaticHeader!=true">
-          <mat-card-title>Collection: <i>{{selectedCollection.name}}</i></mat-card-title>
-          <!--<div fxFlex></div>-->
-          <span class="flex-fill"></span>
-
-          <button mat-icon-button color="primary" (click)="addDocuments()" [disabled]="!selectedCollection.is_owner"
-            [matTooltip]="'Collections.Add Documents'|translate">
-            <mat-icon>note_add</mat-icon>
-          </button>
-          <button mat-icon-button color="primary" (click)="shareCollection()" [disabled]="!selectedCollection.is_owner"
-            [matTooltip]="'Collections.Share Collection'|translate">
-            <mat-icon>share</mat-icon>
-          </button>
-          <a mat-icon-button color="primary" [href]="'./api/collections/'+selectedCollection.id+'/export'"
-            target="_blank" [matTooltip]="'Collections.Export Collection'|translate">
-            <mat-icon>file_download</mat-icon>
-          </a>
-          <button mat-icon-button color="primary" (click)="renameCollection()" [disabled]="!selectedCollection.is_owner"
-            [matTooltip]="'Collections.Rename Collection'|translate">
-            <mat-icon>drive_file_rename_outline</mat-icon>
-          </button>
-          <button mat-icon-button color="warn" (click)="deleteCollection(selectedCollection.id)"
-            [disabled]="!selectedCollection.is_owner" [matTooltip]="'Collections.Delete Collection'|translate">
-            <mat-icon>delete_forever</mat-icon>
-          </button>
-          <button mat-icon-button color="primary" (click)="importDocumentsFromExport()" [disabled]="btnShow"
-            [matTooltip]="'Collections.Import Documents from Export'|translate">
-            <mat-icon>file_upload</mat-icon>
-          </button>
-          <button mat-icon-button color="primary" (click)="renameDocument()" [disabled]="selectedDocuments.length!==1"
-            [matTooltip]="'Collections.Rename Document'|translate">
-            <mat-icon>drive_file_rename_outline</mat-icon>
-          </button>
-          <button mat-icon-button color="warn" (click)="deleteDocuments()" [disabled]="btnShow"
-            [matTooltip]="'Collections.Delete Documents'|translate">
-            <mat-icon>delete_forever</mat-icon>
-          </button>
-        </mat-card-header>
-        <mat-card-content class="main-content">
-          <div class="text-center no-available-documents" *ngIf="selectedCollection === undefined">
-            <i class="fa fa-tasks" aria-hidden="true"></i>
-            &#09;Please select a collection from the list on the left...
-          </div>
-          <mat-table #documentsTable="cdkDropList" mat-table class="documents_table" [dataSource]="documentsDataSource"
-            *ngIf="collectionDocuments.length>0"
-            cdkDropList cdkDropListSortingDisabled [cdkDropListConnectedTo]="[collections]"
-            [cdkDropListAutoScrollDisabled]="disableCollectionDraggingAutoscroll"
+          }
+        </mat-selection-list>
+        <!--
+        <mat-action-list>
+          <button mat-list-item class="cursor" *ngFor="let collection of dataForTheTree;let index=index"
+            (click)="showSelectedCollection(collection, index)"
+            [ngClass]="{selectedCollection: index==selectedCollectionIndex}">
+            <mat-icon class="mat-icon-rtl-mirror">folder</mat-icon> {{collection.name}} <span class="right">
+            <span *ngIf="collection.confirmed==1 && collection.is_owner"
+            class="label label-info">{{'Collections.SharedByMe'|translate}}</span>
+            <span *ngIf="collection.confirmed==1 && !collection.is_owner" class="label label-info"
+            title="The actions that can be performed on this collection are limited because it does not belong to you">{{'Collections.SharedWithMe'|translate}}</span>
+            ({{collection.document_count}} {{'Collections.Documents'|translate}})
+          </span>
+        </button>
+      </mat-action-list>
+      -->
+    </mat-card-content>
+  </mat-card>
+</as-split-area>
+<as-split-area [size]="70" [minSize]="40" [maxSize]="90" class="main-content-wrapper">
+  <mat-card appearance="outlined" class="mat-card-fill-parent">
+    @if (showStaticHeader==true) {
+      <mat-card-header>
+        <mat-card-title>Manage Collections</mat-card-title>
+        <!--<div fxFlex></div>-->
+        <span class="flex-fill"></span>
+        <button mat-stroked-button color="primary" (click)="importDocuments()" [matTooltip]="'Collections.Import Collection'|translate">
+          <mat-icon>cloud_upload</mat-icon>{{'Collections.Import'|translate}}
+        </button>
+        <button mat-stroked-button color="primary" (click)="importCollections()"
+          [matTooltip]="'Collections.Import Collections'|translate">
+          <mat-icon>input</mat-icon>{{'Collections.Import Collections'|translate}}
+        </button>
+      </mat-card-header>
+    }
+    <!--download="{{selectedCollection.name}}_export.json"-->
+    @if (showStaticHeader!=true) {
+      <mat-card-header>
+        <mat-card-title>Collection: <i>{{selectedCollection.name}}</i></mat-card-title>
+        <!--<div fxFlex></div>-->
+        <span class="flex-fill"></span>
+        <button mat-icon-button color="primary" (click)="addDocuments()" [disabled]="!selectedCollection.is_owner"
+          [matTooltip]="'Collections.Add Documents'|translate">
+          <mat-icon>note_add</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" (click)="shareCollection()" [disabled]="!selectedCollection.is_owner"
+          [matTooltip]="'Collections.Share Collection'|translate">
+          <mat-icon>share</mat-icon>
+        </button>
+        <a mat-icon-button color="primary" [href]="'./api/collections/'+selectedCollection.id+'/export'"
+          target="_blank" [matTooltip]="'Collections.Export Collection'|translate">
+          <mat-icon>file_download</mat-icon>
+        </a>
+        <button mat-icon-button color="primary" (click)="renameCollection()" [disabled]="!selectedCollection.is_owner"
+          [matTooltip]="'Collections.Rename Collection'|translate">
+          <mat-icon>drive_file_rename_outline</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="deleteCollection(selectedCollection.id)"
+          [disabled]="!selectedCollection.is_owner" [matTooltip]="'Collections.Delete Collection'|translate">
+          <mat-icon>delete_forever</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" (click)="importDocumentsFromExport()" [disabled]="btnShow"
+          [matTooltip]="'Collections.Import Documents from Export'|translate">
+          <mat-icon>file_upload</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" (click)="renameDocument()" [disabled]="selectedDocuments.length!==1"
+          [matTooltip]="'Collections.Rename Document'|translate">
+          <mat-icon>drive_file_rename_outline</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="deleteDocuments()" [disabled]="btnShow"
+          [matTooltip]="'Collections.Delete Documents'|translate">
+          <mat-icon>delete_forever</mat-icon>
+        </button>
+      </mat-card-header>
+    }
+    <mat-card-content class="main-content">
+      @if (selectedCollection === undefined) {
+        <div class="text-center no-available-documents">
+          <i class="fa fa-tasks" aria-hidden="true"></i>
+          &#09;Please select a collection from the list on the left...
+        </div>
+      }
+      @if (collectionDocuments.length>0) {
+        <mat-table #documentsTable="cdkDropList" mat-table class="documents_table" [dataSource]="documentsDataSource"
+          cdkDropList cdkDropListSortingDisabled [cdkDropListConnectedTo]="[collections]"
+          [cdkDropListAutoScrollDisabled]="disableCollectionDraggingAutoscroll"
           >
-            <!-- Checkbox Column -->
-            <ng-container matColumnDef="select">
-              <mat-header-cell mat-header-cell *matHeaderCellDef>
-                <mat-checkbox (change)="$event ? masterToggle() : null"
-                  [checked]="documentsSelection.hasValue() && isAllSelected()"
-                  [indeterminate]="documentsSelection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
-                </mat-checkbox>
-              </mat-header-cell>
-              <mat-cell mat-cell *matCellDef="let row">
-                <mat-checkbox (click)="$event.stopPropagation()"
-                  (change)="$event ? documentsSelection.toggle(row) : null"
-                  [checked]="documentsSelection.isSelected(row)" [aria-label]="checkboxLabel(row)">
-                </mat-checkbox>
-              </mat-cell>
-            </ng-container>
-
-            <!-- Id Column -->
-            <ng-container matColumnDef="id">
-              <mat-header-cell mat-header-cell *matHeaderCellDef> {{"Id"|translate}} ({{selectedDocuments.length}})</mat-header-cell>
-              <mat-cell mat-cell *matCellDef="let element"> {{element.collection_id+'/'+element.id}} </mat-cell>
-            </ng-container>
-
-            <!-- Name Column -->
-            <ng-container matColumnDef="name">
-              <mat-header-cell mat-header-cell *matHeaderCellDef> {{"Name"|translate}} </mat-header-cell>
-              <mat-cell mat-cell *matCellDef="let element">
-                <div>
-                  <div mat-line><button mat-icon-button color="primary" (click)="annotateDocument(element)" [matTooltip]="'Collections.Annotate Document'|translate"><mat-icon>file_open</mat-icon></button> {{element.name}} </div>
-                  <!--<div mat-line> {{"Updated by"|translate}}: {{element.updated_by}}, {{"Updated at"|translate}}: {{element.updated_at}} </div>-->
-                  <div mat-line> {{"Saved Annotations"|translate}}: {{element.annotations_len}},
-                                 {{"Attributes"|translate}}: {{element.annotations_attributes_len}},
-                                 {{"Settings"|translate}}: {{element.annotations_settings_len}}
-                                 ({{element.annotations_total_len}}),
-                                 {{"Updated at"|translate}}: {{element.annotations_updated_at}}
-                  </div>
-                  <div mat-line> {{"Temporary Annotations"|translate}}: {{element.annotations_temp_len}},
-                                 {{"Deleted Annotations"|translate}}: {{element.annotations_temp_deleted_len}},
-                                 {{"Attributes"|translate}}: {{element.annotations_temp_attributes_len}},
-                                 {{"Settings"|translate}}: {{element.annotations_temp_settings_len}}
-                                 ({{element.annotations_temp_total_len}}),
-                                 {{"Updated at"|translate}}: {{element.annotations_temp_updated_at}}
-                  </div>
-                  <div mat-line *ngIf="element.opened_by.length">
-                   {{"Opened by"|translate}}:
-                    <mat-chip-listbox *ngFor="let open of element.opened_by">
-                      <mat-chip-option [selected]="open.owner == 1" selectable="false" [matTooltip]="open.annotator">
-                        {{open.first_name ? open.first_name : ""}} {{open.last_name ? open.last_name : ""}} ({{open.email}}),
-                        {{"DB Interactions"|translate}}: {{open.db_interactions}}
-                        <mat-icon matChipRemove *ngIf="open.owner" (click)="closeDocument(element, open)">cancel</mat-icon>
-                      </mat-chip-option>
-                    </mat-chip-listbox>
-                  </div>
+          <!-- Checkbox Column -->
+          <ng-container matColumnDef="select">
+            <mat-header-cell mat-header-cell *matHeaderCellDef>
+              <mat-checkbox (change)="$event ? masterToggle() : null"
+                [checked]="documentsSelection.hasValue() && isAllSelected()"
+                [indeterminate]="documentsSelection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+              </mat-checkbox>
+            </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let row">
+              <mat-checkbox (click)="$event.stopPropagation()"
+                (change)="$event ? documentsSelection.toggle(row) : null"
+                [checked]="documentsSelection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+              </mat-checkbox>
+            </mat-cell>
+          </ng-container>
+          <!-- Id Column -->
+          <ng-container matColumnDef="id">
+            <mat-header-cell mat-header-cell *matHeaderCellDef> {{"Id"|translate}} ({{selectedDocuments.length}})</mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element"> {{element.collection_id+'/'+element.id}} </mat-cell>
+          </ng-container>
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <mat-header-cell mat-header-cell *matHeaderCellDef> {{"Name"|translate}} </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element">
+              <div>
+                <div mat-line><button mat-icon-button color="primary" (click)="annotateDocument(element)" [matTooltip]="'Collections.Annotate Document'|translate"><mat-icon>file_open</mat-icon></button> {{element.name}} </div>
+                <!--<div mat-line> {{"Updated by"|translate}}: {{element.updated_by}}, {{"Updated at"|translate}}: {{element.updated_at}} </div>-->
+                <div mat-line> {{"Saved Annotations"|translate}}: {{element.annotations_len}},
+                  {{"Attributes"|translate}}: {{element.annotations_attributes_len}},
+                  {{"Settings"|translate}}: {{element.annotations_settings_len}}
+                  ({{element.annotations_total_len}}),
+                  {{"Updated at"|translate}}: {{element.annotations_updated_at}}
                 </div>
-              </mat-cell>
-            </ng-container>
-
-            <!-- Collection Column -->
-            <ng-container matColumnDef="collection">
-              <mat-header-cell mat-header-cell *matHeaderCellDef> Collection Id </mat-header-cell>
-              <mat-cell mat-cell *matCellDef="let element"> {{element.collection_id}} </mat-cell>
-            </ng-container>
-
-            <!-- Encoding Column -->
-            <ng-container matColumnDef="encoding">
-              <mat-header-cell mat-header-cell *matHeaderCellDef> Encoding </mat-header-cell>
-              <mat-cell mat-cell *matCellDef="let element"> {{element.encoding}} </mat-cell>
-            </ng-container>
-
-            <!-- Owner Column -->
-            <ng-container matColumnDef="owner">
-              <mat-header-cell mat-header-cell *matHeaderCellDef> Owner </mat-header-cell>
-              <mat-cell mat-cell *matCellDef="let element"> {{element.owner_email}} </mat-cell>
-            </ng-container>
-
-            <!-- Updated At Column -->
-            <ng-container matColumnDef="updated_at">
-              <mat-header-cell mat-header-cell *matHeaderCellDef> Updated at </mat-header-cell>
-              <mat-cell mat-cell *matCellDef="let element"> {{element.updated_at}} </mat-cell>
-            </ng-container>
-
-            <!-- Updated By Column -->
-            <ng-container matColumnDef="updated_by">
-              <mat-header-cell mat-header-cell *matHeaderCellDef> Updated by </mat-header-cell>
-              <mat-cell mat-cell *matCellDef="let element"> {{element.updated_by}} </mat-cell>
-            </ng-container>
-
-            <mat-header-row *matHeaderRowDef="documentsDisplayedColumns; sticky: true"></mat-header-row>
-            <mat-row matRipple *matRowDef="let row; columns: documentsDisplayedColumns;"
-              (click)="documentsSelection.toggle(row)" [cdkDragData]="row"
-              cdkDrag [cdkDragDisabled]="disableDocumentDragging"
-              (cdkDragExited)="onCollectionDropExit($event)"
-              (cdkDragEnded)="onCollectionDropEnd($event)"
+                <div mat-line> {{"Temporary Annotations"|translate}}: {{element.annotations_temp_len}},
+                  {{"Deleted Annotations"|translate}}: {{element.annotations_temp_deleted_len}},
+                  {{"Attributes"|translate}}: {{element.annotations_temp_attributes_len}},
+                  {{"Settings"|translate}}: {{element.annotations_temp_settings_len}}
+                  ({{element.annotations_temp_total_len}}),
+                  {{"Updated at"|translate}}: {{element.annotations_temp_updated_at}}
+                </div>
+                @if (element.opened_by.length) {
+                  <div mat-line>
+                    {{"Opened by"|translate}}:
+                    @for (open of element.opened_by; track open) {
+                      <mat-chip-listbox>
+                        <mat-chip-option [selected]="open.owner == 1" selectable="false" [matTooltip]="open.annotator">
+                          {{open.first_name ? open.first_name : ""}} {{open.last_name ? open.last_name : ""}} ({{open.email}}),
+                          {{"DB Interactions"|translate}}: {{open.db_interactions}}
+                          @if (open.owner) {
+                            <mat-icon matChipRemove (click)="closeDocument(element, open)">cancel</mat-icon>
+                          }
+                        </mat-chip-option>
+                      </mat-chip-listbox>
+                    }
+                  </div>
+                }
+              </div>
+            </mat-cell>
+          </ng-container>
+          <!-- Collection Column -->
+          <ng-container matColumnDef="collection">
+            <mat-header-cell mat-header-cell *matHeaderCellDef> Collection Id </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element"> {{element.collection_id}} </mat-cell>
+          </ng-container>
+          <!-- Encoding Column -->
+          <ng-container matColumnDef="encoding">
+            <mat-header-cell mat-header-cell *matHeaderCellDef> Encoding </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element"> {{element.encoding}} </mat-cell>
+          </ng-container>
+          <!-- Owner Column -->
+          <ng-container matColumnDef="owner">
+            <mat-header-cell mat-header-cell *matHeaderCellDef> Owner </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element"> {{element.owner_email}} </mat-cell>
+          </ng-container>
+          <!-- Updated At Column -->
+          <ng-container matColumnDef="updated_at">
+            <mat-header-cell mat-header-cell *matHeaderCellDef> Updated at </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element"> {{element.updated_at}} </mat-cell>
+          </ng-container>
+          <!-- Updated By Column -->
+          <ng-container matColumnDef="updated_by">
+            <mat-header-cell mat-header-cell *matHeaderCellDef> Updated by </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element"> {{element.updated_by}} </mat-cell>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="documentsDisplayedColumns; sticky: true"></mat-header-row>
+          <mat-row matRipple *matRowDef="let row; columns: documentsDisplayedColumns;"
+            (click)="documentsSelection.toggle(row)" [cdkDragData]="row"
+            cdkDrag [cdkDragDisabled]="disableDocumentDragging"
+            (cdkDragExited)="onCollectionDropExit($event)"
+            (cdkDragEnded)="onCollectionDropEnd($event)"
             >
-              <div class="example-custom-placeholder" *cdkDragPreview>{{row.name}}</div>
-              <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
-            </mat-row>
-          </mat-table>
-        </mat-card-content>
-      </mat-card>
-    </as-split-area>
-  </as-split>
+            <div class="example-custom-placeholder" *cdkDragPreview>{{row.name}}</div>
+            <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+          </mat-row>
+        </mat-table>
+      }
+    </mat-card-content>
+  </mat-card>
+</as-split-area>
+</as-split>
 </div>

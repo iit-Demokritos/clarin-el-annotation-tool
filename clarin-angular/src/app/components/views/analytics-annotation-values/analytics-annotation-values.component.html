@@ -1,25 +1,33 @@
-<page-header title="{{'pageheader.Annotation Values'|translate}}" *ngIf="showPageHeader"></page-header>
+@if (showPageHeader) {
+  <page-header title="{{'pageheader.Annotation Values'|translate}}"></page-header>
+}
 <div class="analytics-annotation-values" [ngClass]="{'has-page-header': showPageHeader, 'no-page-header': !showPageHeader}">
   <mat-card appearance="outlined" class="mat-card-fill-parent">
     <mat-card-header>
       <mat-card-subtitle>
-        <toolbar-select-document *ngIf="showDocumentSelectionToolbar"
-          (selectedCollections)="onCollectionsChange($event)" (selectedDocuments)="onDocumentsChange($event)"
-          [allowMultipleCollections]="allowMultipleCollections" [allowMultipleDocuments]="allowMultipleDocuments">
-        </toolbar-select-document>
-        <toolbar-select-annotator *ngIf="showAnnotatorSelectionToolbar"
-          (selectedAnnotators)="onAnnotatorsChange($event)" [allowMultipleAnnotators]="true" [annotators]="annotators"
-          [showApplyButton]="true" (onApply)="onApply($event)">
-        </toolbar-select-annotator>
-        <annotation-set-filter *ngIf="showAnnotationSetFilter"
-          [ignoreDocumentAttributes]="true"
-          [ignoreCollectionAttributes]="true"
-          [showApplyButton]="true"
-          [collections]="selectedCollections"
-          [documents]="selectedDocuments"
-          (onApply)="onApplyFilter($event)"
-        >
-        </annotation-set-filter>
+        @if (showDocumentSelectionToolbar) {
+          <toolbar-select-document
+            (selectedCollections)="onCollectionsChange($event)" (selectedDocuments)="onDocumentsChange($event)"
+            [allowMultipleCollections]="allowMultipleCollections" [allowMultipleDocuments]="allowMultipleDocuments">
+          </toolbar-select-document>
+        }
+        @if (showAnnotatorSelectionToolbar) {
+          <toolbar-select-annotator
+            (selectedAnnotators)="onAnnotatorsChange($event)" [allowMultipleAnnotators]="true" [annotators]="annotators"
+            [showApplyButton]="true" (onApply)="onApply($event)">
+          </toolbar-select-annotator>
+        }
+        @if (showAnnotationSetFilter) {
+          <annotation-set-filter
+            [ignoreDocumentAttributes]="true"
+            [ignoreCollectionAttributes]="true"
+            [showApplyButton]="true"
+            [collections]="selectedCollections"
+            [documents]="selectedDocuments"
+            (onApply)="onApplyFilter($event)"
+            >
+          </annotation-set-filter>
+        }
         <p>Selected Collections: {{selectedCollections.length}}, Selected Documents: {{selectedDocuments.length}}</p>
       </mat-card-subtitle>
     </mat-card-header>
@@ -28,7 +36,7 @@
         <mat-tab label="Table">
           <mat-toolbar>
             <button mat-raised-button
-              (click)="exporter.exportTable('xlsx', {fileName:'test', sheet: 'sheet_name', Props: {Author: 'The Ellogon Annotation Platform'}})">{{"Excel"|translate}}</button>
+            (click)="exporter.exportTable('xlsx', {fileName:'test', sheet: 'sheet_name', Props: {Author: 'The Ellogon Annotation Platform'}})">{{"Excel"|translate}}</button>
             <button mat-raised-button (click)="exporter.exportTable('csv')">{{"CSV"|translate}}</button>
             <button mat-raised-button (click)="exporter.exportTable('json')">{{"JSON"|translate}}</button>
             <button mat-raised-button (click)="exporter.exportTable('txt')">{{"TXT"|translate}}</button>

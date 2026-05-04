@@ -12,30 +12,40 @@
         <mat-form-field appearance="outline">
           <mat-label>{{'login.username_email' | translate}}:</mat-label>
           <input matInput placeholder="e-mail" formControlName="username" required>
-          <mat-error *ngIf="username.invalid">
-            <span *ngIf="username.errors?.required">
-              {{'login.please_enter_username' | translate}}
-            </span>
-
-            <span *ngIf="username.errors?.remote">
-              {{ username.errors.remote }}
-            </span>
-          </mat-error>
+          @if (username.invalid) {
+            <mat-error>
+              @if (username.errors?.required) {
+                <span>
+                  {{'login.please_enter_username' | translate}}
+                </span>
+              }
+              @if (username.errors?.remote) {
+                <span>
+                  {{ username.errors.remote }}
+                </span>
+              }
+            </mat-error>
+          }
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>{{'login.password' | translate}}:</mat-label>
           <input matInput placeholder="password" [type]="hide_password ? 'password' : 'text'" formControlName="password" required>
           <mat-icon matSuffix (click)="hide_password = !hide_password">{{hide_password ? 'visibility_off' : 'visibility'}}</mat-icon>
-          <mat-error *ngIf="password.invalid">
-            <span *ngIf="password.errors?.required">
-              {{'login.please_enter_password' | translate}}
-            </span>
-
-            <span *ngIf="password.errors?.remote">
-              {{ password.errors.remote }}
-            </span>
-          </mat-error>
+          @if (password.invalid) {
+            <mat-error>
+              @if (password.errors?.required) {
+                <span>
+                  {{'login.please_enter_password' | translate}}
+                </span>
+              }
+              @if (password.errors?.remote) {
+                <span>
+                  {{ password.errors.remote }}
+                </span>
+              }
+            </mat-error>
+          }
         </mat-form-field>
 
         <!--<div class="m-y-16" fxLayout="row" fxLayoutAlign="space-between center">-->
@@ -45,8 +55,8 @@
         </div>
 
         <button class="w-full m-y-16" mat-raised-button color="primary"
-                [disabled]="!!loginForm.invalid" [loading]="isSubmitting"
-                (click)="login()">{{'login.login' | translate}}</button>
+          [disabled]="!!loginForm.invalid" [loading]="isSubmitting"
+        (click)="login()">{{'login.login' | translate}}</button>
 
         <div class="m-t-16">{{'login.have_no_account' | translate}}
           <a routerLink="/auth/register">{{'login.create_one' | translate}}</a>
@@ -55,27 +65,31 @@
           <a routerLink="/auth/reset">{{'login.reset_password' | translate}}</a>
         </div>
       </form>
-      <div *ngIf="socialLoginProvidersLength">
-        <div class="division">
-          <div class="line l"></div>
-          <span>{{'login.OR' | translate}}</span>
-          <div class="line r"></div>
-        </div>
-        <div class="social_login">
-          <!--<mat-icon svgIcon="logo_vast" class="social_logo"></mat-icon> -->
-          <!-- /social_login/vast/url/ --> 
-          <div *ngIf="socialLoginProviders.hasOwnProperty('vastauth2')">
-          <form #social_login_form_vast name="social_login_form_vast" action="/accounts/vastauth2/login/?process=login" method="post" novalidate>
-            <input type="hidden" name="process" value="login">
-            <input type="hidden" name="next"    value="/auth/loginsocial">
-            <button mat-raised-button color="primary" (click)="social_login_form_vast.submit()" type="submit">
-              <mat-icon svgIcon="logo_vast" class="social_logo social_logo_vast"></mat-icon> {{'login.sign_in_with' | translate}} VAST
-              <mat-icon iconPositionEnd>open_in_new</mat-icon>
-            </button>
-          </form>
+      @if (socialLoginProvidersLength) {
+        <div>
+          <div class="division">
+            <div class="line l"></div>
+            <span>{{'login.OR' | translate}}</span>
+            <div class="line r"></div>
+          </div>
+          <div class="social_login">
+            <!--<mat-icon svgIcon="logo_vast" class="social_logo"></mat-icon> -->
+            <!-- /social_login/vast/url/ -->
+            @if (socialLoginProviders.hasOwnProperty('vastauth2')) {
+              <div>
+                <form #social_login_form_vast name="social_login_form_vast" action="/accounts/vastauth2/login/?process=login" method="post" novalidate>
+                  <input type="hidden" name="process" value="login">
+                  <input type="hidden" name="next"    value="/auth/loginsocial">
+                  <button mat-raised-button color="primary" (click)="social_login_form_vast.submit()" type="submit">
+                    <mat-icon svgIcon="logo_vast" class="social_logo social_logo_vast"></mat-icon> {{'login.sign_in_with' | translate}} VAST
+                    <mat-icon iconPositionEnd>open_in_new</mat-icon>
+                  </button>
+                </form>
+              </div>
+            }
           </div>
         </div>
-      </div>
+      }
     </mat-card-content>
   </mat-card>
 </div>

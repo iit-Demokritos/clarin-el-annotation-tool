@@ -1,6 +1,10 @@
 <div class="annotation-relation-annotate-btn">
-    <button mat-stroked-button color="primary" *ngIf="showAnnotateBtn"
-  (click)="addAnnotation()">{{'Annotate'|translate}}</button>
-    <button mat-stroked-button color="primary" *ngIf="!showAnnotateBtn"
-  (click)="updateAnnotation()">{{'Update'|translate}}</button>
+  @if (showAnnotateBtn) {
+    <button mat-stroked-button color="primary"
+    (click)="addAnnotation()">{{'Annotate'|translate}}</button>
+  }
+  @if (!showAnnotateBtn) {
+    <button mat-stroked-button color="primary"
+    (click)="updateAnnotation()">{{'Update'|translate}}</button>
+  }
 </div>

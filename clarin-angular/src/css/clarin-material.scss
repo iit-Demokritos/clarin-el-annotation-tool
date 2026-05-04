@@ -280,8 +280,8 @@ $foreground: map-get($theme, foreground);
   .mat-mdc-slider {
     margin-left:  18px;
     margin-right: 18px;
-    //--mdc-slider-handle-height: 20px;
-    //--mdc-slider-handle-width:  20px;
+    //--mat-slider-handle-height: 20px;
+    //--mat-slider-handle-width:  20px;
   }
 
   .overlapping-areas-select {
@@ -627,7 +627,7 @@ text-widget {
     .mat-mdc-radio-button {
       padding: 0px 10px;
       .mdc-radio {
-        --mdc-radio-state-layer-size: 24px;
+        --mat-radio-state-layer-size: 24px;
         .mat-mdc-radio-touch-target {
           width: 24px !important;
           height: 24px !important;

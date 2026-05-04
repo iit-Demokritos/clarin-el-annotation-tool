@@ -1,35 +1,60 @@
-<div class="cover" *ngIf="documentSelection"></div>
+@if (documentSelection) {
+  <div class="cover"></div>
+}
 <div class="annotation-area">
   <toolbar-widget (notifyParent)="handleToolbarEvent($event)"></toolbar-widget>
   <as-split direction="horizontal" style="height: 100%;">
     <as-split-area [size]="70" [minSize]="40" [maxSize]="90" class="main-content-wrapper">
       <mat-toolbar class="annotation-toolbar">
-        <mat-button-toggle-group class="main-content-header" name="annotation-main-content-header"
-          aria-label="Content Page" *ngIf="layout.showEditorTabs" [(ngModel)]="maincontentSelector">
-          <mat-button-toggle (click)="showTab('document');" value="document" *ngIf="layout.showDocument">{{'annotation.Document'|translate}}
-          </mat-button-toggle>
-          <mat-button-toggle value="attributes" *ngIf="layout.showDocumentAttributes">{{'annotation.Document Attributes'|translate}}</mat-button-toggle>
-          <mat-button-toggle value="settings" *ngIf="layout.showSettings">{{'annotation.Settings'|translate}}</mat-button-toggle>
-        </mat-button-toggle-group>
+        @if (layout.showEditorTabs) {
+          <mat-button-toggle-group class="main-content-header" name="annotation-main-content-header"
+            aria-label="Content Page" [(ngModel)]="maincontentSelector">
+            @if (layout.showDocument) {
+              <mat-button-toggle (click)="showTab('document');" value="document">{{'annotation.Document'|translate}}
+              </mat-button-toggle>
+            }
+            @if (layout.showDocumentAttributes) {
+              <mat-button-toggle value="attributes">{{'annotation.Document Attributes'|translate}}</mat-button-toggle>
+            }
+            @if (layout.showSettings) {
+              <mat-button-toggle value="settings">{{'annotation.Settings'|translate}}</mat-button-toggle>
+            }
+          </mat-button-toggle-group>
+        }
         <!--<div *ngIf="layout.showZoomControls">-->
-          <mat-divider [vertical]="true" *ngIf="layout.showZoomControls"></mat-divider>
-          <button mat-icon-button (click)="zoomOut()" [disabled]="state.zoom <= state.zoom_min" *ngIf="layout.showZoomControls" matTooltip="{{'Zoom.ZoomIn'|translate}}">
+        @if (layout.showZoomControls) {
+          <mat-divider [vertical]="true"></mat-divider>
+        }
+        @if (layout.showZoomControls) {
+          <button mat-icon-button (click)="zoomOut()" [disabled]="state.zoom <= state.zoom_min" matTooltip="{{'Zoom.ZoomIn'|translate}}">
             <mat-icon>zoom_out</mat-icon>
           </button>
+        }
+        @if (layout.showZoomControls) {
           <mat-slider [min]="state.zoom_min" [max]="state.zoom_max" [step]="state.zoom_step"
-            *ngIf="layout.showZoomControls" matTooltip="{{'Zoom.ZoomAdjust'|translate}}" #ngSlider>
+            matTooltip="{{'Zoom.ZoomAdjust'|translate}}" #ngSlider>
             <input matSliderThumb [(ngModel)]="state.zoom" (input)="onZoomChangeEnd({source: ngSliderThumb, parent: ngSlider, value: ngSliderThumb.value})" #ngSliderThumb="matSliderThumb" />
           </mat-slider>
-          <button mat-icon-button (click)="zoomIn()" [disabled]="state.zoom >= state.zoom_max" *ngIf="layout.showZoomControls" matTooltip="{{'Zoom.ZoomOut'|translate}}">
+        }
+        @if (layout.showZoomControls) {
+          <button mat-icon-button (click)="zoomIn()" [disabled]="state.zoom >= state.zoom_max" matTooltip="{{'Zoom.ZoomOut'|translate}}">
             <mat-icon>zoom_in</mat-icon>
           </button>
-          <button mat-button (click)="zoomReset()" [disabled]="state.zoom == state.zoom_default" *ngIf="layout.showZoomControls" matTooltip="{{'Zoom.ZoomReset'|translate}}">
+        }
+        @if (layout.showZoomControls) {
+          <button mat-button (click)="zoomReset()" [disabled]="state.zoom == state.zoom_default" matTooltip="{{'Zoom.ZoomReset'|translate}}">
             <mat-icon>fullscreen_exit</mat-icon>
           </button>
-        <!--</div>-->
-        <mat-divider [vertical]="true" *ngIf="layout.showLinkRouterSelector"></mat-divider>
-        <div *ngIf="layout.showLinkRouterSelector">{{'Link Router'|translate}}:&nbsp;</div>
-        <mat-form-field *ngIf="layout.showLinkRouterSelector" class="router-select" appearance="outline" [ngClass]="{'w-full' : fillWidth}">
+        }
+      <!--</div>-->
+      @if (layout.showLinkRouterSelector) {
+        <mat-divider [vertical]="true"></mat-divider>
+      }
+      @if (layout.showLinkRouterSelector) {
+        <div>{{'Link Router'|translate}}:&nbsp;</div>
+      }
+      @if (layout.showLinkRouterSelector) {
+        <mat-form-field class="router-select" appearance="outline" [ngClass]="{'w-full' : fillWidth}">
           <mat-select [(ngModel)]="layout.routerName" (selectionChange)="updateLinkRouter(layout.routerName);">
             <mat-option value="direct">{{'Direct'|translate}}</mat-option>
             <mat-option value="smooth">{{'Smooth'|translate}}</mat-option>
@@ -37,80 +62,85 @@
             <mat-option value="metro">{{'Metro'|translate}}</mat-option>
           </mat-select>
         </mat-form-field>
-        <mat-slide-toggle class="toolbar-slide-toggle" *ngIf="layout.showLinkRouterSelector"
-          [(ngModel)]="layout.hideLinks" (change)="updateLinkVisibility($event)">{{'Hide Links'|translate}}</mat-slide-toggle>
-      </mat-toolbar>
-      <div class="main-content">
-        <!--div class='spinner-border' role='status'><span class='sr-only'>Loading...</span></div>
+      }
+      @if (layout.showLinkRouterSelector) {
+        <mat-slide-toggle class="toolbar-slide-toggle"
+        [(ngModel)]="layout.hideLinks" (change)="updateLinkVisibility($event)">{{'Hide Links'|translate}}</mat-slide-toggle>
+      }
+    </mat-toolbar>
+    <div class="main-content">
+      <!--div class='spinner-border' role='status'><span class='sr-only'>Loading...</span></div>
       <div *ngIf='spinnerVisible'><span class='fa fa-spinner'>Loading...</span></div-->
-        <div class="main-content-document" [hidden]="maincontentSelector!='document'">
-          <text-widget (textWidgetEvent)="getTextWidgetNotification($event)" class="text-widget"></text-widget>
-        </div>
-        <table id="main-content-annotate-document-attributes" class="main-content-attributes"
-          [hidden]="maincontentSelector!='attributes'">
-          <tbody>
-            <tr class="main-content-attributes-header">
-              <td></td>
-            </tr>
-            <tr class="main-content-attributes-row">
-              <td class="main-content-attributes-cell"></td>
-            </tr>
-          </tbody>
-        </table>
-        <!-- Settings -->
-        <div class="main-content-settings-wrapper" [hidden]="maincontentSelector!='settings'">
-          <mat-card appearance="outlined" class="main-content-settings">
-            <mat-card-header>
-              <div mat-card-avatar>
-                <mat-icon>settings</mat-icon>
-              </div>
-              <mat-card-title>{{'annotation.Settings'|translate}}</mat-card-title>
-              <mat-card-subtitle>{{'annotation.Settings affecting the Annotation Process'|translate}}
-              </mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content class="main-content-settings-content" *ngIf="documentSelected">
+      <div class="main-content-document" [hidden]="maincontentSelector!='document'">
+        <text-widget (textWidgetEvent)="getTextWidgetNotification($event)" class="text-widget"></text-widget>
+      </div>
+      <table id="main-content-annotate-document-attributes" class="main-content-attributes"
+        [hidden]="maincontentSelector!='attributes'">
+        <tbody>
+          <tr class="main-content-attributes-header">
+            <td></td>
+          </tr>
+          <tr class="main-content-attributes-row">
+            <td class="main-content-attributes-cell"></td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- Settings -->
+      <div class="main-content-settings-wrapper" [hidden]="maincontentSelector!='settings'">
+        <mat-card appearance="outlined" class="main-content-settings">
+          <mat-card-header>
+            <div mat-card-avatar>
+              <mat-icon>settings</mat-icon>
+            </div>
+            <mat-card-title>{{'annotation.Settings'|translate}}</mat-card-title>
+            <mat-card-subtitle>{{'annotation.Settings affecting the Annotation Process'|translate}}
+            </mat-card-subtitle>
+          </mat-card-header>
+          @if (documentSelected) {
+            <mat-card-content class="main-content-settings-content">
               <!--<mat-card class="main-content-settings-collection">
-                <mat-card-header>
-                  <div mat-card-avatar>
-                    <mat-icon>folder</mat-icon>
-                  </div>
-                  <mat-card-title>{{'annotation.Collection Settings'|translate}}</mat-card-title>
-                  <mat-card-subtitle>{{'annotation.Settings affecting the Collection (all Documents)'|translate}}
-                  </mat-card-subtitle>
-                </mat-card-header>
-                <mat-card-content>
-                  <section class="section-collection-setting" *ngFor="let setting of collectionSettings">
-                    <span class="section-collection-setting-list">
-                      <mat-checkbox class="section-collection-setting-margin" [checked]="setting.allChecked"
-                        [color]="setting.color" [indeterminate]="someChecked(setting, true)"
-                        (change)="setAll(setting, $event.checked, true)">
-                        {{setting.name|translate}}
-                      </mat-checkbox>
-                    </span>
-                    <span class="section-collection-setting-sublist">
-                      <ul>
-                        <li *ngFor="let subSetting of setting.subsettings">
-                          <mat-checkbox [(ngModel)]="subSetting.checked" [color]="subSetting.color"
-                            (ngModelChange)="updateAllChecked(setting, true)">
-                            {{subSetting.name|translate}}
-                          </mat-checkbox>
-                        </li>
-                      </ul>
-                    </span>
-                  </section>
-                </mat-card-content>
-              </mat-card>-->
-              <mat-card appearance="outlined" class="main-content-settings-document mat-card-fill-parent">
-                <mat-card-header>
-                  <div mat-card-avatar>
-                    <mat-icon>description</mat-icon>
-                  </div>
-                  <mat-card-title>{{'annotation.Document Settings'|translate}}</mat-card-title>
-                  <mat-card-subtitle>{{'annotation.Settings affecting the current Document'|translate}}
-                  </mat-card-subtitle>
-                </mat-card-header>
-                <mat-card-content>
-                  <section class="section-document-setting" *ngFor="let setting of documentSettings">
+              <mat-card-header>
+                <div mat-card-avatar>
+                  <mat-icon>folder</mat-icon>
+                </div>
+                <mat-card-title>{{'annotation.Collection Settings'|translate}}</mat-card-title>
+                <mat-card-subtitle>{{'annotation.Settings affecting the Collection (all Documents)'|translate}}
+                </mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                <section class="section-collection-setting" *ngFor="let setting of collectionSettings">
+                  <span class="section-collection-setting-list">
+                    <mat-checkbox class="section-collection-setting-margin" [checked]="setting.allChecked"
+                      [color]="setting.color" [indeterminate]="someChecked(setting, true)"
+                      (change)="setAll(setting, $event.checked, true)">
+                      {{setting.name|translate}}
+                    </mat-checkbox>
+                  </span>
+                  <span class="section-collection-setting-sublist">
+                    <ul>
+                      <li *ngFor="let subSetting of setting.subsettings">
+                        <mat-checkbox [(ngModel)]="subSetting.checked" [color]="subSetting.color"
+                          (ngModelChange)="updateAllChecked(setting, true)">
+                          {{subSetting.name|translate}}
+                        </mat-checkbox>
+                      </li>
+                    </ul>
+                  </span>
+                </section>
+              </mat-card-content>
+            </mat-card>-->
+            <mat-card appearance="outlined" class="main-content-settings-document mat-card-fill-parent">
+              <mat-card-header>
+                <div mat-card-avatar>
+                  <mat-icon>description</mat-icon>
+                </div>
+                <mat-card-title>{{'annotation.Document Settings'|translate}}</mat-card-title>
+                <mat-card-subtitle>{{'annotation.Settings affecting the current Document'|translate}}
+                </mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                @for (setting of documentSettings; track setting) {
+                  <section class="section-document-setting">
                     <span class="section-document-setting-list">
                       <mat-checkbox class="section-document-setting-margin" [checked]="setting.allChecked"
                         [color]="setting.color" [indeterminate]="someChecked(setting)"
@@ -120,40 +150,46 @@
                     </span>
                     <span class="section-document-setting-sublist">
                       <ul>
-                        <li *ngFor="let subSetting of setting.subsettings">
-                          <mat-checkbox [(ngModel)]="subSetting.checked" [color]="subSetting.color"
-                            (ngModelChange)="updateAllChecked(setting)">
-                            {{subSetting.name|translate}}
-                          </mat-checkbox>
-                        </li>
+                        @for (subSetting of setting.subsettings; track subSetting) {
+                          <li>
+                            <mat-checkbox [(ngModel)]="subSetting.checked" [color]="subSetting.color"
+                              (ngModelChange)="updateAllChecked(setting)">
+                              {{subSetting.name|translate}}
+                            </mat-checkbox>
+                          </li>
+                        }
                       </ul>
                     </span>
                   </section>
-                </mat-card-content>
-              </mat-card>
-            </mat-card-content>
-          </mat-card>
-        </div>
+                }
+              </mat-card-content>
+            </mat-card>
+          </mat-card-content>
+        }
+      </mat-card>
+    </div>
+  </div>
+  <overlapping-areas [hidden]="maincontentSelector!='document'"></overlapping-areas>
+</as-split-area>
+<as-split-area [size]="30" [minSize]="10" [maxSize]="60" class="side-bar-wrapper">
+  <div class="side-content">
+    <mat-toolbar class="annotation-toolbar">
+      <div class="side-content-header-container">
+        <mat-button-toggle-group class="side-content-header" aria-label="Schema Page" [(ngModel)]="sidebarSelector">
+          <mat-button-toggle value="annotator">{{annotatorType|translate}}</mat-button-toggle>
+          <mat-button-toggle value="annotationVisualiser">{{'annotation.Annotation Visualiser'|translate}}</mat-button-toggle>
+          @if (layout.showAutomaticAnnotator) {
+            <mat-button-toggle value="automaticAnnotator">{{'annotation.Automatic Annotator'|translate}}</mat-button-toggle>
+          }
+        </mat-button-toggle-group>
       </div>
-      <overlapping-areas [hidden]="maincontentSelector!='document'"></overlapping-areas>
-    </as-split-area>
-    <as-split-area [size]="30" [minSize]="10" [maxSize]="60" class="side-bar-wrapper">
-      <div class="side-content">
-        <mat-toolbar class="annotation-toolbar">
-          <div class="side-content-header-container">
-            <mat-button-toggle-group class="side-content-header" aria-label="Schema Page" [(ngModel)]="sidebarSelector">
-              <mat-button-toggle value="annotator">{{annotatorType|translate}}</mat-button-toggle>
-              <mat-button-toggle value="annotationVisualiser">{{'annotation.Annotation Visualiser'|translate}}</mat-button-toggle>
-              <mat-button-toggle *ngIf="layout.showAutomaticAnnotator" value="automaticAnnotator">{{'annotation.Automatic Annotator'|translate}}</mat-button-toggle>
-            </mat-button-toggle-group>
-          </div>
-        </mat-toolbar>
-        <div class="side-content-container">
-          <annotation-visualizer [hidden]="sidebarSelector!='annotationVisualiser'"></annotation-visualizer>
-          <annotator-widget [broadcastedEvent]="broadcastEvent" [hidden]="sidebarSelector!='annotator'"></annotator-widget>
-          <automatic-annotator [hidden]="sidebarSelector!='automaticAnnotator'"></automatic-annotator>
-        </div>
-      </div>
-    </as-split-area>
-  </as-split>
+    </mat-toolbar>
+    <div class="side-content-container">
+      <annotation-visualizer [hidden]="sidebarSelector!='annotationVisualiser'"></annotation-visualizer>
+      <annotator-widget [broadcastedEvent]="broadcastEvent" [hidden]="sidebarSelector!='annotator'"></annotator-widget>
+      <automatic-annotator [hidden]="sidebarSelector!='automaticAnnotator'"></automatic-annotator>
+    </div>
+  </div>
+</as-split-area>
+</as-split>
 </div>

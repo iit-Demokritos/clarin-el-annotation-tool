@@ -1,30 +1,38 @@
-<page-header title="{{'pageheader.Inspect Document'|translate}}" *ngIf="showPageHeader"></page-header>
+@if (showPageHeader) {
+  <page-header title="{{'pageheader.Inspect Document'|translate}}"></page-header>
+}
 <div class="inspect-document" [ngClass]="{'has-page-header': showPageHeader, 'no-page-header': !showPageHeader}">
   <mat-card appearance="outlined" class="mat-card-fill-parent">
     <mat-card-header>
       <mat-card-subtitle>
-        <toolbar-select-document *ngIf="showDocumentSelectionToolbar"
-          [allowMultipleCollections]="allowMultipleCollections"
-          [allowMultipleDocuments]="allowMultipleDocuments"
-          (selectedCollections)="onCollectionsChange($event)"
-          (selectedDocuments)="onDocumentsChange($event)"
-        >
-        </toolbar-select-document>
-        <toolbar-select-annotator *ngIf="showAnnotatorSelectionToolbar"
-          [allowMultipleAnnotators]="allowMultipleAnnotators"
-          [annotators]="annotators"
-          [showApplyButton]="true"
-          (selectedAnnotators)="onAnnotatorsChange($event)"
-          (onApply)="onApply($event)"
-        >
-        </toolbar-select-annotator>
-        <annotation-set-filter *ngIf="showAnnotationSetFilter"
-          [showApplyButton]="true"
-          [collections]="selectedCollection"
-          [documents]="selectedDocument"
-          (onApply)="onApplyFilter($event)"
-        >
-        </annotation-set-filter>
+        @if (showDocumentSelectionToolbar) {
+          <toolbar-select-document
+            [allowMultipleCollections]="allowMultipleCollections"
+            [allowMultipleDocuments]="allowMultipleDocuments"
+            (selectedCollections)="onCollectionsChange($event)"
+            (selectedDocuments)="onDocumentsChange($event)"
+            >
+          </toolbar-select-document>
+        }
+        @if (showAnnotatorSelectionToolbar) {
+          <toolbar-select-annotator
+            [allowMultipleAnnotators]="allowMultipleAnnotators"
+            [annotators]="annotators"
+            [showApplyButton]="true"
+            (selectedAnnotators)="onAnnotatorsChange($event)"
+            (onApply)="onApply($event)"
+            >
+          </toolbar-select-annotator>
+        }
+        @if (showAnnotationSetFilter) {
+          <annotation-set-filter
+            [showApplyButton]="true"
+            [collections]="selectedCollection"
+            [documents]="selectedDocument"
+            (onApply)="onApplyFilter($event)"
+            >
+          </annotation-set-filter>
+        }
       </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content class="main-content">
@@ -32,7 +40,7 @@
         [collections]="selectedCollection"
         [documents]="selectedDocument"
         [annotations]="annotations"
-      >
+        >
       </annotation-set-inspector>
     </mat-card-content>
   </mat-card>

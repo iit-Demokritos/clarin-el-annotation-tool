@@ -4,37 +4,63 @@
     <mat-select [(ngModel)]="selected_collections" [multiple]="allowMultipleCollections"
       ng-options="collection as collection.name for collection in collections"
       (selectionChange)="onCollectionSelectionChange();">
-      <mat-option *ngFor="let collection of collections" [value]="collection">
+      @for (collection of collections; track collection) {
+        <mat-option [value]="collection">
         {{collection.name}}</mat-option>
+      }
     </mat-select>
   </mat-form-field>
-  <mat-divider vertical *ngIf="allowDocumentSelection"></mat-divider>
-  <span *ngIf="allowDocumentSelection">{{'annotation.Document'|translate}}:&nbsp;</span>
-  <mat-form-field *ngIf="allowDocumentSelection" appearance="outline" class="document-select w-full">
-    <mat-select *ngIf="allowMultipleDocuments" [(ngModel)]="selected_documents" [multiple]="allowMultipleDocuments"
-      ng-options="document as document.name for document in documents" (selectionChange)="onDocumentSelectionChange();">
-      <mat-optgroup *ngFor="let group of documents" [label]="group.name" [disabled]="group.disabled" (click)="onDocumentGroupClick(group)">
-        <mat-option *ngFor="let document of group.documents" [value]="document">
-          {{document.name}}
-        </mat-option>
-      </mat-optgroup>
-    </mat-select>
-    <mat-select *ngIf="!allowMultipleDocuments" [(ngModel)]="selected_documents" [multiple]="allowMultipleDocuments"
-      ng-options="document as document.name for document in documents" (selectionChange)="onDocumentSelectionChange();">
-      <mat-option *ngFor="let document of documents" [value]="document">
-        {{document.name}}</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-divider [vertical]="true" *ngIf="!allowMultipleDocuments && allowDocumentSelection"></mat-divider>
-  <mat-button-toggle-group *ngIf="!allowMultipleDocuments && allowDocumentSelection">
-    <button mat-icon-button (click)="prevDocument()" title="{{'annotation.Previous Document'|translate}}">
-      <mat-icon>navigate_before</mat-icon>
-    </button>
-    <button mat-icon-button (click)="nextDocument()" title="{{'annotation.Next Document'|translate}}">
-      <mat-icon>navigate_next</mat-icon>
-    </button>
-  </mat-button-toggle-group>
-  <mat-divider [vertical]="true" *ngIf="showApplyButton"></mat-divider>
-  <button mat-raised-button color="primary" *ngIf="showApplyButton" (click)="onApply.emit(ApplyButtonLabel)">{{ApplyButtonLabel|translate}}</button>
+  @if (allowDocumentSelection) {
+    <mat-divider vertical></mat-divider>
+  }
+  @if (allowDocumentSelection) {
+    <span>{{'annotation.Document'|translate}}:&nbsp;</span>
+  }
+  @if (allowDocumentSelection) {
+    <mat-form-field appearance="outline" class="document-select w-full">
+      @if (allowMultipleDocuments) {
+        <mat-select [(ngModel)]="selected_documents" [multiple]="allowMultipleDocuments"
+          ng-options="document as document.name for document in documents" (selectionChange)="onDocumentSelectionChange();">
+          @for (group of documents; track group) {
+            <mat-optgroup [label]="group.name" [disabled]="group.disabled" (click)="onDocumentGroupClick(group)">
+              @for (document of group.documents; track document) {
+                <mat-option [value]="document">
+                  {{document.name}}
+                </mat-option>
+              }
+            </mat-optgroup>
+          }
+        </mat-select>
+      }
+      @if (!allowMultipleDocuments) {
+        <mat-select [(ngModel)]="selected_documents" [multiple]="allowMultipleDocuments"
+          ng-options="document as document.name for document in documents" (selectionChange)="onDocumentSelectionChange();">
+          @for (document of documents; track document) {
+            <mat-option [value]="document">
+            {{document.name}}</mat-option>
+          }
+        </mat-select>
+      }
+    </mat-form-field>
+  }
+  @if (!allowMultipleDocuments && allowDocumentSelection) {
+    <mat-divider [vertical]="true"></mat-divider>
+  }
+  @if (!allowMultipleDocuments && allowDocumentSelection) {
+    <mat-button-toggle-group>
+      <button mat-icon-button (click)="prevDocument()" title="{{'annotation.Previous Document'|translate}}">
+        <mat-icon>navigate_before</mat-icon>
+      </button>
+      <button mat-icon-button (click)="nextDocument()" title="{{'annotation.Next Document'|translate}}">
+        <mat-icon>navigate_next</mat-icon>
+      </button>
+    </mat-button-toggle-group>
+  }
+  @if (showApplyButton) {
+    <mat-divider [vertical]="true"></mat-divider>
+  }
+  @if (showApplyButton) {
+    <button mat-raised-button color="primary" (click)="onApply.emit(ApplyButtonLabel)">{{ApplyButtonLabel|translate}}</button>
+  }
   <!--<span fxflex="" ng-reflect-fx-flex="" style="flex: 1 1 0%; box-sizing: border-box;"></span>-->
 </mat-toolbar>

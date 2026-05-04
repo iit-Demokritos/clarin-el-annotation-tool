@@ -6,8 +6,10 @@
     <mat-select [(ngModel)]="selectedDocument"
       ng-options="document as document.name for document in selectedCollectionDocuments"
       (selectionChange)="updateDocumentDropdown(selectedDocument);">
-      <mat-option *ngFor="let document of selectedCollectionDocuments" [value]="document">
+      @for (document of selectedCollectionDocuments; track document) {
+        <mat-option [value]="document">
         {{document.name}}</mat-option>
+      }
     </mat-select>
   </mat-form-field>
   <mat-divider [vertical]="true"></mat-divider>

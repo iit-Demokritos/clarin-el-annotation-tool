@@ -5,11 +5,13 @@
     <text-widget-isolated></text-widget-isolated>
   </div>
   <div class="visualise-annotation-panel panel bottom">
-    <span class="panel caret" *ngIf="footer_caret_show">
-      {{'Line'|translate}}: {{footer_caret_line}},
-      {{'Column'|translate}}: {{footer_caret_column}},
-      {{'Offset'|translate}}: {{footer_caret_offset}},
-      {{'Selection'|translate}}: {{footer_caret_selection}}
-    </span>
+    @if (footer_caret_show) {
+      <span class="panel caret">
+        {{'Line'|translate}}: {{footer_caret_line}},
+        {{'Column'|translate}}: {{footer_caret_column}},
+        {{'Offset'|translate}}: {{footer_caret_offset}},
+        {{'Selection'|translate}}: {{footer_caret_selection}}
+      </span>
+    }
   </div>
 </div>

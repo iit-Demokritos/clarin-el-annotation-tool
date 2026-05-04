@@ -7,13 +7,19 @@ import { FlashMessageInterface } from './flash-message.interface';
   selector: 'flash-messages',
   template: `
       <div id="flashMessages" class="flash-messages">
-          <div id="grayOutDiv" *ngIf='_grayOut && messages.length'></div>
-          <div class="alert flash-message {{message.cssClass}}" [ngClass]="{'alert-dismissible':message.showCloseBtn}" [style.cursor]="message.closeOnClick?'pointer':'inherit'" *ngFor='let message of messages' (click)="alertClicked(message)">
-              <button *ngIf="message.showCloseBtn" type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="close(message)"><span aria-hidden="true">&times;</span></button>
-              <div [innerHTML]="message.text"></div>
-          </div> 
+        @if (_grayOut && messages.length) {
+          <div id="grayOutDiv"></div>
+        }
+        @for (message of messages; track message) {
+          <div class="alert flash-message {{message.cssClass}}" [ngClass]="{'alert-dismissible':message.showCloseBtn}" [style.cursor]="message.closeOnClick?'pointer':'inherit'" (click)="alertClicked(message)">
+            @if (message.showCloseBtn) {
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="close(message)"><span aria-hidden="true">&times;</span></button>
+            }
+            <div [innerHTML]="message.text"></div>
+          </div>
+        }
       </div>
-  `
+      `
 })
 export class FlashMessagesComponent implements OnInit {
     private _defaults = {

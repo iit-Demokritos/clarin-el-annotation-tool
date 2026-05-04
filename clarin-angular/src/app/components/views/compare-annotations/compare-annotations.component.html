@@ -1,22 +1,26 @@
-<page-header title="{{'Compare Annotations'|translate}}" *ngIf="showPageHeader"></page-header>
+@if (showPageHeader) {
+  <page-header title="{{'Compare Annotations'|translate}}"></page-header>
+}
 <div class="compare-annotations" [ngClass]="{'has-page-header': showPageHeader, 'no-page-header': !showPageHeader}">
   <mat-card appearance="outlined" class="mat-card-fill-parent">
     <mat-card-header>
       <mat-card-subtitle>
-        <toolbar-select-document *ngIf="showDocumentSelectionToolbar"
-          [allowMultipleCollections]="allowMultipleCollections"
-          [allowMultipleDocuments]="allowMultipleDocuments"
-          (selectedCollections)="onCollectionsChange($event)"
-          (selectedDocuments)="onDocumentsChange($event)"
-        >
-        </toolbar-select-document>
+        @if (showDocumentSelectionToolbar) {
+          <toolbar-select-document
+            [allowMultipleCollections]="allowMultipleCollections"
+            [allowMultipleDocuments]="allowMultipleDocuments"
+            (selectedCollections)="onCollectionsChange($event)"
+            (selectedDocuments)="onDocumentsChange($event)"
+            >
+          </toolbar-select-document>
+        }
       </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content class="main-content">
       <app-annotation-set-comparator
         [collections]="selectedCollection"
         [documents]="selectedDocument"
-      >
+        >
       </app-annotation-set-comparator>
     </mat-card-content>
   </mat-card>

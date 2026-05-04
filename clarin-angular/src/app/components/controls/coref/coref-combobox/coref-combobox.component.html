@@ -1,6 +1,8 @@
 <mat-select class="coref-combobox" [(value)]="selected">
-    <mat-option value="">{{'Please select an option'|translate}}</mat-option>
-    <mat-option *ngFor="let option of comboOptions" [value]="option">
-        {{option}}
+  <mat-option value="">{{'Please select an option'|translate}}</mat-option>
+  @for (option of comboOptions; track option) {
+    <mat-option [value]="option">
+      {{option}}
     </mat-option>
+  }
 </mat-select>

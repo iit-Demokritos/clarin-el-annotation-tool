@@ -6,7 +6,11 @@
       <span>{{"An open Document has been detected"|translate}}:</span>
       <div class="fill-space"></div>
       <span>({{(owner ? "You are the owner" : "You are not the owner")|translate}})</span>
-      <mat-icon *ngIf="owner">update</mat-icon><mat-icon *ngIf="!owner">update_disabled</mat-icon>
+      @if (owner) {
+        <mat-icon>update</mat-icon>
+        }@if (!owner) {
+        <mat-icon>update_disabled</mat-icon>
+      }
     </div>
     <ul>
       <li>{{"Collection"|translate}}: "{{collection.name}}" ({{openedDocument.collection_id}})</li>
@@ -14,31 +18,37 @@
       <li>{{"Updated by"|translate}}: {{document.updated_by}} ({{document.updated_at|date:"full"}})</li>
     </ul>
     <p>{{"Opened by"|translate}}:</p>
-    <ul *ngFor="let open of opened_by">
-      <li [matTooltip]="open.annotator">
-        {{open.first_name ? open.first_name : ""}} {{open.last_name ? open.last_name : ""}}
-        ({{open.email}}), {{"Changes"|translate}}: {{open.db_interactions}}
-        <em>{{(open.owner ? "(owner)" : "")|translate}}</em>
-      </li>
-    </ul>
+    @for (open of opened_by; track open) {
+      <ul>
+        <li [matTooltip]="open.annotator">
+          {{open.first_name ? open.first_name : ""}} {{open.last_name ? open.last_name : ""}}
+          ({{open.email}}), {{"Changes"|translate}}: {{open.db_interactions}}
+          <em>{{(open.owner ? "(owner)" : "")|translate}}</em>
+        </li>
+      </ul>
+    }
     {{"Changes have been made on the Document that have not been saved"|translate}}:
     <ul>
       <li>{{"Saved Annotations"|translate}}: {{annotations.annotations_len}},
-          {{"Attributes"|translate}}: {{annotations.annotations_attributes_len}},
-          {{"Settings"|translate}}: {{annotations.annotations_settings_len}}
-          ({{annotations.annotations_total_len}} {{"Total"|translate}})
+        {{"Attributes"|translate}}: {{annotations.annotations_attributes_len}},
+        {{"Settings"|translate}}: {{annotations.annotations_settings_len}}
+        ({{annotations.annotations_total_len}} {{"Total"|translate}})
       </li>
       <li>{{"Temporary Annotations"|translate}}: {{annotations.annotations_temp_len}},
-          {{"Deleted Annotations"|translate}}: {{annotations.annotations_temp_deleted_len}},
-          {{"Attributes"|translate}}: {{annotations.annotations_temp_attributes_len}},
-          {{"Settings"|translate}}: {{annotations.annotations_temp_settings_len}}
-          ({{annotations.annotations_temp_total_len}} {{"Total"|translate}})
+        {{"Deleted Annotations"|translate}}: {{annotations.annotations_temp_deleted_len}},
+        {{"Attributes"|translate}}: {{annotations.annotations_temp_attributes_len}},
+        {{"Settings"|translate}}: {{annotations.annotations_temp_settings_len}}
+        ({{annotations.annotations_temp_total_len}} {{"Total"|translate}})
       </li>
     </ul>
     {{"What do you want to do?"|translate}}
     <ul>
-      <li *ngIf="enableDiscard">{{'"Discard Changes" will erase all temporary Annotations.'|translate}}</li>
-      <li *ngIf="!enableDiscard">{{'"Discard Changes" is available if you are the owner, or the only user that has opened the Document.'|translate}}</li>
+      @if (enableDiscard) {
+        <li>{{'"Discard Changes" will erase all temporary Annotations.'|translate}}</li>
+      }
+      @if (!enableDiscard) {
+        <li>{{'"Discard Changes" is available if you are the owner, or the only user that has opened the Document.'|translate}}</li>
+      }
       <li>{{'"Save Changes" will overwrite all saved Annotations with the temporary ones.'|translate}}</li>
       <li>{{'"Continue Annotation" will open Document for editing showing (only) the temporary Annotations.'|translate}}</li>
     </ul>

@@ -18,12 +18,15 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/clarin-angular",
+            "outputPath": {
+              "base": "dist/clarin-angular"
+            },
             "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": [
+              "src/polyfills.ts"
+            ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -44,12 +47,16 @@
               "./node_modules/backbone/backbone-min.js",
               "./node_modules/jointjs/dist/joint.min.js"
             ],
-            "vendorChunk": true,
             "extractLicenses": false,
-            "buildOptimizer": false,
             "sourceMap": true,
             "optimization": false,
-            "namedChunks": true
+            "namedChunks": true,
+            "browser": "src/main.ts",
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "."
+              ]
+            }
           },
           "configurations": {
             "production": {
@@ -73,18 +80,14 @@
               ],
               "outputHashing": "all",
               "optimization": true,
-              "buildOptimizer": false,
               "aot": false,
               "sourceMap": false,
               "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false
+              "extractLicenses": true
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
               "aot": false,
-              "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
@@ -95,24 +98,24 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "clarin-angular:build",
             "proxyConfig": "src/proxy.conf.json",
-            "ssl": true
+            "ssl": true,
+            "buildTarget": "clarin-angular:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "clarin-angular:build:production",
               "proxyConfig": "src/proxy.conf.json",
-              "ssl": true
+              "ssl": true,
+              "buildTarget": "clarin-angular:build:production"
             },
             "development": {
-              "browserTarget": "clarin-angular:build:development",
               "proxyConfig": "src/proxy.conf.json",
-              "ssl": true
+              "ssl": true,
+              "buildTarget": "clarin-angular:build:development"
             },
             "hmr": {
               "hmr": true,
-              "browserTarget": "clarin-angular:build:hmr"
+              "buildTarget": "clarin-angular:build:hmr"
             }
           },
           "defaultConfiguration": "development"
@@ -120,7 +123,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "clarin-angular:build"
+            "buildTarget": "clarin-angular:build"
           }
         },
         "test": {
@@ -177,6 +180,32 @@
           }
         }
       }
+    }
+  },
+  "schematics": {
+    "@schematics/angular:component": {
+      "type": "component"
+    },
+    "@schematics/angular:directive": {
+      "type": "directive"
+    },
+    "@schematics/angular:service": {
+      "type": "service"
+    },
+    "@schematics/angular:guard": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:interceptor": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:module": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:pipe": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:resolver": {
+      "typeSeparator": "."
     }
   }
 }

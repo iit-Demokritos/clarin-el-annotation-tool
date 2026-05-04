@@ -1,4 +1,8 @@
 <div class="coref-clear-btn">
-    <button mat-stroked-button color="warn" *ngIf="showClearBtn" (click)="resetInputFields()">{{'Clear'|translate}}</button>
-    <button mat-stroked-button color="warn" *ngIf="!showClearBtn" (click)="cancelSelectedAnnotation()">{{'Cancel'|translate}}</button>
+  @if (showClearBtn) {
+    <button mat-stroked-button color="warn" (click)="resetInputFields()">{{'Clear'|translate}}</button>
+  }
+  @if (!showClearBtn) {
+    <button mat-stroked-button color="warn" (click)="cancelSelectedAnnotation()">{{'Cancel'|translate}}</button>
+  }
 </div>

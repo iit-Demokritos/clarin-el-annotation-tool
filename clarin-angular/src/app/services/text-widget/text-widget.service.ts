@@ -3,6 +3,8 @@ import * as _ from 'lodash';
 import { Annotation } from 'src/app/models/annotation';
 import { COMMON_ATTRIBUTE_NAMES } from 'src/app/models/attribute';
 
+import { AnnotatorType } from '@models/annotation-schema';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -12,7 +14,7 @@ export class TextWidgetAPI {
 
   isRunning = false; //flag that indicates if a process is running
 
-  annotatorType: any = ""; //the type of the annotator (Button of Coreference Annotator)
+  annotatorType: AnnotatorType = undefined; //the type of the annotator (Button of Coreference Annotator)
   annotationSchemaOptions = {}; //the available options of the annotation schema
 
   annotationSchema = {}; //the annotation schema that user selected for the current document

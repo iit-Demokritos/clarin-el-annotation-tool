@@ -7,12 +7,16 @@
           <div class="text-inside">
             <mat-form-field>
               <input matInput placeholder="Button Value" [(ngModel)]="value" formControlName="value" required>
-              <mat-error *ngIf="addCustomValueForm.controls.value.hasError('required')">
-                Please enter an attribute value for the new button
-              </mat-error>
-              <mat-error *ngIf="addCustomValueForm.controls.value.hasError('pattern')">
-                Please enter a valid attribute value
-              </mat-error>
+              @if (addCustomValueForm.controls.value.hasError('required')) {
+                <mat-error>
+                  Please enter an attribute value for the new button
+                </mat-error>
+              }
+              @if (addCustomValueForm.controls.value.hasError('pattern')) {
+                <mat-error>
+                  Please enter a valid attribute value
+                </mat-error>
+              }
             </mat-form-field>
           </div>
         </mat-grid-tile>
@@ -20,12 +24,16 @@
           <div class="text-inside">
             <mat-form-field>
               <input matInput placeholder="Button Label" [(ngModel)]="label" formControlName="label" required>
-              <mat-error *ngIf="addCustomValueForm.controls.label.hasError('required')">
-                Please enter a label for the new button
-              </mat-error>
-              <mat-error *ngIf="addCustomValueForm.controls.label.hasError('pattern')">
-                Please enter a valid label
-              </mat-error>
+              @if (addCustomValueForm.controls.label.hasError('required')) {
+                <mat-error>
+                  Please enter a label for the new button
+                </mat-error>
+              }
+              @if (addCustomValueForm.controls.label.hasError('pattern')) {
+                <mat-error>
+                  Please enter a valid label
+                </mat-error>
+              }
             </mat-form-field>
           </div>
         </mat-grid-tile>

@@ -8,13 +8,15 @@ import { SettingsService } from '@core';
     <button mat-icon-button [matMenuTriggerFor]="menu">
       <mat-icon>translate</mat-icon>
     </button>
-
+    
     <mat-menu #menu="matMenu">
-      <button mat-menu-item *ngFor="let lang of langs | keyvalue" (click)="useLanguage(lang.key)">
-        <span>{{ lang.value }}</span>
-      </button>
+      @for (lang of langs | keyvalue; track lang) {
+        <button mat-menu-item (click)="useLanguage(lang.key)">
+          <span>{{ lang.value }}</span>
+        </button>
+      }
     </mat-menu>
-  `,
+    `,
 })
 export class TranslateComponent {
   langs = {
