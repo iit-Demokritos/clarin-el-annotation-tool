@@ -38,9 +38,7 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
   sseEventSubscription: Subscription;
   filter: string = "";
   minimatchOptions = { nocase: true, nocomment: true };
-  mm: any; // Minimatch object
-
-  super() { }
+  mm: any = new Minimatch(this.filter, this.minimatchOptions); // Minimatch object
 
   ngOnInit(): void {
     this.updateAnnotationList();
@@ -55,7 +53,7 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
     this.TextWidgetAPI.registerAnnotationSchemaCallback(
       this.annotationSchemaUpdate.bind(this));
     this.annotationsDataSource.filterPredicate = this.filterAnnotations.bind(this);
-  }i
+  }
 
   ngOnDestroy() {
     if (this.sseEventSubscription) {
@@ -96,13 +94,32 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
   }
 
   filterAnnotations(ann: Annotation, filter: string) {
-    // console.error("AnnotationVisualizerComponent: filterAnnotations():", ann, filter, this.mm);
-    if (this.mm.empty) { return true; }
-    return ann.attributes.some((attr) => {
-      // console.error("attr:", attr, attr.value, this.mm.match(attr.value));
-      if (attr.value.indexOf(filter) !== -1) { return true; }
-      return this.mm.match(attr.value)
-    });
+    if (!this.mm || this.mm.empty) { return true; }
+
+    const searchLower = filter.toLowerCase();
+
+    // Function to check if a value matches the filter
+    const matches = (value: any): boolean => {
+      if (value === undefined || value === null) return false;
+      const strValue = String(value);
+      if (strValue.toLowerCase().indexOf(searchLower) !== -1) return true;
+      return this.mm.match(strValue);
+    };
+
+    // Check ID
+    if (matches(this.TextWidgetAPI.getAnnotationPresentableId(ann))) return true;
+
+    // Check Type
+    if (matches(ann.type)) return true;
+
+    // Check Attributes
+    if (Array.isArray(ann.attributes)) {
+      if (ann.attributes.some((attr) => matches(attr.name) || matches(attr.value))) {
+        return true;
+      }
+    }
+
+    return false;
   }; /* filterAnnotations */
 
   // This method is called each time the user releases a key in
