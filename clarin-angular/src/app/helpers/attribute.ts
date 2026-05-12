@@ -26,7 +26,8 @@ export function compareAttributes(attr1: Attribute, attr2: Attribute): number {
   return 1;
 }; /* compareAttributes */
 
-export function compareAttributeSets(set1: Attribute[], set2: Attribute[]): number {
+export function compareAttributeSets(set1: Attribute[], set2: Attribute[], attributeName: string | null = null,
+  attributeValues: string[] = []): number {
   if (set1 == null) {
     if (set2 == null) {
       return 0;
@@ -37,6 +38,13 @@ export function compareAttributeSets(set1: Attribute[], set2: Attribute[]): numb
     return 1; // Set ann1 as "greater", at the end
   }
   // Both attribute sets are not null/undefined...
+  if (attributeName) {
+    // Filter sets...
+    const filteredSet1 = set1.filter((attr: Attribute) => { attr.name == attributeName });
+    const filteredSet2 = set2.filter((attr: Attribute) => { attr.name == attributeName });
+    if (filteredSet1.length && filteredSet1.length === filteredSet2.length) {
+    }
+  }
 
   var items1 = set1.length;
   var items2 = set2.length;
@@ -48,6 +56,19 @@ export function compareAttributeSets(set1: Attribute[], set2: Attribute[]): numb
     return -1; // Set ann2 as "greater", at the end
   }
 
+  // Find the intersection of the two lists...
+  const intersection = set1.filter(item1 =>
+    set2.some(item2 => item1.name === item2.name && item1.value === item2.value)
+  );
+
+  if (intersection.length) {
+    // These attributes are common...
+    if (attributeName) {
+      const attributeInIntersection = intersection.filter((attr: Attribute) => attr.name === attributeName);
+      if (attributeInIntersection.length) { return 0; }
+    }
+  }
+
   // Sort both sets...
   set1.sort(compareAttributes);
   set2.sort(compareAttributes);
@@ -56,7 +77,7 @@ export function compareAttributeSets(set1: Attribute[], set2: Attribute[]): numb
   var cmp;
   for (let i = 0; i < len; i++) {
     cmp = compareAttributes(set1[i], set2[i]);
-    if (cmp != 0) {return cmp;}
+    if (cmp != 0) { return cmp; }
   }
   // If we reached here, the items are equal. Sort based on length...
   if (items1 == items2) {

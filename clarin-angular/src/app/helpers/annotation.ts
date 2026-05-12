@@ -72,17 +72,17 @@ export function AnnotationPropertyToDisplayObject(p) {
   }
 }; /* AnnotationPropertyToDisplayObject */
 
-export function annotationSortingDataAccessor(item:any, property:string) {
-  switch(property) {
+export function annotationSortingDataAccessor(item: any, property: string) {
+  switch (property) {
     case 'id': return item['_id'];
     //case 'type':  return (item.type == 'setting annotation') ? 'Setting' : (item.type);
     case 'value': return item.attributes ? item.attributes[0].value : "";
     case 'spans':
       if (!item.spans) return 0;
-      switch(item.spans[0].type) {
+      switch (item.spans[0].type) {
         case SpanType.TEXT:
         default:
-        return item.spans ? item.spans[0].start : 0;
+          return item.spans ? item.spans[0].start : 0;
       }
       break;
     default: return item[property];
@@ -90,16 +90,16 @@ export function annotationSortingDataAccessor(item:any, property:string) {
 }; /* annotationSortingDataAccessor */
 
 interface AnnotationSpansIndexer {
-  index:  number;
-  spans:  Span[];
-  set?:   number;
+  index: number;
+  spans: Span[];
+  set?: number;
   attrs?: Attribute[];
 }
 
 export interface diffAnnotationSetsOptions {
   spanOverlapPercentage: number;
-  attributeName:         string;
-  attributeValues:       string[];
+  attributeName: string;
+  attributeValues: string[];
 }; /* diffAnnotationSetsOptions */
 
 export function annotationSetToSpanIndexes(annotations: Annotation[]): AnnotationSpansIndexer[] {
@@ -132,7 +132,7 @@ export function annotationSetToSpanIndexes(annotations: Annotation[]): Annotatio
   });
 }; /* annotationSetToSpanIndexes */
 
-export function sortAnnotationSet(annotations: Annotation[], options: diffAnnotationSetsOptions|null = null): Annotation[] {
+export function sortAnnotationSet(annotations: Annotation[], options: diffAnnotationSetsOptions | null = null): Annotation[] {
   // Create a list of indexes, spans, adding spans if missing...
   var indexes = annotationSetToSpanIndexes(annotations);
   // Sort the list of indexes...
@@ -141,15 +141,29 @@ export function sortAnnotationSet(annotations: Annotation[], options: diffAnnota
   return indexes.map(i => annotations[i.index]);
 }; /* sortAnnotationSet */
 
-export function diffAnnotationSets(annotationSets: Annotation[][], options: diffAnnotationSetsOptions|null = null): Annotation[][] {
+export function diffAnnotationSets(annotationSets: Annotation[][], options: diffAnnotationSetsOptions | null = null): Annotation[][] {
+  var attributeName = options?.attributeName || "type";
+  /*
+   * Check if overlap has been provided, and set the proper
+   * comparison functions...
+   */
+  var anns_equal = compareAnnotations;
+  var spans_equal = compareAnnotationsSpans;
+  var overlap = 100;
+  if (options && options.spanOverlapPercentage < 100) {
+    anns_equal = compareAnnotationsOverlap;
+    spans_equal = compareAnnotationsSpanOverlap;
+    overlap = options.spanOverlapPercentage;
+    console.error("diffAnnotationSets(): overlap set to:", overlap);
+  }
   /* Put the set index in each annotation... */
   annotationSets = annotationSets.map((set, index) => {
-    return set.map((ann) => {let ann_cp = {...ann}; ann_cp['diff_set_index'] = index; return ann_cp;});
+    return set.map((ann) => { let ann_cp = { ...ann }; ann_cp['diff_set_index'] = index; return ann_cp; });
   });
   // Get the number of sets...
   var sets = annotationSets.length;
   var newAnnotationSets = Array(sets);
-  for (let i = 0; i < sets; i++) {newAnnotationSets[i] = [{}];}
+  for (let i = 0; i < sets; i++) { newAnnotationSets[i] = [{}]; }
   /* Now each annotation has a set id. Put all annotations in a list... */
   // var all_annotations = annotationSets.flat(); flat() is not available...
   // Filter empty items...
@@ -157,7 +171,8 @@ export function diffAnnotationSets(annotationSets: Annotation[][], options: diff
   // Get indexes for each set...
   var annotationsIndexes = annotationSetToSpanIndexes(all_annotations);
   // Sort the list of indexes...
-  annotationsIndexes.sort((ann1, ann2) => compareAnnotations(ann1, ann2));
+  annotationsIndexes.sort((ann1, ann2) => anns_equal(ann1, ann2, overlap, attributeName));
+  console.log('-->', [...annotationsIndexes]);
   var newRow = 0;
   // Get the first annotation, which is the lower one..
   var ann = annotationsIndexes.shift();
@@ -169,41 +184,46 @@ export function diffAnnotationSets(annotationSets: Annotation[][], options: diff
   // * if they are the same as ann, add it in the same row.
   // * if the new ann is different, start a new row...
   let next_ann = annotationsIndexes.shift();
-  /*
-   * Check if overlap has been provided, and set the proper
-   * comparison functions...
-   */
-  var spans_equal;
-  var overlap = 100;
-  if (options && options.spanOverlapPercentage < 100) {
-    spans_equal = compareAnnotationsSpanOverlap;
-    overlap     = options.spanOverlapPercentage;
-    console.error("diffAnnotationSets(): overlap set to:", overlap);
-  } else {
-    spans_equal = compareAnnotationsSpans;
-  }
+
+  var attributes_equal = -1;
+  var rowItems = 0;
+
   while (next_ann) {
     if (spans_equal(ann, next_ann, overlap) != 0) {
       diffAnnotationSetsAddClasses(newAnnotationSets, sets, newRow, options);
       // Add a new row!
-      newAnnotationSets.forEach((set) => set.push({})); newRow += 1;
+      newAnnotationSets.forEach((set) => set.push({})); newRow += 1; rowItems = 0;
+      attributes_equal = -1;
+    } else {
+      // Check if attributes match...
+      attributes_equal = compareAnnotationsAttributes(ann, next_ann);
     }
     ann = next_ann;
     annotation = all_annotations[ann.index];
     set_index = annotation['diff_set_index']; delete annotation['diff_set_index'];
+    next_ann = annotationsIndexes.shift();
     if (Object.keys(newAnnotationSets[set_index][newRow]).length > 0) {
       diffAnnotationSetsAddClasses(newAnnotationSets, sets, newRow, options);
       // Add a new row!
-      newAnnotationSets.forEach((set) => set.push({})); newRow += 1;
+      newAnnotationSets.forEach((set) => set.push({})); newRow += 1; rowItems = 0;
+    } else if (attributes_equal != 0 && rowItems) {
+      // Attributes do not match in this row. If the annotaton matches
+      // the next one, add a new row.
+      if (spans_equal(ann, next_ann, overlap) == 0 &&
+        compareAnnotationsAttributes(ann, next_ann) == 0) {
+        diffAnnotationSetsAddClasses(newAnnotationSets, sets, newRow, options);
+        // Add a new row!
+        newAnnotationSets.forEach((set) => set.push({})); newRow += 1; rowItems = 0;
+      }
     }
     newAnnotationSets[set_index][newRow] = annotation;
-    next_ann = annotationsIndexes.shift();
+    rowItems += 1;
   }
   return newAnnotationSets;
 }; /* diffAnnotationSets */
 
-function diffAnnotationSetsAddClasses(annotationSets: Annotation[][], columns: number, row: number, options: diffAnnotationSetsOptions|null = null) {
-  if (options == null) {return;}
+function diffAnnotationSetsAddClasses(annotationSets: Annotation[][], columns: number, row: number, options: diffAnnotationSetsOptions | null = null) {
+  if (options == null) { return; }
   var row_annotations = [];
   var row_values = [];
   var ann;
@@ -222,17 +242,18 @@ function diffAnnotationSetsAddClasses(annotationSets: Annotation[][], columns: n
   }
   // Are the values the same?
   if (row_values.length > 1) {
-    if (row_values.every( v => v == row_values[0])) {
-      row_annotations.forEach( ann => ann['diff_class'] = "diff-equal" );
+    if (row_values.every(v => v == row_values[0])) {
+      row_annotations.forEach(ann => ann['diff_class'] = "diff-equal");
     } else {
-      row_annotations.forEach( ann => ann['diff_class'] = "diff-unequal" );
+      row_annotations.forEach(ann => ann['diff_class'] = "diff-unequal");
     }
   }
 }; /* diffAnnotationSetsAddClasses */
 
+export type RatersMatrix = string[][];
 export function diffedAnnotationSetsToRatersMatrix(annotations: Annotation[][],
-                                                   attributeName: string = "type",
-                                                   attributeValues: string[] = []): number[][] {
+  attributeName: string = "type",
+  attributeValues: string[] = []): RatersMatrix {
   var values: string[];
   if (attributeValues.length) {
     values = attributeValues;
@@ -244,7 +265,7 @@ export function diffedAnnotationSetsToRatersMatrix(annotations: Annotation[][],
   var N = annotations[0].length; // 'N' = number of subjects
   var k = values.length;
   // Generate the matrix...
-  var cm: number[][] = [];
+  var cm: RatersMatrix = [];
   var c, ann, row, col;
   for (let i = 0; i < N; i++) {
     row = Array(children).fill("");
@@ -270,8 +291,8 @@ export function diffedAnnotationSetsToRatersMatrix(annotations: Annotation[][],
 }; /* diffedAnnotationSetsToRatersMatrix */
 
 export function diffedAnnotationSetsToCategoriesMatrix(annotations: Annotation[][],
-                                                      attributeName: string = "type",
-                                                      attributeValues: string[] = []): number[][] {
+  attributeName: string = "type",
+  attributeValues: string[] = []): number[][] {
   var values: string[];
   if (attributeValues.length) {
     values = attributeValues;
@@ -294,16 +315,16 @@ export function diffedAnnotationSetsToCategoriesMatrix(annotations: Annotation[]
     for (c = 0; c < children; c++) {
       ann = annotations[c][i];
       if ('attributes' in ann) {
-         ann.attributes.some((attr) => {
-           if ('name' in attr && attr.name == attributeName) {
-             col = values.indexOf(attr.value);
-             if (col != -1) {
-               row[col] += 1;
-               return true;
-             }
-           }
-           return false;
-         });
+        ann.attributes.some((attr) => {
+          if ('name' in attr && attr.name == attributeName) {
+            col = values.indexOf(attr.value);
+            if (col != -1) {
+              row[col] += 1;
+              return true;
+            }
+          }
+          return false;
+        });
       }
     }
     cm.push(row);
@@ -312,11 +333,11 @@ export function diffedAnnotationSetsToCategoriesMatrix(annotations: Annotation[]
 }; /* diffedAnnotationSetsToCategoriesMatrix */
 
 export function diffedAnnotationSetsRaters(annotations: Annotation[][]) {
-  return annotations.map((rater, index) => `Rater ${index+1}`);
+  return annotations.map((rater, index) => `Rater ${index + 1}`);
 }; /* diffedAnnotationSetsRaters */
 
 export function diffedAnnotationSetsCategories(annotations: Annotation[][],
-                                               attributeName: string = "type") {
+  attributeName: string = "type") {
   var values = [];
   annotations.forEach((child) => {
     // Child is a list of annotation. Collect attribute values...
@@ -336,11 +357,12 @@ export function diffedAnnotationSetsCategories(annotations: Annotation[][],
   return values;
 }; /* diffedAnnotationSetsCategories */
 
-export function compareAnnotationsAttributes(ann1: AnnotationSpansIndexer, ann2: AnnotationSpansIndexer, overlap=100): number {
- return compareAttributeSets(ann1.attrs, ann2.attrs);
+export function compareAnnotationsAttributes(ann1: AnnotationSpansIndexer, ann2: AnnotationSpansIndexer, overlap = 100, attributeName: string = "type",
+  attributeValues: string[] = []): number {
+  return compareAttributeSets(ann1.attrs, ann2.attrs, attributeName, attributeValues);
 }; /* compareAnnotationsAttributes */
 
-export function compareAnnotationsSpans(ann1: AnnotationSpansIndexer, ann2: AnnotationSpansIndexer, overlap=100): number {
+export function compareAnnotationsSpans(ann1: AnnotationSpansIndexer, ann2: AnnotationSpansIndexer, overlap = 100): number {
   var items1 = ann1.spans.length;
   var items2 = ann2.spans.length;
   // Check existence of spans...
@@ -398,15 +420,15 @@ export function compareAnnotationsSpans(ann1: AnnotationSpansIndexer, ann2: Anno
   return -1;
 }; /* compareAnnotationsSpans */
 
-export function compareAnnotationsSpanOverlap(ann1: AnnotationSpansIndexer, ann2: AnnotationSpansIndexer, overlap=100): number {
+export function compareAnnotationsSpanOverlap(ann1: AnnotationSpansIndexer, ann2: AnnotationSpansIndexer, overlap = 100): number {
   var items1 = ann1.spans.length;
   var items2 = ann2.spans.length;
   // Check existence of spans...
   if (items1 == 0) {
-    if (items2 == 0) return 100; // They are equal
-    return 0; // Set ann1 as "greater", at the end
+    if (items2 == 0) return 0; // They are equal
+    return 1; // Set ann1 as "greater", at the end
   } else if (items2 == 0) {
-    return 0; // Set ann2 as "greater", at the end
+    return -1; // Set ann2 as "greater", at the end
   }
   // Both annotations have spans...
   var x1 = Math.min(...ann1.spans.map(span => span.start));
@@ -416,7 +438,9 @@ export function compareAnnotationsSpanOverlap(ann1: AnnotationSpansIndexer, ann2
   // console.error("compareAnnotationsSpanOverlap():", x1, x2, y1, y2,
   //  segmentsOverlapPercentage(x1, x2, y1, y2),
   //  segmentsOverlapPercentage(x1, x2, y1, y2) >= overlap ? 0 : 1);
-  return segmentsOverlapPercentage(x1, x2, y1, y2) >= overlap ? 0 : 1;
+  const span_overlap = segmentsOverlapPercentage(x1, x2, y1, y2);
+  if (span_overlap >= overlap) return 0; // spans are considered equal
+  return compareAnnotationsSpans(ann1, ann2, overlap);
 }; /* compareAnnotationsSpanOverlap */
 
 /*
@@ -445,9 +469,9 @@ export function segmentsOverlapPercentage(x1, x2, y1, y2) {
   // Assumes x1 <= x2 and y1 <= y2; if this assumption is not safe, the code
   // can be changed to have x1 being min(x1, x2) and x2 being max(x1, x2) and
   // similarly for the ys.
-  var overlap =  Math.max(0, Math.min(x2, y2) - Math.max(x1, y1));
+  var overlap = Math.max(0, Math.min(x2, y2) - Math.max(x1, y1));
   if (overlap > 0) {
-    var shorter_segment = Math.min(x2-x1, y2-y1);
+    var shorter_segment = Math.min(x2 - x1, y2 - y1);
     if (shorter_segment > 0) {
       return (overlap / shorter_segment) * 100;
     }
@@ -457,20 +481,22 @@ export function segmentsOverlapPercentage(x1, x2, y1, y2) {
 }; /* segmentsOverlapPercentage */
 
 
-export function compareAnnotations(ann1: AnnotationSpansIndexer, ann2: AnnotationSpansIndexer, overlap=100): number {
+export function compareAnnotations(ann1: AnnotationSpansIndexer, ann2: AnnotationSpansIndexer, overlap = 100, attributeName: string = "type",
+  attributeValues: string[] = []): number {
   var cmp = compareAnnotationsSpans(ann1, ann2, overlap);
   if (cmp != 0) {
     return cmp;
   }
-  return compareAnnotationsAttributes(ann1, ann2);
+  return compareAnnotationsAttributes(ann1, ann2, overlap, attributeName, attributeValues);
 }; /* compareAnnotations */
 
-export function compareAnnotationsOverlap(ann1: AnnotationSpansIndexer, ann2: AnnotationSpansIndexer, overlap=100): number {
+export function compareAnnotationsOverlap(ann1: AnnotationSpansIndexer, ann2: AnnotationSpansIndexer, overlap = 100, attributeName: string = "type",
+  attributeValues: string[] = []): number {
   var cmp = compareAnnotationsSpanOverlap(ann1, ann2, overlap);
   if (cmp != 0) {
     return cmp;
   }
-  return compareAnnotationsAttributes(ann1, ann2);
+  return compareAnnotationsAttributes(ann1, ann2, overlap, attributeName, attributeValues);
 }; /* compareAnnotationsOverlap */
 
 /*
@@ -581,7 +607,7 @@ export function cohenKappa(sortedAnn1, sortedAnn2): number {
   return cohen_kappa;
 }; /* cohenKappa */
 
-export function fleissKappa(M:number[][], n_annotators: number = -1): number {
+export function fleissKappa(M: number[][], n_annotators: number = -1): number {
   /* Wikipedia's example. Fleiss Kappa: 0.20993070442195522
     M = [
       [0, 0, 0, 0, 14],
@@ -611,7 +637,7 @@ export function fleissKappa(M:number[][], n_annotators: number = -1): number {
   var p: number[] = Array(k).fill(0.0);
   var P: number[] = Array(N).fill(0.0);
   var i: number, j: number;
-  var P_bar: number   = 0.0;
+  var P_bar: number = 0.0;
   var P_bar_e: number = 0.0;
   M.forEach((item, i) => {
     item.forEach((cat, j) => {
@@ -621,7 +647,7 @@ export function fleissKappa(M:number[][], n_annotators: number = -1): number {
     });
   });
   for (i = 0; i < k; i++) {
-    p[i] = p[i] / ( N * n_annotators);
+    p[i] = p[i] / (N * n_annotators);
     P_bar_e += (p[i] * p[i]);
   }
   for (i = 0; i < N; i++) {
@@ -634,3 +660,72 @@ export function fleissKappa(M:number[][], n_annotators: number = -1): number {
   // console.error("p:", p);
   return (P_bar - P_bar_e) / (1.0 - P_bar_e);
 }; /* fleissKappa */
+
+/*
+ * Confusion Matrix
+ */
+export function ratersMatrixToConfusionMatrix(ratersMatrix: RatersMatrix, classes: string[] = null, groundTruthIndex = 0, raterIndex = 1) {
+  if (!classes) {
+    classes = [...new Set(ratersMatrix.flat())].sort();
+  }
+  const classStats: Record<string, { tp: number; fp: number; fn: number }> = {};
+
+  // Initialize stats for each class
+  classes.forEach(cls => {
+    classStats[cls] = { tp: 0, fp: 0, fn: 0 };
+  });
+
+  let totalCorrect = 0;
+
+  // 1. Accumulate TP, FP, FN per class
+  ratersMatrix.forEach((raters: string[]) => {
+    const groundTruth = raters[groundTruthIndex];
+    const raterSelection = raters[raterIndex];
+
+    if (groundTruth === raterSelection) {
+      totalCorrect++;
+      classStats[groundTruth].tp++;
+    } else {
+      // It was supposed to be GroundTruth, but rater missed it (FN for groundTruth)
+      if (classStats[groundTruth]) classStats[groundTruth].fn++;
+      // Rater picked raterSelection, but it was wrong (FP for raterSelection)
+      if (classStats[raterSelection]) classStats[raterSelection].fp++;
+    }
+  });
+
+  // 2. Macro Calculation (Average of individual class scores)
+  let macroPrecSum = 0;
+  let macroRecSum = 0;
+
+  classes.forEach(cls => {
+    const { tp, fp, fn } = classStats[cls];
+    macroPrecSum += tp + fp === 0 ? 0 : tp / (tp + fp);
+    macroRecSum += tp + fn === 0 ? 0 : tp / (tp + fn);
+  });
+
+  const macroPrecision = macroPrecSum / classes.length;
+  const macroRecall = macroRecSum / classes.length;
+  const macroF1 = (macroPrecision + macroRecall) === 0 ? 0 :
+    2 * (macroPrecision * macroRecall) / (macroPrecision + macroRecall);
+
+  // 3. Micro Calculation (Global sum of TP, FP, FN)
+  let totalTP = 0, totalFP = 0, totalFN = 0;
+  classes.forEach(cls => {
+    totalTP += classStats[cls].tp;
+    totalFP += classStats[cls].fp;
+    totalFN += classStats[cls].fn;
+  });
+
+  const microPrecision = totalTP / (totalTP + totalFP);
+  const microRecall = totalTP / (totalTP + totalFN);
+  const microF1 = 2 * (microPrecision * microRecall) / (microPrecision + microRecall);
+  console.log("Macro: P:", macroPrecision, ", R:", macroRecall, ", F1:", macroF1);
+  console.log("Micro: P:", microPrecision, ", R:", microRecall, ", F1:", microF1);
+  console.log("Accuracy:", totalCorrect / ratersMatrix.length);
+
+  return {
+    macro: { precision: macroPrecision, recall: macroRecall, f1: macroF1 },
+    micro: { precision: microPrecision, recall: microRecall, f1: microF1 },
+    accuracy: totalCorrect / ratersMatrix.length
+  };
+}; /* ratersMatrixToConfusionMatrix */

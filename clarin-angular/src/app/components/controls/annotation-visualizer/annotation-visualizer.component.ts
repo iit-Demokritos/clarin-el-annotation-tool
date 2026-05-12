@@ -107,7 +107,7 @@ export class AnnotationVisualizerComponent extends BaseControlComponent
     };
 
     // Check ID
-    if (matches(this.TextWidgetAPI.getAnnotationPresentableId(ann))) return true;
+    // if (matches(this.TextWidgetAPI.getAnnotationPresentableId(ann))) return true;
 
     // Check Type
     if (matches(ann.type)) return true;

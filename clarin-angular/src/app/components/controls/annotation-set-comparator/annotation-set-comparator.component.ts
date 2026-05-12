@@ -4,7 +4,7 @@ import { AnnotationSetInspectorComponent } from 'src/app/components/controls/ann
 import { AnnotationSetFilterComponent } from 'src/app/components/controls/annotation-set-filter/annotation-set-filter.component';
 import { Collection } from 'src/app/models/collection';
 import { Document } from 'src/app/models/document';
-import { sortAnnotationSet, diffAnnotationSets, diffAnnotationSetsOptions, diffedAnnotationSetsToRatersMatrix, diffedAnnotationSetsToCategoriesMatrix, diffedAnnotationSetsRaters, diffedAnnotationSetsCategories, cohenKappa, fleissKappa } from 'src/app/helpers/annotation';
+import { sortAnnotationSet, diffAnnotationSets, diffAnnotationSetsOptions, diffedAnnotationSetsToRatersMatrix, diffedAnnotationSetsToCategoriesMatrix, diffedAnnotationSetsRaters, diffedAnnotationSetsCategories, ratersMatrixToConfusionMatrix, cohenKappa, fleissKappa } from 'src/app/helpers/annotation';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import Krippendorff from '@externals/krippendorff-alpha/src/krippendorff';
 import { ScrollStatus } from 'src/app/models/services/scrollstatus';
@@ -55,7 +55,7 @@ export class AnnotationSetComparatorComponent extends MainComponent implements O
   @ViewChild('fleiss_table')       table_fleiss:       MatTable<any>;
   @ViewChild('krippendorff_table') table_krippendorff: MatTable<any>;
 
-  ratersMatrixDataSource     = new MatTableDataSource<number[]>();
+  ratersMatrixDataSource     = new MatTableDataSource<string[]>();
   categoriesMatrixDataSource = new MatTableDataSource<number[]>();
   agreementMatrixDataSource  = new MatTableDataSource<number[]>();
 
@@ -69,9 +69,10 @@ export class AnnotationSetComparatorComponent extends MainComponent implements O
   categoriesMatrix: number[][] = [];
   categories: string[]         = [];
   columnsToDisplay: string[]   = [];
-  ratersMatrix: number[][]     = [];
+  ratersMatrix: string[][]     = [];
   raters: string[]             = [];
   ratersColumnsToDisplay: string[] = [];
+  confusionMatrix: any = [];
 
   optionsSpanOverlapPercentage: number = 100;
   // This is reduced version of categories matrix, with rows that sum to 1 are removed.
@@ -250,7 +251,7 @@ export class AnnotationSetComparatorComponent extends MainComponent implements O
     this.annotationSetInspectorComponent.forEach((child) => child.onApply());
     // Calculate the raters matrix...
     this.raters                         = diffedAnnotationSetsRaters(this.annotationsShown);
-    this.ratersMatrix                   = diffedAnnotationSetsToRatersMatrix(this.annotationsShown, "type", this.categories);;
+    this.ratersMatrix                   = diffedAnnotationSetsToRatersMatrix(this.annotationsShown, "type", this.categories);
     this.ratersColumnsToDisplay         = ["id", ...this.raters];
     this.ratersMatrixDataSource.data    = this.ratersMatrix;
     // Calculate the categories matrix...
@@ -261,6 +262,8 @@ export class AnnotationSetComparatorComponent extends MainComponent implements O
     // Caluclate the agreement matrix...
     this.agreementMatrix                = this.categoriesMatrix.filter((row) => row.reduce((accumulator, curr) => accumulator + curr) > 1);
     this.agreementMatrixDataSource.data = this.agreementMatrix;
+    // Calculate the confusion matrix...
+    this.confusionMatrix = ratersMatrixToConfusionMatrix(this.ratersMatrix, this.categories);
     this.table_rating.renderRows();
     this.table_agreement.renderRows();
     this.table_fleiss.renderRows();
