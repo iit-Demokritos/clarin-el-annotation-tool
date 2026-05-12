@@ -172,7 +172,7 @@ export function diffAnnotationSets(annotationSets: Annotation[][], options: diff
   var annotationsIndexes = annotationSetToSpanIndexes(all_annotations);
   // Sort the list of indexes...
   annotationsIndexes.sort((ann1, ann2) => anns_equal(ann1, ann2, overlap, attributeName));
-  console.log('-->', [...annotationsIndexes]);
+  // console.log('-->', [...annotationsIndexes]);
   var newRow = 0;
   // Get the first annotation, which is the lower one..
   var ann = annotationsIndexes.shift();
@@ -669,6 +669,7 @@ export function ratersMatrixToConfusionMatrix(ratersMatrix: RatersMatrix, classe
     classes = [...new Set(ratersMatrix.flat())].sort();
   }
   const classStats: Record<string, { tp: number; fp: number; fn: number }> = {};
+  const matrix: number[][] = Array(classes.length).fill(0).map(() => Array(classes.length).fill(0));
 
   // Initialize stats for each class
   classes.forEach(cls => {
@@ -677,14 +678,20 @@ export function ratersMatrixToConfusionMatrix(ratersMatrix: RatersMatrix, classe
 
   let totalCorrect = 0;
 
-  // 1. Accumulate TP, FP, FN per class
+  // 1. Accumulate TP, FP, FN per class and populate matrix
   ratersMatrix.forEach((raters: string[]) => {
     const groundTruth = raters[groundTruthIndex];
     const raterSelection = raters[raterIndex];
+    const gtIdx = classes.indexOf(groundTruth);
+    const rsIdx = classes.indexOf(raterSelection);
+
+    if (gtIdx !== -1 && rsIdx !== -1) {
+      matrix[gtIdx][rsIdx]++;
+    }
 
     if (groundTruth === raterSelection) {
       totalCorrect++;
-      classStats[groundTruth].tp++;
+      if (classStats[groundTruth]) classStats[groundTruth].tp++;
     } else {
       // It was supposed to be GroundTruth, but rater missed it (FN for groundTruth)
       if (classStats[groundTruth]) classStats[groundTruth].fn++;
@@ -696,11 +703,17 @@ export function ratersMatrixToConfusionMatrix(ratersMatrix: RatersMatrix, classe
   // 2. Macro Calculation (Average of individual class scores)
   let macroPrecSum = 0;
   let macroRecSum = 0;
+  const perClass: Record<string, { precision: number; recall: number; f1: number }> = {};
 
   classes.forEach(cls => {
     const { tp, fp, fn } = classStats[cls];
-    macroPrecSum += tp + fp === 0 ? 0 : tp / (tp + fp);
-    macroRecSum += tp + fn === 0 ? 0 : tp / (tp + fn);
+    const precision = tp + fp === 0 ? 0 : tp / (tp + fp);
+    const recall = tp + fn === 0 ? 0 : tp / (tp + fn);
+    const f1 = (precision + recall) === 0 ? 0 : 2 * (precision * recall) / (precision + recall);
+    
+    perClass[cls] = { precision, recall, f1 };
+    macroPrecSum += precision;
+    macroRecSum += recall;
   });
 
   const macroPrecision = macroPrecSum / classes.length;
@@ -724,6 +737,8 @@ export function ratersMatrixToConfusionMatrix(ratersMatrix: RatersMatrix, classe
   console.log("Accuracy:", totalCorrect / ratersMatrix.length);
 
   return {
+    matrix,
+    perClass,
     macro: { precision: macroPrecision, recall: macroRecall, f1: macroF1 },
     micro: { precision: microPrecision, recall: microRecall, f1: microF1 },
     accuracy: totalCorrect / ratersMatrix.length

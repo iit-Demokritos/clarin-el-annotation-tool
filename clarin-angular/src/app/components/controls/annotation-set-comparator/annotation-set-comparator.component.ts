@@ -8,6 +8,7 @@ import { sortAnnotationSet, diffAnnotationSets, diffAnnotationSetsOptions, diffe
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import Krippendorff from '@externals/krippendorff-alpha/src/krippendorff';
 import { ScrollStatus } from 'src/app/models/services/scrollstatus';
+import * as Highcharts from "highcharts";
 
 // import { ComponentPortal, DomPortal } from '@angular/cdk/portal';
 
@@ -54,10 +55,14 @@ export class AnnotationSetComparatorComponent extends MainComponent implements O
   @ViewChild('agreement_table')    table_agreement:    MatTable<any>;
   @ViewChild('fleiss_table')       table_fleiss:       MatTable<any>;
   @ViewChild('krippendorff_table') table_krippendorff: MatTable<any>;
+  @ViewChild('confusion_table')    table_confusion:    MatTable<any>;
+  @ViewChild('scores_table')       table_scores:       MatTable<any>;
 
   ratersMatrixDataSource     = new MatTableDataSource<string[]>();
   categoriesMatrixDataSource = new MatTableDataSource<number[]>();
   agreementMatrixDataSource  = new MatTableDataSource<number[]>();
+  confusionMatrixDataSource  = new MatTableDataSource<any>();
+  perClassDataSource         = new MatTableDataSource<any>();
 
   selectedAnnotator: any[]        = [];
   text: string[]                  = [];
@@ -73,8 +78,12 @@ export class AnnotationSetComparatorComponent extends MainComponent implements O
   raters: string[]             = [];
   ratersColumnsToDisplay: string[] = [];
   confusionMatrix: any = [];
+  confusionMatrixColumnsToDisplay: string[] = [];
+  perClassColumnsToDisplay: string[] = ['class', 'precision', 'recall', 'f1'];
 
   optionsSpanOverlapPercentage: number = 100;
+  Highcharts: typeof Highcharts = Highcharts;
+  chartOptions: Highcharts.Options = {};
   // This is reduced version of categories matrix, with rows that sum to 1 are removed.
   // It is used in the calculation of Krippendorff’s Alpha:
   // https://www.real-statistics.com/reliability/interrater-reliability/krippendorffs-alpha/krippendorffs-alpha-basic-concepts/
@@ -264,10 +273,72 @@ export class AnnotationSetComparatorComponent extends MainComponent implements O
     this.agreementMatrixDataSource.data = this.agreementMatrix;
     // Calculate the confusion matrix...
     this.confusionMatrix = ratersMatrixToConfusionMatrix(this.ratersMatrix, this.categories);
-    this.table_rating.renderRows();
-    this.table_agreement.renderRows();
-    this.table_fleiss.renderRows();
-    this.table_krippendorff.renderRows();
+
+    // Populate Confusion Matrix Data Source
+    this.confusionMatrixColumnsToDisplay = ["class", ...this.categories];
+    this.confusionMatrixDataSource.data = this.confusionMatrix.matrix.map((row, i) => {
+      let rowData = { class: this.categories[i] };
+      row.forEach((val, j) => {
+        rowData[this.categories[j]] = val;
+      });
+      return rowData;
+    });
+
+    // Populate Per Class Scores Data Source
+    let scoresData = [];
+    scoresData.push({
+      class: 'Macro Average',
+      ...this.confusionMatrix.macro
+    });
+    scoresData.push({
+      class: 'Micro Average',
+      ...this.confusionMatrix.micro
+    });
+    this.categories.forEach(cls => {
+      scoresData.push({
+        class: cls,
+        ...this.confusionMatrix.perClass[cls]
+      });
+    });
+    this.perClassDataSource.data = scoresData;
+
+    // Highcharts Configuration
+    this.chartOptions = {
+      chart: { type: 'column' },
+      title: { text: 'Metrics per Class' },
+      xAxis: { categories: this.categories, crosshair: true },
+      yAxis: { min: 0, max: 1, title: { text: 'Score' } },
+      tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+          '<td style="padding:0"><b>{point.y:.3f}</b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+      },
+      plotOptions: { column: { pointPadding: 0.2, borderWidth: 0 } },
+      series: [{
+        name: 'Precision',
+        type: 'column',
+        data: this.categories.map(cls => this.confusionMatrix.perClass[cls].precision)
+      }, {
+        name: 'Recall',
+        type: 'column',
+        data: this.categories.map(cls => this.confusionMatrix.perClass[cls].recall)
+      }, {
+        name: 'F1',
+        type: 'column',
+        data: this.categories.map(cls => this.confusionMatrix.perClass[cls].f1)
+      }]
+    };
+
+    if (this.table_rating)       this.table_rating.renderRows();
+    if (this.table_agreement)    this.table_agreement.renderRows();
+    if (this.table_fleiss)       this.table_fleiss.renderRows();
+    if (this.table_krippendorff) this.table_krippendorff.renderRows();
+    if (this.table_confusion)    this.table_confusion.renderRows();
+    if (this.table_scores)       this.table_scores.renderRows();
+
     this.toastrService.info("Inter-Annotator Agreement Calculated!");
     this.showTabIAA  = true;
     this.showTabDiff = true;
@@ -311,14 +382,23 @@ export class AnnotationSetComparatorComponent extends MainComponent implements O
     this.ratersMatrix           = [];
     this.ratersColumnsToDisplay = [];
     this.agreementMatrix        = [];
+    this.confusionMatrix        = [];
+    this.confusionMatrixColumnsToDisplay = [];
+    this.chartOptions           = {};
 
     this.ratersMatrixDataSource.data     = this.ratersMatrix;
     this.categoriesMatrixDataSource.data = this.categoriesMatrix;
     this.agreementMatrixDataSource.data  = this.agreementMatrix;
-    this.table_rating.renderRows();
-    this.table_agreement.renderRows();
-    this.table_fleiss.renderRows();
-    this.table_krippendorff.renderRows();
+    this.confusionMatrixDataSource.data  = [];
+    this.perClassDataSource.data         = [];
+
+    if (this.table_rating)       this.table_rating.renderRows();
+    if (this.table_agreement)    this.table_agreement.renderRows();
+    if (this.table_fleiss)       this.table_fleiss.renderRows();
+    if (this.table_krippendorff) this.table_krippendorff.renderRows();
+    if (this.table_confusion)    this.table_confusion.renderRows();
+    if (this.table_scores)       this.table_scores.renderRows();
+
     this.showTabIAA  = false;
     this.showTabDiff = false;
     this.kappaCohen  = 0.0;

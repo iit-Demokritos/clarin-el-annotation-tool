@@ -106,6 +106,27 @@
           </div>
         </div>
       </mat-tab>
+      <mat-tab label="{{'Confusion Matrix'|translate}}">
+        <div class="flex-column h-full w-full">
+          <h1 class="flex-column-fill-x m-16">Confusion Matrix</h1>
+          <div class="flex-column-fill-both overflow-auto">
+            <table mat-table #confusion_table [dataSource]="confusionMatrixDataSource"
+              class="annotation-set-comparator-matrix">
+              <ng-container matColumnDef="class">
+                <th class="annotation-set-comparator-matrix-header-id" mat-header-cell *matHeaderCellDef>Category</th>
+                <td class="annotation-set-comparator-matrix-cell-id" mat-cell *matCellDef="let row">
+                  {{row.class}}</td>
+              </ng-container>
+              <ng-container *ngFor="let category of categories; let col = index;" [matColumnDef]="category">
+                <th class="annotation-set-comparator-matrix-header" mat-header-cell *matHeaderCellDef>{{category}}</th>
+                <td class="annotation-set-comparator-matrix-cell" mat-cell *matCellDef="let row">{{row[category]}}</td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="confusionMatrixColumnsToDisplay; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: confusionMatrixColumnsToDisplay;"></tr>
+            </table>
+          </div>
+        </div>
+      </mat-tab>
     </mat-tab-group>
   </mat-tab>
   <mat-tab label="{{'Inter-rater Reliability'|translate}}" [disabled]="!showTabIAA">
@@ -155,6 +176,65 @@
       <mat-tab label="{{'Cohen’s kappa'|translate}}">
         <div class="flex-column h-full w-full">
           <h1 class="flex-column-fill-x m-16">Cohen’s kappa coefficient (κ): {{kappaCohen}}</h1>
+        </div>
+      </mat-tab>
+      <mat-tab label="{{'Metrics'|translate}}">
+        <div class="flex-column h-full w-full">
+          <h1 class="flex-column-fill-x m-16">Precision, Recall & F1</h1>
+          <div class="flex-column-fill-both overflow-auto p-16">
+            <div class="m-b-16" *ngIf="confusionMatrix && confusionMatrix.macro">
+              <div class="row">
+                <div class="col-md-4">
+                  <mat-card class="bg-blue-100 p-8 text-center">
+                    <strong>Macro Average</strong><br>
+                    P: {{confusionMatrix.macro.precision | number:'1.1-3'}}<br>
+                    R: {{confusionMatrix.macro.recall | number:'1.1-3'}}<br>
+                    F1: {{confusionMatrix.macro.f1 | number:'1.1-3'}}
+                  </mat-card>
+                </div>
+                <div class="col-md-4">
+                  <mat-card class="bg-green-100 p-8 text-center">
+                    <strong>Micro Average</strong><br>
+                    P: {{confusionMatrix.micro.precision | number:'1.1-3'}}<br>
+                    R: {{confusionMatrix.micro.recall | number:'1.1-3'}}<br>
+                    F1: {{confusionMatrix.micro.f1 | number:'1.1-3'}}
+                  </mat-card>
+                </div>
+                <div class="col-md-4">
+                  <mat-card class="bg-yellow-100 p-8 text-center">
+                    <strong>Overall Accuracy</strong><br>
+                    <span style="font-size: 1.5rem;">{{confusionMatrix.accuracy | number:'1.1-3'}}</span>
+                  </mat-card>
+                </div>
+              </div>
+            </div>
+
+            <table mat-table #scores_table [dataSource]="perClassDataSource" class="annotation-set-comparator-matrix">
+              <ng-container matColumnDef="class">
+                <th mat-header-cell *matHeaderCellDef>Category</th>
+                <td mat-cell *matCellDef="let row">{{row.class}}</td>
+              </ng-container>
+              <ng-container matColumnDef="precision">
+                <th mat-header-cell *matHeaderCellDef>Precision</th>
+                <td mat-cell *matCellDef="let row">{{row.precision | number:'1.1-3'}}</td>
+              </ng-container>
+              <ng-container matColumnDef="recall">
+                <th mat-header-cell *matHeaderCellDef>Recall</th>
+                <td mat-cell *matCellDef="let row">{{row.recall | number:'1.1-3'}}</td>
+              </ng-container>
+              <ng-container matColumnDef="f1">
+                <th mat-header-cell *matHeaderCellDef>F1</th>
+                <td mat-cell *matCellDef="let row">{{row.f1 | number:'1.1-3'}}</td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="perClassColumnsToDisplay; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: perClassColumnsToDisplay;"></tr>
+            </table>
+
+            <div class="m-t-16" style="height: 400px;">
+              <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" style="width: 100%; height: 400px; display: block;">
+              </highcharts-chart>
+            </div>
+          </div>
         </div>
       </mat-tab>
     </mat-tab-group>
