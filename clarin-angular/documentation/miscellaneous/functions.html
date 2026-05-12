@@ -229,6 +229,9 @@
                             <a href="#pickFromObject" title="src/app/helpers/globalFunctions.ts" ><b>pickFromObject</b>&nbsp;&nbsp;&nbsp;(src/.../globalFunctions.ts)</a>
                         </li>
                         <li>
+                            <a href="#ratersMatrixToConfusionMatrix" title="src/app/helpers/annotation.ts" ><b>ratersMatrixToConfusionMatrix</b>&nbsp;&nbsp;&nbsp;(src/.../annotation.ts)</a>
+                        </li>
+                        <li>
                             <a href="#segmentsIntersect" title="src/app/helpers/annotation.ts" ><b>segmentsIntersect</b>&nbsp;&nbsp;&nbsp;(src/.../annotation.ts)</a>
                         </li>
                         <li>
@@ -618,7 +621,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>compareAnnotations(ann1: <a href="../interfaces/AnnotationSpansIndexer.html" target="_self">AnnotationSpansIndexer</a>, ann2: <a href="../interfaces/AnnotationSpansIndexer.html" target="_self">AnnotationSpansIndexer</a>, overlap: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+<code>compareAnnotations(ann1: <a href="../interfaces/AnnotationSpansIndexer.html" target="_self">AnnotationSpansIndexer</a>, ann2: <a href="../interfaces/AnnotationSpansIndexer.html" target="_self">AnnotationSpansIndexer</a>, overlap: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, attributeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, attributeValues)</code>
                 </td>
             </tr>
 
@@ -681,6 +684,35 @@
 
                                             <td>
                                                     <code>100</code>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>attributeName</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>&quot;type&quot;</code>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>attributeValues</td>
+                                            <td>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>[]</code>
                                             </td>
 
                                         </tr>
@@ -711,7 +743,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>compareAnnotationsAttributes(ann1: <a href="../interfaces/AnnotationSpansIndexer.html" target="_self">AnnotationSpansIndexer</a>, ann2: <a href="../interfaces/AnnotationSpansIndexer.html" target="_self">AnnotationSpansIndexer</a>, overlap: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+<code>compareAnnotationsAttributes(ann1: <a href="../interfaces/AnnotationSpansIndexer.html" target="_self">AnnotationSpansIndexer</a>, ann2: <a href="../interfaces/AnnotationSpansIndexer.html" target="_self">AnnotationSpansIndexer</a>, overlap: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, attributeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, attributeValues)</code>
                 </td>
             </tr>
 
@@ -774,6 +806,35 @@
 
                                             <td>
                                                     <code>100</code>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>attributeName</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>&quot;type&quot;</code>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>attributeValues</td>
+                                            <td>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>[]</code>
                                             </td>
 
                                         </tr>
@@ -804,7 +865,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>compareAnnotationsOverlap(ann1: <a href="../interfaces/AnnotationSpansIndexer.html" target="_self">AnnotationSpansIndexer</a>, ann2: <a href="../interfaces/AnnotationSpansIndexer.html" target="_self">AnnotationSpansIndexer</a>, overlap: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+<code>compareAnnotationsOverlap(ann1: <a href="../interfaces/AnnotationSpansIndexer.html" target="_self">AnnotationSpansIndexer</a>, ann2: <a href="../interfaces/AnnotationSpansIndexer.html" target="_self">AnnotationSpansIndexer</a>, overlap: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, attributeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, attributeValues)</code>
                 </td>
             </tr>
 
@@ -867,6 +928,35 @@
 
                                             <td>
                                                     <code>100</code>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>attributeName</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>&quot;type&quot;</code>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>attributeValues</td>
+                                            <td>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>[]</code>
                                             </td>
 
                                         </tr>
@@ -1608,7 +1698,7 @@
                                 </table>
                             </div>
                         <div class="io-description">
-                            <b>Returns : </b>    <code>[][]</code>
+                            <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#RatersMatrix" target="_self" >RatersMatrix</a></code>
 
                         </div>
                             <div class="io-description">
@@ -1795,6 +1885,107 @@
                                                     No
                                             </td>
 
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ratersMatrixToConfusionMatrix"></a>
+                    <span class="name">
+                        <span ><b>ratersMatrixToConfusionMatrix</b></span>
+                        <a href="#ratersMatrixToConfusionMatrix"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ratersMatrixToConfusionMatrix(ratersMatrix: <a href="../miscellaneous/typealiases.html#RatersMatrix" target="_self">RatersMatrix</a>, classes, groundTruthIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, raterIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>ratersMatrix</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#RatersMatrix" target="_self" >RatersMatrix</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>classes</td>
+                                            <td>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>null</code>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>groundTruthIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>0</code>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>raterIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>1</code>
+                                            </td>
 
                                         </tr>
                                     </tbody>
@@ -2373,7 +2564,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>compareAttributeSets(set1, set2)</code>
+<code>compareAttributeSets(set1, set2, attributeName, attributeValues)</code>
                 </td>
             </tr>
 
@@ -2391,6 +2582,7 @@
                                         <tr>
                                             <td>Name</td>
                                             <td>Optional</td>
+                                                <td>Default value</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -2401,6 +2593,8 @@
                                                     No
                                             </td>
 
+                                            <td>
+                                            </td>
 
                                         </tr>
                                         <tr>
@@ -2410,6 +2604,32 @@
                                                     No
                                             </td>
 
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>attributeName</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>null</code>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>attributeValues</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>[]</code>
+                                            </td>
 
                                         </tr>
                                     </tbody>
