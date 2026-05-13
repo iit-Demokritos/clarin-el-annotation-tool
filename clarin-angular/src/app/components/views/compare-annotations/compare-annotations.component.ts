@@ -1,4 +1,5 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { LocalStorageService } from '@shared/services/storage.service';
 
 @Component({
   selector: 'app-compare-annotations',
@@ -13,9 +14,12 @@ export class CompareAnnotationsComponent {
   @Input() showDocumentSelectionToolbar: boolean = true;
   @Input() allowMultipleCollections: boolean = false;
   @Input() allowMultipleDocuments: boolean = false;
+  clearOnDocumentsChange = false;
 
   selectedCollection         = {};
   selectedDocument           = {};
+
+  constructor(private store: LocalStorageService) {}
 
   onCollectionsChange(event) {
     this.selectedCollection = event;

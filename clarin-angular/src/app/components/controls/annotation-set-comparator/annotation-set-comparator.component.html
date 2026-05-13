@@ -178,9 +178,9 @@
           <h1 class="flex-column-fill-x m-16">Cohen’s kappa coefficient (κ): {{kappaCohen}}</h1>
         </div>
       </mat-tab>
-      <mat-tab label="{{'Metrics'|translate}}">
+      <mat-tab label="{{'Metrics (P/R/F1)'|translate}}">
         <div class="flex-column h-full w-full">
-          <h1 class="flex-column-fill-x m-16">Precision, Recall & F1</h1>
+          <h1 class="flex-column-fill-x m-16">Precision, Recall, F1</h1>
           <div class="flex-column-fill-both overflow-auto p-16">
             <div class="m-b-16" *ngIf="confusionMatrix && confusionMatrix.macro">
               <div class="row">

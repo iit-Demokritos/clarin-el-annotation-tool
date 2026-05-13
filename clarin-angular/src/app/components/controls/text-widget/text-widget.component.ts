@@ -16,6 +16,8 @@ import { AnnotationMode, Selection, SelectionDefaults } from 'src/app/models/sel
 
 import { WavesurferAudioComponent } from 'src/app/components/controls/wavesurfer-audio/wavesurfer-audio.component';
 import { WavesurferVideoComponent } from 'src/app/components/controls/wavesurfer-video/wavesurfer-video.component';
+import { OpenDocumentServiceSaveResponse } from '@services/open-document/open-document.service';
+import { DocumentResponse } from '@services/document-service/document.service';
 //import 'codemirror/addon/display/panel.js';
 //import { addPanel } from 'codemirror/addon/display/panel' // <- Does not work!
 // var blobStream = require('blob-stream');
@@ -516,15 +518,15 @@ export class TextWidgetComponent extends BaseControlComponent
         };
 
         this.openDocumentService.save(documentData)
-          .then((response: any) => {
+          .then((response: OpenDocumentServiceSaveResponse) => {
             if (response.success) {
               // get document's data
               return this.documentService.get(newDocument.collection_id, newDocument.id);
             } else {
-              return reject(response);
+              return Promise.reject(response);
             }
           })
-          .then((response: any) => {
+          .then((response: DocumentResponse) => {
             if (!response.success) {
               this.TextWidgetAPI.disableIsRunning();
               this.dialog.open(ErrorDialogComponent, {

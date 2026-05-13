@@ -4,6 +4,7 @@ import { MainComponent } from 'src/app/components/views/main/main.component';
 import { ErrorDialogData } from 'src/app/models/dialogs/error-dialog';
 import { Collection } from 'src/app/models/collection';
 import { Document, DocumentGroup } from 'src/app/models/document';
+import { DocumentsResponse } from '@services/document-service/document.service';
 
 @Component({
   selector: 'toolbar-select-document',
@@ -89,7 +90,7 @@ export class ToolbarSelectDocumentComponent extends MainComponent implements Aft
   }; /* save */
 
   onCollectionSelectionChange() {
-    var promises;
+    var promises = [];
     if (this.allowDocumentSelection) {
       promises = this.getDocuments();
     }
@@ -154,9 +155,9 @@ export class ToolbarSelectDocumentComponent extends MainComponent implements Aft
   }; /* getCollections */
 
   getCollectionDocuments(collection: Collection = undefined,
-    addGroup: boolean = false) {
+    addGroup: boolean = false): Promise<Document|void> {
     if (collection == undefined) {
-      return;
+      return Promise.resolve();
     }
     return this.documentService.getAll(collection.id)
       .then((response) => {
@@ -178,8 +179,8 @@ export class ToolbarSelectDocumentComponent extends MainComponent implements Aft
       });
   }; /* getCollectionDocuments */
 
-  getDocuments() {
-    var promises = [];
+  getDocuments(): Promise<Document|void>[] {
+    var promises: Promise<Document|void>[] = [];
     this.documents = [];
     this.selected_documents = undefined;
     if (this.selected_collections == undefined) {

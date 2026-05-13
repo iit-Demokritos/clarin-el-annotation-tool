@@ -1,5 +1,17 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Document } from '@models/document';
+
+export interface DocumentResponse {
+  success: boolean;
+  data?: Document;
+  message?: string;
+};
+export interface DocumentsResponse {
+  success: boolean;
+  data?: Document[];
+  message?: string;
+};
 
 @Injectable({
   providedIn: 'root'
@@ -77,10 +89,10 @@ export class DocumentService {
     });
   }
 
-  getAll(collectionId) {
-    return new Promise((resolve, reject) => {
+  getAll(collectionId): Promise<DocumentsResponse> {
+    return new Promise<DocumentsResponse>((resolve, reject) => {
       this.http.get('./api/collections/' + collectionId + '/documents')
-        .subscribe((data) => {
+        .subscribe((data: DocumentsResponse) => {
           resolve(data);
         }, error => {
           reject(error);
@@ -88,10 +100,10 @@ export class DocumentService {
     });
   }
 
-  get(collectionId, documentId) {
-    return new Promise((resolve, reject) => {
+  get(collectionId, documentId): Promise<DocumentResponse>  {
+    return new Promise<DocumentResponse>((resolve, reject) => {
       this.http.get('./api/collections/' + collectionId + '/documents/' + documentId)
-        .subscribe(function (data) {
+        .subscribe((data: DocumentResponse) => {
           resolve(data);
         }, error => {
           reject(error);

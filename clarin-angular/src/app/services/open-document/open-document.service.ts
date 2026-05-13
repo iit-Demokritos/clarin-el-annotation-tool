@@ -1,6 +1,18 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+export interface OpenDocumentServiceSaveResponseData {
+  annotator_type: string;
+  collection_id: number;
+  document_id: number;
+};
+
+export interface OpenDocumentServiceSaveResponse {
+  success: boolean;
+  data?: OpenDocumentServiceSaveResponseData;
+  message?: string;
+};
+
 @Injectable({
   providedIn: 'root'
 })
@@ -30,13 +42,13 @@ export class OpenDocumentService {
     });
   }; /* get */
 
-  save(documentData) {
-    return new Promise((resolve, reject) => {
+  save(documentData): Promise<OpenDocumentServiceSaveResponse> {
+    return new Promise<OpenDocumentServiceSaveResponse>((resolve, reject) => {
       this.http.post('./api/open_documents', { data: documentData }, {
         headers: new HttpHeaders({
           'Content-Type': 'application/json'
         })
-      }).subscribe((data) => {
+      }).subscribe((data: OpenDocumentServiceSaveResponse) => {
         resolve(data);
       }, (error) => {
         reject(error);

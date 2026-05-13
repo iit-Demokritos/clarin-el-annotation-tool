@@ -19,6 +19,7 @@ export interface Document {
   updated_by?:            string;
   created_at?:            string;
   updated_at?:            string;
+  is_opened?:             boolean;
 }
 
 export interface DocumentGroup {
