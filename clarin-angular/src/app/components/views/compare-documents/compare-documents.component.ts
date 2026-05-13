@@ -21,13 +21,11 @@ export class CompareDocumentsComponent {
   constructor(private store: LocalStorageService) {}
 
   onCollectionsChange(event) {
-	  console.error('collection:', event);
     this.selectedCollection = event;
     this.selectedDocument   = {}
   }
 
   onDocumentsChange(event) {
-	  console.error('document:', event);
     this.selectedDocument   = event;
   }
 

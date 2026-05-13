@@ -12,7 +12,8 @@ export class CompareCollectionsComponent implements OnInit {
   @Input() showPageHeader: boolean = false;
   @Input() showDocumentSelectionToolbar: boolean = true;
   @Input() allowMultipleCollections: boolean = false;
-  @Input() allowMultipleDocuments: boolean = false;
+  @Input() allowMultipleDocuments: boolean = true;
+  @Input() selectAllDocumentsOnCollectionSelection: boolean = true;
   allowDocumentSelection = false;
   clearOnDocumentsChange = false;
 

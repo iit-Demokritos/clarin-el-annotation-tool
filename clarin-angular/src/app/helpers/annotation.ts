@@ -94,6 +94,7 @@ interface AnnotationSpansIndexer {
   spans: Span[];
   set?: number;
   attrs?: Attribute[];
+  _id?: string;
 }
 
 export interface diffAnnotationSetsOptions {
@@ -106,7 +107,7 @@ export function annotationSetToSpanIndexes(annotations: Annotation[]): Annotatio
   return annotations.map((ann, index) => {
     if (ann.spans && ann.spans.length) {
       // A normal annotation...
-      return { index: index, spans: ann.spans, attrs: ann.attributes };
+      return { index: index, spans: ann.spans, attrs: ann.attributes, _id: ann._id };
     } else if (ann.attributes) {
       // The annotation does not have any spans. Check if we can find some related annotations...
       let relation_args = ann.attributes.filter(attr => attr["name"] == "arg1" || attr["name"] == "arg2");
@@ -119,15 +120,16 @@ export function annotationSetToSpanIndexes(annotations: Annotation[]): Annotatio
         return {
           index: index,
           spans: spans,
-          attrs: ann.attributes
+          attrs: ann.attributes,
+	  _id: ann._id
         };
       } else {
         // There is nothing more we can do.
-        return { index: index, spans: ann.spans, attrs: ann.attributes };
+        return { index: index, spans: ann.spans, attrs: ann.attributes, _id: ann._id };
       }
     } else {
       // There is nothing more we can do.
-      return { index: index, spans: ann.spans, attrs: ann.attributes };
+      return { index: index, spans: ann.spans, attrs: ann.attributes, _id: ann._id };
     }
   });
 }; /* annotationSetToSpanIndexes */
@@ -171,7 +173,11 @@ export function diffAnnotationSets(annotationSets: Annotation[][], options: diff
   // Get indexes for each set...
   var annotationsIndexes = annotationSetToSpanIndexes(all_annotations);
   // Sort the list of indexes...
-  annotationsIndexes.sort((ann1, ann2) => anns_equal(ann1, ann2, overlap, attributeName));
+  annotationsIndexes.sort((ann1, ann2) =>
+    anns_equal(ann1, ann2, overlap, attributeName) ||
+    ann1._id.localeCompare(ann2._id) ||
+    ann1.index - ann2.index
+  );
   // console.log('-->', [...annotationsIndexes]);
   var newRow = 0;
   // Get the first annotation, which is the lower one..

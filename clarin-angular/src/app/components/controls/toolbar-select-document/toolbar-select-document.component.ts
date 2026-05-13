@@ -17,6 +17,7 @@ export class ToolbarSelectDocumentComponent extends MainComponent implements Aft
   collections: Collection[];
   selected_collections: Collection | Collection[];
   @Input() allowMultipleCollections: boolean = false;
+  @Input() selectAllDocumentsOnCollectionSelection: boolean = false;
   @Output() selectedCollections = new EventEmitter<Collection | Collection[]>();
 
   @Input() allowDocumentSelection: boolean = true;
@@ -96,6 +97,17 @@ export class ToolbarSelectDocumentComponent extends MainComponent implements Aft
     }
     this.save();
     this.selectedCollections.emit(this.selected_collections);
+    if (!this.allowDocumentSelection &&
+	 this.selectAllDocumentsOnCollectionSelection &&
+         this.allowMultipleDocuments) {
+      promises = this.getDocuments();
+      Promise.all(promises).then(() => {
+        if (this.documents) {
+          this.selected_documents = [...this.documents];
+	  this.onDocumentSelectionChange();
+	}
+      });
+    }
     return promises;
   }; /* onCollectionSelectionChange */
 
