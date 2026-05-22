@@ -955,6 +955,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/diffAnnotationSetsOptions.html" data-type="entity-link" >diffAnnotationSetsOptions</a>
                             </li>
                             <li class="link">
+                                <a href="interfaces/DiffRow.html" data-type="entity-link" >DiffRow</a>
+                            </li>
+                            <li class="link">
                                 <a href="interfaces/Document.html" data-type="entity-link" >Document</a>
                             </li>
                             <li class="link">

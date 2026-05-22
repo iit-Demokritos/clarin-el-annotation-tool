@@ -385,9 +385,10 @@ export function annotationSortingDataAccessor(item: any, property: string) {
 interface AnnotationSpansIndexer {
   index: number;
   spans: Span[];
-  set?: number;
-  attrs?: Attribute[];
+  attributes?: Attribute[];
   _id?: string;
+  set?: number;
+  set_diff?: number;
 }
 
 export interface diffAnnotationSetsOptions {
@@ -400,7 +401,7 @@ export function annotationSetToSpanIndexes(annotations: Annotation[]): Annotatio
   return annotations.map((ann, index) &#x3D;&gt; {
     if (ann.spans &amp;&amp; ann.spans.length) {
       // A normal annotation...
-      return { index: index, spans: ann.spans, attrs: ann.attributes, _id: ann._id };
+      return { index: index, spans: ann.spans, attributes: ann.attributes, _id: ann._id, set_diff: ann.set_diff };
     } else if (ann.attributes) {
       // The annotation does not have any spans. Check if we can find some related annotations...
       let relation_args &#x3D; ann.attributes.filter(attr &#x3D;&gt; attr[&quot;name&quot;] &#x3D;&#x3D; &quot;arg1&quot; || attr[&quot;name&quot;] &#x3D;&#x3D; &quot;arg2&quot;);
@@ -413,16 +414,17 @@ export function annotationSetToSpanIndexes(annotations: Annotation[]): Annotatio
         return {
           index: index,
           spans: spans,
-          attrs: ann.attributes,
-	  _id: ann._id
+          attributes: ann.attributes,
+          _id: ann._id,
+          set_diff: ann.set_diff,
         };
       } else {
         // There is nothing more we can do.
-        return { index: index, spans: ann.spans, attrs: ann.attributes, _id: ann._id };
+        return { index: index, spans: ann.spans, attributes: ann.attributes, _id: ann._id, set_diff: ann.set_diff };
       }
     } else {
       // There is nothing more we can do.
-      return { index: index, spans: ann.spans, attrs: ann.attributes, _id: ann._id };
+      return { index: index, spans: ann.spans, attributes: ann.attributes, _id: ann._id, set_diff: ann.set_diff };
     }
   });
 }; /* annotationSetToSpanIndexes */
@@ -436,89 +438,200 @@ export function sortAnnotationSet(annotations: Annotation[], options: diffAnnota
   return indexes.map(i &#x3D;&gt; annotations[i.index]);
 }; /* sortAnnotationSet */
 
+/**
+ * Helper to get the value of the &quot;type&quot; attribute of an annotation.
+ * It looks into the attributes array for an attribute named &quot;type&quot;.
+ */
+export function getAnnotationAttributeValue(ann: Annotation, name: string &#x3D; &quot;type&quot;): string {
+  if (ann.attributes) {
+    const typeAttr &#x3D; ann.attributes.find(attr &#x3D;&gt; attr.name &#x3D;&#x3D;&#x3D; name);
+    if (typeAttr) {
+      return String(typeAttr.value);
+    }
+  }
+  return &#x27;&#x27;;
+}
+
 export function diffAnnotationSets(annotationSets: Annotation[][], options: diffAnnotationSetsOptions | null &#x3D; null): Annotation[][] {
+  const numSets &#x3D; annotationSets.length;
+  if (numSets &#x3D;&#x3D;&#x3D; 0) return [];
+
   var attributeName &#x3D; options?.attributeName || &quot;type&quot;;
   /*
    * Check if overlap has been provided, and set the proper
    * comparison functions...
    */
   var anns_equal &#x3D; compareAnnotations;
-  var spans_equal &#x3D; compareAnnotationsSpans;
+  var compareSpans &#x3D; compareAnnotationsSpans;
   var overlap &#x3D; 100;
   if (options &amp;&amp; options.spanOverlapPercentage &lt; 100) {
     anns_equal &#x3D; compareAnnotationsOverlap;
-    spans_equal &#x3D; compareAnnotationsSpanOverlap;
+    compareSpans &#x3D; compareAnnotationsSpanOverlap;
     overlap &#x3D; options.spanOverlapPercentage;
     console.error(&quot;diffAnnotationSets(): overlap set to:&quot;, overlap);
   }
-  /* Put the set index in each annotation... */
-  annotationSets &#x3D; annotationSets.map((set, index) &#x3D;&gt; {
-    return set.map((ann) &#x3D;&gt; { let ann_cp &#x3D; { ...ann }; ann_cp[&#x27;diff_set_index&#x27;] &#x3D; index; return ann_cp; });
-  });
-  // Get the number of sets...
-  var sets &#x3D; annotationSets.length;
-  var newAnnotationSets &#x3D; Array(sets);
-  for (let i &#x3D; 0; i &lt; sets; i++) { newAnnotationSets[i] &#x3D; [{}]; }
-  /* Now each annotation has a set id. Put all annotations in a list... */
-  // var all_annotations &#x3D; annotationSets.flat(); flat() is not available...
-  // Filter empty items...
-  var all_annotations &#x3D; [].concat(...annotationSets).filter((ann) &#x3D;&gt; &#x27;type&#x27; in ann);
-  // Get indexes for each set...
-  var annotationsIndexes &#x3D; annotationSetToSpanIndexes(all_annotations);
-  // Sort the list of indexes...
-  annotationsIndexes.sort((ann1, ann2) &#x3D;&gt;
-    anns_equal(ann1, ann2, overlap, attributeName) ||
-    ann1._id.localeCompare(ann2._id) ||
-    ann1.index - ann2.index
-  );
-  // console.log(&#x27;--&gt;&#x27;, [...annotationsIndexes]);
-  var newRow &#x3D; 0;
-  // Get the first annotation, which is the lower one..
-  var ann &#x3D; annotationsIndexes.shift();
-  var annotation &#x3D; all_annotations[ann.index];
-  // Put the annotation in the row...
-  var set_index &#x3D; annotation[&#x27;diff_set_index&#x27;]; delete annotation[&#x27;diff_set_index&#x27;];
-  newAnnotationSets[set_index][newRow] &#x3D; annotation;
-  // Iterate over the rest of the annotations:
-  // * if they are the same as ann, add it in the same row.
-  // * if the new ann is different, start a new row...
-  let next_ann &#x3D; annotationsIndexes.shift();
+  var newAnnotationSets &#x3D; Array(numSets);
+  for (let i &#x3D; 0; i &lt; numSets; i++) {
+    // newAnnotationSets[i] &#x3D; [{}];
+    newAnnotationSets[i] &#x3D; [];
+  }
 
-  var attributes_equal &#x3D; -1;
-  var rowItems &#x3D; 0;
+  // 1. Sort all sets to allow linear alignment
+  const sortedSets &#x3D; annotationSets.map(set &#x3D;&gt; [...set].sort((ann1, ann2) &#x3D;&gt;
+    anns_equal(ann1, ann2, overlap, attributeName)));
 
-  while (next_ann) {
-    if (spans_equal(ann, next_ann, overlap) !&#x3D; 0) {
-      diffAnnotationSetsAddClasses(newAnnotationSets, sets, newRow, options);
-      // Add a new row!
-      newAnnotationSets.forEach((set) &#x3D;&gt; set.push({})); newRow +&#x3D; 1; rowItems &#x3D; 0;
-      attributes_equal &#x3D; -1;
-    } else {
-      // Check if attributes match...
-      attributes_equal &#x3D; compareAnnotationsAttributes(ann, next_ann);
-    }
-    ann &#x3D; next_ann;
-    annotation &#x3D; all_annotations[ann.index];
-    set_index &#x3D; annotation[&#x27;diff_set_index&#x27;]; delete annotation[&#x27;diff_set_index&#x27;];
-    next_ann &#x3D; annotationsIndexes.shift();
-    if (Object.keys(newAnnotationSets[set_index][newRow]).length &gt; 0) {
-      diffAnnotationSetsAddClasses(newAnnotationSets, sets, newRow, options);
-      // Add a new row!
-      newAnnotationSets.forEach((set) &#x3D;&gt; set.push({})); newRow +&#x3D; 1; rowItems &#x3D; 0;
-    } else if (attributes_equal !&#x3D; 0 &amp;&amp; rowItems) {
-      // Attributes do not match in this row. If the annotaton matches
-      // the next one, add a new row.
-      if (spans_equal(ann, next_ann, overlap) &#x3D;&#x3D; 0 &amp;&amp;
-        compareAnnotationsAttributes(ann, next_ann) &#x3D;&#x3D; 0) {
-        diffAnnotationSetsAddClasses(newAnnotationSets, sets, newRow, options);
-        // Add a new row!
-        newAnnotationSets.forEach((set) &#x3D;&gt; set.push({})); newRow +&#x3D; 1; rowItems &#x3D; 0;
+  let row &#x3D; 0;
+  const ptrs &#x3D; new Array(numSets).fill(0);
+  while (ptrs.some((ptr, i) &#x3D;&gt; ptr &lt; sortedSets[i].length)) {
+    // 2. Find the minimum span among all current annotations across all sets
+    let minAnn: Annotation | undefined &#x3D; undefined;
+    for (let i &#x3D; 0; i &lt; numSets; i++) {
+      if (ptrs[i] &lt; sortedSets[i].length) {
+        const ann &#x3D; sortedSets[i][ptrs[i]];
+        if (!minAnn || compareSpans(ann, minAnn, overlap) &lt; 0) {
+          minAnn &#x3D; ann;
+        }
       }
     }
-    newAnnotationSets[set_index][newRow] &#x3D; annotation;
-    rowItems +&#x3D; 1;
+
+    if (!minAnn) break;
+
+    // 3. Collect all annotations with this exact span into buckets
+    const buckets: Annotation[][] &#x3D; Array.from({ length: numSets }, () &#x3D;&gt; []);
+    for (let i &#x3D; 0; i &lt; numSets; i++) {
+      while (ptrs[i] &lt; sortedSets[i].length &amp;&amp; compareSpans(sortedSets[i][ptrs[i]], minAnn!, overlap) &#x3D;&#x3D;&#x3D; 0) {
+        buckets[i].push(sortedSets[i][ptrs[i]]);
+        ptrs[i]++;
+      }
+    }
+
+    // 4. Align annotations within these buckets (all have the same span)
+
+    // a. Identify types present in more than one set for this span
+    const typeCounts: Record&lt;string, number&gt; &#x3D; {};
+    buckets.forEach(bucket &#x3D;&gt; {
+      const seenInBucket &#x3D; new Set&lt;string&gt;();
+      bucket.forEach(ann &#x3D;&gt; seenInBucket.add(getAnnotationAttributeValue(ann, attributeName)));
+      seenInBucket.forEach(type &#x3D;&gt; {
+        typeCounts[type] &#x3D; (typeCounts[type] || 0) + 1;
+      });
+    });
+
+    const sharedTypes &#x3D; Object.keys(typeCounts)
+      .filter(type &#x3D;&gt; typeCounts[type] &gt; 1)
+      .sort();
+
+    // b. Match shared types first
+    for (const type of sharedTypes) {
+      while (buckets.some(bucket &#x3D;&gt; bucket.some(ann &#x3D;&gt; getAnnotationAttributeValue(ann, attributeName) &#x3D;&#x3D;&#x3D; type))) {
+        // const rowAnns: (Annotation | undefined)[] &#x3D; new Array(numSets).fill(undefined);
+        for (let i &#x3D; 0; i &lt; numSets; i++) {
+          const index &#x3D; buckets[i].findIndex(ann &#x3D;&gt; getAnnotationAttributeValue(ann, attributeName) &#x3D;&#x3D;&#x3D; type);
+          if (index !&#x3D;&#x3D; -1) {
+            // rowAnns[i] &#x3D; buckets[i].splice(index, 1)[0];
+            newAnnotationSets[i].push(buckets[i].splice(index, 1)[0]);
+          } else {
+            newAnnotationSets[i].push({});
+          }
+        }
+        // diff.push({ annotations: rowAnns, status: calculateStatus(rowAnns) });
+        diffAnnotationSetsAddClasses(newAnnotationSets, numSets, row, options);
+        row +&#x3D; 1;
+      }
+    }
+
+    // c. Match remaining orphans (different types, same span) into rows
+    while (buckets.some(bucket &#x3D;&gt; bucket.length &gt; 0)) {
+      // const rowAnns: (Annotation | undefined)[] &#x3D; new Array(numSets).fill(undefined);
+      for (let i &#x3D; 0; i &lt; numSets; i++) {
+        if (buckets[i].length &gt; 0) {
+          // rowAnns[i] &#x3D; buckets[i].shift();
+          newAnnotationSets[i].push(buckets[i].shift());
+        } else {
+          newAnnotationSets[i].push({});
+        }
+      }
+      // diff.push({ annotations: rowAnns, status: calculateStatus(rowAnns) });
+      diffAnnotationSetsAddClasses(newAnnotationSets, numSets, row, options);
+      row +&#x3D; 1;
+    }
+
   }
+
   return newAnnotationSets;
+  /*
+    // Put the set index in each annotation...
+    annotationSets &#x3D; annotationSets.map((set, index) &#x3D;&gt; [...set].map((ann) &#x3D;&gt; ({ ...ann, set_diff: index })));
+    // Now each annotation has a set id. Put all annotations in a list...
+    // var all_annotations &#x3D; annotationSets.flat(); flat() is not available...
+    // Filter empty items...
+    // var all_annotations &#x3D; [].concat(...annotationSets).filter((ann) &#x3D;&gt; &#x27;type&#x27; in ann);
+    const maxLength &#x3D; annotationSets.reduce((max, arr) &#x3D;&gt; Math.max(max, arr.length), 0);
+    let all_annotations &#x3D; [];
+    for (let i &#x3D; 0; i &lt; maxLength; i++) {
+      annotationSets.forEach((set: Annotation[]) &#x3D;&gt; { if (set[i]) { all_annotations.push(set[i]); } });
+    }
+    all_annotations &#x3D; all_annotations.filter((ann: Annotation) &#x3D;&gt; &#x27;type&#x27; in ann);
+    all_annotations &#x3D; all_annotations.filter((ann: Annotation) &#x3D;&gt; ann.spans[0].end &lt; 250);
+  
+    // Get indexes for each set...
+    var annotationsIndexes &#x3D; annotationSetToSpanIndexes(all_annotations);
+    // Sort the list of indexes...
+    annotationsIndexes.sort((ann1, ann2) &#x3D;&gt;
+      anns_equal(ann1, ann2, overlap, attributeName) ||
+      // ann1._id.localeCompare(ann2._id) ||
+      ann1.index - ann2.index
+    );
+    // console.log(&#x27;--&gt;&#x27;, [...annotationsIndexes]);
+    var newRow &#x3D; 0;
+    // Get the first annotation, which is the lower one..
+    var ann &#x3D; annotationsIndexes.shift();
+    var annotation &#x3D; all_annotations[ann.index];
+    // Put the annotation in the row...
+    var set_index &#x3D; annotation[&#x27;set_diff&#x27;]; delete annotation[&#x27;set_diff&#x27;];
+    newAnnotationSets[set_index][newRow] &#x3D; annotation;
+    // Iterate over the rest of the annotations:
+    // * if they are the same as ann, add it in the same row.
+    // * if the new ann is different, start a new row...
+    let next_ann &#x3D; annotationsIndexes.shift();
+  
+    var attributes_equal &#x3D; -1;
+    var rowItems &#x3D; 0;
+  
+    while (next_ann) {
+      if (compareSpans(ann, next_ann, overlap) !&#x3D; 0) {
+        diffAnnotationSetsAddClasses(newAnnotationSets, numSets, newRow, options);
+        // Add a new row!
+        newAnnotationSets.forEach((set) &#x3D;&gt; set.push({})); newRow +&#x3D; 1; rowItems &#x3D; 0;
+        attributes_equal &#x3D; -1;
+      } else {
+        // Check if attributes match...
+        attributes_equal &#x3D; compareAnnotationsAttributes(ann, next_ann);
+      }
+      ann &#x3D; next_ann;
+      annotation &#x3D; all_annotations[ann.index];
+      set_index &#x3D; annotation[&#x27;set_diff&#x27;]; delete annotation[&#x27;set_diff&#x27;];
+      next_ann &#x3D; annotationsIndexes.shift();
+      if (Object.keys(newAnnotationSets[set_index][newRow]).length &gt; 0) {
+        diffAnnotationSetsAddClasses(newAnnotationSets, numSets, newRow, options);
+        // Add a new row!
+        newAnnotationSets.forEach((set) &#x3D;&gt; set.push({})); newRow +&#x3D; 1; rowItems &#x3D; 0;
+      } else if (attributes_equal !&#x3D; 0 &amp;&amp; rowItems) {
+        // Attributes do not match in this row. If the annotaton matches
+        // the next one, add a new row.
+        if (compareSpans(ann, next_ann, overlap) &#x3D;&#x3D; 0 &amp;&amp;
+          compareAnnotationsAttributes(ann, next_ann) &#x3D;&#x3D; 0) {
+          diffAnnotationSetsAddClasses(newAnnotationSets, numSets, newRow, options);
+          // Add a new row!
+          newAnnotationSets.forEach((set) &#x3D;&gt; set.push({})); newRow +&#x3D; 1; rowItems &#x3D; 0;
+        }
+      }
+      newAnnotationSets[set_index][newRow] &#x3D; annotation;
+      rowItems +&#x3D; 1;
+    }
+    return newAnnotationSets;
+  
+  */
 }; /* diffAnnotationSets */
 
 function diffAnnotationSetsAddClasses(annotationSets: Annotation[][], columns: number, row: number, options: diffAnnotationSetsOptions | null &#x3D; null) {
@@ -656,12 +769,12 @@ export function diffedAnnotationSetsCategories(annotations: Annotation[][],
   return values;
 }; /* diffedAnnotationSetsCategories */
 
-export function compareAnnotationsAttributes(ann1: AnnotationSpansIndexer, ann2: AnnotationSpansIndexer, overlap &#x3D; 100, attributeName: string &#x3D; &quot;type&quot;,
+export function compareAnnotationsAttributes(ann1: AnnotationSpansIndexer | Annotation, ann2: AnnotationSpansIndexer | Annotation, overlap &#x3D; 100, attributeName: string &#x3D; &quot;type&quot;,
   attributeValues: string[] &#x3D; []): number {
-  return compareAttributeSets(ann1.attrs, ann2.attrs, attributeName, attributeValues);
+  return compareAttributeSets(ann1.attributes, ann2.attributes, attributeName, attributeValues);
 }; /* compareAnnotationsAttributes */
 
-export function compareAnnotationsSpans(ann1: AnnotationSpansIndexer, ann2: AnnotationSpansIndexer, overlap &#x3D; 100): number {
+export function compareAnnotationsSpans(ann1: AnnotationSpansIndexer | Annotation, ann2: AnnotationSpansIndexer | Annotation, overlap &#x3D; 100): number {
   var items1 &#x3D; ann1.spans.length;
   var items2 &#x3D; ann2.spans.length;
   // Check existence of spans...
@@ -719,7 +832,7 @@ export function compareAnnotationsSpans(ann1: AnnotationSpansIndexer, ann2: Anno
   return -1;
 }; /* compareAnnotationsSpans */
 
-export function compareAnnotationsSpanOverlap(ann1: AnnotationSpansIndexer, ann2: AnnotationSpansIndexer, overlap &#x3D; 100): number {
+export function compareAnnotationsSpanOverlap(ann1: AnnotationSpansIndexer | Annotation, ann2: AnnotationSpansIndexer | Annotation, overlap &#x3D; 100): number {
   var items1 &#x3D; ann1.spans.length;
   var items2 &#x3D; ann2.spans.length;
   // Check existence of spans...
@@ -780,7 +893,7 @@ export function segmentsOverlapPercentage(x1, x2, y1, y2) {
 }; /* segmentsOverlapPercentage */
 
 
-export function compareAnnotations(ann1: AnnotationSpansIndexer, ann2: AnnotationSpansIndexer, overlap &#x3D; 100, attributeName: string &#x3D; &quot;type&quot;,
+export function compareAnnotations(ann1: AnnotationSpansIndexer | Annotation, ann2: AnnotationSpansIndexer | Annotation, overlap &#x3D; 100, attributeName: string &#x3D; &quot;type&quot;,
   attributeValues: string[] &#x3D; []): number {
   var cmp &#x3D; compareAnnotationsSpans(ann1, ann2, overlap);
   if (cmp !&#x3D; 0) {
@@ -789,7 +902,7 @@ export function compareAnnotations(ann1: AnnotationSpansIndexer, ann2: Annotatio
   return compareAnnotationsAttributes(ann1, ann2, overlap, attributeName, attributeValues);
 }; /* compareAnnotations */
 
-export function compareAnnotationsOverlap(ann1: AnnotationSpansIndexer, ann2: AnnotationSpansIndexer, overlap &#x3D; 100, attributeName: string &#x3D; &quot;type&quot;,
+export function compareAnnotationsOverlap(ann1: AnnotationSpansIndexer | Annotation, ann2: AnnotationSpansIndexer | Annotation, overlap &#x3D; 100, attributeName: string &#x3D; &quot;type&quot;,
   attributeValues: string[] &#x3D; []): number {
   var cmp &#x3D; compareAnnotationsSpanOverlap(ann1, ann2, overlap);
   if (cmp !&#x3D; 0) {
@@ -1009,7 +1122,7 @@ export function ratersMatrixToConfusionMatrix(ratersMatrix: RatersMatrix, classe
     const precision &#x3D; tp + fp &#x3D;&#x3D;&#x3D; 0 ? 0 : tp / (tp + fp);
     const recall &#x3D; tp + fn &#x3D;&#x3D;&#x3D; 0 ? 0 : tp / (tp + fn);
     const f1 &#x3D; (precision + recall) &#x3D;&#x3D;&#x3D; 0 ? 0 : 2 * (precision * recall) / (precision + recall);
-    
+
     perClass[cls] &#x3D; { precision, recall, f1 };
     macroPrecSum +&#x3D; precision;
     macroRecSum +&#x3D; recall;

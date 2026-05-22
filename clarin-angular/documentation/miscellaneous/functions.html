@@ -148,6 +148,9 @@
                             <a href="#attributesetEqual" title="src/app/helpers/attribute.ts" ><b>attributesetEqual</b>&nbsp;&nbsp;&nbsp;(src/.../attribute.ts)</a>
                         </li>
                         <li>
+                            <a href="#calculateStatus" title="src/app/helpers/comp.ts" ><b>calculateStatus</b>&nbsp;&nbsp;&nbsp;(src/.../comp.ts)</a>
+                        </li>
+                        <li>
                             <a href="#capitalize" title="src/app/ng-matero/core/authentication/helpers.ts" ><b>capitalize</b>&nbsp;&nbsp;&nbsp;(src/.../helpers.ts)</a>
                         </li>
                         <li>
@@ -158,6 +161,9 @@
                         </li>
                         <li>
                             <a href="#compareAnnotationsAttributes" title="src/app/helpers/annotation.ts" ><b>compareAnnotationsAttributes</b>&nbsp;&nbsp;&nbsp;(src/.../annotation.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#compareAnnotationsForSorting" title="src/app/helpers/comp.ts" ><b>compareAnnotationsForSorting</b>&nbsp;&nbsp;&nbsp;(src/.../comp.ts)</a>
                         </li>
                         <li>
                             <a href="#compareAnnotationsOverlap" title="src/app/helpers/annotation.ts" ><b>compareAnnotationsOverlap</b>&nbsp;&nbsp;&nbsp;(src/.../annotation.ts)</a>
@@ -175,6 +181,9 @@
                             <a href="#compareAttributeSets" title="src/app/helpers/attribute.ts" ><b>compareAttributeSets</b>&nbsp;&nbsp;&nbsp;(src/.../attribute.ts)</a>
                         </li>
                         <li>
+                            <a href="#compareSpans" title="src/app/helpers/comp.ts" ><b>compareSpans</b>&nbsp;&nbsp;&nbsp;(src/.../comp.ts)</a>
+                        </li>
+                        <li>
                             <a href="#countAnnotation" title="src/app/helpers/annotation.ts" ><b>countAnnotation</b>&nbsp;&nbsp;&nbsp;(src/.../annotation.ts)</a>
                         </li>
                         <li>
@@ -182,6 +191,9 @@
                         </li>
                         <li>
                             <a href="#diffAnnotationSets" title="src/app/helpers/annotation.ts" ><b>diffAnnotationSets</b>&nbsp;&nbsp;&nbsp;(src/.../annotation.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#diffAnnotationSets" title="src/app/helpers/comp.ts" ><b>diffAnnotationSets</b>&nbsp;&nbsp;&nbsp;(src/.../comp.ts)</a>
                         </li>
                         <li>
                             <a href="#diffAnnotationSetsAddClasses" title="src/app/helpers/annotation.ts" ><b>diffAnnotationSetsAddClasses</b>&nbsp;&nbsp;&nbsp;(src/.../annotation.ts)</a>
@@ -209,6 +221,12 @@
                         </li>
                         <li>
                             <a href="#fleissKappa" title="src/app/helpers/annotation.ts" ><b>fleissKappa</b>&nbsp;&nbsp;&nbsp;(src/.../annotation.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#getAnnotationAttributeValue" title="src/app/helpers/annotation.ts" ><b>getAnnotationAttributeValue</b>&nbsp;&nbsp;&nbsp;(src/.../annotation.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#getAnnotationType" title="src/app/helpers/comp.ts" ><b>getAnnotationType</b>&nbsp;&nbsp;&nbsp;(src/.../comp.ts)</a>
                         </li>
                         <li>
                             <a href="#getDistinctAnnotations" title="src/app/helpers/annotation.ts" ><b>getDistinctAnnotations</b>&nbsp;&nbsp;&nbsp;(src/.../annotation.ts)</a>
@@ -245,6 +263,9 @@
                         </li>
                         <li>
                             <a href="#spanEqual" title="src/app/helpers/span.ts" ><b>spanEqual</b>&nbsp;&nbsp;&nbsp;(src/.../span.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#spansEqual" title="src/app/helpers/comp.ts" ><b>spansEqual</b>&nbsp;&nbsp;&nbsp;(src/.../comp.ts)</a>
                         </li>
                         <li>
                             <a href="#spansetEqual" title="src/app/helpers/span.ts" ><b>spansetEqual</b>&nbsp;&nbsp;&nbsp;(src/.../span.ts)</a>
@@ -621,7 +642,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>compareAnnotations(ann1: <a href="../interfaces/AnnotationSpansIndexer.html" target="_self">AnnotationSpansIndexer</a>, ann2: <a href="../interfaces/AnnotationSpansIndexer.html" target="_self">AnnotationSpansIndexer</a>, overlap: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, attributeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, attributeValues)</code>
+<code>compareAnnotations(ann1, ann2, overlap: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, attributeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, attributeValues)</code>
                 </td>
             </tr>
 
@@ -647,7 +668,6 @@
                                         <tr>
                                                 <td>ann1</td>
                                             <td>
-                                                            <code><a href="../interfaces/AnnotationSpansIndexer.html" target="_self" >AnnotationSpansIndexer</a></code>
                                             </td>
 
                                             <td>
@@ -661,7 +681,6 @@
                                         <tr>
                                                 <td>ann2</td>
                                             <td>
-                                                            <code><a href="../interfaces/AnnotationSpansIndexer.html" target="_self" >AnnotationSpansIndexer</a></code>
                                             </td>
 
                                             <td>
@@ -743,7 +762,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>compareAnnotationsAttributes(ann1: <a href="../interfaces/AnnotationSpansIndexer.html" target="_self">AnnotationSpansIndexer</a>, ann2: <a href="../interfaces/AnnotationSpansIndexer.html" target="_self">AnnotationSpansIndexer</a>, overlap: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, attributeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, attributeValues)</code>
+<code>compareAnnotationsAttributes(ann1, ann2, overlap: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, attributeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, attributeValues)</code>
                 </td>
             </tr>
 
@@ -769,7 +788,6 @@
                                         <tr>
                                                 <td>ann1</td>
                                             <td>
-                                                            <code><a href="../interfaces/AnnotationSpansIndexer.html" target="_self" >AnnotationSpansIndexer</a></code>
                                             </td>
 
                                             <td>
@@ -783,7 +801,6 @@
                                         <tr>
                                                 <td>ann2</td>
                                             <td>
-                                                            <code><a href="../interfaces/AnnotationSpansIndexer.html" target="_self" >AnnotationSpansIndexer</a></code>
                                             </td>
 
                                             <td>
@@ -865,7 +882,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>compareAnnotationsOverlap(ann1: <a href="../interfaces/AnnotationSpansIndexer.html" target="_self">AnnotationSpansIndexer</a>, ann2: <a href="../interfaces/AnnotationSpansIndexer.html" target="_self">AnnotationSpansIndexer</a>, overlap: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, attributeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, attributeValues)</code>
+<code>compareAnnotationsOverlap(ann1, ann2, overlap: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, attributeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, attributeValues)</code>
                 </td>
             </tr>
 
@@ -891,7 +908,6 @@
                                         <tr>
                                                 <td>ann1</td>
                                             <td>
-                                                            <code><a href="../interfaces/AnnotationSpansIndexer.html" target="_self" >AnnotationSpansIndexer</a></code>
                                             </td>
 
                                             <td>
@@ -905,7 +921,6 @@
                                         <tr>
                                                 <td>ann2</td>
                                             <td>
-                                                            <code><a href="../interfaces/AnnotationSpansIndexer.html" target="_self" >AnnotationSpansIndexer</a></code>
                                             </td>
 
                                             <td>
@@ -987,7 +1002,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>compareAnnotationsSpanOverlap(ann1: <a href="../interfaces/AnnotationSpansIndexer.html" target="_self">AnnotationSpansIndexer</a>, ann2: <a href="../interfaces/AnnotationSpansIndexer.html" target="_self">AnnotationSpansIndexer</a>, overlap: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+<code>compareAnnotationsSpanOverlap(ann1, ann2, overlap: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
@@ -1013,7 +1028,6 @@
                                         <tr>
                                                 <td>ann1</td>
                                             <td>
-                                                            <code><a href="../interfaces/AnnotationSpansIndexer.html" target="_self" >AnnotationSpansIndexer</a></code>
                                             </td>
 
                                             <td>
@@ -1027,7 +1041,6 @@
                                         <tr>
                                                 <td>ann2</td>
                                             <td>
-                                                            <code><a href="../interfaces/AnnotationSpansIndexer.html" target="_self" >AnnotationSpansIndexer</a></code>
                                             </td>
 
                                             <td>
@@ -1080,7 +1093,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>compareAnnotationsSpans(ann1: <a href="../interfaces/AnnotationSpansIndexer.html" target="_self">AnnotationSpansIndexer</a>, ann2: <a href="../interfaces/AnnotationSpansIndexer.html" target="_self">AnnotationSpansIndexer</a>, overlap: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+<code>compareAnnotationsSpans(ann1, ann2, overlap: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
@@ -1106,7 +1119,6 @@
                                         <tr>
                                                 <td>ann1</td>
                                             <td>
-                                                            <code><a href="../interfaces/AnnotationSpansIndexer.html" target="_self" >AnnotationSpansIndexer</a></code>
                                             </td>
 
                                             <td>
@@ -1120,7 +1132,6 @@
                                         <tr>
                                                 <td>ann2</td>
                                             <td>
-                                                            <code><a href="../interfaces/AnnotationSpansIndexer.html" target="_self" >AnnotationSpansIndexer</a></code>
                                             </td>
 
                                             <td>
@@ -1831,6 +1842,88 @@
                             </div>
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getAnnotationAttributeValue"></a>
+                    <span class="name">
+                        <span ><b>getAnnotationAttributeValue</b></span>
+                        <a href="#getAnnotationAttributeValue"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getAnnotationAttributeValue(ann: <a href="../interfaces/Annotation.html" target="_self">Annotation</a>, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Helper to get the value of the &quot;type&quot; attribute of an annotation.
+It looks into the attributes array for an attribute named &quot;type&quot;.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>ann</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Annotation.html" target="_self" >Annotation</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>name</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>&quot;type&quot;</code>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
                         </div>
                             <div class="io-description">
@@ -2637,6 +2730,417 @@
                             </div>
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/app/helpers/comp.ts</h3>
+    <section data-compodoc="block-methods">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="calculateStatus"></a>
+                    <span class="name">
+                        <span ><b>calculateStatus</b></span>
+                        <a href="#calculateStatus"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>calculateStatus(rowAnns)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Calculates the status of a diff row based on type consensus and presence.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>rowAnns</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>unknown</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="compareAnnotationsForSorting"></a>
+                    <span class="name">
+                        <span ><b>compareAnnotationsForSorting</b></span>
+                        <a href="#compareAnnotationsForSorting"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>compareAnnotationsForSorting(ann1: <a href="../interfaces/Annotation.html" target="_self">Annotation</a>, ann2: <a href="../interfaces/Annotation.html" target="_self">Annotation</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Compares two annotations for sorting purposes.
+Sorts primarily by spans, then by type, then by ID.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>ann1</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Annotation.html" target="_self" >Annotation</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>ann2</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Annotation.html" target="_self" >Annotation</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="compareSpans"></a>
+                    <span class="name">
+                        <span ><b>compareSpans</b></span>
+                        <a href="#compareSpans"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>compareSpans(ann1: <a href="../interfaces/Annotation.html" target="_self">Annotation</a>, ann2: <a href="../interfaces/Annotation.html" target="_self">Annotation</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Compares only the spans of two annotations.
+Returns 0 if spans are identical, otherwise returns the comparison result.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>ann1</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Annotation.html" target="_self" >Annotation</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>ann2</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Annotation.html" target="_self" >Annotation</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="diffAnnotationSets"></a>
+                    <span class="name">
+                        <span ><b>diffAnnotationSets</b></span>
+                        <a href="#diffAnnotationSets"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>diffAnnotationSets(sets)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Creates a diff between any number of annotation sets.
+Aligns annotations by span, then by type.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>sets</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>An array of annotation arrays (one for each set to compare).</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/DiffRow.html" target="_self" >DiffRow[]</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getAnnotationType"></a>
+                    <span class="name">
+                        <span ><b>getAnnotationType</b></span>
+                        <a href="#getAnnotationType"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getAnnotationType(ann: <a href="../interfaces/Annotation.html" target="_self">Annotation</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Helper to get the value of the &quot;type&quot; attribute of an annotation.
+It looks into the attributes array for an attribute named &quot;type&quot;.
+If not found, it falls back to the top-level &quot;type&quot; property.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>ann</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Annotation.html" target="_self" >Annotation</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="spansEqual"></a>
+                    <span class="name">
+                        <span ><b>spansEqual</b></span>
+                        <a href="#spansEqual"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>spansEqual(spans1, spans2)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Compares two sets of spans for equality. (Utility)</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>spans1</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>spans2</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
 
                         </div>
                             <div class="io-description">
