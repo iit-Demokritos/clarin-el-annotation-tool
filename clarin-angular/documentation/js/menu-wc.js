@@ -964,6 +964,12 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/DocumentInformation.html" data-type="entity-link" >DocumentInformation</a>
                             </li>
                             <li class="link">
+                                <a href="interfaces/DocumentResponse.html" data-type="entity-link" >DocumentResponse</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/DocumentsResponse.html" data-type="entity-link" >DocumentsResponse</a>
+                            </li>
+                            <li class="link">
                                 <a href="interfaces/EuropeanaSearchParameters.html" data-type="entity-link" >EuropeanaSearchParameters</a>
                             </li>
                             <li class="link">
@@ -998,6 +1004,12 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="interfaces/Message.html" data-type="entity-link" >Message</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/OpenDocumentServiceSaveResponse.html" data-type="entity-link" >OpenDocumentServiceSaveResponse</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/OpenDocumentServiceSaveResponseData.html" data-type="entity-link" >OpenDocumentServiceSaveResponseData</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/Params.html" data-type="entity-link" >Params</a>
