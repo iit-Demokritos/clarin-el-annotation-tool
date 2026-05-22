@@ -95,6 +95,7 @@ interface AnnotationSpansIndexer {
   set?: number;
   attrs?: Attribute[];
   _id?: string;
+  set_diff?: number;
 }
 
 export interface diffAnnotationSetsOptions {
@@ -107,7 +108,7 @@ export function annotationSetToSpanIndexes(annotations: Annotation[]): Annotatio
   return annotations.map((ann, index) => {
     if (ann.spans && ann.spans.length) {
       // A normal annotation...
-      return { index: index, spans: ann.spans, attrs: ann.attributes, _id: ann._id };
+      return { index: index, spans: ann.spans, attrs: ann.attributes, _id: ann._id, set_diff: ann.set_diff };
     } else if (ann.attributes) {
       // The annotation does not have any spans. Check if we can find some related annotations...
       let relation_args = ann.attributes.filter(attr => attr["name"] == "arg1" || attr["name"] == "arg2");
@@ -121,15 +122,16 @@ export function annotationSetToSpanIndexes(annotations: Annotation[]): Annotatio
           index: index,
           spans: spans,
           attrs: ann.attributes,
-	  _id: ann._id
+          _id: ann._id,
+          set_diff: ann.set_diff,
         };
       } else {
         // There is nothing more we can do.
-        return { index: index, spans: ann.spans, attrs: ann.attributes, _id: ann._id };
+        return { index: index, spans: ann.spans, attrs: ann.attributes, _id: ann._id, set_diff: ann.set_diff };
       }
     } else {
       // There is nothing more we can do.
-      return { index: index, spans: ann.spans, attrs: ann.attributes, _id: ann._id };
+      return { index: index, spans: ann.spans, attrs: ann.attributes, _id: ann._id, set_diff: ann.set_diff };
     }
   });
 }; /* annotationSetToSpanIndexes */
@@ -159,23 +161,31 @@ export function diffAnnotationSets(annotationSets: Annotation[][], options: diff
     console.error("diffAnnotationSets(): overlap set to:", overlap);
   }
   /* Put the set index in each annotation... */
-  annotationSets = annotationSets.map((set, index) => {
-    return set.map((ann) => { let ann_cp = { ...ann }; ann_cp['diff_set_index'] = index; return ann_cp; });
-  });
+  annotationSets = annotationSets.map((set, index) => set.map((ann) => ({ ...ann, set_diff: index })));
   // Get the number of sets...
   var sets = annotationSets.length;
   var newAnnotationSets = Array(sets);
-  for (let i = 0; i < sets; i++) { newAnnotationSets[i] = [{}]; }
+  for (let i = 0; i < sets; i++) {
+    newAnnotationSets[i] = [{}];
+  }
   /* Now each annotation has a set id. Put all annotations in a list... */
   // var all_annotations = annotationSets.flat(); flat() is not available...
   // Filter empty items...
-  var all_annotations = [].concat(...annotationSets).filter((ann) => 'type' in ann);
+  // var all_annotations = [].concat(...annotationSets).filter((ann) => 'type' in ann);
+  const maxLength = annotationSets.reduce((max, arr) => Math.max(max, arr.length), 0);
+  let all_annotations = [];
+  for (let i = 0; i < maxLength; i++) {
+    annotationSets.forEach((set: Annotation[]) => { if (set[i]) { all_annotations.push(set[i]); } });
+  }
+  all_annotations = all_annotations.filter((ann: Annotation) => 'type' in ann);
+  all_annotations = all_annotations.filter((ann: Annotation) => ann.spans[0].end < 250);
+
   // Get indexes for each set...
   var annotationsIndexes = annotationSetToSpanIndexes(all_annotations);
   // Sort the list of indexes...
   annotationsIndexes.sort((ann1, ann2) =>
     anns_equal(ann1, ann2, overlap, attributeName) ||
-    ann1._id.localeCompare(ann2._id) ||
+    // ann1._id.localeCompare(ann2._id) ||
     ann1.index - ann2.index
   );
   // console.log('-->', [...annotationsIndexes]);
@@ -184,7 +194,7 @@ export function diffAnnotationSets(annotationSets: Annotation[][], options: diff
   var ann = annotationsIndexes.shift();
   var annotation = all_annotations[ann.index];
   // Put the annotation in the row...
-  var set_index = annotation['diff_set_index']; delete annotation['diff_set_index'];
+  var set_index = annotation['set_diff']; delete annotation['set_diff'];
   newAnnotationSets[set_index][newRow] = annotation;
   // Iterate over the rest of the annotations:
   // * if they are the same as ann, add it in the same row.
@@ -206,7 +216,7 @@ export function diffAnnotationSets(annotationSets: Annotation[][], options: diff
     }
     ann = next_ann;
     annotation = all_annotations[ann.index];
-    set_index = annotation['diff_set_index']; delete annotation['diff_set_index'];
+    set_index = annotation['set_diff']; delete annotation['set_diff'];
     next_ann = annotationsIndexes.shift();
     if (Object.keys(newAnnotationSets[set_index][newRow]).length > 0) {
       diffAnnotationSetsAddClasses(newAnnotationSets, sets, newRow, options);
@@ -716,7 +726,7 @@ export function ratersMatrixToConfusionMatrix(ratersMatrix: RatersMatrix, classe
     const precision = tp + fp === 0 ? 0 : tp / (tp + fp);
     const recall = tp + fn === 0 ? 0 : tp / (tp + fn);
     const f1 = (precision + recall) === 0 ? 0 : 2 * (precision * recall) / (precision + recall);
-    
+
     perClass[cls] = { precision, recall, f1 };
     macroPrecSum += precision;
     macroRecSum += recall;

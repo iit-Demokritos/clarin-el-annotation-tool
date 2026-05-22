@@ -19,4 +19,6 @@ export interface Annotation {
   updated_by?:         string;
   deleted_at?:         string;
   deleted_by?:         string;
+  set?:                number;
+  set_diff?:           number;
 }
